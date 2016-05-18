@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-05-10T08:57:59Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+		<trans-unit id="pages.description" approved="yes">
+			<source>Description</source>
+			<target>Beschreibung</target>
+		</trans-unit>
+		<trans-unit id="pages.palette.tx_csseo_facebook" approved="yes">
+			<source>Facebook (Open Graph)</source>
+			<target>Facebook (Open Graph)</target>
+		</trans-unit>
+		<trans-unit id="pages.palette.tx_csseo_index" approved="yes">
+			<source>Page Indexing</source>
+			<target>Seitenindexierung</target>
+		</trans-unit>
+		<trans-unit id="pages.palette.tx_csseo_preview" approved="yes">
+			<source>In Search Results</source>
+			<target>In Suchergebnissen</target>
+		</trans-unit>
+		<trans-unit id="pages.palette.tx_csseo_twitter" approved="yes">
+			<source>Twitter Cards</source>
+			<target>Twitter Cards</target>
+		</trans-unit>
+		<trans-unit id="pages.tab.seo" approved="yes">
+			<source>SEO</source>
+			<target>SEO</target>
+		</trans-unit>
+		<trans-unit id="pages.tab.social" approved="yes">
+			<source>Social Media</source>
+			<target>Soziale Medien</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_canonical" approved="yes">
+			<source>Canonical URL</source>
+			<target>Canonical URL</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_no_index" approved="yes">
+			<source>No Index</source>
+			<target>Vom Index ausschließen</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_og_description" approved="yes">
+			<source>Facebook Description</source>
+			<target>Facebook Beschreibung</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_og_image" approved="yes">
+			<source>Facebook Image</source>
+			<target>Facebook Bild</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_og_title" approved="yes">
+			<source>Facebook Title</source>
+			<target>Facebook Titel</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_title" approved="yes">
+			<source>Browser Title</source>
+			<target>Browsertitel</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_title_only" approved="yes">
+			<source>Title only</source>
+			<target>Nur Titel</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_tw_creator" approved="yes">
+			<source>Twitter Creator</source>
+			<target>Twitter Ersteller</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_tw_description" approved="yes">
+			<source>Twitter Description</source>
+			<target>Twitter Beschreibung</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_tw_image" approved="yes">
+			<source>Twitter Image</source>
+			<target>Twitter Bild</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_tw_title" approved="yes">
+			<source>Twitter Title</source>
+			<target>Twitter Titel</target>
+		</trans-unit>
+		<trans-unit id="templates.wizard.description" approved="yes">
+			<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
+			<target>Es wurde keine Seitenbeschreibung angegeben! Daher wird Google den Seiteninhalt hier anteasern.</target>
+		</trans-unit>
+		<trans-unit id="templates.wizard.no_data" approved="yes">
+			<source>Click 'Save' to show the preview.</source>
+			<target>Drücken Sie 'Speichern', um die Vorschau zu sehen.</target>
+		</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,28 @@
+plugin.tx_csseo {
+
+    # cat=plugin.tx_csseo/href; type=boolean; label= Enable hreflang-Tags
+    hreflang.enable =
+
+    # cat=plugin.tx_csseo/href; type=string; label= List the Language-Uids, which should be linked with a hreflang-Tag (e.g. 0,2,3)
+    hreflang.uids =
+
+    # cat=plugin.tx_csseo/href; type=string; label= List the Language-Keys for the hreflang-Tags - same order as hreflang.uids (e.g. en,de,ch)
+    hreflang.keys =
+
+    # cat=plugin.tx_csseo/social; type=string; label= Default image for open graph and twitter (e.g. fileadmin/user_upload/image.jpg)
+    social.defaultImage =
+
+    # cat=plugin.tx_csseo/social; type=string; label= Default twitter creator (without @)
+    social.twitter.creator =
+
+    # cat=plugin.tx_csseo/tracking; type=string; label= Google Analytics id (eg. UA-XXXXXX-XXX)
+    tracking.googleAnalytics =
+
+    # cat=plugin.tx_csseo/tracking; type=string; label= Enter a Piwik URL
+    tracking.piwik =
+
+    # cat=plugin.tx_csseo/tracking; type=string; label= Enter the ID for site
+    tracking.piwik.id = 1
+
+
+}

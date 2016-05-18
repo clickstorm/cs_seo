@@ -1,0 +1,44 @@
+.tx-cs_seo {
+  background-color: #FFF;
+  border-radius: 2px;
+  box-sizing: content-box;
+  color: #545454;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  padding: 20px;
+  width: 512px;
+}
+.tx-cs_seo h3 {
+  color: #1A0DAB;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.2;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tx-cs_seo h3:hover {
+  text-decoration: underline;
+}
+.tx-cs_seo p {
+  margin: 0;
+}
+.tx-cs_seo span {
+  display: block;
+  overflow: hidden;
+  white-space: normal;
+  width: 100%;
+}
+.tx-cs_seo .url {
+  color: #006621;
+  font-size: 14px;
+  line-height: 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+/*# sourceMappingURL=../CSS/Wizard.less.map */

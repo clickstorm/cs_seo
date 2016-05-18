@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-05-10T12:05:38Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+		<trans-unit id="tx_csseo_canonical.description">
+			<source>Provides from duplicate content. If another page shows mainly the same content, type here the link to this page, if it should be rather indexed then the current. </source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_no_index.description">
+			<source>If checked, this page will not be visible in search engines.</source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_og_description.description">
+			<source>This description will be shown, if the user shares this page on facebook, LinkedIn etc.</source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_og_image.description">
+			<source>This image will be shown, if the user shares this page on facebook, LinkedIn etc. It will be scaled to 1200 x 628 pixels.</source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_og_title.description">
+			<source>This title will be shown, if the user shares this page on facebook, LinkedIn etc.</source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_title.description">
+			<source>This title will be shown in the browser tab and in the search engines. Place some keywords here, but not only separated by commas. The user should be animated to click.</source>
+		</trans-unit>
+		<trans-unit id="_tx_csseo_title.seeAlso">
+			<source> www.clickstorm.de/blog | http://www.clickstorm.de/blog/</source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_title_only.description">
+			<source>Show the browser title without the site title in cases the space isn't enough.</source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_tw_creator.description">
+			<source>Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be shown as creator.</source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_tw_description.description">
+			<source>This description will be shown, if the user shares this page on twitter. Fallback is the open graph description.</source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_tw_image.description">
+			<source>This image will be shown, if the user shares this page on twitter. Fallback is the open graph image. It will be scaled to 1024 x 512 pixels.</source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_tw_title.description">
+			<source>This title will be shown, if the user shares this page on twitter. Fallback is the open graph title. </source>
+		</trans-unit>
+		</body>
+	</file>
+</xliff>

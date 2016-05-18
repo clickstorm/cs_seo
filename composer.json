@@ -1,0 +1,34 @@
+{
+  "name": "clickstorm/cs_seo",
+  "type": "typo3-cms-extension",
+  "description": "[clickstorm] SEO",
+  "homepage": "http://www.clickstorm.de",
+  "license": [
+	"GPL-2.0+"
+  ],
+  "keywords": [
+	"TYPO3 CMS",
+	"clickstorm",
+	"SEO"
+  ],
+  "version": "2.0.0",
+  "dist": {
+	"url": "git@bitbucket.org:clickstorm/typo3.cs_seo.git",
+	"type": "git"
+  },
+  "replace": {
+	"cs_seo": "*"
+  },
+  "require": {
+	"typo3/cms": ">=6.2.0",
+	"typo3-ter/realurl": "*"
+  },
+  "conflict": {
+	"typo3-ter/metaseo": ">0.0.1"
+  },
+  "autoload": {
+	"psr-4": {
+	  "Clickstorm\\CsSeo\\": "Classes/"
+	}
+  }
+}

@@ -1,0 +1,19 @@
+.. |img-1|      image:: ../Images/Introduction/Screen1.png
+   :height: 685
+   :width: 929
+.. :align: center
+.. :alt: SEO tab
+.. :border: 0
+.. :name: Screenshot 1
+.. :vspace: 52
+
+.. |img-2|      image:: ../Images/Introduction/Screen2.png
+   :height: 758
+   :width: 854
+.. :align: center
+.. :alt: Social media tab
+.. :border: 0
+.. :name: Screenshot 2
+.. :vspace: 52
+
+

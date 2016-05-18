@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-05-10T12:05:38Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+		<trans-unit id="tx_csseo_canonical.description" approved="yes">
+			<source>Provides from duplicate content. If another page shows mainly the same content, type here the link to this page, if it should be rather indexed then the current. </source>
+			<target>Verhindert das indexieren doppelter Inhalte. Falls der Inhalt einer anderen Seite ähnlichen oder identischen ist und diese Seite eher indexíert werden soll, dann geben Sie hier den Link zu der Seite an. </target>
+		</trans-unit>
+		<trans-unit id="tx_csseo_no_index.description" approved="yes">
+			<source>If checked, this page will not be visible in search engines.</source>
+			<target>Falls ja, wird diese Seite nicht bei den Suchmaschinen angezeigt.</target>
+		</trans-unit>
+		<trans-unit id="tx_csseo_og_description.description" approved="yes">
+			<source>This description will be shown, if the user shares this page on facebook, LinkedIn etc.</source>
+			<target>Diese Beschreibung wird angezeigt, wenn der Nutzer diese Seite bei Facebook, Xing etc. teilen möchte.</target>
+		</trans-unit>
+		<trans-unit id="tx_csseo_og_image.description" approved="yes">
+			<source>This image will be shown, if the user shares this page on facebook, LinkedIn etc. It will be scaled to 1200 x 628 pixels.</source>
+			<target>Dieses Bild wird angezeigt, wenn der Nutzer diese Seite bei Facebook, Xing etc. teilen möchte. Es wird skaliert auf 1200 x 628 Pixel skaliert.</target>
+		</trans-unit>
+		<trans-unit id="tx_csseo_og_title.description" approved="yes">
+			<source>This title will be shown, if the user shares this page on facebook, LinkedIn etc.</source>
+			<target>Dieser Titel wird angezeigt, wenn der Nutzer diese Seite bei Facebook, Xing etc. teilen möchte.</target>
+		</trans-unit>
+		<trans-unit id="tx_csseo_title.description" approved="yes">
+			<source>This title will be shown in the browser tab and in the search engines. Place some keywords here, but not only separated by commas. The user should be animated to click.</source>
+			<target>Dieser Titel wird im Browser-Tab und den Suchmaschinen angezeigt. Bringen Sie hier wichtige Keywoards unter, aber nicht nur durch Kommas getrennt. Der Nutzer soll zum Klicken animiert werden.</target>
+		</trans-unit>
+		<trans-unit id="tx_csseo_title_only.description" approved="yes">
+			<source>Show the browser title without the site title in cases the space isn't enough.</source>
+			<target>Zeigt den Browsertitel ohne den Webseitentitel, falls der Platz mal nicht ausreicht.</target>
+		</trans-unit>
+		<trans-unit id="tx_csseo_tw_creator.description" approved="yes">
+			<source>Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be shown as creator.</source>
+			<target>Geben Sie einen Twitter-Benutzernamen an, ohne dem @-Zeichen. Wenn der Nutzer die Seite bei Twitter teilt, wird dieser Benutzer als Ersteller angezeigt. </target>
+		</trans-unit>
+		<trans-unit id="tx_csseo_tw_description.description" approved="yes">
+			<source>This description will be shown, if the user shares this page on twitter. Fallback is the open graph description.</source>
+			<target>Diese Beschreibung wird angezeigt, wenn der Nutzer diese Seite bei Twitter teilen möchte. Fallback ist die Open Graph Beschreibung.</target>
+		</trans-unit>
+		<trans-unit id="tx_csseo_tw_image.description" approved="yes">
+			<source>This image will be shown, if the user shares this page on twitter. Fallback is the open graph image. It will be scaled to 1024 x 512 pixels.</source>
+			<target>Dieses Bild wird angezeigt, wenn der Nutzer diese Seite bei Twitter teilen möchte. Fallback ist die Open Graph Bild. Es wird skaliert auf 1024 x 512 Pixel skaliert.</target>
+		</trans-unit>
+		<trans-unit id="tx_csseo_tw_title.description" approved="yes">
+			<source>This title will be shown, if the user shares this page on twitter. Fallback is the open graph title. </source>
+			<target>Dieser Titel wird angezeigt, wenn der Nutzer diese Seite bei Twitter teilen möchte. Fallback ist der Open Graph Titel.</target>
+		</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,29 @@
+{namespace v=FluidTYPO3\Vhs\ViewHelpers}
+
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+     xmlns:v="http://fluidtypo3.org/schemas/vhs-master.xsd">
+
+<f:layout name="Wizard" />
+
+<f:section name="Main">
+    <f:if condition="{data}">
+        <f:then>
+            <h3 class="js-cs-seo-title"
+                data-sitetitle="{siteTitle}"
+                data-separator="{pageTitleSeparator}"
+                data-first="{config.pageTitleFirst}"
+                data-only="{data.pageTitleOnly}">
+                <f:format.crop maxCharacters="66" respectWordBoundaries="0">{pageTitle}</f:format.crop>
+            </h3>
+            <div class="url">{f:if(condition:"{urlScheme}=='2'",then:'https://')}{domain}{f:if(condition:"{path}=='/'",then:path,else:'/{path}')}</div>
+                <span class="js-cs-seo-desc"><f:format.crop maxCharacters="156" respectWordBoundaries="0">{data.description}</f:format.crop></span>
+                <span class="js-cs-seo-hidden" style="{f:if(condition:data.description,then:'display:none;')}"><f:translate key="LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:templates.wizard.description" /></span>
+            </p>
+        </f:then>
+        <f:else>
+            <f:translate key="LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:templates.wizard.no_data" />
+        </f:else>
+    </f:if>
+</f:section>
+</div>
