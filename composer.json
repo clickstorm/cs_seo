@@ -11,7 +11,7 @@
 	"clickstorm",
 	"SEO"
   ],
-  "version": "2.0.0",
+  "version": "1.0.1-dev",
   "dist": {
 	"url": "git@bitbucket.org:clickstorm/typo3.cs_seo.git",
 	"type": "git"
