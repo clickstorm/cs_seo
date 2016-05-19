@@ -19,7 +19,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Update class for the extension manager.
  *
  * @package TYPO3
- * @subpackage tx_news
+ * @subpackage tx_csseo
  */
 class ext_update {
 
@@ -73,9 +73,11 @@ class ext_update {
 	protected function processUpdates() {
 		$this->migrateFromMetaseo();
 	}
+
 	/**
-	 * Check if there are records in the old category table and transfer
-	 * these to sys_category when needed
+	 * Check if metaseo was installed and then transfer the properties from pages and pages_language_overlay
+	 *
+	 * @return void
 	 */
 	protected function migrateFromMetaseo() {
 
@@ -98,7 +100,7 @@ class ext_update {
 
 		$this->migrateFields($fieldsToMigrate, 'pages');
 
-		// Page fields
+		// migrate pages_language_overlay
 		$fieldsToMigrate = [
 			'tx_metaseo_pagetitle'        => 'tx_csseo_title',
 		];
@@ -106,7 +108,7 @@ class ext_update {
 		$this->migrateFields($fieldsToMigrate, 'pages_language_overlay');
 
 		/**
-		 * Finished category migration
+		 * Finished migration from metaseo
 		 */
 		$message = 'Title, Canonical and NoIndex are migrated. Run <strong>DB compare</strong> in the install tool to remove the fields from metaseo and run the <strong>DB check</strong> to update the reference index.';
 		$status = FlashMessage::OK;
@@ -114,7 +116,14 @@ class ext_update {
 		$this->messageArray[] = [$status, $title, $message];
 	}
 
-
+	/**
+	 * Migrate fields from one column to another of a table
+	 *
+	 * @param array $fieldsToMigrate
+	 * @param string $table
+	 *
+	 * @return void
+	 */
 	protected function migrateFields($fieldsToMigrate, $table) {
 		foreach($fieldsToMigrate as $metaSeoField => $csSeoField) {
 			// Settings from page
