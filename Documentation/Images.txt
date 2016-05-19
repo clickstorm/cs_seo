@@ -1,4 +1,4 @@
-.. |img-1|      image:: Images/Clickstorm.jpg
+.. |img-1|      image:: /Images/ClickstormLogo.jpg
    :height: 256
    :width: 256
 .. :align: center
