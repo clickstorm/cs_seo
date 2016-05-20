@@ -22,13 +22,10 @@ $EM_CONF[$_EXTKEY] = [
     'uploadfolder' => '0',
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '1.0.1-dev',
+    'version' => '1.1.0',
     'constraints' => [
         'depends' => [
             'typo3' => '6.2.0-8.99.99'
-        ],
-        'conflicts' => [
-            'metaseo' => ''
         ],
         'suggests' => [
             'realurl' => ''

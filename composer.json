@@ -11,7 +11,7 @@
 	"clickstorm",
 	"SEO"
   ],
-  "version": "1.0.1-dev",
+  "version": "1.1.0",
   "dist": {
 	"url": "git@bitbucket.org:clickstorm/typo3.cs_seo.git",
 	"type": "git"
@@ -20,11 +20,10 @@
 	"cs_seo": "*"
   },
   "require": {
-	"typo3/cms": ">=6.2.0",
-	"typo3-ter/realurl": "*"
+	"typo3/cms": ">=6.2.0"
   },
-  "conflict": {
-	"typo3-ter/metaseo": ">0.0.1"
+  "suggest": {
+	"typo3-ter/realurl": "*"
   },
   "autoload": {
 	"psr-4": {
