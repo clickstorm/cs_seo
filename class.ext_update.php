@@ -72,6 +72,7 @@ class ext_update {
 	 */
 	protected function processUpdates() {
 		$this->migrateFromMetaseo();
+		$this->migrateFromSeoBasics();
 	}
 
 	/**
@@ -85,17 +86,17 @@ class ext_update {
 		$metaseoTableFields = $this->databaseConnection->admin_get_fields('pages');
 		if (!array_key_exists('tx_metaseo_pagetitle', $metaseoTableFields)) {
 			$status = FlashMessage::NOTICE;
-			$title = '';
-			$message = 'Mo MetaSeo properties, so no update needed';
+			$title = 'metaseo not found';
+			$message = 'No MetaSeo properties, so no update needed';
 			$this->messageArray[] = [$status, $title, $message];
 			return;
 		}
 
 		// migrate pages
 		$fieldsToMigrate = [
-			'tx_metaseo_pagetitle'        => 'tx_csseo_title',
-			'tx_metaseo_canonicalurl'    => 'tx_csseo_canonical',
-			'tx_metaseo_is_exclude' => 'tx_csseo_no_index',
+			'tx_metaseo_pagetitle'      => 'tx_csseo_title',
+			'tx_metaseo_canonicalurl'   => 'tx_csseo_canonical',
+			'tx_metaseo_is_exclude'     => 'tx_csseo_no_index',
 		];
 
 		$this->migrateFields($fieldsToMigrate, 'pages');
@@ -112,7 +113,42 @@ class ext_update {
 		 */
 		$message = 'Title, Canonical and NoIndex are migrated. Run <strong>DB compare</strong> in the install tool to remove the fields from metaseo and run the <strong>DB check</strong> to update the reference index.';
 		$status = FlashMessage::OK;
-		$title = 'Migrated all fields!';
+		$title = 'Migrated all metaseo fields!';
+		$this->messageArray[] = [$status, $title, $message];
+	}
+
+	/**
+	 * Check if seo_basics was installed and then transfer the properties from pages and pages_language_overlay
+	 *
+	 * @return void
+	 */
+	protected function migrateFromSeoBasics() {
+
+		// check if seo_basics fields exists
+		$metaseoTableFields = $this->databaseConnection->admin_get_fields('pages');
+		if (!array_key_exists('tx_seo_titletag', $metaseoTableFields)) {
+			$status = FlashMessage::NOTICE;
+			$title = 'seo_basics not found';
+			$message = 'No seo_basics properties, so no update needed';
+			$this->messageArray[] = [$status, $title, $message];
+			return;
+		}
+
+		// migrate pages
+		$fieldsToMigrate = [
+			'tx_seo_titletag'      => 'tx_csseo_title',
+			'tx_seo_canonicaltag'   => 'tx_csseo_canonical',
+		];
+
+		$this->migrateFields($fieldsToMigrate, 'pages');
+		$this->migrateFields($fieldsToMigrate, 'pages_language_overlay');
+
+		/**
+		 * Finished migration from seo_basics
+		 */
+		$message = 'Title and Canonical are migrated. Run <strong>DB compare</strong> in the install tool to remove the fields from metaseo and run the <strong>DB check</strong> to update the reference index.';
+		$status = FlashMessage::OK;
+		$title = 'Migrated all seo_basics fields!';
 		$this->messageArray[] = [$status, $title, $message];
 	}
 
