@@ -14,16 +14,39 @@ use \TYPO3\CMS\Backend\Utility\BackendUtility;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use \TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 
-class TSFE {
+/**
+ * own TSFE to render TSFE in the backend
+ *
+ * Class TSFEUtility
+ * @package Clickstorm\CsSeo\Utility
+ */
+class TSFEUtility {
 
+    /**
+     * @var int
+     */
     protected $pageUid;
 
+    /**
+     * @var int
+     */
     protected $parentUid;
 
+    /**
+     * @var int
+     */
     protected $typeNum = 654;
 
+    /**
+     * @var array
+     */
     protected $config;
 
+    /**
+     * TSFEUtility constructor.
+     * @param int $pageUid
+     * @param int $lang
+     */
     public function __construct($pageUid, $lang = 0) {
         $this->pageUid = $pageUid;
 
@@ -36,29 +59,46 @@ class TSFE {
         $this->config = $GLOBALS['TSFE']->tmpl->setup['config.'];
     }
 
+    /**
+     * @return string
+     */
     public function getPagePath() {
         return $GLOBALS['TSFE']->cObj->getTypoLink_URL($this->pageUid);
     }
 
+    /**
+     * @return array
+     */
     public function getPage() {
         return $GLOBALS['TSFE']->page;
     }
 
+
+    /**
+     * @return array
+     */
     public function getConfig() {
         return $this->config;
     }
 
+    /**
+     * @return string
+     */
     public function getPageTitleSeparator() {
         return $GLOBALS['TSFE']->cObj->stdWrap($this->config['pageTitleSeparator'], $this->config['pageTitleSeparator.']);
     }
 
+    /**
+     * @return string
+     */
     public function getSiteTitle() {
         return $GLOBALS['TSFE']->tmpl->setup['sitetitle'];
     }
 
     /**
-     * @param int $pageUid
-     * @param int $typeNum
+     * initialize the TSFE for the backend
+     *
+     * @return void
      */
     protected function initTSFE() {
         try {

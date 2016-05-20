@@ -2,9 +2,10 @@
 namespace Clickstorm\CsSeo\UserFunc;
 
 /***************************************************************
+ *
  *  Copyright notice
  *
- *  (c) 2013 Marc Hirdes <Marc_Hirdes@gmx.de>, clickstorm GmbH
+ *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
  *  (c) 2013 Mathias Brodala <mbrodala@pagemachine.de>, PAGEmachine AG
  *
  *  All rights reserved
@@ -26,20 +27,15 @@ namespace Clickstorm\CsSeo\UserFunc;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Clickstorm\CsSeo\Utility\TSFE;
-use Clickstorm\CsSeo\UserFunc\PageTitle;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Imaging\Icon;
-use TYPO3\CMS\Core\Imaging\IconFactory;
-use TYPO3\CMS\Core\Messaging\FlashMessage;
-use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Page\PageGenerator;
 
 /**
- * Google Search Results Preview
+ * Set the RealURL path segment if empty
+ *
+ * Class PageTitle
+ * @package Clickstorm\CsSeo\UserFunc
  */
 class PermalinkWizard
 {

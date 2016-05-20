@@ -3,7 +3,7 @@ if (!defined('TYPO3_MODE')) {
     die ('Access denied.');
 }
 
-/* SEO */
+// SEO settings
 $GLOBALS['TCA']['pages_language_overlay']['columns']['title']['config']['max'] = 57;
 $GLOBALS['TCA']['pages_language_overlay']['columns']['nav_title']['config']['max'] = 50;
 $GLOBALS['TCA']['pages_language_overlay']['columns']['description']['config']['max'] = 156;
@@ -19,6 +19,7 @@ if(isset($GLOBALS['TCA']['pages_language_overlay']['columns']['tx_realurl_pathse
     ];
 }
 
+// define new fields
 $tempColumns = [
     'tx_csseo_title' => [
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_title',
@@ -94,12 +95,14 @@ $tempColumns = [
     ],
 ];
 
+// add new fields
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages_language_overlay', $tempColumns);
 
 // replace description
 $GLOBALS['TCA']['pages_language_overlay']['palettes']['metatags']['showitem'] =
     preg_replace('/description(.*,|.*$)/', '', $GLOBALS['TCA']['pages_language_overlay']['palettes']['metatags']['showitem']);
 
+// define new palettes
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
     'pages_language_overlay',
     'tx_csseo_preview',
@@ -119,6 +122,7 @@ $GLOBALS['TCA']['pages_language_overlay']['palettes']['metatags']['showitem'] =
     tx_csseo_tw_description, --linebreak--,
     tx_csseo_tw_creator');
 
+// add to types
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'pages_language_overlay',
     '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,
