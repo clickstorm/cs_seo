@@ -92,18 +92,26 @@ class ext_update {
 			return;
 		}
 
+		// update title only if absolute title
+		$this->updateTitleOnly('tx_metaseo_pagetitle', 'pages');
+
 		// migrate pages
 		$fieldsToMigrate = [
 			'tx_metaseo_pagetitle'      => 'tx_csseo_title',
+			'tx_metaseo_pagetitle_rel'  => 'tx_csseo_title',
 			'tx_metaseo_canonicalurl'   => 'tx_csseo_canonical',
 			'tx_metaseo_is_exclude'     => 'tx_csseo_no_index',
 		];
 
 		$this->migrateFields($fieldsToMigrate, 'pages');
 
+		// update title only if absolute title
+		$this->updateTitleOnly('tx_metaseo_pagetitle', 'pages_language_overlay');
+
 		// migrate pages_language_overlay
 		$fieldsToMigrate = [
-			'tx_metaseo_pagetitle'        => 'tx_csseo_title',
+			'tx_metaseo_pagetitle'      => 'tx_csseo_title',
+			'tx_metaseo_pagetitle_rel'  => 'tx_csseo_title',
 		];
 
 		$this->migrateFields($fieldsToMigrate, 'pages_language_overlay');
@@ -153,6 +161,18 @@ class ext_update {
 	}
 
 	/**
+	 * migrate the title only field, if absolute title-tag is set
+	 * @param string $field
+	 * @param string $table
+	 */
+	protected function updateTitleOnly($field, $table) {
+		// Settings from page
+		$query = 'UPDATE ' . $table . ' SET tx_csseo_title_only = 1';
+		$query .= ' WHERE ' . $field . ' > \'\'';
+		$GLOBALS['TYPO3_DB']->sql_query($query);
+	}
+
+	/**
 	 * Migrate fields from one column to another of a table
 	 *
 	 * @param array $fieldsToMigrate
@@ -161,9 +181,10 @@ class ext_update {
 	 * @return void
 	 */
 	protected function migrateFields($fieldsToMigrate, $table) {
-		foreach($fieldsToMigrate as $metaSeoField => $csSeoField) {
+		foreach($fieldsToMigrate as $oldField => $newField) {
 			// Settings from page
-			$query = 'UPDATE ' . $table . ' SET '.$csSeoField.' = '.$metaSeoField;
+			$query = 'UPDATE ' . $table . ' SET '.$newField.' = '.$oldField;
+			$query .= ' WHERE ' . $newField . ' = "" OR ' . $newField . ' IS NULL ';
 			$GLOBALS['TYPO3_DB']->sql_query($query);
 		}
 	}
