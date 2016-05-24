@@ -1,0 +1,11 @@
+# cat=basic/enable/010; type=boolean; label= Enable the JS for automatic filling of the path segment, if this is empty
+enablePathSegment = 1
+
+# cat=page/010; type=integer; label= Max characters of title
+maxTitle = 57
+
+# cat=page/020; type=integer; label= Max characters of description
+maxDescription = 156
+
+# cat=page/030; type=integer; label= Max characters of nav title
+maxNavTitle = 50

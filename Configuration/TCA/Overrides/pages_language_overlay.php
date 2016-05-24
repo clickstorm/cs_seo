@@ -3,16 +3,20 @@ if (!defined('TYPO3_MODE')) {
     die ('Access denied.');
 }
 
-// SEO settings
-$GLOBALS['TCA']['pages_language_overlay']['columns']['title']['config']['max'] = 57;
-$GLOBALS['TCA']['pages_language_overlay']['columns']['nav_title']['config']['max'] = 50;
-$GLOBALS['TCA']['pages_language_overlay']['columns']['description']['config']['max'] = 156;
+// get extension configurations
+$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
 
-if(isset($GLOBALS['TCA']['pages_language_overlay']['columns']['tx_realurl_pathsegment'])) {
+// SEO Settings
+$GLOBALS['TCA']['pages_language_overlay']['columns']['title']['config']['max'] = $extConf['maxTitle'];
+$GLOBALS['TCA']['pages_language_overlay']['columns']['nav_title']['config']['max'] = $extConf['maxNavTitle'];
+$GLOBALS['TCA']['pages_language_overlay']['columns']['description']['config']['max'] = $extConf['maxDescription'];
+
+// Path segment auto fill
+if($extConf['enablePathSegment'] && isset($GLOBALS['TCA']['pages_language_overlay']['columns']['tx_realurl_pathsegment'])) {
     $GLOBALS['TCA']['pages_language_overlay']['columns']['tx_realurl_pathsegment']['config']['eval'] .= ',required';
-    $GLOBALS['TCA']['pages']['columns']['tx_realurl_pathsegment']['config']['wizards'] = [
+    $GLOBALS['TCA']['pages_language_overlay']['columns']['tx_realurl_pathsegment']['config']['wizards'] = [
         '_POSITION' => 'bottom',
-        'previewWizard' => [
+        'permalinkWizard' => [
             'type' => 'userFunc',
             'userFunc' => 'Clickstorm\\CsSeo\\UserFunc\\PermalinkWizard->render'
         ]
@@ -26,7 +30,7 @@ $tempColumns = [
         'exclude' => 1,
         'config' => [
             'type' => 'input',
-            'max' => '57',
+            'max' => $extConf['maxTitle'],
             'eval' => 'trim',
             'wizards' => [
                 '_POSITION' => 'bottom',
