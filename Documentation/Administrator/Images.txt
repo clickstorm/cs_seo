@@ -1,0 +1,28 @@
+.. |img-1|      image:: ../Images/Administrator/Screen1.png
+   :height: 442
+   :width: 981
+.. :align: center
+.. :alt: Include the TypoScript from cs_seo
+.. :border: 0
+.. :name: Screenshot 1
+.. :vspace: 52
+
+.. |img-2|      image:: ../Images/Administrator/Screen2.png
+   :height: 525
+   :width: 1268
+.. :align: center
+.. :alt: Configure the extension or run the update script
+.. :border: 0
+.. :name: Screenshot 2
+.. :vspace: 52
+
+.. |img-3|      image:: ../Images/Administrator/Screen3.png
+   :height: 435
+   :width: 1010
+.. :align: center
+.. :alt: Extension settings
+.. :border: 0
+.. :name: Screenshot 3
+.. :vspace: 52
+
+

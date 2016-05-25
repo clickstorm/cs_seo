@@ -39,6 +39,7 @@ Features
 - tracking with google analytics inc. download tracking
 - tracking with piwik
 - example for robots.txt
+- migrate properties from metaseo and seo_basics
 
 
 .. _screenshots:

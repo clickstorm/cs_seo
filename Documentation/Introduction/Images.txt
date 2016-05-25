@@ -1,6 +1,6 @@
 .. |img-1|      image:: ../Images/Introduction/Screen1.png
-   :height: 685
-   :width: 929
+   :height: 574
+   :width: 1041
 .. :align: center
 .. :alt: SEO tab
 .. :border: 0
@@ -8,8 +8,8 @@
 .. :vspace: 52
 
 .. |img-2|      image:: ../Images/Introduction/Screen2.png
-   :height: 758
-   :width: 854
+   :height: 525
+   :width: 1268
 .. :align: center
 .. :alt: Social media tab
 .. :border: 0

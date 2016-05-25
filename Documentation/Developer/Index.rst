@@ -11,8 +11,7 @@
 Developer Corner
 ================
 
-
-
+Most of the metatags are added via TypoScript. Therefore the behaviour can be overridden in a simple way.
 
 .. _developer-ts:
 
@@ -51,3 +50,19 @@ If you set some meta tags in your own extension you can easily remove some of ou
         page.jsFooterInline.tx_csseo >
         page.includeJSFooter.tx_csseo >
     [end]
+
+You'll find more examples in the extension directory typo3conf/ext/cs_seo/Configuration/TypoScript/Extensions/.
+
+.. _developer-global:
+
+Global noindex
+--------------
+
+If you wish to set the whole page to noindex, e.g. for development, you can use the following TS.
+
+::
+
+	# insert meta robots="noindex,nofollow" on every page
+	page.meta.robots.if >
+
+Don't to forget to remove this TypoScript in production.
