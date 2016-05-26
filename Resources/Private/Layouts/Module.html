@@ -1,0 +1,35 @@
+<f:be.container>
+	<div class="typo3-fullDoc">
+		<div id="typo3-docheader">
+			<div class="typo3-docheader-functions">
+				<div class="left">
+					<f:be.buttons.csh />
+					<f:be.menus.actionMenu>
+						<f:be.menus.actionMenuItem label="Meta properties" action="pageMeta" controller="Module" />
+						<f:be.menus.actionMenuItem label="Open Graph" action="openGraph" controller="Module" />
+						<f:be.menus.actionMenuItem label="Twitter Cards" action="twitterCards" controller="Module" />
+					</f:be.menus.actionMenu>
+				</div>
+				<div class="right">
+					<f:be.pagePath />
+					<f:be.pageInfo />
+				</div>
+			</div>
+			<div class="typo3-docheader-buttons">
+				<div class="left">
+
+				</div>
+				<div class="right">
+					<f:be.buttons.shortcut />
+				</div>
+			</div>
+
+		</div>
+		<div id="typo3-docbody">
+			<div id="typo3-inner-docbody">
+				<f:flashMessages />
+				<f:render section="Main" />
+			</div>
+		</div>
+	</div>
+</f:be.container>
