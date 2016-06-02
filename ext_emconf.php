@@ -11,24 +11,24 @@
  ***************************************************************/
 
 $EM_CONF[$_EXTKEY] = [
-    'title' => '[clickstorm] SEO',
-    'description' => 'Enable Features for search engine optimization (SEO)',
-    'category' => 'services',
-    'author' => 'Angela Dudtkowski, Marc Hirdes, Andreas Kirilow - clickstorm GmbH',
-    'author_email' => 'hirdes@clickstorm.de',
-    'author_company' => 'clickstorm GmbH',
-    'state' => 'stable',
-    'internal' => '',
-    'uploadfolder' => '0',
-    'createDirs' => '',
-    'clearCacheOnLoad' => 0,
-    'version' => '1.1.1-dev',
-    'constraints' => [
-        'depends' => [
-            'typo3' => '6.2.0-8.99.99'
-        ],
-        'suggests' => [
-            'realurl' => ''
-        ],
-    ],
+	'title' => '[clickstorm] SEO',
+	'description' => 'Enables important on-page features for search engine optimization (SEO) and expands the page settings, e.g. with a preview for Google search results, Open Graph and Twitter Cards.',
+	'category' => 'services',
+	'author' => 'Angela Dudtkowski, Marc Hirdes, Andreas Kirilow - clickstorm GmbH',
+	'author_email' => 'hirdes@clickstorm.de',
+	'author_company' => 'clickstorm GmbH',
+	'state' => 'stable',
+	'internal' => '',
+	'uploadfolder' => '0',
+	'createDirs' => '',
+	'clearCacheOnLoad' => 0,
+	'version' => '1.1.1-dev',
+	'constraints' => [
+		'depends' => [
+			'typo3' => '6.2.0-8.99.99'
+		],
+		'suggests' => [
+			'realurl' => ''
+		],
+	],
 ];
