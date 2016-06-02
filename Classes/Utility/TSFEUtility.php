@@ -54,14 +54,11 @@ class TSFEUtility {
      */
     public function __construct($pageUid, $lang = 0) {
         $this->pageUid = $pageUid;
-
         $this->lang = $lang;
 
-        if(!isset($GLOBALS['TSFE'])) {
-            $environmentService = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\EnvironmentService::class);
-            if($environmentService->isEnvironmentInBackendMode() && !($GLOBALS['TSFE'] instanceof TypoScriptFrontendController)) {
-                $this->initTSFE();
-            }
+        $environmentService = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\EnvironmentService::class);
+        if(!isset($GLOBALS['TSFE']) || ($environmentService->isEnvironmentInBackendMode() && !($GLOBALS['TSFE'] instanceof TypoScriptFrontendController))) {
+            $this->initTSFE();
         }
 
         $this->config = $GLOBALS['TSFE']->tmpl->setup['config.'];
