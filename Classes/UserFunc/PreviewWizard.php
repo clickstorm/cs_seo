@@ -31,7 +31,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
 
 /**
@@ -163,10 +163,10 @@ class PreviewWizard
         if(strpos($data['uid'], 'NEW') === false) {
 
             // check if TS page type exists
-            /** @var ConfigurationManager $configurationManager */
-            $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
-            $fullTS = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-            
+            /** @var BackendConfigurationManager $configurationManager */
+            $backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
+            $fullTS = $backendConfigurationManager->getTypoScriptSetup();
+
             if(isset($fullTS['types.'][$this->typeNum])) {
                 // render page title
                 $rootline = BackendUtility::BEgetRootLine($data['uid']);
