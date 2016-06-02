@@ -166,8 +166,8 @@ class PreviewWizard
             /** @var ConfigurationManager $configurationManager */
             $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
             $fullTS = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-
-            if(isset($fullTS['types'][$this->typeNum])) {
+            
+            if(isset($fullTS['types.'][$this->typeNum])) {
                 // render page title
                 $rootline = BackendUtility::BEgetRootLine($data['uid']);
                 $uid = $data['sys_language_uid'] > 0 ?  $data['pid'] : $data['uid'];
