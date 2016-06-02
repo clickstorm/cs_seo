@@ -33,6 +33,11 @@ class TSFEUtility {
     protected $parentUid;
 
     /**
+     * @var \TYPO3\CMS\Extbase\Service\EnvironmentService
+     */
+    protected $environmentService;
+
+    /**
      * @var int
      */
     protected $typeNum = 654;
@@ -53,7 +58,10 @@ class TSFEUtility {
         $this->lang = $lang;
 
         if(!isset($GLOBALS['TSFE'])) {
-            $this->initTSFE();
+            $environmentService = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\EnvironmentService::class);
+            if($environmentService->isEnvironmentInBackendMode() && !($GLOBALS['TSFE'] instanceof TypoScriptFrontendController)) {
+                $this->initTSFE();
+            }
         }
 
         $this->config = $GLOBALS['TSFE']->tmpl->setup['config.'];
