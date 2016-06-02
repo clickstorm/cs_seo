@@ -52,7 +52,7 @@ class TSFEUtility {
 
         $this->lang = $lang;
 
-        if(!isset($GLOBALS['TSFE'])) {
+        if(!isset($GLOBALS['TSFE']) || !($GLOBALS['TSFE'] instanceof TypoScriptFrontendController)) {
             $this->initTSFE();
         }
 
