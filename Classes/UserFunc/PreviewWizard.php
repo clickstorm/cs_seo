@@ -31,6 +31,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
 
 /**
@@ -55,6 +56,11 @@ class PreviewWizard
      * @var PageRenderer
      */
     protected $pageRenderer;
+
+    /**
+     * @var int
+     */
+    protected $typeNum = 654;
 
     /**
      * Constructs this view
@@ -155,12 +161,18 @@ class PreviewWizard
         $wizardView->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/Wizard.html');
 
         if(strpos($data['uid'], 'NEW') === false) {
-            // render page title
-            $rootline = BackendUtility::BEgetRootLine($data['uid']);
-            $uid = $data['sys_language_uid'] > 0 ?  $data['pid'] : $data['uid'];
-            $TSFEUtility =  GeneralUtility::makeInstance(TSFEUtility::class, $uid, $data['sys_language_uid']);
 
-            if(isset($GLOBALS['TSFE'])) {
+            // check if TS page type exists
+            /** @var ConfigurationManager $configurationManager */
+            $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
+            $fullTS = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+
+            if(isset($fullTS['types'][$this->typeNum])) {
+                // render page title
+                $rootline = BackendUtility::BEgetRootLine($data['uid']);
+                $uid = $data['sys_language_uid'] > 0 ?  $data['pid'] : $data['uid'];
+                $TSFEUtility =  GeneralUtility::makeInstance(TSFEUtility::class, $uid, $data['sys_language_uid']);
+
                 PageGenerator::generatePageTitle();
                 $pageTitle = static::getPageRenderer()->getTitle();
 
@@ -177,10 +189,12 @@ class PreviewWizard
                     'siteTitle' => $TSFEUtility->getSiteTitle(),
                     'urlScheme' => $urlScheme
                 ]);
+            } else {
+                $wizardView->assign('error', 'no_ts');
             }
-
-
-        } 
+        } else {
+            $wizardView->assign('error', 'no_data');
+        }
         return $wizardView->render();
     }
 

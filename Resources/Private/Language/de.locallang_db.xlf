@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-05-10T08:57:59Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-06-01T14:54:57Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -81,9 +81,13 @@
 			<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
 			<target>Es wurde keine Seitenbeschreibung angegeben! Daher wird Google den Seiteninhalt hier anteasern.</target>
 		</trans-unit>
-		<trans-unit id="templates.wizard.no_data" approved="yes">
+		<trans-unit id="templates.wizard.error.no_data" approved="yes">
 			<source>Click 'Save' to show the preview.</source>
 			<target>Drücken Sie 'Speichern', um die Vorschau zu sehen.</target>
+		</trans-unit>
+		<trans-unit id="templates.wizard.error.no_ts" approved="yes">
+			<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
+			<target>Es konnte keine Seitentyp mit der Nummer 654 gefunden werden. Das TypoScript der Extension 'cs_seo' muss in das Root-Template eingebunden werden.</target>
 		</trans-unit>
 		</body>
 	</file>
