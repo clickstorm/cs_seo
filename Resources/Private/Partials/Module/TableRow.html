@@ -1,0 +1,26 @@
+{namespace cs=Clickstorm\CsSeo\ViewHelpers}
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+<body>
+<f:section name="Main">
+	<tr>
+		<f:for each="{fields}" key="fieldName" as="fieldLabel" iteration="i">
+			<td>
+				<f:if condition="{i.isFirst}">
+					<div style="padding-left: {cs:getValue(array:page,key:'level')}em;">
+				</f:if>
+				<cs:getValue array="{page}" key="{fieldName}" />
+				<f:if condition="{i.isFirst}">
+					</div>
+				</f:if>
+			</td>
+		</f:for>
+	</tr>
+	<f:if condition="{page.subPages}">
+		<f:for each="{page.subPages}" as="subPage">
+			<f:render partial="Module/TableRow" arguments="{page: subPage, fields: fields}" section="Main" />
+		</f:for>
+	</f:if>
+</f:section>
+</body>

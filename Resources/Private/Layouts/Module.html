@@ -1,4 +1,6 @@
-<f:be.container>
+<f:be.container
+		includeJsFiles="{0:'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js'}"
+		includeCssFiles="{0:'https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css'}">
 	<div class="typo3-fullDoc">
 		<div id="typo3-docheader">
 			<div class="typo3-docheader-functions">
@@ -6,8 +8,8 @@
 					<f:be.buttons.csh />
 					<f:be.menus.actionMenu>
 						<f:be.menus.actionMenuItem label="Meta properties" action="pageMeta" controller="Module" />
-						<f:be.menus.actionMenuItem label="Open Graph" action="openGraph" controller="Module" />
-						<f:be.menus.actionMenuItem label="Twitter Cards" action="twitterCards" controller="Module" />
+						<f:be.menus.actionMenuItem label="Open Graph" action="pageOpenGraph" controller="Module" />
+						<f:be.menus.actionMenuItem label="Twitter Cards" action="pageTwitterCards" controller="Module" />
 					</f:be.menus.actionMenu>
 				</div>
 				<div class="right">

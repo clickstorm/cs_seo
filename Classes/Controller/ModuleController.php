@@ -27,18 +27,63 @@ namespace Clickstorm\CsSeo\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Clickstorm\CsSeo\View\PageLayoutView;
+use Clickstorm\CsSeo\View\PageInfoView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 class ModuleController extends ActionController {
 
-	public function pageMetaAction() {
-		/** @var PageLayoutView $pageLayoutView */
-		$pageLayoutView = GeneralUtility::makeInstance(PageLayoutView::class);
+	/**
+	 * @var \TYPO3\CMS\Frontend\Page\PageRepository
+	 * @inject
+	 */
+	protected $pageRepository;
 
-		$tablePages = $pageLayoutView->getTable_pages(2);
-		\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($content);
-		$this->view->assign('tablePages', $tablePages);
+	public function pageMetaAction() {
+		$fieldNames = ['title', 'tx_csseo_title', 'tx_csseo_title_only', 'description'];
+
+		$this->processFields($fieldNames);
+	}
+
+	public function pageOpenGraphAction() {
+		$fieldNames = ['title', 'tx_csseo_og_title', 'tx_csseo_og_description', 'tx_csseo_og_image',];
+
+		$this->processFields($fieldNames);
+	}
+
+	protected function processFields($fieldNames) {
+		$fields = [];
+
+		foreach ($fieldNames as $fieldName) {
+			$fields[$fieldName] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['label'];
+		}
+
+		$this->pageRepository->sys_language_uid = 1;
+
+		$page = $this->pageRepository->getPage(GeneralUtility::_GP('id'));
+		$page = $this->getPageTree($page);
+
+		$this->view->assignMultiple([
+			'fields' => $fields,
+			'page' => $page
+		]);
+	}
+
+	protected function getPageTree($page, $depth = 2, $level = 0){
+		$depth--;
+		$fields = '*';
+		$sortField = 'sorting';
+		$page['level'] = $level;
+		if($depth >= 0) {
+			$subPages = $this->pageRepository->getMenu($page['uid'],$fields,$sortField);
+			if(count($subPages) > 0) {
+				$level++;
+				$page['subPages'] = $subPages;
+				foreach ($page['subPages'] as &$subPage) {
+					$subPage = $this->getPageTree($subPage, $depth, $level);
+				}
+			}
+		}
+		return $page;
 	}
 }
