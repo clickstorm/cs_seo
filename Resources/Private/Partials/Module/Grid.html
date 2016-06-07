@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+<body>
+<f:section name="Main">
+	<script type="application/javascript">
+		csSEOGridOptions = {pageJSON -> f:format.raw()};
+	</script>
+	<div ng-app="app">
+		<div ng-controller="MainCtrl">
+			<f:link.action id="csSeoUpdateURL" action="update" />
+			<div id="csSeoGrid" class="grid" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-tree-view ui-grid-edit></div>
+			<uib-progressbar max="prbMax" value="prbValue" ng-hide="prbHidden"><span style="color:white; white-space:nowrap;">{{prbValue}} / {{prbMax}}</span></uib-progressbar>
+			<p>{{msg.lastCellEdited}}</p>
+		</div>
+	</div>
+
+</f:section>
+</body>

@@ -30,3 +30,9 @@ if (TYPO3_MODE === 'BE') {
         )
     );
 }
+
+// register Ajax Handler
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler (
+    'CsSeo::update',
+    'Clickstorm\\CsSeo\\Controller\\ModuleController->update'
+);

@@ -30,6 +30,7 @@ namespace Clickstorm\CsSeo\Controller;
 use Clickstorm\CsSeo\View\PageInfoView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Lang\LanguageService;
 
 class ModuleController extends ActionController {
 
@@ -39,6 +40,11 @@ class ModuleController extends ActionController {
 	 */
 	protected $pageRepository;
 
+	/**
+	 * @var \TYPO3\CMS\Core\DataHandling\DataHandler
+	 */
+	protected $dataHandler;
+
 	public function pageMetaAction() {
 		$fieldNames = ['title', 'tx_csseo_title', 'tx_csseo_title_only', 'description'];
 
@@ -46,44 +52,102 @@ class ModuleController extends ActionController {
 	}
 
 	public function pageOpenGraphAction() {
-		$fieldNames = ['title', 'tx_csseo_og_title', 'tx_csseo_og_description', 'tx_csseo_og_image',];
+		$fieldNames = ['title', 'tx_csseo_og_title', 'tx_csseo_og_description', 'tx_csseo_og_image'];
 
 		$this->processFields($fieldNames);
 	}
 
+	/**
+	 * Renders the menu so that it can be returned as response to an AJAX call
+	 *
+	 * @param array $params Array of parameters from the AJAX interface, currently unused
+	 * @param \TYPO3\CMS\Core\Http\AjaxRequestHandler $ajaxObj Object of type AjaxRequestHandler
+	 * @return void
+	 */
+	public function update($params = array(), \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = NULL) {
+
+		// get parameter
+		$postdata = file_get_contents("php://input");
+		$attr = json_decode($postdata);
+
+		// prepare data array
+		$tableName = 'pages';
+		$uid = $attr->entry->uid;
+		$field = $attr->entry->field;
+
+		// check for language overlay
+		if($attr->entry->_PAGES_OVERLAY && isset($GLOBALS['TCA']['pages_language_overlay']['columns'][$field])) {
+			$tableName = 'pages_language_overlay';
+			$uid = $attr->entry->_PAGES_OVERLAY_UID;
+		}
+
+		// update map
+		$data[$tableName][$uid][$attr->field] = $attr->value;
+
+		// update data
+		$this->getDataHandler()->datamap = $data;
+		$this->getDataHandler()->process_datamap();
+	}
+
 	protected function processFields($fieldNames) {
-		$fields = [];
+		$columnDefs = [];
 
 		foreach ($fieldNames as $fieldName) {
-			$fields[$fieldName] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['label'];
+			$columnDefs[] = '{field: \'' . $fieldName. '\', displayName: \'' . $this->getLanguageService()->sL($GLOBALS['TCA']['pages']['columns'][$fieldName]['label']) . '\'}';
 		}
 
 		$this->pageRepository->sys_language_uid = 1;
 
 		$page = $this->pageRepository->getPage(GeneralUtility::_GP('id'));
-		$page = $this->getPageTree($page);
-
-		$this->view->assignMultiple([
-			'fields' => $fields,
-			'page' => $page
-		]);
+		$pages = $this->getPageTree($page);
+		$pageJSON = '
+			{
+				data:' . json_encode($pages) .',
+				columnDefs: [' . implode(',', $columnDefs). '],
+				enableSorting: true,
+				showTreeExpandNoChildren: false,
+				enableGridMenu: true
+			}
+		';
+		$this->view->assign('pageJSON', $pageJSON);
 	}
 
-	protected function getPageTree($page, $depth = 2, $level = 0){
+	protected function getPageTree($page, $pages = [], $depth = 2, $level = 0){
 		$depth--;
 		$fields = '*';
 		$sortField = 'sorting';
-		$page['level'] = $level;
+		$page['$$treeLevel'] = $level;
+		$pages[] = $page;
 		if($depth >= 0) {
 			$subPages = $this->pageRepository->getMenu($page['uid'],$fields,$sortField);
 			if(count($subPages) > 0) {
 				$level++;
-				$page['subPages'] = $subPages;
-				foreach ($page['subPages'] as &$subPage) {
-					$subPage = $this->getPageTree($subPage, $depth, $level);
+				foreach ($subPages as &$subPage) {
+					$pages = $this->getPageTree($subPage, $pages, $depth, $level);
 				}
 			}
 		}
-		return $page;
+		return $pages;
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\DataHandling\DataHandler
+	 */
+	public function getDataHandler()
+	{
+		if (!isset($this->dataHandler)) {
+			$this->dataHandler = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
+			$this->dataHandler->start(null,null);
+		}
+		return $this->dataHandler;
+	}
+
+	/**
+	 * Returns the language service
+	 * @return LanguageService
+	 */
+	protected function getLanguageService()
+	{
+		return $GLOBALS['LANG'];
 	}
 }
