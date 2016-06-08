@@ -10,8 +10,11 @@
 		<div ng-controller="MainCtrl">
 			<f:link.action id="csSeoUpdateURL" action="update" />
 			<div id="csSeoGrid" class="grid" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-tree-view ui-grid-edit></div>
-			<p>{{msg.lastCellEdited}}</p>
-			<uib-progressbar max="prbMax" value="prbValue" ng-hide="prbHidden"><span style="color:white; white-space:nowrap;">{{prbValue}} / {{prbMax}}</span></uib-progressbar>
+			<p class="{{msg.class}}">
+				<i class="fa {{msg.icon}}" aria-hidden="true"></i>
+				{{msg.lastCellEdited}}
+			</p>
+			<uib-progressbar max="prbMax" value="prbValue" ng-hide="prbHidden" type="{{prbType}}"><span style="color:white; white-space:nowrap;">{{prbValue}} / {{prbMax}}</span></uib-progressbar>
 		</div>
 	</div>
 

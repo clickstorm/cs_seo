@@ -85,19 +85,35 @@ class ModuleController extends ActionController {
 		$data[$tableName][$uid][$attr->field] = $attr->value;
 
 		// update data
-		$this->getDataHandler()->datamap = $data;
-		$this->getDataHandler()->process_datamap();
+		$dataHandler = $this->getDataHandler();
+		$dataHandler->datamap = $data;
+		$dataHandler->process_datamap();
+		if(!empty($dataHandler->errorLog)) {
+			$ajaxObj->addContent('Failed', 'Error');
+		}
 	}
 
 	protected function processFields($fieldNames) {
 		$columnDefs = [];
 
 		foreach ($fieldNames as $fieldName) {
-			$columnDefs[] = '{
-				field: \'' . $fieldName. '\', 
-				displayName: \'' . $this->getLanguageService()->sL($GLOBALS['TCA']['pages']['columns'][$fieldName]['label']) . '\',
-				editableCellTemplate: \'<div><form name="inputForm"><input type="INPUT_TYPE" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.prbValue = MODEL_COL_FIELD.length" ng-keyup="grid.appScope.prbValue = MODEL_COL_FIELD.length"></form></div>\'
-			}';
+			$columnDef = [
+				'field' => $fieldName,
+				'displayName' => $this->getLanguageService()->sL($GLOBALS['TCA']['pages']['columns'][$fieldName]['label'])
+			];
+			switch ($GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['type']) {
+				case 'check':
+					$columnDef['type'] = 'boolean';
+					$columnDef['cellTemplate'] = '<div class="ui-grid-cell-contents ng-binding ng-scope">{{row.entity[col.field] == true ? "1" : "0"}}</div>';
+					break;
+				case 'inline':
+					$columnDef['type'] = 'object';
+					break;
+				default:
+					$columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'];
+					$columnDef['editableCellTemplate'] = '<div><form name="inputForm"><input type="INPUT_TYPE" ng-maxlength="' . $columnDef['max'] . '" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.prbValue = MODEL_COL_FIELD.length" ng-keyup="grid.appScope.prbValue = MODEL_COL_FIELD.length"></form></div>';
+			}
+			$columnDefs[] = json_encode($columnDef);
 		}
 
 		$this->pageRepository->sys_language_uid = 1;
