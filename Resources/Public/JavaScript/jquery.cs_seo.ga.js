@@ -31,7 +31,7 @@
                     elEv.category = "download";
                     elEv.action = "click-" + extension[0];
                     elEv.label = href.replace(/ /g, "-");
-                    elEv.loc = baseHref + href;
+                    elEv.loc = href;
                 }
                 else if (href.match(/^https?\:/i) && !isThisDomain) {
                     elEv.category = "external";
