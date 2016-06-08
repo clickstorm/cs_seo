@@ -93,7 +93,11 @@ class ModuleController extends ActionController {
 		$columnDefs = [];
 
 		foreach ($fieldNames as $fieldName) {
-			$columnDefs[] = '{field: \'' . $fieldName. '\', displayName: \'' . $this->getLanguageService()->sL($GLOBALS['TCA']['pages']['columns'][$fieldName]['label']) . '\'}';
+			$columnDefs[] = '{
+				field: \'' . $fieldName. '\', 
+				displayName: \'' . $this->getLanguageService()->sL($GLOBALS['TCA']['pages']['columns'][$fieldName]['label']) . '\',
+				editableCellTemplate: \'<div><form name="inputForm"><input type="INPUT_TYPE" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.prbValue = MODEL_COL_FIELD.length" ng-keyup="grid.appScope.prbValue = MODEL_COL_FIELD.length"></form></div>\'
+			}';
 		}
 
 		$this->pageRepository->sys_language_uid = 1;
