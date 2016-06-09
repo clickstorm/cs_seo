@@ -204,7 +204,7 @@ class ModuleController extends ActionController {
 					break;
 				default:
 					$columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'];
-					$columnDef['editableCellTemplate'] = '<div><form name="inputForm"><input type="INPUT_TYPE" class="form-control" ng-maxlength="' . $columnDef['max'] . '" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.prbValue = MODEL_COL_FIELD.length" ng-keyup="grid.appScope.prbValue = MODEL_COL_FIELD.length"></form></div>';
+					$columnDef['editableCellTemplate'] = '<div><form name="inputForm" ng-model="form"><input type="INPUT_TYPE" class="form-control" ng-maxlength="' . $columnDef['max'] . '" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.prbValue = MODEL_COL_FIELD.length" ng-keyup="grid.appScope.prbValue = MODEL_COL_FIELD.length"></form></div>';
 			}
 			$columnDefs[] = json_encode($columnDef);
 		}

@@ -43,7 +43,13 @@
 					</p>
 					<div id="csSeoGrid" class="grid" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-tree-view ui-grid-edit></div>
 					<f:if condition="{wizardView}">
-						{wizardView -> f:format.raw()}
+						<div class="tx-cs_seo" ng-hide="wizardHide" ng-init="wizardInit = 1">
+							<h3>{{pageTitle}}</h3>
+							<div class="url">www.domain.de/link</div>
+							{{pageDescritption}}
+							<span ><f:translate key="LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:templates.wizard.description" /></span>
+							</p>
+						</div>
 					</f:if>
 					<uib-progressbar max="prbMax" value="prbValue" ng-hide="prbHidden" type="{{prbType}}"><span style="color:white; white-space:nowrap;">{{prbValue}} / {{prbMax}}</span></uib-progressbar>
 				</div>

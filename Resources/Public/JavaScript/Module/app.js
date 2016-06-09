@@ -7,6 +7,8 @@ app.controller('MainCtrl', ['$scope', '$http', '$sce', function ($scope, $http, 
 
 	$scope.prbHidden = 1;
 	$scope.prbMax = 100;
+	$scope.wizardHide = 1;
+
 	$scope.$watch('prbValue', function (newValue, oldValue, $scope) {
 		if(newValue) {
 			$scope.prbType =  ((newValue / $scope.prbMax) > 0.8)  ? 'success' : 'warning';
@@ -14,6 +16,8 @@ app.controller('MainCtrl', ['$scope', '$http', '$sce', function ($scope, $http, 
 			$scope.prbType = 'danger';
 		}
 	});
+
+
 
 	$scope.gridOptions.onRegisterApi = function(gridApi){
 		//set gridApi on scope
@@ -30,10 +34,14 @@ app.controller('MainCtrl', ['$scope', '$http', '$sce', function ($scope, $http, 
 				$scope.prbMax = colDef.max;
 				$scope.$apply();
 			}
+			if($scope.wizardInit) {
+				$scope.wizardHide = 0;
+			}
 		});
 
 		gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
 			$scope.prbHidden = 1;
+			$scope.wizardHide = 1;
 			$scope.msg.class = 'text-info';
 			$scope.msg.icon = 'fa-info-circle';
 
