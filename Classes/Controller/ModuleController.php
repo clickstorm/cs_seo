@@ -30,7 +30,10 @@ namespace Clickstorm\CsSeo\Controller;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Lang\LanguageService;
+use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 class ModuleController extends ActionController {
 
@@ -72,6 +75,9 @@ class ModuleController extends ActionController {
 	 */
 	protected function initializeAction()
 	{
+		
+
+
 
 		// initialize page/be_user TSconfig settings
 		$this->modSharedTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.SHARED');
@@ -104,6 +110,26 @@ class ModuleController extends ActionController {
 
 	public function pageMetaAction() {
 		$fieldNames = ['title', 'tx_csseo_title', 'tx_csseo_title_only', 'description'];
+
+		$backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
+		$fullTS = $backendConfigurationManager->getTypoScriptSetup();
+
+		$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ContentObjectRenderer::class);
+		
+		// template1
+		$wizardView = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
+		$wizardView->setFormat('html');
+		$wizardView->setLayoutRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']);
+		$wizardView->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/Wizard.html');
+
+		$wizardView->assignMultiple([
+			'config' => $fullTS['config.'],
+			'pageTitleSeparator' => $cObj->stdWrap($fullTS['config.']['pageTitleSeparator'], $fullTS['config.']['pageTitleSeparator.']),
+			'siteTitle' => $fullTS['sitetitle'],
+			'data' => 1
+		]);
+		
+		$this->view->assign('wizardView', $wizardView->render());
 
 		$this->processFields($fieldNames);
 	}
