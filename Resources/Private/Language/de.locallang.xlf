@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-05-26T11:29:24Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-06-09T07:33:58Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -16,6 +16,10 @@
 		<trans-unit id="mlang_tabs_tab" approved="yes">
 			<source>SEO</source>
 			<target>SEO</target>
+		</trans-unit>
+		<trans-unit id="partials.module.grid.error.no_page" approved="yes">
+			<source>Please select a page in the page tree.</source>
+			<target>Bitte wählen Sie eine Seite aus dem Seitenbaum.</target>
 		</trans-unit>
 		</body>
 	</file>

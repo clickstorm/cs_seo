@@ -27,12 +27,17 @@ namespace Clickstorm\CsSeo\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Clickstorm\CsSeo\View\PageInfoView;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Lang\LanguageService;
 
 class ModuleController extends ActionController {
+
+	/**
+	 * @var string prefix for session
+	 */
+	const SESSION_PREFIX = 'tx_csseo_';
 
 	/**
 	 * @var \TYPO3\CMS\Frontend\Page\PageRepository
@@ -45,6 +50,58 @@ class ModuleController extends ActionController {
 	 */
 	protected $dataHandler;
 
+	/**
+	 * @var int
+	 */
+	protected $id;
+
+	/**
+	 * @var int
+	 */
+	protected $lang;
+
+	/**
+	 * @var int
+	 */
+	protected $depth = 2;
+
+	/**
+	 * Initialize action
+	 *
+	 * @return void
+	 */
+	protected function initializeAction()
+	{
+
+		// initialize page/be_user TSconfig settings
+		$this->modSharedTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.SHARED');
+		$this->modTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.' . $this->moduleName);
+
+		// determine id parameter
+		$this->id = (int)GeneralUtility::_GP('id');
+		if ($this->request->hasArgument('id')) {
+			$this->id = (int)$this->request->getArgument('id');
+		}
+
+		// determine depth parameter
+		$this->depth = ((int)GeneralUtility::_GP('depth') > 0)
+			? (int) GeneralUtility::_GP('depth')
+			: $this->getBackendUser()->getSessionData(self::SESSION_PREFIX . 'depth');
+		if ($this->request->hasArgument('depth')) {
+			$this->depth = (int)$this->request->getArgument('depth');
+		}
+		$this->getBackendUser()->setAndSaveSessionData(self::SESSION_PREFIX . 'depth', $this->depth);
+
+		// determine depth parameter
+		$this->lang = ((int)GeneralUtility::_GP('lang') > 0)
+			? (int) GeneralUtility::_GP('lang')
+			: $this->getBackendUser()->getSessionData(self::SESSION_PREFIX . 'lang');
+		if ($this->request->hasArgument('lang')) {
+			$this->lang = (int)$this->request->getArgument('lang');
+		}
+		$this->getBackendUser()->setAndSaveSessionData(self::SESSION_PREFIX . 'lang', $this->lang);
+	}
+
 	public function pageMetaAction() {
 		$fieldNames = ['title', 'tx_csseo_title', 'tx_csseo_title_only', 'description'];
 
@@ -53,6 +110,12 @@ class ModuleController extends ActionController {
 
 	public function pageOpenGraphAction() {
 		$fieldNames = ['title', 'tx_csseo_og_title', 'tx_csseo_og_description', 'tx_csseo_og_image'];
+
+		$this->processFields($fieldNames);
+	}
+
+	public function pageTwitterCardsAction() {
+		$fieldNames = ['title', 'tx_csseo_tw_title', 'tx_csseo_tw_description', 'tx_csseo_tw_creator', 'tx_csseo_tw_image'];
 
 		$this->processFields($fieldNames);
 	}
@@ -109,45 +172,91 @@ class ModuleController extends ActionController {
 				case 'inline':
 					$columnDef['type'] = 'object';
 					break;
+				case 'text':
+					$columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'];
+					$columnDef['editableCellTemplate'] = '<div><form name="inputForm"><textarea class="form-control" ng-maxlength="' . $columnDef['max'] . '" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.prbValue = MODEL_COL_FIELD.length" ng-keyup="grid.appScope.prbValue = MODEL_COL_FIELD.length"></form></div>';
+					break;
 				default:
 					$columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'];
-					$columnDef['editableCellTemplate'] = '<div><form name="inputForm"><input type="INPUT_TYPE" ng-maxlength="' . $columnDef['max'] . '" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.prbValue = MODEL_COL_FIELD.length" ng-keyup="grid.appScope.prbValue = MODEL_COL_FIELD.length"></form></div>';
+					$columnDef['editableCellTemplate'] = '<div><form name="inputForm"><input type="INPUT_TYPE" class="form-control" ng-maxlength="' . $columnDef['max'] . '" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.prbValue = MODEL_COL_FIELD.length" ng-keyup="grid.appScope.prbValue = MODEL_COL_FIELD.length"></form></div>';
 			}
 			$columnDefs[] = json_encode($columnDef);
 		}
 
-		$this->pageRepository->sys_language_uid = 1;
+		if($this->lang > 0) {
+			$this->pageRepository->sys_language_uid = $this->lang;
+			$this->view->assign('lang', $this->lang);
+		}
 
-		$page = $this->pageRepository->getPage(GeneralUtility::_GP('id'));
-		$pages = $this->getPageTree($page);
-		$pageJSON = '
-			{
-				data:' . json_encode($pages) .',
-				columnDefs: [' . implode(',', $columnDefs). '],
-				enableSorting: true,
-				showTreeExpandNoChildren: false,
-				enableGridMenu: true
+		if($this->id > 0) {
+			$page = $this->pageRepository->getPage($this->id);
+			if($page) {
+				$pages = $this->getPageTree($page, $this->depth);
+				$pageJSON = '
+				{
+					data:' . json_encode($pages) .',
+					columnDefs: [' . implode(',', $columnDefs). '],
+					enableSorting: true,
+					showTreeExpandNoChildren: false,
+					enableGridMenu: true,
+					expandAll: true
+				}
+			';
+				$this->view->assignMultiple([
+					'pageJSON' => $pageJSON,
+					'depth' => $this->depth,
+					'lang' => $this->lang,
+					'languages' => $this->getLanguages()
+				]);
 			}
-		';
-		$this->view->assign('pageJSON', $pageJSON);
+		}
+
 	}
 
-	protected function getPageTree($page, $pages = [], $depth = 2, $level = 0){
+	protected function getPageTree($page, $depth, $pages = [], $level = 0){
 		$depth--;
 		$fields = '*';
 		$sortField = 'sorting';
-		$page['$$treeLevel'] = $level;
-		$pages[] = $page;
-		if($depth >= 0) {
+		$pages[] = &$page;
+		if($depth > 0) {
 			$subPages = $this->pageRepository->getMenu($page['uid'],$fields,$sortField);
 			if(count($subPages) > 0) {
+				$page['$$treeLevel'] = $level;
 				$level++;
 				foreach ($subPages as &$subPage) {
-					$pages = $this->getPageTree($subPage, $pages, $depth, $level);
+					$pages = $this->getPageTree($subPage, $depth, $pages, $level);
 				}
 			}
 		}
 		return $pages;
+	}
+
+	/**
+	 * Returns a SQL query for selecting sys_language records.
+	 *
+	 * @return string Return query string.
+	 */
+	public function getLanguages()
+	{
+		$languages[0] = 'Default';
+
+		$res = $this->getDatabaseConnection()->exec_SELECTquery(
+			'sys_language.*',
+			'sys_language',
+			'sys_language.hidden=0',
+			'',
+			'sys_language.title'
+		);
+		while ($lRow = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+			if ($this->getBackendUser()->checkLanguageAccess($lRow['uid'])) {
+				$languages[$lRow['uid']] = $lRow['hidden'] ? '(' . $lRow['title'] . ')' : $lRow['title'];
+			}
+		}
+		// Setting alternative default label:
+		if (($this->modSharedTSconfig['properties']['defaultLanguageLabel'] || $this->modTSconfig['properties']['defaultLanguageLabel'])) {
+			$languages[0] = $this->modTSconfig['properties']['defaultLanguageLabel'] ? $this->modTSconfig['properties']['defaultLanguageLabel'] : $this->modSharedTSconfig['properties']['defaultLanguageLabel'];
+		}
+		return $languages;
 	}
 
 	/**
@@ -160,6 +269,24 @@ class ModuleController extends ActionController {
 			$this->dataHandler->start(null,null);
 		}
 		return $this->dataHandler;
+	}
+
+	/**
+	 * Returns the database connection
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection()
+	{
+		return $GLOBALS['TYPO3_DB'];
+	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+	 */
+	protected function getBackendUser()
+	{
+		return $GLOBALS['BE_USER'];
 	}
 
 	/**

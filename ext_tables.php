@@ -20,13 +20,13 @@ if (TYPO3_MODE === 'BE') {
         'mod1',
         '',
         array(
-            'Module' => 'pageMeta, pageOpenGraph, pageTwitter'
+            'Module' => 'pageMeta, pageOpenGraph, pageTwitterCards'
         ),
         array(
             'access' => 'user,group',
             'icon' => 'EXT:' . $_EXTKEY . '/Resources/Public/Icons/mod.' .
                 (\TYPO3\CMS\Core\Utility\GeneralUtility::compat_version('7.0') ? 'svg' : 'png'),
-            'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang_mod.xlf',
+            'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xlf',
         )
     );
 }

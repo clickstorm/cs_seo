@@ -3,20 +3,54 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 <body>
 <f:section name="Main">
-	<script type="application/javascript">
-		csSEOGridOptions = {pageJSON -> f:format.raw()};
-	</script>
-	<div ng-app="app">
-		<div ng-controller="MainCtrl">
-			<f:link.action id="csSeoUpdateURL" action="update" />
-			<div id="csSeoGrid" class="grid" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-tree-view ui-grid-edit></div>
-			<p class="{{msg.class}}">
-				<i class="fa {{msg.icon}}" aria-hidden="true"></i>
-				{{msg.lastCellEdited}}
-			</p>
-			<uib-progressbar max="prbMax" value="prbValue" ng-hide="prbHidden" type="{{prbType}}"><span style="color:white; white-space:nowrap;">{{prbValue}} / {{prbMax}}</span></uib-progressbar>
-		</div>
-	</div>
+	<f:if condition="{pageJSON}">
+		<f:then>
+			<script type="application/javascript">
+				csSEOGridOptions = {pageJSON -> f:format.raw()};
+			</script>
+			<div ng-app="app">
+				<div ng-controller="MainCtrl">
+					<f:form action="">
+						<div class="row">
+							<div class="form-group col-md-6">
+								<label for="lang">Sprache:</label>
+								<f:form.select
+										id="lang"
+										options="{languages}"
+										class="form-control"
+										name="lang"
+										additionalAttributes="{onchange:'this.form.submit();'}"
+										value="{lang}"
+								/>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="depth">Tiefe:</label>
+								<f:form.select
+										id="depth"
+										options="{1: '1', 2:'2', 3:'3', 4: '4', 5: '5'}"
+										class="form-control"
+										name="depth"
+										additionalAttributes="{onchange:'this.form.submit();'}"
+										value="{depth}"
+								/>
+							</div>
+						</div>
+					</f:form>
 
+					<p class="{{msg.class}}">
+						<i class="fa {{msg.icon}}" aria-hidden="true"></i>
+						{{msg.lastCellEdited}}
+					</p>
+					<div id="csSeoGrid" class="grid" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-tree-view ui-grid-edit></div>
+					<uib-progressbar max="prbMax" value="prbValue" ng-hide="prbHidden" type="{{prbType}}"><span style="color:white; white-space:nowrap;">{{prbValue}} / {{prbMax}}</span></uib-progressbar>
+				</div>
+			</div>
+		</f:then>
+		<f:else>
+			<p class="text-danger">
+				<f:translate key="partials.module.grid.error.no_page" />
+			</p>
+		</f:else>
+	</f:if>
 </f:section>
 </body>

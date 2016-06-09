@@ -19,9 +19,11 @@ app.controller('MainCtrl', ['$scope', '$http', '$sce', function ($scope, $http, 
 		//set gridApi on scope
 		$scope.gridApi = gridApi;
 
-		$scope.$on('ngGridEventStartCellEdit', function () {
-			console.log('start');
+		$scope.gridApi.grid.registerDataChangeCallback(function() {
+			$scope.gridApi.treeBase.expandAllRows();
 		});
+
+
 		gridApi.edit.on.beginCellEdit($scope,function(rowEntity, colDef) {
 			if(colDef.max) {
 				$scope.prbHidden = 0;
@@ -43,7 +45,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$sce', function ($scope, $http, 
 					value: newValue
 				}).success(function(response){
 					if(response.length > 0) {
-						$scope.msg.class = 'text-dange';
+						$scope.msg.class = 'text-danger';
 						$scope.msg.icon = 'fa-times-circle';
 						$scope.msg.lastCellEdited = response;
 					} else {
