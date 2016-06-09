@@ -9,6 +9,24 @@ app.controller('MainCtrl', ['$scope', '$http', '$sce', function ($scope, $http, 
 	$scope.prbMax = 100;
 	$scope.wizardHide = 1;
 
+	$scope.$watch('currentValue', function (newValue, oldValue, $scope) {
+		if(newValue !== undefined) {
+			$scope.prbValue = newValue.length;
+			console.log($scope.currentField);
+			if($scope.currentField == 'description') {
+				$scope.pageDescription = newValue;
+			}
+		}
+	});
+
+	$scope.$watch('prbValue', function (newValue, oldValue, $scope) {
+		if(newValue) {
+			$scope.prbType =  ((newValue / $scope.prbMax) > 0.8)  ? 'success' : 'warning';
+		} else {
+			$scope.prbType = 'danger';
+		}
+	});
+
 	$scope.$watch('prbValue', function (newValue, oldValue, $scope) {
 		if(newValue) {
 			$scope.prbType =  ((newValue / $scope.prbMax) > 0.8)  ? 'success' : 'warning';
@@ -36,6 +54,9 @@ app.controller('MainCtrl', ['$scope', '$http', '$sce', function ($scope, $http, 
 			}
 			if($scope.wizardInit) {
 				$scope.wizardHide = 0;
+				$scope.pageTitle = rowEntity.title;
+				$scope.pageDescription = rowEntity.description;
+				$scope.currentField = colDef.field;
 			}
 		});
 

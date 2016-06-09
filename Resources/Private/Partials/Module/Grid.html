@@ -36,7 +36,6 @@
 							</div>
 						</div>
 					</f:form>
-
 					<p class="{{msg.class}}">
 						<i class="fa {{msg.icon}}" aria-hidden="true"></i>
 						{{msg.lastCellEdited}}
@@ -46,8 +45,8 @@
 						<div class="tx-cs_seo" ng-hide="wizardHide" ng-init="wizardInit = 1">
 							<h3>{{pageTitle}}</h3>
 							<div class="url">www.domain.de/link</div>
-							{{pageDescritption}}
-							<span ><f:translate key="LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:templates.wizard.description" /></span>
+							{{pageDescription}}
+							<span ng-hide="pageDescription"><f:translate key="LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:templates.wizard.description" /></span>
 							</p>
 						</div>
 					</f:if>
