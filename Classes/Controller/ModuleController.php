@@ -75,10 +75,6 @@ class ModuleController extends ActionController {
 	 */
 	protected function initializeAction()
 	{
-		
-
-
-
 		// initialize page/be_user TSconfig settings
 		$this->modSharedTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.SHARED');
 		$this->modTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.' . $this->moduleName);
@@ -193,10 +189,13 @@ class ModuleController extends ActionController {
 			switch ($GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['type']) {
 				case 'check':
 					$columnDef['type'] = 'boolean';
+					$columnDef['width'] = 100;
 					$columnDef['cellTemplate'] = '<div class="ui-grid-cell-contents ng-binding ng-scope">{{row.entity[col.field] == true ? "1" : "0"}}</div>';
+					$columnDef['editableCellTemplate'] = '<div><form name="inputForm"><input type="checkbox" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.currentValue = MODEL_COL_FIELD" ng-click="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
 					break;
 				case 'inline':
 					$columnDef['type'] = 'object';
+					$columnDef['width'] = 100;
 					break;
 				case 'text':
 					$columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'];

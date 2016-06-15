@@ -1,6 +1,27 @@
 var app = angular.module('app', ['ui.grid', 'ui.grid.resizeColumns', 'ui.grid.moveColumns', 'ui.grid.treeView', 'ui.grid.edit', 'ui.grid.cellNav', 'ui.bootstrap']);
 
-app.controller('MainCtrl', ['$scope', '$http', '$sce', function ($scope, $http, $sce) {
+app.factory('PreviewTitleFactory', function() {
+	var siteTitle = 'TypoDummy',
+		separator = ' | ',
+		siteTitleFirst = false,
+		factory = {};
+
+	factory.getTitle = function(pageTitle, pageCsSeoTitle, titleOnly) {
+		var title = pageCsSeoTitle ? pageCsSeoTitle : pageTitle;
+		if (titleOnly == 0) {
+			if (siteTitleFirst) {
+				title = siteTitle + separator + title;
+			} else {
+				title += separator + siteTitle;
+			}
+		}
+		return title;
+	};
+
+	return factory;
+});
+
+app.controller('MainCtrl', ['$scope', '$http', '$sce', 'PreviewTitleFactory', function ($scope, $http, $sce, PreviewTitleFactory) {
 	$scope.gridOptions = csSEOGridOptions;
 
 	$scope.msg = {};
@@ -9,12 +30,30 @@ app.controller('MainCtrl', ['$scope', '$http', '$sce', function ($scope, $http, 
 	$scope.prbMax = 100;
 	$scope.wizardHide = 1;
 
+	$scope.pageTitle = '';
+	$scope.pageTitleOnly = 0;
+	$scope.pageDescription = '';
+
 	$scope.$watch('currentValue', function (newValue, oldValue, $scope) {
 		if(newValue !== undefined) {
 			$scope.prbValue = newValue.length;
-			console.log($scope.currentField);
-			if($scope.currentField == 'description') {
-				$scope.pageDescription = newValue;
+
+			switch ($scope.currentField) {
+				case 'description':
+					$scope.pageDescription = newValue;
+					break;
+				case 'title':
+					$scope.pageTitle = newValue;
+					break;
+				case 'tx_csseo_title':
+					$scope.pageCsSeoTitle = newValue;
+					break;
+				case 'tx_csseo_title_only':
+					$scope.pageTitleOnly = newValue;
+					break;
+			}
+			if($scope.currentField != 'description') {
+				$scope.previewTitle = PreviewTitleFactory.getTitle($scope.pageTitle, $scope.pageCsSeoTitle, $scope.pageTitleOnly);
 			}
 		}
 	});
@@ -26,16 +65,6 @@ app.controller('MainCtrl', ['$scope', '$http', '$sce', function ($scope, $http, 
 			$scope.prbType = 'danger';
 		}
 	});
-
-	$scope.$watch('prbValue', function (newValue, oldValue, $scope) {
-		if(newValue) {
-			$scope.prbType =  ((newValue / $scope.prbMax) > 0.8)  ? 'success' : 'warning';
-		} else {
-			$scope.prbType = 'danger';
-		}
-	});
-
-
 
 	$scope.gridOptions.onRegisterApi = function(gridApi){
 		//set gridApi on scope
@@ -53,10 +82,15 @@ app.controller('MainCtrl', ['$scope', '$http', '$sce', function ($scope, $http, 
 				$scope.$apply();
 			}
 			if($scope.wizardInit) {
+
 				$scope.wizardHide = 0;
 				$scope.pageTitle = rowEntity.title;
 				$scope.pageDescription = rowEntity.description;
+				$scope.pageCsSeoTitle = rowEntity.tx_csseo_title;
+				$scope.pageTitleOnly = rowEntity.tx_csseo_title_only;
 				$scope.currentField = colDef.field;
+				$scope.currentValue = rowEntity[colDef.field];
+				$scope.previewTitle = PreviewTitleFactory.getTitle($scope.pageTitle, $scope.pageCsSeoTitle, $scope.pageTitleOnly);
 			}
 		});
 
