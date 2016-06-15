@@ -22,6 +22,15 @@ app.factory('PreviewTitleFactory', function() {
 });
 
 app.controller('MainCtrl', ['$scope', '$http', '$sce', 'PreviewTitleFactory', function ($scope, $http, $sce, PreviewTitleFactory) {
+
+	// highlight some cells
+	angular.forEach(csSEOGridOptions.columnDefs, function(value, key) {
+		csSEOGridOptions.columnDefs[key].cellClass = function(grid, row, col, rowRenderIndex, colRenderIndex) {
+			if(!(row.entity.doktype == "1" || row.entity.doktype == "6")) {
+				return 'text-muted';
+			}
+		}
+	});
 	$scope.gridOptions = csSEOGridOptions;
 
 	$scope.msg = {};
@@ -82,7 +91,6 @@ app.controller('MainCtrl', ['$scope', '$http', '$sce', 'PreviewTitleFactory', fu
 				$scope.$apply();
 			}
 			if($scope.wizardInit) {
-
 				$scope.wizardHide = 0;
 				$scope.pageTitle = rowEntity.title;
 				$scope.pageDescription = rowEntity.description;

@@ -59,9 +59,14 @@ class ModuleController extends ActionController {
 	protected $id;
 
 	/**
-	 * @var int
+	 * @var array
 	 */
-	protected $lang;
+	protected $modParams = ['id' => '', 'lang' => 0, 'depth' => 1];
+
+	/**
+	 * @var array
+	 */
+	protected $languages = [];
 
 	/**
 	 * @var int
@@ -79,31 +84,33 @@ class ModuleController extends ActionController {
 		$this->modSharedTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.SHARED');
 		$this->modTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.' . $this->moduleName);
 
-		// determine id parameter
-		$this->id = (int)GeneralUtility::_GP('id');
-		if ($this->request->hasArgument('id')) {
-			$this->id = (int)$this->request->getArgument('id');
-		}
+		// initialize settings of the module
+		$this->initializeModParams();
 
-		// determine depth parameter
-		$this->depth = ((int)GeneralUtility::_GP('depth') > 0)
-			? (int) GeneralUtility::_GP('depth')
-			: $this->getBackendUser()->getSessionData(self::SESSION_PREFIX . 'depth');
-		if ($this->request->hasArgument('depth')) {
-			$this->depth = (int)$this->request->getArgument('depth');
-		}
-		$this->getBackendUser()->setAndSaveSessionData(self::SESSION_PREFIX . 'depth', $this->depth);
-
-		// determine depth parameter
-		$this->lang = ((int)GeneralUtility::_GP('lang') > 0)
-			? (int) GeneralUtility::_GP('lang')
-			: $this->getBackendUser()->getSessionData(self::SESSION_PREFIX . 'lang');
-		if ($this->request->hasArgument('lang')) {
-			$this->lang = (int)$this->request->getArgument('lang');
-		}
-		$this->getBackendUser()->setAndSaveSessionData(self::SESSION_PREFIX . 'lang', $this->lang);
+		// get languages
+		$this->languages = $this->getLanguages();
 	}
 
+	/**
+	 * initialize the settings for the current view
+	 *
+	 * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+	 */
+	protected function initializeModParams() {
+		foreach ($this->modParams as $name => $value) {
+			$this->modParams[$name] = ((int)GeneralUtility::_GP($name) > 0)
+				? (int) GeneralUtility::_GP($name)
+				: $this->getBackendUser()->getSessionData(self::SESSION_PREFIX . $name);
+			if ($this->request->hasArgument($name)) {
+				$this->modParams[$name] = (int)$this->request->getArgument($name);
+			}
+			$this->getBackendUser()->setAndSaveSessionData(self::SESSION_PREFIX . $name, $this->modParams[$name]);
+		}
+	}
+
+	/**
+	 * Show SEO fields
+	 */
 	public function pageMetaAction() {
 		$fieldNames = ['title', 'tx_csseo_title', 'tx_csseo_title_only', 'description'];
 
@@ -130,12 +137,18 @@ class ModuleController extends ActionController {
 		$this->processFields($fieldNames);
 	}
 
+	/**
+	 * Show Open Graph properties
+	 */
 	public function pageOpenGraphAction() {
 		$fieldNames = ['title', 'tx_csseo_og_title', 'tx_csseo_og_description', 'tx_csseo_og_image'];
 
 		$this->processFields($fieldNames);
 	}
 
+	/**
+	 * Show Twitter Cards properties
+	 */
 	public function pageTwitterCardsAction() {
 		$fieldNames = ['title', 'tx_csseo_tw_title', 'tx_csseo_tw_description', 'tx_csseo_tw_creator', 'tx_csseo_tw_image'];
 
@@ -178,24 +191,89 @@ class ModuleController extends ActionController {
 		}
 	}
 
+	/**
+	 * process all fields for the UI grid JSON
+	 * @param $fieldNames
+	 */
 	protected function processFields($fieldNames) {
-		$columnDefs = [];
+		// build the rows
+		if($this->modParams['id'] == 0) {
+			return;
+		}
 
+		// build the columns
+		$columnDefs = [];
 		foreach ($fieldNames as $fieldName) {
-			$columnDef = [
-				'field' => $fieldName,
-				'displayName' => $this->getLanguageService()->sL($GLOBALS['TCA']['pages']['columns'][$fieldName]['label'])
-			];
+			$columnDefs[] = $this->getColumnDefinition($fieldName);
+		}
+
+		// fetch the rows
+		if($this->modParams['lang'] > 0) {
+			$this->pageRepository->sys_language_uid = $this->modParams['lang'];
+			$columnDefs[] = $this->getColumnDefinition('sys_language_uid');
+		}
+		
+		$page = $this->pageRepository->getPage($this->modParams['id']);
+		$rowEntries = $this->getPageTree($page, $this->modParams['depth']);
+
+		$this->view->assignMultiple([
+			'pageJSON' => $this->buildGridJSON($rowEntries, $columnDefs),
+			'depth' => $this->modParams['depth'],
+			'lang' => $this->modParams['lang'],
+			'languages' => $this->languages
+		]);
+	}
+
+	/**
+	 * returns the final JSON incl. settings for the UI Grid
+	 *
+	 * @param $rowEntries
+	 * @param $columnDefs
+	 * @return string
+	 */
+	protected function buildGridJSON($rowEntries, $columnDefs) {
+		return '
+			{
+				data:' . json_encode($rowEntries) .',
+				columnDefs: [' . implode(',', $columnDefs). '],
+				enableSorting: true,
+				showTreeExpandNoChildren: false,
+				enableGridMenu: true,
+				expandAll: true,
+				enableFiltering: true,
+				cellEditableCondition: function($scope) {
+					return ($scope.row.entity.doktype == "1" || $scope.row.entity.doktype == "6")
+				}
+			}
+		';
+	}
+
+	/**
+	 * get the UI grid column definition for the current field
+	 * @param $fieldName
+	 * @return mixed
+	 */
+	protected function getColumnDefinition($fieldName) {
+		$columnDef = ['field' => $fieldName];
+		if($fieldName == 'sys_language_uid') {
+			$columnDef['displayName'] = $this->getLanguageService()->sL($GLOBALS['TCA']['pages_language_overlay']['columns'][$fieldName]['label']);
+			$columnDef['width'] = 100;
+			$columnDef['type'] = 'object';
+			$columnDef['enableFiltering'] = false;
+		} else {
+			$columnDef['displayName'] = $this->getLanguageService()->sL($GLOBALS['TCA']['pages']['columns'][$fieldName]['label']);
 			switch ($GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['type']) {
 				case 'check':
 					$columnDef['type'] = 'boolean';
 					$columnDef['width'] = 100;
 					$columnDef['cellTemplate'] = '<div class="ui-grid-cell-contents ng-binding ng-scope">{{row.entity[col.field] == true ? "1" : "0"}}</div>';
 					$columnDef['editableCellTemplate'] = '<div><form name="inputForm"><input type="checkbox" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.currentValue = MODEL_COL_FIELD" ng-click="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
+					$columnDef['enableFiltering'] = false;
 					break;
 				case 'inline':
 					$columnDef['type'] = 'object';
 					$columnDef['width'] = 100;
+					$columnDef['enableFiltering'] = false;
 					break;
 				case 'text':
 					$columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'];
@@ -205,44 +283,37 @@ class ModuleController extends ActionController {
 					$columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'];
 					$columnDef['editableCellTemplate'] = '<div><form name="inputForm" ng-model="form"><input type="INPUT_TYPE" class="form-control" ng-maxlength="' . $columnDef['max'] . '" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.currentValue = MODEL_COL_FIELD" ng-keyup="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
 			}
-			$columnDefs[] = json_encode($columnDef);
 		}
 
-		if($this->lang > 0) {
-			$this->pageRepository->sys_language_uid = $this->lang;
-			$this->view->assign('lang', $this->lang);
-		}
-
-		if($this->id > 0) {
-			$page = $this->pageRepository->getPage($this->id);
-			if($page) {
-				$pages = $this->getPageTree($page, $this->depth);
-				$pageJSON = '
-				{
-					data:' . json_encode($pages) .',
-					columnDefs: [' . implode(',', $columnDefs). '],
-					enableSorting: true,
-					showTreeExpandNoChildren: false,
-					enableGridMenu: true,
-					expandAll: true
-				}
-			';
-				$this->view->assignMultiple([
-					'pageJSON' => $pageJSON,
-					'depth' => $this->depth,
-					'lang' => $this->lang,
-					'languages' => $this->getLanguages()
-				]);
-			}
-		}
-
+		return json_encode($columnDef);
 	}
 
+	/**
+	 * recursive function for building a page array
+	 *
+	 * @param array $page the current page
+	 * @param int $depth the current depth
+	 * @param array $pages contains all pages so far
+	 * @param int $level the tree level required for the UI grid
+	 * @return array
+	 */
 	protected function getPageTree($page, $depth, $pages = [], $level = 0){
-		$depth--;
+		// default query settings
 		$fields = '*';
 		$sortField = 'sorting';
+
+		// decrease the depth
+		$depth--;
+
+		// add the current language value
+		if($this->modParams['lang'] > 0) {
+			$page['sys_language_uid'] = $this->languages[$page['_PAGES_OVERLAY_LANGUAGE']?:0];
+		}
+
+		// add the page to the pages array
 		$pages[] = &$page;
+
+		// fetch subpages and set the treelevel
 		if($depth > 0) {
 			$subPages = $this->pageRepository->getMenu($page['uid'],$fields,$sortField);
 			if(count($subPages) > 0) {
