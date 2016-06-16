@@ -61,7 +61,7 @@ class ModuleController extends ActionController {
 	/**
 	 * @var array
 	 */
-	protected $modParams = ['id' => '', 'lang' => 0, 'depth' => 1];
+	protected $modParams = ['id' => 0, 'lang' => 0, 'depth' => 1];
 
 	/**
 	 * @var array
@@ -285,6 +285,10 @@ class ModuleController extends ActionController {
 			}
 		}
 
+		if($fieldName == 'title') {
+			$columnDef['cellTemplate'] = '<div class="ui-grid-cell-contents ng-binding ng-scope"><span ng-repeat="i in grid.appScope.rangeArray | limitTo: row.entity.level">&nbsp;&nbsp;</span>{{row.entity.title}}</div>';
+		}
+
 		return json_encode($columnDef);
 	}
 
@@ -309,6 +313,8 @@ class ModuleController extends ActionController {
 		if($this->modParams['lang'] > 0) {
 			$page['sys_language_uid'] = $this->languages[$page['_PAGES_OVERLAY_LANGUAGE']?:0];
 		}
+
+		$page['level'] = $level;
 
 		// add the page to the pages array
 		$pages[] = &$page;

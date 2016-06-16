@@ -23,6 +23,8 @@ app.factory('PreviewTitleFactory', function() {
 
 app.controller('MainCtrl', ['$scope', '$http', '$sce', 'PreviewTitleFactory', function ($scope, $http, $sce, PreviewTitleFactory) {
 
+	$scope.rangeArray = [1,2];
+
 	// highlight some cells
 	angular.forEach(csSEOGridOptions.columnDefs, function(value, key) {
 		csSEOGridOptions.columnDefs[key].cellClass = function(grid, row, col, rowRenderIndex, colRenderIndex) {
