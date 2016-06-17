@@ -124,7 +124,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$sce', 'PreviewTitleFactory', fu
 					} else {
 						$scope.msg.class = 'text-success';
 						$scope.msg.icon = 'fa-check-circle';
-						$scope.msg.lastCellEdited = colDef.displayName + ': ' + newValue;
+						$scope.msg.lastCellEdited = '[' + colDef.displayName + '] ' + newValue;
 					}
 
 				});

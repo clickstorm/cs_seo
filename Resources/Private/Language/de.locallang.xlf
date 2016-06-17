@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-06-09T07:33:58Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-06-16T10:28:30Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -20,6 +20,18 @@
 		<trans-unit id="partials.module.grid.error.no_page" approved="yes">
 			<source>Please select a page in the page tree.</source>
 			<target>Bitte wählen Sie eine Seite aus dem Seitenbaum.</target>
+		</trans-unit>
+		<trans-unit id="partials.module.grid.hint" approved="yes">
+			<source>To modify make a double click on the desired field. The changes are saved automatically. The columns can be moved, enlarged and hidden.</source>
+			<target>Zum Bearbeiten einen Doppelklick auf das gewünschte Feld ausführen. Die Änderungen werden automatisch gespeichert. Die Spalten können verschoben, vergößert, verkleinert und ausgeblendet werden.</target>
+		</trans-unit>
+		<trans-unit id="partials.module.select.depth" approved="yes">
+			<source>Depth</source>
+			<target>Tiefe</target>
+		</trans-unit>
+		<trans-unit id="partials.module.select.lang" approved="yes">
+			<source>Language</source>
+			<target>Sprache</target>
 		</trans-unit>
 		</body>
 	</file>

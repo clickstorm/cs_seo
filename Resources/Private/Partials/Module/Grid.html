@@ -13,7 +13,7 @@
 					<f:form action="">
 						<div class="row">
 							<div class="form-group col-md-6">
-								<label for="lang">Sprache:</label>
+								<label for="lang"><f:translate key="partials.module.select.lang" /></label>
 								<f:form.select
 										id="lang"
 										options="{languages}"
@@ -24,7 +24,7 @@
 								/>
 							</div>
 							<div class="form-group col-md-6">
-								<label for="depth">Tiefe:</label>
+								<label for="depth"><f:translate key="partials.module.select.depth" /></label>
 								<f:form.select
 										id="depth"
 										options="{1: '1', 2:'2', 3:'3', 4: '4', 5: '5'}"
@@ -36,21 +36,28 @@
 							</div>
 						</div>
 					</f:form>
-					<p class="{{msg.class}}">
-						<i class="fa {{msg.icon}}" aria-hidden="true"></i>
-						{{msg.lastCellEdited}}
-					</p>
-					<div id="csSeoGrid" class="grid" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-tree-view ui-grid-edit></div>
-					<f:if condition="{wizardView}">
-						<div class="tx-cs_seo" ng-hide="wizardHide" ng-init="wizardInit = 1">
-							<h3>{{previewTitle}}</h3>
-							<div class="url">www.domain.de/link</div>
-							{{pageDescription}}
-							<span ng-hide="pageDescription"><f:translate key="LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:templates.wizard.description" /></span>
-							</p>
-						</div>
-					</f:if>
-					<uib-progressbar max="prbMax" value="prbValue" ng-hide="prbHidden" type="{{prbType}}"><span style="color:white; white-space:nowrap;">{{prbValue}} / {{prbMax}}</span></uib-progressbar>
+					<div id="csSeoGrid" class="grid ag-dark" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-tree-view ui-grid-edit></div>
+					<div ng-show="prbHidden">
+						<p class="text-info"><span class="fa fa-info-circle">&nbsp;</span><f:translate key="partials.module.grid.hint" /></p>
+						<p class="{{msg.class}}">
+							<i class="fa {{msg.icon}}" aria-hidden="true"></i>
+							{{msg.lastCellEdited}}
+						</p>
+					</div>
+
+					<div class="edit-view" ng-hide="prbHidden">
+						<f:if condition="{wizardView}">
+							<div class="tx-cs_seo" ng-init="wizardInit = 1">
+								<h3>{{previewTitle}}</h3>
+								<div class="url">www.domain.de/link</div>
+								{{pageDescription}}
+								<span ng-hide="pageDescription"><f:translate key="LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:templates.wizard.description" /></span>
+								</p>
+							</div>
+						</f:if>
+						<uib-progressbar max="prbMax" value="prbValue" type="{{prbType}}"><span style="color:white; white-space:nowrap;">{{prbValue}} / {{prbMax}}</span></uib-progressbar>
+					</div>
+
 				</div>
 			</div>
 		</f:then>
