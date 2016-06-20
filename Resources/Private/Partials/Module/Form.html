@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+<body>
+<f:section name="Main">
+	<!-- From -->
+	<f:form action="">
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label for="lang"><f:translate key="partials.module.select.lang" /></label>
+				<f:form.select
+						id="lang"
+						options="{languages}"
+						class="form-control"
+						name="lang"
+						additionalAttributes="{onchange:'this.form.submit();'}"
+						value="{lang}"
+				/>
+			</div>
+			<div class="form-group col-md-6">
+				<label for="depth"><f:translate key="partials.module.select.depth" /></label>
+				<f:form.select
+						id="depth"
+						options="{1: '1', 2:'2', 3:'3', 4: '4', 5: '5'}"
+						class="form-control"
+						name="depth"
+						additionalAttributes="{onchange:'this.form.submit();'}"
+						value="{depth}"
+				/>
+			</div>
+		</div>
+	</f:form>
+</f:section>
+</body>

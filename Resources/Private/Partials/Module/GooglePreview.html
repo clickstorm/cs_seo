@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+<body>
+<f:section name="Main">
+	<script type="application/javascript">
+		csSEO.previewSettings = {previewSettings -> f:format.raw()};
+	</script>
+	<div class="tx-cs_seo" ng-init="wizardInit = 1">
+		<h3>{{ previewTitle }}</h3>
+		<div class="url">www.domain.de/link</div>
+		{{ pageDescription }}
+		<span ng-hide="pageDescription"><f:translate key="LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:templates.wizard.description" /></span>
+		</p>
+	</div>
+</f:section>
+</body>

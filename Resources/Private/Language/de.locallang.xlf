@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-06-20T08:23:02Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-06-20T08:41:58Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -37,26 +37,6 @@
 			<source>Please select a page in the page tree.</source>
 			<target>Bitte wählen Sie eine Seite aus dem Seitenbaum.</target>
 		</trans-unit>
-		<trans-unit id="partials.module.grid.hint" approved="yes">
-			<source>To modify double click on the desired field. The changes are saved automatically. The columns can be moved, enlarged and hidden.</source>
-			<target>Zum Bearbeiten einen Doppelklick auf das gewünschte Feld ausführen. Die Änderungen werden automatisch gespeichert. Die Spalten können verschoben, vergößert, verkleinert und ausgeblendet werden.</target>
-		</trans-unit>
-		<trans-unit id="partials.module.grid.msg.error" approved="yes">
-			<source>An error occured: {{ msg.error }}</source>
-			<target>Es ist ein Fehler aufgetreten: {{ msg.error }}</target>
-		</trans-unit>
-		<trans-unit id="partials.module.grid.msg.no-changes" approved="yes">
-			<source>Nothing has been changed.</source>
-			<target>Es wurde keine Veränderungen vorgenommen.</target>
-		</trans-unit>
-		<trans-unit id="partials.module.grid.msg.success" approved="yes">
-			<source>Updated [{{ msg.field }}] {{ msg.value }}</source>
-			<target>Aktualisiert [{{ msg.field }}] {{ msg.value }}</target>
-		</trans-unit>
-		<trans-unit id="partials.module.grid.msg.wait" approved="yes">
-			<source>[{{ msg.field }}] wait...</source>
-			<target>[{{ msg.field }}] Bitte warten...</target>
-		</trans-unit>
 		<trans-unit id="partials.module.select.depth" approved="yes">
 			<source>Depth</source>
 			<target>Tiefe</target>
@@ -64,6 +44,26 @@
 		<trans-unit id="partials.module.select.lang" approved="yes">
 			<source>Language</source>
 			<target>Sprache</target>
+		</trans-unit>
+		<trans-unit id="partials.module.state.error" approved="yes">
+			<source>An error occured: {{ msg.error }}</source>
+			<target>Es ist ein Fehler aufgetreten: {{ msg.error }}</target>
+		</trans-unit>
+		<trans-unit id="partials.module.state.hint" approved="yes">
+			<source>To modify double click on the desired field. The changes are saved automatically. The columns can be moved, enlarged and hidden.</source>
+			<target>Zum Bearbeiten einen Doppelklick auf das gewünschte Feld ausführen. Die Änderungen werden automatisch gespeichert. Die Spalten können verschoben, vergößert, verkleinert und ausgeblendet werden.</target>
+		</trans-unit>
+		<trans-unit id="partials.module.state.no_changes" approved="yes">
+			<source>Nothing has been changed.</source>
+			<target>Es wurde keine Veränderungen vorgenommen.</target>
+		</trans-unit>
+		<trans-unit id="partials.module.state.success" approved="yes">
+			<source>Updated [{{ msg.field }}] {{ msg.value }}</source>
+			<target>Aktualisiert [{{ msg.field }}] {{ msg.value }}</target>
+		</trans-unit>
+		<trans-unit id="partials.module.state.wait" approved="yes">
+			<source>[{{ msg.field }}] wait...</source>
+			<target>[{{ msg.field }}] Bitte warten...</target>
 		</trans-unit>
 		</body>
 	</file>

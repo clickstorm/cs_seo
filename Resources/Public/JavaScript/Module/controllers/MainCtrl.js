@@ -1,5 +1,5 @@
 app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFactory', function ($scope, $http, i18nService, previewTitleFactory) {
-
+	// limit 
 	$scope.rangeArray = [1,2,3,4,5];
 
 	// highlight some cells
