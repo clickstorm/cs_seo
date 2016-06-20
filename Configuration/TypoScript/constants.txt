@@ -23,6 +23,19 @@ plugin.tx_csseo {
 
     # cat=plugin.tx_csseo/tracking; type=string; label= Enter the ID for site
     tracking.piwik.id = 1
+}
 
-
+module.tx_csseo_mod1 {
+    view {
+        # cat=module.tx_csseo_mod1/file; type=string; label=Path to template root (BE)
+        templateRootPath = EXT:cs_seo/Resources/Private/Templates/
+        # cat=module.tx_csseo_mod1/file; type=string; label=Path to template partials (BE)
+        partialRootPath = EXT:cs_seo/Resources/Private/Partials/
+        # cat=module.tx_csseo_mod1/file; type=string; label=Path to template layouts (BE)
+        layoutRootPath = EXT:cs_seo/Resources/Private/Layouts/
+    }
+    persistence {
+        # cat=module.tx_csseo_mod1//a; type=string; label=Default storage PID
+        storagePid =
+    }
 }

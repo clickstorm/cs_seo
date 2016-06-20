@@ -1,0 +1,10 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+<f:layout name="Module" />
+
+<f:section name="Main">
+	<h1><f:translate key="layouts.module.action.pageIndex" /></h1>
+	<p></p>
+	<f:render partial="Module\Grid" arguments="{_all}" section="Main" />
+</f:section>

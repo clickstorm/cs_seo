@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+<body>
+<f:section name="Main">
+	<f:if condition="{pageJSON}">
+		<f:then>
+			<div ng-app="app">
+				<div ng-controller="MainCtrl" ng-cloak>
+
+					<!-- From -->
+					<f:render partial="Module/Form" arguments="{_all}" section="Main" />
+
+					<!-- Grid -->
+					<script type="application/javascript">
+						csSEO = {};
+						csSEO.gridOptions = {pageJSON -> f:format.raw()};
+					</script>
+					<div id="csSeoGrid" class="grid ag-dark" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-tree-view ui-grid-edit></div>
+
+					<!-- State -->
+					<f:render partial="Module/State" section="Main" />
+
+					<!-- Edit -->
+					<div class="edit-view" ng-show="editView">
+						<f:if condition="{previewSettings}">
+							<f:render partial="Module/GooglePreview" arguments="{_all}" section="Main" />
+						</f:if>
+						<uib-progressbar max="prbMax" value="prbValue" type="{{ prbType }}"><span style="color:white; white-space:nowrap;">{{prbValue}} / {{prbMax}}</span></uib-progressbar>
+					</div>
+
+				</div>
+			</div>
+		</f:then>
+		<f:else>
+			<p class="text-danger">
+				<f:translate key="partials.module.grid.error.no_page" />
+			</p>
+		</f:else>
+	</f:if>
+</f:section>
+</body>

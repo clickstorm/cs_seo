@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+<body>
+<f:section name="Main">
+	<div ng-hide="editView">
+		<div ng-switch on="msg.state">
+			<div ng-switch-when="error">
+				<p class="text-danger">
+					<span class="fa fa-times-circle">&nbsp;</span>
+					<f:translate key="partials.module.state.error" />
+				</p>
+			</div>
+			<div ng-switch-when="success">
+				<p class="text-success">
+					<span class="fa fa-check-circle">&nbsp;</span>
+					<f:translate key="partials.module.state.success" />
+				</p>
+			</div>
+			<div ng-switch-when="no-changes">
+				<p class="text-info">
+					<span class="fa fa-info-circle">&nbsp;</span>
+					<f:translate key="partials.module.state.no_changes" />
+				</p>
+			</div>
+			<div ng-switch-when="wait">
+				<p class="text-warning">
+					<span class="fa fa-info-circle">&nbsp;</span>
+					<f:translate key="partials.module.state.wait" />
+				</p>
+			</div>
+			<div ng-switch-default>
+				<p class="text-info">
+					<span class="fa fa-info-circle">&nbsp;</span>
+					<f:translate key="partials.module.state.hint" />
+				</p>
+			</div>
+		</div>
+	</div>
+</f:section>
+</body>

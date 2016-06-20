@@ -1,0 +1,42 @@
+@import "config";
+
+.ui-grid-menu-inner {
+  background-color: #111;
+}
+
+.grid {
+  margin-bottom: 2rem;
+
+  .ui-grid-menu-button,
+  .ui-grid-top-panel {
+	background: #ededed;
+  }
+
+  .ui-grid-row {
+	position: relative;
+	&:nth-child(2n+1) {
+	  .ui-grid-cell {
+		background-color: #fafafa;
+	  }
+	}
+  }
+
+
+  textarea {
+	height: 5em;
+	left: 0;
+	position: absolute;
+	top: 2em;
+	width: 100%;
+	z-index: 9999;
+  }
+}
+
+.tx-cs_seo {
+  border: 1px solid;
+  margin-bottom: 1rem;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
