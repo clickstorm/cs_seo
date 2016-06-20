@@ -69,11 +69,6 @@ class ModuleController extends ActionController {
 	protected $languages = [];
 
 	/**
-	 * @var int
-	 */
-	protected $depth = 2;
-
-	/**
 	 * Initialize action
 	 *
 	 * @return void
@@ -114,25 +109,38 @@ class ModuleController extends ActionController {
 	public function pageMetaAction() {
 		$fieldNames = ['title', 'tx_csseo_title', 'tx_csseo_title_only', 'description'];
 
+		$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ContentObjectRenderer::class);
+
+		// get TypoScript
 		$backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
 		$fullTS = $backendConfigurationManager->getTypoScriptSetup();
 
-		$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ContentObjectRenderer::class);
-		
-		// template1
-		$wizardView = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
-		$wizardView->setFormat('html');
-		$wizardView->setLayoutRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']);
-		$wizardView->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/Wizard.html');
 
-		$wizardView->assignMultiple([
+		$siteTitle = $fullTS['sitetitle'];
+		$siteTitleFirst = $fullTS['config.']['pageTitleFirst'];
+		$siteTitleSeparator = $cObj->stdWrap($fullTS['config.']['pageTitleSeparator'], $fullTS['config.']['pageTitleSeparator.']);
+
+		if($siteTitleFirst) {
+			$siteTitle .= $siteTitleSeparator;
+		} else {
+			$siteTitle = $siteTitleSeparator . $siteTitle;
+		}
+
+		$this->view->assignMultiple([
 			'config' => $fullTS['config.'],
-			'pageTitleSeparator' => $cObj->stdWrap($fullTS['config.']['pageTitleSeparator'], $fullTS['config.']['pageTitleSeparator.']),
-			'siteTitle' => $fullTS['sitetitle'],
+			'siteTitleFirst' => $siteTitleFirst,
+			'siteTitle' => $siteTitle,
 			'data' => 1
 		]);
 		
-		$this->view->assign('wizardView', $wizardView->render());
+		$this->processFields($fieldNames);
+	}
+
+	/**
+	 * Show Open Graph properties
+	 */
+	public function pageIndexAction() {
+		$fieldNames = ['title', 'tx_csseo_canonical', 'tx_csseo_no_index', 'no_search'];
 
 		$this->processFields($fieldNames);
 	}
@@ -241,6 +249,7 @@ class ModuleController extends ActionController {
 				enableGridMenu: true,
 				expandAll: true,
 				enableFiltering: true,
+				i18n: \'' . $GLOBALS['LANG']->lang . '\',
 				cellEditableCondition: function($scope) {
 					return ($scope.row.entity.doktype == "1" || $scope.row.entity.doktype == "6")
 				}
@@ -256,18 +265,15 @@ class ModuleController extends ActionController {
 	protected function getColumnDefinition($fieldName) {
 		$columnDef = ['field' => $fieldName];
 		if($fieldName == 'sys_language_uid') {
-			$columnDef['displayName'] = $this->getLanguageService()->sL($GLOBALS['TCA']['pages_language_overlay']['columns'][$fieldName]['label']);
-			$columnDef['width'] = 100;
-			$columnDef['type'] = 'object';
-			$columnDef['enableFiltering'] = false;
+
 		} else {
 			$columnDef['displayName'] = $this->getLanguageService()->sL($GLOBALS['TCA']['pages']['columns'][$fieldName]['label']);
 			switch ($GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['type']) {
 				case 'check':
 					$columnDef['type'] = 'boolean';
 					$columnDef['width'] = 100;
-					$columnDef['cellTemplate'] = '<div class="ui-grid-cell-contents ng-binding ng-scope">{{row.entity[col.field] == true ? "1" : "0"}}</div>';
-					$columnDef['editableCellTemplate'] = '<div><form name="inputForm"><input type="checkbox" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.currentValue = MODEL_COL_FIELD" ng-click="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
+					$columnDef['cellTemplate'] = '<div class="ui-grid-cell-contents ng-binding ng-scope text-center"><span class="fa fa-{{row.entity[col.field] == true ? \'check\' : \'times\'}}"></span></div>';
+					$columnDef['editableCellTemplate'] = '<div><form name="inputForm" class="text-center"><input type="checkbox" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-click="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
 					$columnDef['enableFiltering'] = false;
 					break;
 				case 'inline':
@@ -277,16 +283,30 @@ class ModuleController extends ActionController {
 					break;
 				case 'text':
 					$columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'];
-					$columnDef['editableCellTemplate'] = '<div><form name="inputForm"><textarea class="form-control" ng-maxlength="' . $columnDef['max'] . '" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.currentValue = MODEL_COL_FIELD" ng-keyup="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
+					$columnDef['editableCellTemplate'] = '<div><form name="inputForm"><textarea class="form-control" ng-maxlength="' . $columnDef['max'] . '" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-keyup="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
 					break;
 				default:
 					$columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'];
-					$columnDef['editableCellTemplate'] = '<div><form name="inputForm" ng-model="form"><input type="INPUT_TYPE" class="form-control" ng-maxlength="' . $columnDef['max'] . '" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-init="grid.appScope.currentValue = MODEL_COL_FIELD" ng-keyup="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
+					$columnDef['editableCellTemplate'] = '<div><form name="inputForm" ng-model="form"><input type="INPUT_TYPE" class="form-control" ng-maxlength="' . $columnDef['max'] . '" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-keyup="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
 			}
 		}
 
-		if($fieldName == 'title') {
-			$columnDef['cellTemplate'] = '<div class="ui-grid-cell-contents ng-binding ng-scope"><span ng-repeat="i in grid.appScope.rangeArray | limitTo: row.entity.level">&nbsp;&nbsp;</span>{{row.entity.title}}</div>';
+		switch ($fieldName) {
+			case 'title':
+				$columnDef['cellTemplate'] = '<div class="ui-grid-cell-contents ng-binding ng-scope"><span ng-repeat="i in grid.appScope.rangeArray | limitTo: row.entity.level">&nbsp;&nbsp;</span>{{row.entity.title}}</div>';
+				break;
+			case 'tx_csseo_title':
+				$columnDef['min'] = 35;
+				break;
+			case 'description':
+				$columnDef['min'] = 120;
+				break;
+			case 'sys_language_uid':
+				$columnDef['displayName'] = $this->getLanguageService()->sL($GLOBALS['TCA']['pages_language_overlay']['columns'][$fieldName]['label']);
+				$columnDef['width'] = 100;
+				$columnDef['type'] = 'object';
+				$columnDef['enableFiltering'] = false;
+				break;
 		}
 
 		return json_encode($columnDef);

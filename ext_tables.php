@@ -20,7 +20,7 @@ if (TYPO3_MODE === 'BE') {
         'mod1',
         '',
         array(
-            'Module' => 'pageMeta, pageOpenGraph, pageTwitterCards'
+            'Module' => 'pageMeta, pageIndex, pageOpenGraph, pageTwitterCards'
         ),
         array(
             'access' => 'user,group',

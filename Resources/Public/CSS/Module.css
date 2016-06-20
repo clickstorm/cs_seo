@@ -1,8 +1,18 @@
+.ui-grid-menu-inner {
+  background-color: #111;
+}
 .grid {
   margin-bottom: 2rem;
 }
+.grid .ui-grid-menu-button,
+.grid .ui-grid-top-panel {
+  background: #ededed;
+}
 .grid .ui-grid-row {
   position: relative;
+}
+.grid .ui-grid-row:nth-child(2n+1) .ui-grid-cell {
+  background-color: #fafafa;
 }
 .grid textarea {
   height: 5em;
@@ -15,5 +25,13 @@
 .tx-cs_seo {
   border: 1px solid;
   margin-bottom: 1rem;
+}
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+  display: none !important;
 }
 /*# sourceMappingURL=../CSS/Module.less.map */

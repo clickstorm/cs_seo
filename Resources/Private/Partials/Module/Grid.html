@@ -9,7 +9,7 @@
 				csSEOGridOptions = {pageJSON -> f:format.raw()};
 			</script>
 			<div ng-app="app">
-				<div ng-controller="MainCtrl">
+				<div ng-controller="MainCtrl" ng-cloak>
 					<f:form action="">
 						<div class="row">
 							<div class="form-group col-md-6">
@@ -38,24 +38,51 @@
 					</f:form>
 					<div id="csSeoGrid" class="grid ag-dark" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-tree-view ui-grid-edit></div>
 					<div ng-show="prbHidden">
-						<p class="text-info"><span class="fa fa-info-circle">&nbsp;</span><f:translate key="partials.module.grid.hint" /></p>
-						<p class="{{msg.class}}">
-							<i class="fa {{msg.icon}}" aria-hidden="true"></i>
-							{{msg.lastCellEdited}}
-						</p>
+						<div ng-switch on="msg.state">
+							<div ng-switch-when="error">
+								<p class="text-danger">
+									<span class="fa fa-times-circle">&nbsp;</span>
+									<f:translate key="partials.module.grid.msg.error" />
+								</p>
+							</div>
+							<div ng-switch-when="success">
+								<p class="text-success">
+									<span class="fa fa-check-circle">&nbsp;</span>
+									<f:translate key="partials.module.grid.msg.success" />
+								</p>
+							</div>
+							<div ng-switch-when="no-changes">
+								<p class="text-info">
+									<span class="fa fa-info-circle">&nbsp;</span>
+									<f:translate key="partials.module.grid.msg.no-changes" />
+								</p>
+							</div>
+							<div ng-switch-when="wait">
+								<p class="text-warning">
+									<span class="fa fa-info-circle">&nbsp;</span>
+									<f:translate key="partials.module.grid.msg.wait" />
+								</p>
+							</div>
+							<div class="animate-switch" ng-switch-default>
+								<p class="text-info">
+									<span class="fa fa-info-circle">&nbsp;</span>
+									<f:translate key="partials.module.grid.hint" />
+								</p>
+							</div>
+						</div>
 					</div>
 
 					<div class="edit-view" ng-hide="prbHidden">
-						<f:if condition="{wizardView}">
-							<div class="tx-cs_seo" ng-init="wizardInit = 1">
-								<h3>{{previewTitle}}</h3>
+						<f:if condition="{siteTitle}">
+							<div class="tx-cs_seo" ng-init="wizardInit = 1" ng-init="siteTitleFirst = {siteTitleFirst}">
+								<h3 ng-init="siteTitle = '{siteTitle}'">{{ previewTitle }}</h3>
 								<div class="url">www.domain.de/link</div>
-								{{pageDescription}}
+								{{ pageDescription }}
 								<span ng-hide="pageDescription"><f:translate key="LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:templates.wizard.description" /></span>
 								</p>
 							</div>
 						</f:if>
-						<uib-progressbar max="prbMax" value="prbValue" type="{{prbType}}"><span style="color:white; white-space:nowrap;">{{prbValue}} / {{prbMax}}</span></uib-progressbar>
+						<uib-progressbar max="prbMax" value="prbValue" type="{{ prbType }}"><span style="color:white; white-space:nowrap;">{{prbValue}} / {{prbMax}}</span></uib-progressbar>
 					</div>
 
 				</div>

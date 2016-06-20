@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-06-16T10:28:30Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-06-17T12:58:51Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
 		<body>
+		<trans-unit id="layouts.module.action.pageIndex">
+			<source>Index</source>
+		</trans-unit>
+		<trans-unit id="layouts.module.action.pageMeta">
+			<source>SEO</source>
+		</trans-unit>
+		<trans-unit id="layouts.module.action.pageOpenGraph">
+			<source>Open Graph</source>
+		</trans-unit>
+		<trans-unit id="layouts.module.action.pageTwitterCards">
+			<source>Twitter Cards</source>
+		</trans-unit>
 		<trans-unit id="mlang_labels_tabdescr">
 			<source>Check properties for search engine optimization.</source>
 		</trans-unit>
@@ -19,6 +31,18 @@
 		</trans-unit>
 		<trans-unit id="partials.module.grid.hint">
 			<source>To modify make a double click on the desired field. The changes are saved automatically. The columns can be moved, enlarged and hidden.</source>
+		</trans-unit>
+		<trans-unit id="partials.module.grid.msg.error">
+			<source>An error occured: {{ msg.error }}</source>
+		</trans-unit>
+		<trans-unit id="partials.module.grid.msg.no-changes">
+			<source>Nothing has been changed.</source>
+		</trans-unit>
+		<trans-unit id="partials.module.grid.msg.success">
+			<source>Updated [{{ msg.field }}] {{ msg.value }}</source>
+		</trans-unit>
+		<trans-unit id="partials.module.grid.msg.wait">
+			<source>[{{ msg.field }}] wait...</source>
 		</trans-unit>
 		<trans-unit id="partials.module.select.depth">
 			<source>Depth</source>

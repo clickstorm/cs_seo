@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-06-16T10:28:30Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-06-17T12:58:51Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
 		<body>
+		<trans-unit id="layouts.module.action.pageIndex" approved="yes">
+			<source>Index</source>
+			<target>Indexierung</target>
+		</trans-unit>
+		<trans-unit id="layouts.module.action.pageMeta" approved="yes">
+			<source>SEO</source>
+			<target>SEO</target>
+		</trans-unit>
+		<trans-unit id="layouts.module.action.pageOpenGraph" approved="yes">
+			<source>Open Graph</source>
+			<target>Open Graph</target>
+		</trans-unit>
+		<trans-unit id="layouts.module.action.pageTwitterCards" approved="yes">
+			<source>Twitter Cards</source>
+			<target>Twitter Cards</target>
+		</trans-unit>
 		<trans-unit id="mlang_labels_tabdescr" approved="yes">
 			<source>Check properties for search engine optimization.</source>
 			<target>Überprüfe die Seiteneigenschaften für die Suchmaschinenoptimierung gesetzt sind.</target>
@@ -24,6 +40,22 @@
 		<trans-unit id="partials.module.grid.hint" approved="yes">
 			<source>To modify make a double click on the desired field. The changes are saved automatically. The columns can be moved, enlarged and hidden.</source>
 			<target>Zum Bearbeiten einen Doppelklick auf das gewünschte Feld ausführen. Die Änderungen werden automatisch gespeichert. Die Spalten können verschoben, vergößert, verkleinert und ausgeblendet werden.</target>
+		</trans-unit>
+		<trans-unit id="partials.module.grid.msg.error" approved="yes">
+			<source>An error occured: {{ msg.error }}</source>
+			<target>Es ist ein Fehler aufgetreten: {{ msg.error }}</target>
+		</trans-unit>
+		<trans-unit id="partials.module.grid.msg.no-changes" approved="yes">
+			<source>Nothing has been changed.</source>
+			<target>Es wurde keine Veränderungen vorgenommen.</target>
+		</trans-unit>
+		<trans-unit id="partials.module.grid.msg.success" approved="yes">
+			<source>Updated [{{ msg.field }}] {{ msg.value }}</source>
+			<target>Aktualisiert [{{ msg.field }}] {{ msg.value }}</target>
+		</trans-unit>
+		<trans-unit id="partials.module.grid.msg.wait" approved="yes">
+			<source>[{{ msg.field }}] wait...</source>
+			<target>[{{ msg.field }}] Bitte warten...</target>
 		</trans-unit>
 		<trans-unit id="partials.module.select.depth" approved="yes">
 			<source>Depth</source>
