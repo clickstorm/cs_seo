@@ -3,8 +3,8 @@ app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFacto
 	$scope.rangeArray = [1,2,3,4,5];
 
 	// highlight some cells
-	angular.forEach(csSEOGridOptions.columnDefs, function(value, key) {
-		csSEOGridOptions.columnDefs[key].cellClass = function(grid, row, col, rowRenderIndex, colRenderIndex) {
+	angular.forEach(csSEO.gridOptions.columnDefs, function(value, key) {
+		csSEO.gridOptions.columnDefs[key].cellClass = function(grid, row, col, rowRenderIndex, colRenderIndex) {
 			if(!(row.entity.doktype == "1" || row.entity.doktype == "6")) {
 				return 'text-muted';
 			}
@@ -12,11 +12,11 @@ app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFacto
 	});
 
 	// lang
-	if(csSEOGridOptions.i18n.length > 0 && csSEOGridOptions.i18n != 'default') {
-		i18nService.setCurrentLang(csSEOGridOptions.i18n);
+	if(csSEO.gridOptions.i18n.length > 0 && csSEO.gridOptions.i18n != 'default') {
+		i18nService.setCurrentLang(csSEO.gridOptions.i18n);
 	}
 
-	$scope.gridOptions = csSEOGridOptions;
+	$scope.gridOptions = csSEO.gridOptions;
 
 	$scope.msg = {};
 
@@ -92,7 +92,6 @@ app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFacto
 			$scope.currentValue = rowEntity[colDef.field];
 			if($scope.wizardInit) {
 				$scope.wizardHide = 0;
-				previewTitleFactory.init($scope.siteTitle, $scope.siteTitleFirst);
 				$scope.pageTitle = rowEntity.title;
 				$scope.pageDescription = rowEntity.description;
 				$scope.pageCsSeoTitle = rowEntity.tx_csseo_title;

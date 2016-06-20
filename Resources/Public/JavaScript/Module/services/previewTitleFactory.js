@@ -1,23 +1,17 @@
 app.factory('previewTitleFactory', function() {
-	var siteTitle = '',
-		siteTitleFirst = false,
-		factory = {};
+	var factory = {};
 
 	factory.getTitle = function(pageTitle, pageCsSeoTitle, titleOnly) {
 		var title = pageCsSeoTitle ? pageCsSeoTitle : pageTitle;
+		console.log(title);
 		if (titleOnly == 0) {
-			if (siteTitleFirst) {
-				title = siteTitle + title;
+			if (csSEO.previewSettings.pageTitleFirst) {
+				title += csSEO.previewSettings.siteTitle;
 			} else {
-				title += siteTitle;
+				title = csSEO.previewSettings.siteTitle + title;
 			}
 		}
 		return title;
-	};
-
-	factory.init = function(scopeSiteTitle, scopeTitleFirst) {
-		siteTitle = scopeSiteTitle;
-		siteTitleFirst = scopeTitleFirst;
 	};
 
 	return factory;

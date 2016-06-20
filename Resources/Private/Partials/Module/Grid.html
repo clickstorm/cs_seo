@@ -6,7 +6,8 @@
 	<f:if condition="{pageJSON}">
 		<f:then>
 			<script type="application/javascript">
-				csSEOGridOptions = {pageJSON -> f:format.raw()};
+				csSEO = {};
+				csSEO.gridOptions = {pageJSON -> f:format.raw()};
 			</script>
 			<div ng-app="app">
 				<div ng-controller="MainCtrl" ng-cloak>
@@ -73,9 +74,12 @@
 					</div>
 
 					<div class="edit-view" ng-hide="prbHidden">
-						<f:if condition="{siteTitle}">
-							<div class="tx-cs_seo" ng-init="wizardInit = 1" ng-init="siteTitleFirst = {siteTitleFirst}">
-								<h3 ng-init="siteTitle = '{siteTitle}'">{{ previewTitle }}</h3>
+						<f:if condition="{previewSettings}">
+							<script type="application/javascript">
+								csSEO.previewSettings = {previewSettings -> f:format.raw()};
+							</script>
+							<div class="tx-cs_seo" ng-init="wizardInit = 1">
+								<h3>{{ previewTitle }}</h3>
 								<div class="url">www.domain.de/link</div>
 								{{ pageDescription }}
 								<span ng-hide="pageDescription"><f:translate key="LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:templates.wizard.description" /></span>

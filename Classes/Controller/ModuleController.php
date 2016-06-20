@@ -115,23 +115,19 @@ class ModuleController extends ActionController {
 		$backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
 		$fullTS = $backendConfigurationManager->getTypoScriptSetup();
 
+		// preview settings
+		$previewSettings = [];
+		$previewSettings['siteTitle'] = $fullTS['sitetitle'];
+		$previewSettings['pageTitleFirst'] = $fullTS['config.']['pageTitleFirst'];
+		$previewSettings['pageTitleSeparator'] = $cObj->stdWrap($fullTS['config.']['pageTitleSeparator'], $fullTS['config.']['pageTitleSeparator.']);
 
-		$siteTitle = $fullTS['sitetitle'];
-		$siteTitleFirst = $fullTS['config.']['pageTitleFirst'];
-		$siteTitleSeparator = $cObj->stdWrap($fullTS['config.']['pageTitleSeparator'], $fullTS['config.']['pageTitleSeparator.']);
-
-		if($siteTitleFirst) {
-			$siteTitle .= $siteTitleSeparator;
+		if($previewSettings['pageTitleFirst']) {
+			$previewSettings['siteTitle'] = $previewSettings['pageTitleSeparator'] . $previewSettings['siteTitle'];
 		} else {
-			$siteTitle = $siteTitleSeparator . $siteTitle;
+			$previewSettings['siteTitle'] .= $previewSettings['pageTitleSeparator'];
 		}
-
-		$this->view->assignMultiple([
-			'config' => $fullTS['config.'],
-			'siteTitleFirst' => $siteTitleFirst,
-			'siteTitle' => $siteTitle,
-			'data' => 1
-		]);
+		
+		$this->view->assign('previewSettings', json_encode($previewSettings));
 		
 		$this->processFields($fieldNames);
 	}
