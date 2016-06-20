@@ -3,7 +3,7 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 <body>
 <f:section name="Main">
-	<div ng-show="prbHidden">
+	<div ng-hide="editView">
 		<div ng-switch on="msg.state">
 			<div ng-switch-when="error">
 				<p class="text-danger">
@@ -29,7 +29,7 @@
 					<f:translate key="partials.module.state.wait" />
 				</p>
 			</div>
-			<div class="animate-switch" ng-switch-default>
+			<div ng-switch-default>
 				<p class="text-info">
 					<span class="fa fa-info-circle">&nbsp;</span>
 					<f:translate key="partials.module.state.hint" />

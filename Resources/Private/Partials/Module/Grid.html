@@ -18,14 +18,11 @@
 					</script>
 					<div id="csSeoGrid" class="grid ag-dark" ui-grid="gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-tree-view ui-grid-edit></div>
 
-					<!-- From -->
-					<f:render partial="Module/Form" arguments="{_all}" section="Main" />
-
 					<!-- State -->
 					<f:render partial="Module/State" section="Main" />
 
 					<!-- Edit -->
-					<div class="edit-view" ng-hide="prbHidden">
+					<div class="edit-view" ng-show="editView">
 						<f:if condition="{previewSettings}">
 							<f:render partial="Module/GooglePreview" arguments="{_all}" section="Main" />
 						</f:if>

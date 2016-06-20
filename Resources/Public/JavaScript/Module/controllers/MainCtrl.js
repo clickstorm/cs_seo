@@ -1,5 +1,5 @@
 app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFactory', function ($scope, $http, i18nService, previewTitleFactory) {
-	// limit 
+	// array for show whitespace before page title
 	$scope.rangeArray = [1,2,3,4,5];
 
 	// highlight some cells
@@ -16,19 +16,22 @@ app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFacto
 		i18nService.setCurrentLang(csSEO.gridOptions.i18n);
 	}
 
+	// initialize thie grid
 	$scope.gridOptions = csSEO.gridOptions;
 
+	// initialize values
 	$scope.msg = {};
 
-	$scope.prbHidden = 1;
+	$scope.editView = 0;
 	$scope.prbMax = 100;
 	$scope.prbMin = 0;
-	$scope.wizardHide = 1;
 
 	$scope.pageTitle = '';
 	$scope.pageTitleOnly = 0;
 	$scope.pageDescription = '';
 
+
+	// watchers
 	$scope.$watch('currentValue', function (newValue, oldValue, $scope) {
 		if(newValue !== undefined) {
 			var characterCount = newValue.length;
@@ -58,7 +61,6 @@ app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFacto
 	});
 
 	var updateProcessBar = function(length) {
-
 		if(length > 0  && length < $scope.prbMax) {
 			if($scope.prbMin) {
 				$scope.prbType =  (length > $scope.prbMin) ? 'success' : 'warning';
@@ -68,32 +70,33 @@ app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFacto
 		} else {
 			$scope.prbType = 'danger';
 		}
-	}
+	};
 
 	$scope.$watch('prbValue', function (newValue, oldValue, $scope) {
 		updateProcessBar(newValue);
 	});
 
 
+	// grid watchers
 	$scope.gridOptions.onRegisterApi = function(gridApi){
 		//set gridApi on scope
 		$scope.gridApi = gridApi;
 
+		// expand all rows on init
 		$scope.gridApi.grid.registerDataChangeCallback(function() {
 			$scope.gridApi.treeBase.expandAllRows();
 		});
 
-
+		// begin cell edit
 		gridApi.edit.on.beginCellEdit($scope,function(rowEntity, colDef) {
 			if(colDef.max) {
-				$scope.prbHidden = 0;
+				$scope.editView = 1;
 				$scope.prbMax = colDef.max;
 				$scope.prbMin = colDef.min;
 				$scope.$apply();
 			}
 			$scope.currentValue = rowEntity[colDef.field];
 			if($scope.wizardInit) {
-				$scope.wizardHide = 0;
 				$scope.pageTitle = rowEntity.title;
 				$scope.pageDescription = rowEntity.description;
 				$scope.pageCsSeoTitle = rowEntity.tx_csseo_title;
@@ -103,9 +106,9 @@ app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFacto
 			}
 		});
 
+		// after cell edit
 		gridApi.edit.on.afterCellEdit($scope,function(rowEntity, colDef, newValue, oldValue){
-			$scope.prbHidden = 1;
-			$scope.wizardHide = 1;
+			$scope.editView = 0;
 			$scope.msg.field = colDef.displayName;
 			$scope.msg.value = newValue;
 
