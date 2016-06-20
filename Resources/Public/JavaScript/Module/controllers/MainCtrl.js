@@ -31,7 +31,11 @@ app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFacto
 
 	$scope.$watch('currentValue', function (newValue, oldValue, $scope) {
 		if(newValue !== undefined) {
-			$scope.prbValue = newValue.length;
+			var characterCount = newValue.length;
+			if($scope.currentField == 'tx_csseo_title' && $scope.pageTitleOnly == false) {
+				characterCount += csSEO.previewSettings.siteTitle.length;
+			}
+			$scope.prbValue = characterCount;
 
 			switch ($scope.currentField) {
 				case 'description':
@@ -54,9 +58,7 @@ app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFacto
 	});
 
 	var updateProcessBar = function(length) {
-		if($scope.currentField == 'tx_csseo_title') {
-			length += $scope.siteTitle.length;
-		}
+
 		if(length > 0  && length < $scope.prbMax) {
 			if($scope.prbMin) {
 				$scope.prbType =  (length > $scope.prbMin) ? 'success' : 'warning';
