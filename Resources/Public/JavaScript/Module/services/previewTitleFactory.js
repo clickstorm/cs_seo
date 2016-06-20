@@ -1,4 +1,4 @@
-app.factory('previewTitleFactory', function() {
+csSeoApp.factory('previewTitleFactory', function() {
 	var factory = {};
 
 	factory.getTitle = function(pageTitle, pageCsSeoTitle, titleOnly) {
