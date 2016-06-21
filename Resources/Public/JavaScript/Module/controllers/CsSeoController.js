@@ -1,4 +1,8 @@
-app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFactory', function ($scope, $http, i18nService, previewTitleFactory) {
+CsSeoController.$inject = ['$scope', '$http', 'i18nService', 'previewTitleFactory'];
+
+csSeoApp.controller('CsSeoController', CsSeoController);
+
+function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 	// array for show whitespace before page title
 	$scope.rangeArray = [1,2,3,4,5];
 
@@ -132,4 +136,4 @@ app.controller('MainCtrl', ['$scope', '$http', 'i18nService', 'previewTitleFacto
 			$scope.$apply();
 		});
 	};
-}]);
+}
