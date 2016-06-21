@@ -179,13 +179,21 @@ class PreviewWizard
                 // TYPO3 8
                 $urlScheme = is_array($data['url_scheme']) ? $data['url_scheme'][0] : $data['url_scheme'];
 
+                // get page path
+                $path = $TSFEUtility->getPagePath();
+
+                // check if path is absolute
+                if (strpos($path, '://') !== false) {
+                    $path = '';
+                }
+
                 $wizardView->assignMultiple([
                     'config' => $TSFEUtility->getConfig(),
                     'domain' => BackendUtility::firstDomainRecord($rootline),
                     'data' => $data,
                     'pageTitle' => $pageTitle,
                     'pageTitleSeparator' => $TSFEUtility->getPageTitleSeparator(),
-                    'path' => $TSFEUtility->getPagePath(),
+                    'path' => $path,
                     'siteTitle' => $TSFEUtility->getSiteTitle(),
                     'urlScheme' => $urlScheme
                 ]);
