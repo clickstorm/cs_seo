@@ -4,7 +4,7 @@ plugin.tx_csseo {
     hreflang.enable =
 
     # cat=plugin.tx_csseo/href; type=string; label= List the Language-Uids, which should be linked with a hreflang-Tag (e.g. 0,2,3)
-    hreflang.uids =
+    hreflang.ids =
 
     # cat=plugin.tx_csseo/href; type=string; label= List the Language-Keys for the hreflang-Tags - same order as hreflang.uids (e.g. en,de,ch)
     hreflang.keys =
