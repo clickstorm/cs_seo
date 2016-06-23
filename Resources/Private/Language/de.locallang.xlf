@@ -46,8 +46,8 @@
 			<target>Sprache</target>
 		</trans-unit>
 		<trans-unit id="partials.module.state.error" approved="yes">
-			<source>An error occured: {{ msg.error }}</source>
-			<target>Es ist ein Fehler aufgetreten: {{ msg.error }}</target>
+			<source>An error occured! {{ msg.error }}</source>
+			<target>Es ist ein Fehler aufgetreten! {{ msg.error }}</target>
 		</trans-unit>
 		<trans-unit id="partials.module.state.hint" approved="yes">
 			<source>To modify double click on the desired field. The changes are saved automatically. The columns can be moved, enlarged and hidden.</source>

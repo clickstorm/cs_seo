@@ -36,7 +36,7 @@
 			<source>Language</source>
 		</trans-unit>
 		<trans-unit id="partials.module.state.error">
-			<source>An error occured: {{ msg.error }}</source>
+			<source>An error occured! {{ msg.error }}</source>
 		</trans-unit>
 		<trans-unit id="partials.module.state.hint">
 			<source>To modify double click on the desired field. The changes are saved automatically. The columns can be moved, enlarged and hidden.</source>

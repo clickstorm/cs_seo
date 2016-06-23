@@ -124,6 +124,7 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 					value: newValue
 				}).success(function(response){
 					if(response.length > 0) {
+						$scope.msg.error = response;
 						$scope.msg.state = 'error';
 					} else {
 						$scope.msg.state = 'success';

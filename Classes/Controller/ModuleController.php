@@ -191,7 +191,7 @@ class ModuleController extends ActionController {
 		$dataHandler->datamap = $data;
 		$dataHandler->process_datamap();
 		if(!empty($dataHandler->errorLog)) {
-			$ajaxObj->addContent('Failed', 'Error');
+			$ajaxObj->addContent('Error', implode(',', $dataHandler->errorLog));
 		}
 	}
 
