@@ -27,17 +27,18 @@ Features
 --------
 
 - advanced page settings
-   - preview for search results on google
+   - preview for search results on Google
    - override browser title
    - href lang support
    - canonical url
    - no index
-   - open graph
-   - twitter cards
+   - Open Graph
+   - Twitter Cards
 
+- backend module in AngularJS to edit the properties directly
 - set automatically the path segement from RealURL while creating a new page
-- tracking with google analytics inc. download tracking
-- tracking with piwik
+- tracking with Google Analytics inc. download tracking
+- tracking with Piwik
 - example for robots.txt
 - migrate properties from metaseo and seo_basics
 
@@ -54,3 +55,7 @@ Here you can take a look at the advanced page configurations.
 In the second new tab called *Social Media* you can set some open graph or twitter properties.
 
 |img-2|
+
+The backend module gives you an overview and the option to change page properties directly.
+
+|img-3|

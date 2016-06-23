@@ -1,19 +1,27 @@
-.. |img-1|      image:: ../Images/Introduction/Screen1.png
-   :height: 574
-   :width: 1041
+.. |img-1|      image:: ../Images/Introduction/cs_seo-google-preview.png
+   :height: 441
+   :width: 800
 .. :align: center
-.. :alt: SEO tab
+.. :alt: cs_seo SEO tab
 .. :border: 0
 .. :name: Screenshot 1
 .. :vspace: 52
 
-.. |img-2|      image:: ../Images/Introduction/Screen2.png
-   :height: 525
-   :width: 1268
+.. |img-2|      image:: ../Images/Introduction/cs_seo-social-meta-tags.png
+   :height: 710
+   :width: 800
 .. :align: center
-.. :alt: Social media tab
+.. :alt: cs_seo Social media tab
 .. :border: 0
 .. :name: Screenshot 2
 .. :vspace: 52
 
+.. |img-3|      image:: ../Images/Introduction/cs_seo-backend-module.png
+   :height: 573
+   :width: 800
+.. :align: center
+.. :alt: cs_seo Social media tab
+.. :border: 0
+.. :name: Screenshot 3
+.. :vspace: 52
 
