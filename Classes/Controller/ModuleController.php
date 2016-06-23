@@ -175,7 +175,7 @@ class ModuleController extends ActionController {
 		// prepare data array
 		$tableName = 'pages';
 		$uid = $attr->entry->uid;
-		$field = $attr->entry->field;
+		$field = $attr->field;
 
 		// check for language overlay
 		if($attr->entry->_PAGES_OVERLAY && isset($GLOBALS['TCA']['pages_language_overlay']['columns'][$field])) {
@@ -184,7 +184,7 @@ class ModuleController extends ActionController {
 		}
 
 		// update map
-		$data[$tableName][$uid][$attr->field] = $attr->value;
+		$data[$tableName][$uid][$field] = $attr->value;
 
 		// update data
 		$dataHandler = $this->getDataHandler();
