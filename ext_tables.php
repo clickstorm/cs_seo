@@ -3,6 +3,11 @@ defined('TYPO3_MODE') || die('Access denied.');
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'SEO');
 
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('tx_csseo_domain_model_meta',
+    'EXT:cs_csseo/Resources/Private/Language/locallang_csh_tx_csseo_domain_model_meta.xlf');
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_csseo_domain_model_meta');
+
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr('pages',
     'EXT:cs_seo/Resources/Private/Language/locallang_csh_pages.xlf');
 
@@ -29,6 +34,32 @@ if (TYPO3_MODE === 'BE') {
             'labels' => 'LLL:EXT:' . $_EXTKEY . '/Resources/Private/Language/locallang.xlf',
         )
     );
+}
+// Add TCA Field
+$tempColumns = [
+    'tx_csseo' => [
+        'exclude' => 0,
+        'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:tx_csseo_domain_model_meta',
+        'config' => [
+            'type' => 'inline',
+            'foreign_table' => 'tx_csseo_domain_model_meta',
+            'foreign_field' => 'uid_foreign',
+            'foreign_table_field' => 'tablenames',
+            'maxitems' => 1,
+            'appearance' => [
+                'collapseAll' => false,
+            ],
+        ],
+    ]
+];
+
+$pageTS = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(1);
+foreach ($pageTS['tx_csseo.'] as $table) {
+    if(is_string($table)) {
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table,$tempColumns,1);
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes($table,'tx_csseo');
+        
+    }
 }
 
 // register Ajax Handler
