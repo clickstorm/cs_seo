@@ -96,7 +96,7 @@ class PreviewWizard
         $this->loadCss();
 
         // get Content
-        $content = $this->getBodyContent($cont['row']);
+        $content = $this->getBodyContent($cont['row'], $cont['table']);
 
         return $content;
     }
@@ -152,14 +152,14 @@ class PreviewWizard
      *
      * @return string The body content
      */
-    protected function getBodyContent($data)
+    protected function getBodyContent($data, $table)
     {
         // template1
         $wizardView = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
         $wizardView->setFormat('html');
         $wizardView->setLayoutRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']);
         $wizardView->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/Wizard.html');
-
+        
         if(strpos($data['uid'], 'NEW') === false) {
 
             // check if TS page type exists
@@ -173,8 +173,25 @@ class PreviewWizard
                 $uid = $data['sys_language_uid'] > 0 ?  $data['pid'] : $data['uid'];
                 $TSFEUtility =  GeneralUtility::makeInstance(TSFEUtility::class, $uid, $data['sys_language_uid']);
 
+                $siteTitle = $TSFEUtility->getSiteTitle();
+                $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();
+                $config = $TSFEUtility->getConfig();
+
                 PageGenerator::generatePageTitle();
-                $pageTitle = static::getPageRenderer()->getTitle();
+                if($table == 'pages' || $table == 'pages_language_overlay') {
+                    $pageTitle = static::getPageRenderer()->getTitle();
+                } else {
+                    $pageTitle = $data['title'];
+                    if(!$data['title_only']) {
+                        if($config['pageTitleFirst']) {
+                            $pageTitle .= $pageTitleSeparator . $siteTitle;
+                        } else {
+                            $pageTitle = $siteTitle . $pageTitleSeparator . $pageTitle;
+                        }
+                    }
+
+                }
+
 
                 // TYPO3 8
                 $urlScheme = is_array($data['url_scheme']) ? $data['url_scheme'][0] : $data['url_scheme'];
@@ -188,13 +205,13 @@ class PreviewWizard
                 }
 
                 $wizardView->assignMultiple([
-                    'config' => $TSFEUtility->getConfig(),
+                    'config' => $config,
                     'domain' => BackendUtility::firstDomainRecord($rootline),
                     'data' => $data,
                     'pageTitle' => $pageTitle,
-                    'pageTitleSeparator' => $TSFEUtility->getPageTitleSeparator(),
+                    'pageTitleSeparator' => $pageTitleSeparator,
                     'path' => $path,
-                    'siteTitle' => $TSFEUtility->getSiteTitle(),
+                    'siteTitle' => $siteTitle,
                     'urlScheme' => $urlScheme
                 ]);
             } else {
