@@ -39,6 +39,7 @@ CREATE TABLE tx_csseo_domain_model_meta (
 
 	title varchar(255) DEFAULT '' NOT NULL,
 	title_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	description text NOT NULL,
 	canonical varchar(255) DEFAULT '' NOT NULL,
 	no_index tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	og_title varchar(255) DEFAULT '' NOT NULL,

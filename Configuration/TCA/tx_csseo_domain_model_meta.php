@@ -19,7 +19,7 @@ return [
 			'endtime' => 'endtime',
 		],
 		'searchFields' => 'title,description,',
-		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/Icons/tx_csseo_domain_model_meta.png'
+		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/Icons/mod.png'
 	],
 	'interface' => [
 		'showRecordFieldList' => 'hidden, title, description, title_only, canonical, no_index, og_title, og_description, og_image, tw_title, tw_description, tw_image, tw_creator',
@@ -113,6 +113,17 @@ return [
 						'userFunc' => 'Clickstorm\\CsSeo\\UserFunc\\PreviewWizard->render'
 					]
 				]
+			]
+		],
+		'description' => [
+			'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:tx_csseo_domain_model_meta.description',
+			'exclude' => 1,
+			'config' => [
+				'type' => 'text',
+				'cols' => 40,
+				'rows' => 5,
+				'eval' => 'trim',
+				'max' => '200',
 			]
 		],
 		'title_only' => [
