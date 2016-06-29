@@ -35,6 +35,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @package Clickstorm\CsOpengraph
  */
 class HeaderData {
+
+	/**
+	 * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
+	 */
+	public $cObj;
+
+	function __construct() {
+		$this->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+			\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class
+		);
+	}
+
 	/**
 	 * check if GP paramater is set
 	 * @return boolean
@@ -42,19 +54,14 @@ class HeaderData {
 	public static function checkSeoGP() {
 		// get table settings
 		$tables = self::getPageTS();
-
 		if($tables) {
-			/** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
-			$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-				'TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer'
-			);
 			// get active table name und uid
-			$gpSEO = self::getCurrentTableAndUid($tables, $cObj);
+			$gpSEO = self::getCurrentTable($tables, true);
+
 			if($gpSEO) {
 				return true;
 			}
 		}
-
 
 		return false;
 	}
@@ -67,31 +74,31 @@ class HeaderData {
 		$tables = $this->getPageTS();
 
 		if ($tables) {
-			/** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
-			$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-				'TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer'
-			);
-
 			// get active table name und settings
-			$tableSettings = self::getCurrentTableAndUid($tables, $cObj);
-			if ($tableSettings) {
+			$tableSettings = $this->getCurrentTable($tables);
 
+			if ($tableSettings) {
+				// get record
+				$record = $this->getRecord($tableSettings);
+
+				if($record['_LOCALIZED_UID']) {
+					$tableSettings['uid'] = $record['_LOCALIZED_UID'];
+				}
 				// db meta
-				$meta = self::getMetaProperties($tableSettings);
+				$meta = $this->getMetaProperties($tableSettings);
 
 				// db fallback
 				if(isset($tableSettings['fallback'])) {
-					$fallback = self::getFallbackProperties($tableSettings);
 					foreach ($tableSettings['fallback'] as $seoField => $fallbackField) {
-						if(empty($meta[$seoField]) && !empty($fallback[$fallbackField])) {
-							$meta[$seoField] = $fallback[$fallbackField];
+						if(empty($meta[$seoField]) && !empty($record[$fallbackField])) {
+							$meta[$seoField] = $record[$fallbackField];
 						}
 					}
 				}
 
 				if ($meta) {
 					// render content
-					$headerData = self::renderContent($meta, $cObj);
+					$headerData = $this->renderContent($meta);
 
 					return $headerData;
 				}
@@ -114,20 +121,35 @@ class HeaderData {
 	 * Check if extension detail view or page properties should be used
 	 *
 	 * @param $tables
+	 * @param bool $checkOnly
 	 * @return array|bool
 	 */
-	protected function getCurrentTableAndUid($tables, $cObj) {
+	protected function getCurrentTable($tables, $checkOnly = false) {
 		// check for extension detail view
+
+		if($checkOnly) {
+			/** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
+			$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+				\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class
+			);
+		} else {
+			$cObj = $this->cObj;
+		}
 
 		foreach ($tables as $key => $table) {
 			if (isset($tables[$key . '.']['data'])) {
 				$settings = $tables[$key . '.'];
 				$uid = intval($cObj->getData($settings['data']));
+
 				if ($uid) {
+					if($checkOnly) {
+						return true;
+					}
 					$data = array(
 						'table' => $table,
 						'uid' => $uid,
 					);
+
 					if(isset($settings['fallback.']) && count($settings['fallback.']) > 0) {
 						$data['fallback'] = $settings['fallback.'];
 					}
@@ -172,17 +194,24 @@ class HeaderData {
 	 * @param $tableSettings
 	 * @return bool
 	 */
-	protected function getFallbackProperties($tableSettings) {
+	protected function getRecord($tableSettings) {
+		$where = 'uid = ' . $tableSettings['uid'];
+		$where  .= $GLOBALS['TSFE']->sys_page->enableFields($tableSettings['table']);
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 			'*',
 			$tableSettings['table'],
-			'uid = ' . $tableSettings['uid'],
+			$where,
 			'',
 			'',
 			1
 		);
+		$row = $res[0];
 
-		return isset($res[0]) ? $res[0] : [];
+		if (is_array($row) && $row['sys_language_uid'] != $GLOBALS['TSFE']->sys_language_content && $GLOBALS['TSFE']->sys_language_contentOL) {
+			$row = $GLOBALS['TSFE']->sys_page->getRecordOverlay($tableSettings['table'], $row, $GLOBALS['TSFE']->sys_language_content, $GLOBALS['TSFE']->sys_language_contentOL);
+		}
+
+		return $row;
 	}
 
 
@@ -192,7 +221,12 @@ class HeaderData {
 	 * @param $meta
 	 * @return string
 	 */
-	protected function renderContent($meta, $cObj) {
+	protected function renderContent($meta) {
+		/** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
+		$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+			\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class
+		);
+		$cObj->stdWrap_data();
 		/** @var \Clickstorm\CsSeo\Utility\TSFEUtility $tsfeUtility */
 		$tsfeUtility = GeneralUtility::makeInstance(\Clickstorm\CsSeo\Utility\TSFEUtility::class, $GLOBALS['TSFE']->id);
 		$pluginSettings = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.'];
@@ -249,7 +283,7 @@ class HeaderData {
 		$content .= $this->printMetaTag('og:locale', $GLOBALS['TSFE']->config['config']['locale_all'], 1);
 
 		// og:site_name
-		$content .= $this->printMetaTag('og:site_name', $tmpl->sitetitle, 1);
+		$content .= $this->printMetaTag('og:site_name', $GLOBALS['TSFE']->tmpl->sitetitle, 1);
 
 
 		// twitter
@@ -278,9 +312,9 @@ class HeaderData {
 	}
 
 	/**
-	 * @param string $name
-	 * @param string $value
-	 * @param bool $property
+	 * @param string $field
+	 * @param array $meta
+	 * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj
 	 * @return string
 	 */
 	protected function getImageUrl($field, $meta, $cObj) {
