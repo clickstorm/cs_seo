@@ -54,20 +54,11 @@ class PageTitle {
 
         // get all configurations
         $page = $this->getPage();
-        $config = $this->getConfig();
-        $separator = $this->getPageTitleSeparator();
-        $siteTitle = $this->getSiteTitle();
 
         // build the title
         $title = empty($page['tx_csseo_title']) ? $page['title'] : $page['tx_csseo_title'];
 
-        if (empty($page['tx_csseo_title_only'])) {
-            if ($config['pageTitleFirst']) {
-                $title .= $separator . $siteTitle;
-            } else {
-                $title = $separator . $siteTitle . $title;
-            }
-        }
+        $title = $this->TSFE->getFinalTitle($title);
 
         return $title;
     }
@@ -83,28 +74,7 @@ class PageTitle {
     /**
      * @return array
      */
-    protected function getConfig() {
-        return $this->TSFE->getConfig();
-    }
-
-    /**
-     * @return array
-     */
     protected function getPage() {
         return $this->TSFE->getPage();
-    }
-
-    /**
-     * @return string
-     */
-    protected function getPageTitleSeparator() {
-        return $this->TSFE->getPageTitleSeparator();
-    }
-
-    /**
-     * @return string
-     */
-    protected function getSiteTitle() {
-        return $this->TSFE->getSiteTitle();
     }
 }

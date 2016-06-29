@@ -171,6 +171,7 @@ class PreviewWizard
                 // render page title
                 $rootline = BackendUtility::BEgetRootLine($data['uid']);
                 $uid = $data['sys_language_uid'] > 0 ?  $data['pid'] : $data['uid'];
+                /** @var TSFEUtility $TSFEUtility */
                 $TSFEUtility =  GeneralUtility::makeInstance(TSFEUtility::class, $uid, $data['sys_language_uid']);
 
                 $siteTitle = $TSFEUtility->getSiteTitle();
@@ -181,17 +182,8 @@ class PreviewWizard
                 if($table == 'pages' || $table == 'pages_language_overlay') {
                     $pageTitle = static::getPageRenderer()->getTitle();
                 } else {
-                    $pageTitle = $data['title'];
-                    if(!$data['title_only']) {
-                        if($config['pageTitleFirst']) {
-                            $pageTitle .= $pageTitleSeparator . $siteTitle;
-                        } else {
-                            $pageTitle = $siteTitle . $pageTitleSeparator . $pageTitle;
-                        }
-                    }
-
+                    $pageTitle = $TSFEUtility->getFinalTitle($data['title']);
                 }
-
 
                 // TYPO3 8
                 $urlScheme = is_array($data['url_scheme']) ? $data['url_scheme'][0] : $data['url_scheme'];

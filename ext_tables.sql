@@ -75,3 +75,10 @@ CREATE TABLE tx_csseo_domain_model_meta (
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
 );
+
+#
+# Table structure for external table 'tx_myext_domain_model_mymod'
+#
+# CREATE TABLE tx_myext_domain_model_mymod (
+#	  tx_csseo int(11) unsigned NOT NULL default '0',
+# );

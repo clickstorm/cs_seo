@@ -87,6 +87,13 @@ class TSFEUtility {
     }
 
     /**
+     * @return array
+     */
+    public function getPageTitleFirst() {
+        return $this->config['pageTitleFirst'];
+    }
+
+    /**
      * @return string
      */
     public function getPageTitleSeparator() {
@@ -98,6 +105,21 @@ class TSFEUtility {
      */
     public function getSiteTitle() {
         return $GLOBALS['TSFE']->tmpl->setup['sitetitle'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getFinalTitle($title) {
+        $siteTitle = $this->getSiteTitle();
+        $pageTitleFirst = $this->getConfig()['pageTitleFirst'];
+        $pageTitleSeparator = $this->getPageTitleSeparator();
+        if($pageTitleFirst) {
+            $title .= $pageTitleSeparator . $siteTitle;
+        } else {
+            $title = $siteTitle . $pageTitleSeparator . $title;
+        }
+        return $title;
     }
 
     /**

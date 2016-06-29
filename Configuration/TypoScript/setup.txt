@@ -43,6 +43,11 @@ lib.currentUrl {
 }
 
 ### Title Tag ###
+[userFunc = Clickstorm\CsSeo\UserFunc\HeaderData::checkSeoGP()]
+    config.noPageTitle = 2
+    page.headerData.654 = USER
+    page.headerData.654.userFunc = Clickstorm\CsSeo\UserFunc\HeaderData->getMetaTags
+[else]
 config {
     pageTitleFirst = 1
     pageTitleSeparator = |
@@ -307,6 +312,7 @@ page {
         }
     }
 }
+[end]
 
 ### Disable Tracking if Backend User detected ###
 [globalVar = TSFE:beUserLogin > 0]

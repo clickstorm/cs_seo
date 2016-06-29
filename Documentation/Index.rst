@@ -26,7 +26,7 @@ SEO
 		en
 
 	:Description:
-		Enable SEO Features
+		Enable SEO features on pages and models
 
 	:Keywords:
 		seo,meta,tags,google,open,graph,facebook,twitter,cards,href,lang,index,search,engine
