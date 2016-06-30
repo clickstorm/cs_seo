@@ -178,22 +178,22 @@ class PreviewWizard
                 $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();
                 $config = $TSFEUtility->getConfig();
 
-                PageGenerator::generatePageTitle();
                 if($table == 'pages' || $table == 'pages_language_overlay') {
+                    PageGenerator::generatePageTitle();
                     $pageTitle = static::getPageRenderer()->getTitle();
+                    // get page path
+                    $path = $TSFEUtility->getPagePath();
+                    // TYPO3 8
+                    $urlScheme = is_array($data['url_scheme']) ? $data['url_scheme'][0] : $data['url_scheme'];
+
+                    // check if path is absolute
+                    if (strpos($path, '://') !== false) {
+                        $path = '';
+                    }
                 } else {
                     $pageTitle = $TSFEUtility->getFinalTitle($data['title']);
-                }
-
-                // TYPO3 8
-                $urlScheme = is_array($data['url_scheme']) ? $data['url_scheme'][0] : $data['url_scheme'];
-
-                // get page path
-                $path = $TSFEUtility->getPagePath();
-
-                // check if path is absolute
-                if (strpos($path, '://') !== false) {
                     $path = '';
+                    $urlScheme = 'http://';
                 }
 
                 $wizardView->assignMultiple([

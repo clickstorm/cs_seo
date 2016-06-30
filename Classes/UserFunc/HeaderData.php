@@ -48,7 +48,7 @@ class HeaderData {
 	}
 
 	/**
-	 * check if GP paramater is set
+	 * check if GP parameter is set
 	 * @return boolean
 	 */
 	public static function checkSeoGP() {
@@ -67,7 +67,7 @@ class HeaderData {
 	}
 	
 	/**
-	 * @return bool|string og meta tags, if available
+	 * @return bool|string meta tags, if available
 	 */
 	public function getMetaTags($content, $conf) {
 		// get table settings
@@ -108,7 +108,7 @@ class HeaderData {
 	}
 
 	/**
-	 * get the page TS Settings for tx_csopengraph
+	 * get the page TS Settings for tx_csseo
 	 * @return array|bool
 	 */
 	protected function getPageTS() {
@@ -285,7 +285,6 @@ class HeaderData {
 		// og:site_name
 		$content .= $this->printMetaTag('og:site_name', $GLOBALS['TSFE']->tmpl->sitetitle, 1);
 
-
 		// twitter
 		$content .= $this->printMetaTag('twitter:card', 'summary');
 
@@ -334,7 +333,7 @@ class HeaderData {
 				'width' => '1200'
 			)
 		);
-		$imgUri = $cObj->IMG_RESOURCE($conf);
+		$imgUri = $cObj->cObjGetSingle('IMG_RESOURCE', $conf);
 		$conf = array(
 			'parameter' => $imgUri,
 			'forceAbsoluteUrl' => 1
