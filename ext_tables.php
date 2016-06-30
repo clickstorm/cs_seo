@@ -48,6 +48,13 @@ $tempColumns = [
             'maxitems' => 1,
             'appearance' => [
                 'collapseAll' => false,
+                'showPossibleLocalizationRecords' => true,
+                'showRemovedLocalizationRecords' => true,
+                'showSynchronizationLink' => true,
+            ],
+            'behaviour' => [
+                'localizationMode' => 'select',
+                'localizeChildrenAtParentLocalization' => TRUE,
             ],
         ],
     ]
@@ -61,7 +68,6 @@ foreach ($pageTS['tx_csseo.'] as $table) {
             $table,
             '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,tx_csseo'
         );
-        
     }
 }
 
