@@ -21,3 +21,9 @@ Some considerations
 - Hook, if new page, add path segment
 - More hints while typing the title or description (like min characters, words etc.)
 - change URL in preview while typing
+
+Sitemap.xml
+^^^^^^^^^^^
+
+For the sitemap.xml generation there already exists good extensions, like sitemap_generator or dd_googlesitemap.
+If demand should be large, we will consider to implement an own solution.

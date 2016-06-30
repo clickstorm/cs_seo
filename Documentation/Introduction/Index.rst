@@ -19,7 +19,7 @@ What does it do?
 ----------------
 
 Clickstorm SEO enables important on-page features for search engine optimization (SEO) and
-expands the page settings e.g. with a preview for google search results. 
+expands the page settings and extbase models e.g. with a preview for google search results.
 
 .. _features:
 
@@ -35,6 +35,7 @@ Features
    - Open Graph
    - Twitter Cards
 
+- easily **extend any extbase model** you like with this SEO properties (news, events etc.)
 - backend module in AngularJS to edit the properties directly
 - set automatically the path segement from RealURL while creating a new page
 - tracking with Google Analytics inc. download tracking
@@ -59,3 +60,7 @@ In the second new tab called *Social Media* you can set some open graph or twitt
 The backend module gives you an overview and the option to change page properties directly.
 
 |img-3|
+
+Extend e.g. the news with SEO properties. So in the detail view, they are automatically shown.
+
+|img-4|

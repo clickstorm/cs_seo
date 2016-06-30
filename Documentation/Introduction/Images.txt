@@ -25,3 +25,12 @@
 .. :name: Screenshot 3
 .. :vspace: 52
 
+.. |img-4|      image:: ../Images/Introduction/cs_seo-extend-news.png
+   :height: 599
+   :width: 800
+.. :align: center
+.. :alt: cs_seo extend news
+.. :border: 0
+.. :name: Screenshot 4
+.. :vspace: 52
+

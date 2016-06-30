@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = [
 	'title' => '[clickstorm] SEO',
-	'description' => 'Enables important on-page features for search engine optimization (SEO) and expands the page settings, e.g. with a preview for Google search results, Open Graph and Twitter Cards.',
+	'description' => 'Enables important on-page features for search engine optimization (SEO). Expands the page settings and any existing models, e.g. with a preview for Google search results, Open Graph and Twitter Cards.',
 	'category' => 'services',
 	'author' => 'Angela Dudtkowski, Marc Hirdes, Andreas Kirilow - clickstorm GmbH',
 	'author_email' => 'hirdes@clickstorm.de',
