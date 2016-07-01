@@ -9,7 +9,7 @@
     $(document).ready(function(){
         var $title = $('.js-cs-seo-title'),
             $desc = $('.js-cs-seo-desc'),
-            $panel = $title.closest('.form-section'),
+            $panel = $title.closest('fieldset'),
             $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[tx_csseo_title]"], input[name$="[tx_csseo_title]_hr"]'),
             $inputPageTitleHR = $('input[data-formengine-input-name$="[title]"], input[name$="[title]_hr"]'),
             $checkboxTitleOnlyHR = $panel.find('input[data-formengine-input-name$="[tx_csseo_title_only]"], input[name$="[tx_csseo_title_only]_0"]'),
