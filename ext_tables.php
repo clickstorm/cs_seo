@@ -61,13 +61,15 @@ $tempColumns = [
 ];
 
 $pageTS = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(1);
-foreach ($pageTS['tx_csseo.'] as $table) {
-    if(is_string($table)) {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table,$tempColumns,1);
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
-            $table,
-            '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,tx_csseo'
-        );
+if($pageTS['tx_csseo.']) {
+    foreach ($pageTS['tx_csseo.'] as $table) {
+        if(is_string($table)) {
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table,$tempColumns,1);
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+                $table,
+                '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,tx_csseo'
+            );
+        }
     }
 }
 

@@ -17,7 +17,7 @@
             siteTitle = $title.data('sitetitle') ? $title.data('sitetitle') : '',
             titleOnly = $checkboxTitleOnlyHR.is(":checked");
 
-        if($panel.find('input[data-formengine-input-name^="data[tx_csseo_domain_model_meta]"]')) {
+        if($panel.find('input[data-formengine-input-name^="data[tx_csseo_domain_model_meta]"]').length > 0) {
             $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[title]"], input[name$="[title]_hr"]');
             $inputPageTitleHR = $inputSeoTitleHR;
             $checkboxTitleOnlyHR = $panel.find('input[data-formengine-input-name$="[title_only]"], input[name$="[title_only]_0"]');
