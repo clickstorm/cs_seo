@@ -162,6 +162,10 @@ class PreviewWizard
         
         if(strpos($data['uid'], 'NEW') === false) {
 
+            // set pageID for TSSetup check
+            $pidField = ($table == 'pages') ? 'uid' : 'pid';
+            $_GET['id'] = $data[$pidField];
+
             // check if TS page type exists
             /** @var BackendConfigurationManager $configurationManager */
             $backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
