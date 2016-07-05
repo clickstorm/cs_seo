@@ -250,11 +250,19 @@ class HeaderData {
 		$content .= $this->printMetaTag('description', $meta['description']);
 
 		// index
-		$canonical = $meta['canonical'] ? $cObj->typoLink_URL($meta['canonical']) : GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL');
+		if($meta['canonical']) {
+			$canonical = $cObj->typoLink_URL($meta['canonical']);
+		} else {
+			$typoLinkConf = $GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.'];
+			unset($typoLinkConf['parameter.']);
+			$typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
+			$canonical = $cObj->typoLink_URL($typoLinkConf);
+		}
+
 		if($meta['no_index']) {
 			$content .= $this->printMetaTag('robots', 'noindex,nofollow');
 		} else {
-			$content .= $this->printMetaTag('canonical', $canonical);
+			$content .= '<link rel="canonical" href="' . $canonical . '" />';
 		}
 
 		// og:title
