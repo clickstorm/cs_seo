@@ -60,7 +60,7 @@ class TSFEUtility {
         if(!isset($GLOBALS['TSFE']) || ($environmentService->isEnvironmentInBackendMode() && !($GLOBALS['TSFE'] instanceof TypoScriptFrontendController))) {
             $this->initTSFE();
         }
-
+        
         $this->config = $GLOBALS['TSFE']->tmpl->setup['config.'];
     }
 
@@ -114,6 +114,7 @@ class TSFEUtility {
         $siteTitle = $this->getSiteTitle();
         $pageTitleFirst = $this->getConfig()['pageTitleFirst'];
         $pageTitleSeparator = $this->getPageTitleSeparator();
+        
         if($pageTitleFirst) {
             $title .= $pageTitleSeparator . $siteTitle;
         } else {
