@@ -137,9 +137,9 @@ class HeaderData {
 		}
 
 		foreach ($tables as $key => $table) {
-			if (isset($tables[$key . '.']['data'])) {
+			if (isset($tables[$key . '.']['enable'])) {
 				$settings = $tables[$key . '.'];
-				$uid = intval($cObj->getData($settings['data']));
+				$uid = intval($cObj->getData($settings['enable']));
 
 				if ($uid) {
 					if($checkOnly) {

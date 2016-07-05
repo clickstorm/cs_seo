@@ -39,7 +39,7 @@ Add the following page TSconfig to the page with ID = 1.
 		1 = tx_news_domain_model_news
 
 		# if the get parameter is set in the URL the cs_seo properties will be shown
-		1.data = GP:tx_news_pi1|news
+		1.enable = GP:tx_news_pi1|news
 
 		# if the model already has fields like title etc. define them as fallback
 		1.fallback {
