@@ -36,18 +36,18 @@ Add the following page TSconfig to the page with ID = 1.
 
 	tx_csseo {
 		# new index and table name of the model
-		1 = tx_news_domain_model_news
+		1 = tx_myext_domain_model_mymod
 
 		# if the get parameter is set in the URL the cs_seo properties will be shown
-		1.enable = GP:tx_news_pi1|news
+		1.enable = GP:tx_myext_pi1|mymod
 
 		# if the model already has fields like title etc. define them as fallback
 		1.fallback {
 
-		    # cs_seo title field fallback = news title field
+		    # cs_seo title field fallback = mymod title field
 		    title = title
 
-		    # cs_seo description field fallback = news description field
+		    # cs_seo description field fallback = mymod description field
 		    description = description
 		}
 	}
