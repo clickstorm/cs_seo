@@ -9,14 +9,13 @@
 (function ($, document) {
     $(document).ready(function(){
         var filetypes = /\.(zip|exe|dmg|pdf|doc.*|xls.*|ppt.*|mp3|txt|rar|wma|mov|avi|wmv|flv|wav)$/i;
-        var baseHref = '';
-        if ($('base').attr('href') != undefined) baseHref = $('base').attr('href');
 
         $('a').on('click', function (event) {
-            var el = $(this);
-            var track = true;
-            var href = (typeof(el.attr('href')) != 'undefined' ) ? el.attr('href') : "";
-            var isThisDomain = href.match(document.domain.split('.').reverse()[1] + '.' + document.domain.split('.').reverse()[0]);
+            var el = $(this),
+                track = true,
+                href = this.href,
+                isThisDomain = href.match(document.domain.split('.').reverse()[1] + '.' + document.domain.split('.').reverse()[0]);
+
             if (!href.match(/^javascript:/i)) {
                 var elEv = [];
                 elEv.value = 0, elEv.non_i = false;
