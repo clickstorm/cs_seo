@@ -134,7 +134,7 @@ class TSFEUtility {
                 $GLOBALS['TT'] = new NullTimeTracker;
                 $GLOBALS['TT']->start();
             }
-            /** @var $frontend TypoScriptFrontendController */
+
             $GLOBALS['TSFE'] = GeneralUtility::makeInstance(TypoScriptFrontendController::class,  $GLOBALS['TYPO3_CONF_VARS'], $this->pageUid, $this->typeNum);
             $GLOBALS['TSFE']->connectToDB();
             $GLOBALS['TSFE']->initFEuser();

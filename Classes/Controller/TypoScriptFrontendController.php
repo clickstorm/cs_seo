@@ -59,4 +59,16 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
         }
         $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
     }
+
+    /**
+      * page is in backend so found is true
+     *
+     * @param string $reason Reason text
+     * @param string $header HTTP header to send
+     * @return void
+     */
+    public function pageNotFoundAndExit($reason = '', $header = '')
+    {
+        return;
+    }
 }
