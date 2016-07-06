@@ -163,8 +163,8 @@ class PreviewWizard
         if(strpos($data['uid'], 'NEW') === false) {
 
             // set pageID for TSSetup check
-            $pidField = ($table == 'pages') ? 'uid' : 'pid';
-            $_GET['id'] = $data[$pidField];
+            $pageUid = ($table == 'pages') ? $data['uid'] : $data['pid'];
+            $_GET['id'] = $pageUid;
 
             // check if TS page type exists
             /** @var BackendConfigurationManager $configurationManager */
@@ -173,10 +173,10 @@ class PreviewWizard
 
             if(isset($fullTS['types.'][$this->typeNum])) {
                 // render page title
-                $rootline = BackendUtility::BEgetRootLine($data['uid']);
-                $uid = $data['sys_language_uid'] > 0 ?  $data['pid'] : $data['uid'];
+                $rootline = BackendUtility::BEgetRootLine($pageUid);
+
                 /** @var TSFEUtility $TSFEUtility */
-                $TSFEUtility =  GeneralUtility::makeInstance(TSFEUtility::class, $uid, $data['sys_language_uid']);
+                $TSFEUtility =  GeneralUtility::makeInstance(TSFEUtility::class, $pageUid, $data['sys_language_uid']);
 
                 $siteTitle = $TSFEUtility->getSiteTitle();
                 $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();
