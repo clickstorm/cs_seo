@@ -12,8 +12,20 @@ plugin.tx_csseo {
     # cat=plugin.tx_csseo/social; type=string; label= Default image for open graph and twitter (e.g. fileadmin/user_upload/image.jpg)
     social.defaultImage =
 
+    # cat=plugin.tx_csseo/social; type=string; label= Height of the Open Graph image
+    social.openGraph.image.height = 628c
+
+    # cat=plugin.tx_csseo/social; type=string; label= Width of the Open Graph image
+    social.openGraph.image.width = 1200
+
     # cat=plugin.tx_csseo/social; type=string; label= Default twitter creator (without @)
     social.twitter.creator =
+
+    # cat=plugin.tx_csseo/social; type=string; label= Height of the Twitter Cards image
+    social.twitter.image.height = 512c
+
+    # cat=plugin.tx_csseo/social; type=string; label= Width of the Twitter Cards image
+    social.twitter.image.width = 1024
 
     # cat=plugin.tx_csseo/tracking; type=string; label= Google Analytics id (eg. UA-XXXXXX-XXX)
     tracking.googleAnalytics =

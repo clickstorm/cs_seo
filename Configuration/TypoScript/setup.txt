@@ -9,8 +9,18 @@ plugin.tx_csseo {
     }
     social {
         defaultImage = {$plugin.tx_csseo.social.defaultImage}
+        openGraph {
+            image {
+                height = {$plugin.tx_csseo.social.openGraph.image.height}
+                width = {$plugin.tx_csseo.social.openGraph.image.width}
+            }
+        }
         twitter {
             creator = {$plugin.tx_csseo.social.twitter.creator}
+            image {
+                height = {$plugin.tx_csseo.social.twitter.image.height}
+                width = {$plugin.tx_csseo.social.twitter.image.width}
+            }
         }
     }
     tracking {
@@ -188,8 +198,8 @@ page {
                 renderObj = IMG_RESOURCE
                 renderObj {
                     file.import.data = file:current:publicUrl
-                    file.height = 628c
-                    file.width  = 1200
+                    file.height < plugin.tx_csseo.social.openGraph.image.height
+                    file.width < plugin.tx_csseo.social.openGraph.image.width
                     stdWrap.dataWrap = <meta property="og:image" content="{TSFE:baseUrl}|" />
                 }
             }
@@ -199,8 +209,8 @@ page {
             55 {
                 stdWrap.if.isFalse.field = tx_csseo_og_image
                 file = {$plugin.tx_csseo.social.defaultImage}
-                file.height = 628c
-                file.width  = 1200
+                file.height < plugin.tx_csseo.social.openGraph.image.height
+                file.width < plugin.tx_csseo.social.openGraph.image.width
                 stdWrap.dataWrap = <meta property="og:image" content="{TSFE:baseUrl}|" />
             }
         }
@@ -248,8 +258,8 @@ page {
                 renderObj = IMG_RESOURCE
                 renderObj {
                     file.import.data = file:current:publicUrl
-                    file.height = 512c
-                    file.width  = 1024
+                    file.height < plugin.tx_csseo.social.twitter.image.height
+                    file.width  < plugin.tx_csseo.social.twitter.image.width
                     stdWrap.dataWrap = <meta name="twitter:image" content="{TSFE:baseUrl}|" />
                 }
             }
@@ -259,8 +269,8 @@ page {
             45 {
                 stdWrap.if.isFalse.field = tx_csseo_tw_image
                 file = {$plugin.tx_csseo.social.defaultImage}
-                file.height = 512c
-                file.width  = 1024
+                file.height < plugin.tx_csseo.social.twitter.image.height
+                file.width  < plugin.tx_csseo.social.twitter.image.width
                 stdWrap.dataWrap = <meta property="twitter:image" content="{TSFE:baseUrl}|" />
             }
         }

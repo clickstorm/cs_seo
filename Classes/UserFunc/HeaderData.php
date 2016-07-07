@@ -222,17 +222,11 @@ class HeaderData {
 	 * @return string
 	 */
 	protected function renderContent($meta) {
-		/** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
-		$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-			\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class
-		);
-		$cObj->stdWrap_data();
 		/** @var \Clickstorm\CsSeo\Utility\TSFEUtility $tsfeUtility */
 		$tsfeUtility = GeneralUtility::makeInstance(\Clickstorm\CsSeo\Utility\TSFEUtility::class, $GLOBALS['TSFE']->id);
 		$pluginSettings = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.'];
 
 		$content = '';
-
 		$title = $meta['title'];
 
 		// title
@@ -251,12 +245,12 @@ class HeaderData {
 
 		// index
 		if($meta['canonical']) {
-			$canonical = $cObj->getTypoLink_URL($meta['canonical']);
+			$canonical = $this->cObj->getTypoLink_URL($meta['canonical']);
 		} else {
 			$typoLinkConf = $GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.'];
 			unset($typoLinkConf['parameter.']);
 			$typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
-			$canonical = $cObj->typoLink_URL($typoLinkConf);
+			$canonical = $this->cObj->typoLink_URL($typoLinkConf);
 		}
 
 		if($meta['no_index']) {
@@ -275,7 +269,7 @@ class HeaderData {
 
 		// og:image
 		if ($meta['og_image']) {
-			$imageURL = $this->getImageUrl('og_image', $meta, $cObj);
+			$imageURL = $this->getImageUrl('og_image', $meta['uid'], $pluginSettings['social.']['openGraph.']['image.']);
 			$content .= $this->printMetaTag('og:image', $imageURL, 1);
 		} else {
 			$content .= $this->printMetaTag('og:image', $pluginSettings['social.']['defaultImage'], 1);
@@ -308,7 +302,7 @@ class HeaderData {
 
 		// twitter image
 		if($meta['tw_image']) {
-			$imageURL = $this->getImageUrl('tw_image', $meta, $cObj);
+			$imageURL = $this->getImageUrl('tw_image', $meta['uid'], $pluginSettings['social.']['twitter.']['image.']);
 			$content .= $this->printMetaTag('twitter:image', $imageURL);
 		}
 
@@ -320,11 +314,11 @@ class HeaderData {
 
 	/**
 	 * @param string $field
-	 * @param array $meta
-	 * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj
+	 * @param string $uid
+	 * @param array $imageSize
 	 * @return string
 	 */
-	protected function getImageUrl($field, $meta, $cObj) {
+	protected function getImageUrl($field, $uid, $imageSize) {
 		/** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
 		$fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 			\TYPO3\CMS\Core\Resource\FileRepository::class
@@ -332,23 +326,23 @@ class HeaderData {
 		$fileObjects = $fileRepository->findByRelation(
 			'tx_csseo_domain_model_meta',
 			'tx_csseo_' . $field,
-			$meta['uid']
+			$uid
 		);
 
 		if($fileObjects[0]) {
 			$conf = array(
 				'file' => $fileObjects[0]->getOriginalFile()->getUid(),
 				'file.' => array(
-					'height' => '630c',
-					'width' => '1200'
+					'height' => $imageSize['height'],
+					'width' => $imageSize['width']
 				)
 			);
-			$imgUri = $cObj->cObjGetSingle('IMG_RESOURCE', $conf);
+			$imgUri = $this->cObj->cObjGetSingle('IMG_RESOURCE', $conf);
 			$conf = array(
 				'parameter' => $imgUri,
 				'forceAbsoluteUrl' => 1
 			);
-			return $cObj->typoLink_URL($conf);
+			return $this->cObj->typoLink_URL($conf);
 		}
 
 	}
