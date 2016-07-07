@@ -251,7 +251,7 @@ class HeaderData {
 
 		// index
 		if($meta['canonical']) {
-			$canonical = $cObj->typoLink_URL($meta['canonical']);
+			$canonical = $cObj->getTypoLink_URL($meta['canonical']);
 		} else {
 			$typoLinkConf = $GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.'];
 			unset($typoLinkConf['parameter.']);
@@ -331,22 +331,26 @@ class HeaderData {
 		);
 		$fileObjects = $fileRepository->findByRelation(
 			'tx_csseo_domain_model_meta',
-			$field,
+			'tx_csseo_' . $field,
 			$meta['uid']
 		);
-		$conf = array(
-			'file' => $fileObjects[0]->getOriginalFile()->getUid(),
-			'file.' => array(
-				'height' => '630c',
-				'width' => '1200'
-			)
-		);
-		$imgUri = $cObj->cObjGetSingle('IMG_RESOURCE', $conf);
-		$conf = array(
-			'parameter' => $imgUri,
-			'forceAbsoluteUrl' => 1
-		);
-		return $cObj->typoLink_URL($conf);
+
+		if($fileObjects[0]) {
+			$conf = array(
+				'file' => $fileObjects[0]->getOriginalFile()->getUid(),
+				'file.' => array(
+					'height' => '630c',
+					'width' => '1200'
+				)
+			);
+			$imgUri = $cObj->cObjGetSingle('IMG_RESOURCE', $conf);
+			$conf = array(
+				'parameter' => $imgUri,
+				'forceAbsoluteUrl' => 1
+			);
+			return $cObj->typoLink_URL($conf);
+		}
+
 	}
 
 	/**
