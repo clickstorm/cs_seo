@@ -71,7 +71,7 @@ class HeaderData {
 	 */
 	public function getMetaTags($content, $conf) {
 		// get table settings
-		$tables = $this->getPageTS();
+		$tables = self::getPageTS();
 
 		if ($tables) {
 			// get active table name und settings
@@ -111,7 +111,7 @@ class HeaderData {
 	 * get the page TS Settings for tx_csseo
 	 * @return array|bool
 	 */
-	protected function getPageTS() {
+	public static function getPageTS() {
 		$pageTSConfig = BackendUtility::getPagesTSconfig($GLOBALS['TSFE']->id);
 
 		return isset($pageTSConfig['tx_csseo.']) ? $pageTSConfig['tx_csseo.'] : false;
