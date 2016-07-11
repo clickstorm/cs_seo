@@ -11,7 +11,7 @@
 	"clickstorm",
 	"SEO"
   ],
-  "version": "1.4.1-dev",
+  "version": "1.4.1",
   "dist": {
 	"url": "https://github.com/clickstorm/cs_seo.git",
 	"type": "git"
