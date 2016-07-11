@@ -28,6 +28,7 @@ namespace Clickstorm\CsSeo\UserFunc;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Render the open graph data
@@ -52,11 +53,15 @@ class HeaderData {
 	 * @return boolean
 	 */
 	public static function checkSeoGP() {
+
 		// get table settings
 		$tables = self::getPageTS();
+
 		if($tables) {
+			$cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+
 			// get active table name und uid
-			$gpSEO = self::getCurrentTable($tables, true);
+			$gpSEO = self::getCurrentTable($tables, $cObj, true);
 
 			if($gpSEO) {
 				return true;
@@ -75,7 +80,7 @@ class HeaderData {
 
 		if ($tables) {
 			// get active table name und settings
-			$tableSettings = $this->getCurrentTable($tables);
+			$tableSettings = $this->getCurrentTable($tables, $this->cObj);
 
 			if ($tableSettings) {
 				// get record
@@ -121,21 +126,11 @@ class HeaderData {
 	 * Check if extension detail view or page properties should be used
 	 *
 	 * @param $tables
+	 * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj
 	 * @param bool $checkOnly
 	 * @return array|bool
 	 */
-	protected function getCurrentTable($tables, $checkOnly = false) {
-		// check for extension detail view
-
-		if($checkOnly) {
-			/** @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj */
-			$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-				\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class
-			);
-		} else {
-			$cObj = $this->cObj;
-		}
-
+	public static function getCurrentTable($tables, $cObj, $checkOnly = false) {
 		foreach ($tables as $key => $table) {
 			if (isset($tables[$key . '.']['enable'])) {
 				$settings = $tables[$key . '.'];

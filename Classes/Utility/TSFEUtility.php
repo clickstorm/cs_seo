@@ -13,6 +13,7 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Backend\Utility\BackendUtility;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use \TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * own TSFE to render TSFE in the backend
@@ -60,7 +61,6 @@ class TSFEUtility {
         if(!isset($GLOBALS['TSFE']) || ($environmentService->isEnvironmentInBackendMode() && !($GLOBALS['TSFE'] instanceof TypoScriptFrontendController))) {
             $this->initTSFE();
         }
-        
         $this->config = $GLOBALS['TSFE']->tmpl->setup['config.'];
     }
 
@@ -135,12 +135,16 @@ class TSFEUtility {
                 $GLOBALS['TT']->start();
             }
 
-            $GLOBALS['TSFE'] = GeneralUtility::makeInstance(TypoScriptFrontendController::class,  $GLOBALS['TYPO3_CONF_VARS'], $this->pageUid, $this->typeNum);
+            $GLOBALS['TSFE'] = GeneralUtility::makeInstance(TypoScriptFrontendController::class,
+                $GLOBALS['TYPO3_CONF_VARS'], $this->pageUid, $this->typeNum);
+
+            $GLOBALS['TSFE']->config = [];
+            $GLOBALS['TSFE']->forceTemplateParsing = true;
+
             $GLOBALS['TSFE']->connectToDB();
             $GLOBALS['TSFE']->initFEuser();
             $GLOBALS['TSFE']->determineId();
             $GLOBALS['TSFE']->initTemplate();
-            $GLOBALS['TSFE']->getConfigArray();
             $GLOBALS['TSFE']->newCObj();
 
             if($this->lang > 0) {
@@ -148,14 +152,13 @@ class TSFEUtility {
                 $GLOBALS['TSFE']->settingLanguage();
             }
 
-
-
             if (ExtensionManagementUtility::isLoaded('realurl')) {
                 $rootline = BackendUtility::BEgetRootLine($this->pageUid);
                 $host = BackendUtility::firstDomainRecord($rootline);
                 $_SERVER['HTTP_HOST'] = $host;
             }
-
+            
+            $GLOBALS['TSFE']->getConfigArray();
         } catch (\Exception $e) {
             // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($e);
             return;
