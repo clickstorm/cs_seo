@@ -7,7 +7,7 @@ Feel free to test and give feedback.
 
 ## More information
 
-  * [TYPO3 Repository] - Official dowload page
+  * [TYPO3 Repository] - Official download page
   * [Extension Manual] - Official documentation with all features and configurations
   * [clickstorm Blog] - Current information in german
 
