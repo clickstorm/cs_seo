@@ -63,7 +63,8 @@ if(isset($GLOBALS['TYPO3_DB'])) {
 		]
 	];
 
-	$pageTS = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(1);
+	$rootLine = \TYPO3\CMS\Backend\Utility\BackendUtility::BEgetRootLine(1, '', true);
+	$pageTS = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(1, $rootLine);
 
 	if($pageTS['tx_csseo.']) {
 		foreach ($pageTS['tx_csseo.'] as $table) {
