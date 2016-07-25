@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-05-10T12:05:38Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-07-25T12:42:24Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
 		<body>
+		<trans-unit id="_tx_csseo_title.seeAlso">
+			<source> www.clickstorm.de/blog | http://www.clickstorm.de/blog/</source>
+		</trans-unit>
 		<trans-unit id="tx_csseo_canonical.description">
 			<source>Provides from duplicate content. If another page shows mainly the same content, type here the link to this page, if it should be rather indexed then the current. </source>
 		</trans-unit>
@@ -22,9 +25,6 @@
 		</trans-unit>
 		<trans-unit id="tx_csseo_title.description">
 			<source>This title will be shown in the browser tab and in the search engines. Place some keywords here, but not only separated by commas. The user should be animated to click.</source>
-		</trans-unit>
-		<trans-unit id="_tx_csseo_title.seeAlso">
-			<source> www.clickstorm.de/blog | http://www.clickstorm.de/blog/</source>
 		</trans-unit>
 		<trans-unit id="tx_csseo_title_only.description">
 			<source>Show the browser title without the site title in cases the space isn't enough.</source>

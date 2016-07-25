@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-05-10T12:05:38Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-07-25T12:42:24Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -43,7 +43,7 @@
 		</trans-unit>
 		<trans-unit id="tx_csseo_tw_image.description" approved="yes">
 			<source>This image will be shown, if the user shares this page on twitter. Fallback is the open graph image. It will be scaled to 1024 x 512 pixels.</source>
-			<target>Dieses Bild wird angezeigt, wenn der Nutzer diese Seite bei Twitter teilen möchte. Fallback ist die Open Graph Bild. Es wird skaliert auf 1024 x 512 Pixel skaliert.</target>
+			<target>Dieses Bild wird angezeigt, wenn der Nutzer diese Seite bei Twitter teilen möchte. Fallback ist das Open Graph Bild. Es wird skaliert auf 1024 x 512 Pixel skaliert.</target>
 		</trans-unit>
 		<trans-unit id="tx_csseo_tw_title.description" approved="yes">
 			<source>This title will be shown, if the user shares this page on twitter. Fallback is the open graph title. </source>
