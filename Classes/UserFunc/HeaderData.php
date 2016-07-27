@@ -254,6 +254,22 @@ class HeaderData {
 			$content .= '<link rel="canonical" href="' . $canonical . '" />';
 		}
 
+        // hreflang
+        if (!$meta['no_index'] && !$meta['canonical'] && $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['enable']) {
+            $langIds = explode(",", $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['ids']);
+            $langKeys = explode(",", $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['keys']);
+
+            $hreflangTypoLinkConf = $typoLinkConf;
+
+            foreach ($langIds as $key => $langId) {
+                $hreflangTypoLinkConf['additionalParams'] = '&L=' . $langId;
+                $hreflangUrl = $this->cObj->typoLink_URL($hreflangTypoLinkConf);
+
+                $content .= '<link rel="alternate" hreflang="' . $langKeys[$key] . '" href="' . $hreflangUrl . '" />';
+            }
+
+        }
+
 		// og:title
 		$ogTitle = $meta['og_title'] ?: $title;
 		$content .= $this->printMetaTag('og:title', $ogTitle, 1);
