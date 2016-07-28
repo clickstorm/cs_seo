@@ -135,6 +135,11 @@ class HeaderData {
 			if (isset($tables[$key . '.']['enable'])) {
 				$settings = $tables[$key . '.'];
 				$uid = intval($cObj->getData($settings['enable']));
+                if ($settings['canonicalFallbackLanguage'] != '') {
+                    $canonicalFallbackLanguage = intval($settings['canonicalFallbackLanguage']);
+                } else {
+                    $canonicalFallbackLanguage = NULL;
+                }
 
 				if ($uid) {
 					if($checkOnly) {
@@ -143,6 +148,7 @@ class HeaderData {
 					$data = array(
 						'table' => $table,
 						'uid' => $uid,
+						'canonicalFallbackLanguage' => $canonicalFallbackLanguage,
 					);
 
 					if(isset($settings['fallback.']) && count($settings['fallback.']) > 0) {
@@ -238,37 +244,59 @@ class HeaderData {
 		// description
 		$content .= $this->printMetaTag('description', $meta['description']);
 
-		// index
-		if($meta['canonical']) {
-			$canonical = $this->cObj->getTypoLink_URL($meta['canonical']);
-		} else {
-			$typoLinkConf = $GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.'];
-			unset($typoLinkConf['parameter.']);
-			$typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
-			$canonical = $this->cObj->typoLink_URL($typoLinkConf);
-		}
+        // hreflang & canonical
+        $typoLinkConf = $GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.'];
+        unset($typoLinkConf['parameter.']);
+        $typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
 
-		if($meta['no_index']) {
-			$content .= $this->printMetaTag('robots', 'noindex,nofollow');
-		} else {
-			$content .= '<link rel="canonical" href="' . $canonical . '" />';
-		}
+        // get active table and uid
+        $tables = self::getPageTS();
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $currentItem = self::getCurrentTable($tables, $cObj);
+
+        $allLanguagesFormItem = $this->getAllLanguagesFormItem($currentItem['table'], $currentItem['uid']);
+
+        $currentLanguageUid = $GLOBALS['TSFE']->sys_language_uid;
 
         // hreflang
-        if (!$meta['no_index'] && !$meta['canonical'] && $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['enable']) {
+
+        // if the item for the current language uid exists and
+        // the item is not set to no index and
+        // the item points not to another page as canonical and
+        // the TS setting hreflang.enabled is set to 1
+        if (in_array($currentLanguageUid, $allLanguagesFormItem) && !$meta['no_index'] && !$meta['canonical'] && $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['enable']) {
             $langIds = explode(",", $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['ids']);
             $langKeys = explode(",", $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['keys']);
 
             $hreflangTypoLinkConf = $typoLinkConf;
 
             foreach ($langIds as $key => $langId) {
-                $hreflangTypoLinkConf['additionalParams'] = '&L=' . $langId;
-                $hreflangUrl = $this->cObj->typoLink_URL($hreflangTypoLinkConf);
+                if (in_array($langId, $allLanguagesFormItem)) {
+                    $hreflangTypoLinkConf['additionalParams'] = '&L=' . $langId;
+                    $hreflangUrl = $this->cObj->typoLink_URL($hreflangTypoLinkConf);
 
-                $content .= '<link rel="alternate" hreflang="' . $langKeys[$key] . '" href="' . $hreflangUrl . '" />';
+                    $content .= '<link rel="alternate" hreflang="' . $langKeys[$key] . '" href="' . $hreflangUrl . '" />';
+                }
             }
-
         }
+
+        // canonical
+        if($meta['canonical']) {
+            $canonical = $this->cObj->getTypoLink_URL($meta['canonical']);
+        } else {
+            // if a fallback is shown set canonical to the fallback language
+            if (!in_array($currentLanguageUid, $allLanguagesFormItem) && !is_null($currentItem['canonicalFallbackLanguage'])) {
+                $typoLinkConf['additionalParams'] = '&L=' . $currentItem['canonicalFallbackLanguage'];
+            }
+            $canonical = $this->cObj->typoLink_URL($typoLinkConf);
+        }
+
+		// index
+		if($meta['no_index']) {
+			$content .= $this->printMetaTag('robots', 'noindex,nofollow');
+		} else {
+			$content .= '<link rel="canonical" href="' . $canonical . '" />';
+		}
 
 		// og:title
 		$ogTitle = $meta['og_title'] ?: $title;
@@ -372,4 +400,22 @@ class HeaderData {
 		$propertyString = $property ? 'property' : 'name';
 		return '<meta ' . $propertyString . '="' . $name . '" content="' . $value . '" />';
 	}
+
+    /**
+     * @param string $table
+     * @param string $uid
+     * @return array
+     */
+    protected function getAllLanguagesFormItem($table, $uid) {
+        $languageIds = array();
+        $timestamp = time();
+        $whereClause = '(l10n_parent = ' . $uid . ' OR uid = ' . $uid . ') AND deleted = 0 AND hidden = 0 AND t3ver_state <= 0 AND starttime <= ' . $timestamp . ' AND (endtime=0 OR endtime > ' . $timestamp . ')';
+        $allItems = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('sys_language_uid', $table, $whereClause);
+
+        foreach ($allItems as $item) {
+            $languageIds[] = $item['sys_language_uid'];
+        }
+
+        return $languageIds;
+    }
 }
