@@ -41,14 +41,23 @@ module.tx_csseo {
 
 module.tx_csseo_web_csseomod1 < module.tx_csseo
 
+# URL used for canonical, hreflang, og:url and USERFUNC HeaderData.php
 lib.currentUrl = TEXT
 lib.currentUrl {
     typolink {
         parameter.data = page:tx_csseo_canonical // page:content_from_pid // page:uid
         forceAbsoluteUrl = 1
         returnLast = url
+        # set L Param manually
+        # if page:_PAGES_OVERLAY_LANGUAGE is set, use this language in case of content_fallback
+        # if page:_PAGES_OVERLAY_LANGUAGE is not set, use 0 - because only the page with language 0 hasn't this variable
+        additionalParams.required = 1
+        additionalParams.data = page:_PAGES_OVERLAY_LANGUAGE
+        additionalParams.ifEmpty = 0
+        additionalParams.wrap = &L=|
+        # exclude L Param an other - L Param is set manually (additionalParams)
         addQueryString = 1
-        addQueryString.exclude = cHash,utm_medium,utm_source,utm_campaign,utm_content,tx_search_pi1[query],src,ref,gclid,cx,ie,cof,siteurl,zanpid,_ult
+        addQueryString.exclude = L,cHash,utm_medium,utm_source,utm_campaign,utm_content,tx_search_pi1[query],src,ref,gclid,cx,ie,cof,siteurl,zanpid,_ult
     }
 }
 
@@ -93,8 +102,23 @@ page {
         20 = HMENU
         20 {
             if {
+                # the hreflang tag will be set if:
+                # the TS Setting hreflang.enable = 1
                 isTrue < plugin.tx_csseo.hreflang.enable
+                # no canonical page is set on page settings
+                # "no index" is not set on page settings
+                # no "content from pid" is set on page settings
                 isFalse.data = page:tx_csseo_canonical // page:tx_csseo_no_index // page:content_from_pid
+                # if all this is empty - no field from above is set
+                isFalse.ifEmpty = 1
+                isFalse.ifEmpty.if {
+                    # if current sys_language_uid is equals page:_PAGES_OVERLAY_LANGUAGE - means no fallback-page is displayed
+                    # if page:_PAGES_OVERLAY_LANGUAGE is not given the current sys_language_uid is 0 - default language page
+                    value.data = TSFE:sys_language_uid
+                    equals.data = page:_PAGES_OVERLAY_LANGUAGE
+                    equals.ifEmpty = 0
+                    negate = 1
+                }
             }
             special = language
             special.value < plugin.tx_csseo.hreflang.ids
@@ -132,14 +156,13 @@ page {
                         10.data = register:lLabel
                         10.wrap = <link rel="alternate" hreflang="|"
 
-                        20 = TEXT
+                        20 =< lib.currentUrl
                         20 {
                             typolink {
                                 parameter.data = page:uid
+                                additionalParams >
                                 additionalParams.data = register:lParam
                                 additionalParams.wrap = &L=|
-                                returnLast = url
-                                forceAbsoluteUrl = 1
                             }
                             noTrimWrap = | href="|" />|
                         }
@@ -150,7 +173,7 @@ page {
 
                 # Set hreflang for active languages
                 ACT = 1
-                ACT <= .NO
+                ACT =< .NO
 
                 # Don't show hreflang for not localized languages
                 USERDEF1 = 1
@@ -178,6 +201,12 @@ page {
 
             ### og:url ###
             30 =< lib.currentUrl
+            30 {
+                typolink {
+                    additionalParams >
+                    addQueryString.exclude = cHash,utm_medium,utm_source,utm_campaign,utm_content,tx_search_pi1[query],src,ref,gclid,cx,ie,cof,siteurl,zanpid,_ult
+                }
+            }
             30.wrap = <meta property="og:url" content="|" />
 
             ### og:site_name ###
