@@ -24,7 +24,7 @@
 		de
 
 	:Beschreibung:
-		Clickstorm SEO aktiviert erweiterte Technicken der OnPage-Suchmaschinenoptimierungen. So bietet
+		Clickstorm SEO aktiviert erweiterte Techniken der OnPage-Suchmaschinenoptimierungen. So bietet
 		die Extension u.a. eine Vorschau für Google Suchergebnisse sowie Seiteneigenschaften für
         Open Graph und Twitter Cards.
 

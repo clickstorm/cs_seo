@@ -11,6 +11,13 @@ Extend existing models
 To extend an already existing extbase model with a detail view, e.g. news or job offers,
 easily complete the following two steps.
 
+
+If the hreflang tag is enabled in TypoScript, the hreflang tag is set for all existing languages of the extended
+extbase item (not for the languages of the detail page). It checks the languages for
+the extbase item, which is given by the get parameter from the page TSconfig in step 2.
+If a fallback item is displayed because of sys_language_mode content_fallback, the hrefang tag will be removed and
+the canonical tag points to the url of the displayed fallback item.
+
 .. _ext_tables:
 
 1. Add the field in the ext_tables.sql

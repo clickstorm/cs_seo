@@ -171,10 +171,6 @@ page {
                     doNotLinkIt = 1
                 }
 
-                # Set hreflang for active languages
-                ACT = 1
-                ACT =< .NO
-
                 # Don't show hreflang for not localized languages
                 USERDEF1 = 1
                 USERDEF1.doNotShowLink = 1
