@@ -8,7 +8,7 @@ plugin.tx_csseo {
     # cat=plugin.tx_csseo/language/3; type=string; label= List the language keys for the Hreflang tags - same order as hreflang.uids (e.g. en,de,ch)
     hreflang.keys =
 
-    # customsubcategory=social=Social
+    # customsubcategory=social=Social Media
     # cat=plugin.tx_csseo/social/1; type=string; label= Default image for Open Graph and Twitter (e.g. fileadmin/user_upload/image.jpg)
     social.defaultImage =
 
@@ -27,7 +27,7 @@ plugin.tx_csseo {
     # cat=plugin.tx_csseo/social/6; type=string; label= Default Twitter Creator (without @)
     social.twitter.creator =
 
-    # customsubcategory=tracking=User tracking
+    # customsubcategory=tracking=User Tracking
     # cat=plugin.tx_csseo/tracking/1; type=string; label= Google Analytics ID (eg. UA-XXXXXX-XXX)
     tracking.googleAnalytics =
 
