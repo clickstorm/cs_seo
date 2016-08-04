@@ -1,39 +1,40 @@
 plugin.tx_csseo {
-
-    # cat=plugin.tx_csseo/href; type=boolean; label= Enable hreflang-Tags
+    # cat=plugin.tx_csseo/language/1; type=boolean; label= Enable Hreflang tags
     hreflang.enable =
 
-    # cat=plugin.tx_csseo/href; type=string; label= List the Language-Uids, which should be linked with a hreflang-Tag (e.g. 0,2,3)
+    # cat=plugin.tx_csseo/language/2; type=string; label= List the language uids, which should be linked with a Hreflang tag (e.g. 0,2,3)
     hreflang.ids =
 
-    # cat=plugin.tx_csseo/href; type=string; label= List the Language-Keys for the hreflang-Tags - same order as hreflang.uids (e.g. en,de,ch)
+    # cat=plugin.tx_csseo/language/3; type=string; label= List the language keys for the Hreflang tags - same order as hreflang.uids (e.g. en,de,ch)
     hreflang.keys =
 
-    # cat=plugin.tx_csseo/social; type=string; label= Default image for open graph and twitter (e.g. fileadmin/user_upload/image.jpg)
+    # customsubcategory=social=Social
+    # cat=plugin.tx_csseo/social/1; type=string; label= Default image for Open Graph and Twitter (e.g. fileadmin/user_upload/image.jpg)
     social.defaultImage =
 
-    # cat=plugin.tx_csseo/social; type=string; label= Height of the Open Graph image
-    social.openGraph.image.height = 628c
-
-    # cat=plugin.tx_csseo/social; type=string; label= Width of the Open Graph image
+    # cat=plugin.tx_csseo/social/2; type=string; label= Width of the Open Graph image
     social.openGraph.image.width = 1200
 
-    # cat=plugin.tx_csseo/social; type=string; label= Default twitter creator (without @)
-    social.twitter.creator =
+    # cat=plugin.tx_csseo/social/3; type=string; label= Height of the Open Graph image
+    social.openGraph.image.height = 628c
 
-    # cat=plugin.tx_csseo/social; type=string; label= Height of the Twitter Cards image
-    social.twitter.image.height = 512c
-
-    # cat=plugin.tx_csseo/social; type=string; label= Width of the Twitter Cards image
+    # cat=plugin.tx_csseo/social/4; type=string; label= Width of the Twitter Cards image
     social.twitter.image.width = 1024
 
-    # cat=plugin.tx_csseo/tracking; type=string; label= Google Analytics id (eg. UA-XXXXXX-XXX)
+    # cat=plugin.tx_csseo/social/5; type=string; label= Height of the Twitter Cards image
+    social.twitter.image.height = 512c
+
+    # cat=plugin.tx_csseo/social/6; type=string; label= Default Twitter Creator (without @)
+    social.twitter.creator =
+
+    # customsubcategory=tracking=User tracking
+    # cat=plugin.tx_csseo/tracking/1; type=string; label= Google Analytics ID (eg. UA-XXXXXX-XXX)
     tracking.googleAnalytics =
 
-    # cat=plugin.tx_csseo/tracking; type=string; label= Enter a Piwik URL
+    # cat=plugin.tx_csseo/tracking/2; type=string; label= Enter a Piwik URL
     tracking.piwik =
 
-    # cat=plugin.tx_csseo/tracking; type=string; label= Enter the ID for site
+    # cat=plugin.tx_csseo/tracking/3; type=string; label= Enter the ID for site
     tracking.piwik.id = 1
 }
 
