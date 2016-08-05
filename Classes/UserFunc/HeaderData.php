@@ -32,9 +32,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
- * Render the open graph data
+ * Render the seo and social meta data for records
  *
- * @package Clickstorm\CsOpengraph
+ * @package Clickstorm\CsSeo
  */
 class HeaderData {
 
@@ -308,11 +308,15 @@ class HeaderData {
         $content .= $this->printMetaTag('og:description', $ogDescription, 1);
 
         // og:image
+	    $ogImageURL = $pluginSettings['social.']['defaultImage'];
+
         if ($meta['og_image']) {
-            $imageURL = $this->getImageUrl('og_image', $meta['uid'], $pluginSettings['social.']['openGraph.']['image.']);
-            $content .= $this->printMetaTag('og:image', $imageURL, 1);
-        } else {
-            $content .= $this->printMetaTag('og:image', $pluginSettings['social.']['defaultImage'], 1);
+	        $ogImageURL = $this->getImagePath('og_image', $meta['uid']);
+        }
+
+        if($ogImageURL) {
+	        $finalOgImageURL = $this->getScaledImagePath($ogImageURL, $pluginSettings['social.']['openGraph.']['image.']);
+	        $content .= $this->printMetaTag('og:image', $finalOgImageURL, 1);
         }
 
         // og:type
@@ -327,8 +331,8 @@ class HeaderData {
         // og:site_name
         $content .= $this->printMetaTag('og:site_name', $GLOBALS['TSFE']->tmpl->sitetitle, 1);
 
-        // twitter
-        $content .= $this->printMetaTag('twitter:card', 'summary');
+		// twitter:card
+	    $content .= $this->printMetaTag('twitter:card', 'summary');
 
         // twitter title
         if($meta['tw_title']) {
@@ -341,10 +345,20 @@ class HeaderData {
         }
 
         // twitter image
-        if($meta['tw_image']) {
-            $imageURL = $this->getImageUrl('tw_image', $meta['uid'], $pluginSettings['social.']['twitter.']['image.']);
-            $content .= $this->printMetaTag('twitter:image', $imageURL);
-        }
+	    if ($meta['tw_image'] || $meta['og_image']) {
+	    	if($meta['tw_image']) {
+			    $twImageURL = $this->getImagePath('tw_image', $meta['uid']);
+		    } else {
+			    $twImageURL = $ogImageURL;
+		    }
+	    } else {
+		    $twImageURL = $pluginSettings['social.']['twitter.']['defaultImage']?: $pluginSettings['social.']['defaultImage'];
+	    }
+
+	    if($twImageURL) {
+		    $finalTwImageURL = $this->getScaledImagePath($twImageURL, $pluginSettings['social.']['twitter.']['image.']);
+		    $content .= $this->printMetaTag('twitter:image', $finalTwImageURL);
+	    }
 
         // creator
         $content .= $this->printMetaTag('twitter:creator', $meta['tw_creator']?:$pluginSettings['social.']['twitter.']['creator']);
@@ -353,12 +367,13 @@ class HeaderData {
     }
 
     /**
+     * Returns an image path for the given field and uid
+     *
      * @param string $field
      * @param string $uid
-     * @param array $imageSize
-     * @return string
+     * @return string the image path
      */
-    protected function getImageUrl($field, $uid, $imageSize) {
+    protected function getImagePath($field, $uid) {
         /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
         $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \TYPO3\CMS\Core\Resource\FileRepository::class
@@ -370,21 +385,32 @@ class HeaderData {
         );
 
         if($fileObjects[0]) {
-            $conf = array(
-                'file' => $fileObjects[0]->getOriginalFile()->getUid(),
-                'file.' => array(
-                    'height' => $imageSize['height'],
-                    'width' => $imageSize['width']
-                )
-            );
-            $imgUri = $this->cObj->cObjGetSingle('IMG_RESOURCE', $conf);
-            $conf = array(
-                'parameter' => $imgUri,
-                'forceAbsoluteUrl' => 1
-            );
-            return $this->cObj->typoLink_URL($conf);
+            return $fileObjects[0]->getOriginalFile()->getPublicUrl();
         }
 
+    }
+
+	/**
+	 * Return an URL to the scaled image
+	 *
+	 * @param string $originalFile uid or path of the file
+	 * @param array $imageSize width and height as keys
+	 * @return string
+	 */
+    protected function getScaledImagePath($originalFile, $imageSize) {
+	    $conf = array(
+		    'file' => $originalFile,
+		    'file.' => array(
+			    'height' => $imageSize['height'],
+			    'width' => $imageSize['width']
+		    )
+	    );
+	    $imgUri = $this->cObj->cObjGetSingle('IMG_RESOURCE', $conf);
+	    $conf = array(
+		    'parameter' => $imgUri,
+		    'forceAbsoluteUrl' => 1
+	    );
+	    return $this->cObj->typoLink_URL($conf);
     }
 
     /**

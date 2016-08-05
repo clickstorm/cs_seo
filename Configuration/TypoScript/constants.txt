@@ -18,13 +18,16 @@ plugin.tx_csseo {
     # cat=plugin.tx_csseo/social/3; type=string; label= Height of the Open Graph image
     social.openGraph.image.height = 628c
 
-    # cat=plugin.tx_csseo/social/4; type=string; label= Width of the Twitter Cards image
+    # cat=plugin.tx_csseo/social/4; type=string; label= Extra default image for Twitter (e.g. fileadmin/user_upload/image.jpg)
+    social.twitter.defaultImage =
+
+    # cat=plugin.tx_csseo/social/5; type=string; label= Width of the Twitter Cards image
     social.twitter.image.width = 1024
 
-    # cat=plugin.tx_csseo/social/5; type=string; label= Height of the Twitter Cards image
+    # cat=plugin.tx_csseo/social/6; type=string; label= Height of the Twitter Cards image
     social.twitter.image.height = 512c
 
-    # cat=plugin.tx_csseo/social/6; type=string; label= Default Twitter Creator (without @)
+    # cat=plugin.tx_csseo/social/7; type=string; label= Default Twitter Creator (without @)
     social.twitter.creator =
 
     # customsubcategory=tracking=User Tracking

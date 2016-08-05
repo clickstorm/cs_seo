@@ -17,6 +17,7 @@ plugin.tx_csseo {
         }
         twitter {
             creator = {$plugin.tx_csseo.social.twitter.creator}
+            defaultImage = {$plugin.tx_csseo.social.twitter.defaultImage}
             image {
                 height = {$plugin.tx_csseo.social.twitter.image.height}
                 width = {$plugin.tx_csseo.social.twitter.image.width}
@@ -233,7 +234,7 @@ page {
             55 = IMG_RESOURCE
             55 {
                 stdWrap.if.isFalse.field = tx_csseo_og_image
-                file = {$plugin.tx_csseo.social.defaultImage}
+                file.import.data = path:{$plugin.tx_csseo.social.defaultImage}
                 file.height < plugin.tx_csseo.social.openGraph.image.height
                 file.width < plugin.tx_csseo.social.openGraph.image.width
                 stdWrap.dataWrap = <meta property="og:image" content="{TSFE:baseUrl}|" />
@@ -293,7 +294,7 @@ page {
             45 = IMG_RESOURCE
             45 {
                 stdWrap.if.isFalse.field = tx_csseo_tw_image
-                file = {$plugin.tx_csseo.social.defaultImage}
+                file.import.data = path:{$plugin.tx_csseo.social.twitter.defaultImage} // path:{$plugin.tx_csseo.social.defaultImage}
                 file.height < plugin.tx_csseo.social.twitter.image.height
                 file.width  < plugin.tx_csseo.social.twitter.image.width
                 stdWrap.dataWrap = <meta property="twitter:image" content="{TSFE:baseUrl}|" />
