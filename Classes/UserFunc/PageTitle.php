@@ -58,7 +58,7 @@ class PageTitle {
         // build the title
         $title = empty($page['tx_csseo_title']) ? $page['title'] : $page['tx_csseo_title'];
 
-        $title = $this->TSFE->getFinalTitle($title);
+        $title = $this->TSFE->getFinalTitle($title, $page['tx_csseo_title_only']);
 
         return $title;
     }
