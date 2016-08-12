@@ -227,9 +227,7 @@ class HeaderData {
 
         // title
         if ($title) {
-            if(!$meta['title_only']) {
-                $title = $tsfeUtility->getFinalTitle($meta['title']);
-            }
+            $title = $tsfeUtility->getFinalTitle($meta['title'], $meta['title_only']);
         } else {
             // fallback to page title
             $pageTitleFunc = GeneralUtility::makeInstance(PageTitle::class);

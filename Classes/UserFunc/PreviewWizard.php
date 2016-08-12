@@ -195,7 +195,7 @@ class PreviewWizard
                         $path = '';
                     }
                 } else {
-                    $pageTitle = $TSFEUtility->getFinalTitle($data['title']);
+                    $pageTitle = $TSFEUtility->getFinalTitle($data['title'], $data['title_only']);
                     $path = '';
                     $urlScheme = 'http://';
                 }
