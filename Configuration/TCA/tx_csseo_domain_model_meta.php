@@ -31,7 +31,7 @@ return [
 	],
 	'types' => [
 		'1' => ['showitem' => '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo, 
-							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_preview;preview,
+							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_preview;preview,keyword,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_index;index,
 							    --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_facebook;facebook,
@@ -169,6 +169,15 @@ return [
 			'exclude' => 1,
 			'config' => [
 				'type' => 'check',
+			]
+		],
+		'keyword' => [
+			'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_keyword',
+			'exclude' => 1,
+			'config' => [
+				'type' => 'input',
+				'max' => '256',
+				'eval' => 'trim',
 			]
 		],
 		'canonical' => [

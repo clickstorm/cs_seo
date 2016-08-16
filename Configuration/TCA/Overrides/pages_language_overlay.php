@@ -48,6 +48,15 @@ $tempColumns = [
             'type' => 'check',
         ]
     ],
+	'tx_csseo_keyword' => [
+		'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_keyword',
+		'exclude' => 1,
+		'config' => [
+			'type' => 'input',
+			'max' => '256',
+			'eval' => 'trim',
+		],
+	],
     'tx_csseo_og_title' => [
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_og_title',
         'exclude' => 1,
@@ -130,7 +139,7 @@ $GLOBALS['TCA']['pages_language_overlay']['palettes']['metatags']['showitem'] =
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
     'pages_language_overlay',
     '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,
-    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_preview;tx_csseo_preview,
+    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_preview;tx_csseo_preview,tx_csseo_keyword,
     --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
     --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_facebook;tx_csseo_facebook,
     --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_twitter;tx_csseo_twitter',
