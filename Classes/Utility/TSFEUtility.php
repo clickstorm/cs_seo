@@ -41,7 +41,7 @@ class TSFEUtility {
     /**
      * @var int
      */
-    protected $typeNum = 654;
+    protected $typeNum;
 
     /**
      * @var array
@@ -52,10 +52,12 @@ class TSFEUtility {
      * TSFEUtility constructor.
      * @param int $pageUid
      * @param int $lang
+     * @param int $typeNum
      */
-    public function __construct($pageUid, $lang = 0) {
+    public function __construct($pageUid, $lang = 0, $typeNum = 654) {
         $this->pageUid = $pageUid;
         $this->lang = $lang;
+	    $this->typeNum = $typeNum;
 
         $environmentService = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\EnvironmentService::class);
         if(!isset($GLOBALS['TSFE']) || ($environmentService->isEnvironmentInBackendMode() && !($GLOBALS['TSFE'] instanceof TypoScriptFrontendController))) {
