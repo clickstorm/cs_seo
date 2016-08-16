@@ -3,10 +3,10 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 <body>
 <f:section name="Main">
-	<f:if condition="{f:if(result.count)}">
+	<f:if condition="{f:if(result.state)}">
 		<f:then>
 			<p class="cs-icon cs-state-{result.state}">
-				<f:if condition="{result.count} == 2">
+				<f:if condition="{result.state} == 2">
 					<f:then>
 						The keyword was found in the title, description and content.
 					</f:then>
@@ -20,6 +20,5 @@
 			<p class="cs-icon cs-state-0">No focus keyword was found.</p>
 		</f:else>
 	</f:if>
-	<p class="cs-icon cs-state-{result.state}">The page title contains {result.count} characters.</p>
 </f:section>
 </body>
