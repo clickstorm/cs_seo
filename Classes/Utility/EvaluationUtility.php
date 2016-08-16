@@ -43,6 +43,21 @@ class EvaluationUtility {
 	protected $keyword;
 
 	/**
+	 * @var string
+	 */
+	protected $title = '';
+
+	/**
+	 * @var string
+	 */
+	protected $description = '';
+
+	/**
+	 * @var string
+	 */
+	protected $bodyContent = '';
+
+	/**
 	 * TSFEUtility constructor.
 	 * @param string $html
 	 * @param string $keyword
@@ -57,16 +72,28 @@ class EvaluationUtility {
 
     public function evaluate() {
 	    $results = [];
-		$results['h1'] = $this->evaluateH1();
-		$results['h2'] = $this->evaluateH2();
-	    $results['images'] = $this->evaluateImages();
+		$results['H1'] = $this->evaluateH1();
+		$results['H2'] = $this->evaluateH2();
+	    $results['Images'] = $this->evaluateImages();
+	    $results['Title'] = $this->evaluateTitle();
+	    $results['Description'] = $this->evaluateDescription();
+
 	    if(!empty($this->keyword)) {
-		    $results['keyword'] = $this->evaluateKeyword();
+		    $results['Keyword'] = $this->evaluateKeyword();
 	    }
 
-	    $results['percentage'] = $this->getFinalPercentage($results);
+	    uasort($results, function($a, $b) {
+		    return  $b['state'] - $a['state'];
+	    });
+
+	    $results['Percentage'] = $this->getFinalPercentage($results);
 
 	    return $results;
+    }
+
+    protected function initBodyContent() {
+		$body = $this->domDocument->getElementsByTagName('body');
+	    $this->bodyContent = $body->item(0)->textContent;
     }
 
 	/**
@@ -75,12 +102,62 @@ class EvaluationUtility {
 	 */
     protected function getFinalPercentage($results) {
     	$score = 0;
+	    $state = self::STATE_RED;
 		foreach ($results as $result) {
 			$score += $result['state'];
 		}
 
-		return  round($score / (count($results) * 2) * 100, 1) ;
+		$count = round($score / (count($results) * 2) * 100, 1);
 
+	    if($count == 100) {
+	    	$state = self::STATE_GREEN;
+	    } elseif($count > 0) {
+		    $state = self::STATE_YELLOW;
+	    }
+
+	    return [
+		    'state' => $state,
+		    'count' => $count
+	    ];
+    }
+
+	protected function evaluateDescription() {
+		$metaTags = $this->domDocument->getElementsByTagName('meta');
+
+		/** @var \DOMElement $metaTag */
+		foreach ($metaTags as $metaTag) {
+			if($metaTag->getAttribute('name') == 'description') {
+				$this->description = $metaTag->getAttribute('content');
+				break;
+			}
+		}
+
+		return $this->evaluateLength($this->description, 140, 160);
+	}
+
+    protected function evaluateTitle() {
+	    $titleTag = $this->domDocument->getElementsByTagName('title');
+	    $this->title = $titleTag->item(0)->nodeValue;
+	    return $this->evaluateLength($this->title, 40, 57);
+    }
+
+    protected function evaluateLength($content, $min, $max) {
+	    $state = self::STATE_RED;
+
+	    $count = strlen($content);
+
+	    if($count > $min && $count < $max) {
+		    $state =  self::STATE_GREEN;
+	    } else {
+		    if($count > 0) {
+			    $state =  self::STATE_YELLOW;
+		    }
+	    }
+
+	    return [
+	    	'state' => $state,
+		    'count' => $count
+        ];
     }
 
     protected function evaluateH1() {
@@ -150,11 +227,11 @@ class EvaluationUtility {
 
 		$state = self::STATE_RED;
 
-		$searchIn = ['title', 'description'];
+		$this->initBodyContent();
 
-		foreach ($searchIn as $tagName) {
-			$results[$tagName . 'Contains'] = $this->checkIfNodeContains($tagName, $this->keyword);
-		}
+		$results['titleContains'] = substr_count($this->title, $this->keyword);
+		$results['descriptionContains'] = substr_count($this->description, $this->keyword);
+		$results['bodyContains'] = substr_count($this->bodyContent, $this->keyword);
 
 		$uniqueValues = array_unique($results);
 		if(count($uniqueValues) == 1) {
@@ -170,15 +247,4 @@ class EvaluationUtility {
 		return $results;
 	}
 
-	protected function checkIfNodeContains($tagName, $needle) {
-		$tags = $this->domDocument->getElementsByTagName($tagName);
-
-		/** @var \DOMElement $tag */
-		foreach ($tags as $tag) {
-			if(strpos($tag->nodeValue, $needle) !== false) {
-				return true;
-			}
-		}
-		return false;
-	}
 }

@@ -1,0 +1,21 @@
+.tx-cs_seo {
+  background: #efefef;
+  border-radius: 5px;
+  padding: 10px 10px 5px;
+}
+.cs-icon:before {
+  background: red;
+  border-radius: 1em;
+  content: " ";
+  display: inline-block;
+  margin-right: .5em;
+  height: 1em;
+  width: 1em;
+}
+.cs-icon.cs-state-1:before {
+  background: yellow;
+}
+.cs-icon.cs-state-2:before {
+  background: green;
+}
+/*# sourceMappingURL=../CSS/PageHook.less.map */
