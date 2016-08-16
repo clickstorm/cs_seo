@@ -107,7 +107,7 @@ class EvaluationUtility {
 			$score += $result['state'];
 		}
 
-		$count = round($score / (count($results) * 2) * 100, 1);
+		$count = round($score / (count($results) * 2) * 100);
 
 	    if($count == 100) {
 	    	$state = self::STATE_GREEN;
