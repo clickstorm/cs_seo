@@ -74,23 +74,37 @@ class pageHook {
 	 */
 	public function render(array $params = array(), PageLayoutController $parentObject)
 	{
-		// template
-		$this->loadCss();
-		$this->loadJavascript();
+		if($this->pageCanBeIndexed($parentObject->pageinfo)) {
+			// template
+			$this->loadCss();
+			$this->loadJavascript();
 
-		$this->view = GeneralUtility::makeInstance(StandaloneView::class);
-		$this->view->setFormat('html');
-		$this->view->getRequest()->setControllerExtensionName('cs_seo');
-		$this->view->setLayoutRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']);
-		$this->view->setPartialRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Partials/']);
-		$this->view->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html');
+			$this->view = GeneralUtility::makeInstance(StandaloneView::class);
+			$this->view->setFormat('html');
+			$this->view->getRequest()->setControllerExtensionName('cs_seo');
+			$this->view->setLayoutRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']);
+			$this->view->setPartialRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Partials/']);
+			$this->view->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html');
 
-		$this->view->assignMultiple([
-			'results'=> $this->getResults($parentObject->id),
-			'page' => $parentObject->pageinfo
-		]);
+			$this->view->assignMultiple([
+				'results'=> $this->getResults($parentObject->id),
+				'page' => $parentObject->pageinfo
+			]);
 
-		return $this->view->render();
+			return $this->view->render();
+		}
+
+	}
+
+	/**
+	 * @param array $page
+	 * @return bool
+	 */
+	public function pageCanBeIndexed($page) {
+		if($page['doktype'] == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
