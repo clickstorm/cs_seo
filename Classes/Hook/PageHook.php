@@ -3,6 +3,9 @@
 namespace Clickstorm\CsSeo\Hook;
 
 
+use Clickstorm\CsSeo\Controller\EvaluationController;
+use Clickstorm\CsSeo\Domain\Model\Evaluation;
+use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Utility\EvaluationUtility;
 use Clickstorm\CsSeo\Utility\FrontendPageUtility;
 use TYPO3\CMS\Backend\Controller\PageLayoutController;
@@ -51,6 +54,7 @@ class pageHook {
 	{
 		// template
 		$this->loadCss();
+
 		$this->view = GeneralUtility::makeInstance(StandaloneView::class);
 		$this->view->setFormat('html');
 		$this->view->getRequest()->setControllerExtensionName('cs_seo');
@@ -58,17 +62,7 @@ class pageHook {
 		$this->view->setPartialRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Partials/']);
 		$this->view->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html');
 
-		/** @var FrontendPageUtility $frontendPageUtility */
-		$frontendPageUtility = GeneralUtility::makeInstance(FrontendPageUtility::class, $parentObject->pageinfo, $parentObject->MOD_SETTINGS['language']);
-		$html = $frontendPageUtility->getHTML();
-
-		if(!empty($html)) {
-			/** @var EvaluationUtility $evaluationUtility */
-			$evaluationUtility = GeneralUtility::makeInstance(EvaluationUtility::class, $html, $parentObject->pageinfo['tx_csseo_keyword']);
-			$results = $evaluationUtility->evaluate();
-
-			$this->view->assign('results', $results);
-		}
+		$this->view->assign('results', $this->getResults($parentObject->id));
 
 		return $this->view->render();
 	}
@@ -82,5 +76,35 @@ class pageHook {
 			$this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 		}
 		return $this->pageRenderer;
+	}
+
+	/**
+	 * @return PageRenderer
+	 */
+	protected function getResults($pageUid)
+	{
+
+		$where = 'uid_foreign = ' . $pageUid;
+		$where .= ' AND tablenames = "pages"';
+
+		$res = $this->getDatabaseConnection()->exec_SELECTquery(
+			'results',
+			'tx_csseo_domain_model_evaluation',
+			$where
+		);
+		while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+			$results = unserialize($row['results']);
+		}
+		return $results;
+	}
+
+	/**
+	 * Returns the database connection
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection()
+	{
+		return $GLOBALS['TYPO3_DB'];
 	}
 }

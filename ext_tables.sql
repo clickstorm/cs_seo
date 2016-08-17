@@ -92,7 +92,7 @@ CREATE TABLE tx_csseo_domain_model_evaluation (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-	scores blob,
+	results text NOT NULL,
 
 	uid_foreign int(11) DEFAULT '0' NOT NULL ,
 	tablenames varchar(255) DEFAULT '' NOT NULL,
@@ -107,7 +107,6 @@ CREATE TABLE tx_csseo_domain_model_evaluation (
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
 );
 
 #

@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickstorm\CsSeo\Controller;
+namespace Clickstorm\CsSeo\Command;
 
 /***************************************************************
  *
@@ -27,21 +27,107 @@ namespace Clickstorm\CsSeo\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Clickstorm\CsSeo\Domain\Model\EvaluationRepository;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use Clickstorm\CsSeo\Domain\Model\Evaluation;
+use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
+use Clickstorm\CsSeo\Utility\EvaluationUtility;
+use Clickstorm\CsSeo\Utility\FrontendPageUtility;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use \TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 
-class EvaluationController extends ActionController {
+class EvaluationCommandController extends CommandController {
 
 	/**
-	 * @var EvaluationRepository $evaluationRepository
+	 * @var \Clickstorm\CsSeo\Domain\Repository\EvaluationRepository
 	 * @inject
 	 */
 	protected $evaluationRepository;
 
-	public function showAction($uidForeign, $tableName = 'pages') {
-		$results = $this->evaluationRepository->findResults($uidForeign, $tableName);
-		\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($results);
-		$this->view->assign($results);
+	/**
+	 * @param int $uidForeign
+	 * @param string $tableName
+	 */
+	public function updateCommand($uidForeign = 0, $tableName = 'pages') {
+		$items = $this->getAllItems($uidForeign, $tableName);
+
+		foreach ($items as $item) {
+			/** @var FrontendPageUtility $frontendPageUtility */
+			$frontendPageUtility = GeneralUtility::makeInstance(FrontendPageUtility::class, $item);
+			$html = $frontendPageUtility->getHTML();
+
+			if(!empty($html)) {
+				/** @var EvaluationUtility $evaluationUtility */
+				$evaluationUtility = GeneralUtility::makeInstance(EvaluationUtility::class, $html, $item['tx_csseo_keyword']);
+				$results = $evaluationUtility->evaluate();
+
+				$this->saveChanges($results, $item['uid'], $tableName);
+			}
+		}
+
 	}
+
+	/**
+	 * store the results in the db
+	 * @param $results
+	 * @param $uidForeign
+	 * @param $tableName
+	 */
+	protected function saveChanges($results, $uidForeign, $tableName) {
+		/**
+		 * @var Evaluation $evaluation
+		 */
+		$evaluation = $this->evaluationRepository->findByUidForeignAndTableName($uidForeign, $tableName);
+
+		if(!$evaluation) {
+			$evaluation = GeneralUtility::makeInstance(Evaluation::class);
+			$evaluation->setUidForeign($uidForeign);
+			$evaluation->setTablenames($tableName);
+		}
+
+		$evaluation->setResults($results);
+
+		if($evaluation->_isNew()) {
+			$this->evaluationRepository->add($evaluation);
+		} else {
+			$this->evaluationRepository->update($evaluation);
+		}
+	}
+
+	protected function getAllItems($uidForeign, $tableName) {
+		$items = [];
+
+		$where = '1';
+
+		if($tableName == 'pages') {
+			$where .= ' AND doktype=1';
+		}
+
+		if($uidForeign > 0) {
+			$where .= ' AND uid = ' . $uidForeign;
+		}
+
+		$where .=  BackendUtility::BEenableFields($tableName);
+
+		$res = $this->getDatabaseConnection()->exec_SELECTquery(
+			'*',
+			$tableName,
+			$where
+		);
+		while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+			$items[] = $row;
+		}
+		return $items;
+	}
+
+	/**
+	 * Returns the database connection
+	 *
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabaseConnection()
+	{
+		return $GLOBALS['TYPO3_DB'];
+	}
+
 
 }

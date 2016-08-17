@@ -1,5 +1,5 @@
 <?php
-namespace Clickstorm\CsSeo\Domain\Model;
+namespace Clickstorm\CsSeo\Domain\Repository;
 
 
 /***************************************************************
@@ -30,24 +30,28 @@ namespace Clickstorm\CsSeo\Domain\Model;
 /**
  * Evaluation
  */
-class Evaluation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class EvaluationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-	/**
-	 * @var array
-	 */
-	protected $results;
+
 
 	/**
-	 * @return array
-	 */
-	public function getResults() {
-		return $this->results;
-	}
+	 * Finds an object matching the given identifier.
+	 *
+	 * @param int $uidForeign
+	 * @param string $tableName
+	 * @return object The matching object if found, otherwise NULL
+	*/
+	public function findByUidForeignAndTableName($uidForeign, $tableName) {
 
-	/**
-	 * @param array $results
-	 */
-	public function setResults($results) {
-		$this->results = $results;
+		$query = $this->createQuery();
+
+		$constraints = [];
+
+		$constraints[] = $query->equals('uid_foreign', $uidForeign);
+		$constraints[] = $query->equals('tablenames', $tableName);
+
+		$query->matching($query->logicalAnd($constraints));
+
+		return $query->execute()->getFirst();
 	}
 }
