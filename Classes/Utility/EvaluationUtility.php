@@ -80,7 +80,7 @@ class EvaluationUtility {
 	    $results['Keyword'] = $this->evaluateKeyword();
 
 	    uasort($results, function($a, $b) {
-		    return  $b['state'] - $a['state'];
+		    return $a['state'] - $b['state'];
 	    });
 
 	    $results['Percentage'] = $this->getFinalPercentage($results);
@@ -233,7 +233,6 @@ class EvaluationUtility {
 			$results['descriptionContains'] = substr_count($this->description, $this->keyword);
 			$results['bodyContains'] = substr_count($this->bodyContent, $this->keyword);
 
-			$uniqueValues = array_unique($results);
 			if($results['titleContains'] == 1 && $results['descriptionContains'] == 1 && $results['bodyContains'] > 0) {
 				$state = self::STATE_GREEN;
 			} else {
