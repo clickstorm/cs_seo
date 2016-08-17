@@ -1,10 +1,10 @@
-.tx-cs_seo {
+.cs-seo-results {
   background: #eaeaea;
   border-radius: 2px;
   padding: 10px 200px 5px 10px;
   position: relative;
 }
-.tx-cs_seo .final {
+.cs-seo-results .final {
   color: #F06543;
   font-size: 4rem;
   line-height: 100%;
@@ -13,10 +13,10 @@
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
   top: 10px;
 }
-.tx-cs_seo .final.cs-state-1 {
+.cs-seo-results .final.cs-state-1 {
   color: #FFD23F;
 }
-.tx-cs_seo .final.cs-state-2 {
+.cs-seo-results .final.cs-state-2 {
   color: #679f37;
 }
 .cs-icon {

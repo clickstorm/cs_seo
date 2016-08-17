@@ -24,9 +24,9 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class FrontendPageUtility {
 
 	/**
-	 * @var int
+	 * @var array
 	 */
-	protected $pageUid;
+	protected $pageInfo;
 
 	/**
 	 * @var int
@@ -35,11 +35,11 @@ class FrontendPageUtility {
 
 	/**
 	 * TSFEUtility constructor.
-	 * @param int $pageUid
+	 * @param array $pageInfo
 	 * @param int $lang
 	 */
-	public function __construct($pageUid, $lang = 0) {
-		$this->pageUid = $pageUid;
+	public function __construct($pageInfo, $lang = 0) {
+		$this->pageInfo = $pageInfo;
 		$this->lang = $lang;
 	}
 
@@ -47,9 +47,16 @@ class FrontendPageUtility {
 	 * @return string
 	 */
 	public function getHTML() {
+		if($this->pageInfo['doktype'] != 1 || $this->pageInfo['tx_csseo_no_index']) {
+			return '';
+		}
+
 		$domain = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
-		$url = $domain . '/index.php?id=' . $this->pageUid . '&lang=' . $this->lang;
-		return GeneralUtility::getUrl($url);
+		$url = $domain . '/index.php?id=' . $this->pageInfo['uid'] . '&lang=' . $this->lang;
+		$report = [];
+		$content = GeneralUtility::getUrl($url, 0, false, $report);
+
+		return ($report['error'] == 0) ? $content : '';
 	}
 
 }

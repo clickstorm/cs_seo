@@ -59,14 +59,16 @@ class pageHook {
 		$this->view->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html');
 
 		/** @var FrontendPageUtility $frontendPageUtility */
-		$frontendPageUtility = GeneralUtility::makeInstance(FrontendPageUtility::class, $parentObject->id, $parentObject->MOD_SETTINGS['language']);
+		$frontendPageUtility = GeneralUtility::makeInstance(FrontendPageUtility::class, $parentObject->pageinfo, $parentObject->MOD_SETTINGS['language']);
 		$html = $frontendPageUtility->getHTML();
 
-		/** @var EvaluationUtility $evaluationUtility */
-		$evaluationUtility = GeneralUtility::makeInstance(EvaluationUtility::class, $html, $parentObject->pageinfo['tx_csseo_keyword']);
-		$results = $evaluationUtility->evaluate();
+		if(!empty($html)) {
+			/** @var EvaluationUtility $evaluationUtility */
+			$evaluationUtility = GeneralUtility::makeInstance(EvaluationUtility::class, $html, $parentObject->pageinfo['tx_csseo_keyword']);
+			$results = $evaluationUtility->evaluate();
 
-		$this->view->assign('results', $results);
+			$this->view->assign('results', $results);
+		}
 
 		return $this->view->render();
 	}
