@@ -27,7 +27,7 @@
 		</trans-unit>
 		<trans-unit id="evaluation.h1.0" approved="yes">
 			<source>%1$s headlines were found</source>
-			<target>%1$s Überschriften wurden gefunden.</target>
+			<target>%1$s Überschriften wurden gefunden</target>
 		</trans-unit>
 		<trans-unit id="evaluation.h1.2" approved="yes">
 			<source>one headline was found</source>
@@ -42,8 +42,8 @@
 			<target>Es wurden keine Überschriften gefunden</target>
 		</trans-unit>
 		<trans-unit id="evaluation.h2.1" approved="yes">
-			<source>There are to many headlines (%1$s) on the page.</source>
-			<target>Es gibt zu viele Überschriften (%1$s) auf der Seite. </target>
+			<source>There are to many headlines (%1$s) on the page</source>
+			<target>Es gibt zu viele Überschriften (%1$s) auf der Seite</target>
 		</trans-unit>
 		<trans-unit id="evaluation.h2.2" approved="yes">
 			<source>The number of headlines is optimal</source>
@@ -94,12 +94,12 @@
 			<target>Titel</target>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.2" approved="yes">
-			<source>The keyowrd was found in title, description and content.</source>
-			<target>Das Schlüsslwort wurde in Titel, Beschreibung und Inhalt gefunden.</target>
+			<source>The keyowrd was found in title, description and content</source>
+			<target>Das Schlüsslwort wurde in Titel, Beschreibung und Inhalt gefunden</target>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.no" approved="yes">
-			<source>No keyword was set.</source>
-			<target>Es wurde keine Schlüsselwort gesetzt.</target>
+			<source>No keyword was set</source>
+			<target>Es wurde keine Schlüsselwort gesetzt</target>
 		</trans-unit>
 		<trans-unit id="evaluation.title" approved="yes">
 			<source>Browser title</source>

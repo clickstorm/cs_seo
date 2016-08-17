@@ -33,7 +33,7 @@
 			<source>No headlines were found</source>
 		</trans-unit>
 		<trans-unit id="evaluation.h2.1">
-			<source>There are to many headlines (%1$s) on the page.</source>
+			<source>There are to many headlines (%1$s) on the page</source>
 		</trans-unit>
 		<trans-unit id="evaluation.h2.2">
 			<source>The number of headlines is optimal</source>
@@ -72,10 +72,10 @@
 			<source>title</source>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.2">
-			<source>The keyowrd was found in title, description and content.</source>
+			<source>The keyowrd was found in title, description and content</source>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.no">
-			<source>No keyword was set.</source>
+			<source>No keyword was set</source>
 		</trans-unit>
 		<trans-unit id="evaluation.title">
 			<source>Browser title</source>
