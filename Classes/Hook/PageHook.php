@@ -42,6 +42,28 @@ class pageHook {
 		}
 	}
 
+	/**
+	 * Load the necessary javascript
+	 *
+	 * This will only be done when the referenced record is available
+	 *
+	 * @return void
+	 */
+	protected function loadJavascript()
+	{
+		$compress = true;
+		$javascriptFiles = array(
+			'jquery.cs_seo.page_hook.js'
+		);
+		// Load jquery
+		$this->getPageRenderer()->loadJquery();
+		// Load the wizards javascript
+		$baseUrl = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/JavaScript/';
+		foreach ($javascriptFiles as $javascriptFile) {
+			$this->getPageRenderer()->addJsFile($baseUrl . $javascriptFile, 'text/javascript', $compress, false, '', false, '|', true);
+		}
+	}
+
 
 	/**
 	 * Add sys_notes as additional content to the footer of the page module
@@ -54,6 +76,7 @@ class pageHook {
 	{
 		// template
 		$this->loadCss();
+		$this->loadJavascript();
 
 		$this->view = GeneralUtility::makeInstance(StandaloneView::class);
 		$this->view->setFormat('html');
@@ -62,7 +85,10 @@ class pageHook {
 		$this->view->setPartialRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Partials/']);
 		$this->view->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html');
 
-		$this->view->assign('results', $this->getResults($parentObject->id));
+		$this->view->assignMultiple([
+			'results'=> $this->getResults($parentObject->id),
+			'page' => $parentObject->pageinfo
+		]);
 
 		return $this->view->render();
 	}
@@ -83,7 +109,7 @@ class pageHook {
 	 */
 	protected function getResults($pageUid)
 	{
-
+		$results = [];
 		$where = 'uid_foreign = ' . $pageUid;
 		$where .= ' AND tablenames = "pages"';
 

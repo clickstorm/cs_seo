@@ -44,12 +44,18 @@ class EvaluationCommandController extends CommandController {
 	protected $evaluationRepository;
 
 	/**
+	 * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+	 * @inject
+	 */
+	protected $persistenceManager;
+
+	/**
 	 * @param int $uidForeign
 	 * @param string $tableName
 	 */
 	public function updateCommand($uidForeign = 0, $tableName = 'pages') {
 		$items = $this->getAllItems($uidForeign, $tableName);
-
+		$this->persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
 		foreach ($items as $item) {
 			/** @var FrontendPageUtility $frontendPageUtility */
 			$frontendPageUtility = GeneralUtility::makeInstance(FrontendPageUtility::class, $item);
@@ -59,11 +65,33 @@ class EvaluationCommandController extends CommandController {
 				/** @var EvaluationUtility $evaluationUtility */
 				$evaluationUtility = GeneralUtility::makeInstance(EvaluationUtility::class, $html, $item['tx_csseo_keyword']);
 				$results = $evaluationUtility->evaluate();
-
+				
 				$this->saveChanges($results, $item['uid'], $tableName);
 			}
 		}
+	}
 
+	/**
+	 * make the ajax update
+	 *
+	 * @param array $params Array of parameters from the AJAX interface, currently unused
+	 * @param \TYPO3\CMS\Core\Http\AjaxRequestHandler $ajaxObj Object of type AjaxRequestHandler
+	 * @return void
+	 */
+	public function ajaxUpdate($params = array(), \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = NULL) {
+		$this->objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+		$this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
+
+		// get parameter
+		$attr = $params['request']->getParsedBody();
+
+		// prepare data array
+		$tableName = 'pages';
+		$uid = $attr['uid'];
+
+		$this->updateCommand($uid);
+
+		$ajaxObj->addContent('uid', $uid);
 	}
 
 	/**
@@ -91,6 +119,7 @@ class EvaluationCommandController extends CommandController {
 		} else {
 			$this->evaluationRepository->update($evaluation);
 		}
+		$this->persistenceManager->persistAll();
 	}
 
 	protected function getAllItems($uidForeign, $tableName) {
@@ -103,7 +132,7 @@ class EvaluationCommandController extends CommandController {
 		}
 
 		if($uidForeign > 0) {
-			$where .= ' AND uid = ' . $uidForeign;
+			$where .= ' AND uid=' . $uidForeign;
 		}
 
 		$where .=  BackendUtility::BEenableFields($tableName);

@@ -84,3 +84,9 @@ if(isset($GLOBALS['TYPO3_DB'])) {
     'CsSeo::update',
     'Clickstorm\\CsSeo\\Controller\\ModuleController->update'
 );
+
+// register Ajax Handler
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler (
+	'CsSeo::evaluate',
+	'Clickstorm\\CsSeo\\Command\\EvaluationCommandController->ajaxUpdate'
+);

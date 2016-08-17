@@ -10,6 +10,7 @@
                 <f:for each="{results}" as="result" key="key">
                     <f:render partial="Results\{key}" arguments="{result:result}" section="Main" />
                 </f:for>
+                <button id="cs-seo-evaluate" data-uid="{page.uid}">Update</button>
             </div>
         </f:then>
     </f:if>
