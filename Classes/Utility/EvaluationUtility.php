@@ -77,10 +77,7 @@ class EvaluationUtility {
 	    $results['Images'] = $this->evaluateImages();
 	    $results['Title'] = $this->evaluateTitle();
 	    $results['Description'] = $this->evaluateDescription();
-
-	    if(!empty($this->keyword)) {
-		    $results['Keyword'] = $this->evaluateKeyword();
-	    }
+	    $results['Keyword'] = $this->evaluateKeyword();
 
 	    uasort($results, function($a, $b) {
 		    return  $b['state'] - $a['state'];
@@ -111,7 +108,7 @@ class EvaluationUtility {
 
 	    if($count == 100) {
 	    	$state = self::STATE_GREEN;
-	    } elseif($count > 0) {
+	    } elseif($count > 40) {
 		    $state = self::STATE_YELLOW;
 	    }
 
@@ -227,19 +224,23 @@ class EvaluationUtility {
 
 		$state = self::STATE_RED;
 
-		$this->initBodyContent();
-
-		$results['titleContains'] = substr_count($this->title, $this->keyword);
-		$results['descriptionContains'] = substr_count($this->description, $this->keyword);
-		$results['bodyContains'] = substr_count($this->bodyContent, $this->keyword);
-
-		$uniqueValues = array_unique($results);
-		if(count($uniqueValues) == 1) {
-			if($uniqueValues[0]) {
-				$state = self::STATE_GREEN;
-			}
+		if(empty($this->keyword)) {
+			$results['notSet'] = 1;
 		} else {
-			$state = self::STATE_YELLOW;
+			$this->initBodyContent();
+
+			$results['titleContains'] = substr_count($this->title, $this->keyword);
+			$results['descriptionContains'] = substr_count($this->description, $this->keyword);
+			$results['bodyContains'] = substr_count($this->bodyContent, $this->keyword);
+
+			$uniqueValues = array_unique($results);
+			if(count($uniqueValues) == 1) {
+				if($uniqueValues[0]) {
+					$state = self::STATE_GREEN;
+				}
+			} else {
+				$state = self::STATE_YELLOW;
+			}
 		}
 
 		$results['state'] = $state;
