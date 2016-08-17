@@ -234,7 +234,7 @@ class EvaluationUtility {
 			$results['bodyContains'] = substr_count($this->bodyContent, $this->keyword);
 
 			$uniqueValues = array_unique($results);
-			if(count($uniqueValues) == 1) {
+			if($results['titleContains'] == 1 && $results['descriptionContains'] == 1 && $results['bodyContains'] > 0) {
 				if($uniqueValues[0]) {
 					$state = self::STATE_GREEN;
 				}

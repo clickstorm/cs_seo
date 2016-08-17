@@ -53,6 +53,7 @@ class pageHook {
 		$this->loadCss();
 		$this->view = GeneralUtility::makeInstance(StandaloneView::class);
 		$this->view->setFormat('html');
+		$this->view->getRequest()->setControllerExtensionName('cs_seo');
 		$this->view->setLayoutRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']);
 		$this->view->setPartialRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Partials/']);
 		$this->view->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html');

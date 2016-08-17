@@ -1,10 +1,94 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-06-20T08:41:58Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-08-17T08:41:33Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
 		<body>
+		<trans-unit id="evaluation.description">
+			<source>Meta Description</source>
+		</trans-unit>
+		<trans-unit id="evaluation.description.0">
+			<source>is not set</source>
+		</trans-unit>
+		<trans-unit id="evaluation.description.1">
+			<source>is to short</source>
+		</trans-unit>
+		<trans-unit id="evaluation.description.2">
+			<source>has the optimal length</source>
+		</trans-unit>
+		<trans-unit id="evaluation.h1">
+			<source>H1 headline</source>
+		</trans-unit>
+		<trans-unit id="evaluation.h1.0">
+			<source>%1$s headlines were found</source>
+		</trans-unit>
+		<trans-unit id="evaluation.h1.2">
+			<source>one headline was found</source>
+		</trans-unit>
+		<trans-unit id="evaluation.h2">
+			<source>H2 headlines</source>
+		</trans-unit>
+		<trans-unit id="evaluation.h2.0">
+			<source>No headlines were found</source>
+		</trans-unit>
+		<trans-unit id="evaluation.h2.1">
+			<source>There are to many headlines (%1$s) on the page.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.h2.2">
+			<source>The number of headlines is optimal</source>
+		</trans-unit>
+		<trans-unit id="evaluation.images">
+			<source>Alt attributes</source>
+		</trans-unit>
+		<trans-unit id="evaluation.images.0">
+			<source>There is no image with an alternative text</source>
+		</trans-unit>
+		<trans-unit id="evaluation.images.1">
+			<source>%1$s image(s) without an alternative text</source>
+		</trans-unit>
+		<trans-unit id="evaluation.images.2">
+			<source>Every image has an alternative text</source>
+		</trans-unit>
+		<trans-unit id="evaluation.images.no">
+			<source>There are no images on the page</source>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword">
+			<source>Focus Keyword</source>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.0">
+			<source>The keyword was not found anywhere</source>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.1">
+			<source>The keyword is missing in</source>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.1.body">
+			<source>content</source>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.1.description">
+			<source>description</source>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.1.title">
+			<source>title</source>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.2">
+			<source>The keyowrd was found in title, description and content.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.no">
+			<source>No keyword was set.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.title">
+			<source>Browser title</source>
+		</trans-unit>
+		<trans-unit id="evaluation.title.0">
+			<source>is to long.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.title.1">
+			<source>is to short</source>
+		</trans-unit>
+		<trans-unit id="evaluation.title.2">
+			<source>has the optimal length</source>
+		</trans-unit>
 		<trans-unit id="layouts.module.action.pageIndex">
 			<source>Index</source>
 		</trans-unit>

@@ -1,10 +1,122 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-06-20T08:41:58Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-08-17T08:41:33Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
 		<body>
+		<trans-unit id="evaluation.description" approved="yes">
+			<source>Meta Description</source>
+			<target>Seitenbeschreibung</target>
+		</trans-unit>
+		<trans-unit id="evaluation.description.0" approved="yes">
+			<source>is not set</source>
+			<target>wurde nicht gesetzt</target>
+		</trans-unit>
+		<trans-unit id="evaluation.description.1" approved="yes">
+			<source>is to short</source>
+			<target>ist zu kurz</target>
+		</trans-unit>
+		<trans-unit id="evaluation.description.2" approved="yes">
+			<source>has the optimal length</source>
+			<target>hat die optimale Länge</target>
+		</trans-unit>
+		<trans-unit id="evaluation.h1" approved="yes">
+			<source>H1 headline</source>
+			<target>H1 Überschrift</target>
+		</trans-unit>
+		<trans-unit id="evaluation.h1.0" approved="yes">
+			<source>%1$s headlines were found</source>
+			<target>%1$s Überschriften wurden gefunden.</target>
+		</trans-unit>
+		<trans-unit id="evaluation.h1.2" approved="yes">
+			<source>one headline was found</source>
+			<target>eine Überschrift wurde gefunden</target>
+		</trans-unit>
+		<trans-unit id="evaluation.h2" approved="yes">
+			<source>H2 headlines</source>
+			<target>H2 Überschriften</target>
+		</trans-unit>
+		<trans-unit id="evaluation.h2.0" approved="yes">
+			<source>No headlines were found</source>
+			<target>Es wurden keine Überschriften gefunden</target>
+		</trans-unit>
+		<trans-unit id="evaluation.h2.1" approved="yes">
+			<source>There are to many headlines (%1$s) on the page.</source>
+			<target>Es gibt zu viele Überschriften (%1$s) auf der Seite. </target>
+		</trans-unit>
+		<trans-unit id="evaluation.h2.2" approved="yes">
+			<source>The number of headlines is optimal</source>
+			<target>Die Anzahl der Überschriften ist optimal</target>
+		</trans-unit>
+		<trans-unit id="evaluation.images" approved="yes">
+			<source>Alt attributes</source>
+			<target>Alt Attribute</target>
+		</trans-unit>
+		<trans-unit id="evaluation.images.0" approved="yes">
+			<source>There is no image with an alternative text</source>
+			<target>Es gibt kein Bild mit einem alternativen Text</target>
+		</trans-unit>
+		<trans-unit id="evaluation.images.1" approved="yes">
+			<source>%1$s image(s) without an alternative text</source>
+			<target>%1$s Bild(er) ohne alternativen Text</target>
+		</trans-unit>
+		<trans-unit id="evaluation.images.2" approved="yes">
+			<source>Every image has an alternative text</source>
+			<target>Jedes Bild hat einen alternativen Text</target>
+		</trans-unit>
+		<trans-unit id="evaluation.images.no" approved="yes">
+			<source>There are no images on the page</source>
+			<target>Es gibt keine Bilder auf der Seite</target>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword" approved="yes">
+			<source>Focus Keyword</source>
+			<target>Fokus Schlüsselwort</target>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.0" approved="yes">
+			<source>The keyword was not found anywhere</source>
+			<target>Das Schlüsselwort wurde nirgendwo gefunden</target>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.1" approved="yes">
+			<source>The keyword is missing in</source>
+			<target>Das Schlüsselwort fehlt in</target>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.1.body" approved="yes">
+			<source>content</source>
+			<target>Inhalt</target>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.1.description" approved="yes">
+			<source>description</source>
+			<target>Beschreibung</target>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.1.title" approved="yes">
+			<source>title</source>
+			<target>Titel</target>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.2" approved="yes">
+			<source>The keyowrd was found in title, description and content.</source>
+			<target>Das Schlüsslwort wurde in Titel, Beschreibung und Inhalt gefunden.</target>
+		</trans-unit>
+		<trans-unit id="evaluation.keyword.no" approved="yes">
+			<source>No keyword was set.</source>
+			<target>Es wurde keine Schlüsselwort gesetzt.</target>
+		</trans-unit>
+		<trans-unit id="evaluation.title" approved="yes">
+			<source>Browser title</source>
+			<target>Browser Titel</target>
+		</trans-unit>
+		<trans-unit id="evaluation.title.0" approved="yes">
+			<source>is to long.</source>
+			<target>ist zu lang.</target>
+		</trans-unit>
+		<trans-unit id="evaluation.title.1" approved="yes">
+			<source>is to short</source>
+			<target>ist zu kurz</target>
+		</trans-unit>
+		<trans-unit id="evaluation.title.2" approved="yes">
+			<source>has the optimal length</source>
+			<target>hat die optimale Länge</target>
+		</trans-unit>
 		<trans-unit id="layouts.module.action.pageIndex" approved="yes">
 			<source>Index</source>
 			<target>Indexierung</target>

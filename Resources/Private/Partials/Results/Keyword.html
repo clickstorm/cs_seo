@@ -4,24 +4,33 @@
 <body>
 <f:section name="Main">
 	<p class="cs-icon cs-state-{result.state}">
+		<f:translate key="evaluation.keyword" />:
 		<f:if condition="{result.notSet}">
 			<f:then>
-				No keyword was set.
+				<f:translate key="evaluation.keyword.no" />.
 			</f:then>
 			<f:else>
-				<f:if condition="{f:if(result.state)} > 0">
+				<f:if condition="{result.state} == 1">
 					<f:then>
-						<f:if condition="{result.state} == 2">
-							<f:then>
-								The keyword was found in the title, description and content.
-							</f:then>
+						<f:translate key="evaluation.keyword.1" />
+						<f:if condition="{result.titleContains}">
 							<f:else>
-								The keyword is not set everywhere.
+								<f:translate key="evaluation.keyword.1.title" />
+							</f:else>
+						</f:if>
+						<f:if condition="{result.descriptionContains}">
+							<f:else>
+								<f:translate key="evaluation.keyword.1.description" />
+							</f:else>
+						</f:if>
+						<f:if condition="{result.bodyContains}">
+							<f:else>
+								<f:translate key="evaluation.keyword.1.body" />
 							</f:else>
 						</f:if>
 					</f:then>
 					<f:else>
-						No focus keyword was found.
+						<f:translate key="evaluation.keyword.{result.state}" />.
 					</f:else>
 				</f:if>
 			</f:else>

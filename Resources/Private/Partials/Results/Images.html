@@ -3,6 +3,16 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 <body>
 <f:section name="Main">
-	<p class="cs-icon cs-state-{result.state}">The page contains {result.countWithoutAlt} image(s) without an alt attribute.</p>
+	<p class="cs-icon cs-state-{result.state}">
+		<f:translate key="evaluation.images" />:
+		<f:if condition="{result.count}">
+			<f:then>
+				<f:translate key="evaluation.images.{result.state}" arguments="{0: result.countWithoutAlt}" />.
+			</f:then>
+			<f:else>
+				<f:translate key="evaluation.images.no" />.
+			</f:else>
+		</f:if>
+	</p>
 </f:section>
 </body>

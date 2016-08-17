@@ -3,6 +3,8 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 <body>
 <f:section name="Main">
-	<p class="cs-icon cs-state-{result.state}">The page title contains {result.count} characters.</p>
+	<p class="cs-icon cs-state-{result.state}">
+		<f:translate key="evaluation.title" />: <f:translate key="evaluation.title.{result.state}" arguments="{0: result.count}" />.
+	</p>
 </f:section>
 </body>
