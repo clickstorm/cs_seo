@@ -1,33 +1,52 @@
 @import "config";
 
 .tx-cs_seo {
-	background: #efefef;
-	border-radius: 5px;
-	padding: 10px 10px 5px;
+	background: #eaeaea;
+	border-radius: 2px;
+
+	padding: 10px 30px 5px 10px;
+	position: relative;
+
+	.final {
+		color: @color-failure;
+		font-size: 4rem;
+		line-height: 100%;
+		position: absolute;
+		right: 10px;
+		text-shadow: 1px 1px 1px rgba(0,0,0,.3);
+		top: 10px;
+		&.cs-state-1 {
+			color: @color-ok;
+		}
+		&.cs-state-2 {
+			color: @color-good;
+		}
+	}
 }
 
 .cs-icon {
 	position: relative;
 	padding-left: 1.5em;
 	&:before {
-		background: red;
-		border-radius: 1em;
+		background: @color-failure;
+		border-radius: 2em;
+		box-shadow: 1px 1px 1px rgba(0,0,0,.3);
 		content: " ";
 		height: 1em;
 		left: 0;
 		margin-right: .5em;
 		position: absolute;
-		top: .1em;
+		top: .2em;
 		width: 1em;
 	}
 	&.cs-state-1 {
 		&:before {
-			background: yellow;
+			background: @color-ok;
 		}
 	}
 	&.cs-state-2 {
 		&:before {
-			background: green;
+			background: @color-good;
 		}
 	}
 }

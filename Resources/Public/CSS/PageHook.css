@@ -1,27 +1,44 @@
 .tx-cs_seo {
-  background: #efefef;
-  border-radius: 5px;
-  padding: 10px 10px 5px;
+  background: #eaeaea;
+  border-radius: 2px;
+  padding: 10px 30px 5px 10px;
+  position: relative;
+}
+.tx-cs_seo .final {
+  color: #F06543;
+  font-size: 4rem;
+  line-height: 100%;
+  position: absolute;
+  right: 10px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  top: 10px;
+}
+.tx-cs_seo .final.cs-state-1 {
+  color: #FFD23F;
+}
+.tx-cs_seo .final.cs-state-2 {
+  color: #679f37;
 }
 .cs-icon {
   position: relative;
   padding-left: 1.5em;
 }
 .cs-icon:before {
-  background: red;
-  border-radius: 1em;
+  background: #F06543;
+  border-radius: 2em;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
   content: " ";
   height: 1em;
   left: 0;
   margin-right: .5em;
   position: absolute;
-  top: .1em;
+  top: .2em;
   width: 1em;
 }
 .cs-icon.cs-state-1:before {
-  background: yellow;
+  background: #FFD23F;
 }
 .cs-icon.cs-state-2:before {
-  background: green;
+  background: #679f37;
 }
 /*# sourceMappingURL=../CSS/PageHook.less.map */
