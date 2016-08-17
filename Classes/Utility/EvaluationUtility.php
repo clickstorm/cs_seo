@@ -235,9 +235,7 @@ class EvaluationUtility {
 
 			$uniqueValues = array_unique($results);
 			if($results['titleContains'] == 1 && $results['descriptionContains'] == 1 && $results['bodyContains'] > 0) {
-				if($uniqueValues[0]) {
-					$state = self::STATE_GREEN;
-				}
+				$state = self::STATE_GREEN;
 			} else {
 				$state = self::STATE_YELLOW;
 			}
