@@ -13,10 +13,6 @@
 	"SEO"
   ],
   "version": "1.5.2-dev",
-  "dist": {
-	"url": "https://github.com/clickstorm/cs_seo.git",
-	"type": "git"
-  },
   "replace": {
 	"cs_seo": "*"
   },
