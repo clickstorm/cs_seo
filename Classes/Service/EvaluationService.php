@@ -19,17 +19,51 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class EvaluationService {
 
+	/**
+	 * @var array
+	 */
+	protected $evaluators;
+
+	/**
+	 * @return array
+	 */
+	public function getEvaluators() {
+		return $this->evaluators;
+	}
+
+	/**
+	 * @param array $evaluators
+	 */
+	public function setEvaluators($evaluators) {
+		$this->evaluators = $evaluators;
+	}
+
+	/**
+	 * @TODO find a better solution for defaults
+	 */
+	public function initEvaluators() {
+		$defaultEvaluators = [
+			'H1' => \Clickstorm\CsSeo\Evaluation\H1Evaluator::class,
+			'H2' => \Clickstorm\CsSeo\Evaluation\H2Evaluator::class,
+			'Title' => \Clickstorm\CsSeo\Evaluation\TitleEvaluator::class,
+			'Description' => \Clickstorm\CsSeo\Evaluation\DescriptionEvaluator::class,
+			'Keyowrd' => \Clickstorm\CsSeo\Evaluation\KeyowrdEvaluator::class,
+			'Images' => \Clickstorm\CsSeo\Evaluation\ImagesEvaluator::class
+		];
+		$this->evaluators = $defaultEvaluators;
+	}
+
     public function evaluate($html, $keyword) {
 	    $results = [];
-		$evaluators = ['H1', 'H2', 'Description', 'Title', 'Keyword', 'Images'];
+
+	    $this->initEvaluators();
 
 	    $domDocument = new \DOMDocument;
 	    @$domDocument->loadHTML($html);
 
-	    foreach ($evaluators as $evaluator) {
-	    	$class = 'Clickstorm\\CsSeo\\Evaluation\\' . $evaluator . 'Evaluator';
-	    	$evaluatorInstance = GeneralUtility::makeInstance($class, $domDocument, $keyword);
-			$results[$evaluator] = $evaluatorInstance->evaluate();
+	    foreach ($this->evaluators as $evaluatorName => $evaluatorClass) {
+	    	$evaluatorInstance = GeneralUtility::makeInstance($evaluatorClass, $domDocument, $keyword);
+			$results[$evaluatorName] = $evaluatorInstance->evaluate();
 	    }
 
 	    uasort($results, function($a, $b) {
