@@ -80,7 +80,29 @@ abstract class AbstractEvaluator implements EvaluationInterface
 	 */
 	protected function getSingleDomElementContentByTagName($tagName) {
 		$elements = $this->domDocument->getElementsByTagName($tagName);
-		return $elements->item(0)->nodeValue;
+		if($elements->item(0)) {
+			return $elements->item(0)->nodeValue;
+		} else {
+			return '';
+		}
+	}
+
+	/**
+	 * @param $metaName
+	 * @return int
+	 */
+	protected function getNumberOfMetaTags($metaName) {
+		$counter = 0;
+		$metaTags = $this->domDocument->getElementsByTagName('meta');
+
+		/** @var \DOMElement $metaTag */
+		foreach ($metaTags as $metaTag) {
+			if($metaTag->getAttribute('name') == $metaName) {
+				$counter++;
+			}
+		}
+
+		return $counter;
 	}
 
 	protected function getMetaTagContent($metaName) {

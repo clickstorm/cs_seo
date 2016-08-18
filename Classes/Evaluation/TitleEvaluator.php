@@ -7,11 +7,8 @@ namespace Clickstorm\CsSeo\Evaluation;
  */
 class TitleEvaluator extends AbstractLengthEvaluator
 {
-	const MIN = 40;
-	const MAX = 57;
-
 	public function evaluate() {
 		$title = $this->getSingleDomElementContentByTagName('title');
-		return $this->evaluateLength($title);
+		return $this->evaluateLength($title, 40, 57);
 	}
 }

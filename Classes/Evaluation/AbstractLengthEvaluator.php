@@ -7,15 +7,12 @@ namespace Clickstorm\CsSeo\Evaluation;
  */
 abstract class AbstractLengthEvaluator extends AbstractEvaluator
 {
-	const MIN = 0;
-	const MAX = 100;
-
-	protected function evaluateLength($content) {
+	protected function evaluateLength($content, $min, $max) {
 		$state = self::STATE_RED;
 
 		$count = strlen($content);
 
-		if($count > self::MIN && $count < self::MAX) {
+		if($count >= $min && $count <= $max) {
 			$state =  self::STATE_GREEN;
 		} else {
 			if($count > 0) {

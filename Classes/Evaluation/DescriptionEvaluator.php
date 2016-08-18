@@ -7,12 +7,11 @@ namespace Clickstorm\CsSeo\Evaluation;
  */
 class DescriptionEvaluator extends AbstractLengthEvaluator
 {
-	const MIN = 140;
-	const MAX = 160;
-
 	public function evaluate() {
+		$this->getDomDocument()->getElementsByTagName('meta');
+
 		$description = $this->getMetaTagContent('description');
-		return $this->evaluateLength($description);
+		return $this->evaluateLength($description, 140, 160);
 	}
 
 }
