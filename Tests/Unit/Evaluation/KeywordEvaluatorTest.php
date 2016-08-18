@@ -1,7 +1,8 @@
 <?php
 namespace Clickstorm\CsSeo\Tests\Utility;
 
-use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
+use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
+use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /***************************************************************
@@ -32,33 +33,33 @@ use TYPO3\CMS\Core\Tests\UnitTestCase;
 /**
  * @package cs_seo
  */
-
-class DescriptionEvaluatorTest extends UnitTestCase
-{
+class KeywordEvaluatorTest extends UnitTestCase {
 
 	/**
-	 * @var DescriptionEvaluator
+	 * @var KeywordEvaluator
 	 */
 	protected $generalEvaluationMock;
 
 	/**
 	 * @return void
 	 */
-	public function setUp()
-	{
-		$this->generalEvaluationMock = $this->getAccessibleMock(DescriptionEvaluator::class, ['dummy'], [new \DOMDocument()]);
+	public function setUp() {
+		$this->generalEvaluationMock = $this->getAccessibleMock(
+			KeywordEvaluator::class,
+			['dummy'],
+			[new \DOMDocument()]
+		);
 	}
 
 	/**
 	 * @return void
 	 */
-	public function tearDown()
-	{
+	public function tearDown() {
 		unset($this->generalEvaluationMock);
 	}
 
 	/**
-	 * evaluateTest
+	 * htmlspecialcharsOnArray Test
 	 *
 	 * @param string $html
 	 * @param mixed $expectedResult
@@ -66,10 +67,11 @@ class DescriptionEvaluatorTest extends UnitTestCase
 	 * @return void
 	 * @test
 	 */
-	public function evaluateTest($html, $expectedResult) {
+	public function evaluateTest($html, $keyword, $expectedResult) {
 		$domDocument = new \DOMDocument();
 		@$domDocument->loadHTML($html);
 		$this->generalEvaluationMock->setDomDocument($domDocument);
+		$this->generalEvaluationMock->setKeyword($keyword);
 		$result = $this->generalEvaluationMock->evaluate();
 
 		ksort($expectedResult);
@@ -83,45 +85,66 @@ class DescriptionEvaluatorTest extends UnitTestCase
 	 *
 	 * @return array
 	 */
-	public function evaluateTestDataProvider()
-	{
+	public function evaluateTestDataProvider() {
 		return [
-			'zero description' => [
+			'no keyword' => [
+				'',
 				'',
 				[
-					'count' => 0,
-					'state' => DescriptionEvaluator::STATE_RED
+					'notSet' => 1,
+					'state' => AbstractEvaluator::STATE_RED
 				]
 			],
-			'short decription' => [
-				'<meta name="description" content="' . str_repeat('.', 139) . '" />',
+			'keyword set, not found' => [
+				'',
+				'Test',
 				[
-					'count' => 139,
-					'state' => DescriptionEvaluator::STATE_YELLOW,
+					'titleContains' => 0,
+					'descriptionContains' => 0,
+					'bodyContains' => 0,
+					'state' => AbstractEvaluator::STATE_YELLOW
 				]
 			],
-			'min good decription' => [
-				'<meta name="description" content="' . str_repeat('.', 140) . '" />',
+			'keyword set, found in title' => [
+				'<title>Test</title>',
+				'Test',
 				[
-					'count' => 140,
-					'state' => DescriptionEvaluator::STATE_GREEN,
+					'titleContains' => 1,
+					'descriptionContains' => 0,
+					'bodyContains' => 0,
+					'state' => AbstractEvaluator::STATE_YELLOW
 				]
 			],
-			'max good decription' => [
-				'<meta name="description" content="' . str_repeat('.', 160) . '" />',
+			'keyword set, found in description' => [
+				'<meta name="description" content="Test">',
+				'Test',
 				[
-					'count' => 160,
-					'state' => DescriptionEvaluator::STATE_GREEN,
+					'titleContains' => 0,
+					'descriptionContains' => 1,
+					'bodyContains' => 0,
+					'state' => AbstractEvaluator::STATE_YELLOW
 				]
 			],
-			'long decription' => [
-				'<meta name="description" content="' . str_repeat('.', 161) . '" />',
+			'keyword set, found in body' => [
+				'<body>Test</body>',
+				'Test',
 				[
-					'count' => 161,
-					'state' => DescriptionEvaluator::STATE_YELLOW,
+					'titleContains' => 0,
+					'descriptionContains' => 0,
+					'bodyContains' => 1,
+					'state' => AbstractEvaluator::STATE_YELLOW
 				]
-			]
+			],
+			'keyword set, found everywhere' => [
+				'<head><title>Test</title><meta name="description" content="Test"></head><body>Test</body>',
+				'Test',
+				[
+					'titleContains' => 1,
+					'descriptionContains' => 1,
+					'bodyContains' => 1,
+					'state' => AbstractEvaluator::STATE_GREEN
+				]
+			 ]
 		];
 	}
-
 }

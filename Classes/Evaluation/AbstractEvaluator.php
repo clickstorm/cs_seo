@@ -67,21 +67,13 @@ abstract class AbstractEvaluator implements EvaluationInterface
 	}
 
 	/**
-	 *
-	 */
-	protected function getBodyContent() {
-		$body = $this->domDocument->getElementsByTagName('body');
-		$this->bodyContent = $body->item(0)->textContent;
-	}
-
-	/**
 	 * @param string $tagName
 	 * @return string
 	 */
 	protected function getSingleDomElementContentByTagName($tagName) {
 		$elements = $this->domDocument->getElementsByTagName($tagName);
 		if($elements->item(0)) {
-			return $elements->item(0)->nodeValue;
+			return $elements->item(0)->textContent;
 		} else {
 			return '';
 		}

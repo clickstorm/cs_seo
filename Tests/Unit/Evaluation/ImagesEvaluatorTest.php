@@ -1,7 +1,8 @@
 <?php
 namespace Clickstorm\CsSeo\Tests\Utility;
 
-use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
+use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
+use Clickstorm\CsSeo\Evaluation\ImagesEvaluator;
 use TYPO3\CMS\Core\Tests\UnitTestCase;
 
 /***************************************************************
@@ -33,32 +34,33 @@ use TYPO3\CMS\Core\Tests\UnitTestCase;
  * @package cs_seo
  */
 
-class DescriptionEvaluatorTest extends UnitTestCase
-{
+class ImagesEvaluatorTest extends UnitTestCase {
 
 	/**
-	 * @var DescriptionEvaluator
+	 * @var ImagesEvaluator
 	 */
 	protected $generalEvaluationMock;
 
 	/**
 	 * @return void
 	 */
-	public function setUp()
-	{
-		$this->generalEvaluationMock = $this->getAccessibleMock(DescriptionEvaluator::class, ['dummy'], [new \DOMDocument()]);
+	public function setUp() {
+		$this->generalEvaluationMock = $this->getAccessibleMock(
+			ImagesEvaluator::class,
+			['dummy'],
+			[new \DOMDocument()]
+		);
 	}
 
 	/**
 	 * @return void
 	 */
-	public function tearDown()
-	{
+	public function tearDown() {
 		unset($this->generalEvaluationMock);
 	}
 
 	/**
-	 * evaluateTest
+	 * htmlspecialcharsOnArray Test
 	 *
 	 * @param string $html
 	 * @param mixed $expectedResult
@@ -83,45 +85,53 @@ class DescriptionEvaluatorTest extends UnitTestCase
 	 *
 	 * @return array
 	 */
-	public function evaluateTestDataProvider()
-	{
+	public function evaluateTestDataProvider() {
 		return [
-			'zero description' => [
+			'zero images' => [
 				'',
 				[
 					'count' => 0,
-					'state' => DescriptionEvaluator::STATE_RED
+					'altCount' => 0,
+					'countWithoutAlt' => 0,
+					'state' => AbstractEvaluator::STATE_GREEN
 				]
 			],
-			'short decription' => [
-				'<meta name="description" content="' . str_repeat('.', 139) . '" />',
+			'one image no alt' => [
+				'<img alt="" />',
 				[
-					'count' => 139,
-					'state' => DescriptionEvaluator::STATE_YELLOW,
+					'count' => 1,
+					'altCount' => 0,
+					'countWithoutAlt' => 1,
+					'state' => AbstractEvaluator::STATE_RED
 				]
 			],
-			'min good decription' => [
-				'<meta name="description" content="' . str_repeat('.', 140) . '" />',
+			'one image with alt' => [
+				'<img alt="Hallo" />',
 				[
-					'count' => 140,
-					'state' => DescriptionEvaluator::STATE_GREEN,
+					'count' => 1,
+					'altCount' => 1,
+					'countWithoutAlt' => 0,
+					'state' => AbstractEvaluator::STATE_GREEN
 				]
 			],
-			'max good decription' => [
-				'<meta name="description" content="' . str_repeat('.', 160) . '" />',
+			'one alt missing' => [
+				'<img alt="" /><img alt="Test" />',
 				[
-					'count' => 160,
-					'state' => DescriptionEvaluator::STATE_GREEN,
+					'count' => 2,
+					'altCount' => 1,
+					'countWithoutAlt' => 1,
+					'state' => AbstractEvaluator::STATE_YELLOW
 				]
 			],
-			'long decription' => [
-				'<meta name="description" content="' . str_repeat('.', 161) . '" />',
+			'3 images with alt' => [
+				str_repeat('<img alt="Test" />', 3),
 				[
-					'count' => 161,
-					'state' => DescriptionEvaluator::STATE_YELLOW,
+					'count' => 3,
+					'altCount' => 3,
+					'countWithoutAlt' => 0,
+					'state' => AbstractEvaluator::STATE_GREEN
 				]
-			]
+			 ]
 		];
 	}
-
 }
