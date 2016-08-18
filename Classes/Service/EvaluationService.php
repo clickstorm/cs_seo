@@ -47,7 +47,7 @@ class EvaluationService {
 			'H2' => \Clickstorm\CsSeo\Evaluation\H2Evaluator::class,
 			'Title' => \Clickstorm\CsSeo\Evaluation\TitleEvaluator::class,
 			'Description' => \Clickstorm\CsSeo\Evaluation\DescriptionEvaluator::class,
-			'Keyowrd' => \Clickstorm\CsSeo\Evaluation\KeyowrdEvaluator::class,
+			'Keyword' => \Clickstorm\CsSeo\Evaluation\KeywordEvaluator::class,
 			'Images' => \Clickstorm\CsSeo\Evaluation\ImagesEvaluator::class
 		];
 		$this->evaluators = $defaultEvaluators;

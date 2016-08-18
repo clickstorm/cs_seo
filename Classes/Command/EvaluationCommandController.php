@@ -65,7 +65,7 @@ class EvaluationCommandController extends CommandController {
 				/** @var EvaluationService $evaluationUtility */
 				$evaluationUtility = GeneralUtility::makeInstance(EvaluationService::class);
 				$results = $evaluationUtility->evaluate($html, $item['tx_csseo_keyword']);
-				
+
 				$this->saveChanges($results, $item['uid'], $tableName);
 			}
 		}

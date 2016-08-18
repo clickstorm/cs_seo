@@ -105,6 +105,16 @@ class KeywordEvaluatorTest extends UnitTestCase {
 					'state' => AbstractEvaluator::STATE_YELLOW
 				]
 			],
+			'keyword different case, found in title' => [
+				'<title>Test</title>',
+				'test',
+				[
+					'titleContains' => 1,
+					'descriptionContains' => 0,
+					'bodyContains' => 0,
+					'state' => AbstractEvaluator::STATE_YELLOW
+				]
+			],
 			'keyword set, found in title' => [
 				'<title>Test</title>',
 				'Test',

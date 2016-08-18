@@ -35,7 +35,7 @@ abstract class AbstractEvaluator implements EvaluationInterface
     public function __construct($domDocument, $keyword = '')
     {
 	    $this->domDocument = $domDocument;
-	    $this->keyword = $keyword;
+	    $this->setKeyword($keyword);
     }
 
 	/**
@@ -63,7 +63,7 @@ abstract class AbstractEvaluator implements EvaluationInterface
 	 * @param string $keyword
 	 */
 	public function setKeyword($keyword) {
-		$this->keyword = $keyword;
+		$this->keyword = strtolower($keyword);
 	}
 
 	/**
