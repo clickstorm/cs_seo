@@ -29,7 +29,7 @@ namespace Clickstorm\CsSeo\Command;
 
 use Clickstorm\CsSeo\Domain\Model\Evaluation;
 use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
-use Clickstorm\CsSeo\Utility\EvaluationUtility;
+use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Utility\FrontendPageUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -62,9 +62,9 @@ class EvaluationCommandController extends CommandController {
 			$html = $frontendPageUtility->getHTML();
 
 			if(!empty($html)) {
-				/** @var EvaluationUtility $evaluationUtility */
-				$evaluationUtility = GeneralUtility::makeInstance(EvaluationUtility::class, $html, $item['tx_csseo_keyword']);
-				$results = $evaluationUtility->evaluate();
+				/** @var EvaluationService $evaluationUtility */
+				$evaluationUtility = GeneralUtility::makeInstance(EvaluationService::class);
+				$results = $evaluationUtility->evaluate($html, $item['tx_csseo_keyword']);
 				
 				$this->saveChanges($results, $item['uid'], $tableName);
 			}
