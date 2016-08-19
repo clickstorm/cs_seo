@@ -8,9 +8,16 @@ tx_csseo_og_description, tx_csseo_tw_title, tx_csseo_tw_description, tx_csseo_tw
 
 if (TYPO3_MODE === 'BE') {
 
-	// Hook into the page module
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php']['drawHeaderHook'][$_EXTKEY] =
-		\Clickstorm\CsSeo\Hook\PageHook::class . '->render';
+	$confArray = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
+
+	if($confArray['resultsInPageModule'] > 0) {
+		$hook = ($confArray['resultsInPageModule'] == 1) ? 'drawHeaderHook' : 'drawFooterHook';
+
+		// Hook into the page module
+		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php'][$hook][$_EXTKEY] =
+			\Clickstorm\CsSeo\Hook\PageHook::class . '->render';
+	}
+
 
 	// add scheduler task
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][$_EXTKEY] =
