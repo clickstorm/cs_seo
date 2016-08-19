@@ -50,25 +50,19 @@ class EvaluationCommandController extends CommandController {
 	protected $persistenceManager;
 
 	/**
-	 * @param int $uidForeign
+	 * @var string
+	 */
+	protected $tableName = 'pages';
+
+	/**
+	 * @param int $uid
 	 * @param string $tableName
 	 */
-	public function updateCommand($uidForeign = 0, $tableName = 'pages') {
-		$items = $this->getAllItems($uidForeign, $tableName);
-		$this->persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
-		foreach ($items as $item) {
-			/** @var FrontendPageUtility $frontendPageUtility */
-			$frontendPageUtility = GeneralUtility::makeInstance(FrontendPageUtility::class, $item);
-			$html = $frontendPageUtility->getHTML();
-
-			if(!empty($html)) {
-				/** @var EvaluationService $evaluationUtility */
-				$evaluationUtility = GeneralUtility::makeInstance(EvaluationService::class);
-				$results = $evaluationUtility->evaluate($html, $item['tx_csseo_keyword']);
-
-				$this->saveChanges($results, $item['uid'], $tableName);
-			}
+	public function updateCommand($uid = 0, $tableName = '') {
+		if(!empty($tableName)) {
+			$this->tableName = $tableName;
 		}
+		$this->processResults($uid);
 	}
 
 	/**
@@ -81,35 +75,67 @@ class EvaluationCommandController extends CommandController {
 	public function ajaxUpdate($params = array(), \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = NULL) {
 		$this->objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
 		$this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
+		$this->persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
 
 		// get parameter
 		$attr = $params['request']->getParsedBody();
 
 		// prepare data array
-		$tableName = 'pages';
 		$uid = $attr['uid'];
 
-		$this->updateCommand($uid);
+		$this->processResults($uid);
 
 		$ajaxObj->addContent('uid', $uid);
+	}
+
+	/**
+	 * @param int $uid
+	 * @param bool $localized
+	 */
+	protected function processResults($uid = 0, $localized = false) {
+		$query = $this->buildQuery($uid, $localized);
+		$items = $this->getAllItems($query);
+		$this->updateResults($items);
+
+		if(!$localized) {
+			$this->processResults($uid, true);
+		}
+	}
+
+	/**
+	 * @param $items
+	 */
+	protected function updateResults($items) {
+		foreach ($items as $item) {
+			/** @var FrontendPageUtility $frontendPageUtility */
+			$frontendPageUtility = GeneralUtility::makeInstance(FrontendPageUtility::class, $item);
+			$html = $frontendPageUtility->getHTML();
+
+			if (!empty($html)) {
+				/** @var EvaluationService $evaluationUtility */
+				$evaluationUtility = GeneralUtility::makeInstance(EvaluationService::class);
+				$results = $evaluationUtility->evaluate($html, $item['tx_csseo_keyword']);
+
+				$this->saveChanges($results, $item['uid']);
+			}
+		}
 	}
 
 	/**
 	 * store the results in the db
 	 * @param $results
 	 * @param $uidForeign
-	 * @param $tableName
 	 */
-	protected function saveChanges($results, $uidForeign, $tableName) {
+	protected function saveChanges($results, $uidForeign) {
 		/**
 		 * @var Evaluation $evaluation
 		 */
-		$evaluation = $this->evaluationRepository->findByUidForeignAndTableName($uidForeign, $tableName);
+		$evaluation = $this->evaluationRepository->findByUidForeignAndTableName($uidForeign, $this->tableName);
 
 		if(!$evaluation) {
 			$evaluation = GeneralUtility::makeInstance(Evaluation::class);
 			$evaluation->setUidForeign($uidForeign);
-			$evaluation->setTablenames($tableName);
+			$evaluation->setTablenames($this->tableName);
 		}
 
 		$evaluation->setResults($results);
@@ -122,30 +148,70 @@ class EvaluationCommandController extends CommandController {
 		$this->persistenceManager->persistAll();
 	}
 
-	protected function getAllItems($uidForeign, $tableName) {
+	/**
+	 * @param $uid
+	 * @param bool $localizations
+	 * @return string
+	 */
+	protected function buildQuery($uid, $localizations = false) {
+		$constraints = [];
+		$tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
+
+		if($localizations) {
+			if($tcaCtrl['transForeignTable']) {
+				$this->tableName = $tcaCtrl['transForeignTable'];
+				$tcaCtrl['transOrigPointerField'] = 'pid';
+			} else {
+				$constraints[] = $tcaCtrl['languageField'] . ' > 0';
+			}
+		}
+
+		if($this->tableName == 'pages') {
+			$constraints[] =  'doktype = 1';
+		}
+
+		if($uid > 0) {
+			if($localizations) {
+				$constraints[] =  $tcaCtrl['transOrigPointerField'] . ' = ' . $uid;
+			} else {
+				$constraints[] =  'uid = ' . $uid;
+			}
+		}
+
+
+		return implode($constraints, ' AND ') . BackendUtility::BEenableFields($this->tableName);
+	}
+
+	/**
+	 * @param $where
+	 * @return array
+	 */
+	protected function getAllItems($where) {
 		$items = [];
-
-		$where = '1';
-
-		if($tableName == 'pages') {
-			$where .= ' AND doktype=1';
-		}
-
-		if($uidForeign > 0) {
-			$where .= ' AND uid=' . $uidForeign;
-		}
-
-		$where .=  BackendUtility::BEenableFields($tableName);
 
 		$res = $this->getDatabaseConnection()->exec_SELECTquery(
 			'*',
-			$tableName,
+			$this->tableName,
 			$where
 		);
 		while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
 			$items[] = $row;
 		}
 		return $items;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTableName() {
+		return $this->tableName;
+	}
+
+	/**
+	 * @param string $tableName
+	 */
+	public function setTableName($tableName) {
+		$this->tableName = $tableName;
 	}
 
 	/**

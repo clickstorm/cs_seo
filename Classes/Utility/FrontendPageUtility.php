@@ -36,11 +36,9 @@ class FrontendPageUtility {
 	/**
 	 * TSFEUtility constructor.
 	 * @param array $pageInfo
-	 * @param int $lang
 	 */
-	public function __construct($pageInfo, $lang = 0) {
+	public function __construct($pageInfo) {
 		$this->pageInfo = $pageInfo;
-		$this->lang = $lang;
 	}
 
 	/**
@@ -51,8 +49,15 @@ class FrontendPageUtility {
 			return '';
 		}
 
+		if($this->pageInfo['sys_language_uid']) {
+			$params = 'id=' . $this->pageInfo['pid'] . '&L=' .$this->pageInfo['sys_language_uid'];
+		} else {
+			$params = 'id=' . $this->pageInfo['uid'];
+		}
+
 		$domain = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
-		$url = $domain . '/index.php?id=' . $this->pageInfo['uid'] . '&lang=' . $this->lang;
+		$url = $domain . '/index.php?' . $params;
+
 		$report = [];
 		$content = GeneralUtility::getUrl($url, 0, false, $report);
 

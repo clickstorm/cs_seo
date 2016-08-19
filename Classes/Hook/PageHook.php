@@ -9,6 +9,7 @@ use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Utility\EvaluationUtility;
 use Clickstorm\CsSeo\Utility\FrontendPageUtility;
 use TYPO3\CMS\Backend\Controller\PageLayoutController;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -74,26 +75,28 @@ class pageHook {
 	 */
 	public function render(array $params = array(), PageLayoutController $parentObject)
 	{
-		if($this->pageCanBeIndexed($parentObject->pageinfo)) {
-			// template
-			$this->loadCss();
-			$this->loadJavascript();
+		if($parentObject->MOD_SETTINGS['function'] == 1) {
+			$pageInfo = $parentObject->pageinfo;
+			if($this->pageCanBeIndexed($pageInfo)) {
+				// template
+				$this->loadCss();
+				$this->loadJavascript();
 
-			$this->view = GeneralUtility::makeInstance(StandaloneView::class);
-			$this->view->setFormat('html');
-			$this->view->getRequest()->setControllerExtensionName('cs_seo');
-			$this->view->setLayoutRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']);
-			$this->view->setPartialRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Partials/']);
-			$this->view->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html');
+				$this->view = GeneralUtility::makeInstance(StandaloneView::class);
+				$this->view->setFormat('html');
+				$this->view->getRequest()->setControllerExtensionName('cs_seo');
+				$this->view->setLayoutRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']);
+				$this->view->setPartialRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Partials/']);
+				$this->view->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html');
 
-			$this->view->assignMultiple([
-				'results'=> $this->getResults($parentObject->id),
-				'page' => $parentObject->pageinfo
-			]);
+				$this->view->assignMultiple([
+					'results'=> $this->getResults($pageInfo, $parentObject->current_sys_language),
+					'page' => $parentObject->pageinfo
+				]);
 
-			return $this->view->render();
+				return $this->view->render();
+			}
 		}
-
 	}
 
 	/**
@@ -119,13 +122,29 @@ class pageHook {
 	}
 
 	/**
-	 * @return PageRenderer
+	 * @param $pageInfo
+	 * @param $lang
+	 * @return array
 	 */
-	protected function getResults($pageUid)
+	protected function getResults($pageInfo, $lang)
 	{
 		$results = [];
-		$where = 'uid_foreign = ' . $pageUid;
-		$where .= ' AND tablenames = "pages"';
+		
+		if($lang) {
+			$tableName = 'pages_language_overlay';
+			$localizedPageInfo = BackendUtility::getRecordLocalization('pages', $pageInfo['uid'], $lang);
+			if($localizedPageInfo[0]) {
+				$uidForeign = $localizedPageInfo[0]['uid'];
+			} else {
+				return [];
+			}
+		} else {
+			$tableName = 'pages';
+			$uidForeign = $pageInfo['uid'];
+		}
+
+		$where = 'uid_foreign = ' . $uidForeign;
+		$where .= ' AND tablenames = "' . $tableName . '"';
 
 		$res = $this->getDatabaseConnection()->exec_SELECTquery(
 			'results',
