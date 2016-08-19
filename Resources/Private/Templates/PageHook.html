@@ -11,6 +11,7 @@
                     <f:render partial="Results\{key}" arguments="{result:result}" section="Main" />
                 </f:for>
                 <button id="cs-seo-evaluate" data-uid="{page.uid}">Update</button>
+                <f:link.action action="Evaluation" controller="Module" extensionName="cs_seo" additionalParams="{M:'web_CsSeoMod1'}">More</f:link.action>
             </div>
         </f:then>
     </f:if>

@@ -16,7 +16,7 @@
                     uid: $this.data('uid')
                 }
                 ).success(function(response){
-                top.TYPO3.Notification.success('Updated', '', 1000);
+                top.TYPO3.Notification.success('Updated', '', 3);
                 location.reload();
             });
             $('#cs-seo-evaluate').remove();
