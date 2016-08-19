@@ -26,6 +26,7 @@ namespace Clickstorm\CsSeo\Domain\Repository;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 
 /**
  * Evaluation
@@ -33,6 +34,15 @@ namespace Clickstorm\CsSeo\Domain\Repository;
 class EvaluationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
+	protected $respectStoragePage = false;
+
+	public function initializeObject() {
+		/** @var Typo3QuerySettings $defaultQuerySettings */
+		$defaultQuerySettings = $this->objectManager->get(Typo3QuerySettings::class);
+		$defaultQuerySettings->setRespectStoragePage(false);
+		$defaultQuerySettings->setRespectSysLanguage(false);
+		$this->setDefaultQuerySettings($defaultQuerySettings);
+	}
 
 	/**
 	 * Finds an object matching the given identifier.

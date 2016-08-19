@@ -73,6 +73,7 @@ return [
 		],
 
 		'results' => [
+			'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:tx_csseo_domain_model_evaluation.results',
 			'config' => [
 				'type' => 'passthrough',
 			],

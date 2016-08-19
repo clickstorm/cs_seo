@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-08-16T07:19:25Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-08-19T11:24:07Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -70,6 +70,9 @@
 		</trans-unit>
 		<trans-unit id="templates.wizard.error.no_ts">
 			<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_domain_model_evaluation.results">
+			<source>Results</source>
 		</trans-unit>
 		<trans-unit id="tx_csseo_domain_model_meta">
 			<source>SEO options</source>

@@ -1,0 +1,20 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+<f:layout name="Module" />
+
+<f:section name="Main">
+    <h1><f:translate key="layouts.module.action.pageEvaluation" /></h1>
+    <p></p>
+    <f:if condition="{page}">
+        <f:then>
+            <div class="cs-seo-results">
+                <f:for each="{results}" as="result" key="key">
+                    <f:render partial="Results\{key}" arguments="{result:result}" section="Main" />
+                </f:for>
+                <button id="cs-seo-evaluate" data-uid="{page.uid}">Update</button>
+            </div>
+        </f:then>
+    </f:if>
+</f:section>
+</div>

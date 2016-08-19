@@ -49,6 +49,12 @@ class ModuleController extends ActionController {
 	protected $pageRepository;
 
 	/**
+	 * @var \Clickstorm\CsSeo\Domain\Repository\EvaluationRepository
+	 * @inject
+	 */
+	protected $evaluationRepository;
+
+	/**
 	 * @var \TYPO3\CMS\Core\DataHandling\DataHandler
 	 */
 	protected $dataHandler;
@@ -61,12 +67,17 @@ class ModuleController extends ActionController {
 	/**
 	 * @var array
 	 */
-	protected $modParams = ['id' => 0, 'lang' => 0, 'depth' => 1];
+	protected $modParams = ['action' => '','id' => 0, 'lang' => 0, 'depth' => 1];
 
 	/**
 	 * @var array
 	 */
 	protected $languages = [];
+
+	/**
+	 * @var bool
+	 */
+	protected $showResults = false;
 
 	/**
 	 * Initialize action
@@ -82,6 +93,11 @@ class ModuleController extends ActionController {
 		// initialize settings of the module
 		$this->initializeModParams();
 
+		if(!$this->request->hasArgument('action') && $this->modParams['action']) {
+			$this->request->setArgument('action', $this->modParams['action']);
+			$this->forward($this->modParams['action']);
+		}
+
 		// get languages
 		$this->languages = $this->getLanguages();
 	}
@@ -96,9 +112,11 @@ class ModuleController extends ActionController {
 			$this->modParams[$name] = ((int)GeneralUtility::_GP($name) > 0)
 				? (int) GeneralUtility::_GP($name)
 				: $this->getBackendUser()->getSessionData(self::SESSION_PREFIX . $name);
-			if ($this->request->hasArgument($name)) {
-				$this->modParams[$name] = (int)$this->request->getArgument($name);
-			}
+
+				if ($this->request->hasArgument($name)) {
+					$arg = $this->request->getArgument($name);
+					$this->modParams[$name] = ($name == 'action') ? $arg : (int)$arg;
+				}
 			$this->getBackendUser()->setAndSaveSessionData(self::SESSION_PREFIX . $name, $this->modParams[$name]);
 		}
 	}
@@ -157,6 +175,28 @@ class ModuleController extends ActionController {
 		$fieldNames = ['title', 'tx_csseo_tw_title', 'tx_csseo_tw_description', 'tx_csseo_tw_creator', 'tx_csseo_tw_image'];
 
 		$this->processFields($fieldNames);
+	}
+
+	/**
+	 * Show page evaluation results
+	 */
+	public function pageResultsAction() {
+		$fieldNames = ['title', 'tx_csseo_keyword', 'results'];
+		$this->showResults = true;
+		$this->processFields($fieldNames);
+	}
+
+	/**
+	 * Show page evaluation results
+	 */
+	public function pageEvaluationAction() {
+		$page = $this->pageRepository->getPage($this->modParams['id']);
+		$results = $this->getResults($page);
+
+		$this->view->assignMultiple([
+			'results' => $results,
+			'page' => $page
+		]);
 	}
 
 	/**
@@ -260,7 +300,7 @@ class ModuleController extends ActionController {
 	 */
 	protected function getColumnDefinition($fieldName) {
 		$columnDef = ['field' => $fieldName];
-		if($fieldName == 'sys_language_uid') {
+		if($fieldName == 'sys_language_uid' || $fieldName == 'results') {
 
 		} else {
 			$columnDef['displayName'] = $this->getLanguageService()->sL($GLOBALS['TCA']['pages']['columns'][$fieldName]['label']);
@@ -303,6 +343,9 @@ class ModuleController extends ActionController {
 				$columnDef['type'] = 'object';
 				$columnDef['enableFiltering'] = false;
 				break;
+			case 'results':
+				$columnDef['displayName'] = $this->getLanguageService()->sL($GLOBALS['TCA']['tx_csseo_domain_model_evaluation']['columns'][$fieldName]['label']);
+				$columnDef['type'] = 'object';
 		}
 
 		return json_encode($columnDef);
@@ -330,6 +373,11 @@ class ModuleController extends ActionController {
 			$page['sys_language_uid'] = $this->languages[$page['_PAGES_OVERLAY_LANGUAGE']?:0];
 		}
 
+		if($this->showResults) {
+			$results = $this->getResults($page);
+			$page['results'] = $results['Percentage']['count'];
+		}
+
 		$page['level'] = $level;
 
 		// add the page to the pages array
@@ -347,6 +395,26 @@ class ModuleController extends ActionController {
 			}
 		}
 		return $pages;
+	}
+
+	/**
+	 * return evaluation results of a specific page
+	 *
+	 * @param $page
+	 * @return array
+	 */
+	protected function getResults($page) {
+		$results = [];
+		if(isset($page['_PAGES_OVERLAY_LANGUAGE'])) {
+			$evaluation = $this->evaluationRepository->findByUidForeignAndTableName($page['_PAGES_OVERLAY_UID'], 'pages_language_overlay');
+		} else {
+			$evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$page['uid'], 'pages');
+		}
+
+		if($evaluation) {
+			$results = $evaluation->getResults();
+		}
+		return $results;
 	}
 
 	/**
