@@ -34,7 +34,7 @@ class pageHook {
 		// @todo Set to TRUE when finished
 		$compress = false;
 		$cssFiles = array(
-			'PageHook.css'
+			'Evaluation.css'
 		);
 		$baseUrl = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/CSS/';
 		// Load the wizards css
@@ -54,7 +54,7 @@ class pageHook {
 	{
 		$compress = true;
 		$javascriptFiles = array(
-			'jquery.cs_seo.page_hook.js'
+			'jquery.cs_seo.evaluation.js'
 		);
 		// Load jquery
 		$this->getPageRenderer()->loadJquery();
