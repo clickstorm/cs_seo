@@ -9,7 +9,7 @@
     $(document).ready(function(){
         $('#cs-seo-evaluate').click(function(key, value) {
             var $this = $(this);
-            $('#cs-seo-evaluate').before('<p id="cs-wait">...</p>');
+            $('#cs-seo-evaluate').before('<p class="cs-wait">...</p>');
             $.post(
                 TYPO3.settings.ajaxUrls['CsSeo::evaluate'],
                 {

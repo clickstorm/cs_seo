@@ -42,4 +42,15 @@
 .cs-icon.cs-state-2:before {
   background: #679f37;
 }
+.cs-wait {
+  background: url('../Icons/wait.svg') rgba(0, 0, 0, 0.35) center no-repeat;
+  background-size: 30%;
+  font-size: 0;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
 /*# sourceMappingURL=../css/Evaluation.less.map */
