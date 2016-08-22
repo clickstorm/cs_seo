@@ -16,7 +16,12 @@
                     uid: $this.data('uid')
                 }
                 ).success(function(response){
-                top.TYPO3.Notification.success('Updated', '', 3);
+                    if(top.TYPO3.Notification) {
+                        top.TYPO3.Notification.success('Updated', '', 3);
+                    } else {
+                        top.TYPO3.Flashmessage.display(2, 'Updated', '', 3);
+                    }
+
                 location.reload();
             });
             $('#cs-seo-evaluate').remove();
@@ -24,4 +29,4 @@
         });
 
     });
-})(TYPO3.jQuery);
+})(TYPO3.jQuery || jQuery);

@@ -77,12 +77,13 @@ class EvaluationCommandController extends CommandController {
 		$this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
 		$this->persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
 
-		// get parameter
-		$attr = $params['request']->getParsedBody();
-
-		// prepare data array
-		$uid = $attr['uid'];
-
+		if(empty($params)) {
+			$uid = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['uid'];
+		} else {
+			// get parameter
+			$attr = $params['request']->getParsedBody();
+			$uid = $attr['uid'];
+		}
 		$this->processResults($uid);
 
 		$ajaxObj->addContent('uid', $uid);
