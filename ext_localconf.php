@@ -18,8 +18,8 @@ if (TYPO3_MODE === 'BE') {
 			\Clickstorm\CsSeo\Hook\PageHook::class . '->render';
 	}
 
-
 	// add scheduler task
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][$_EXTKEY] =
 		\Clickstorm\CsSeo\Command\EvaluationCommandController::class;
+
 }

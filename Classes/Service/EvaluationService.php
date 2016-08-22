@@ -42,7 +42,11 @@ class EvaluationService {
 	 * @TODO find a better solution for defaults
 	 */
 	public function initEvaluators() {
-		$defaultEvaluators = [
+		$evaluators = [];
+		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
+
+		// default
+		$availableEvaluators = [
 			'H1' => \Clickstorm\CsSeo\Evaluation\H1Evaluator::class,
 			'H2' => \Clickstorm\CsSeo\Evaluation\H2Evaluator::class,
 			'Title' => \Clickstorm\CsSeo\Evaluation\TitleEvaluator::class,
@@ -50,7 +54,25 @@ class EvaluationService {
 			'Keyword' => \Clickstorm\CsSeo\Evaluation\KeywordEvaluator::class,
 			'Images' => \Clickstorm\CsSeo\Evaluation\ImagesEvaluator::class
 		];
-		$this->evaluators = $defaultEvaluators;
+
+		// additional evaluators
+		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cs_seo']['evaluators'])) {
+			$availableEvaluators = array_merge($availableEvaluators, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cs_seo']['evaluators']);
+		}
+
+		// select the final evaluators
+		if(empty($extConf['evaluators'])) {
+			$evaluators = $availableEvaluators;
+		} else {
+			foreach (GeneralUtility::trimExplode(',', $extConf['evaluators']) as $evaluator) {
+				if(isset($availableEvaluators[$evaluator])) {
+					$evaluators[$evaluator] = $availableEvaluators[$evaluator];
+				}
+			}
+		}
+
+
+		$this->evaluators = $evaluators;
 	}
 
     public function evaluate($html, $keyword) {
@@ -83,12 +105,18 @@ class EvaluationService {
 	 */
     protected function getFinalPercentage($results) {
     	$score = 0;
+	    $count = 0;
+
 	    $state = AbstractEvaluator::STATE_RED;
-		foreach ($results as $result) {
+	    foreach ($results as $result) {
 			$score += $result['state'];
 		}
 
-		$count = round($score / (count($results) * 2) * 100);
+		$total = (count($results) * 2);
+
+	    if($total > 0) {
+		    $count = round($score / $total * 100) ;
+	    }
 
 	    if($count == 100) {
 	    	$state = AbstractEvaluator::STATE_GREEN;
