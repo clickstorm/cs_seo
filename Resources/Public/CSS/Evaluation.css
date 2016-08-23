@@ -43,14 +43,14 @@
   background: #679f37;
 }
 .cs-wait {
-  background: url('../Icons/wait.svg') rgba(0, 0, 0, 0.35) center no-repeat;
-  background-size: 30%;
+  background: url('../Icons/wait.svg') rgba(0, 0, 0, 0.35) 5% 0 no-repeat;
+  background-size: contain;
   font-size: 0;
   height: 100%;
   left: 0;
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100%;
   z-index: 1000;
 }
-/*# sourceMappingURL=../CSS/Evaluation.less.map */
+/*# sourceMappingURL=../css/Evaluation.less.map */
