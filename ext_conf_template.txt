@@ -13,5 +13,5 @@ maxNavTitle = 50
 # cat=evaluation/010; type=options[No=0,Header=1,Footer=2]; label= Show the results in the page module
 resultsInPageModule = 1
 
-# cat=evaluation/020; type=string; label= Evaluators, default:
+# cat=evaluation/020; type=string; label= Evaluators: available are Title,Description,H1,H2,Images,Keyword
 evaluators = Title,Description,H1,H2,Images,Keyword
