@@ -84,10 +84,10 @@ class EvaluationCommandController extends CommandController {
 		$this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
 		$this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
 
+		// get parameter
 		if(empty($params)) {
 			$uid = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['uid'];
 		} else {
-			// get parameter
 			$attr = $params['request']->getParsedBody();
 			$uid = $attr['uid'];
 		}
@@ -162,9 +162,15 @@ class EvaluationCommandController extends CommandController {
 	 * @return string
 	 */
 	protected function buildQuery($uid, $localizations = false) {
-		$constraints = [];
+		$constraints = ['1'];
 		$tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
 
+		// only with doktype page
+		if($this->tableName == 'pages') {
+			$constraints[] =  'doktype = 1';
+		}
+
+		// check localization
 		if($localizations) {
 			if($tcaCtrl['transForeignTable']) {
 				$this->tableName = $tcaCtrl['transForeignTable'];
@@ -174,10 +180,7 @@ class EvaluationCommandController extends CommandController {
 			}
 		}
 
-		if($this->tableName == 'pages') {
-			$constraints[] =  'doktype = 1';
-		}
-
+		// if single uid
 		if($uid > 0) {
 			if($localizations) {
 				$constraints[] =  $tcaCtrl['transOrigPointerField'] . ' = ' . $uid;
@@ -185,7 +188,6 @@ class EvaluationCommandController extends CommandController {
 				$constraints[] =  'uid = ' . $uid;
 			}
 		}
-
 
 		return implode($constraints, ' AND ') . BackendUtility::BEenableFields($this->tableName);
 	}
