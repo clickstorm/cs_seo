@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickstorm\CsSeo\Controller;
+namespace Clickstorm\CsSeo\Service;
 
 /***************************************************************
  *
@@ -27,28 +27,55 @@ namespace Clickstorm\CsSeo\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
- * Class EvaluationController
- * @package Clickstorm\CsSeo\Controller
+ * crawl the page
+ *
+ * Class FrontendPageService
+ * @package Clickstorm\CsSeo\Service
  */
-class EvaluationController extends ActionController {
+class FrontendPageService {
 
 	/**
-	 * @var EvaluationRepository
-	 * @inject
+	 * @var array
 	 */
-	protected $evaluationRepository;
+	protected $pageInfo;
 
-	public function showAction($uidForeign, $tableName = 'pages') {
+	/**
+	 * @var int
+	 */
+	protected $lang;
 
-		$evaluation = $this->evaluationRepository->findByUidForeignAndTableName($uidForeign, $tableName);
+	/**
+	 * TSFEUtility constructor.
+	 * @param array $pageInfo
+	 */
+	public function __construct($pageInfo) {
+		$this->pageInfo = $pageInfo;
+	}
 
-		$this->view->assign('results', $evaluation);
+	/**
+	 * @return string
+	 */
+	public function getHTML() {
+		if($this->pageInfo['doktype'] != 1 || $this->pageInfo['tx_csseo_no_index']) {
+			return '';
+		}
 
-		return $this->view->render();
+		if($this->pageInfo['sys_language_uid']) {
+			$params = 'id=' . $this->pageInfo['pid'] . '&L=' .$this->pageInfo['sys_language_uid'];
+		} else {
+			$params = 'id=' . $this->pageInfo['uid'];
+		}
+
+		$domain = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
+		$url = $domain . '/index.php?' . $params;
+
+		$report = [];
+		$content = GeneralUtility::getUrl($url, 0, false, $report);
+
+		return ($report['error'] == 0) ? $content : '';
 	}
 
 }

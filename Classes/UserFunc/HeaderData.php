@@ -26,15 +26,14 @@ namespace Clickstorm\CsSeo\UserFunc;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Clickstorm\CsSeo\UserFunc\PageTitle;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
- * Render the seo and social meta data for records
+ * Render the seo and social meta data for records in frontend
  *
- * @package Clickstorm\CsSeo
+ * @package Clickstorm\CsSeo\UserFunc
  */
 class HeaderData {
 

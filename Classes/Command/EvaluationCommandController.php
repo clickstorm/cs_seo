@@ -30,11 +30,18 @@ namespace Clickstorm\CsSeo\Command;
 use Clickstorm\CsSeo\Domain\Model\Evaluation;
 use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Service\EvaluationService;
-use Clickstorm\CsSeo\Utility\FrontendPageUtility;
+use Clickstorm\CsSeo\Service\FrontendPageService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Http\AjaxRequestHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
+/**
+ * Class EvaluationCommandController
+ * @package Clickstorm\CsSeo\Command
+ */
 class EvaluationCommandController extends CommandController {
 
 	/**
@@ -44,7 +51,7 @@ class EvaluationCommandController extends CommandController {
 	protected $evaluationRepository;
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+	 * @var PersistenceManager
 	 * @inject
 	 */
 	protected $persistenceManager;
@@ -69,13 +76,13 @@ class EvaluationCommandController extends CommandController {
 	 * make the ajax update
 	 *
 	 * @param array $params Array of parameters from the AJAX interface, currently unused
-	 * @param \TYPO3\CMS\Core\Http\AjaxRequestHandler $ajaxObj Object of type AjaxRequestHandler
+	 * @param AjaxRequestHandler $ajaxObj Object of type AjaxRequestHandler
 	 * @return void
 	 */
-	public function ajaxUpdate($params = array(), \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = NULL) {
-		$this->objectManager = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\ObjectManager::class);
+	public function ajaxUpdate($params = array(), AjaxRequestHandler &$ajaxObj = NULL) {
+		$this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 		$this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
-		$this->persistenceManager = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager::class);
+		$this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
 
 		if(empty($params)) {
 			$uid = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['uid'];
@@ -108,9 +115,9 @@ class EvaluationCommandController extends CommandController {
 	 */
 	protected function updateResults($items) {
 		foreach ($items as $item) {
-			/** @var FrontendPageUtility $frontendPageUtility */
-			$frontendPageUtility = GeneralUtility::makeInstance(FrontendPageUtility::class, $item);
-			$html = $frontendPageUtility->getHTML();
+			/** @var FrontendPageService $frontendPageService */
+			$frontendPageService = GeneralUtility::makeInstance(FrontendPageService::class, $item);
+			$html = $frontendPageService->getHTML();
 
 			if (!empty($html)) {
 				/** @var EvaluationService $evaluationUtility */

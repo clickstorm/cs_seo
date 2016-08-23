@@ -33,8 +33,11 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Lang\LanguageService;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
+/**
+ * Class ModuleController
+ * @package Clickstorm\CsSeo\Controller
+ */
 class ModuleController extends ActionController {
 
 	/**

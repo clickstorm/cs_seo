@@ -28,6 +28,10 @@ namespace Clickstorm\CsSeo\ViewHelpers;
 
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
+/**
+ * Class GetValueViewHelper
+ * @package Clickstorm\CsSeo\ViewHelpers
+ */
 class GetValueViewHelper extends AbstractViewHelper {
 
 	/**
