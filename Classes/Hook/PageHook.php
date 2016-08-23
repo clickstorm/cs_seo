@@ -129,7 +129,7 @@ class PageHook {
 	 * @return bool
 	 */
 	public function pageCanBeIndexed($page) {
-		if($page['doktype'] == 1) {
+		if($page['doktype'] == 1 && $page['hidden'] == 0) {
 			return true;
 		}
 		return false;
