@@ -51,7 +51,7 @@ class EvaluationCommandController extends CommandController {
 	protected $evaluationRepository;
 
 	/**
-	 * @var PersistenceManager
+	 * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
 	 * @inject
 	 */
 	protected $persistenceManager;
