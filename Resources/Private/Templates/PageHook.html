@@ -1,19 +1,25 @@
 <div xmlns="http://www.w3.org/1999/xhtml" lang="en"
      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
-<f:layout name="NoWrap" />
+	<f:layout name="NoWrap"/>
 
-<f:section name="Main">
-    <f:if condition="{page}">
-        <f:then>
-            <div class="cs-seo-results">
-                <f:for each="{results}" as="result" key="key">
-                    <f:render partial="Results\{key}" arguments="{result:result}" section="Main" />
-                </f:for>
-                <button id="cs-seo-evaluate" data-uid="{page.uid}">Update</button>
-                <f:link.action action="Evaluation" controller="Module" extensionName="cs_seo" additionalParams="{M:'web_CsSeoMod1'}">More</f:link.action>
-            </div>
-        </f:then>
-    </f:if>
-</f:section>
+	<f:section name="Main">
+		<f:if condition="{page}">
+			<f:then>
+				<div class="cs-seo-results">
+					<f:for each="{results}" as="result" key="key">
+						<f:render partial="Results\{key}" arguments="{result:result}" section="Main"/>
+					</f:for>
+					<button id="cs-seo-evaluate" data-uid="{page.uid}" class="csseo-icon-arrows-cw">Update</button>
+					<f:link.action action="Evaluation"
+					               controller="Module"
+					               extensionName="cs_seo"
+					               additionalParams="{M:'web_CsSeoMod1'}"
+					               class="csseo-icon-info-circled">
+						More
+					</f:link.action>
+				</div>
+			</f:then>
+		</f:if>
+	</f:section>
 </div>

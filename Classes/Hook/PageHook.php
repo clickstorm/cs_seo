@@ -59,6 +59,7 @@ class PageHook {
 		// @todo Set to TRUE when finished
 		$compress = false;
 		$cssFiles = array(
+			'Icons.css',
 			'Evaluation.css'
 		);
 		$baseUrl = '/typo3conf/ext/cs_seo/Resources/Public/CSS/';
