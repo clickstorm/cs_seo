@@ -196,7 +196,11 @@ class ModuleController extends ActionController {
 		$page = $this->pageRepository->getPage($this->modParams['id']);
 		$results = $this->getResults($page);
 
+		$score = $results['Percentage'];
+		unset($results['Percentage']);
+
 		$this->view->assignMultiple([
+			'score' => $score,
 			'results' => $results,
 			'page' => $page
 		]);

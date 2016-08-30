@@ -19,6 +19,9 @@
   padding: 10px;
   position: relative;
 }
+.cs-seo-results .header .text {
+  margin-right: 50px;
+}
 .cs-seo-results .score {
   border-radius: 4px;
   color: #fff;
@@ -51,6 +54,9 @@
 .cs-seo-results .right {
   float: right;
 }
+.cs-seo-results .right a {
+  text-decoration: none;
+}
 .cs-icon {
   position: relative;
   padding-left: 1.5em;
@@ -64,9 +70,6 @@
 }
 .cs-icon.csseo-icon-state-2:before {
   color: #79a548;
-}
-#cs-seo-evaluate {
-  margin: 0 50px;
 }
 .cs-wait {
   background: url('../Icons/wait.svg') rgba(0, 0, 0, 0.35) 5% 0 no-repeat;

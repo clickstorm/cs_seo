@@ -21,7 +21,7 @@
 									<a href="javascript:;" class="csseo-icon-down-open"></a>
 								</div>
 								<f:render partial="Results\Percentage" arguments="{result:score}" section="Main"/>
-								<f:translate key="evaluation.header" />
+								<span class="text"><f:translate key="evaluation.header" /></span>
 								<button id="cs-seo-evaluate" data-uid="{page.uid}" class="csseo-icon-arrows-cw"><f:translate key="evaluation.update" /></button>
 
 
@@ -38,13 +38,11 @@
 						<f:else>
 							<div class="header">
 								<span class="score csseo-state-0"><f:translate key="evaluation.no_results"></f:translate></span>
-								<f:translate key="evaluation.header" />
+								<span class="text"><f:translate key="evaluation.header" /></span>
 								<button id="cs-seo-evaluate" data-uid="{page.uid}" class="csseo-icon-arrows-cw"><f:translate key="evaluation.update" /></button>
 							</div>
 						</f:else>
 					</f:if>
-
-
 				</div>
 			</f:then>
 		</f:if>
