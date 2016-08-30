@@ -78,17 +78,19 @@ class PageHook {
 	 */
 	protected function loadJavascript()
 	{
-		$compress = true;
+		$compress = false;
 		$javascriptFiles = array(
 			'jquery.cookie.js',
 			'jquery.cs_seo.evaluation.js'
 		);
 		// Load jquery
 		$this->getPageRenderer()->loadJquery();
+
 		// Load the wizards javascript
 		$baseUrl = '/typo3conf/ext/cs_seo/Resources/Public/JavaScript/';
+
 		foreach ($javascriptFiles as $javascriptFile) {
-			$this->getPageRenderer()->addJsFile($baseUrl . $javascriptFile, 'text/javascript', $compress, false, '', false, '|', true);
+			$this->getPageRenderer()->addJsFile($baseUrl . $javascriptFile, 'text/javascript', $compress, false, '', true, '|', true);
 		}
 	}
 
