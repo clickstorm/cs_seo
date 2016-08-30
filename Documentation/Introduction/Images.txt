@@ -16,7 +16,16 @@
 .. :name: Screenshot 2
 .. :vspace: 52
 
-.. |img-3|      image:: ../Images/Introduction/cs_seo-backend-module.png
+.. |img-3|      image:: ../Images/Introduction/cs_seo_onpage_analysis_typo3.png
+   :height: 382
+   :width: 800
+.. :align: center
+.. :alt: cs_seo On-page evaluation in TYPO3
+.. :border: 0
+.. :name: Screenshot 2
+.. :vspace: 52
+
+.. |img-4|      image:: ../Images/Introduction/cs_seo-backend-module.png
    :height: 573
    :width: 800
 .. :align: center
@@ -25,7 +34,7 @@
 .. :name: Screenshot 3
 .. :vspace: 52
 
-.. |img-4|      image:: ../Images/Introduction/cs_seo-extend-news.png
+.. |img-5|      image:: ../Images/Introduction/cs_seo-extend-news.png
    :height: 599
    :width: 800
 .. :align: center
