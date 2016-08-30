@@ -30,7 +30,7 @@
 
         var $toggle = $('#cs-seo-toggle');
 
-        if($toggle) {
+        if($toggle.length > 0) {
             var $content = $('.cs-seo-results .results');
             var showResults = $.cookie('seo-results') == 1 ? true : false;
 
