@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-08-17T08:41:33Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-08-30T10:24:52Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -48,6 +48,10 @@
 		<trans-unit id="evaluation.h2.2" approved="yes">
 			<source>The number of headlines is optimal</source>
 			<target>Die Anzahl der Überschriften ist optimal</target>
+		</trans-unit>
+		<trans-unit id="evaluation.header" approved="yes">
+			<source>SEO - Content Analysis</source>
+			<target>SEO - Inhaltsanalyse</target>
 		</trans-unit>
 		<trans-unit id="evaluation.images" approved="yes">
 			<source>Alt attributes</source>
@@ -101,6 +105,14 @@
 			<source>No keyword was set</source>
 			<target>Es wurde keine Schlüsselwort gesetzt</target>
 		</trans-unit>
+		<trans-unit id="evaluation.more" approved="yes">
+			<source>More information</source>
+			<target>Weitere Informationen</target>
+		</trans-unit>
+		<trans-unit id="evaluation.no_results" approved="yes">
+			<source>No results. Press update.</source>
+			<target>Keine Ergebnisse. Bitte Aktualisieren.</target>
+		</trans-unit>
 		<trans-unit id="evaluation.title" approved="yes">
 			<source>Browser title</source>
 			<target>Browser Titel</target>
@@ -117,6 +129,14 @@
 			<source>has the optimal length</source>
 			<target>hat die optimale Länge</target>
 		</trans-unit>
+		<trans-unit id="evaluation.update" approved="yes">
+			<source>Update</source>
+			<target>Aktualisieren</target>
+		</trans-unit>
+		<trans-unit id="layouts.module.action.pageEvaluation" approved="yes">
+			<source>Evaluation</source>
+			<target>Evaluierung</target>
+		</trans-unit>
 		<trans-unit id="layouts.module.action.pageIndex" approved="yes">
 			<source>Index</source>
 			<target>Indexierung</target>
@@ -129,17 +149,13 @@
 			<source>Open Graph</source>
 			<target>Open Graph</target>
 		</trans-unit>
-		<trans-unit id="layouts.module.action.pageTwitterCards" approved="yes">
-			<source>Twitter Cards</source>
-			<target>Twitter Cards</target>
-		</trans-unit>
-		<trans-unit id="layouts.module.action.pageEvaluation" approved="yes">
-			<source>Evaluation</source>
-			<target>Evaluierung</target>
-		</trans-unit>
 		<trans-unit id="layouts.module.action.pageResults" approved="yes">
 			<source>Results</source>
 			<target>Ergebnisse</target>
+		</trans-unit>
+		<trans-unit id="layouts.module.action.pageTwitterCards" approved="yes">
+			<source>Twitter Cards</source>
+			<target>Twitter Cards</target>
 		</trans-unit>
 		<trans-unit id="mlang_labels_tabdescr" approved="yes">
 			<source>Check properties for search engine optimization.</source>

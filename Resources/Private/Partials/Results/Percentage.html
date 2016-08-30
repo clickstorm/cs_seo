@@ -3,6 +3,8 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 <body>
 <f:section name="Main">
-	<p class="final cs-state-{result.state}">{result.count}/100</p>
+	<f:if condition="{result}">
+		<span class="score csseo-state-{result.state}">{result.count}/100</span>
+	</f:if>
 </f:section>
 </body>

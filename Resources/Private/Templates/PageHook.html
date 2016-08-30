@@ -7,17 +7,44 @@
 		<f:if condition="{page}">
 			<f:then>
 				<div class="cs-seo-results">
-					<f:for each="{results}" as="result" key="key">
-						<f:render partial="Results\{key}" arguments="{result:result}" section="Main"/>
-					</f:for>
-					<button id="cs-seo-evaluate" data-uid="{page.uid}" class="csseo-icon-arrows-cw">Update</button>
-					<f:link.action action="Evaluation"
-					               controller="Module"
-					               extensionName="cs_seo"
-					               additionalParams="{M:'web_CsSeoMod1'}"
-					               class="csseo-icon-info-circled">
-						More
-					</f:link.action>
+					<f:if condition="{results}">
+						<f:then>
+							<div class="header">
+								<div class="right">
+									<f:link.action action="Evaluation"
+									               controller="Module"
+									               extensionName="cs_seo"
+									               additionalParams="{M:'web_CsSeoMod1'}"
+									               class="csseo-icon-help"
+									               title="{f:translate(key:'evaluation.more')}">
+									</f:link.action>
+									<a href="javascript:;" class="csseo-icon-down-open"></a>
+								</div>
+								<f:render partial="Results\Percentage" arguments="{result:score}" section="Main"/>
+								<f:translate key="evaluation.header" />
+								<button id="cs-seo-evaluate" data-uid="{page.uid}" class="csseo-icon-arrows-cw"><f:translate key="evaluation.update" /></button>
+
+
+								<f:render partial="Results\Bar" arguments="{result:score}" section="Main"/>
+							</div>
+							<div class="results">
+								<ul>
+									<f:for each="{results}" as="result" key="key">
+										<f:render partial="Results\{key}" arguments="{result:result}" section="Main"/>
+									</f:for>
+								</ul>
+							</div>
+						</f:then>
+						<f:else>
+							<div class="header">
+								<span class="score csseo-state-0"><f:translate key="evaluation.no_results"></f:translate></span>
+								<f:translate key="evaluation.header" />
+								<button id="cs-seo-evaluate" data-uid="{page.uid}" class="csseo-icon-arrows-cw"><f:translate key="evaluation.update" /></button>
+							</div>
+						</f:else>
+					</f:if>
+
+
 				</div>
 			</f:then>
 		</f:if>

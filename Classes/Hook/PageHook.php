@@ -115,8 +115,13 @@ class PageHook {
 				$this->view->setPartialRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Partials/']);
 				$this->view->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html');
 
+				$results = $this->getResults($pageInfo, $parentObject->current_sys_language);
+				$score = $results['Percentage'];
+				unset($results['Percentage']);
+
 				$this->view->assignMultiple([
-					'results'=> $this->getResults($pageInfo, $parentObject->current_sys_language),
+					'score' => $score,
+					'results'=> $results,
 					'page' => $parentObject->pageinfo
 				]);
 

@@ -3,7 +3,7 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 <body>
 <f:section name="Main">
-	<p class="cs-icon cs-state-{result.state}">
+	<li class="cs-icon csseo-icon-state-{result.state}">
 		<b><f:translate key="evaluation.keyword" /></b>
 		<f:if condition="{result.notSet}">
 			<f:then>
@@ -35,6 +35,6 @@
 				</f:if>
 			</f:else>
 		</f:if>
-	</p>
+	</li>
 </f:section>
 </body>
