@@ -18,4 +18,5 @@ Here you find informations for developers, e.g how to extend an existing extbase
 	:titlesonly:
 
 	ExtendExistingModel/Index
+	ExtendEvaluation/Index
 	OverrideTypoScript/Index
