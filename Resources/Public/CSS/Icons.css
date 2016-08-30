@@ -53,14 +53,14 @@
   content: '\e803';
 }
 /* '' */
-.csseo-icon-up-open:before {
-  content: '\e805';
-}
-/* '' */
 .csseo-icon-down-open:before {
   content: '\e806';
 }
 /* '' */
+.csseo-icon-up-open:before {
+  content: '\e805';
+}
+/* '' */
 .csseo-icon-help:before {
   content: '\f128';
 }

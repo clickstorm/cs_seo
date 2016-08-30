@@ -28,5 +28,28 @@
             return false;
         });
 
+        var $toggle = $('#cs-seo-toggle');
+
+        if($toggle) {
+            var $content = $('.cs-seo-results .results');
+            var showResults = $.cookie('seo-results') == 1 ? true : false;
+
+            function toggleResults() {
+                $content.toggle(showResults);
+                $toggle.toggleClass('csseo-icon-up-open', showResults);
+                $toggle.toggleClass('csseo-icon-down-open', !showResults);
+            }
+
+            $toggle.click(function() {
+                showResults = !showResults;
+                toggleResults();
+                $.cookie('seo-results', showResults ? 1 : 0);
+            });
+
+            if(!showResults) {
+                toggleResults();
+            }
+        }
+
     });
 })(TYPO3.jQuery || jQuery);

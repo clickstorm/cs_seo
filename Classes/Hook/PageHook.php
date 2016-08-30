@@ -80,6 +80,7 @@ class PageHook {
 	{
 		$compress = true;
 		$javascriptFiles = array(
+			'jquery.cookie.js',
 			'jquery.cs_seo.evaluation.js'
 		);
 		// Load jquery
