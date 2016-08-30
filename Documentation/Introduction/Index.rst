@@ -36,6 +36,7 @@ Features
    - Twitter Cards
 
 - easily **extend any extbase model** you like with this SEO properties (news, events etc.)
+- **On-page evaluation** of different SEO aspects (focus keyword, alt attributes etc.)
 - backend module in AngularJS to edit the properties directly
 - set automatically the path segement from RealURL while creating a new page
 - tracking with Google Analytics inc. download tracking
