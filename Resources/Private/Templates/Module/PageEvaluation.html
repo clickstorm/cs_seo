@@ -12,15 +12,15 @@
                 <f:if condition="{results}">
                     <f:then>
                         <div class="header">
-                            <f:render partial="Results\Percentage" arguments="{result:score}" section="Main"/>
+                            <f:render partial="Results/Percentage" arguments="{result:score}" section="Main"/>
                             <span class="text"><f:translate key="evaluation.header" /></span>
                             <button id="cs-seo-evaluate" data-uid="{page.uid}" class="csseo-icon-arrows-cw"><f:translate key="evaluation.update" /></button>
-                            <f:render partial="Results\Bar" arguments="{result:score}" section="Main"/>
+                            <f:render partial="Results/Bar" arguments="{result:score}" section="Main"/>
                         </div>
                         <div class="results">
                             <ul>
                                 <f:for each="{results}" as="result" key="key">
-                                    <f:render partial="Results\{key}" arguments="{result:result}" section="Main"/>
+                                    <f:render partial="Results/{key}" arguments="{result:result}" section="Main"/>
                                 </f:for>
                             </ul>
                         </div>

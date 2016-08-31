@@ -8,7 +8,7 @@
         <f:then>
             <div class="cs-seo-results">
                 <f:for each="{results}" as="result" key="key">
-                    <f:render partial="Results\{key}" arguments="{result:result}" section="Main" />
+                    <f:render partial="Results/{key}" arguments="{result:result}" section="Main" />
                 </f:for>
             </div>
         </f:then>
