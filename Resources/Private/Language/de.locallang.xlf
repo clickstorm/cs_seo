@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-08-30T10:24:52Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-08-31T07:15:24Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -82,8 +82,8 @@
 			<target>Das Schlüsselwort wurde nirgendwo gefunden</target>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.1" approved="yes">
-			<source>The keyword is missing in</source>
-			<target>Das Schlüsselwort fehlt in</target>
+			<source>The keyword is missing in:</source>
+			<target>Das Schlüsselwort fehlt in:</target>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.1.body" approved="yes">
 			<source>content</source>
