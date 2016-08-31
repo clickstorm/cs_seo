@@ -12,7 +12,7 @@
 			<source>is not set</source>
 		</trans-unit>
 		<trans-unit id="evaluation.description.1">
-			<source>is to short</source>
+			<source>is too short</source>
 		</trans-unit>
 		<trans-unit id="evaluation.description.2">
 			<source>has the optimal length</source>
@@ -90,10 +90,10 @@
 			<source>Browser title</source>
 		</trans-unit>
 		<trans-unit id="evaluation.title.0">
-			<source>is to long.</source>
+			<source>is too long.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.title.1">
-			<source>is to short</source>
+			<source>is too short</source>
 		</trans-unit>
 		<trans-unit id="evaluation.title.2">
 			<source>has the optimal length</source>

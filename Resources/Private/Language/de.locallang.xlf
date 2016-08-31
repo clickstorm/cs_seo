@@ -14,7 +14,7 @@
 			<target>wurde nicht gesetzt</target>
 		</trans-unit>
 		<trans-unit id="evaluation.description.1" approved="yes">
-			<source>is to short</source>
+			<source>is too short</source>
 			<target>ist zu kurz</target>
 		</trans-unit>
 		<trans-unit id="evaluation.description.2" approved="yes">
@@ -99,7 +99,7 @@
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.2" approved="yes">
 			<source>The keyowrd was found in title, description and content</source>
-			<target>Das Schlüsslwort wurde in Titel, Beschreibung und Inhalt gefunden</target>
+			<target>Das Schlüsselwort wurde in Titel, Beschreibung und Inhalt gefunden</target>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.no" approved="yes">
 			<source>No keyword was set</source>
@@ -118,11 +118,11 @@
 			<target>Browser Titel</target>
 		</trans-unit>
 		<trans-unit id="evaluation.title.0" approved="yes">
-			<source>is to long.</source>
+			<source>is too long.</source>
 			<target>ist zu lang.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.title.1" approved="yes">
-			<source>is to short</source>
+			<source>is too short</source>
 			<target>ist zu kurz</target>
 		</trans-unit>
 		<trans-unit id="evaluation.title.2" approved="yes">
