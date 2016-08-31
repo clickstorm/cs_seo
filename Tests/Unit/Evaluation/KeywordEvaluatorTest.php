@@ -99,9 +99,11 @@ class KeywordEvaluatorTest extends UnitTestCase {
 				'',
 				'Test',
 				[
-					'titleContains' => 0,
-					'descriptionContains' => 0,
-					'bodyContains' => 0,
+					'contains' => [
+						'title' => 0,
+						'description' => 0,
+						'body' => 0,
+					],
 					'state' => AbstractEvaluator::STATE_YELLOW
 				]
 			],
@@ -109,9 +111,11 @@ class KeywordEvaluatorTest extends UnitTestCase {
 				'<title>Test</title>',
 				'test',
 				[
-					'titleContains' => 1,
-					'descriptionContains' => 0,
-					'bodyContains' => 0,
+					'contains' => [
+						'title' => 1,
+						'description' => 0,
+						'body' => 0,
+					],
 					'state' => AbstractEvaluator::STATE_YELLOW
 				]
 			],
@@ -119,9 +123,11 @@ class KeywordEvaluatorTest extends UnitTestCase {
 				'<title>Test</title>',
 				'Test',
 				[
-					'titleContains' => 1,
-					'descriptionContains' => 0,
-					'bodyContains' => 0,
+					'contains' => [
+						'title' => 1,
+						'description' => 0,
+						'body' => 0,
+					],
 					'state' => AbstractEvaluator::STATE_YELLOW
 				]
 			],
@@ -129,9 +135,11 @@ class KeywordEvaluatorTest extends UnitTestCase {
 				'<meta name="description" content="Test">',
 				'Test',
 				[
-					'titleContains' => 0,
-					'descriptionContains' => 1,
-					'bodyContains' => 0,
+					'contains' => [
+						'title' => 0,
+						'description' => 1,
+						'body' => 0,
+					],
 					'state' => AbstractEvaluator::STATE_YELLOW
 				]
 			],
@@ -139,9 +147,11 @@ class KeywordEvaluatorTest extends UnitTestCase {
 				'<body>Test</body>',
 				'Test',
 				[
-					'titleContains' => 0,
-					'descriptionContains' => 0,
-					'bodyContains' => 1,
+					'contains' => [
+						'title' => 0,
+						'description' => 0,
+						'body' => 1,
+					],
 					'state' => AbstractEvaluator::STATE_YELLOW
 				]
 			],
@@ -149,9 +159,11 @@ class KeywordEvaluatorTest extends UnitTestCase {
 				'<head><title>Test</title><meta name="description" content="Test"></head><body>Test</body>',
 				'Test',
 				[
-					'titleContains' => 1,
-					'descriptionContains' => 1,
-					'bodyContains' => 1,
+					'contains' => [
+						'title' => 1,
+						'description' => 1,
+						'body' => 1,
+					],
 					'state' => AbstractEvaluator::STATE_GREEN
 				]
 			 ]

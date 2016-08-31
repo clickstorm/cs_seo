@@ -1,5 +1,5 @@
 <?php
-namespace Clickstorm\CsSeo\Evaluation;
+namespace Clickstorm\CsSeo\ViewHelpers;
 
 /***************************************************************
  *
@@ -26,36 +26,21 @@ namespace Clickstorm\CsSeo\Evaluation;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+
 /**
- * Class KeywordEvaluator
- * @package Clickstorm\CsSeo\Evaluation
+ * Class GetValueViewHelper
+ * @package Clickstorm\CsSeo\ViewHelpers
  */
-class KeywordEvaluator extends AbstractEvaluator
-{
+class ImplodeViewHelper extends AbstractViewHelper {
 
-	public function evaluate() {
-		$results = [];
-
-		$state = self::STATE_RED;
-
-		if(empty($this->keyword)) {
-			$results['notSet'] = 1;
-		} else {
-			$contains = [];
-			$contains['title'] = substr_count(strtolower($this->getSingleDomElementContentByTagName('title')), $this->keyword);
-			$contains['description'] = substr_count(strtolower($this->getMetaTagContent('description')), $this->keyword);
-			$contains['body'] = substr_count(strtolower($this->getSingleDomElementContentByTagName('body')), $this->keyword);
-
-			if($contains['title'] == 1 && $contains['description'] == 1 && $contains['body'] > 0) {
-				$state = self::STATE_GREEN;
-			} else {
-				$state = self::STATE_YELLOW;
-			}
-		}
-
-		$results['state'] = $state;
-
-		return $results;
+	/**
+	 * @param array $array
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function render($array, $key) {
+		return $array[$key];
 	}
 
 }
