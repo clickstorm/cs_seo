@@ -1,0 +1,17 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+<f:layout name="NoWrap" />
+
+<f:section name="Main">
+    <f:if condition="{results}">
+        <f:then>
+            <div class="cs-seo-results">
+                <f:for each="{results}" as="result" key="key">
+                    <f:render partial="Results/{key}" arguments="{result:result}" section="Main" />
+                </f:for>
+            </div>
+        </f:then>
+    </f:if>
+</f:section>
+</div>

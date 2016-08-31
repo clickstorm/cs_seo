@@ -9,3 +9,9 @@ maxDescription = 156
 
 # cat=page/030; type=integer; label= Max characters of nav title
 maxNavTitle = 50
+
+# cat=evaluation/010; type=options[Header=0,Footer=1,None=2]; label= Show the results in the page module
+inPageModule = 0
+
+# cat=evaluation/020; type=string; label= Evaluators: available are Title,Description,H1,H2,Images,Keyword
+evaluators = Title,Description,H1,H2,Images,Keyword

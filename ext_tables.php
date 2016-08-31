@@ -25,7 +25,7 @@ if (TYPO3_MODE === 'BE') {
         'mod1',
         '',
         array(
-            'Module' => 'pageMeta, pageIndex, pageOpenGraph, pageTwitterCards'
+            'Module' => 'pageMeta, pageIndex, pageOpenGraph, pageTwitterCards, pageResults, pageEvaluation'
         ),
         array(
             'access' => 'user,group',
@@ -83,4 +83,10 @@ if(isset($GLOBALS['TYPO3_DB'])) {
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler (
     'CsSeo::update',
     'Clickstorm\\CsSeo\\Controller\\ModuleController->update'
+);
+
+// register Ajax Handler
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerAjaxHandler (
+	'CsSeo::evaluate',
+	'Clickstorm\\CsSeo\\Command\\EvaluationCommandController->ajaxUpdate'
 );

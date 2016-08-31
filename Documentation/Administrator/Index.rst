@@ -29,6 +29,7 @@ To install the extension, perform the following steps:
 #. Include the TypoScript from the extension!
 #. Insert a domain record at the root page
 #. Make some configurations via TypoScript.
+#. Run the Scheduler Task to evaluate all pages initially.
 
 |img-1|
 
@@ -68,6 +69,8 @@ Properties
 	`page.maxTitle`_              :ref:`t3tsref:data-type-integer`      57
 	`page.maxDescription`_        :ref:`t3tsref:data-type-integer`      156
 	`page.maxNavTitle`_           :ref:`t3tsref:data-type-integer`      50
+	`evaluation.inPageModule`_    :ref:`t3tsref:data-type-integer`      0
+	`evaluation.evaluators`_      :ref:`t3tsref:data-type-string`       Title,Description,H1,H2,Images,Keyword
 	============================= ===================================== ====================
 
 Basic configurations
@@ -139,8 +142,47 @@ Max characters of nav title
          The recommended maximum number of characters for the nav title and URL.
 
 
+.. _evaluation.inPageModule:
+
+Show evaluation in the page module
+""""""""""""""""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         inPageModule
+   Data type
+         :ref:`t3tsref:data-type-integer`
+   Description
+         Show the dialog of the evaluation in the page module. (0: In the head of the page module, 1: in the footer, 2: none).
+
+
+.. _evaluation.evaluators:
+
+Evaluators
+""""""""""
+
+.. container:: table-row
+
+   Property
+         evaluators
+   Data type
+         :ref:`t3tsref:data-type-string`
+   Description
+         Comma separated list of the evaluators which should analyse the page. You can also add your own evaluators or change the sorting.
+
+
 
 Please take also a look at the next chapter for TypoScript configurations.
+
+.. _scheduler:
+
+Scheduler Task
+--------------
+
+After the extensions is configured you can run a scheduler task to evaluate all pages at once. Therefore
+choose the **Extbase-CommandController-Task (extbase)** and then the task **CsSeo Evaluation: update**. Save
+and run the task.
 
 .. _admin-faq:
 

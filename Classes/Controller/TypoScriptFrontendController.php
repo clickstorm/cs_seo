@@ -1,5 +1,7 @@
 <?php
 
+namespace Clickstorm\CsSeo\Controller;
+
 /***************************************************************
  *
  *  Copyright notice
@@ -24,8 +26,6 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
-namespace Clickstorm\CsSeo\Controller;
 
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

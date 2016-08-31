@@ -1,0 +1,127 @@
+<?php
+namespace Clickstorm\CsSeo\Tests\Utility;
+
+use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
+use TYPO3\CMS\Core\Tests\UnitTestCase;
+
+/***************************************************************
+ *
+ *  Copyright notice
+ *
+ *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
+ *
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+/**
+ * @package cs_seo
+ */
+
+class DescriptionEvaluatorTest extends UnitTestCase
+{
+
+	/**
+	 * @var DescriptionEvaluator
+	 */
+	protected $generalEvaluationMock;
+
+	/**
+	 * @return void
+	 */
+	public function setUp()
+	{
+		$this->generalEvaluationMock = $this->getAccessibleMock(DescriptionEvaluator::class, ['dummy'], [new \DOMDocument()]);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function tearDown()
+	{
+		unset($this->generalEvaluationMock);
+	}
+
+	/**
+	 * evaluateTest
+	 *
+	 * @param string $html
+	 * @param mixed $expectedResult
+	 * @dataProvider evaluateTestDataProvider
+	 * @return void
+	 * @test
+	 */
+	public function evaluateTest($html, $expectedResult) {
+		$domDocument = new \DOMDocument();
+		@$domDocument->loadHTML($html);
+		$this->generalEvaluationMock->setDomDocument($domDocument);
+		$result = $this->generalEvaluationMock->evaluate();
+
+		ksort($expectedResult);
+		ksort($result);
+
+		$this->assertEquals(json_encode($expectedResult), json_encode($result));
+	}
+
+	/**
+	 * Dataprovider evaluateTest()
+	 *
+	 * @return array
+	 */
+	public function evaluateTestDataProvider()
+	{
+		return [
+			'zero description' => [
+				'',
+				[
+					'count' => 0,
+					'state' => DescriptionEvaluator::STATE_RED
+				]
+			],
+			'short decription' => [
+				'<meta name="description" content="' . str_repeat('.', 139) . '" />',
+				[
+					'count' => 139,
+					'state' => DescriptionEvaluator::STATE_YELLOW,
+				]
+			],
+			'min good decription' => [
+				'<meta name="description" content="' . str_repeat('.', 140) . '" />',
+				[
+					'count' => 140,
+					'state' => DescriptionEvaluator::STATE_GREEN,
+				]
+			],
+			'max good decription' => [
+				'<meta name="description" content="' . str_repeat('.', 160) . '" />',
+				[
+					'count' => 160,
+					'state' => DescriptionEvaluator::STATE_GREEN,
+				]
+			],
+			'long decription' => [
+				'<meta name="description" content="' . str_repeat('.', 161) . '" />',
+				[
+					'count' => 161,
+					'state' => DescriptionEvaluator::STATE_YELLOW,
+				]
+			]
+		];
+	}
+
+}

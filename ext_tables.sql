@@ -4,6 +4,7 @@
 CREATE TABLE pages (
   tx_csseo_title varchar(255) DEFAULT '' NOT NULL,
   tx_csseo_title_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	tx_csseo_keyword varchar(255) DEFAULT '' NOT NULL,
   tx_csseo_canonical varchar(255) DEFAULT '' NOT NULL,
   tx_csseo_no_index tinyint(1) unsigned DEFAULT '0' NOT NULL,
   tx_csseo_og_title varchar(255) DEFAULT '' NOT NULL,
@@ -12,7 +13,8 @@ CREATE TABLE pages (
   tx_csseo_tw_title varchar(255) DEFAULT '' NOT NULL,
   tx_csseo_tw_description text NOT NULL,
   tx_csseo_tw_image int(11) unsigned NOT NULL default '0',
-  tx_csseo_tw_creator varchar(255) DEFAULT '' NOT NULL,
+  tx_csseo_tw_creator varchar(255) DEFAULT '' NOT NULL
+
 );
 
 #
@@ -21,6 +23,7 @@ CREATE TABLE pages (
 CREATE TABLE pages_language_overlay (
   tx_csseo_title varchar(255) DEFAULT '' NOT NULL,
   tx_csseo_title_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	tx_csseo_keyword varchar(255) DEFAULT '' NOT NULL,
   tx_csseo_canonical varchar(255) DEFAULT '' NOT NULL,
   tx_csseo_og_title varchar(255) DEFAULT '' NOT NULL,
   tx_csseo_og_description text NOT NULL,
@@ -39,6 +42,7 @@ CREATE TABLE tx_csseo_domain_model_meta (
 
 	title varchar(255) DEFAULT '' NOT NULL,
 	title_only tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	keyword varchar(255) DEFAULT '' NOT NULL,
 	description text NOT NULL,
 	canonical varchar(255) DEFAULT '' NOT NULL,
 	no_index tinyint(1) unsigned DEFAULT '0' NOT NULL,
@@ -78,6 +82,31 @@ CREATE TABLE tx_csseo_domain_model_meta (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
+);
+
+#
+# Table structure for table 'tx_csseo_domain_model_evaluation'
+#
+CREATE TABLE tx_csseo_domain_model_evaluation (
+
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+
+	results text NOT NULL,
+
+	uid_foreign int(11) DEFAULT '0' NOT NULL ,
+	tablenames varchar(255) DEFAULT '' NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	starttime int(11) unsigned DEFAULT '0' NOT NULL,
+	endtime int(11) unsigned DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
 );
 
 #

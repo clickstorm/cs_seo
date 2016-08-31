@@ -3,3 +3,54 @@
 @color-headline: #1A0DAB;
 @color-text: #545454;
 @color-url: #006621;
+@color-good: #79a548;
+@color-ok: #e8a33d;
+@color-failure: #c83c3c;
+
+.font-face(@font-name, @file-name, @id, @weight: normal, @style: normal) {
+	@font-face {
+		font-family: @font-name;
+		src: url('../Font/@{file-name}.eot?@{id}');
+		src: url('../Font/@{file-name}.eot?@{id}#iefix') format('embedded-opentype'),
+		url('../Font/@{file-name}.woff?@{id}') format('woff'),
+		url('../Font/@{file-name}.ttf?@{id}') format('truetype'),
+		url('../Font/@{file-name}.svg?@{id}#@{font-name}') format('svg');
+		font-weight: @style;
+		font-style: @style;
+	}
+}
+
+.icon-font() {
+	font-family: "csseo-icons";
+	font-style: normal;
+	font-weight: normal;
+	speak: none;
+
+	display: inline-block;
+	text-decoration: inherit;
+	width: 1em;
+	margin-right: .2em;
+	text-align: center;
+	/* opacity: .8; */
+
+	/* For safety - reset parent styles, that can break glyph codes*/
+	font-variant: normal;
+	text-transform: none;
+
+	/* fix buttons height, for twitter bootstrap */
+	line-height: 1em;
+
+	/* Animation center compensation - margins should be symmetric */
+	/* remove if not needed */
+	margin-left: .2em;
+
+	/* you can be more comfortable with increased icons size */
+	/* font-size: 120%; */
+
+	/* Font smoothing. That was taken from TWBS */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	/* Uncomment for 3D effect */
+	/* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}

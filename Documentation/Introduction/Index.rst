@@ -36,6 +36,7 @@ Features
    - Twitter Cards
 
 - easily **extend any extbase model** you like with this SEO properties (news, events etc.)
+- **On-page evaluation** of different SEO aspects (focus keyword, alt attributes etc.)
 - backend module in AngularJS to edit the properties directly
 - set automatically the path segement from RealURL while creating a new page
 - tracking with Google Analytics inc. download tracking
@@ -57,10 +58,14 @@ In the second new tab called *Social Media* you can set some open graph or twitt
 
 |img-2|
 
-The backend module gives you an overview and the option to change page properties directly.
+Evaluate the On-page SEO of the current page you see in the backend. Try to reach 100/100.
 
 |img-3|
 
-Extend e.g. the news with SEO properties. So in the detail view, they are automatically shown.
+The backend module gives you an overview and the option to change page properties directly.
 
 |img-4|
+
+Extend e.g. the news with SEO properties. So in the detail view, they are automatically shown.
+
+|img-5|
