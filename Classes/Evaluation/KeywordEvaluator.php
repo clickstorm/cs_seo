@@ -51,6 +51,7 @@ class KeywordEvaluator extends AbstractEvaluator
 			} else {
 				$state = self::STATE_YELLOW;
 			}
+			$results['contains'] = $contains;
 		}
 
 		$results['state'] = $state;

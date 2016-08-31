@@ -35,12 +35,12 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 class ImplodeViewHelper extends AbstractViewHelper {
 
 	/**
-	 * @param array $array
-	 * @param string $key
-	 * @return mixed
+	 * @param string $glue
+	 * @param array $pieces
+	 * @return string
 	 */
-	public function render($array, $key) {
-		return $array[$key];
+	public function render($glue = ',', $pieces = []) {
+		return implode($glue, $pieces);
 	}
 
 }

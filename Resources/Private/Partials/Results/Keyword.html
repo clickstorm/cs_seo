@@ -1,3 +1,4 @@
+{namespace cs=Clickstorm\CsSeo\ViewHelpers}
 <?xml version="1.0" encoding="UTF-8" ?>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en"
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
@@ -13,18 +14,30 @@
 				<f:if condition="{result.state} == 1">
 					<f:then>
 						<f:translate key="evaluation.keyword.1" />
-						<
-						<f:if condition="{result.titleContains}">
+						<f:if condition="{result.contains.title}">
 							<f:else>
 								<f:translate key="evaluation.keyword.1.title" />
+								<f:if condition="{result.contains.description} == 0">
+									<f:then>
+										/
+									</f:then>
+									<f:else>
+										<f:if condition="{result.contains.body} == 0">
+											/
+										</f:if>
+									</f:else>
+								</f:if>
 							</f:else>
 						</f:if>
-						<f:if condition="{result.descriptionContains}">
+						<f:if condition="{result.contains.description}">
 							<f:else>
 								<f:translate key="evaluation.keyword.1.description" />
+								<f:if condition="{result.contains.body} == 0">
+									/
+								</f:if>
 							</f:else>
 						</f:if>
-						<f:if condition="{result.bodyContains}">
+						<f:if condition="{result.contains.body}">
 							<f:else>
 								<f:translate key="evaluation.keyword.1.body" />
 							</f:else>
