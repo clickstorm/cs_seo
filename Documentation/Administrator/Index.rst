@@ -29,6 +29,7 @@ To install the extension, perform the following steps:
 #. Include the TypoScript from the extension!
 #. Insert a domain record at the root page
 #. Make some configurations via TypoScript.
+#. Run the Scheduler Task to evaluate all pages initially.
 
 |img-1|
 
@@ -173,6 +174,15 @@ Evaluators
 
 
 Please take also a look at the next chapter for TypoScript configurations.
+
+.. _scheduler:
+
+Scheduler Task
+--------------
+
+After the extensions is configured you can run a scheduler task to evaluate all pages at once. Therefore
+choose the **Extbase-CommandController-Task (extbase)** and then the task **CsSeo Evaluation: update**. Save
+and run the task.
 
 .. _admin-faq:
 
