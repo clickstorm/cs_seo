@@ -66,6 +66,7 @@ Properties
 	Property                      Data type                             Default
 	============================= ===================================== ====================
 	`basic.enablePathSegment`_    :ref:`t3tsref:data-type-boolean`      true
+	`basic.tsConfigPid`_          :ref:`t3tsref:data-type-integer`      1
 	`page.maxTitle`_              :ref:`t3tsref:data-type-integer`      57
 	`page.maxDescription`_        :ref:`t3tsref:data-type-integer`      156
 	`page.maxNavTitle`_           :ref:`t3tsref:data-type-integer`      50
@@ -90,6 +91,20 @@ Enable the JS for automatic filling of the path segment, if this is empty
    Description
          If enabled, a JS is insert in the page settings, so that the RealURL pathsegment will be filled, if it is empty.
          This prevents, that if an editor changes the URL, the link also changes.
+
+.. _basic.tsConfigPid:
+
+The Pid where the pageTsConfig is set to extend records
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         tsConfigPid
+   Data type
+         :ref:`t3tsref:data-type-integer`
+   Description
+         Enter the uid of the page wehre the page TSConfig is stored to extend records, e.g. news.
 
 
 Page configurations

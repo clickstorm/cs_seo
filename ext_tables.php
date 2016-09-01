@@ -36,7 +36,7 @@ if (TYPO3_MODE === 'BE') {
     );
 }
 
-// Add TCA Field
+// Extend TCA of records like news etc.
 if(isset($GLOBALS['TYPO3_DB'])) {
 
 	$tempColumns = [
@@ -63,8 +63,11 @@ if(isset($GLOBALS['TYPO3_DB'])) {
 		]
 	];
 
-	$rootLine = \TYPO3\CMS\Backend\Utility\BackendUtility::BEgetRootLine(1, '', true);
-	$pageTS = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig(1, $rootLine);
+	$confArray = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
+
+	$tsConfigPid = $confArray['tsConfigPid'] ?: 1;
+	$rootLine = \TYPO3\CMS\Backend\Utility\BackendUtility::BEgetRootLine($tsConfigPid, '', true);
+	$pageTS = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($tsConfigPid, $rootLine);
 
 	if($pageTS['tx_csseo.']) {
 		foreach ($pageTS['tx_csseo.'] as $table) {

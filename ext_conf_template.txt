@@ -1,6 +1,9 @@
 # cat=basic/enable/010; type=boolean; label= Enable the JS for automatic filling of the path segment, if this is empty
 enablePathSegment = 1
 
+# cat=basic/enable/020; type=integer; label= The Pid where the pageTsConfig is set to extend records
+tsConfigPid = 1
+
 # cat=page/010; type=integer; label= Max characters of title
 maxTitle = 57
 
