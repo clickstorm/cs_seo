@@ -27,6 +27,7 @@ namespace Clickstorm\CsSeo\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -63,13 +64,15 @@ class FrontendPageService {
 			return '';
 		}
 
-		if($this->pageInfo['sys_language_uid']) {
-			$params = 'id=' . $this->pageInfo['pid'] . '&L=' .$this->pageInfo['sys_language_uid'];
+		if($this->pageInfo['sys_language_uid'] > 0) {
+			$pid = $this->pageInfo['pid'];
+			$params = 'id=' . $pid . '&L=' . $this->pageInfo['sys_language_uid'];
 		} else {
-			$params = 'id=' . $this->pageInfo['uid'];
+			$pid = $this->pageInfo['uid'];
+			$params = 'id=' . $pid;
 		}
 
-		$domain = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
+		$domain = BackendUtility::getViewDomain($pid);
 		$url = $domain . '/index.php?' . $params;
 
 		$report = [];
