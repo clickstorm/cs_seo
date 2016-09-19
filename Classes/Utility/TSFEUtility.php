@@ -87,7 +87,7 @@ class TSFEUtility {
      * @return string
      */
     public function getPagePath() {
-        return $GLOBALS['TSFE']->cObj->getTypoLink_URL($this->pageUid);
+        return $GLOBALS['TSFE']->cObj->getTypoLink_URL($this->pageUid, ['L' => $this->lang]);
     }
 
     /**
