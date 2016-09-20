@@ -60,6 +60,11 @@ class TSFEUtility {
      */
     protected $typeNum;
 
+	/**
+	 * @var int
+	 */
+	protected $lang;
+
     /**
      * @var array
      */
@@ -73,7 +78,7 @@ class TSFEUtility {
      */
     public function __construct($pageUid, $lang = 0, $typeNum = 654) {
         $this->pageUid = $pageUid;
-        $this->lang = $lang;
+        $this->lang = is_array($lang) ? array_shift($lang) : $lang;
 	    $this->typeNum = $typeNum;
 
         $environmentService = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\EnvironmentService::class);
@@ -87,7 +92,8 @@ class TSFEUtility {
      * @return string
      */
     public function getPagePath() {
-        return $GLOBALS['TSFE']->cObj->getTypoLink_URL($this->pageUid, ['L' => $this->lang]);
+    	$params = ($this->lang > 0) ? ['L' => $this->lang] : [];
+        return $GLOBALS['TSFE']->cObj->getTypoLink_URL($this->pageUid, $params);
     }
 
     /**
