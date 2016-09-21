@@ -18,3 +18,9 @@ inPageModule = 0
 
 # cat=evaluation/020; type=string; label= Evaluators: available are Title,Description,H1,H2,Images,Keyword
 evaluators = Title,Description,H1,H2,Images,Keyword
+
+# cat=evaluation/030; type=string; label= .htaccess username
+username =
+
+# cat=evaluation/040; type=string; label= .htaccess password
+password =
