@@ -243,7 +243,12 @@ page {
 
         ### Enable Twitter Cards ###
         35 = TEXT
-        35.value = <meta name="twitter:card" content="summary" />
+        35 {
+            value = summary
+            override = summary_large_image
+            override.if.isTrue.data = field:tx_csseo_tw_image // field:tx_csseo_og_image
+            wrap = <meta name="twitter:card" content="|" />
+        }
 
         ### Twitter Cards Properties ###
         40 = COA

@@ -328,9 +328,6 @@ class HeaderData {
         // og:site_name
         $content .= $this->printMetaTag('og:site_name', $GLOBALS['TSFE']->tmpl->sitetitle, 1);
 
-		// twitter:card
-	    $content .= $this->printMetaTag('twitter:card', 'summary');
-
         // twitter title
         if($meta['tw_title']) {
             $content .= $this->printMetaTag('twitter:title', $meta['tw_title']);
@@ -341,15 +338,17 @@ class HeaderData {
             $content .= $this->printMetaTag('twitter:description', $meta['tw_description']);
         }
 
-        // twitter image
+        // twitter image and type
 	    if ($meta['tw_image'] || $meta['og_image']) {
 	    	if($meta['tw_image']) {
 			    $twImageURL = $this->getImagePath('tw_image', $meta['uid']);
 		    } else {
 			    $twImageURL = $ogImageURL;
 		    }
+		    $content .= $this->printMetaTag('twitter:card', 'summary_large_image');
 	    } else {
 		    $twImageURL = $pluginSettings['social.']['twitter.']['defaultImage']?: $pluginSettings['social.']['defaultImage'];
+		    $content .= $this->printMetaTag('twitter:card', 'summary');
 	    }
 
 	    if($twImageURL) {
