@@ -76,22 +76,8 @@ class FrontendPageService {
 		$url = $domain . '/index.php?' . $params;
 
 		$report = [];
-		$content = GeneralUtility::getUrl($url, 0, $this->getRequestHeader(), $report);
+		$content = GeneralUtility::getUrl($url, 0, false, $report);
 
 		return ($report['error'] == 0) ? $content : '';
 	}
-
-	/**
-	 * check if username / password for .htaccess auth is set
-	 *
-	 * @return array|bool
-	 */
-	protected function getRequestHeader() {
-		$confArray = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
-		if($confArray['username']) {
-			return ['Authorization: Basic ' . base64_encode($confArray['username'] . ':' . $confArray['password'])];
-		}
-		return false;
-	}
-
 }
