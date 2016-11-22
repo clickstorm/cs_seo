@@ -62,7 +62,7 @@ class PageHook {
 			'Icons.css',
 			'Evaluation.css'
 		);
-		$baseUrl = '/typo3conf/ext/cs_seo/Resources/Public/CSS/';
+		$baseUrl = ExtensionManagementUtility::extRelPath('cs_seo') . '/Resources/Public/CSS/';
 		// Load the wizards css
 		foreach ($cssFiles as $cssFile) {
 			$this->getPageRenderer()->addCssFile($baseUrl . $cssFile, 'stylesheet', 'all', '', $compress, false);
@@ -87,7 +87,7 @@ class PageHook {
 		$this->getPageRenderer()->loadJquery();
 
 		// Load the wizards javascript
-		$baseUrl = '/typo3conf/ext/cs_seo/Resources/Public/JavaScript/';
+		$baseUrl = ExtensionManagementUtility::extRelPath('cs_seo') . '/Resources/Public/JavaScript/';
 
 		foreach ($javascriptFiles as $javascriptFile) {
 			$this->getPageRenderer()->addJsFile($baseUrl . $javascriptFile, 'text/javascript', $compress, false, '', true, '|', true);
