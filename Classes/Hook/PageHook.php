@@ -33,6 +33,8 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
 /**
  * hook to display the evaluation results in the page module
@@ -110,12 +112,17 @@ class PageHook {
 				// template
 				$this->loadCss();
 				$this->loadJavascript();
+				
+				//load partial paths info from typoscript
+				$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+				$configurationManager = $objectManager->get(ConfigurationManagerInterface::class);
+				$ts_setup = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK, 'csseo');
 
 				$this->view = GeneralUtility::makeInstance(StandaloneView::class);
 				$this->view->setFormat('html');
 				$this->view->getRequest()->setControllerExtensionName('cs_seo');
-				$this->view->setLayoutRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']);
-				$this->view->setPartialRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Partials/']);
+				$this->view->setLayoutRootPaths($ts_setup["view"]["layoutRootPaths"]);
+				$this->view->setPartialRootPaths($ts_setup["view"]["partialRootPaths"]);
 				$this->view->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html');
 
 				$results = $this->getResults($pageInfo, $parentObject->current_sys_language);
