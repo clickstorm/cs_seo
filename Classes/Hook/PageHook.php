@@ -116,13 +116,18 @@ class PageHook {
 				//load partial paths info from typoscript
 				$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 				$configurationManager = $objectManager->get(ConfigurationManagerInterface::class);
-				$ts_setup = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK, 'csseo');
+				$tsSetup = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK, 'csseo');
 
 				$this->view = GeneralUtility::makeInstance(StandaloneView::class);
 				$this->view->setFormat('html');
 				$this->view->getRequest()->setControllerExtensionName('cs_seo');
-				$this->view->setLayoutRootPaths($ts_setup["view"]["layoutRootPaths"]);
-				$this->view->setPartialRootPaths($ts_setup["view"]["partialRootPaths"]);
+
+				$layoutPaths = $tsSetup["view"]["layoutRootPaths"]?: ['EXT:cs_seo/Resources/Private/Layouts/'];
+				$partialPaths = $tsSetup["view"]["partialRootPaths"]?: ['EXT:cs_seo/Resources/Private/Partials/'];
+
+				$this->view->setLayoutRootPaths($layoutPaths);
+				$this->view->setPartialRootPaths($partialPaths);
+
 				$this->view->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html');
 
 				$results = $this->getResults($pageInfo, $parentObject->current_sys_language);
