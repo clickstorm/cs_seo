@@ -69,7 +69,7 @@ class KeywordEvaluatorTest extends UnitTestCase {
 	 */
 	public function evaluateTest($html, $keyword, $expectedResult) {
 		$domDocument = new \DOMDocument();
-		@$domDocument->loadHTML($html);
+		@$domDocument->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
 		$this->generalEvaluationMock->setDomDocument($domDocument);
 		$this->generalEvaluationMock->setKeyword($keyword);
 		$result = $this->generalEvaluationMock->evaluate();
@@ -153,6 +153,18 @@ class KeywordEvaluatorTest extends UnitTestCase {
 						'body' => 1,
 					],
 					'state' => AbstractEvaluator::STATE_YELLOW
+				]
+			],
+			'keyword set, found everywhere UTF-8' => [
+				'<head><title>ÜÄöß</title><meta name="description" content="Test ÜÄöß "></head><body>ÜÄöß Test</body>',
+				'ÜÄöß',
+				[
+					'contains' => [
+						'title' => 1,
+						'description' => 1,
+						'body' => 1,
+					],
+					'state' => AbstractEvaluator::STATE_GREEN
 				]
 			],
 			'keyword set, found everywhere' => [

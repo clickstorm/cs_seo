@@ -101,7 +101,7 @@ class EvaluationService {
 	    $this->initEvaluators();
 
 	    $domDocument = new \DOMDocument;
-	    @$domDocument->loadHTML($html);
+	    @$domDocument->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
 
 	    foreach ($this->evaluators as $evaluatorName => $evaluatorClass) {
 	    	$evaluatorInstance = GeneralUtility::makeInstance($evaluatorClass, $domDocument, $keyword);
