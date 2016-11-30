@@ -118,16 +118,16 @@
 			<target>Browser Titel</target>
 		</trans-unit>
 		<trans-unit id="evaluation.title.0" approved="yes">
-			<source>is too long.</source>
-			<target>ist zu lang.</target>
+			<source>is not set.</source>
+			<target>ist nicht gesetzt.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.title.1" approved="yes">
-			<source>is too short</source>
-			<target>ist zu kurz</target>
+			<source>does not have the optimal length.</source>
+			<target>hat nicht die optimale Länge.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.title.2" approved="yes">
-			<source>has the optimal length</source>
-			<target>hat die optimale Länge</target>
+			<source>has the optimal length.</source>
+			<target>hat die optimale Länge.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.update" approved="yes">
 			<source>Update</source>

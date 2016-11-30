@@ -113,7 +113,7 @@ class TitleEvaluatorTest extends UnitTestCase
 					'state' => TitleEvaluator::STATE_GREEN,
 				]
 			],
-			'long decription' => [
+			'long title' => [
 				'<title>' . str_repeat('.', 58) . '</title>',
 				[
 					'count' => 58,

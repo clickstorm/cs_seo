@@ -90,13 +90,13 @@
 			<source>Browser title</source>
 		</trans-unit>
 		<trans-unit id="evaluation.title.0">
-			<source>is too long.</source>
+			<source>is not set.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.title.1">
-			<source>is too short</source>
+			<source>does not have the optimal length.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.title.2">
-			<source>has the optimal length</source>
+			<source>has the optimal length.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.update">
 			<source>Update</source>
