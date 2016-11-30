@@ -79,7 +79,7 @@ class PreviewWizard
         $GLOBALS['SOBE'] = $this;
         // Define the document template object
         $this->doc = GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Template\DocumentTemplate::class);
-        $this->doc->setModuleTemplate('EXT:cs_seo/Resources/Private/Templates/PreviewWizard.html');
+        $this->doc->setModuleTemplate('EXT:cs_seo/Resources/Private/Templates/Wizard.html');
     }
 
     /**
