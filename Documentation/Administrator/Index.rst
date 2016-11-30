@@ -217,4 +217,9 @@ Please insert a domain record at the the root page.
 Give your server access to the frontend. Include the following line in your .htaccess file and replace
 the x with the IP from the server.
 
+Order allow,deny
 Allow from xxx.xxx.xxx.xxx
+
+You could also use the domain instead of the IP.
+
+Allow from .mydomian.com
