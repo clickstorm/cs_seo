@@ -315,7 +315,7 @@ page {
 [end]
 
 ### Session tracking ###
-page.jsFooterInline {
+page.jsInline {
     654 = COA
     654 {
         ### Google Analytics ###
