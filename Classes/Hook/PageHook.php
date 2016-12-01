@@ -50,6 +50,21 @@ class PageHook {
 	protected $view;
 
 	/**
+	 * @var string $resourcesPath
+	 */
+	protected $resourcesPath;
+
+	/**
+	 * @var bool $isTYPO3VersionGreater6
+	 */
+	protected $isTYPO3VersionGreater6;
+
+	public function __construct() {
+		$this->resourcesPath = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/';
+		$this->isTYPO3VersionGreather6 = version_compare(TYPO3_branch, '7.0', '>=');
+	}
+
+	/**
 	 * Load the necessary css
 	 *
 	 * This will only be done when the referenced record is available
@@ -64,7 +79,11 @@ class PageHook {
 			'Icons.css',
 			'Evaluation.css'
 		);
-		$baseUrl = ExtensionManagementUtility::extRelPath('cs_seo') . '/Resources/Public/CSS/';
+
+		$baseUrl = $this->isTYPO3VersionGreather6 ?
+			$this->resourcesPath . 'Public/CSS/' :
+			'/typo3conf/ext/cs_seo/Resources/Public/CSS/';
+
 		// Load the wizards css
 		foreach ($cssFiles as $cssFile) {
 			$this->getPageRenderer()->addCssFile($baseUrl . $cssFile, 'stylesheet', 'all', '', $compress, false);
@@ -89,7 +108,9 @@ class PageHook {
 		$this->getPageRenderer()->loadJquery();
 
 		// Load the wizards javascript
-		$baseUrl = ExtensionManagementUtility::extRelPath('cs_seo') . '/Resources/Public/JavaScript/';
+		$baseUrl = $this->isTYPO3VersionGreather6 ?
+			$this->resourcesPath . 'Public/JavaScript/' :
+			'/typo3conf/ext/cs_seo/Resources/Public/JavaScript/';
 
 		foreach ($javascriptFiles as $javascriptFile) {
 			$this->getPageRenderer()->addJsFile($baseUrl . $javascriptFile, 'text/javascript', $compress, false, '', true, '|', true);
@@ -114,16 +135,23 @@ class PageHook {
 				$this->loadJavascript();
 				
 				//load partial paths info from typoscript
-				$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-				$configurationManager = $objectManager->get(ConfigurationManagerInterface::class);
-				$tsSetup = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK, 'csseo');
-
 				$this->view = GeneralUtility::makeInstance(StandaloneView::class);
 				$this->view->setFormat('html');
 				$this->view->getRequest()->setControllerExtensionName('cs_seo');
 
-				$layoutPaths = $tsSetup["view"]["layoutRootPaths"]?: ['EXT:cs_seo/Resources/Private/Layouts/'];
-				$partialPaths = $tsSetup["view"]["partialRootPaths"]?: ['EXT:cs_seo/Resources/Private/Partials/'];
+				$layoutPaths = [$this->resourcesPath . 'Private/Layouts/'];
+				$partialPaths = [$this->resourcesPath . 'Private/Partials/'];
+
+				// load partial paths info from TypoScript
+				if($this->isTYPO3VersionGreather6) {
+					/** @var ObjectManager $objectManager */
+					$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+					/** @var ConfigurationManagerInterface $configurationManager */
+					$configurationManager = $objectManager->get(ConfigurationManagerInterface::class);
+					$tsSetup = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK, 'csseo');
+					$layoutPaths = $tsSetup["view"]["layoutRootPaths"]?: $layoutPaths;
+					$partialPaths = $tsSetup["view"]["partialRootPaths"]?: $partialPaths;
+				}
 
 				$this->view->setLayoutRootPaths($layoutPaths);
 				$this->view->setPartialRootPaths($partialPaths);
