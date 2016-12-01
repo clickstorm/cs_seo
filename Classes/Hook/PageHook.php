@@ -60,7 +60,7 @@ class PageHook {
 	protected $isTYPO3VersionGreater6;
 
 	public function __construct() {
-		$this->resourcesPath = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/';
+		$this->resourcesPath = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/';
 		$this->isTYPO3VersionGreather6 = version_compare(TYPO3_branch, '7.0', '>=');
 	}
 
@@ -139,8 +139,9 @@ class PageHook {
 				$this->view->setFormat('html');
 				$this->view->getRequest()->setControllerExtensionName('cs_seo');
 
-				$layoutPaths = [$this->resourcesPath . 'Private/Layouts/'];
-				$partialPaths = [$this->resourcesPath . 'Private/Partials/'];
+				$absoluteResourcesPath = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/';
+				$layoutPaths = [$absoluteResourcesPath . 'Private/Layouts/'];
+				$partialPaths = [$absoluteResourcesPath . 'Private/Partials/'];
 
 				// load partial paths info from TypoScript
 				if($this->isTYPO3VersionGreather6) {
