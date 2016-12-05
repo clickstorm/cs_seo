@@ -5,8 +5,8 @@
 
 <f:section name="Main">
 	<f:for each="{pages}" as="page"><url>
-			<loc>{f:link.page(pageUid:page.uid,absolute:1) -> f:format.htmlspecialchars()} </loc>
-			<f:if condition="{record.lastmod}"><lastmod>{record.lastmod -> f:format.date(format:'Y-m-d')}</lastmod></f:if>
+			<loc>{f:uri.page(pageUid:page.uid,absolute:1) -> f:format.htmlspecialchars()} </loc>
+			<f:if condition="{page.tstamp}"><lastmod>{page.tstamp -> f:format.date(format:'Y-m-d')}</lastmod></f:if>
 		</url>
 	</f:for>
 </f:section>
