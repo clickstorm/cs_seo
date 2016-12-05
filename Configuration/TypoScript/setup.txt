@@ -374,7 +374,7 @@ page.jsInline {
 
 ### Disable Tracking if Backend User detected ###
 [globalVar = TSFE:beUserLogin > 0]
-    page.jsFooterInline.654 >
+    page.jsInline.654 >
     page.includeJSFooter.654 >
 [end]
 
