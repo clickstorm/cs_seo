@@ -11,7 +11,7 @@
 Developer Corner
 ================
 
-Here you find informations for developers, e.g how to extend an existing extbase model with SEO properties.
+Here you find information for developers, e.g how to extend an existing extbase model with SEO properties.
 
 .. toctree::
 	:maxdepth: 5
