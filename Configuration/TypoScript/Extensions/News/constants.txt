@@ -1,6 +1,7 @@
-# cat=plugin.tx_csseo News/sitemap/1; type=string; label= Storage Pid
+# customsubcategory=sitemap=Sitemap.xml
+# cat=plugin.tx_csseo News/sitemap/1; type=int; label= Storage Pid
 plugin.tx_csseo.sitemap.extensions.news.storagePid =
-# cat=plugin.tx_csseo News/sitemap/2; type=string; label= Detail Pid
+# cat=plugin.tx_csseo News/sitemap/2; type=int; label= Detail Pid
 plugin.tx_csseo.sitemap.extensions.news.detailPid =
 # cat=plugin.tx_csseo News/sitemap/3; type=string; label= Language Uids
 plugin.tx_csseo.sitemap.extensions.news.languageUids =

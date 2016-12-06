@@ -40,6 +40,7 @@ plugin.tx_csseo {
     # cat=plugin.tx_csseo/tracking/3; type=string; label= Enter the ID for site
     tracking.piwik.id = 1
 
+    # customsubcategory=sitemap=Sitemap.xml
     # cat=plugin.tx_csseo/sitemap/1; type=int; label= The root pid of the current domain
     sitemap.pages.rootPid = 1
 
