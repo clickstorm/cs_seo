@@ -3,18 +3,8 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-.. include:: ../Includes.txt
-
-
-.. _c_configuration:
-
-Configuration Reference
-=======================
-
-.. _configuration-typoscript:
-
-TypoScript Reference
---------------------
+Tracking
+--------
 
 Properties
 ^^^^^^^^^^
@@ -28,9 +18,6 @@ Properties
 	`tracking.piwik`_             :ref:`t3tsref:data-type-string`       no
 	`tracking.piwik.id`_          :ref:`t3tsref:data-type-string`       no                      1
 	============================= ===================================== ======================= ====================
-
-Tracking
-^^^^^^^^
 
 plugin.tx_csseo.tracking.
 

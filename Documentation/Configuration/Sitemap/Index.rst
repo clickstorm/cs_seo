@@ -3,18 +3,9 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-.. include:: ../Includes.txt
 
-
-.. _c_configuration:
-
-Configuration Reference
-=======================
-
-.. _configuration-typoscript:
-
-TypoScript Reference
---------------------
+Sitemap.xml
+-----------
 
 Properties
 ^^^^^^^^^^
@@ -28,9 +19,6 @@ Properties
 	`sitemap.pages.languageUids`_ :ref:`t3tsref:data-type-list`         no                      0
 	`sitemap.additional`_         :ref:`t3tsref:data-type-string`       no
 	============================= ===================================== ======================= ====================
-
-sitemap
-^^^^^^^
 
 plugin.tx_csseo.sitemap.
 
@@ -77,11 +65,9 @@ Additional
          If you would like to add an external sub sitemap.xml enter the complete URL here. More URLs can be added in the TypoScript Setup.
 
 Sitemap for news records
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 The following constants are available, if you include the TypoScript from the extension for tx_news.
-Properties
-^^^^^^^^^^
 
 .. container:: ts-properties
 

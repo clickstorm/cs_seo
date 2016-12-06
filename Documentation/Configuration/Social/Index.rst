@@ -3,18 +3,9 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-.. include:: ../Includes.txt
 
-
-.. _c_configuration:
-
-Configuration Reference
-=======================
-
-.. _configuration-typoscript:
-
-TypoScript Reference
---------------------
+Social
+------
 
 Properties
 ^^^^^^^^^^
@@ -26,9 +17,6 @@ Properties
 	============================= ===================================== ======================= ====================
 	`social.twitter.creator`_     :ref:`t3tsref:data-type-string`       no
 	============================= ===================================== ======================= ====================
-
-Social
-^^^^^^
 
 plugin.tx_csseo.social.
 

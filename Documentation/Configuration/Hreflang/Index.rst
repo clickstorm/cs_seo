@@ -3,18 +3,8 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-.. include:: ../Includes.txt
-
-
-.. _c_configuration:
-
-Configuration Reference
-=======================
-
-.. _configuration-typoscript:
-
-TypoScript Reference
---------------------
+href="lang"
+-----------
 
 Properties
 ^^^^^^^^^^
@@ -28,9 +18,6 @@ Properties
 	`hreflang.ids`_               :ref:`t3tsref:data-type-list`         no
 	`hreflang.keys`_              :ref:`t3tsref:data-type-list`         no
 	============================= ===================================== ======================= ====================
-
-href="lang"
-^^^^^^^^^^^
 
 plugin.tx_csseo.hreflang.
 
