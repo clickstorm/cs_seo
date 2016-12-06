@@ -58,11 +58,13 @@ class Sitemap
 
 
 	public function main() {
-		/** @var PageRepository pageRepository */
-		$this->pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+		$tsfe = $this->getTypoScriptFrontendController();
+		$this->pageRepository = $tsfe->sys_page;
+
+
 
 		// set TypoScript settings and parse them for Fluid
-		$this->setSettings($this->parseSettings($this->getTypoScriptFrontendController()->tmpl->setup['plugin.']['tx_csseo.']['sitemap.']));
+		$this->setSettings($this->parseSettings($tsfe->tmpl->setup['plugin.']['tx_csseo.']['sitemap.']));
 
 		// init fluid templates
 		$this->view = GeneralUtility::makeInstance(StandaloneView::class);
@@ -80,16 +82,17 @@ class Sitemap
 					$absoluteResourcesPath . 'Private/Templates/Sitemap/Pages.xml'
 				);
 				$settings = $this->settings['pages'];
-				$lang = GeneralUtility::_GP('lang')?:0;
-				$this->getTypoScriptFrontendController()->sys_page->sys_language_uid = $lang;
-				$pages = $this->getTypoScriptFrontendController()->sys_page->getMenu(
+
+				$pages[] = $tsfe->sys_page->getPage($settings['rootPid']);
+				$subPages = $tsfe->sys_page->getMenu(
 					$settings['rootPid'],
 					'*',
 					'sorting',
 					'AND doktype = 1 AND tx_csseo_no_index = 0'
 				);
+				$pages = array_merge($pages, $subPages);
 				$this->view->assignMultiple([
-					'lang' => $lang,
+					'lang' => $tsfe->sys_language_uid,
 					'pages' => $pages
 				]);
 				break;
@@ -112,7 +115,7 @@ class Sitemap
 						foreach ($records as $key => $record) {
 							$typoLinkConf['additionalParams'] = '&' . $extConf['additionalParams'] . '=' . $record['uid'];
 							if ($record['lang']) {
-								$typoLinkConf['additionalParams'] .= '&L=' . $record['lang'];
+								$typoLinkConf['additionalParams'] .= '&L=' . $record['langlang'];
 							}
 							$records[$key]['loc'] = $cObject->typoLink_URL($typoLinkConf);
 						}
@@ -144,20 +147,20 @@ class Sitemap
 	    $where = '';
 	    $from = $extConf['table'];
 	    $select = $table . '.uid';
-	    $groupBy = '';
 
 	    $constraints = [];
-	    $lang = GeneralUtility::_GP('lang')?:0;
+	    $lang = $this->getTypoScriptFrontendController()->sys_language_uid;
+	    $tca = $GLOBALS['TCA'][$extConf['table']];
 
 	    // storage
 	    if($extConf['storagePid']) {
-		    $constraints[] = 'pid IN (' . $extConf['storagePid'] . ')';
+		    $constraints[] = $table . '.pid IN (' . $extConf['storagePid'] . ')';
 	    }
 
 	    // lang
-        $languageField = $GLOBALS['TCA'][$extConf['table']]['ctrl']['languageField'];
+        $languageField = $tca['ctrl']['languageField'];
         if($languageField) {
-		    $constraints[] = $languageField . ' IN (' . $lang . ',-1)';
+		    $constraints[] = $table . '.' .$languageField . ' IN (' . $lang . ',-1)';
 		    $select .= ', ' . $table . '.' .$languageField . ' AS lang';
 	    }
 
@@ -176,14 +179,22 @@ class Sitemap
 		        if($extConf['categoryMMFieldname']) {
 			        $constraints[] = $catTable.'.fieldname = ' . $db->fullQuoteStr($extConf['categoryMMFieldname'], $table);
 		        }
-		        $groupBy .= $table . '.uid';
 	        }
 
         }
 
         // lastmod
-	    if($GLOBALS['TCA'][$extConf['table']]['ctrl']['tstamp']) {
-		    $select .= ', ' . $table . '.' . $GLOBALS['TCA'][$extConf['table']]['ctrl']['tstamp'] . ' AS lastmod';
+	    if($tca['ctrl']['tstamp']) {
+		    $select .= ', ' . $table . '.' . $tca['ctrl']['tstamp'] . ' AS lastmod';
+	    }
+
+	    // no index
+	    if($tca['columns']['tx_csseo']) {
+        	$from .= ', tx_csseo_domain_model_meta';
+        	$constraints[] = '('. $table . '.tx_csseo = 0 OR
+        	 (' . $table . '.uid = tx_csseo_domain_model_meta.uid_foreign AND
+        	 tx_csseo_domain_model_meta.tablenames = ' . $db->fullQuoteStr($table, $table) . ' AND
+        	 tx_csseo_domain_model_meta.no_index = 0))';
 	    }
 
 	    if(count($constraints)) {
@@ -200,7 +211,7 @@ class Sitemap
 		    $select,
 		    $from,
 		    $where,
-		    $groupBy
+		    $table . '.uid'
 	    );
     }
 
