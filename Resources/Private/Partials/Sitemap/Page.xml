@@ -3,9 +3,11 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
 <f:section name="Main">
-	<url>
-		<loc>{f:uri.page(pageUid:page.uid,absolute:1) -> f:format.htmlspecialchars()}</loc>
-		<f:if condition="{page.tstamp}"><lastmod>{page.tstamp -> f:format.date(format:'Y-m-d')}</lastmod></f:if>
-	</url>
+	<f:if condition="{page.doktype} == 1">
+		<url>
+			<loc>{f:uri.page(pageUid:page.uid,absolute:1) -> f:format.htmlspecialchars()}</loc>
+			<f:if condition="{page.tstamp}"><lastmod>{page.tstamp -> f:format.date(format:'Y-m-d')}</lastmod></f:if>
+		</url>
+	</f:if>
 </f:section>
 </html>

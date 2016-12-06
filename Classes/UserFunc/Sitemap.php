@@ -26,6 +26,7 @@ namespace Clickstorm\CsSeo\UserFunc;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -56,15 +57,18 @@ class Sitemap
 	 */
 	protected $pageRepository;
 
+	/**
+	 * @var TypoScriptFrontendController
+	 */
+	protected $tsfe;
+
 
 	public function main() {
-		$tsfe = $this->getTypoScriptFrontendController();
-		$this->pageRepository = $tsfe->sys_page;
-
-
+		$this->tsfe = $this->getTypoScriptFrontendController();
+		$this->pageRepository = $this->tsfe->sys_page;
 
 		// set TypoScript settings and parse them for Fluid
-		$this->setSettings($this->parseSettings($tsfe->tmpl->setup['plugin.']['tx_csseo.']['sitemap.']));
+		$this->setSettings($this->parseSettings($this->tsfe->tmpl->setup['plugin.']['tx_csseo.']['sitemap.']));
 
 		// init fluid templates
 		$this->view = GeneralUtility::makeInstance(StandaloneView::class);
@@ -83,16 +87,11 @@ class Sitemap
 				);
 				$settings = $this->settings['pages'];
 
-				$pages[] = $tsfe->sys_page->getPage($settings['rootPid']);
-				$subPages = $tsfe->sys_page->getMenu(
-					$settings['rootPid'],
-					'*',
-					'sorting',
-					'AND doktype = 1 AND tx_csseo_no_index = 0'
-				);
-				$pages = array_merge($pages, $subPages);
+				$pages[] = $this->tsfe->sys_page->getPage($settings['rootPid']);
+				$pages = $this->getPages($pages, $pages);
+
 				$this->view->assignMultiple([
-					'lang' => $tsfe->sys_language_uid,
+					'lang' => $this->tsfe->sys_language_uid,
 					'pages' => $pages
 				]);
 				break;
@@ -131,6 +130,22 @@ class Sitemap
 
 
 	    return $this->view->render();
+    }
+
+	/**
+	 * @param array $pages
+	 * @param array $newPages
+	 * @return array
+	 */
+	protected function getPages($pages, $newPages = []) {
+		$subPages = $this->tsfe->sys_page->getMenu(
+			array_column($newPages,'uid'),
+			'*',
+			'sorting',
+			'AND doktype != 6 AND tx_csseo_no_index = 0'
+		);
+
+		return $subPages ? $this->getPages(array_merge($pages, $subPages), $subPages) : $pages;
     }
 
 	/**
