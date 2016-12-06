@@ -107,6 +107,7 @@ class Sitemap
 							'parameter' => $extConf['detailPid'],
 							'forceAbsoluteUrl' => 1
 						];
+
 						$records = $this->getRecords($extConf);
 						foreach ($records as $key => $record) {
 							$typoLinkConf['additionalParams'] = '&' . $extConf['getParameter'] . '=' . $record['uid'];
@@ -115,6 +116,7 @@ class Sitemap
 							}
 							$records[$key]['loc'] = $cObject->typoLink_URL($typoLinkConf);
 						}
+
 						$this->view->assign('records', $records);
 					}
 				}
@@ -133,47 +135,74 @@ class Sitemap
 	 * @return bool|array
 	 */
     protected function getRecords($extConf) {
-
+	    $db = $this->getDatabaseConnection();
 	    if (!isset($GLOBALS['TCA'][$extConf['table']])) {
 	    	return false;
 	    }
 
+	    $table = $extConf['table'];
+	    $where = '';
+	    $from = $extConf['table'];
+	    $select = $table . '.uid';
+	    $groupBy = '';
 
-	    $where = '1';
-	    $select = 'uid';
 	    $constraints = [];
 	    $lang = GeneralUtility::_GP('lang')?:0;
 
+	    // storage
 	    if($extConf['storagePid']) {
 		    $constraints[] = 'pid IN (' . $extConf['storagePid'] . ')';
 	    }
 
+	    // lang
         $languageField = $GLOBALS['TCA'][$extConf['table']]['ctrl']['languageField'];
         if($languageField) {
 		    $constraints[] = $languageField . ' IN (' . $lang . ',-1)';
-		    $select .= ', ' . $languageField . ' AS lang';
+		    $select .= ', ' . $table . '.' .$languageField . ' AS lang';
 	    }
 
+	    // categories
+	    if($extConf['categories']) {
+        	if($extConf['categoryField']) {
+		        $constraints[] = $extConf['categoryField'] . ' IN (' . $extConf['categories'] . ')';
+	        } elseif($extConf['categoryMMTable']) {
+		        $catTable = $extConf['categoryMMTable'];
+		        $from .= ', ' . $catTable;
+		        $constraints[] = $table . '.uid = ' . $catTable .'.uid_foreign';
+		        $constraints[] = $catTable. '.uid_local IN (' . $extConf['categories'] . ')';
+		        if($extConf['categoryMMTablename']) {
+			        $constraints[] = $catTable . '.tablenames = ' . $db->fullQuoteStr($table, $table);
+		        }
+		        if($extConf['categoryMMField']) {
+			        $constraints[] = $catTable.'.fieldname = ' . $db->fullQuoteStr($extConf['categoryMMField'], $table);
+		        }
+		        $groupBy .= $table . '.uid';
+	        }
+
+        }
+
+        // lastmod
 	    if($GLOBALS['TCA'][$extConf['table']]['ctrl']['tstamp']) {
-		    $select .= ', ' . $GLOBALS['TCA'][$extConf['table']]['ctrl']['tstamp'] . ' AS lastmod';
+		    $select .= ', ' . $table . '.' . $GLOBALS['TCA'][$extConf['table']]['ctrl']['tstamp'] . ' AS lastmod';
 	    }
 
 	    if(count($constraints)) {
-		    $where .= ' AND ' . implode($constraints, ' AND ');
+		    $where .= implode($constraints, ' AND ');
+	    } else {
+        	$where = '1=1';
 	    }
 
 	    $where .= $this->pageRepository->enableFields(
 		    $extConf['table']
 	    );
 
-	    return $this->getDatabaseConnection()->exec_SELECTgetRows(
+	    return $db->exec_SELECTgetRows(
 		    $select,
-		    $extConf['table'],
-		    $where
+		    $from,
+		    $where,
+		    $groupBy
 	    );
     }
-
-
 
 	/**
 	 * @return array

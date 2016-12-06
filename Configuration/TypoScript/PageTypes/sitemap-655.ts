@@ -26,12 +26,14 @@ pageCsSeoSitemap {
 			news {
 				table = tx_news_domain_model_news
 				getParameter = tx_news_pi1[news]
-				categories =
-				storagePid =
+				storagePid = 14
 				detailPid = 17
-				categories =
-				categoryTable =
 				languageUids = 0,1
+				categories = 1
+				categoryField =
+				categoryMMTable = sys_category_record_mm
+				categoryMMTablenames = 1
+				categoryMMField = categories
 			}
 		}
 		additional {
