@@ -57,12 +57,12 @@ class Sitemap
 	protected $pageRepository;
 
 
-	public function main($p1, $p2) {
+	public function main() {
 		/** @var PageRepository pageRepository */
 		$this->pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
-		// parse and set ts settings
-		$this->setSettings($this->parseSettings($p2['settings.']));
+		// set TypoScript settings and parse them for Fluid
+		$this->setSettings($this->parseSettings($this->getTypoScriptFrontendController()->tmpl->setup['plugin.']['tx_csseo.']['sitemap.']));
 
 		// init fluid templates
 		$this->view = GeneralUtility::makeInstance(StandaloneView::class);
@@ -110,7 +110,7 @@ class Sitemap
 
 						$records = $this->getRecords($extConf);
 						foreach ($records as $key => $record) {
-							$typoLinkConf['additionalParams'] = '&' . $extConf['getParameter'] . '=' . $record['uid'];
+							$typoLinkConf['additionalParams'] = '&' . $extConf['additionalParams'] . '=' . $record['uid'];
 							if ($record['lang']) {
 								$typoLinkConf['additionalParams'] .= '&L=' . $record['lang'];
 							}
@@ -173,8 +173,8 @@ class Sitemap
 		        if($extConf['categoryMMTablename']) {
 			        $constraints[] = $catTable . '.tablenames = ' . $db->fullQuoteStr($table, $table);
 		        }
-		        if($extConf['categoryMMField']) {
-			        $constraints[] = $catTable.'.fieldname = ' . $db->fullQuoteStr($extConf['categoryMMField'], $table);
+		        if($extConf['categoryMMFieldname']) {
+			        $constraints[] = $catTable.'.fieldname = ' . $db->fullQuoteStr($extConf['categoryMMFieldname'], $table);
 		        }
 		        $groupBy .= $table . '.uid';
 	        }
@@ -226,14 +226,17 @@ class Sitemap
 	 */
 	protected function parseSettings($settings) {
 		$parsedSettings = [];
-		foreach ($settings as $key => $value) {
-			$key = rtrim($key, '.');
-			if (!is_array($value)) {
-				$parsedSettings[$key] = $value;
-			} else {
-				$parsedSettings[$key] = $this->parseSettings($value);
+		if(is_array($settings)) {
+			foreach ($settings as $key => $value) {
+				$key = rtrim($key, '.');
+				if (!is_array($value)) {
+					$parsedSettings[$key] = $value;
+				} else {
+					$parsedSettings[$key] = $this->parseSettings($value);
+				}
 			}
 		}
+
 		return $parsedSettings;
 	}
 

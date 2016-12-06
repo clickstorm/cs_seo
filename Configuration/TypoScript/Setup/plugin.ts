@@ -30,4 +30,16 @@ plugin.tx_csseo {
 		piwik = {$plugin.tx_csseo.tracking.piwik}
 		piwik.id = {$plugin.tx_csseo.tracking.piwik.id}
 	}
+	sitemap {
+		pages {
+			# set the root pid for the current domain
+			rootPid = {$plugin.tx_csseo.sitemap.pages.rootPid}
+			# which languages should be shown, e.g.: 0,1
+			languageUids = {$plugin.tx_csseo.sitemap.pages.languageUids}
+		}
+		additional {
+			# addition external sitemaps, e.g.:
+			1 = {$plugin.tx_csseo.sitemap.additional}
+		}
+	}
 }

@@ -1,0 +1,16 @@
+plugin.tx_csseo.sitemap {
+	extensions {
+		news {
+			table = tx_news_domain_model_news
+			additionalParams = tx_news_pi1[news]
+			storagePid = {$plugin.tx_csseo.sitemap.extensions.news.storagePid}
+			detailPid = {$plugin.tx_csseo.sitemap.extensions.news.detailPid}
+			languageUids = {$plugin.tx_csseo.sitemap.extensions.news.languageUids}
+			categories = {$plugin.tx_csseo.sitemap.extensions.news.categories}
+			categoryField =
+			categoryMMTable = sys_category_record_mm
+			categoryMMTablenames = 1
+			categoryMMFieldname = categories
+		}
+	}
+}

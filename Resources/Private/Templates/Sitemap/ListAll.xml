@@ -41,8 +41,10 @@
 	</url>
 	</f:for>
 	<f:for each="{settings.additional}" as="extraUrl">
-	<url>
-		<loc>{extraUrl -> f:format.htmlspecialchars()}</loc>
-	</url>
+		<f:if condition="{extraUrl}">
+			<url>
+				<loc>{extraUrl -> f:format.htmlspecialchars()}</loc>
+			</url>
+		</f:if>
 	</f:for>
 </f:section>
