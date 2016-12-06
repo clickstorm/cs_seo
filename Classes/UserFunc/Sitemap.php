@@ -74,6 +74,7 @@ class Sitemap
 
 		// switch view
 		switch (GeneralUtility::_GP('tx_csseo_view')) {
+			// sitemap for pages
 			case 'pages':
 				$this->view->setTemplatePathAndFilename(
 					$absoluteResourcesPath . 'Private/Templates/Sitemap/Pages.xml'
@@ -87,12 +88,12 @@ class Sitemap
 					'sorting',
 					'AND doktype = 1 AND tx_csseo_no_index = 0'
 				);
-
 				$this->view->assignMultiple([
 					'lang' => $lang,
 					'pages' => $pages
 				]);
 				break;
+			// sitemap for extensions
 			case 'extension':
 				$this->view->setTemplatePathAndFilename(
 					$absoluteResourcesPath . 'Private/Templates/Sitemap/Extension.xml'
@@ -118,8 +119,9 @@ class Sitemap
 					}
 				}
 		    	break;
+			// list all sitemaps
 		    default: $this->view->setTemplatePathAndFilename($absoluteResourcesPath . 'Private/Templates/Sitemap/ListAll.xml');
-		            $this->view->assign('settings', $this->getSettings());
+	                $this->view->assign('settings', $this->settings);
 	    }
 
 
@@ -128,7 +130,7 @@ class Sitemap
 
 	/**
 	 * @param array $extConf
-	 * @return bool|\mysqli_result|object
+	 * @return bool|array
 	 */
     protected function getRecords($extConf) {
 
@@ -140,17 +142,16 @@ class Sitemap
 	    $where = '1';
 	    $select = 'uid';
 	    $constraints = [];
+	    $lang = GeneralUtility::_GP('lang')?:0;
 
 	    if($extConf['storagePid']) {
 		    $constraints[] = 'pid IN (' . $extConf['storagePid'] . ')';
 	    }
 
-	    if($extConf['languageUids']) {
-	    	$languageField = $GLOBALS['TCA'][$extConf['table']]['ctrl']['languageField'];
-	    	if($languageField) {
-			    $constraints[] = $languageField . '= (' . $extConf['languageUids'] . ',-1)';
-			    $select .= ', ' . $languageField . ' AS lang';
-		    }
+        $languageField = $GLOBALS['TCA'][$extConf['table']]['ctrl']['languageField'];
+        if($languageField) {
+		    $constraints[] = $languageField . ' IN (' . $lang . ',-1)';
+		    $select .= ', ' . $languageField . ' AS lang';
 	    }
 
 	    if($GLOBALS['TCA'][$extConf['table']]['ctrl']['tstamp']) {

@@ -4,9 +4,18 @@
 <f:layout name="Sitemap" />
 
 <f:section name="Main">
-	<f:for each="{pages}" as="page"><url>
-			<loc>{f:uri.page(pageUid:page.uid,absolute:1) -> f:format.htmlspecialchars()} </loc>
-			<f:if condition="{page.tstamp}"><lastmod>{page.tstamp -> f:format.date(format:'Y-m-d')}</lastmod></f:if>
-		</url>
-	</f:for>
+	<f:if condition="{lang} > 0">
+		<f:then>
+			<f:for each="{pages}" as="page">
+				<f:if condition="{page._PAGES_OVERLAY_LANGUAGE} == {lang}">
+					<f:render partial="Sitemap/Page" arguments="{_all}" section="Main" />
+				</f:if>
+			</f:for>
+		</f:then>
+		<f:else>
+			<f:for each="{pages}" as="page">
+				<f:render partial="Sitemap/Page" arguments="{_all}" section="Main" />
+			</f:for>
+		</f:else>
+	</f:if>
 </f:section>

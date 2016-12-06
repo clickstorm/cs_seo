@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+<f:section name="Main">
+	<url>
+		<loc>{f:uri.page(pageUid:page.uid,absolute:1) -> f:format.htmlspecialchars()}</loc>
+		<f:if condition="{page.tstamp}"><lastmod>{page.tstamp -> f:format.date(format:'Y-m-d')}</lastmod></f:if>
+	</url>
+</f:section>
+</html>

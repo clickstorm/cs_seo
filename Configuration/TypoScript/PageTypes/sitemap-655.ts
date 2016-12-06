@@ -31,7 +31,7 @@ pageCsSeoSitemap {
 				detailPid = 17
 				categories =
 				categoryTable =
-				languageUids =
+				languageUids = 0,1
 			}
 		}
 		additional {

@@ -4,9 +4,10 @@
 <f:layout name="Sitemap" />
 
 <f:section name="Main">
-	<f:for each="{records}" as="record"><url>
-			<loc>{record.loc}</loc>
-			<f:if condition="{record.lastmod}"><lastmod>{record.lastmod -> f:format.date(format:'Y-m-d')}</lastmod></f:if>
-		</url>
-	</f:for>
+<f:for each="{records}" as="record">
+	<url>
+		<loc>{record.loc}</loc>
+		<f:if condition="{record.lastmod}"><lastmod>{record.lastmod -> f:format.date(format:'Y-m-d')}</lastmod></f:if>
+	</url>
+</f:for>
 </f:section>
