@@ -4,10 +4,12 @@
 
 <f:section name="Main">
 	<f:if condition="{page.doktype} == 1">
-		<url>
-			<loc>{f:uri.page(pageUid:page.uid,absolute:1) -> f:format.htmlspecialchars()}</loc>
-			<f:if condition="{page.tstamp}"><lastmod>{page.tstamp -> f:format.date(format:'Y-m-d')}</lastmod></f:if>
-		</url>
+		<f:if condition="{page.tx_csseo_no_index} == 0">
+			<url>
+				<loc>{f:uri.page(pageUid:page.uid,absolute:1) -> f:format.htmlspecialchars()}</loc>
+				<f:if condition="{page.tstamp}"><lastmod>{page.tstamp -> f:format.date(format:'Y-m-d')}</lastmod></f:if>
+			</url>
+		</f:if>
 	</f:if>
 </f:section>
 </html>
