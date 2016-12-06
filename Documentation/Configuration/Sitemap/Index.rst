@@ -7,6 +7,9 @@
 Sitemap.xml
 -----------
 
+Here we show the constants which are available to configure the sitemap.xml. If you want to know how to extend the
+sitemap for example for your own extension or tx_news see also: :ref:`extend-sitemap`.
+
 Properties
 ^^^^^^^^^^
 
@@ -63,6 +66,8 @@ Additional
          :ref:`t3tsref:data-type-string`
    Description
          If you would like to add an external sub sitemap.xml enter the complete URL here. More URLs can be added in the TypoScript Setup.
+
+.. _news.sitemap.reference:
 
 Sitemap for news records
 ^^^^^^^^^^^^^^^^^^^^^^^^

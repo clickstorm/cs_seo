@@ -38,7 +38,7 @@ plugin.tx_csseo {
 			languageUids = {$plugin.tx_csseo.sitemap.pages.languageUids}
 		}
 		additional {
-			# addition external sitemaps, e.g.:
+			# addition external sitemaps, e.g. https://example.org/sitemap-blog.xml
 			1 = {$plugin.tx_csseo.sitemap.additional}
 		}
 	}
