@@ -1,4 +1,11 @@
-### Special type for preview wizard ###
+/**
+* Preview Wizard PageType
+*
+* @author Marc Hirdes, clickstorm GmbH
+* @package cs_seo
+* @subpackage Configuration\TypoScript\PageTypes
+*/
+
 pageCsSeo = PAGE
 pageCsSeo {
 	typeNum = 654

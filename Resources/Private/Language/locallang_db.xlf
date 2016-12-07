@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-08-19T11:24:07Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-12-07T13:13:19Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
 		<body>
+		<trans-unit id="evaluation.tca.robots_txt.robots_disallow_all">
+			<source>Warning! The &quot;Disallow: /&quot; tells the robot that it should not visit any pages on your site.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.tca.robots_txt.robots_exists">
+			<source>Warning! If you want to use this Robots setting, you must remove the robots.txt in your web root.</source>
+		</trans-unit>
 		<trans-unit id="pages.description">
 			<source>Description</source>
 		</trans-unit>
@@ -61,6 +67,12 @@
 		</trans-unit>
 		<trans-unit id="pages.tx_csseo_tw_title">
 			<source>Twitter Title</source>
+		</trans-unit>
+		<trans-unit id="sys_domain.tab.robots_txt">
+			<source>Robots.txt</source>
+		</trans-unit>
+		<trans-unit id="sys_domain.tx_csseo_robots_txt">
+			<source>Robots.txt</source>
 		</trans-unit>
 		<trans-unit id="templates.wizard.description">
 			<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>

@@ -1,4 +1,12 @@
-### Sietmap.xml ###
+/**
+* Sitemap.xml PageType
+*
+* @author Steefan Regniet, TechDivision GmbH
+* @author Marc Hirdes, clickstorm GmbH
+* @package cs_seo
+* @subpackage Configuration\TypoScript\PageTypes
+*/
+
 pageCsSeoSitemap = PAGE
 pageCsSeoSitemap {
 	typeNum = 655

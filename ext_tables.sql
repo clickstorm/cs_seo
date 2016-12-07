@@ -29,7 +29,7 @@ CREATE TABLE pages_language_overlay (
   tx_csseo_og_description text NOT NULL,
   tx_csseo_tw_title varchar(255) DEFAULT '' NOT NULL,
   tx_csseo_tw_description text NOT NULL,
-  tx_csseo_tw_creator varchar(255) DEFAULT '' NOT NULL,
+  tx_csseo_tw_creator varchar(255) DEFAULT '' NOT NULL
 );
 
 #
@@ -106,7 +106,13 @@ CREATE TABLE tx_csseo_domain_model_evaluation (
 	endtime int(11) unsigned DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid),
+	KEY parent (pid)
+);
+
+# Table structure for table "sys_domain"
+#
+CREATE TABLE sys_domain (
+	tx_csseo_robots_txt text NOT NULL
 );
 
 #
