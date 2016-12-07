@@ -18,7 +18,7 @@ The sitemap.xml generation in cs_seo is very flexible. Here is shown how to exte
 Add TypoScript for news
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Include the TypoScript from cs_seo called "Sitemap.xml for News". The reference you'll find here: :ref:`news.sitemap.reference`.
+Include the TypoScript from cs_seo called "Sitemap.xml for News". The reference you'll find here: :ref:`sitemap.xml.news`.
 
 
 .. _extend-sitemap-records-ts:
