@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-08-31T07:15:24Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-12-07T07:26:43Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -14,8 +14,8 @@
 			<target>wurde nicht gesetzt</target>
 		</trans-unit>
 		<trans-unit id="evaluation.description.1" approved="yes">
-			<source>is too short</source>
-			<target>ist zu kurz</target>
+			<source>does not have the optimal length.</source>
+			<target>hat nicht die optimale Länge.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.description.2" approved="yes">
 			<source>has the optimal length</source>
@@ -158,7 +158,7 @@
 			<target>Twitter Cards</target>
 		</trans-unit>
 		<trans-unit id="mlang_labels_tabdescr" approved="yes">
-			<source>Check and edit properties for search engine optimization.</source>
+			<source>Check properties for search engine optimization.</source>
 			<target>Überprüfe und editiere die Eigenschaften für die Suchmaschinenoptimierung.</target>
 		</trans-unit>
 		<trans-unit id="mlang_labels_tablabel" approved="yes">

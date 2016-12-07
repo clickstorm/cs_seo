@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-08-31T07:15:24Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-12-07T07:26:43Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -12,7 +12,7 @@
 			<source>is not set</source>
 		</trans-unit>
 		<trans-unit id="evaluation.description.1">
-			<source>is too short</source>
+			<source>does not have the optimal length.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.description.2">
 			<source>has the optimal length</source>
