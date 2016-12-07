@@ -42,11 +42,28 @@ class DescriptionEvaluatorTest extends UnitTestCase
 	protected $generalEvaluationMock;
 
 	/**
+	 * @var int
+	 */
+	protected $min = 140;
+
+	/**
+	 * @var int
+	 */
+	protected $max = 160;
+
+
+	/**
 	 * @return void
 	 */
 	public function setUp()
 	{
 		$this->generalEvaluationMock = $this->getAccessibleMock(DescriptionEvaluator::class, ['dummy'], [new \DOMDocument()]);
+		$extConf = [
+			'minDescription' => $this->min,
+			'maxDescription' => $this->max
+		];
+		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo'] = serialize($extConf);
+
 	}
 
 	/**
@@ -55,6 +72,7 @@ class DescriptionEvaluatorTest extends UnitTestCase
 	public function tearDown()
 	{
 		unset($this->generalEvaluationMock);
+		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
 	}
 
 	/**
@@ -94,30 +112,30 @@ class DescriptionEvaluatorTest extends UnitTestCase
 				]
 			],
 			'short decription' => [
-				'<meta name="description" content="' . str_repeat('.', 139) . '" />',
+				'<meta name="description" content="' . str_repeat('.', $this->min-1) . '" />',
 				[
-					'count' => 139,
+					'count' => $this->min-1,
 					'state' => DescriptionEvaluator::STATE_YELLOW,
 				]
 			],
 			'min good decription' => [
-				'<meta name="description" content="' . str_repeat('.', 140) . '" />',
+				'<meta name="description" content="' . str_repeat('.', $this->min) . '" />',
 				[
-					'count' => 140,
+					'count' => $this->min,
 					'state' => DescriptionEvaluator::STATE_GREEN,
 				]
 			],
 			'max good decription' => [
-				'<meta name="description" content="' . str_repeat('.', 160) . '" />',
+				'<meta name="description" content="' . str_repeat('.', $this->max) . '" />',
 				[
-					'count' => 160,
+					'count' => $this->max,
 					'state' => DescriptionEvaluator::STATE_GREEN,
 				]
 			],
 			'long decription' => [
-				'<meta name="description" content="' . str_repeat('.', 161) . '" />',
+				'<meta name="description" content="' . str_repeat('.', $this->max+1) . '" />',
 				[
-					'count' => 161,
+					'count' => $this->max+1,
 					'state' => DescriptionEvaluator::STATE_YELLOW,
 				]
 			]

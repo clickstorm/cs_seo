@@ -42,11 +42,20 @@ class H2EvaluatorTest extends UnitTestCase
 	protected $generalEvaluationMock;
 
 	/**
+	 * @var int
+	 */
+	protected $max = 6;
+
+	/**
 	 * @return void
 	 */
 	public function setUp()
 	{
 		$this->generalEvaluationMock = $this->getAccessibleMock(H2Evaluator::class, ['dummy'], [new \DOMDocument()]);
+		$extConf = [
+			'maxH2' => $this->max
+		];
+		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo'] = serialize($extConf);
 	}
 
 	/**
@@ -55,6 +64,7 @@ class H2EvaluatorTest extends UnitTestCase
 	public function tearDown()
 	{
 		unset($this->generalEvaluationMock);
+		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
 	}
 
 	/**
@@ -108,17 +118,17 @@ class H2EvaluatorTest extends UnitTestCase
 				]
 			],
 			'six h2' => [
-				str_repeat('<h2>Headline</h2>',6),
+				str_repeat('<h2>Headline</h2>',$this->max),
 				[
 					'state' => H2Evaluator::STATE_GREEN,
-					'count' => 6
+					'count' => $this->max
 				]
 			],
 			'seven h2' => [
-				str_repeat('<h2>Headline</h2>',7),
+				str_repeat('<h2>Headline</h2>',$this->max+1),
 				[
 					'state' => H2Evaluator::STATE_YELLOW,
-					'count' => 7
+					'count' => $this->max+1
 				]
 			],
 		];
