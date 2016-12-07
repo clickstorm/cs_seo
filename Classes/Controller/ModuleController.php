@@ -27,6 +27,7 @@ namespace Clickstorm\CsSeo\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -130,17 +131,14 @@ class ModuleController extends ActionController {
 	public function pageMetaAction() {
 		$fieldNames = ['title', 'tx_csseo_title', 'tx_csseo_title_only', 'description'];
 
-		$cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ContentObjectRenderer::class);
-
-		// get TypoScript
-		$backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
-		$fullTS = $backendConfigurationManager->getTypoScriptSetup();
+		/** @var TSFEUtility $TSFEUtility */
+		$TSFEUtility =  GeneralUtility::makeInstance(TSFEUtility::class, $this->id, $this->modParams['lang']);
 
 		// preview settings
 		$previewSettings = [];
-		$previewSettings['siteTitle'] = $fullTS['sitetitle'];
-		$previewSettings['pageTitleFirst'] = $fullTS['config.']['pageTitleFirst'];
-		$previewSettings['pageTitleSeparator'] = $cObj->stdWrap($fullTS['config.']['pageTitleSeparator'], $fullTS['config.']['pageTitleSeparator.']);
+		$previewSettings['siteTitle'] = $TSFEUtility->getSiteTitle();
+		$previewSettings['pageTitleFirst'] = $TSFEUtility->getPageTitleFirst();
+		$previewSettings['pageTitleSeparator'] = $TSFEUtility->getPageTitleSeparator();
 
 		if($previewSettings['pageTitleFirst']) {
 			$previewSettings['siteTitle'] = $previewSettings['pageTitleSeparator'] . $previewSettings['siteTitle'];

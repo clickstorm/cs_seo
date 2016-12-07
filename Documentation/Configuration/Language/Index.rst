@@ -3,8 +3,8 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
-href="lang"
------------
+Language
+--------
 
 Properties
 ^^^^^^^^^^
@@ -14,10 +14,30 @@ Properties
 	============================= ===================================== ======================= ====================
 	Property                      Data type                             :ref:`t3tsref:stdwrap`  Default
 	============================= ===================================== ======================= ====================
+	`sitetitle`_                  :ref:`t3tsref:data-type-string`       no
 	`hreflang.enable`_            :ref:`t3tsref:data-type-boolean`      no
 	`hreflang.ids`_               :ref:`t3tsref:data-type-list`         no
 	`hreflang.keys`_              :ref:`t3tsref:data-type-list`         no
 	============================= ===================================== ======================= ====================
+
+.. _sitetitle:
+
+Sitetitle
+^^^^^^^^^
+
+plugin.tx_csseo
+
+.. container:: table-row
+
+   Property
+         sitetitle
+   Data type
+         :ref:`t3tsref:data-type-string`
+   Description
+         Translatable prefix/suffix for the browser title, e.g. LLL:EXT:myext/Resources/Language/locollang.xlf:sitetitle.
+
+href="lang"
+^^^^^^^^^^^
 
 plugin.tx_csseo.hreflang.
 

@@ -14,7 +14,7 @@ Here you find information for integrators, e.g how to set up the sitemap.xml or 
 	:maxdepth: 5
 	:titlesonly:
 
-	Hreflang/Index
+	Language/Index
 	Sitemap/Index
 	Social/Index
 	Tracking/Index

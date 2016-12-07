@@ -31,6 +31,7 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Backend\Utility\BackendUtility;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use \TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * own TSFE to render TSFE in the backend
@@ -129,7 +130,13 @@ class TSFEUtility {
      * @return string
      */
     public function getSiteTitle() {
-        return $GLOBALS['TSFE']->tmpl->setup['sitetitle'];
+	    $sitetitle = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['sitetitle'];
+//	    \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($GLOBALS['TSFE']);
+	    if($sitetitle) {
+		    return $GLOBALS['TSFE']->sL($sitetitle);
+	    } else {
+		    return $GLOBALS['TSFE']->tmpl->setup['sitetitle'];
+	    }
     }
 
     /**
@@ -162,6 +169,7 @@ class TSFEUtility {
      */
     protected function initTSFE() {
         try {
+	        GeneralUtility::_GETset($this->lang, 'L');
             if (!is_object($GLOBALS['TT'])) {
                 $GLOBALS['TT'] = new NullTimeTracker;
                 $GLOBALS['TT']->start();
@@ -179,18 +187,15 @@ class TSFEUtility {
             $GLOBALS['TSFE']->initTemplate();
             $GLOBALS['TSFE']->newCObj();
 
-            if($this->lang > 0) {
-                $GLOBALS['TSFE']->config['config']['sys_language_uid'] = $this->lang;
-                $GLOBALS['TSFE']->settingLanguage();
-            }
 
             if (ExtensionManagementUtility::isLoaded('realurl')) {
                 $rootline = BackendUtility::BEgetRootLine($this->pageUid);
                 $host = BackendUtility::firstDomainRecord($rootline);
                 $_SERVER['HTTP_HOST'] = $host;
             }
-            
+
             $GLOBALS['TSFE']->getConfigArray();
+	        $GLOBALS['TSFE']->settingLanguage();
         } catch (\Exception $e) {
             // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($e);
             return;

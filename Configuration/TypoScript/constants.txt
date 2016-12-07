@@ -1,53 +1,56 @@
 plugin.tx_csseo {
-    # cat=plugin.tx_csseo/language/1; type=boolean; label= Enable Hreflang tags
+    # cat=plugin.tx_csseo/language/1; type=string; label= Override the sitetitle : Translation for the browser title prefix/suffix, e.g. LLL:EXT:myext/Resources/Language/locollang.xlf:sitetitle.
+    sitetitle =
+
+    # cat=plugin.tx_csseo/language/2; type=boolean; label= Enable Hreflang tags : Add href="lang" meta tags for all available translations of a page.
     hreflang.enable =
 
-    # cat=plugin.tx_csseo/language/2; type=string; label= List the language uids, which should be linked with a Hreflang tag (e.g. 0,2,3)
+    # cat=plugin.tx_csseo/language/3; type=string; label= Hreflang Language Uids : List the language uids, which should be linked with a Hreflang tag (e.g. 0,2,3)
     hreflang.ids =
 
-    # cat=plugin.tx_csseo/language/3; type=string; label= List the language keys for the Hreflang tags - same order as hreflang.uids (e.g. en,de,ch)
+    # cat=plugin.tx_csseo/language/4; type=string; label= Hreflang Language Keys : List the language keys for the Hreflang tags - same order as hreflang.uids (e.g. en,de,ch)
     hreflang.keys =
 
     # customsubcategory=social=Social Media
-    # cat=plugin.tx_csseo/social/1; type=string; label= Default image for Open Graph and Twitter (e.g. fileadmin/user_upload/image.jpg)
+    # cat=plugin.tx_csseo/social/1; type=string; label= Default Social Image : Default image for Open Graph and Twitter Cards (e.g. fileadmin/user_upload/image.jpg)
     social.defaultImage =
 
-    # cat=plugin.tx_csseo/social/2; type=string; label= Width of the Open Graph image
+    # cat=plugin.tx_csseo/social/2; type=string; label= Open Graph Width : Width of the Open Graph image
     social.openGraph.image.width = 1200
 
-    # cat=plugin.tx_csseo/social/3; type=string; label= Height of the Open Graph image
+    # cat=plugin.tx_csseo/social/3; type=string; label= Open Graph Height : Height of the Open Graph image
     social.openGraph.image.height = 628c
 
-    # cat=plugin.tx_csseo/social/4; type=string; label= Extra default image for Twitter (e.g. fileadmin/user_upload/image.jpg)
+    # cat=plugin.tx_csseo/social/4; type=string; label= Twitter Cards Default Image : Extra default image for Twitter (e.g. fileadmin/user_upload/image.jpg)
     social.twitter.defaultImage =
 
-    # cat=plugin.tx_csseo/social/5; type=string; label= Width of the Twitter Cards image
+    # cat=plugin.tx_csseo/social/5; type=string; label= Twitter Cards Width : Width of the Twitter Cards image
     social.twitter.image.width = 1024
 
-    # cat=plugin.tx_csseo/social/6; type=string; label= Height of the Twitter Cards image
+    # cat=plugin.tx_csseo/social/6; type=string; label= Twitter Cards Height : Height of the Twitter Cards image
     social.twitter.image.height = 512c
 
-    # cat=plugin.tx_csseo/social/7; type=string; label= Default Twitter Creator (without @)
+    # cat=plugin.tx_csseo/social/7; type=string; label= Default Twitter Creator : Twitter username (without @)
     social.twitter.creator =
 
     # customsubcategory=tracking=User Tracking
-    # cat=plugin.tx_csseo/tracking/1; type=string; label= Google Analytics ID (eg. UA-XXXXXX-XXX)
+    # cat=plugin.tx_csseo/tracking/1; type=string; label= Google Analytics ID : If set (e.g. UA-XXXXXX-XXX), Google Analytics and the download tracking is enabled.
     tracking.googleAnalytics =
 
-    # cat=plugin.tx_csseo/tracking/2; type=string; label= Enter a Piwik URL
+    # cat=plugin.tx_csseo/tracking/2; type=string; label= Piwik URL : Enter a Piwik URL, to enable the tracking via Piwik.
     tracking.piwik =
 
-    # cat=plugin.tx_csseo/tracking/3; type=string; label= Enter the ID for site
+    # cat=plugin.tx_csseo/tracking/3; type=string; label= Piwik ID : Enter the Piwik ID for site.
     tracking.piwik.id = 1
 
     # customsubcategory=sitemap=Sitemap.xml
-    # cat=plugin.tx_csseo/sitemap/1; type=int; label= The root pid of the current domain
+    # cat=plugin.tx_csseo/sitemap/1; type=int; label= Sitemap Root Pid : The root pid of the current domain
     sitemap.pages.rootPid = 1
 
-    # cat=plugin.tx_csseo/sitemap/2; type=string; label= Available languages for the sitemap.xml, e.g. 0,1
+    # cat=plugin.tx_csseo/sitemap/2; type=string; label= Sitemap Language Uids : Available languages for the sitemap.xml (e.g. 0,1).
     sitemap.pages.languageUids = 0
 
-    # cat=plugin.tx_csseo/sitemap/3; type=string; label= Full URL to external sitemap.xml
+    # cat=plugin.tx_csseo/sitemap/3; type=string; label= External sitemap.xml : Full URL to an external sitemap.xml. Further can be defined in the TypoScript setup.
     sitemap.additional =
 }
 

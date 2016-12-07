@@ -1,5 +1,6 @@
 # general plugin settings
 plugin.tx_csseo {
+	sitetitle = {$plugin.tx_csseo.sitetitle}
 	hreflang {
 		enable = {$plugin.tx_csseo.hreflang.enable}
 		ids = {$plugin.tx_csseo.hreflang.ids}
