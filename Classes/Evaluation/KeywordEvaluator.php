@@ -46,7 +46,7 @@ class KeywordEvaluator extends AbstractEvaluator
 			$contains['description'] = substr_count(strtolower($this->getMetaTagContent('description')), $this->keyword);
 			$contains['body'] = substr_count(strtolower($this->getSingleDomElementContentByTagName('body')), $this->keyword);
 
-			if($contains['title'] == 1 && $contains['description'] == 1 && $contains['body'] > 0) {
+			if($contains['title'] > 0 && $contains['description'] > 0 && $contains['body'] > 0) {
 				$state = self::STATE_GREEN;
 			} else {
 				$state = self::STATE_YELLOW;

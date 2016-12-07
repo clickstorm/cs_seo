@@ -168,12 +168,12 @@ class KeywordEvaluatorTest extends UnitTestCase {
 				]
 			],
 			'keyword set, found everywhere' => [
-				'<head><title>Test</title><meta name="description" content="Test"></head><body>Test</body>',
+				'<head><title>Test Test</title><meta name="description" content="Test this Test"></head><body>Here Test</body>',
 				'Test',
 				[
 					'contains' => [
-						'title' => 1,
-						'description' => 1,
+						'title' => 2,
+						'description' => 2,
 						'body' => 1,
 					],
 					'state' => AbstractEvaluator::STATE_GREEN
