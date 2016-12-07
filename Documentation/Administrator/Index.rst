@@ -72,6 +72,9 @@ Properties
 	`page.maxNavTitle`_           :ref:`t3tsref:data-type-integer`      50
 	`evaluation.inPageModule`_    :ref:`t3tsref:data-type-integer`      0
 	`evaluation.evaluators`_      :ref:`t3tsref:data-type-string`       Title,Description,H1,H2,Images,Keyword
+	`evaluation.minTitle`_        :ref:`t3tsref:data-type-integer`      40
+	`evaluation.minDescription`_  :ref:`t3tsref:data-type-integer`      140
+	`evaluation.maxH2`_           :ref:`t3tsref:data-type-integer`      6
 	============================= ===================================== ====================
 
 Basic configurations
@@ -157,6 +160,9 @@ Max characters of nav title
          The recommended maximum number of characters for the nav title and URL.
 
 
+Evaluation
+^^^^^^^^^^
+
 .. _evaluation.inPageModule:
 
 Show evaluation in the page module
@@ -186,6 +192,47 @@ Evaluators
    Description
          Comma separated list of the evaluators which should analyse the page. You can also add your own evaluators or change the sorting.
 
+.. _evaluation.minTitle:
+
+Min characters of an optimal title
+""""""""""""""""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         minTitle
+   Data type
+         :ref:`t3tsref:data-type-integer`
+   Description
+         The recommended minimum number of characters for the meta title tag. Only used for evaluation.
+
+.. _evaluation.minDescription:
+
+Min characters of an optimal description
+""""""""""""""""""""""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         minDescription
+   Data type
+         :ref:`t3tsref:data-type-integer`
+   Description
+         The recommended minimum number of characters for the meta description tag. Only used for evaluation.
+
+.. _evaluation.maxH2:
+
+Max number of h2 headlines in one page
+""""""""""""""""""""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         maxH2
+   Data type
+         :ref:`t3tsref:data-type-integer`
+   Description
+         Determine how many headings h2 are allowed. Only used for evaluation.
 
 
 Please take also a look at the next chapter for TypoScript configurations.

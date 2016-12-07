@@ -35,12 +35,13 @@ class H2Evaluator extends AbstractEvaluator
 
 	public function evaluate() {
 		$state = self::STATE_RED;
+		$maxH2 = $this->getExtConf()['maxH2'];
 
 		$count = $this->domDocument->getElementsByTagName('h2')->length;
 
-		if($count > 0 && $count < 7) {
+		if($count > 0 && $count <= $maxH2) {
 			$state =  self::STATE_GREEN;
-		} elseif ($count > 6) {
+		} elseif ($count > $maxH2) {
 			$state = self::STATE_YELLOW;
 		}
 

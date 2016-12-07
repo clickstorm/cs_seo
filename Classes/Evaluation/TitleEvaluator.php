@@ -34,6 +34,8 @@ class TitleEvaluator extends AbstractLengthEvaluator
 {
 	public function evaluate() {
 		$title = $this->getSingleDomElementContentByTagName('title');
-		return $this->evaluateLength($title, 40, 57);
+		$extConf = $this->getExtConf();
+
+		return $this->evaluateLength($title, $extConf['minTitle'], $extConf['maxTitle']);
 	}
 }

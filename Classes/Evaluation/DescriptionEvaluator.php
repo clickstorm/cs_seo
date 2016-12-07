@@ -36,10 +36,11 @@ class DescriptionEvaluator extends AbstractLengthEvaluator
 	 * @return array
 	 */
 	public function evaluate() {
+		$extConf = $this->getExtConf();
 		$this->getDomDocument()->getElementsByTagName('meta');
 
 		$description = $this->getMetaTagContent('description');
-		return $this->evaluateLength($description, 140, 160);
+		return $this->evaluateLength($description, $extConf['minDescription'], $extConf['maxDescription']);
 	}
 
 }

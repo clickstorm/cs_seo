@@ -18,3 +18,12 @@ inPageModule = 0
 
 # cat=evaluation/020; type=string; label= Evaluators: available are Title,Description,H1,H2,Images,Keyword
 evaluators = Title,Description,H1,H2,Images,Keyword
+
+# cat=evaluation/030; type=integer; label= Min characters of an optimal title
+minTitle = 40
+
+# cat=evaluation/040; type=integer; label= Min characters of an optimal description
+minDescription = 140
+
+# cat=evaluation/040; type=integer; label= Max number of h2 headlines in one page
+maxH2 = 6
