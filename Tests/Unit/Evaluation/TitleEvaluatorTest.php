@@ -41,11 +41,26 @@ class TitleEvaluatorTest extends UnitTestCase
 	protected $generalEvaluationMock;
 
 	/**
+	 * @var int
+	 */
+	protected $min = 40;
+
+	/**
+	 * @var int
+	 */
+	protected $max = 57;
+
+	/**
 	 * @return void
 	 */
 	public function setUp()
 	{
 		$this->generalEvaluationMock = $this->getAccessibleMock(TitleEvaluator::class, ['dummy'], [new \DOMDocument()]);
+		$extConf = [
+			'minTitle' => $this->min,
+			'maxTitle' => $this->max
+		];
+		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo'] = serialize($extConf);
 	}
 
 	/**
@@ -93,30 +108,30 @@ class TitleEvaluatorTest extends UnitTestCase
 				]
 			],
 			'short title' => [
-				'<title>' . str_repeat('.', 39) . '</title>',
+				'<title>' . str_repeat('.', $this->min-1) . '</title>',
 				[
-					'count' => 39,
+					'count' => $this->min-1,
 					'state' => TitleEvaluator::STATE_YELLOW,
 				]
 			],
 			'min good title' => [
-				'<title>' . str_repeat('.', 40) . '</title>',
+				'<title>' . str_repeat('.', $this->min) . '</title>',
 				[
-					'count' => 40,
+					'count' => $this->min,
 					'state' => TitleEvaluator::STATE_GREEN,
 				]
 			],
 			'max good title' => [
-				'<title>' . str_repeat('.', 57) . '</title>',
+				'<title>' . str_repeat('.', $this->max) . '</title>',
 				[
-					'count' => 57,
+					'count' => $this->max,
 					'state' => TitleEvaluator::STATE_GREEN,
 				]
 			],
 			'long title' => [
-				'<title>' . str_repeat('.', 58) . '</title>',
+				'<title>' . str_repeat('.', $this->max+1) . '</title>',
 				[
-					'count' => 58,
+					'count' => $this->max+1,
 					'state' => TitleEvaluator::STATE_YELLOW,
 				]
 			]
