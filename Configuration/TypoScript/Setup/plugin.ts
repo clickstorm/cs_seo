@@ -43,4 +43,23 @@ plugin.tx_csseo {
 			1 = {$plugin.tx_csseo.sitemap.additional}
 		}
 	}
+	robots (
+User-Agent: *
+Allow: /
+
+# folders
+Disallow: /t3lib/
+Disallow: /typo3/
+Disallow: /typo3conf/
+Allow: /typo3conf/ext/
+Allow: /typo3temp/
+
+# parameters
+Disallow: /*?id=*               # non-realurl URLs
+Disallow: /*cHash               # no cHash
+Disallow: /*tx_powermail_pi1    # no powermail thanks pages
+
+# sitemap
+Sitemap: |/sitemap.xml
+	)
 }

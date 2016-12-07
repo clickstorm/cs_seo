@@ -7,8 +7,8 @@
  * @subpackage Configuration\TypoScript\PageTypes
  */
 
-pageRobotsTxt = PAGE
-pageRobotsTxt {
+pageCsSeoRobotsTxt = PAGE
+pageCsSeoRobotsTxt {
 	typeNum = 656
 
 	config {
@@ -35,6 +35,11 @@ pageRobotsTxt {
 		renderObj = TEXT
 		renderObj {
 			field = tx_csseo_robots_txt
+		}
+		stdWrap.ifEmpty {
+			data = getIndpEnv : TYPO3_REQUEST_HOST
+			noTrimWrap = | ||
+			wrap2 < plugin.tx_csseo.robots
 		}
 	}
 }
