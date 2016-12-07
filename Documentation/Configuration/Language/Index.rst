@@ -34,7 +34,9 @@ plugin.tx_csseo
    Data type
          :ref:`t3tsref:data-type-string`
    Description
-         Translatable prefix/suffix for the browser title, e.g. LLL:EXT:myext/Resources/Language/locollang.xlf:sitetitle.
+         Generally the Sitetitle is set in the TypoScript root template. With this setting the title can be overridden.
+         So translatable prefix/suffix for the browser title are possible. Therefore enter here a string like
+         LLL:EXT:myext/Resources/Language/locollang.xlf:sitetitle.
 
 href="lang"
 ^^^^^^^^^^^
@@ -57,8 +59,8 @@ Enable
 
 .. _hreflang.ids:
 
-IDs
-"""
+Language Uids
+"""""""""""""
 
 .. container:: table-row
 
@@ -71,8 +73,8 @@ IDs
 
 .. _hreflang.keys:
 
-Keys
-""""
+Language Keys
+"""""""""""""
 
 .. container:: table-row
 

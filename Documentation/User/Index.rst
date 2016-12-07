@@ -22,7 +22,7 @@ We also change the max characters settings in some fields so that they are not t
 Furthermore the new configurations are good explained. You can see the explanation as usual by hovering the label.
 
 Page Properties
-^^^^^^^^^^^^^^^
+---------------
 
 .. container:: ts-properties
 
@@ -31,6 +31,7 @@ Page Properties
 	============================== ================================== ======================= ====================
 	`tx\_csseo\_title`_            Browser title                      SEO                     string
 	`tx\_csseo\_title\_only`_      Title only                         SEO                     boolean
+	`tx\_csseo\_keyword`_          Focus Keyword                      SEO                     string
 	`tx\_csseo\_canonical`_        Canonical URL                      SEO                     string
 	`tx\_csseo\_no\_index`_        No Index                           SEO                     boolean
 	`tx\_csseo\_og\_title`_        Facebook Title                     Social Media            string
@@ -73,6 +74,21 @@ Title only
    Description
         Show the browser title without the site title in case the space isn't enough.
 
+.. _tx_csseo_keyword:
+
+Focus Keyword
+"""""""""""""
+
+.. container:: table-row
+
+   Property
+         tx_csseo_keyword
+   Data type
+         string
+   Description
+        Set a focus keyword for the current page. In the on-page evaluation will be shown, if the keyword was found in
+        the browser title, the description and the content of the page.
+
 .. _tx_csseo_canonical:
 
 Canonical URL
@@ -100,7 +116,7 @@ No index
    Data type
          boolean
    Description
-        If checked, this page will not be visible in search engines.
+        If checked, this page will not be visible in search engines. The page will also be excluded from the sitemap.xml.
 
 
 .. _tx_csseo_og_title:
@@ -210,8 +226,13 @@ Twitter Creator
 FAQ
 ---
 
-Do I have to insert open graph and twitter cards properties always?
-
+**Do I have to insert open graph and twitter cards properties always?**
 The title, description and an image should be available on every page. The title is default given by the page title.
-You can set the description in the SEO tab. A default image for sharing can be set by the open graph image field in the Social
-Media tab.
+You can set the description in the SEO tab. A default image for sharing can be set by the open graph image field in the
+Social Media tab.
+
+**Why there are no extra fields for the sitemap.xml configuration?**
+The more an editor can configure, the more confused he is. Therefore we decide to use the no index field to exclude
+a page / record from the sitemap, too. The priority and the change frequency were usually ignored by editors and are also
+not very important for Google etc.
+

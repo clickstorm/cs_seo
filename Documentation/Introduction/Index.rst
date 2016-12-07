@@ -26,25 +26,25 @@ expands the page settings and extbase models e.g. with a preview for google sear
 Features
 --------
 
-- advanced page settings
-   - preview for search results on Google
-   - override browser title
-   - href lang support
-   - canonical url
-   - no index
+- Advanced page settings
+   - Preview for search results on Google (SERP)
+   - Override Browser Title
+   - Canonical URL
+   - No index
+   - Focus Keyword
    - Open Graph
    - Twitter Cards
 
-- easily **extend any extbase model** you like with this SEO properties (news, events etc.)
+- Easily **extend any database record** you like with this SEO properties (news, events etc.)
 - **On-page evaluation** of different SEO aspects (focus keyword, alt attributes etc.)
-- backend module in AngularJS to edit the properties directly
-- set automatically the path segement from RealURL while creating a new page
-- tracking with Google Analytics inc. download tracking
-- tracking with Piwik
-- example for robots.txt
-- migrate properties from metaseo and seo_basics
-- sitemap.xml for pages, records inc. multidomain, multilanguages, categories
-
+- **Sitemap.xml** for pages, records inc. multidomain, multilanguages, categories
+- Configure an individual **Robots.txt** per Domain
+- **href="lang"** support
+- Backend module in AngularJS to edit the properties directly
+- Set automatically the path segement from RealURL while creating a new page
+- Tracking with Google Analytics inc. download tracking
+- Tracking with Piwik
+- Migrate properties from metaseo and seo_basics
 
 .. _screenshots:
 

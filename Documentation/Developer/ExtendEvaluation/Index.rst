@@ -5,6 +5,8 @@
 
 .. include:: ../../Includes.txt
 
+.. _extend-evaluation:
+
 Write your own evaluators
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 

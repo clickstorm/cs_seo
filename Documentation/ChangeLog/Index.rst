@@ -11,4 +11,4 @@
 ChangeLog
 =========
 
-Please take a look here: https://github.com/clickstorm/cs_seo
+Please take a look here: https://github.com/clickstorm/cs_seo/releases

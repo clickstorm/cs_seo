@@ -3,12 +3,13 @@
 .. --------------------------------------------------
 .. -*- coding: utf-8 -*- with BOM.
 
+.. _sitemap.xml:
 
 Sitemap.xml
 -----------
 
 Here we show the constants which are available to configure the sitemap.xml. If you want to know how to extend the
-sitemap for example for your own extension or tx_news see also: :ref:`extend-sitemap`.
+sitemap for example for your own extension or tx_news see also: :ref:`c_configuration` and :ref:`extend-sitemap`.
 
 Properties
 ^^^^^^^^^^
@@ -67,7 +68,7 @@ Additional
    Description
          If you would like to add an external sub sitemap.xml enter the complete URL here. More URLs can be added in the TypoScript Setup.
 
-.. _news.sitemap.reference:
+.. _sitemap.xml.news:
 
 Sitemap for news records
 ^^^^^^^^^^^^^^^^^^^^^^^^

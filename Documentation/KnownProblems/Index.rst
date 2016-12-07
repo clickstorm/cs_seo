@@ -11,6 +11,10 @@
 Known Problems
 ==============
 
-None so far. If you've found some, please contact us or visit `TYPO3 Forge <http://forge.typo3.org/projects/show/extension-cs_seo>`_.
+None so far. If you've found some, visit `TYPO3 Forge <http://forge.typo3.org/projects/show/extension-cs_seo>`_ or
+report the issue on `GitHub <https://github.com/clickstorm/cs_seo/issues>`_.
 
-You can also try the current developer version https://github.com/clickstorm/cs_seo.
+If you have further questions, please use our `contact page <https://www.clickstorm.de/kontakt/>`_ or
+use the Slack channel `#ext-cs_seo <https://typo3.slack.com/archives/ext-cs_seo>`_.
+
+You can also test the current developer version from  `GitHub <https://github.com/clickstorm/cs_seo/>`_.

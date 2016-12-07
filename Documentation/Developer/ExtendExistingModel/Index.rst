@@ -5,6 +5,8 @@
 
 .. include:: ../../Includes.txt
 
+.. _extend-existing-models:
+
 Extend existing models
 ^^^^^^^^^^^^^^^^^^^^^^
 

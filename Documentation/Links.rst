@@ -20,8 +20,11 @@ Links
 :Git Repository:
 	https://github.com/clickstorm/cs_seo
 
-:Contact:
+:Twitter:
 	`@clickstorm <https://twitter.comclickstorm>`__
 
+:Slack:
+	`#ext-cs_seo <https://typo3.slack.com/archives/ext-cs_seo>`__
+
 :Website:
-    	http://www.clickstorm.de
+	https://www.clickstorm.de
