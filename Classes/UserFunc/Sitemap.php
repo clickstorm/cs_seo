@@ -125,6 +125,7 @@ class Sitemap {
 						];
 
 						$records = $this->getRecords($extConf);
+
 						foreach ($records as $key => $record) {
 							$typoLinkConf['additionalParams'] = '&' . $extConf['additionalParams'] . '=' . $record['uid'];
 							if ($record['lang']) {
@@ -238,8 +239,7 @@ class Sitemap {
 				$constraints[] = $extConf['categoryField'] . ' IN (' . $extConf['categories'] . ')';
 			} elseif ($extConf['categoryMMTable']) {
 				$catTable = $extConf['categoryMMTable'];
-				$from .= ', ' . $catTable;
-				$constraints[] = $table . '.uid = ' . $catTable . '.uid_foreign';
+				$from .= ' LEFT JOIN ' . $catTable . ' ON ' . $table . '.uid = ' . $catTable . '.uid_foreign';
 				$constraints[] = $catTable . '.uid_local IN (' . $extConf['categories'] . ')';
 				if ($extConf['categoryMMTablename']) {
 					$constraints[] = $catTable . '.tablenames = ' . $db->fullQuoteStr($table, $table);
@@ -261,10 +261,9 @@ class Sitemap {
 
 		// no index
 		if ($tca['columns']['tx_csseo']) {
-			$from .= ', tx_csseo_domain_model_meta';
+			$from .= ' LEFT JOIN tx_csseo_domain_model_meta ON ' . $table . '.uid = tx_csseo_domain_model_meta.uid_foreign';
 			$constraints[] = '(' . $table . '.tx_csseo = 0 OR
-        	 (' . $table . '.uid = tx_csseo_domain_model_meta.uid_foreign AND
-        	 tx_csseo_domain_model_meta.tablenames = ' . $db->fullQuoteStr($table, $table) . ' AND
+        	 (tx_csseo_domain_model_meta.tablenames = ' . $db->fullQuoteStr($table, $table) . ' AND
         	 tx_csseo_domain_model_meta.no_index = 0))';
 		}
 
