@@ -39,6 +39,16 @@ plugin.tx_csseo {
 
     # cat=plugin.tx_csseo/tracking/3; type=string; label= Enter the ID for site
     tracking.piwik.id = 1
+
+    # customsubcategory=sitemap=Sitemap.xml
+    # cat=plugin.tx_csseo/sitemap/1; type=int; label= The root pid of the current domain
+    sitemap.pages.rootPid = 1
+
+    # cat=plugin.tx_csseo/sitemap/2; type=string; label= Available languages for the sitemap.xml, e.g. 0,1
+    sitemap.pages.languageUids = 0
+
+    # cat=plugin.tx_csseo/sitemap/3; type=string; label= Full URL to external sitemap.xml
+    sitemap.additional =
 }
 
 module.tx_csseo_mod1 {

@@ -1,0 +1,21 @@
+<html xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+<f:layout name="Sitemap" />
+
+<f:section name="Main">
+	<f:if condition="{lang} > 0">
+		<f:then>
+			<f:for each="{pages}" as="page">
+				<f:if condition="{page._PAGES_OVERLAY_LANGUAGE} == {lang}">
+					<f:render partial="Sitemap/Page" arguments="{_all}" section="Main" />
+				</f:if>
+			</f:for>
+		</f:then>
+		<f:else>
+			<f:for each="{pages}" as="page">
+				<f:render partial="Sitemap/Page" arguments="{_all}" section="Main" />
+			</f:for>
+		</f:else>
+	</f:if>
+</f:section>

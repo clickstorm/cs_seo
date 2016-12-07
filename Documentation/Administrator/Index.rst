@@ -26,7 +26,7 @@ Installation
 To install the extension, perform the following steps:
 
 #. Download and install the extension via Extension Manager or Composer
-#. Include the TypoScript from the extension!
+#. Include the TypoScript from the extension! Include optionally "Sitemap.xml for news" if you use tx_news.
 #. Insert a domain record at the root page
 #. Make some configurations via TypoScript.
 #. Run the Scheduler Task to evaluate all pages initially.

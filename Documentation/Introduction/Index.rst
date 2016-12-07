@@ -43,6 +43,7 @@ Features
 - tracking with Piwik
 - example for robots.txt
 - migrate properties from metaseo and seo_basics
+- sitemap.xml for pages, records inc. multidomain, multilanguages, categories
 
 
 .. _screenshots:

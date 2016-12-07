@@ -1,0 +1,47 @@
+{namespace cs=Clickstorm\CsSeo\ViewHelpers}
+<html xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+<f:layout name="Sitemap" />
+
+<f:section name="Main">
+	<f:if condition="{settings.pages.rootPid}">
+		<f:if condition="{settings.pages.languageUids}">
+			<f:then>
+				<f:for each="{cs:explode(string:settings.pages.languageUids)}" as="language">
+					<url>
+						<loc>{f:uri.page(additionalParams:'{type:655,tx_csseo_view:\'pages\',L:language}', absolute:1, noCacheHash: 1) -> f:format.htmlspecialchars()}</loc>
+					</url>
+				</f:for>
+			</f:then>
+			<f:else>
+				<url>
+					<loc>{f:uri.page(additionalParams:'{type:655,tx_csseo_view:\'pages\'}', absolute:1, noCacheHash: 1) -> f:format.htmlspecialchars()}</loc>
+				</url>
+			</f:else>
+		</f:if>
+	</f:if>
+	<f:for each="{settings.extensions}" as="extension" key="ext">
+		<f:if condition="{extension.languageUids}">
+			<f:then>
+				<f:for each="{cs:explode(string:extension.languageUids)}" as="language">
+					<url>
+						<loc>{f:uri.page(additionalParams:'{type:655,tx_csseo_view:\'extension\',ext:ext,L:language}', absolute:1, noCacheHash: 1) -> f:format.htmlspecialchars()}</loc>
+					</url>
+				</f:for>
+			</f:then>
+			<f:else>
+				<url>
+					<loc>{f:uri.page(additionalParams:'{type:655,tx_csseo_view:\'extension\',ext:ext}', absolute:1, noCacheHash: 1) -> f:format.htmlspecialchars()}</loc>
+				</url>
+			</f:else>
+		</f:if>
+	</f:for>
+	<f:for each="{settings.additional}" as="extraUrl">
+		<f:if condition="{extraUrl}">
+			<url>
+				<loc>{extraUrl -> f:format.htmlspecialchars()}</loc>
+			</url>
+		</f:if>
+	</f:for>
+</f:section>
