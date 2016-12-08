@@ -43,7 +43,12 @@ plugin.tx_csseo {
 			1 = {$plugin.tx_csseo.sitemap.additional}
 		}
 	}
-	robots (
+	# default robots.txt content #
+	robots = TEXT
+	robots {
+		data = getIndpEnv : TYPO3_REQUEST_HOST
+		noTrimWrap = | ||
+		wrap2 (
 User-Agent: *
 Allow: /
 
@@ -61,5 +66,6 @@ Disallow: /*tx_powermail_pi1    # no powermail thanks pages
 
 # sitemap
 Sitemap: |/sitemap.xml
-	)
+		)
+	}
 }

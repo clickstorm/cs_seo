@@ -21,6 +21,7 @@ pageCsSeoRobotsTxt {
 		removeDefaultCss = 1
 		removePageCss = 1
 		INTincScript_ext.pagerender = 1
+		sourceopt.enabled = 0
 	}
 
 	10 = CONTENT
@@ -36,10 +37,6 @@ pageCsSeoRobotsTxt {
 		renderObj {
 			field = tx_csseo_robots_txt
 		}
-		stdWrap.ifEmpty {
-			data = getIndpEnv : TYPO3_REQUEST_HOST
-			noTrimWrap = | ||
-			wrap2 < plugin.tx_csseo.robots
-		}
+		stdWrap.ifEmpty.cObject =< plugin.tx_csseo.robots
 	}
 }
