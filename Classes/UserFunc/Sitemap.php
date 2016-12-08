@@ -152,7 +152,19 @@ class Sitemap {
 		}
 
 
-		return $this->view->render();
+		return $this->beautifyXML($this->view->render());
+	}
+
+	/**
+	 * @param $string XML String
+	 * @return string
+	 */
+	protected function beautifyXML($string) {
+		$dom = new \DOMDocument;
+		$dom->preserveWhiteSpace = false;
+		$dom->loadXML($string);
+		$dom->formatOutput = TRUE;
+		return $dom->saveXml();
 	}
 
 	/**
