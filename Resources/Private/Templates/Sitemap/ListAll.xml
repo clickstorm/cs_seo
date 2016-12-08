@@ -2,7 +2,7 @@
 <html xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
-<f:layout name="Sitemap" />
+<f:layout name="Sitemap.xml" />
 
 <f:section name="Main">
 	<f:if condition="{settings.pages.rootPid}">

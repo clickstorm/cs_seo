@@ -126,15 +126,20 @@ class Sitemap {
 
 						$records = $this->getRecords($extConf);
 
-						foreach ($records as $key => $record) {
-							$typoLinkConf['additionalParams'] = '&' . $extConf['additionalParams'] . '=' . $record['uid'];
-							if ($record['lang']) {
-								$typoLinkConf['additionalParams'] .= '&L=' . $record['lang'];
+						if(is_array($records) && count($records) > 0) {
+							foreach ($records as $key => $record) {
+								$typoLinkConf['additionalParams'] = '&' . $extConf['additionalParams'] . '=' . $record['uid'];
+								if ($record['lang']) {
+									$typoLinkConf['additionalParams'] .= '&L=' . $record['lang'];
+								}
+								$records[$key]['loc'] = $cObject->typoLink_URL($typoLinkConf);
 							}
-							$records[$key]['loc'] = $cObject->typoLink_URL($typoLinkConf);
 						}
 
-						$this->view->assign('records', $records);
+						$this->view->assignMultiple([
+							'extConf' => $extConf,
+							'records' => $records
+						]);
 					}
 				}
 				break;

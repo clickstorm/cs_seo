@@ -20,6 +20,10 @@ pageCsSeoSitemap {
 		removeDefaultCss = 1
 		removePageCss = 1
 		additionalHeaders = Content-Type:application/xml;charset=utf-8
+		additionalHeaders.10 {
+			header = Content-Type:application/xml;charset=utf-8
+			replace = 1
+		}
 	}
 
 	10 = USER

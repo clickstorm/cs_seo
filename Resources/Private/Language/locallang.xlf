@@ -152,6 +152,9 @@
 		<trans-unit id="partials.module.state.wait">
 			<source>[{{ msg.field }}] wait...</source>
 		</trans-unit>
+		<trans-unit id="templates.sitemap.extension.no_records">
+			<source>No records were found. Please check your configurations.</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>
