@@ -53,7 +53,8 @@ $tempColumns = [
 		'exclude' => 1,
 		'config' => [
 			'type' => 'input',
-			'max' => '256',
+			'max' => 256,
+			'size' => 48,
 			'eval' => 'trim',
 		],
 	],

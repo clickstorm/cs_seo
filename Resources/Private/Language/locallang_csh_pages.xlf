@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-07-25T12:42:24Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-12-08T10:29:33Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -10,6 +10,9 @@
 		</trans-unit>
 		<trans-unit id="tx_csseo_canonical.description">
 			<source>Provides from duplicate content. If another page shows mainly the same content, type here the link to this page, if it should be rather indexed then the current. </source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_keyword.description">
+			<source>Specify a word or phrase. In the SEO evaluation will be proofed wether this Focus Keyword is set in the browser title, the meta description and in the page content. You can specify multiple, comma-separated alternatives, e.g. for plural or stop words.</source>
 		</trans-unit>
 		<trans-unit id="tx_csseo_no_index.description">
 			<source>If checked, this page will not be visible in search engines.</source>

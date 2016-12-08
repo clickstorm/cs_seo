@@ -25,28 +25,42 @@ namespace Clickstorm\CsSeo\Evaluation;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class KeywordEvaluator
  * @package Clickstorm\CsSeo\Evaluation
  */
-class KeywordEvaluator extends AbstractEvaluator
-{
+class KeywordEvaluator extends AbstractEvaluator {
 
 	public function evaluate() {
 		$results = [];
 
 		$state = self::STATE_RED;
 
-		if(empty($this->keyword)) {
+		if (empty($this->keyword)) {
 			$results['notSet'] = 1;
 		} else {
-			$contains = [];
-			$contains['title'] = substr_count(strtolower($this->getSingleDomElementContentByTagName('title')), $this->keyword);
-			$contains['description'] = substr_count(strtolower($this->getMetaTagContent('description')), $this->keyword);
-			$contains['body'] = substr_count(strtolower($this->getSingleDomElementContentByTagName('body')), $this->keyword);
+			$contains = ['title' => 0, 'description' => 0, 'body' => 0];
 
-			if($contains['title'] > 0 && $contains['description'] > 0 && $contains['body'] > 0) {
+			$keywords = GeneralUtility::trimExplode(',', $this->keyword);
+
+			foreach ($keywords as $keyword) {
+				$contains['title'] += substr_count(
+					strtolower($this->getSingleDomElementContentByTagName('title')),
+					$keyword
+				);
+				$contains['description'] += substr_count(
+					strtolower($this->getMetaTagContent('description')),
+					$keyword
+				);
+				$contains['body'] += substr_count(
+					strtolower($this->getSingleDomElementContentByTagName('body')),
+					$keyword
+				);
+			}
+
+			if ($contains['title'] > 0 && $contains['description'] > 0 && $contains['body'] > 0) {
 				$state = self::STATE_GREEN;
 			} else {
 				$state = self::STATE_YELLOW;
@@ -58,5 +72,4 @@ class KeywordEvaluator extends AbstractEvaluator
 
 		return $results;
 	}
-
 }

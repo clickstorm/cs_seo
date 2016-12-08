@@ -86,8 +86,9 @@ Focus Keyword
    Data type
          string
    Description
-        Set a focus keyword for the current page. In the on-page evaluation will be shown, if the keyword was found in
-        the browser title, the description and the content of the page.
+        Specify a word or phrase. In the SEO evaluation will be proofed wether this Focus Keyword is set in the browser
+        title, the meta description and in the page content. You can specify multiple, comma-separated alternatives,
+        e.g. for plural or stop words.
 
 .. _tx_csseo_canonical:
 

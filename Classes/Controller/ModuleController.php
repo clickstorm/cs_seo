@@ -342,6 +342,9 @@ class ModuleController extends ActionController {
 			case 'description':
 				$columnDef['min'] = 120;
 				break;
+			case 'keyword':
+				$columnDef['nl2separator'] = true;
+				break;
 			case 'sys_language_uid':
 				$columnDef['displayName'] = $this->getLanguageService()->sL($GLOBALS['TCA']['pages_language_overlay']['columns'][$fieldName]['label']);
 				$columnDef['width'] = 100;
