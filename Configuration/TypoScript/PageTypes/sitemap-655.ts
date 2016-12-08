@@ -26,6 +26,6 @@ pageCsSeoSitemap {
 		}
 	}
 
-	10 = USER
+	10 = USER_INT
 	10.userFunc = Clickstorm\CsSeo\UserFunc\Sitemap->main
 }
