@@ -78,6 +78,6 @@ class FrontendPageService {
 		$report = [];
 		$content = GeneralUtility::getUrl($url, 0, false, $report);
 
-		return ($report['error'] == 0) ? $content : '';
+		return in_array($report['error'], [0, 200]) ? $content : '';
 	}
 }
