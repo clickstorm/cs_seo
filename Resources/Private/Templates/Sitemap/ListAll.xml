@@ -2,22 +2,22 @@
 <html xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
-<f:layout name="Sitemap.xml" />
+<f:layout name="SitemapIndex.xml" />
 
 <f:section name="Main">
 	<f:if condition="{settings.pages.rootPid}">
 		<f:if condition="{settings.pages.languageUids}">
 			<f:then>
 				<f:for each="{cs:explode(string:settings.pages.languageUids)}" as="language">
-					<url>
+					<sitemap>
 						<loc>{f:uri.page(additionalParams:'{type:655,tx_csseo_view:\'pages\',L:language}', absolute:1, noCacheHash: 1) -> f:format.htmlspecialchars()}</loc>
-					</url>
+					</sitemap>
 				</f:for>
 			</f:then>
 			<f:else>
-				<url>
+				<sitemap>
 					<loc>{f:uri.page(additionalParams:'{type:655,tx_csseo_view:\'pages\'}', absolute:1, noCacheHash: 1) -> f:format.htmlspecialchars()}</loc>
-				</url>
+				</sitemap>
 			</f:else>
 		</f:if>
 	</f:if>
@@ -25,23 +25,23 @@
 		<f:if condition="{extension.languageUids}">
 			<f:then>
 				<f:for each="{cs:explode(string:extension.languageUids)}" as="language">
-					<url>
+					<sitemap>
 						<loc>{f:uri.page(additionalParams:'{type:655,tx_csseo_view:\'extension\',ext:ext,L:language}', absolute:1, noCacheHash: 1) -> f:format.htmlspecialchars()}</loc>
-					</url>
+					</sitemap>
 				</f:for>
 			</f:then>
 			<f:else>
-				<url>
+				<sitemap>
 					<loc>{f:uri.page(additionalParams:'{type:655,tx_csseo_view:\'extension\',ext:ext}', absolute:1, noCacheHash: 1) -> f:format.htmlspecialchars()}</loc>
-				</url>
+				</sitemap>
 			</f:else>
 		</f:if>
 	</f:for>
 	<f:for each="{settings.additional}" as="extraUrl">
 		<f:if condition="{extraUrl}">
-			<url>
+			<sitemap>
 				<loc>{extraUrl -> f:format.htmlspecialchars()}</loc>
-			</url>
+			</sitemap>
 		</f:if>
 	</f:for>
 </f:section>
