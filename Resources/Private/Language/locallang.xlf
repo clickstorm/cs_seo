@@ -12,7 +12,7 @@
 			<source>is not set</source>
 		</trans-unit>
 		<trans-unit id="evaluation.description.1">
-			<source>does not have the optimal length.</source>
+			<source>does not have the optimal length</source>
 		</trans-unit>
 		<trans-unit id="evaluation.description.2">
 			<source>has the optimal length</source>
@@ -75,7 +75,7 @@
 			<source>title</source>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.2">
-			<source>The keyowrd was found in title, description and content</source>
+			<source>The keyword was found in title, description and content</source>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.no">
 			<source>No keyword was set</source>

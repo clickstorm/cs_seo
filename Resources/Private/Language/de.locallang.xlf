@@ -14,8 +14,8 @@
 			<target>wurde nicht gesetzt</target>
 		</trans-unit>
 		<trans-unit id="evaluation.description.1" approved="yes">
-			<source>does not have the optimal length.</source>
-			<target>hat nicht die optimale Länge.</target>
+			<source>does not have the optimal length</source>
+			<target>hat nicht die optimale Länge</target>
 		</trans-unit>
 		<trans-unit id="evaluation.description.2" approved="yes">
 			<source>has the optimal length</source>
@@ -98,12 +98,12 @@
 			<target>Titel</target>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.2" approved="yes">
-			<source>The keyowrd was found in title, description and content</source>
+			<source>The keyword was found in title, description and content</source>
 			<target>Das Schlüsselwort wurde in Titel, Beschreibung und Inhalt gefunden</target>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.no" approved="yes">
 			<source>No keyword was set</source>
-			<target>Es wurde keine Schlüsselwort gesetzt</target>
+			<target>Es wurde kein Schlüsselwort gesetzt</target>
 		</trans-unit>
 		<trans-unit id="evaluation.more" approved="yes">
 			<source>More information</source>
