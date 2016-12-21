@@ -178,38 +178,42 @@ class PreviewWizard
                 /** @var TSFEUtility $TSFEUtility */
                 $TSFEUtility =  GeneralUtility::makeInstance(TSFEUtility::class, $pageUid, $data['sys_language_uid']);
 
-                $siteTitle = $TSFEUtility->getSiteTitle();
-                $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();
-                $config = $TSFEUtility->getConfig();
+                if(isset($GLOBALS['TSFE'])) {
+	                $siteTitle = $TSFEUtility->getSiteTitle();
+	                $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();
+	                $config = $TSFEUtility->getConfig();
 
-                if($table == 'pages' || $table == 'pages_language_overlay') {
-                    PageGenerator::generatePageTitle();
-                    $pageTitle = static::getPageRenderer()->getTitle();
-                    // get page path
-                    $path = $TSFEUtility->getPagePath();
-                    // TYPO3 8
-                    $urlScheme = is_array($data['url_scheme']) ? $data['url_scheme'][0] : $data['url_scheme'];
+	                if($table == 'pages' || $table == 'pages_language_overlay') {
+		                PageGenerator::generatePageTitle();
+		                $pageTitle = static::getPageRenderer()->getTitle();
+		                // get page path
+		                $path = $TSFEUtility->getPagePath();
+		                // TYPO3 8
+		                $urlScheme = is_array($data['url_scheme']) ? $data['url_scheme'][0] : $data['url_scheme'];
 
-                    // check if path is absolute
-                    if (strpos($path, '://') !== false) {
-                        $path = '';
-                    }
-                } else {
-                    $pageTitle = $TSFEUtility->getFinalTitle($data['title'], $data['title_only']);
-                    $path = '';
-                    $urlScheme = 'http://';
+		                // check if path is absolute
+		                if (strpos($path, '://') !== false) {
+			                $path = '';
+		                }
+	                } else {
+		                $pageTitle = $TSFEUtility->getFinalTitle($data['title'], $data['title_only']);
+		                $path = '';
+		                $urlScheme = 'http://';
+	                }
+
+	                $wizardView->assignMultiple([
+		                'config' => $config,
+		                'domain' => BackendUtility::firstDomainRecord($rootline),
+		                'data' => $data,
+		                'pageTitle' => $pageTitle,
+		                'pageTitleSeparator' => $pageTitleSeparator,
+		                'path' => $path,
+		                'siteTitle' => $siteTitle,
+		                'urlScheme' => $urlScheme
+	                ]);
+	            } else {
+	                $wizardView->assign('error', 'no_tsfe');
                 }
-
-                $wizardView->assignMultiple([
-                    'config' => $config,
-                    'domain' => BackendUtility::firstDomainRecord($rootline),
-                    'data' => $data,
-                    'pageTitle' => $pageTitle,
-                    'pageTitleSeparator' => $pageTitleSeparator,
-                    'path' => $path,
-                    'siteTitle' => $siteTitle,
-                    'urlScheme' => $urlScheme
-                ]);
             } else {
                 $wizardView->assign('error', 'no_ts');
             }

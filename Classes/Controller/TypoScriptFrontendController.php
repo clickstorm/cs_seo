@@ -71,4 +71,16 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
     {
         return;
     }
+
+	/**
+	 * Sets sys_page where-clause
+	 *
+	 * @return void
+	 * @access private
+	 */
+	public function setSysPageWhereClause()
+	{
+		$this->sys_page->where_hid_del = '';
+		$this->sys_page->where_groupAccess = '';
+	}
 }

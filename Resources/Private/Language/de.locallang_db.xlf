@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-12-07T13:13:19Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-12-21T14:12:13Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -108,6 +108,10 @@
 		<trans-unit id="templates.wizard.error.no_ts" approved="yes">
 			<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
 			<target>Es konnte keine Seitentyp mit der Nummer 654 gefunden werden. Das TypoScript der Extension 'cs_seo' muss in das Root-Template eingebunden werden.</target>
+		</trans-unit>
+		<trans-unit id="templates.wizard.error.no_tsfe" approved="yes">
+			<source>The TypoScript of the current page could not be loaded.</source>
+			<target>Das TypoScript dieser Seite konnte nicht geladen werden.</target>
 		</trans-unit>
 		<trans-unit id="tx_csseo_domain_model_evaluation.results" approved="yes">
 			<source>Results</source>

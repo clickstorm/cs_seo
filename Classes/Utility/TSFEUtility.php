@@ -83,6 +83,7 @@ class TSFEUtility {
 	    $this->typeNum = $typeNum;
 
         $environmentService = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\EnvironmentService::class);
+
         if(!isset($GLOBALS['TSFE']) || ($environmentService->isEnvironmentInBackendMode() && !($GLOBALS['TSFE'] instanceof TypoScriptFrontendController))) {
             $this->initTSFE();
         }
@@ -131,7 +132,6 @@ class TSFEUtility {
      */
     public function getSiteTitle() {
 	    $sitetitle = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['sitetitle'];
-//	    \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($GLOBALS['TSFE']);
 	    if($sitetitle) {
 		    return $GLOBALS['TSFE']->sL($sitetitle);
 	    } else {
@@ -180,13 +180,13 @@ class TSFEUtility {
 
             $GLOBALS['TSFE']->config = [];
             $GLOBALS['TSFE']->forceTemplateParsing = true;
+	        $GLOBALS['TSFE']->showHiddenPages = true;
 
             $GLOBALS['TSFE']->connectToDB();
             $GLOBALS['TSFE']->initFEuser();
             $GLOBALS['TSFE']->determineId();
             $GLOBALS['TSFE']->initTemplate();
             $GLOBALS['TSFE']->newCObj();
-
 
             if (ExtensionManagementUtility::isLoaded('realurl')) {
                 $rootline = BackendUtility::BEgetRootLine($this->pageUid);
@@ -197,6 +197,7 @@ class TSFEUtility {
             $GLOBALS['TSFE']->getConfigArray();
 	        $GLOBALS['TSFE']->settingLanguage();
         } catch (\Exception $e) {
+	        unset($GLOBALS['TSFE']);
             // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($e);
             return;
         }
