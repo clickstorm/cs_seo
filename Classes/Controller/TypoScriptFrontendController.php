@@ -80,6 +80,9 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
 	 */
 	public function setSysPageWhereClause()
 	{
+		if($GLOBALS['BE_USER']->workspace > 0) {
+			$this->sys_page->versioningPreview = true;
+		}
 		$this->sys_page->where_hid_del = '';
 		$this->sys_page->where_groupAccess = '';
 	}

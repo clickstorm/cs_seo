@@ -171,7 +171,7 @@ class PreviewWizard
             $backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
             $fullTS = $backendConfigurationManager->getTypoScriptSetup();
 
-            if(isset($fullTS['types.'][$this->typeNum])) {
+            if(isset($fullTS['types.'][$this->typeNum]) || $GLOBALS['BE_USER']->workspace > 0) {
                 // render page title
                 $rootline = BackendUtility::BEgetRootLine($pageUid);
 
