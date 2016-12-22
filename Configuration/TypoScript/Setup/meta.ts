@@ -162,7 +162,7 @@ config {
 						file.import.data = file:current:publicUrl
 						file.height < plugin.tx_csseo.social.openGraph.image.height
 						file.width < plugin.tx_csseo.social.openGraph.image.width
-						stdWrap.dataWrap = <meta property="og:image" content="{TSFE:baseUrl}|" />
+						stdWrap.dataWrap = <meta property="og:image" content="{TSFE:baseUrl}/|" />
 					}
 				}
 
@@ -173,7 +173,7 @@ config {
 					file.import.data = path:{$plugin.tx_csseo.social.defaultImage}
 					file.height < plugin.tx_csseo.social.openGraph.image.height
 					file.width < plugin.tx_csseo.social.openGraph.image.width
-					stdWrap.dataWrap = <meta property="og:image" content="{TSFE:baseUrl}|" />
+					stdWrap.dataWrap = <meta property="og:image" content="{TSFE:baseUrl}/|" />
 				}
 			}
 
@@ -227,7 +227,7 @@ config {
 						file.import.data = file:current:publicUrl
 						file.height < plugin.tx_csseo.social.twitter.image.height
 						file.width  < plugin.tx_csseo.social.twitter.image.width
-						stdWrap.dataWrap = <meta name="twitter:image" content="{TSFE:baseUrl}|" />
+						stdWrap.dataWrap = <meta name="twitter:image" content="{TSFE:baseUrl}/|" />
 					}
 				}
 
@@ -238,7 +238,7 @@ config {
 					file.import.data = path:{$plugin.tx_csseo.social.twitter.defaultImage} // path:{$plugin.tx_csseo.social.defaultImage}
 					file.height < plugin.tx_csseo.social.twitter.image.height
 					file.width  < plugin.tx_csseo.social.twitter.image.width
-					stdWrap.dataWrap = <meta property="twitter:image" content="{TSFE:baseUrl}|" />
+					stdWrap.dataWrap = <meta property="twitter:image" content="{TSFE:baseUrl}/|" />
 				}
 			}
 		}
