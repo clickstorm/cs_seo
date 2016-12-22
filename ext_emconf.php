@@ -12,9 +12,11 @@
 
 $EM_CONF[$_EXTKEY] = [
 	'title' => '[clickstorm] SEO',
-	'description' => 'Enables important on-page features for search engine optimization (SEO). Expands the page 
-						settings and any existing models, e.g. with a preview for Google search results (SERP), 
-						Open Graph and Twitter Cards. Sitemap.xml and robots.txt handling.',
+	'description' => 'SEO Extension: Enables important on-page features for search engine optimization (SEO). Expands 
+						the page settings and any existing records, e.g. with a preview for Google search results (SERP), 
+						Open Graph, Twitter Cards and a Focus Keyword. Sitemap.xml and robots.txt handling. Support for 
+						Session Tracking (Google Analytics or Piwik) and href="lang" tags. Further features are shown in
+						the extension manual.',
 	'category' => 'services',
 	'author' => 'Angela Dudtkowski, Marc Hirdes, Andreas Kirilow - clickstorm GmbH',
 	'author_email' => 'hirdes@clickstorm.de',
