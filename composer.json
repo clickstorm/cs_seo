@@ -12,12 +12,12 @@
 	"clickstorm",
 	"SEO"
   ],
-  "version": "1.8.5-dev",
+  "version": "2.0.0-dev",
   "replace": {
 	"cs_seo": "*"
   },
   "require": {
-	"typo3/cms": ">=6.2.0"
+	"typo3/cms": ">=7.6.0"
   },
   "suggest": {
 	"typo3-ter/realurl": "*"
