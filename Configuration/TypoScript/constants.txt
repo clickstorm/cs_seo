@@ -52,6 +52,20 @@ plugin.tx_csseo {
 
     # cat=plugin.tx_csseo/sitemap/3; type=string; label= External sitemap.xml : Full URL to an external sitemap.xml. Further can be defined in the TypoScript setup.
     sitemap.additional =
+
+    # customsubcategory=structureddata=Structured Microdata
+    # cat=plugin.tx_csseo/structureddata/1; type=boolean; label= Enable SiteSearch : Add microdata for sitesearch.
+    structureddata.search.enable =
+
+    # cat=plugin.tx_csseo/structureddata/2; type=int; label= Pid of the search page : Pid of the page, where the searchresults will be displayed
+    structureddata.search.pid = 0
+
+    # cat=plugin.tx_csseo/structureddata/3; type=string; label= Key of variable which represents the searchterm : Name of the variable which carries the searchterms
+    structureddata.search.searchtermkey = searchterm
+
+    # cat=plugin.tx_csseo/structureddata/4; type=boolean; label= Enable Breadcrumb : Add microdata for site breadcrumb.
+    structureddata.breadcrumb.enable =
+
 }
 
 module.tx_csseo_mod1 {

@@ -68,4 +68,14 @@ Disallow: /*tx_powermail_pi1    # no powermail thanks pages
 Sitemap: |/sitemap.xml
 		)
 	}
+	structureddata {
+		search {
+			enable = {$plugin.tx_csseo.structureddata.search.enable}
+			pid = {$plugin.tx_csseo.structureddata.search.pid}
+			searchtermkey = {$plugin.tx_csseo.structureddata.search.searchtermkey}
+		}
+		breadcrumb {
+			enable = {$plugin.tx_csseo.structureddata.breadcrumb.enable}
+		}
+	}
 }
