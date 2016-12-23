@@ -63,6 +63,7 @@ class DescriptionEvaluatorTest extends UnitTestCase
 			'maxDescription' => $this->max
 		];
 		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo'] = serialize($extConf);
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils'] = '';
 
 	}
 
@@ -73,6 +74,7 @@ class DescriptionEvaluatorTest extends UnitTestCase
 	{
 		unset($this->generalEvaluationMock);
 		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
+		unset($GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils']);
 	}
 
 	/**

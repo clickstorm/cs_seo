@@ -61,6 +61,7 @@ class TitleEvaluatorTest extends UnitTestCase
 			'maxTitle' => $this->max
 		];
 		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo'] = serialize($extConf);
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils'] = '';
 	}
 
 	/**
@@ -69,6 +70,8 @@ class TitleEvaluatorTest extends UnitTestCase
 	public function tearDown()
 	{
 		unset($this->generalEvaluationMock);
+		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
+		unset($GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils']);
 	}
 
 	/**
@@ -82,7 +85,7 @@ class TitleEvaluatorTest extends UnitTestCase
 	 */
 	public function evaluateTest($html, $expectedResult) {
 		$domDocument = new \DOMDocument();
-		@$domDocument->loadHTML($html);
+		@$domDocument->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
 		$this->generalEvaluationMock->setDomDocument($domDocument);
 		$result = $this->generalEvaluationMock->evaluate();
 
@@ -105,6 +108,13 @@ class TitleEvaluatorTest extends UnitTestCase
 				[
 					'count' => 0,
 					'state' => TitleEvaluator::STATE_RED
+				]
+			],
+			'count special chars' => [
+				'<title>ÄÖÜß</title>',
+				[
+					'count' => 4,
+					'state' => TitleEvaluator::STATE_YELLOW,
 				]
 			],
 			'short title' => [
