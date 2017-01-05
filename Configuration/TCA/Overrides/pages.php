@@ -67,17 +67,14 @@ $tempColumns = [
             'wizards' => [
                 'link' => [
                     'type' => 'popup',
-                    'title' => 'LLL:EXT:cms/locallang_ttc.xlf:header_link_formlabel',
-                    'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
+                    'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:header_link_formlabel',
+                    'icon' => 'actions-wizard-link',
                     'module' => [
-                        'name' => 'wizard_element_browser',
-                        'urlParameters' => [
-                            'mode' => 'wizard_link',
-                        ]
+                        'name' => 'wizard_link',
                     ],
                     'params' => [
                         'blindLinkOptions' => 'file, folder, mail, spec',
-                        'blindLinkFields' => 'class, params, target, title',
+                        'blindLinkFields' => '',
                     ],
                     'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1'
                 ]
