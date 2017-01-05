@@ -18,7 +18,7 @@ return [
 			'endtime' => 'endtime',
 		],
 		'searchFields' => 'title,description,',
-		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/Icons/mod.png'
+		'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/mod.png'
 	],
 	'interface' => [
 		'showRecordFieldList' => 'restults',

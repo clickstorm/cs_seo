@@ -7,8 +7,7 @@ return [
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
-		'versioningWS' => 2,
-		'versioning_followPages' => TRUE,
+		'versioningWS' => TRUE,
 
 		'hideTable' => TRUE,
 
@@ -23,7 +22,7 @@ return [
 			'endtime' => 'endtime',
 		],
 		'searchFields' => 'title,description,',
-		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/Icons/mod.png'
+		'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/mod.png'
 	],
 	'interface' => [
 		'showRecordFieldList' => 'hidden, sys_language_uid, l10n_parent, l10n_diffsource, title, description, title_only, 
@@ -36,7 +35,7 @@ return [
 							    --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_facebook;facebook,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_twitter;twitter,
-								--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, sys_language_uid, l10n_parent, l10n_diffsource, hidden;;1, starttime, endtime'],
+								--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, sys_language_uid, l10n_parent, l10n_diffsource, hidden, starttime, endtime'],
 	],
 	'palettes' => [
 		'preview' => ['showitem' => 'title,title_only,--linebreak--,
@@ -192,11 +191,11 @@ return [
 					'link' => [
 						'type' => 'popup',
 						'title' => 'LLL:EXT:cms/locallang_ttc.xlf:header_link_formlabel',
-						'icon' => 'link_popup.gif',
+						'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_link.gif',
 						'module' => [
 							'name' => 'wizard_element_browser',
 							'urlParameters' => [
-								'mode' => 'wizard',
+								'mode' => 'wizard_link',
 							]
 						],
 						'params' => [
