@@ -268,7 +268,6 @@ class Sitemap {
 						);
 				}
 			}
-
 		}
 
 		// lastmod
@@ -284,7 +283,7 @@ class Sitemap {
         	 tx_csseo_domain_model_meta.no_index = 0))';
 		}
 
-		if (isset($extConf['additionalWhereClause'])) {
+		if ($extConf['additionalWhereClause']) {
 		    $constraints[] = $extConf['additionalWhereClause'];
 		}
 
