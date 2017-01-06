@@ -54,14 +54,8 @@ class PageHook {
 	 */
 	protected $resourcesPath;
 
-	/**
-	 * @var bool $isTYPO3VersionGreater6
-	 */
-	protected $isTYPO3VersionGreater6;
-
 	public function __construct() {
 		$this->resourcesPath = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/';
-		$this->isTYPO3VersionGreather6 = version_compare(TYPO3_branch, '7.0', '>=');
 	}
 
 	/**
@@ -80,9 +74,7 @@ class PageHook {
 			'Evaluation.css'
 		);
 
-		$baseUrl = $this->isTYPO3VersionGreather6 ?
-			$this->resourcesPath . 'Public/CSS/' :
-			'/typo3conf/ext/cs_seo/Resources/Public/CSS/';
+		$baseUrl = $this->resourcesPath . 'Public/CSS/';
 
 		// Load the wizards css
 		foreach ($cssFiles as $cssFile) {
@@ -108,9 +100,7 @@ class PageHook {
 		$this->getPageRenderer()->loadJquery();
 
 		// Load the wizards javascript
-		$baseUrl = $this->isTYPO3VersionGreather6 ?
-			$this->resourcesPath . 'Public/JavaScript/' :
-			'/typo3conf/ext/cs_seo/Resources/Public/JavaScript/';
+		$baseUrl = $this->resourcesPath . 'Public/JavaScript/';
 
 		foreach ($javascriptFiles as $javascriptFile) {
 			$this->getPageRenderer()->addJsFile($baseUrl . $javascriptFile, 'text/javascript', $compress, false, '', true, '|', true);
@@ -144,15 +134,13 @@ class PageHook {
 				$partialPaths = [$absoluteResourcesPath . 'Private/Partials/'];
 
 				// load partial paths info from TypoScript
-				if($this->isTYPO3VersionGreather6) {
-					/** @var ObjectManager $objectManager */
-					$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-					/** @var ConfigurationManagerInterface $configurationManager */
-					$configurationManager = $objectManager->get(ConfigurationManagerInterface::class);
-					$tsSetup = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK, 'csseo');
-					$layoutPaths = $tsSetup["view"]["layoutRootPaths"]?: $layoutPaths;
-					$partialPaths = $tsSetup["view"]["partialRootPaths"]?: $partialPaths;
-				}
+				/** @var ObjectManager $objectManager */
+				$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+				/** @var ConfigurationManagerInterface $configurationManager */
+				$configurationManager = $objectManager->get(ConfigurationManagerInterface::class);
+				$tsSetup = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK, 'csseo');
+				$layoutPaths = $tsSetup["view"]["layoutRootPaths"]?: $layoutPaths;
+				$partialPaths = $tsSetup["view"]["partialRootPaths"]?: $partialPaths;
 
 				$this->view->setLayoutRootPaths($layoutPaths);
 				$this->view->setPartialRootPaths($partialPaths);
