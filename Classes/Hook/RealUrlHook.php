@@ -41,20 +41,16 @@ class RealUrlHook {
 	 * @var array
 	 */
 	protected $defaultConfiguration = [
-		'fileName' => [
-			'index' => [
-				'robots.txt' => [
-					'keyValues' => [
-						'type' => 656,
-					],
-				],
-				'sitemap.xml' => [
-					'keyValues' => [
-						'type' => 655,
-					],
-				],
-			],
+		'robots.txt' => [
+			'keyValues' => [
+				'type' => 656,
+			]
 		],
+		'sitemap.xml' => [
+			'keyValues' => [
+				'type' => 655,
+			]
+		]
 	];
 
 	/**
@@ -66,7 +62,7 @@ class RealUrlHook {
 	 * @return array
 	 */
 	public function extensionConfiguration($parameters, &$parentObject) {
-		return array_replace_recursive($parameters['config'], $this->defaultConfiguration);
+		return $this->mergeConfiguration($parameters['config']);
 	}
 
 	/**
@@ -78,7 +74,20 @@ class RealUrlHook {
 	 * @return void
 	 */
 	public function postProcessConfiguration($parameters, &$parentObject) {
-		$parameters['configuration'] = array_merge_recursive($parameters['configuration'], $this->defaultConfiguration);
+		$parameters['configuration'] = $this->mergeConfiguration($parameters['configuration']);
 	}
 
+	/**
+	 * @param array $conf
+	 * @return array
+	 */
+	protected function mergeConfiguration($conf) {
+		foreach ($this->defaultConfiguration as $confName => $confValue) {
+			if(!isset($conf['fileName']['index'][$confName])) {
+				$conf['fileName']['index'][$confName] =
+					$this->defaultConfiguration[$confName];
+			}
+		}
+		return $conf;
+	}
 }
