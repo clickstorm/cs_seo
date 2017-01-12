@@ -24,12 +24,10 @@ if (TYPO3_MODE === 'BE') {
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['Clickstorm\\CsSeo\\Evaluation\\TCA\\RobotsExistsEvaluator'] = '';
 }
 
-
 // realURL autoconf
 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl') && $confArray['realURLAutoConf']) {
 	$realUrlConfArray = @unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realurl']);
-
-	if (isset($realUrlConfArray['enableAutoConf']) && $realUrlConfArray['enableAutoConf'] == TRUE) {
+	if(!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']) && $realUrlConfArray['enableAutoConf']) {
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration'][$_EXTKEY] =
 			\Clickstorm\CsSeo\Hook\RealUrlHook::class . '->extensionConfiguration';
 	} else {
