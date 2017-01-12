@@ -24,19 +24,14 @@ if (TYPO3_MODE === 'BE') {
 	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['Clickstorm\\CsSeo\\Evaluation\\TCA\\RobotsExistsEvaluator'] = '';
 }
 
-
 // realURL autoconf
-if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl')) {
-	if($confArray['realURLAutoConf']) {
-		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']['_DEFAULT']['fileName']['index']['robots.txt'] = [
-			'keyValues' => [
-				'type' => 656
-			]
-		];
-		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']['_DEFAULT']['fileName']['index']['sitemap.xml'] = [
-			'keyValues' => [
-				'type' => 655
-			]
-		];
+if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl') && $confArray['realURLAutoConf']) {
+	$realUrlConfArray = @unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realurl']);
+	if(!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']) && $realUrlConfArray['enableAutoConf']) {
+		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration'][$_EXTKEY] =
+			\Clickstorm\CsSeo\Hook\RealUrlHook::class . '->extensionConfiguration';
+	} else {
+		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']['ConfigurationReader_postProc'][$_EXTKEY] =
+			\Clickstorm\CsSeo\Hook\RealUrlHook::class . '->postProcessConfiguration';
 	}
 }
