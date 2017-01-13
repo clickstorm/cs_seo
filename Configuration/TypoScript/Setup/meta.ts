@@ -148,8 +148,8 @@ config {
 						additionalParams >
 						addQueryString.exclude = cHash,utm_medium,utm_source,utm_campaign,utm_content,tx_search_pi1[query],src,ref,gclid,cx,ie,cof,siteurl,zanpid,_ult
 					}
+					wrap = <meta property="og:url" content="|" />
 				}
-				30.wrap = <meta property="og:url" content="|" />
 
 				### og:site_name ###
 				40 = TEXT
