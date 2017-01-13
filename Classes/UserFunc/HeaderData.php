@@ -233,10 +233,10 @@ class HeaderData {
             $title = $pageTitleFunc->render('', array());
         }
 
-        $content .= '<title>' . $title . '</title>';
+        $content .= '<title>' . $this->escapeContent($title) . '</title>';
 
         // description
-        $content .= $this->printMetaTag('description', $meta['description']);
+        $content .= $this->printMetaTag('description', $this->escapeContent($meta['description']));
 
         // hreflang & canonical
         $typoLinkConf = $GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.'];
@@ -298,11 +298,11 @@ class HeaderData {
 
         // og:title
         $ogTitle = $meta['og_title'] ?: $title;
-        $content .= $this->printMetaTag('og:title', $ogTitle, 1);
+        $content .= $this->printMetaTag('og:title', $this->escapeContent($ogTitle), 1);
 
         // og:description
         $ogDescription = $meta['og_description'] ?: $meta['description'];
-        $content .= $this->printMetaTag('og:description', $ogDescription, 1);
+        $content .= $this->printMetaTag('og:description', $this->escapeContent($ogDescription), 1);
 
         // og:image
 	    $ogImageURL = $pluginSettings['social.']['defaultImage'];
@@ -326,16 +326,16 @@ class HeaderData {
         $content .= $this->printMetaTag('og:locale', $GLOBALS['TSFE']->config['config']['locale_all'], 1);
 
         // og:site_name
-        $content .= $this->printMetaTag('og:site_name', $GLOBALS['TSFE']->tmpl->sitetitle, 1);
+        $content .= $this->printMetaTag('og:site_name', $this->escapeContent($GLOBALS['TSFE']->tmpl->sitetitle), 1);
 
         // twitter title
         if($meta['tw_title']) {
-            $content .= $this->printMetaTag('twitter:title', $meta['tw_title']);
+            $content .= $this->printMetaTag('twitter:title', $this->escapeContent($meta['tw_title']));
         }
 
         // twitter description
         if($meta['tw_description']) {
-            $content .= $this->printMetaTag('twitter:description', $meta['tw_description']);
+            $content .= $this->printMetaTag('twitter:description', $this->escapeContent($meta['tw_description']));
         }
 
         // twitter image and type
@@ -357,7 +357,10 @@ class HeaderData {
 	    }
 
         // creator
-        $content .= $this->printMetaTag('twitter:creator', $meta['tw_creator']?:$pluginSettings['social.']['twitter.']['creator']);
+        $content .= $this->printMetaTag(
+        	'twitter:creator',
+	        $this->escapeContent($meta['tw_creator']?:$pluginSettings['social.']['twitter.']['creator'])
+        );
 
         return $content;
     }
@@ -408,6 +411,14 @@ class HeaderData {
 	    );
 	    return $this->cObj->typoLink_URL($conf);
     }
+
+	/**
+	 * @param string $content
+	 * @return string
+	 */
+	protected function escapeContent($content) {
+		return htmlentities(preg_replace('/\s\s+/', ' ', preg_replace('#<[^>]+>#', ' ', $content)));
+	}
 
     /**
      * @param string $name
