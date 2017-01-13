@@ -252,9 +252,12 @@ class HeaderData {
 
         $currentLanguageUid = $GLOBALS['TSFE']->sys_language_uid;
 
+
         // canonical
+	    $canonicalTypoLinkConf = [];
         if($meta['canonical']) {
-            $canonical = $this->cObj->getTypoLink_URL($meta['canonical']);
+	        $canonicalTypoLinkConf['parameter'] = $meta['canonical'];
+	        $canonicalTypoLinkConf['forceAbsoluteUrl'] = 1;
         } else {
             $canonicalTypoLinkConf = $typoLinkConf;
 
@@ -263,8 +266,8 @@ class HeaderData {
                 unset($canonicalTypoLinkConf['additionalParams.']);
                 $canonicalTypoLinkConf['additionalParams'] = '&L=' . $this->getLanguageFromItem($currentItem['table'], $currentItem['uid']);
             }
-            $canonical = $this->cObj->typoLink_URL($canonicalTypoLinkConf);
         }
+	    $canonical = $this->cObj->typoLink_URL($canonicalTypoLinkConf);
 
         // index
         if($meta['no_index']) {
