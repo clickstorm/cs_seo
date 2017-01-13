@@ -18,7 +18,10 @@ config {
 
 		meta {
 			### General Meta Tags ###
-			description.field = description
+			description {
+				field = description
+				htmlSpecialChars = 1
+			}
 
 			### Exclude from search engines ###
 			robots = noindex,nofollow
@@ -123,14 +126,20 @@ config {
 
 				### og:title ###
 				10 = TEXT
-				10.data = page:tx_csseo_og_title // page:title
-				10.wrap = <meta property="og:title" content="|" />
+				10 {
+					data = page:tx_csseo_og_title // page:title
+					htmlSpecialChars = 1
+					wrap = <meta property="og:title" content="|" />
+				}
 
 				### og:description ###
 				20 = TEXT
-				20.data = page:tx_csseo_og_description // page:description
-				20.wrap = <meta property="og:description" content="|" />
-				20.required = 1
+				20 {
+					data = page:tx_csseo_og_description // page:description
+					htmlSpecialChars = 1
+					wrap = <meta property="og:description" content="|" />
+					required = 1
+				}
 
 				### og:url ###
 				30 =< lib.currentUrl
@@ -146,6 +155,7 @@ config {
 				40 = TEXT
 				40 {
 					data = TSFE:tmpl|sitetitle
+					htmlSpecialChars = 1
 					wrap = <meta property="og:site_name" content="|" />
 				}
 
@@ -193,6 +203,7 @@ config {
 				10 = TEXT
 				10 {
 					data = page:tx_csseo_tw_title
+					htmlSpecialChars = 1
 					wrap = <meta name="twitter:title" content="|" />
 					required = 1
 				}
@@ -201,6 +212,7 @@ config {
 				20 = TEXT
 				20 {
 					data = page:tx_csseo_tw_description
+					htmlSpecialChars = 1
 					wrap = <meta name="twitter:description" content="|" />
 					required = 1
 				}
@@ -209,6 +221,7 @@ config {
 				30 = TEXT
 				30 {
 					data = page:tx_csseo_tw_creator
+					htmlSpecialChars = 1
 					wrap = <meta name="twitter:site" content="@|" />
 					ifEmpty = {$plugin.tx_csseo.social.twitter.creator}
 					required = 1
