@@ -176,7 +176,9 @@ class EvaluationCommandController extends CommandController {
 				$this->tableName = $tcaCtrl['transForeignTable'];
 				$tcaCtrl['transOrigPointerField'] = 'pid';
 			} else {
-				$constraints[] = $tcaCtrl['languageField'] . ' > 0';
+				if($tcaCtrl['languageField']) {
+					$constraints[] = $tcaCtrl['languageField'] . ' > 0';
+				}
 			}
 		}
 
