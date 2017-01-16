@@ -15,6 +15,7 @@ pageCsSeo {
 		xhtml_cleaning = 0
 		admPanel = 0
 		debug = 0
+		index_enable = 0
 		removeDefaultJS = 1
 		removeDefaultCss = 1
 		removePageCss = 1
