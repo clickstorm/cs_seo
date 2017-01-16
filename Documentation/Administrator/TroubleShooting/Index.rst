@@ -29,3 +29,27 @@ Allow from xxx.xxx.xxx.xxx
 You could also use the domain instead of the IP.
 
 Allow from .mydomian.com
+
+The canonical URL adds &L=0 to all URLs. How can I prevent this?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+We have to force the language for the correct language fallback. To prevent the param in the URL you can
+configure RealURL as it is shown here:
+
+::
+
+	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']['_DEFAULT'] = array(
+	    'preVars' => array(
+	        array(
+	            'GETvar' => 'L',
+	            'valueMap' => array(
+	                'de' => '1',
+	            ),
+	            'noMatch' => 'bypass',
+	        )
+	    )
+	);
+
+
+So the L param will only be added to the URL, if the value is defined in the valueMap.
+
