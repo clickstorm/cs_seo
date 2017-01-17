@@ -32,6 +32,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
 
 /**
@@ -155,7 +156,8 @@ class PreviewWizard
     protected function getBodyContent($data, $table)
     {
         // template1
-        $wizardView = GeneralUtility::makeInstance(\TYPO3\CMS\Fluid\View\StandaloneView::class);
+	    /** @var StandaloneView $wizardView */
+        $wizardView = GeneralUtility::makeInstance(StandaloneView::class);
         $wizardView->setFormat('html');
         $wizardView->setLayoutRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']);
         $wizardView->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/Wizard.html');

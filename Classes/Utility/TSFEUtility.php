@@ -27,6 +27,8 @@ namespace Clickstorm\CsSeo\Utility;
  ***************************************************************/
 
 use \Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Backend\Utility\BackendUtility;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -197,9 +199,16 @@ class TSFEUtility {
             $GLOBALS['TSFE']->getConfigArray();
 	        $GLOBALS['TSFE']->settingLanguage();
         } catch (\Exception $e) {
-	        unset($GLOBALS['TSFE']);
-            // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($e);
-            return;
+	        /** @var FlashMessage $message */
+	        $message = GeneralUtility::makeInstance(FlashMessage::class,
+		        $e->getMessage(),
+		        LocalizationUtility::translate('error.no_ts', 'cs_seo'),
+		        FlashMessage::ERROR
+	        );
+	        /** @var FlashMessageService $flashMessageService */
+	        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+	        $messageQueue = $flashMessageService->getMessageQueueByIdentifier('cs_seo');
+	        $messageQueue->addMessage($message);
         }
     }
 }

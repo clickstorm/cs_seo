@@ -201,6 +201,22 @@
 			<source>[{{ msg.field }}] wait...</source>
 			<target>[{{ msg.field }}] Bitte warten...</target>
 		</trans-unit>
+		<trans-unit id="templates.wizard.description" approved="yes">
+			<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
+			<target>Es wurde keine Seitenbeschreibung angegeben! Daher wird Google den Seiteninhalt hier anteasern.</target>
+		</trans-unit>
+		<trans-unit id="error.no_data" approved="yes">
+			<source>Click 'Save' to show the preview.</source>
+			<target>Drücken Sie 'Speichern', um die Vorschau zu sehen.</target>
+		</trans-unit>
+		<trans-unit id="error.no_ts" approved="yes">
+			<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
+			<target>Es konnte kein Seitentyp mit der Nummer 654 gefunden werden. Das TypoScript der Extension 'cs_seo' muss in das Root-Template eingebunden werden.</target>
+		</trans-unit>
+		<trans-unit id="error.no_tsfe" approved="yes">
+			<source>The TypoScript of the current page could not be loaded.</source>
+			<target>Das TypoScript dieser Seite konnte nicht geladen werden.</target>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>

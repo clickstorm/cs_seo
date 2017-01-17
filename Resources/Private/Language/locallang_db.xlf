@@ -74,18 +74,6 @@
 		<trans-unit id="sys_domain.tx_csseo_robots_txt">
 			<source>Robots.txt</source>
 		</trans-unit>
-		<trans-unit id="templates.wizard.description">
-			<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
-		</trans-unit>
-		<trans-unit id="templates.wizard.error.no_data">
-			<source>Click 'Save' to show the preview.</source>
-		</trans-unit>
-		<trans-unit id="templates.wizard.error.no_ts">
-			<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
-		</trans-unit>
-		<trans-unit id="templates.wizard.error.no_tsfe">
-			<source>The TypoScript of the current page could not be loaded.</source>
-		</trans-unit>
 		<trans-unit id="tx_csseo_domain_model_evaluation.results">
 			<source>Results</source>
 		</trans-unit>
