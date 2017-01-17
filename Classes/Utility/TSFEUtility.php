@@ -201,8 +201,8 @@ class TSFEUtility {
         } catch (\Exception $e) {
 	        /** @var FlashMessage $message */
 	        $message = GeneralUtility::makeInstance(FlashMessage::class,
-		        $e->getMessage(),
 		        LocalizationUtility::translate('error.no_ts', 'cs_seo'),
+		        $e->getMessage(),
 		        FlashMessage::ERROR
 	        );
 	        /** @var FlashMessageService $flashMessageService */
