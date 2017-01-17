@@ -29,11 +29,10 @@ namespace Clickstorm\CsSeo\Controller;
 
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Lang\LanguageService;
-use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 
 /**
  * Class ModuleController
@@ -134,6 +133,14 @@ class ModuleController extends ActionController {
 		/** @var TSFEUtility $TSFEUtility */
 		$TSFEUtility =  GeneralUtility::makeInstance(TSFEUtility::class, $this->id, $this->modParams['lang']);
 
+		// get messages from default message queue
+		/** @var FlashMessageService $flashMessageService */
+		$flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+		$messageQueue = $flashMessageService->getMessageQueueByIdentifier('cs_seo');
+		foreach ($messageQueue as $flashMessage) {
+			$this->controllerContext->getFlashMessageQueue()->enqueue($flashMessage);
+		}
+
 		// preview settings
 		$previewSettings = [];
 		$previewSettings['siteTitle'] = $TSFEUtility->getSiteTitle();
@@ -147,7 +154,7 @@ class ModuleController extends ActionController {
 		}
 		
 		$this->view->assign('previewSettings', json_encode($previewSettings));
-		
+
 		$this->processFields($fieldNames);
 	}
 

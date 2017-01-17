@@ -155,6 +155,18 @@
 		<trans-unit id="templates.sitemap.extension.no_records">
 			<source>No records were found. Please check your configurations.</source>
 		</trans-unit>
+		<trans-unit id="templates.wizard.description">
+			<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
+		</trans-unit>
+		<trans-unit id="error.no_data">
+			<source>Click 'Save' to show the preview.</source>
+		</trans-unit>
+		<trans-unit id="error.no_ts">
+			<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
+		</trans-unit>
+		<trans-unit id="error.no_tsfe">
+			<source>The TypoScript of the current page could not be loaded.</source>
+		</trans-unit>
 		</body>
 	</file>
 </xliff>
