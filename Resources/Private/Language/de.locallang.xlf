@@ -211,7 +211,7 @@
 		</trans-unit>
 		<trans-unit id="error.no_ts" approved="yes">
 			<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
-			<target>Es konnte keine Seitentyp mit der Nummer 654 gefunden werden. Das TypoScript der Extension 'cs_seo' muss in das Root-Template eingebunden werden.</target>
+			<target>Es konnte kein Seitentyp mit der Nummer 654 gefunden werden. Das TypoScript der Extension 'cs_seo' muss in das Root-Template eingebunden werden.</target>
 		</trans-unit>
 		<trans-unit id="error.no_tsfe" approved="yes">
 			<source>The TypoScript of the current page could not be loaded.</source>
