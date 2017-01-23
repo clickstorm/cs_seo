@@ -90,6 +90,7 @@ class ModuleController extends ActionController {
 	protected function initializeAction()
 	{
 		// initialize page/be_user TSconfig settings
+		$this->id = (int)GeneralUtility::_GP('id');
 		$this->modSharedTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.SHARED');
 		$this->modTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.' . $this->moduleName);
 
