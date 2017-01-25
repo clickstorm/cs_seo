@@ -23,13 +23,13 @@ If you set some meta tags in your own extension you can easily remove some of ou
     [globalVar = GP:tx_news_pi1|news > 0]
 
     # remove all metatags from cs_seo
-    page.headerData.tx_csseo >
+    page.headerData.654 >
 
     # remove canonical
-    page.headerData.tx_csseo.10 >
+    page.headerData.654.10 >
 
     # remove href lang
-    page.headerData.tx_csseo.20 >
+    page.headerData.654.20 >
 
     # disable title tag
     config.noPageTitle = 1
@@ -44,8 +44,8 @@ If you set some meta tags in your own extension you can easily remove some of ou
 
     ### Disable Tracking if Backend User detected (included by default) ###
     [globalVar = TSFE:beUserLogin > 0]
-        page.jsFooterInline.tx_csseo >
-        page.includeJSFooter.tx_csseo >
+        page.jsFooterInline.654 >
+        page.includeJSFooter.654 >
     [end]
 
 You'll find more examples in the extension directory typo3conf/ext/cs_seo/Configuration/TypoScript/Extensions/.
