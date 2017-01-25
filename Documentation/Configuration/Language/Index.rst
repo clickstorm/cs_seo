@@ -36,7 +36,7 @@ plugin.tx_csseo
    Description
          Generally the Sitetitle is set in the TypoScript root template. With this setting the title can be overridden.
          So translatable prefix/suffix for the browser title are possible. Therefore enter here a string like
-         LLL:EXT:myext/Resources/Language/locollang.xlf:sitetitle.
+         LLL:EXT:myext/Resources/Language/locallang.xlf:sitetitle.
 
 href="lang"
 ^^^^^^^^^^^
