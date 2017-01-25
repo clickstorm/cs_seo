@@ -1,5 +1,5 @@
 plugin.tx_csseo {
-    # cat=plugin.tx_csseo/language/1; type=string; label= Override the sitetitle : Translation for the browser title prefix/suffix, e.g. LLL:EXT:myext/Resources/Language/locollang.xlf:sitetitle.
+    # cat=plugin.tx_csseo/language/1; type=string; label= Override the sitetitle : Translation for the browser title prefix/suffix, e.g. LLL:EXT:myext/Resources/Language/locallang.xlf:sitetitle
     sitetitle =
 
     # cat=plugin.tx_csseo/language/2; type=boolean; label= Enable Hreflang tags : Add href="lang" meta tags for all available translations of a page.
