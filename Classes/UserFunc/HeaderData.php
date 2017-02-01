@@ -444,16 +444,22 @@ class HeaderData {
      * @return array
      */
     protected function getAllLanguagesFromItem($table, $uid) {
-        $languageIds = array();
-        $whereClause = '(l10n_parent = ' . $uid . ' OR uid = ' . $uid . ')';
-        $whereClause .= $GLOBALS['TSFE']->sys_page->enableFields($table);
-        $allItems = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('sys_language_uid', $table, $whereClause);
+	    $languageIds = array();
 
-        foreach ($allItems as $item) {
-            $languageIds[] = $item['sys_language_uid'];
-        }
+	    $pointerField = isset($GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField']) ? $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField']: 'l10n_parent';
 
-        return $languageIds;
+	    $languageField = isset($GLOBALS['TCA'][$table]['ctrl']['languageField']) ? $GLOBALS['TCA'][$table]['ctrl']['languageField']: 'sys_language_uid';
+
+	    $whereClause = '('.$pointerField.' = ' . $uid . ' OR uid = ' . $uid . ')';
+	    $whereClause .= $GLOBALS['TSFE']->sys_page->enableFields($table);
+
+	    $allItems = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($languageField, $table, $whereClause);
+
+	    foreach ($allItems as $item) {
+		    $languageIds[] = $item[$languageField];
+	    }
+
+	    return $languageIds;
     }
 
     /**
