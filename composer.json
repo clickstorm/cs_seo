@@ -17,7 +17,7 @@
 	"cs_seo": "*"
   },
   "require": {
-	"typo3/cms": ">=6.2.0"
+	"typo3/cms-core": ">=6.2.0"
   },
   "suggest": {
 	"typo3-ter/realurl": "*"
