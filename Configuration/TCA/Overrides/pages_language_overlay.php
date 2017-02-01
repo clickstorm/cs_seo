@@ -78,6 +78,9 @@ $tempColumns = [
             'max' => '300',
         ]
     ],
+	'tx_csseo_og_image' => [
+		'l10n_mode' => 'exclude',
+	],
     'tx_csseo_tw_title' => [
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_title',
         'exclude' => 1,
@@ -98,6 +101,9 @@ $tempColumns = [
             'max' => '200',
         ]
     ],
+	'tx_csseo_tw_image' => [
+		'l10n_mode' => 'exclude',
+	],
     'tx_csseo_tw_creator' => [
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_creator',
         'exclude' => 1,
