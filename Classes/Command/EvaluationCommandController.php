@@ -33,6 +33,7 @@ use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Service\FrontendPageService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Http\AjaxRequestHandler;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -93,7 +94,11 @@ class EvaluationCommandController extends CommandController {
 		}
 		$this->processResults($uid);
 
-		$ajaxObj->addContent('uid', $uid);
+		/** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+		$flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+		/** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
+		$defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
+		$ajaxObj->addContent('messages',$defaultFlashMessageQueue->renderFlashMessages());
 	}
 
 	/**
