@@ -19,11 +19,12 @@
                 }
                 ).done(function(response, textStatus, jqXHR){
                     if(response.length > 0) {
-                        var message = $(response).find('.alert').first().text();
 	                    if(top.TYPO3.Notification) {
+		                    var message = $(response).find('.alert').first().text();
 		                    top.TYPO3.Notification.error('Not Updated', message, 3);
 	                    } else {
-		                    top.TYPO3.Flashmessage.display(4, 'Not Updated', message, 3);
+		                    var message = $(response).find('.message-body').first().text();
+		                    top.TYPO3.Flashmessage.display(4, 'Not Updated', message);
 	                    }
                         $('.cs-wait').remove();
 	                    $evaluateButton.show();
