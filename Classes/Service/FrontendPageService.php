@@ -80,7 +80,7 @@ class FrontendPageService {
 		$report = [];
 		$content = GeneralUtility::getUrl($url, 0, false, $report);
 
-		if($report['message']) {
+		if($report['message'] && $report['message'] != 'OK') {
 			/** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
 			$flashMessage = GeneralUtility::makeInstance(
 				FlashMessage::class,
@@ -91,8 +91,8 @@ class FrontendPageService {
 			/** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
 			$flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
 			/** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
-			$defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
-			$defaultFlashMessageQueue->enqueue($flashMessage);
+			$flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
+			$flashMessageQueue->enqueue($flashMessage);
 		}
 
 		return in_array($report['error'], [0, 200]) ? $content : '';

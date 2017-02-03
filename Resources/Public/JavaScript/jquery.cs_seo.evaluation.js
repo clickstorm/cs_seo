@@ -17,11 +17,11 @@
                 {
                     uid: $this.data('uid')
                 }
-                ).done(function(response, textStatus, jqXHR){
+                ).done(function(response){
                     if(response.length > 0) {
 	                    if(top.TYPO3.Notification) {
 		                    var message = $(response).find('.alert').first().text();
-		                    top.TYPO3.Notification.error('Not Updated', message, 3);
+		                    top.TYPO3.Notification.error('Not Updated', message, 5);
 	                    } else {
 		                    var message = $(response).find('.message-body').first().text();
 		                    top.TYPO3.Flashmessage.display(4, 'Not Updated', message);

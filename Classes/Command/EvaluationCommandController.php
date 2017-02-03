@@ -97,8 +97,8 @@ class EvaluationCommandController extends CommandController {
 		/** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
 		$flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
 		/** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
-		$defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
-		$ajaxObj->addContent('messages',$defaultFlashMessageQueue->renderFlashMessages());
+		$flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
+		$ajaxObj->addContent('messages', $flashMessageQueue->renderFlashMessages());
 	}
 
 	/**
@@ -189,7 +189,7 @@ class EvaluationCommandController extends CommandController {
 
 		// if single uid
 		if($uid > 0) {
-			if($localizations) {
+			if($localizations && $tcaCtrl['transOrigPointerField']) {
 				$constraints[] =  $tcaCtrl['transOrigPointerField'] . ' = ' . $uid;
 			} else {
 				$constraints[] =  'uid = ' . $uid;
