@@ -15,7 +15,7 @@
                 {
                     uid: $this.data('uid')
                 }
-                ).success(function(response){
+                ).done(function(response){
                     if(top.TYPO3.Notification) {
                         top.TYPO3.Notification.success('Updated', '', 3);
                     } else {
