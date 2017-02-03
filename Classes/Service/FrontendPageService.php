@@ -76,7 +76,7 @@ class FrontendPageService {
 		}
 
 		// disable cache
-		$params .= 'no_cache=1';
+		$params .= '&no_cache=1';
 
 		$domain = BackendUtility::getViewDomain($pid);
 		$url = $domain . '/index.php?' . $params;
