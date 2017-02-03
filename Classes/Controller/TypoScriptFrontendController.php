@@ -171,4 +171,12 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
 			}
 		}
 	}
+
+	/**
+	 * @return \TYPO3\CMS\Core\TimeTracker\TimeTracker
+	 */
+	protected function getTimeTracker()
+	{
+		return $GLOBALS['TT'];
+	}
 }
