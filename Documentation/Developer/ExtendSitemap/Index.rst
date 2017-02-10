@@ -41,6 +41,9 @@ To add records from your own extension you can easily add the following TypoScri
 				# string; will be attached to the typolink, more params are possible, the last one is the record param
 				additionalParams = tx_myext_pi1[entry]
 
+				# string; add custom query options : title LIKE '%top%'
+				additionalWhereClause =
+
 				# comma separated list; page uid where are the records stored
 				storagePid =
 
