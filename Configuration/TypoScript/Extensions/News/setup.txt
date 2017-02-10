@@ -10,7 +10,7 @@ plugin.tx_csseo.sitemap {
 			additionalParams = tx_news_pi1[news]
 
 			# string; add custom query options : title LIKE '%top%'
-			additionalWhereClause =
+			additionalWhereClause = type=0
 
 			# comma separated list; page uid where are the records stored
 			storagePid = {$plugin.tx_csseo.sitemap.extensions.news.storagePid}
