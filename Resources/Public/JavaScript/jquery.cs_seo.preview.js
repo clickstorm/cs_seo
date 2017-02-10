@@ -54,7 +54,10 @@
 
 	     function findInputFallback(fieldname) {
 		     var name = '[' + $title.data('fallback-table') + '][' + $title.data('fallback-uid') + '][' + $title.data('fallback-' + fieldname) + ']';
-		     return $('input[data-formengine-input-name$="' + name + '"], input[name$="' + name + '_hr"], textarea[data-formengine-input-name$="' + name + '"]');
+		     return $('input[data-formengine-input-name$="' + name + '"],' +
+			     'input[name$="' + name + '_hr"],' +
+			     'textarea[data-formengine-input-name$="' + name + '"],' +
+			     'textarea[name$="' + name + '"]');
 	     }
 
         /**
