@@ -28,6 +28,8 @@ namespace Clickstorm\CsSeo\Service;
  ***************************************************************/
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -77,6 +79,21 @@ class FrontendPageService {
 
 		$report = [];
 		$content = GeneralUtility::getUrl($url, 0, false, $report);
+
+        if($report['message'] && $report['message'] != 'OK') {
+            /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
+            $flashMessage = GeneralUtility::makeInstance(
+                FlashMessage::class,
+                $report['message'],
+                "",
+                FlashMessage::ERROR
+            );
+            /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+            /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
+            $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
+            $flashMessageQueue->enqueue($flashMessage);
+        }
 
 		return in_array($report['error'], [0, 200]) ? $content : '';
 	}
