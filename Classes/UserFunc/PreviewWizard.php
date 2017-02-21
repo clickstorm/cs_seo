@@ -198,6 +198,38 @@ class PreviewWizard
 			                $path = '';
 		                }
 	                } else {
+                        $pageTSConfig = BackendUtility::getPagesTSconfig($pageUid);
+
+                        // handle fallback
+                        if(isset($pageTSConfig['tx_csseo.'])) {
+                            foreach ($pageTSConfig['tx_csseo.'] as $key => $settings) {
+                                if(is_string($settings)) {
+                                    if($settings == $data['tablenames'] && isset($pageTSConfig['tx_csseo.'][$key . '.']['fallback.'])) {
+                                        $fallback = $pageTSConfig['tx_csseo.'][$key . '.']['fallback.'];
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if($fallback) {
+                            $res = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+                                '*',
+                                $data['tablenames'],
+                                'uid=' . $data['uid_foreign'],
+                                '',
+                                '',
+                                1
+                            );
+                            $row = $res[0];
+
+                            foreach ($fallback as $seoField => $fallbackField) {
+                                if(empty($data[$seoField])) {
+                                    $data[$seoField] = $row[$fallbackField];
+                                }
+                            }
+                        }
+
 		                $pageTitle = $TSFEUtility->getFinalTitle($data['title'], $data['title_only']);
 		                $path = '';
 		                $urlScheme = 'http://';
