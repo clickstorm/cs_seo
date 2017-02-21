@@ -66,6 +66,7 @@ class FrontendPageService {
 			return '';
 		}
 
+        // add id and language
 		if($this->pageInfo['sys_language_uid'] > 0) {
 			$pid = $this->pageInfo['pid'];
 			$params = 'id=' . $pid . '&L=' . $this->pageInfo['sys_language_uid'];
@@ -73,6 +74,9 @@ class FrontendPageService {
 			$pid = $this->pageInfo['uid'];
 			$params = 'id=' . $pid;
 		}
+
+        // disable cache
+        $params .= '&no_cache=1';
 
 		$domain = BackendUtility::getViewDomain($pid);
 		$url = $domain . '/index.php?' . $params;
