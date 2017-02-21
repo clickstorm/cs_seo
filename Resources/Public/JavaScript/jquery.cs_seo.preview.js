@@ -10,25 +10,24 @@
         var $title = $('.js-cs-seo-title'),
             $desc = $('.js-cs-seo-desc'),
             $panel = $title.closest('fieldset'),
-            $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[tx_csseo_title]"], input[name$="[tx_csseo_title]_hr"]'),
-            $inputPageTitleHR = $('input[data-formengine-input-name$="[title]"], input[name$="[title]_hr"]'),
-            $checkboxTitleOnlyHR = $panel.find('input[data-formengine-input-name$="[tx_csseo_title_only]"], input[name$="[tx_csseo_title_only]_0"]'),
             separator = $title.data('separator') ? $title.data('separator') : '',
             siteTitle = $title.data('sitetitle') ? $title.data('sitetitle') : '',
-            titleOnly = $checkboxTitleOnlyHR.is(":checked");
+            fallbackTable = $title.data('fallback-table'),
+            $inputFallbackTitleHR = findInputFallback('title'),
+            $inputFallbackDescriptionHR = findInputFallback('description'),
+            $inputSeoDescriptionHR = $panel.find('[data-formengine-input-name$="[description]"], textarea[name$="[description]"]');
 
-        if($panel.find('input[data-formengine-input-name^="data[tx_csseo_domain_model_meta]"], input[name^="data[tx_csseo_domain_model_meta]"]').length > 0) {
-            $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[title]"], input[name$="[title]_hr"]');
-            $inputPageTitleHR = $inputSeoTitleHR;
-            $checkboxTitleOnlyHR = $panel.find('input[data-formengine-input-name$="[title_only]"], input[name$="[title_only]_0"]');
+        if(fallbackTable == 'pages' || fallbackTable == 'pages_languages_overlay') {
+            var $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[tx_csseo_title]"], input[name$="[tx_csseo_title]_hr"]'),
+                $checkboxTitleOnlyHR = $panel.find('input[data-formengine-input-name$="[tx_csseo_title_only]"], input[name$="[tx_csseo_title_only]_0"]');
+        } else {
+            var $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[title]"], input[name$="[title]_hr"]'),
+                $checkboxTitleOnlyHR = $panel.find('input[data-formengine-input-name$="[title_only]"], input[name$="[title_only]_0"]');
         }
 
-        $inputSeoTitleHR.on('keyup.csseotitle', function() {
-            updateTitle();
-        });
+        var titleOnly = $checkboxTitleOnlyHR.is(":checked");
 
-        // title change
-        $inputPageTitleHR.change(function() {
+        $inputSeoTitleHR.on('keyup.csseotitle', function() {
             updateTitle();
         });
 
@@ -39,11 +38,27 @@
         });
 
         // description changes
-        $panel.find('[data-formengine-input-name$="[description]"], textarea[name$="[description]"]').on('keyup.csseodesc', function() {
-            var metaDesc = $(this).val();
-            $desc.text(metaDesc);
-            $('.js-cs-seo-hidden').toggle(!metaDesc);
+        $inputSeoDescriptionHR.on('keyup.csseodesc', function() {
+            updateDescription();
         });
+
+        // title change
+        $inputFallbackTitleHR.change(function() {
+            updateTitle();
+        });
+
+        // fallback description changes
+        $inputFallbackDescriptionHR.change(function() {
+            updateDescription();
+        });
+
+        function findInputFallback(fieldname) {
+            var name = '[' + $title.data('fallback-table') + '][' + $title.data('fallback-uid') + '][' + $title.data('fallback-' + fieldname) + ']';
+            return $('input[data-formengine-input-name$="' + name + '"],' +
+            'input[name$="' + name + '_hr"],' +
+            'textarea[data-formengine-input-name$="' + name + '"],' +
+            'textarea[name$="' + name + '"]');
+        }
 
         /**
          * Update the title in the preview
@@ -53,11 +68,26 @@
         }
 
         /**
+         * Update the title in the preview
+         */
+        function updateDescription() {
+            var metaDesc = $inputSeoDescriptionHR.val();
+            if(metaDesc == '' && $inputFallbackDescriptionHR.length > 0) {
+                metaDesc = $inputFallbackDescriptionHR.val();
+            }
+            $desc.text(metaDesc);
+            $('.js-cs-seo-hidden').toggle(!metaDesc);
+        }
+
+        /**
          *
          * @returns {string}
          */
         function getSeoTitle() {
-            var title = ($inputSeoTitleHR.val() != '') ? $inputSeoTitleHR.val() : $inputPageTitleHR.val();
+            var title = $inputSeoTitleHR.val();
+            if(title == '' && $inputFallbackTitleHR.length > 0) {
+                title = $inputFallbackTitleHR.val();
+            }
             if (!titleOnly) {
                 if ($title.data('first')) {
                     title += separator + siteTitle;

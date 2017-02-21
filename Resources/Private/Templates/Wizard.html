@@ -10,7 +10,11 @@
                 data-sitetitle="{siteTitle}"
                 data-separator="{pageTitleSeparator}"
                 data-first="{config.pageTitleFirst}"
-                data-only="{data.pageTitleOnly}">
+                data-only="{data.pageTitleOnly}"
+                data-fallback-title="{fallback.title}"
+                data-fallback-table="{fallback.table}"
+                data-fallback-uid="{fallback.uid}"
+                data-fallback-description="{fallback.description}">
                 <f:format.crop maxCharacters="66" respectWordBoundaries="0">{pageTitle}</f:format.crop>
             </h3>
             <div class="url">{f:if(condition:"{urlScheme}=='2'",then:'https://')}{domain}{f:if(condition:"{path}=='/'",then:path,else:'/{path}')}</div>

@@ -179,6 +179,7 @@ class PreviewWizard
 
                 /** @var TSFEUtility $TSFEUtility */
                 $TSFEUtility =  GeneralUtility::makeInstance(TSFEUtility::class, $pageUid, $data['sys_language_uid']);
+                $fallback = [];
 
                 if(isset($GLOBALS['TSFE'])) {
 	                $siteTitle = $TSFEUtility->getSiteTitle();
@@ -197,6 +198,9 @@ class PreviewWizard
 		                if (strpos($path, '://') !== false) {
 			                $path = '';
 		                }
+                        $fallback['title'] = 'title';
+                        $fallback['uid'] = 'uid';
+                        $fallback['table'] = 'table';
 	                } else {
                         $pageTSConfig = BackendUtility::getPagesTSconfig($pageUid);
 
@@ -228,6 +232,9 @@ class PreviewWizard
                                     $data[$seoField] = $row[$fallbackField];
                                 }
                             }
+
+                            $fallback['uid'] = $data['uid_foreign'];
+                            $fallback['table'] = $data['tablenames'];
                         }
 
 		                $pageTitle = $TSFEUtility->getFinalTitle($data['title'], $data['title_only']);
@@ -237,8 +244,9 @@ class PreviewWizard
 
 	                $wizardView->assignMultiple([
 		                'config' => $config,
-		                'domain' => BackendUtility::firstDomainRecord($rootline),
 		                'data' => $data,
+                        'domain' => BackendUtility::firstDomainRecord($rootline),
+                        'fallback' => $fallback,
 		                'pageTitle' => $pageTitle,
 		                'pageTitleSeparator' => $pageTitleSeparator,
 		                'path' => $path,
