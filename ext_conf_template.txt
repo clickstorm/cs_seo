@@ -19,14 +19,17 @@ maxNavTitle = 50
 # cat=evaluation/010; type=options[Header=0,Footer=1,None=2]; label= Show the results in the page module
 inPageModule = 0
 
-# cat=evaluation/020; type=string; label= Evaluators : available are Title,Description,H1,H2,Images,Keyword
+# cat=evaluation/020; type=string; label= Doktypes: Comma separated list. This doktypes must be callable in the frontend!
+evaluationDoktypes = 1
+
+# cat=evaluation/030; type=string; label= Evaluators : Comma separated list. Available are Title,Description,H1,H2,Images,Keyword
 evaluators = Title,Description,H1,H2,Images,Keyword
 
-# cat=evaluation/030; type=integer; label= Min characters of an optimal title
+# cat=evaluation/040; type=integer; label= Min characters of an optimal title
 minTitle = 40
 
-# cat=evaluation/040; type=integer; label= Min characters of an optimal description
+# cat=evaluation/050; type=integer; label= Min characters of an optimal description
 minDescription = 140
 
-# cat=evaluation/040; type=integer; label= Max number of h2 headlines in one page
+# cat=evaluation/060; type=integer; label= Max number of h2 headlines in one page
 maxH2 = 6

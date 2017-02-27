@@ -27,6 +27,7 @@ namespace Clickstorm\CsSeo\Hook;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Controller\PageLayoutController;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -167,7 +168,8 @@ class PageHook {
 	 * @return bool
 	 */
 	public function pageCanBeIndexed($page) {
-		if($page['doktype'] == 1 && $page['hidden'] == 0) {
+		$allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
+		if(in_array($page['doktype'], $allowedDoktypes) && $page['hidden'] == 0) {
 			return true;
 		}
 		return false;

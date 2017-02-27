@@ -1,5 +1,4 @@
 <?php
-
 namespace Clickstorm\CsSeo\Service;
 
 /***************************************************************
@@ -27,6 +26,7 @@ namespace Clickstorm\CsSeo\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
@@ -62,7 +62,8 @@ class FrontendPageService {
 	 * @return string
 	 */
 	public function getHTML() {
-		if($this->pageInfo['doktype'] != 1 || $this->pageInfo['tx_csseo_no_index']) {
+		$allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
+		if(!in_array($this->pageInfo['doktype'], $allowedDoktypes) || $this->pageInfo['tx_csseo_no_index']) {
 			return '';
 		}
 

@@ -31,6 +31,7 @@ use Clickstorm\CsSeo\Domain\Model\Evaluation;
 use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Service\FrontendPageService;
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Http\AjaxRequestHandler;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
@@ -169,10 +170,11 @@ class EvaluationCommandController extends CommandController {
 	protected function buildQuery($uid, $localizations = false) {
 		$constraints = ['1'];
 		$tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
+		$allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
 
 		// only with doktype page
 		if($this->tableName == 'pages') {
-			$constraints[] =  'doktype = 1';
+			$constraints[] =  'doktype IN (' . implode(',',$allowedDoktypes) . ')';
 		}
 
 		// check localization

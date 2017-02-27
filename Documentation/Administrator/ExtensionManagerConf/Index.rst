@@ -20,21 +20,22 @@ Properties
 
 .. container:: ts-properties
 
-	============================= ===================================== ====================
-	Property                      Data type                             Default
-	============================= ===================================== ====================
-	`basic.enablePathSegment`_    :ref:`t3tsref:data-type-boolean`      true
-	`basic.realURLAutoConf`_      :ref:`t3tsref:data-type-boolean`      true
-	`basic.tsConfigPid`_          :ref:`t3tsref:data-type-integer`      1
-	`page.maxTitle`_              :ref:`t3tsref:data-type-integer`      57
-	`page.maxDescription`_        :ref:`t3tsref:data-type-integer`      156
-	`page.maxNavTitle`_           :ref:`t3tsref:data-type-integer`      50
-	`evaluation.inPageModule`_    :ref:`t3tsref:data-type-integer`      0
-	`evaluation.evaluators`_      :ref:`t3tsref:data-type-string`       Title,Description,H1,H2,Images,Keyword
-	`evaluation.minTitle`_        :ref:`t3tsref:data-type-integer`      40
-	`evaluation.minDescription`_  :ref:`t3tsref:data-type-integer`      140
-	`evaluation.maxH2`_           :ref:`t3tsref:data-type-integer`      6
-	============================= ===================================== ====================
+	==================================== ===================================== ====================
+	Property                             Data type                             Default
+	==================================== ===================================== ====================
+	`basic.enablePathSegment`_           :ref:`t3tsref:data-type-boolean`      true
+	`basic.realURLAutoConf`_             :ref:`t3tsref:data-type-boolean`      true
+	`basic.tsConfigPid`_                 :ref:`t3tsref:data-type-integer`      1
+	`page.maxTitle`_                     :ref:`t3tsref:data-type-integer`      57
+	`page.maxDescription`_               :ref:`t3tsref:data-type-integer`      156
+	`page.maxNavTitle`_                  :ref:`t3tsref:data-type-integer`      50
+	`evaluation.inPageModule`_           :ref:`t3tsref:data-type-integer`      0
+	`evaluation.evaluationDoktypes`_     :ref:`t3tsref:data-type-string`       1
+	`evaluation.evaluators`_             :ref:`t3tsref:data-type-string`       Title,Description,H1,H2,Images,Keyword
+	`evaluation.minTitle`_               :ref:`t3tsref:data-type-integer`      40
+	`evaluation.minDescription`_         :ref:`t3tsref:data-type-integer`      140
+	`evaluation.maxH2`_                  :ref:`t3tsref:data-type-integer`      6
+	==================================== ===================================== ====================
 
 Basic configurations
 ^^^^^^^^^^^^^^^^^^^^
@@ -149,6 +150,20 @@ Show evaluation in the page module
          :ref:`t3tsref:data-type-integer`
    Description
          Show the dialog of the evaluation in the page module. (0: In the head of the page module, 1: in the footer, 2: none).
+
+.. _evaluation.evaluationDoktypes:
+
+Doktypes
+""""""""
+
+.. container:: table-row
+
+   Property
+         evaluationDoktypes
+   Data type
+         :ref:`t3tsref:data-type-string`
+   Description
+         Comma separated list of allowed page doktypes for the evaluation. This doktypes must be callable in the frontend!
 
 
 .. _evaluation.evaluators:
