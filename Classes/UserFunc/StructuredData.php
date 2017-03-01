@@ -50,18 +50,7 @@ class StructuredData
 
     }
 
-    /**
-     * check if sitesearch is enabled
-     *
-     * @return boolean
-     */
-    public static function siteSearch()
-    {
-        return (!empty($GLOBALS['TSFE']->tmpl->flatSetup['plugin.tx_csseo.structureddata.search.enable']));
-    }
-
-
-    /**
+     /**
      * Returns the json for the siteSearch
      *
      * @return bool|string siteSearch
@@ -103,16 +92,6 @@ class StructuredData
     protected function wrapWithLd($content)
     {
         return '<script type="application/ld+json">'.$content.'</script>';
-    }
-
-    /**
-     * check if breadcrumb is enabled
-     *
-     * @return boolean
-     */
-    public static function breadcrumb()
-    {
-        return (!empty($GLOBALS['TSFE']->tmpl->flatSetup['plugin.tx_csseo.structureddata.breadcrumb.enable']));
     }
 
     /**

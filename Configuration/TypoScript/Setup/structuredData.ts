@@ -1,5 +1,5 @@
 ### SiteSearch ###
-[userFunc = Clickstorm\CsSeo\UserFunc\StructuredData::siteSearch()]
+[globalVar = LIT:1 = {$plugin.tx_csseo.structureddata.search.enable}]
     page.footerData.655 = USER
     page.footerData.655.userFunc = Clickstorm\CsSeo\UserFunc\StructuredData->getSiteSearch
     page.footerData.655.userFunc {
@@ -9,7 +9,7 @@
 [end]
 
 ### Breadcrumb ###
-[userFunc = Clickstorm\CsSeo\UserFunc\StructuredData::breadcrumb()]
+[globalVar = LIT:1 = {$plugin.tx_csseo.structureddata.breadcrumb.enable}]
     page.footerData.656 = USER
     page.footerData.656.userFunc = Clickstorm\CsSeo\UserFunc\StructuredData->getBreadcrumb
 [end]
