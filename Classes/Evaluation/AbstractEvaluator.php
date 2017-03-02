@@ -25,6 +25,7 @@ namespace Clickstorm\CsSeo\Evaluation;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 
 /**
  * Class AbstractEvaluator
@@ -90,13 +91,6 @@ abstract class AbstractEvaluator implements EvaluationInterface
 	 */
 	public function setKeyword($keyword) {
 		$this->keyword = strtolower($keyword);
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getExtConf() {
-		return unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
 	}
 
 	/**

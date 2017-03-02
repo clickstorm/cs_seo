@@ -29,6 +29,7 @@ namespace Clickstorm\CsSeo\Service;
 namespace Clickstorm\CsSeo\Service;
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -63,7 +64,7 @@ class EvaluationService {
 	 */
 	public function initEvaluators() {
 		$evaluators = [];
-		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
+		$extConf = ConfigurationUtility::getEmConfiguration();
 
 		// default
 		$availableEvaluators = [

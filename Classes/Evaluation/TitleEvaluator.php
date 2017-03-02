@@ -25,6 +25,7 @@ namespace Clickstorm\CsSeo\Evaluation;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 
 /**
  * Class TitleEvaluator
@@ -34,7 +35,7 @@ class TitleEvaluator extends AbstractLengthEvaluator
 {
 	public function evaluate() {
 		$title = $this->getSingleDomElementContentByTagName('title');
-		$extConf = $this->getExtConf();
+		$extConf = ConfigurationUtility::getEmConfiguration();
 
 		return $this->evaluateLength($title, $extConf['minTitle'], $extConf['maxTitle']);
 	}

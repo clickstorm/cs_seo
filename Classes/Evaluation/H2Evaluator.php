@@ -25,6 +25,7 @@ namespace Clickstorm\CsSeo\Evaluation;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 
 /**
  * Class H2Evaluator
@@ -35,7 +36,8 @@ class H2Evaluator extends AbstractEvaluator
 
 	public function evaluate() {
 		$state = self::STATE_RED;
-		$maxH2 = $this->getExtConf()['maxH2'];
+		$extConf = ConfigurationUtility::getEmConfiguration();
+		$maxH2 = $extConf['maxH2'];
 
 		$count = $this->domDocument->getElementsByTagName('h2')->length;
 

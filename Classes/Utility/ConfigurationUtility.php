@@ -43,7 +43,6 @@ class ConfigurationUtility {
 	 */
 	public static function getEmConfiguration() {
 		$conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
-
 		return is_array($conf) ? $conf : [];
 	}
 
