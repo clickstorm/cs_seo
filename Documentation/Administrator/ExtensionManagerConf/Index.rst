@@ -150,6 +150,7 @@ Show evaluation in the page module
          :ref:`t3tsref:data-type-integer`
    Description
          Show the dialog of the evaluation in the page module. (0: In the head of the page module, 1: in the footer, 2: none).
+         The Evaluation can also be disabled via TSconfig: mod.web_layout.tx_csseo.disable = 1.
 
 .. _evaluation.evaluationDoktypes:
 

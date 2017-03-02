@@ -118,7 +118,7 @@ class PageHook {
 	 */
 	public function render(array $params = array(), PageLayoutController $parentObject)
 	{
-		if($parentObject->MOD_SETTINGS['function'] == 1) {
+		if($parentObject->MOD_SETTINGS['function'] == 1 && !$parentObject->modTSconfig['properties']['tx_csseo.']['disable']) {
 			$pageInfo = $parentObject->pageinfo;
 			if($this->pageCanBeIndexed($pageInfo)) {
 				// template
