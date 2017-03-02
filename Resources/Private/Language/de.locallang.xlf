@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-12-07T07:26:43Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-03-02T16:04:08Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
 		<body>
+		<trans-unit id="error.no_data" approved="yes">
+			<source>Click 'Save' to show the preview.</source>
+			<target>Drücken Sie 'Speichern', um die Vorschau zu sehen.</target>
+		</trans-unit>
+		<trans-unit id="error.no_ts" approved="yes">
+			<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
+			<target>Es konnte kein Seitentyp mit der Nummer 654 gefunden werden. Das TypoScript der Extension 'cs_seo' muss in das Root-Template eingebunden werden.</target>
+		</trans-unit>
+		<trans-unit id="error.no_tsfe" approved="yes">
+			<source>The TypoScript of the current page could not be loaded.</source>
+			<target>Das TypoScript dieser Seite konnte nicht geladen werden.</target>
+		</trans-unit>
 		<trans-unit id="evaluation.description" approved="yes">
 			<source>Meta Description</source>
 			<target>Seitenbeschreibung</target>
@@ -169,6 +181,10 @@
 			<source>SEO</source>
 			<target>SEO</target>
 		</trans-unit>
+		<trans-unit id="partials.module.evaluation.lang" approved="yes">
+			<source>Show results for language:</source>
+			<target>Zeige Ergebnisse für die Sprache:</target>
+		</trans-unit>
 		<trans-unit id="partials.module.grid.error.no_page" approved="yes">
 			<source>Please select a page in the page tree.</source>
 			<target>Bitte wählen Sie eine Seite aus dem Seitenbaum.</target>
@@ -204,18 +220,6 @@
 		<trans-unit id="templates.wizard.description" approved="yes">
 			<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
 			<target>Es wurde keine Seitenbeschreibung angegeben! Daher wird Google den Seiteninhalt hier anteasern.</target>
-		</trans-unit>
-		<trans-unit id="error.no_data" approved="yes">
-			<source>Click 'Save' to show the preview.</source>
-			<target>Drücken Sie 'Speichern', um die Vorschau zu sehen.</target>
-		</trans-unit>
-		<trans-unit id="error.no_ts" approved="yes">
-			<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
-			<target>Es konnte kein Seitentyp mit der Nummer 654 gefunden werden. Das TypoScript der Extension 'cs_seo' muss in das Root-Template eingebunden werden.</target>
-		</trans-unit>
-		<trans-unit id="error.no_tsfe" approved="yes">
-			<source>The TypoScript of the current page could not be loaded.</source>
-			<target>Das TypoScript dieser Seite konnte nicht geladen werden.</target>
 		</trans-unit>
 		</body>
 	</file>

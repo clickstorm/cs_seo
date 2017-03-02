@@ -193,7 +193,12 @@ class ModuleController extends ActionController {
 	 */
 	public function pageEvaluationAction() {
 		$page = $this->pageRepository->getPage($this->modParams['id']);
+		$lang = $this->modParams['lang'];
+		if($lang > 0) {
+			$page = $this->pageRepository->getPageOverlay($page, $lang);
+		}
 		$results = $this->getResults($page);
+		$langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?: 0;
 
 		$score = $results['Percentage'];
 		unset($results['Percentage']);
@@ -201,7 +206,10 @@ class ModuleController extends ActionController {
 		$this->view->assignMultiple([
 			'score' => $score,
 			'results' => $results,
-			'page' => $page
+			'page' => $page,
+			'lang' => $lang,
+			'langDisplay' => $this->languages[$langResult],
+			'languages' => $this->languages
 		]);
 	}
 
