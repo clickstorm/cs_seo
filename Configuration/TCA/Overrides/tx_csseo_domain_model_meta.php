@@ -28,21 +28,14 @@ if(isset($GLOBALS['TYPO3_DB'])) {
 		]
 	];
 
-	$confArray = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
-
-	$tsConfigPid = $confArray['tsConfigPid'] ?: 1;
-	$rootLine = \TYPO3\CMS\Backend\Utility\BackendUtility::BEgetRootLine($tsConfigPid, '', true);
-	$pageTS = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($tsConfigPid, $rootLine);
-
-	if($pageTS['tx_csseo.']) {
-		foreach ($pageTS['tx_csseo.'] as $table) {
-			if(is_string($table)) {
-				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table,$tempColumns);
-				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
-					$table,
-					'--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,tx_csseo'
-				);
-			}
+    $tables = \Clickstorm\CsSeo\Utility\ConfigurationUtility::getTablesToExtend();
+	if($tables) {
+		foreach ($tables as $table) {
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table,$tempColumns);
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+                $table,
+                '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,tx_csseo'
+            );
 		}
 	}
 }

@@ -6,7 +6,18 @@
 	<!-- From -->
 	<f:form action="">
 		<div class="row">
-			<div class="form-group col-md-12">
+            <div class="form-group col-md-6">
+                <label for="table"><f:translate key="partials.module.select.table" /></label>
+                <f:form.select
+                        id="table"
+                        options="{tables}"
+                        class="form-control"
+                        name="table"
+                        additionalAttributes="{onchange:'this.form.submit();'}"
+                        value="{table}"
+                        />
+            </div>
+			<div class="form-group col-md-6">
 				<label for="lang"><f:translate key="partials.module.select.lang" /></label>
 				<f:form.select
 						id="lang"

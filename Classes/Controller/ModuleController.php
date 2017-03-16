@@ -27,10 +27,12 @@ namespace Clickstorm\CsSeo\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Lang\LanguageService;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
@@ -193,7 +195,18 @@ class ModuleController extends ActionController {
 	 */
 	public function pageEvaluationAction() {
 		$page = $this->pageRepository->getPage($this->modParams['id']);
-		$lang = $this->modParams['lang'];
+        $extKey = 'cs_seo';
+        $tables = [
+            'pages' => LocalizationUtility::translate($GLOBALS['TCA']['pages']['ctrl']['title'], $extKey)
+        ];
+
+        $tablesToExtend = ConfigurationUtility::getTablesToExtend();
+
+        foreach($tablesToExtend as $tableToExtend) {
+            $tables[$tableToExtend] = LocalizationUtility::translate($GLOBALS['TCA'][$tableToExtend]['ctrl']['title'], $extKey);
+        }
+
+        $lang = $this->modParams['lang'];
 		if($lang > 0) {
 			$page = $this->pageRepository->getPageOverlay($page, $lang);
 		}
@@ -208,6 +221,7 @@ class ModuleController extends ActionController {
 			'results' => $results,
 			'page' => $page,
 			'lang' => $lang,
+            'tables' => $tables,
 			'langDisplay' => $this->languages[$langResult],
 			'languages' => $this->languages
 		]);

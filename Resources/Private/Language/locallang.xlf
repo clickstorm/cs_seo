@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-02T16:04:08Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-16T22:28:39Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -148,6 +148,9 @@
 		</trans-unit>
 		<trans-unit id="partials.module.select.lang">
 			<source>Language</source>
+		</trans-unit>
+		<trans-unit id="partials.module.select.table">
+			<source>Record</source>
 		</trans-unit>
 		<trans-unit id="partials.module.state.error">
 			<source>An error occured! {{ msg.error }}</source>

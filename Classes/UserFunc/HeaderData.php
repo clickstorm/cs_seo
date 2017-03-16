@@ -26,6 +26,7 @@ namespace Clickstorm\CsSeo\UserFunc;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -53,7 +54,7 @@ class HeaderData {
 	public static function checkSeoGP() {
 
 		// get table settings
-		$tables = self::getPageTS();
+		$tables = ConfigurationUtility::getPageTSconfig();
 
 		if ($tables) {
 			$cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
@@ -67,16 +68,6 @@ class HeaderData {
 		}
 
 		return false;
-	}
-
-	/**
-	 * get the page TS Settings for tx_csseo
-	 * @return array|bool
-	 */
-	public static function getPageTS() {
-		$pageTSConfig = BackendUtility::getPagesTSconfig($GLOBALS['TSFE']->id);
-
-		return isset($pageTSConfig['tx_csseo.']) ? $pageTSConfig['tx_csseo.'] : false;
 	}
 
 	/**
@@ -127,7 +118,7 @@ class HeaderData {
 	 */
 	public function getMetaTags($content, $conf) {
 		// get table settings
-		$tables = self::getPageTS();
+		$tables = ConfigurationUtility::getPageTSconfig();
 
 		if ($tables) {
 			// get active table name und settings

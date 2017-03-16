@@ -46,6 +46,39 @@ class ConfigurationUtility {
 		return is_array($conf) ? $conf : [];
 	}
 
+    /**
+     * return the settings to extend records
+     *
+     * @return array
+     */
+    public static function getPageTSconfig() {
+        $extConf = self::getEmConfiguration();
+        $tsConfigPid = $extConf['tsConfigPid'] ?: 1;
+
+        $rootLine = \TYPO3\CMS\Backend\Utility\BackendUtility::BEgetRootLine($tsConfigPid, '', true);
+        $pageTSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($tsConfigPid, $rootLine);
+        return $pageTSconfig['tx_csseo.']?:[];
+    }
+
+    /**
+     * return the table names to extend
+     *
+     * @return array
+     */
+    public static function getTablesToExtend() {
+        $pageTSconfig = self::getPageTSconfig();
+        $tables = [];
+        if($pageTSconfig) {
+            foreach ($pageTSconfig as $table) {
+                if(is_string($table)) {
+                    $tables[] = $table;
+                }
+            }
+        }
+
+        return $tables;
+    }
+
 	/**
 	 * return the allowed doktypes of pages for evaluation
 	 *
@@ -59,5 +92,4 @@ class ConfigurationUtility {
 		}
 		return $allowedDoktypes;
 	}
-
 }
