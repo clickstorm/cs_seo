@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-03-16T22:28:39Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-03-16T23:13:14Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -196,6 +196,10 @@
 		<trans-unit id="partials.module.select.lang" approved="yes">
 			<source>Language</source>
 			<target>Sprache</target>
+		</trans-unit>
+		<trans-unit id="partials.module.select.record" approved="yes">
+			<source>Record</source>
+			<target>Datensatz</target>
 		</trans-unit>
 		<trans-unit id="partials.module.select.table" approved="yes">
 			<source>Record</source>

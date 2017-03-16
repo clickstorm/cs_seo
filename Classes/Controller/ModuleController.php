@@ -28,6 +28,7 @@ namespace Clickstorm\CsSeo\Controller;
  ***************************************************************/
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -73,7 +74,7 @@ class ModuleController extends ActionController {
 	/**
 	 * @var array
 	 */
-	protected $modParams = ['action' => '','id' => 0, 'lang' => 0, 'depth' => 1];
+	protected $modParams = ['action' => '','id' => 0, 'lang' => 0, 'depth' => 1, 'table' => 'pages'];
 
 	/**
 	 * @var array
@@ -99,7 +100,6 @@ class ModuleController extends ActionController {
 
 		// initialize settings of the module
 		$this->initializeModParams();
-
 		if(!$this->request->hasArgument('action') && $this->modParams['action']) {
 			$this->request->setArgument('action', $this->modParams['action']);
 			$this->forward($this->modParams['action']);
@@ -122,7 +122,7 @@ class ModuleController extends ActionController {
 
 				if ($this->request->hasArgument($name)) {
 					$arg = $this->request->getArgument($name);
-					$this->modParams[$name] = ($name == 'action') ? $arg : (int)$arg;
+					$this->modParams[$name] = ($name == 'action' || $name == 'table') ? $arg : (int)$arg;
 				}
 			$this->getBackendUser()->setAndSaveSessionData(self::SESSION_PREFIX . $name, $this->modParams[$name]);
 		}
@@ -206,21 +206,31 @@ class ModuleController extends ActionController {
             $tables[$tableToExtend] = LocalizationUtility::translate($GLOBALS['TCA'][$tableToExtend]['ctrl']['title'], $extKey);
         }
 
-        $lang = $this->modParams['lang'];
-		if($lang > 0) {
-			$page = $this->pageRepository->getPageOverlay($page, $lang);
-		}
-		$results = $this->getResults($page);
-		$langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?: 0;
+        $table = $this->modParams['table'];
+        if($table && $table != 'pages') {
+            $records = DatabaseUtility::getRecords($table);
+            $this->view->assignMultiple([
+                'records' => $records,
+                'table' => $table
+            ]);
+        } else {
+            $lang = $this->modParams['lang'];
+            if($lang > 0) {
+                $page = $this->pageRepository->getPageOverlay($page, $lang);
+            }
+            $results = $this->getResults($page);
+            $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?: 0;
+            $score = $results['Percentage'];
+            unset($results['Percentage']);
+            $this->view->assign('lang', $lang);
+        }
 
-		$score = $results['Percentage'];
-		unset($results['Percentage']);
+
 
 		$this->view->assignMultiple([
 			'score' => $score,
 			'results' => $results,
 			'page' => $page,
-			'lang' => $lang,
             'tables' => $tables,
 			'langDisplay' => $this->languages[$langResult],
 			'languages' => $this->languages

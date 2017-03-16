@@ -4,7 +4,7 @@
 <body>
 <f:section name="Main">
 	<!-- From -->
-	<f:form action="">
+	<f:form action="pageEvaluation">
 		<div class="row">
             <div class="form-group col-md-6">
                 <label for="table"><f:translate key="partials.module.select.table" /></label>
@@ -18,15 +18,31 @@
                         />
             </div>
 			<div class="form-group col-md-6">
-				<label for="lang"><f:translate key="partials.module.select.lang" /></label>
-				<f:form.select
-						id="lang"
-						options="{languages}"
-						class="form-control"
-						name="lang"
-						additionalAttributes="{onchange:'this.form.submit();'}"
-						value="{lang}"
-				/>
+                <f:if condition="{records}">
+                    <f:then>
+                        <label for="lang"><f:translate key="partials.module.select.record" /></label>
+                        <f:form.select
+                                id="record"
+                                options="{records}"
+                                class="form-control"
+                                name="record"
+                                additionalAttributes="{onchange:'this.form.submit();'}"
+                                value="{record}"
+                                />
+                    </f:then>
+                    <f:else>
+                        <label for="lang"><f:translate key="partials.module.select.lang" /></label>
+                        <f:form.select
+                                id="lang"
+                                options="{languages}"
+                                class="form-control"
+                                name="lang"
+                                additionalAttributes="{onchange:'this.form.submit();'}"
+                                value="{lang}"
+                                />
+                    </f:else>
+                </f:if>
+
 			</div>
 		</div>
 	</f:form>
