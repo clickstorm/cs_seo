@@ -202,8 +202,8 @@
 			<target>Datensatz</target>
 		</trans-unit>
 		<trans-unit id="partials.module.select.table" approved="yes">
-			<source>Record</source>
-			<target>Datensatz</target>
+			<source>Table</source>
+			<target>Tabelle</target>
 		</trans-unit>
 		<trans-unit id="partials.module.state.error" approved="yes">
 			<source>An error occured! {{ msg.error }}</source>

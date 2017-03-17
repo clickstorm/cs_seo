@@ -74,7 +74,7 @@ class ModuleController extends ActionController {
 	/**
 	 * @var array
 	 */
-	protected $modParams = ['action' => '','id' => 0, 'lang' => 0, 'depth' => 1, 'table' => 'pages'];
+	protected $modParams = ['action' => '','id' => 0, 'lang' => 0, 'depth' => 1, 'table' => 'pages', 'record' => 0];
 
 	/**
 	 * @var array
@@ -209,7 +209,10 @@ class ModuleController extends ActionController {
         $table = $this->modParams['table'];
         if($table && $table != 'pages') {
             $records = DatabaseUtility::getRecords($table);
+            $record = $this->modParams['record'];
+	        $results = $this->getResults($record, $table);
             $this->view->assignMultiple([
+            	'record' => $record,
                 'records' => $records,
                 'table' => $table
             ]);
@@ -220,12 +223,11 @@ class ModuleController extends ActionController {
             }
             $results = $this->getResults($page);
             $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?: 0;
-            $score = $results['Percentage'];
-            unset($results['Percentage']);
             $this->view->assign('lang', $lang);
         }
 
-
+		$score = $results['Percentage'];
+		unset($results['Percentage']);
 
 		$this->view->assignMultiple([
 			'score' => $score,
@@ -441,16 +443,22 @@ class ModuleController extends ActionController {
 	/**
 	 * return evaluation results of a specific page
 	 *
-	 * @param $page
+	 * @param $record
+	 * @param $table
 	 * @return array
 	 */
-	protected function getResults($page) {
+	protected function getResults($record, $table = '') {
 		$results = [];
-		if(isset($page['_PAGES_OVERLAY_LANGUAGE'])) {
-			$evaluation = $this->evaluationRepository->findByUidForeignAndTableName($page['_PAGES_OVERLAY_UID'], 'pages_language_overlay');
+		if($table) {
+			$evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record, $table);
 		} else {
-			$evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$page['uid'], 'pages');
+			if(isset($record['_PAGES_OVERLAY_LANGUAGE'])) {
+				$evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record['_PAGES_OVERLAY_UID'], 'pages_language_overlay');
+			} else {
+				$evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$record['uid'], 'pages');
+			}
 		}
+
 
 		if($evaluation) {
 			$results = $evaluation->getResults();

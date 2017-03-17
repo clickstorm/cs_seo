@@ -1,7 +1,9 @@
 <?php
 namespace Clickstorm\CsSeo\Utility;
 
+use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 
@@ -45,11 +47,12 @@ class DatabaseUtility {
     public static function getRecords($table) {
         $items = [];
 
-
         $res = self::getDatabaseConnection()->exec_SELECTquery(
             '*',
             $table,
-            '1=1 ' . BackendUtility::BEenableFields($table)
+            '1=1 ' . BackendUtility::BEenableFields($table),
+	        '',
+	        $GLOBALS['TCA'][$table]['ctrl']['tstamp'] ? $GLOBALS['TCA'][$table]['ctrl']['tstamp'] . ' ' . QueryInterface::ORDER_ASCENDING : ''
         );
         while ($row = self::getDatabaseConnection()->sql_fetch_assoc($res)) {
             $items[$row['uid']] = $row[$GLOBALS['TCA'][$table]['ctrl']['label']];

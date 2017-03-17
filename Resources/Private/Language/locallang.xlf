@@ -153,7 +153,7 @@
 			<source>Record</source>
 		</trans-unit>
 		<trans-unit id="partials.module.select.table">
-			<source>Record</source>
+			<source>Table</source>
 		</trans-unit>
 		<trans-unit id="partials.module.state.error">
 			<source>An error occured! {{ msg.error }}</source>
