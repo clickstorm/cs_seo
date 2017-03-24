@@ -34,6 +34,7 @@ use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * Class TypoScriptFrontendController
+ *
  * @package Clickstorm\CsSeo\Controller
  */
 class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
@@ -67,6 +68,7 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
      *
      * @param string $reason Reason text
      * @param string $header HTTP header to send
+     *
      * @return void
      */
     public function pageNotFoundAndExit($reason = '', $header = '')
@@ -82,7 +84,7 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
      */
     public function setSysPageWhereClause()
     {
-        if($GLOBALS['BE_USER']->workspace > 0) {
+        if ($GLOBALS['BE_USER']->workspace > 0) {
             $this->sys_page->versioningPreview = true;
         }
         $this->sys_page->where_hid_del = '';
@@ -103,7 +105,8 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
         $timeTracker->push('fetch_the_id initialize/', '');
         // Initialize the page-select functions.
         $this->sys_page = GeneralUtility::makeInstance(PageRepository::class);
-        $this->sys_page->versioningPreview = $this->fePreview === 2 || (int)$this->workspacePreview || (bool)GeneralUtility::_GP('ADMCMD_view');
+        $this->sys_page->versioningPreview =
+            $this->fePreview === 2 || (int)$this->workspacePreview || (bool)GeneralUtility::_GP('ADMCMD_view');
         $this->sys_page->versioningWorkspaceId = $this->whichWorkspace();
         $this->sys_page->init($this->showHiddenPage);
         // Set the valid usergroups for FE
@@ -165,7 +168,8 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
             $this->register['SYS_LASTCHANGED'] = (int)$this->page['SYS_LASTCHANGED'];
         }
         if (is_array($this->TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['fetchPageId-PostProcessing'])) {
-            foreach ($this->TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['fetchPageId-PostProcessing'] as $functionReference) {
+            foreach ($this->TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['fetchPageId-PostProcessing'] as
+                $functionReference) {
                 $parameters = ['parentObject' => $this];
                 GeneralUtility::callUserFunction($functionReference, $parameters, $this);
             }

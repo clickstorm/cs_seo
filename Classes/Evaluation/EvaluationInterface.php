@@ -28,15 +28,17 @@ namespace Clickstorm\CsSeo\Evaluation;
 
 /**
  * Interface EvaluationInterface
+ *
  * @package Clickstorm\CsSeo\Evaluation
  */
-interface EvaluationInterface {
+interface EvaluationInterface
+{
 
-	/**
-	 * Evaluate the html to a specific function
-	 *
-	 * @return array
-	 * @api
-	 */
-	public function evaluate();
+    /**
+     * Evaluate the html to a specific function
+     *
+     * @return array
+     * @api
+     */
+    public function evaluate();
 }

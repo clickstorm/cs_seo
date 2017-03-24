@@ -41,194 +41,220 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
  * hook to display the evaluation results in the page module
  *
  * Class pageHook
+ *
  * @package Clickstorm\CsSeo\Hook
  */
-class PageHook {
+class PageHook
+{
 
-	/**
-	 * @var StandaloneView
-	 */
-	protected $view;
+    /**
+     * @var StandaloneView
+     */
+    protected $view;
 
-	/**
-	 * @var string $resourcesPath
-	 */
-	protected $resourcesPath;
+    /**
+     * @var string $resourcesPath
+     */
+    protected $resourcesPath;
 
-	public function __construct() {
-		$this->resourcesPath = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/';
-	}
+    public function __construct()
+    {
+        $this->resourcesPath = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/';
+    }
 
-	/**
-	 * Load the necessary css
-	 *
-	 * This will only be done when the referenced record is available
-	 *
-	 * @return void
-	 */
-	protected function loadCss()
-	{
-		// @todo Set to TRUE when finished
-		$compress = false;
-		$cssFiles = array(
-			'Icons.css',
-			'Evaluation.css'
-		);
+    /**
+     * Load the necessary css
+     *
+     * This will only be done when the referenced record is available
+     *
+     * @return void
+     */
+    protected function loadCss()
+    {
+        // @todo Set to TRUE when finished
+        $compress = false;
+        $cssFiles = [
+            'Icons.css',
+            'Evaluation.css'
+        ];
 
-		$baseUrl = $this->resourcesPath . 'Public/CSS/';
+        $baseUrl = $this->resourcesPath . 'Public/CSS/';
 
-		// Load the wizards css
-		foreach ($cssFiles as $cssFile) {
-			$this->getPageRenderer()->addCssFile($baseUrl . $cssFile, 'stylesheet', 'all', '', $compress, false);
-		}
-	}
+        // Load the wizards css
+        foreach ($cssFiles as $cssFile) {
+            $this->getPageRenderer()->addCssFile($baseUrl . $cssFile, 'stylesheet', 'all', '', $compress, false);
+        }
+    }
 
-	/**
-	 * Load the necessary javascript
-	 *
-	 * This will only be done when the referenced record is available
-	 *
-	 * @return void
-	 */
-	protected function loadJavascript()
-	{
-		$compress = false;
-		$javascriptFiles = array(
-			'jquery.cookie.js',
-			'jquery.cs_seo.evaluation.js'
-		);
-		// Load jquery
-		$this->getPageRenderer()->loadJquery();
+    /**
+     * Load the necessary javascript
+     *
+     * This will only be done when the referenced record is available
+     *
+     * @return void
+     */
+    protected function loadJavascript()
+    {
+        $compress = false;
+        $javascriptFiles = [
+            'jquery.cookie.js',
+            'jquery.cs_seo.evaluation.js'
+        ];
+        // Load jquery
+        $this->getPageRenderer()->loadJquery();
 
-		// Load the wizards javascript
-		$baseUrl = $this->resourcesPath . 'Public/JavaScript/';
+        // Load the wizards javascript
+        $baseUrl = $this->resourcesPath . 'Public/JavaScript/';
 
-		foreach ($javascriptFiles as $javascriptFile) {
-			$this->getPageRenderer()->addJsFile($baseUrl . $javascriptFile, 'text/javascript', $compress, false, '', true, '|', true);
-		}
-	}
+        foreach ($javascriptFiles as $javascriptFile) {
+            $this->getPageRenderer()->addJsFile(
+                $baseUrl . $javascriptFile,
+                'text/javascript',
+                $compress,
+                false,
+                '',
+                true,
+                '|',
+                true
+            );
+        }
+    }
 
 
-	/**
-	 * Add sys_notes as additional content to the footer of the page module
-	 *
-	 * @param array $params
-	 * @param PageLayoutController $parentObject
-	 * @return string
-	 */
-	public function render(array $params = array(), PageLayoutController $parentObject)
-	{
-		if($parentObject->MOD_SETTINGS['function'] == 1 && !$parentObject->modTSconfig['properties']['tx_csseo.']['disable']) {
-			$pageInfo = $parentObject->pageinfo;
-			if($this->pageCanBeIndexed($pageInfo)) {
-				// template
-				$this->loadCss();
-				$this->loadJavascript();
-				
-				//load partial paths info from typoscript
-				$this->view = GeneralUtility::makeInstance(StandaloneView::class);
-				$this->view->setFormat('html');
-				$this->view->getRequest()->setControllerExtensionName('cs_seo');
+    /**
+     * Add sys_notes as additional content to the footer of the page module
+     *
+     * @param array $params
+     * @param PageLayoutController $parentObject
+     *
+     * @return string
+     */
+    public function render(array $params, PageLayoutController $parentObject)
+    {
+        if ($parentObject->MOD_SETTINGS['function'] == 1
+            && !$parentObject->modTSconfig['properties']['tx_csseo.']['disable']
+        ) {
+            $pageInfo = $parentObject->pageinfo;
+            if ($this->pageCanBeIndexed($pageInfo)) {
+                // template
+                $this->loadCss();
+                $this->loadJavascript();
 
-				$absoluteResourcesPath = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/';
-				$layoutPaths = [$absoluteResourcesPath . 'Private/Layouts/'];
-				$partialPaths = [$absoluteResourcesPath . 'Private/Partials/'];
+                //load partial paths info from typoscript
+                $this->view = GeneralUtility::makeInstance(StandaloneView::class);
+                $this->view->setFormat('html');
+                $this->view->getRequest()->setControllerExtensionName('cs_seo');
 
-				// load partial paths info from TypoScript
-				/** @var ObjectManager $objectManager */
-				$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-				/** @var ConfigurationManagerInterface $configurationManager */
-				$configurationManager = $objectManager->get(ConfigurationManagerInterface::class);
-				$tsSetup = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK, 'csseo');
-				$layoutPaths = $tsSetup["view"]["layoutRootPaths"]?: $layoutPaths;
-				$partialPaths = $tsSetup["view"]["partialRootPaths"]?: $partialPaths;
+                $absoluteResourcesPath = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/';
+                $layoutPaths = [$absoluteResourcesPath . 'Private/Layouts/'];
+                $partialPaths = [$absoluteResourcesPath . 'Private/Partials/'];
 
-				$this->view->setLayoutRootPaths($layoutPaths);
-				$this->view->setPartialRootPaths($partialPaths);
+                // load partial paths info from TypoScript
+                /** @var ObjectManager $objectManager */
+                $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+                /** @var ConfigurationManagerInterface $configurationManager */
+                $configurationManager = $objectManager->get(ConfigurationManagerInterface::class);
+                $tsSetup =
+                    $configurationManager->getConfiguration(
+                        ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK,
+                        'csseo'
+                    );
+                $layoutPaths = $tsSetup["view"]["layoutRootPaths"] ?: $layoutPaths;
+                $partialPaths = $tsSetup["view"]["partialRootPaths"] ?: $partialPaths;
 
-				$this->view->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html');
+                $this->view->setLayoutRootPaths($layoutPaths);
+                $this->view->setPartialRootPaths($partialPaths);
 
-				$results = $this->getResults($pageInfo, $parentObject->current_sys_language);
-				$score = $results['Percentage'];
-				unset($results['Percentage']);
+                $this->view->setTemplatePathAndFilename(
+                    ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html'
+                );
 
-				$this->view->assignMultiple([
-					'score' => $score,
-					'results'=> $results,
-					'page' => $parentObject->pageinfo
-				]);
+                $results = $this->getResults($pageInfo, $parentObject->current_sys_language);
+                $score = $results['Percentage'];
+                unset($results['Percentage']);
 
-				return $this->view->render();
-			}
-		}
-	}
+                $this->view->assignMultiple(
+                    [
+                        'score' => $score,
+                        'results' => $results,
+                        'page' => $parentObject->pageinfo
+                    ]
+                );
 
-	/**
-	 * @param array $page
-	 * @return bool
-	 */
-	public function pageCanBeIndexed($page) {
-		$allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
-		if(in_array($page['doktype'], $allowedDoktypes) && $page['hidden'] == 0) {
-			return true;
-		}
-		return false;
-	}
+                return $this->view->render();
+            }
+        }
+    }
 
-	/**
-	 * @return PageRenderer
-	 */
-	protected function getPageRenderer()
-	{
-		if (!isset($this->pageRenderer)) {
-			$this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-		}
-		return $this->pageRenderer;
-	}
+    /**
+     * @param array $page
+     *
+     * @return bool
+     */
+    public function pageCanBeIndexed($page)
+    {
+        $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
+        if (in_array($page['doktype'], $allowedDoktypes) && $page['hidden'] == 0) {
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * @param $pageInfo
-	 * @param $lang
-	 * @return array
-	 */
-	protected function getResults($pageInfo, $lang)
-	{
-		$results = [];
-		
-		if($lang) {
-			$tableName = 'pages_language_overlay';
-			$localizedPageInfo = BackendUtility::getRecordLocalization('pages', $pageInfo['uid'], $lang);
-			if($localizedPageInfo[0]) {
-				$uidForeign = $localizedPageInfo[0]['uid'];
-			} else {
-				return [];
-			}
-		} else {
-			$tableName = 'pages';
-			$uidForeign = $pageInfo['uid'];
-		}
+    /**
+     * @return PageRenderer
+     */
+    protected function getPageRenderer()
+    {
+        if (!isset($this->pageRenderer)) {
+            $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        }
+        return $this->pageRenderer;
+    }
 
-		$where = 'uid_foreign = ' . $uidForeign;
-		$where .= ' AND tablenames = "' . $tableName . '"';
+    /**
+     * @param $pageInfo
+     * @param $lang
+     *
+     * @return array
+     */
+    protected function getResults($pageInfo, $lang)
+    {
+        $results = [];
 
-		$res = $this->getDatabaseConnection()->exec_SELECTquery(
-			'results',
-			'tx_csseo_domain_model_evaluation',
-			$where
-		);
-		while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
-			$results = unserialize($row['results']);
-		}
-		return $results;
-	}
+        if ($lang) {
+            $tableName = 'pages_language_overlay';
+            $localizedPageInfo = BackendUtility::getRecordLocalization('pages', $pageInfo['uid'], $lang);
+            if ($localizedPageInfo[0]) {
+                $uidForeign = $localizedPageInfo[0]['uid'];
+            } else {
+                return [];
+            }
+        } else {
+            $tableName = 'pages';
+            $uidForeign = $pageInfo['uid'];
+        }
 
-	/**
-	 * Returns the database connection
-	 *
-	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected function getDatabaseConnection()
-	{
-		return $GLOBALS['TYPO3_DB'];
-	}
+        $where = 'uid_foreign = ' . $uidForeign;
+        $where .= ' AND tablenames = "' . $tableName . '"';
+
+        $res = $this->getDatabaseConnection()->exec_SELECTquery(
+            'results',
+            'tx_csseo_domain_model_evaluation',
+            $where
+        );
+        while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+            $results = unserialize($row['results']);
+        }
+        return $results;
+    }
+
+    /**
+     * Returns the database connection
+     *
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 }

@@ -29,18 +29,19 @@ use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 
 /**
  * Class DescriptionEvaluator
+ *
  * @package Clickstorm\CsSeo\Evaluation
  */
 class DescriptionEvaluator extends AbstractLengthEvaluator
 {
-	/**
-	 * @return array
-	 */
-	public function evaluate() {
-		$extConf = ConfigurationUtility::getEmConfiguration();
+    /**
+     * @return array
+     */
+    public function evaluate()
+    {
+        $extConf = ConfigurationUtility::getEmConfiguration();
 
-		$description = $this->getMetaTagContent('description');
-		return $this->evaluateLength($description, $extConf['minDescription'], $extConf['maxDescription']);
-	}
-
+        $description = $this->getMetaTagContent('description');
+        return $this->evaluateLength($description, $extConf['minDescription'], $extConf['maxDescription']);
+    }
 }

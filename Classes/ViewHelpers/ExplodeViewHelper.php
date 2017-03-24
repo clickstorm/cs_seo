@@ -31,17 +31,20 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class GetValueViewHelper
+ *
  * @package Clickstorm\CsSeo\ViewHelpers
  */
-class ExplodeViewHelper extends AbstractViewHelper {
+class ExplodeViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * @param string $delimiter
-	 * @param string $string
-	 * @return array
-	 */
-	public function render($delimiter = ',', $string = '') {
-		return GeneralUtility::trimExplode($delimiter, $string);
-	}
-
+    /**
+     * @param string $delimiter
+     * @param string $string
+     *
+     * @return array
+     */
+    public function render($delimiter = ',', $string = '')
+    {
+        return GeneralUtility::trimExplode($delimiter, $string);
+    }
 }

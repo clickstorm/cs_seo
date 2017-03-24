@@ -32,35 +32,40 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class RobotsEvaluator
+ *
  * @package Clickstorm\CsSeo\Evaluation
  */
-class RobotsExistsEvaluator {
-	/**
-	 * Server-side validation/evaluation on saving the record
-	 *
-	 * @param string $value The field value to be evaluated
-	 * @param string $is_in The "is_in" value of the field configuration from TCA
-	 * @param bool $set Boolean defining if the value is written to the database or not. Must be passed by reference and changed if needed.
-	 * @return string Evaluated field value
-	 */
-	public function evaluateFieldValue($value, $is_in, &$set) {
-		if (file_exists(PATH_site . 'robots.txt') && strlen($value) > 0) {
-			/** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
-			$flashMessage = GeneralUtility::makeInstance(
-				FlashMessage::class,
-				$GLOBALS['LANG']->sL(
-					'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:evaluation.tca.robots_txt.robots_exists'
-				),
-				"",
-				FlashMessage::WARNING
-			);
-			/** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
-			$flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-			/** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
-			$defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
-			$defaultFlashMessageQueue->enqueue($flashMessage);
-		}
+class RobotsExistsEvaluator
+{
+    /**
+     * Server-side validation/evaluation on saving the record
+     *
+     * @param string $value The field value to be evaluated
+     * @param string $is_in The "is_in" value of the field configuration from TCA
+     * @param bool $set Boolean defining if the value is written to the database or not. Must be passed by reference
+     *     and changed if needed.
+     *
+     * @return string Evaluated field value
+     */
+    public function evaluateFieldValue($value, $is_in, &$set)
+    {
+        if (file_exists(PATH_site . 'robots.txt') && strlen($value) > 0) {
+            /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
+            $flashMessage = GeneralUtility::makeInstance(
+                FlashMessage::class,
+                $GLOBALS['LANG']->sL(
+                    'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:evaluation.tca.robots_txt.robots_exists'
+                ),
+                "",
+                FlashMessage::WARNING
+            );
+            /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+            /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
+            $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
+            $defaultFlashMessageQueue->enqueue($flashMessage);
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 }

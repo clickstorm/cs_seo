@@ -36,23 +36,29 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  * Access to the Database
  *
  * Class DatabaseUtility
+ *
  * @package Clickstorm\CsSeo\Utility
  */
-class DatabaseUtility {
+class DatabaseUtility
+{
 
     /**
      * @param $table
+     *
      * @return array
      */
-    public static function getRecords($table) {
+    public static function getRecords($table)
+    {
         $items = [];
 
         $res = self::getDatabaseConnection()->exec_SELECTquery(
             '*',
             $table,
             '1=1 ' . BackendUtility::BEenableFields($table),
-	        '',
-	        $GLOBALS['TCA'][$table]['ctrl']['tstamp'] ? $GLOBALS['TCA'][$table]['ctrl']['tstamp'] . ' ' . QueryInterface::ORDER_ASCENDING : ''
+            '',
+            $GLOBALS['TCA'][$table]['ctrl']['tstamp'] ? $GLOBALS['TCA'][$table]['ctrl']['tstamp']
+                . ' '
+                . QueryInterface::ORDER_ASCENDING : ''
         );
         while ($row = self::getDatabaseConnection()->sql_fetch_assoc($res)) {
             $items[$row['uid']] = $row[$GLOBALS['TCA'][$table]['ctrl']['label']];

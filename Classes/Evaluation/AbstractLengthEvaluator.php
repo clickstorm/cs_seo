@@ -30,34 +30,37 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class AbstractLengthEvaluator
+ *
  * @package Clickstorm\CsSeo\Evaluation
  */
 abstract class AbstractLengthEvaluator extends AbstractEvaluator
 {
-	/**
-	 * @param string $content
-	 * @param int $min
-	 * @param int $max
-	 * @return array
-	 */
-	protected function evaluateLength($content, $min, $max) {
-		$state = self::STATE_RED;
+    /**
+     * @param string $content
+     * @param int $min
+     * @param int $max
+     *
+     * @return array
+     */
+    protected function evaluateLength($content, $min, $max)
+    {
+        $state = self::STATE_RED;
 
-		/** @var CharsetConverter $charsetConverter */
-		$charsetConverter = GeneralUtility::makeInstance(CharsetConverter::class);
-		$count = $charsetConverter->strlen('utf-8', $content);
+        /** @var CharsetConverter $charsetConverter */
+        $charsetConverter = GeneralUtility::makeInstance(CharsetConverter::class);
+        $count = $charsetConverter->strlen('utf-8', $content);
 
-		if($count >= $min && $count <= $max) {
-			$state =  self::STATE_GREEN;
-		} else {
-			if($count > 0) {
-				$state =  self::STATE_YELLOW;
-			}
-		}
+        if ($count >= $min && $count <= $max) {
+            $state = self::STATE_GREEN;
+        } else {
+            if ($count > 0) {
+                $state = self::STATE_YELLOW;
+            }
+        }
 
-		return [
-			'state' => $state,
-			'count' => $count
-		];
-	}
+        return [
+            'state' => $state,
+            'count' => $count
+        ];
+    }
 }

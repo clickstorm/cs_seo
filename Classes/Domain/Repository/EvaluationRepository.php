@@ -1,7 +1,6 @@
 <?php
 namespace Clickstorm\CsSeo\Domain\Repository;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -31,39 +30,43 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 
 /**
  * Class EvaluationRepository
+ *
  * @package Clickstorm\CsSeo\Domain\Repository
  */
 class EvaluationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
-	protected $respectStoragePage = false;
+    protected $respectStoragePage = false;
 
-	public function initializeObject() {
-		/** @var Typo3QuerySettings $defaultQuerySettings */
-		$defaultQuerySettings = $this->objectManager->get(Typo3QuerySettings::class);
-		$defaultQuerySettings->setRespectStoragePage(false);
-		$defaultQuerySettings->setRespectSysLanguage(false);
-		$this->setDefaultQuerySettings($defaultQuerySettings);
-	}
+    public function initializeObject()
+    {
+        /** @var Typo3QuerySettings $defaultQuerySettings */
+        $defaultQuerySettings = $this->objectManager->get(Typo3QuerySettings::class);
+        $defaultQuerySettings->setRespectStoragePage(false);
+        $defaultQuerySettings->setRespectSysLanguage(false);
+        $this->setDefaultQuerySettings($defaultQuerySettings);
+    }
 
-	/**
-	 * Finds an object matching the given identifier.
-	 *
-	 * @param int $uidForeign
-	 * @param string $tableName
-	 * @return object The matching object if found, otherwise NULL
-	*/
-	public function findByUidForeignAndTableName($uidForeign, $tableName) {
+    /**
+     * Finds an object matching the given identifier.
+     *
+     * @param int $uidForeign
+     * @param string $tableName
+     *
+     * @return object The matching object if found, otherwise NULL
+     */
+    public function findByUidForeignAndTableName($uidForeign, $tableName)
+    {
 
-		$query = $this->createQuery();
+        $query = $this->createQuery();
 
-		$constraints = [];
+        $constraints = [];
 
-		$constraints[] = $query->equals('uid_foreign', $uidForeign);
-		$constraints[] = $query->equals('tablenames', $tableName);
+        $constraints[] = $query->equals('uid_foreign', $uidForeign);
+        $constraints[] = $query->equals('tablenames', $tableName);
 
-		$query->matching($query->logicalAnd($constraints));
+        $query->matching($query->logicalAnd($constraints));
 
-		return $query->execute()->getFirst();
-	}
+        return $query->execute()->getFirst();
+    }
 }

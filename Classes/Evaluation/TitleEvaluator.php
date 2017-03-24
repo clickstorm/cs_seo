@@ -29,14 +29,16 @@ use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 
 /**
  * Class TitleEvaluator
+ *
  * @package Clickstorm\CsSeo\Evaluation
  */
 class TitleEvaluator extends AbstractLengthEvaluator
 {
-	public function evaluate() {
-		$title = $this->getSingleDomElementContentByTagName('title');
-		$extConf = ConfigurationUtility::getEmConfiguration();
+    public function evaluate()
+    {
+        $title = $this->getSingleDomElementContentByTagName('title');
+        $extConf = ConfigurationUtility::getEmConfiguration();
 
-		return $this->evaluateLength($title, $extConf['minTitle'], $extConf['maxTitle']);
-	}
+        return $this->evaluateLength($title, $extConf['minTitle'], $extConf['maxTitle']);
+    }
 }

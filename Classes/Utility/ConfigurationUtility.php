@@ -32,32 +32,36 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Get Extension Configuration
  *
  * Class ConfigurationUtility
+ *
  * @package Clickstorm\CsSeo\Utility
  */
-class ConfigurationUtility {
+class ConfigurationUtility
+{
 
-	/**
-	 * Get the configuration from the extension manager
-	 *
-	 * @return array
-	 */
-	public static function getEmConfiguration() {
-		$conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
-		return is_array($conf) ? $conf : [];
-	}
+    /**
+     * Get the configuration from the extension manager
+     *
+     * @return array
+     */
+    public static function getEmConfiguration()
+    {
+        $conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
+        return is_array($conf) ? $conf : [];
+    }
 
     /**
      * return the settings to extend records
      *
      * @return array
      */
-    public static function getPageTSconfig() {
+    public static function getPageTSconfig()
+    {
         $extConf = self::getEmConfiguration();
         $tsConfigPid = $extConf['tsConfigPid'] ?: 1;
 
         $rootLine = \TYPO3\CMS\Backend\Utility\BackendUtility::BEgetRootLine($tsConfigPid, '', true);
         $pageTSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($tsConfigPid, $rootLine);
-        return $pageTSconfig['tx_csseo.']?:[];
+        return $pageTSconfig['tx_csseo.'] ?: [];
     }
 
     /**
@@ -65,12 +69,13 @@ class ConfigurationUtility {
      *
      * @return array
      */
-    public static function getTablesToExtend() {
+    public static function getTablesToExtend()
+    {
         $pageTSconfig = self::getPageTSconfig();
         $tables = [];
-        if($pageTSconfig) {
+        if ($pageTSconfig) {
             foreach ($pageTSconfig as $table) {
-                if(is_string($table)) {
+                if (is_string($table)) {
                     $tables[] = $table;
                 }
             }
@@ -79,17 +84,18 @@ class ConfigurationUtility {
         return $tables;
     }
 
-	/**
-	 * return the allowed doktypes of pages for evaluation
-	 *
-	 * @return array
-	 */
-	public static function getEvaluationDoktypes() {
-		$allowedDoktypes = [1];
-		$extConf = self::getEmConfiguration();
-		if($extConf['evaluationDoktypes']) {
-			$allowedDoktypes = GeneralUtility::trimExplode(',', $extConf['evaluationDoktypes']);
-		}
-		return $allowedDoktypes;
-	}
+    /**
+     * return the allowed doktypes of pages for evaluation
+     *
+     * @return array
+     */
+    public static function getEvaluationDoktypes()
+    {
+        $allowedDoktypes = [1];
+        $extConf = self::getEmConfiguration();
+        if ($extConf['evaluationDoktypes']) {
+            $allowedDoktypes = GeneralUtility::trimExplode(',', $extConf['evaluationDoktypes']);
+        }
+        return $allowedDoktypes;
+    }
 }

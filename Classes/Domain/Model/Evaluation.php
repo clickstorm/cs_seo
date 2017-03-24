@@ -1,7 +1,6 @@
 <?php
 namespace Clickstorm\CsSeo\Domain\Model;
 
-
 /***************************************************************
  *
  *  Copyright notice
@@ -29,64 +28,71 @@ namespace Clickstorm\CsSeo\Domain\Model;
 
 /**
  * Class Evaluation
+ *
  * @package Clickstorm\CsSeo\Domain\Model
  */
 class Evaluation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-	/**
-	 * @var string
-	 */
-	protected $results;
+    /**
+     * @var string
+     */
+    protected $results;
 
-	/**
-	 * @var int
-	 */
-	protected $uidForeign;
+    /**
+     * @var int
+     */
+    protected $uidForeign;
 
-	/**
-	 * @var string
-	 */
-	protected $tablenames;
+    /**
+     * @var string
+     */
+    protected $tablenames;
 
-	/**
-	 * @return array
-	 */
-	public function getResults() {
-		return unserialize($this->results);
-	}
+    /**
+     * @return array
+     */
+    public function getResults()
+    {
+        return unserialize($this->results);
+    }
 
-	/**
-	 * @param array $results
-	 */
-	public function setResults($results) {
-		$this->results = serialize($results);
-	}
+    /**
+     * @param array $results
+     */
+    public function setResults($results)
+    {
+        $this->results = serialize($results);
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getUidForeign() {
-		return $this->uidForeign;
-	}
+    /**
+     * @return int
+     */
+    public function getUidForeign()
+    {
+        return $this->uidForeign;
+    }
 
-	/**
-	 * @param int $uidForeign
-	 */
-	public function setUidForeign($uidForeign) {
-		$this->uidForeign = $uidForeign;
-	}
+    /**
+     * @param int $uidForeign
+     */
+    public function setUidForeign($uidForeign)
+    {
+        $this->uidForeign = $uidForeign;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTablenames() {
-		return $this->tablenames;
-	}
+    /**
+     * @return string
+     */
+    public function getTablenames()
+    {
+        return $this->tablenames;
+    }
 
-	/**
-	 * @param string $tablenames
-	 */
-	public function setTablenames($tablenames) {
-		$this->tablenames = $tablenames;
-	}
+    /**
+     * @param string $tablenames
+     */
+    public function setTablenames($tablenames)
+    {
+        $this->tablenames = $tablenames;
+    }
 }

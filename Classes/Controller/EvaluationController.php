@@ -32,23 +32,25 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * Class EvaluationController
+ *
  * @package Clickstorm\CsSeo\Controller
  */
-class EvaluationController extends ActionController {
+class EvaluationController extends ActionController
+{
 
-	/**
-	 * @var EvaluationRepository
-	 * @inject
-	 */
-	protected $evaluationRepository;
+    /**
+     * @var EvaluationRepository
+     * @inject
+     */
+    protected $evaluationRepository;
 
-	public function showAction($uidForeign, $tableName = 'pages') {
+    public function showAction($uidForeign, $tableName = 'pages')
+    {
 
-		$evaluation = $this->evaluationRepository->findByUidForeignAndTableName($uidForeign, $tableName);
+        $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($uidForeign, $tableName);
 
-		$this->view->assign('results', $evaluation);
+        $this->view->assign('results', $evaluation);
 
-		return $this->view->render();
-	}
-
+        return $this->view->render();
+    }
 }

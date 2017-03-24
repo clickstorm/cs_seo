@@ -35,6 +35,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Set the RealURL path segment if empty
  *
  * Class PageTitle
+ *
  * @package Clickstorm\CsSeo\UserFunc
  */
 class PermalinkWizard
@@ -104,7 +105,16 @@ class PermalinkWizard
         // Load the wizards javascript
         $baseUrl = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/JavaScript/';
         foreach ($javascriptFiles as $javascriptFile) {
-            $this->getPageRenderer()->addJsFile($baseUrl . $javascriptFile, 'text/javascript', $compress, false, '', false, '|', true);
+            $this->getPageRenderer()->addJsFile(
+                $baseUrl . $javascriptFile,
+                'text/javascript',
+                $compress,
+                false,
+                '',
+                false,
+                '|',
+                true
+            );
         }
     }
 
@@ -118,5 +128,4 @@ class PermalinkWizard
         }
         return $this->pageRenderer;
     }
-
 }

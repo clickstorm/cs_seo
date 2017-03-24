@@ -36,56 +36,61 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
  * crawl the page
  *
  * Class FrontendPageService
+ *
  * @package Clickstorm\CsSeo\Service
  */
-class FrontendPageService {
+class FrontendPageService
+{
 
-	/**
-	 * @var array
-	 */
-	protected $pageInfo;
+    /**
+     * @var array
+     */
+    protected $pageInfo;
 
-	/**
-	 * @var int
-	 */
-	protected $lang;
+    /**
+     * @var int
+     */
+    protected $lang;
 
-	/**
-	 * TSFEUtility constructor.
-	 * @param array $pageInfo
-	 */
-	public function __construct($pageInfo) {
-		$this->pageInfo = $pageInfo;
-	}
+    /**
+     * TSFEUtility constructor.
+     *
+     * @param array $pageInfo
+     */
+    public function __construct($pageInfo)
+    {
+        $this->pageInfo = $pageInfo;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getHTML() {
-		$allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
-		if(!in_array($this->pageInfo['doktype'], $allowedDoktypes) || $this->pageInfo['tx_csseo_no_index']) {
-			return '';
-		}
+    /**
+     * @return string
+     */
+    public function getHTML()
+    {
+        $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
+        if (!in_array($this->pageInfo['doktype'], $allowedDoktypes) || $this->pageInfo['tx_csseo_no_index']) {
+            return '';
+        }
 
         // add id and language
-		if($this->pageInfo['sys_language_uid'] > 0) {
-			$pid = $this->pageInfo['pid'];
-			$params = 'id=' . $pid . '&L=' . $this->pageInfo['sys_language_uid'];
-		} else {
-			$pid = $this->pageInfo['uid'];
-			$params = 'id=' . $pid;
-		}
+        if ($this->pageInfo['sys_language_uid'] > 0) {
+            $pid = $this->pageInfo['pid'];
+            $params = 'id=' . $pid . '&L=' . $this->pageInfo['sys_language_uid'];
+        } else {
+            $pid = $this->pageInfo['uid'];
+            $params = 'id=' . $pid;
+        }
 
         // disable cache
         $params .= '&no_cache=1';
 
-		$domain = BackendUtility::getViewDomain($pid);
-		$url = $domain . '/index.php?' . $params;
+        $domain = BackendUtility::getViewDomain($pid);
+        $url = $domain . '/index.php?' . $params;
 
-		$report = [];
-		$content = GeneralUtility::getUrl($url, 0, false, $report);
+        $report = [];
+        $content = GeneralUtility::getUrl($url, 0, false, $report);
 
-        if($report['message'] && $report['message'] != 'OK') {
+        if ($report['message'] && $report['message'] != 'OK') {
             /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
             $flashMessage = GeneralUtility::makeInstance(
                 FlashMessage::class,
@@ -100,6 +105,6 @@ class FrontendPageService {
             $flashMessageQueue->enqueue($flashMessage);
         }
 
-		return in_array($report['error'], [0, 200]) ? $content : '';
-	}
+        return in_array($report['error'], [0, 200]) ? $content : '';
+    }
 }

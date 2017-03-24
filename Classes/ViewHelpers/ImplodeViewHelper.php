@@ -30,17 +30,20 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class GetValueViewHelper
+ *
  * @package Clickstorm\CsSeo\ViewHelpers
  */
-class ImplodeViewHelper extends AbstractViewHelper {
+class ImplodeViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * @param string $glue
-	 * @param array $pieces
-	 * @return string
-	 */
-	public function render($glue = ',', $pieces = []) {
-		return implode($glue, $pieces);
-	}
-
+    /**
+     * @param string $glue
+     * @param array $pieces
+     *
+     * @return string
+     */
+    public function render($glue = ',', $pieces = [])
+    {
+        return implode($glue, $pieces);
+    }
 }

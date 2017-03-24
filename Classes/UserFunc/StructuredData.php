@@ -46,11 +46,11 @@ class StructuredData
 
     public function __construct()
     {
-        $this->tsfeUtility = GeneralUtility::makeInstance(\Clickstorm\CsSeo\Utility\TSFEUtility::class, $GLOBALS['TSFE']->id);
-
+        $this->tsfeUtility =
+            GeneralUtility::makeInstance(\Clickstorm\CsSeo\Utility\TSFEUtility::class, $GLOBALS['TSFE']->id);
     }
 
-     /**
+    /**
      * Returns the json for the siteSearch
      *
      * @return bool|string siteSearch
@@ -63,7 +63,7 @@ class StructuredData
         $typoLinkConf = [
             'parameter' => $conf['userFunc.']['pid'],
             'forceAbsoluteUrl' => 1,
-            'additionalParams' => '&'.$conf['userFunc.']['searchterm'].'='
+            'additionalParams' => '&' . $conf['userFunc.']['searchterm'] . '='
         ];
 
         $siteSearchUrl = $cObject->typoLink_URL($typoLinkConf);
@@ -71,27 +71,27 @@ class StructuredData
         $siteSearch = [
             '@context' => 'http://schema.org',
             '@type' => 'WebSite',
-            'url' => $homepage.'/',
+            'url' => $homepage . '/',
             'potentialAction' => [
                 '@type' => 'SearchAction',
-                'target' => $siteSearchUrl.'{search_term_string}',
+                'target' => $siteSearchUrl . '{search_term_string}',
                 'query-input' => 'required name=search_term_string',
             ],
         ];
 
         return $this->wrapWithLd(json_encode($siteSearch));
-
     }
 
     /**
      * Wraps $content with Json declaration
      *
      * @param $content
+     *
      * @return string
      */
     protected function wrapWithLd($content)
     {
-        return '<script type="application/ld+json">'.$content.'</script>';
+        return '<script type="application/ld+json">' . $content . '</script>';
     }
 
     /**
@@ -99,6 +99,7 @@ class StructuredData
      *
      * @param $conf
      * @param $content
+     *
      * @return string
      */
     public function getBreadcrumb($conf, $content)
@@ -109,7 +110,7 @@ class StructuredData
 
         $cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
-        $siteLinks = array();
+        $siteLinks = [];
 
         foreach (array_reverse($rootline) as $index => $page) {
             $typoLinkConf = [
@@ -127,13 +128,12 @@ class StructuredData
             ];
         }
 
-        $breadcrumbItems = array();
+        $breadcrumbItems = [];
         // remove the last element because it's the current page itself and this should NOT be included
         // into the structured breadcrumb
         array_pop($siteLinks);
 
         foreach ($siteLinks as $index => $pInfo) {
-
             $breadcrumbItems[] = [
                 '@type' => 'ListItem',
                 'position' => $index + 1,

@@ -42,206 +42,219 @@ use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 /**
  * Class EvaluationCommandController
+ *
  * @package Clickstorm\CsSeo\Command
  */
-class EvaluationCommandController extends CommandController {
+class EvaluationCommandController extends CommandController
+{
 
-	/**
-	 * @var \Clickstorm\CsSeo\Domain\Repository\EvaluationRepository
-	 * @inject
-	 */
-	protected $evaluationRepository;
+    /**
+     * @var \Clickstorm\CsSeo\Domain\Repository\EvaluationRepository
+     * @inject
+     */
+    protected $evaluationRepository;
 
-	/**
-	 * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-	 * @inject
-	 */
-	protected $persistenceManager;
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+     * @inject
+     */
+    protected $persistenceManager;
 
-	/**
-	 * @var string
-	 */
-	protected $tableName = 'pages';
+    /**
+     * @var string
+     */
+    protected $tableName = 'pages';
 
-	/**
-	 * @param int $uid
-	 * @param string $tableName
-	 */
-	public function updateCommand($uid = 0, $tableName = '') {
-		if(!empty($tableName)) {
-			$this->tableName = $tableName;
-		}
-		$this->processResults($uid);
-	}
+    /**
+     * @param int $uid
+     * @param string $tableName
+     */
+    public function updateCommand($uid = 0, $tableName = '')
+    {
+        if (!empty($tableName)) {
+            $this->tableName = $tableName;
+        }
+        $this->processResults($uid);
+    }
 
-	/**
-	 * make the ajax update
-	 *
-	 * @param array $params Array of parameters from the AJAX interface, currently unused
-	 * @param AjaxRequestHandler $ajaxObj Object of type AjaxRequestHandler
-	 * @return void
-	 */
-	public function ajaxUpdate($params = array(), AjaxRequestHandler &$ajaxObj = NULL) {
-		$this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-		$this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
-		$this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
+    /**
+     * make the ajax update
+     *
+     * @param array $params Array of parameters from the AJAX interface, currently unused
+     * @param AjaxRequestHandler $ajaxObj Object of type AjaxRequestHandler
+     *
+     * @return void
+     */
+    public function ajaxUpdate($params = [], AjaxRequestHandler &$ajaxObj = null)
+    {
+        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
+        $this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
 
-		// get parameter
-		if(empty($params)) {
-			$uid = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['uid'];
-		} else {
-			$attr = $params['request']->getParsedBody();
-			$uid = $attr['uid'];
-		}
-		$this->processResults($uid);
+        // get parameter
+        if (empty($params)) {
+            $uid = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['uid'];
+        } else {
+            $attr = $params['request']->getParsedBody();
+            $uid = $attr['uid'];
+        }
+        $this->processResults($uid);
 
         /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
         /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
         $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
         $ajaxObj->addContent('messages', $flashMessageQueue->renderFlashMessages());
-	}
+    }
 
-	/**
-	 * @param int $uid
-	 * @param bool $localized
-	 */
-	protected function processResults($uid = 0, $localized = false) {
-		$query = $this->buildQuery($uid, $localized);
-		$items = $this->getAllItems($query);
-		$this->updateResults($items);
+    /**
+     * @param int $uid
+     * @param bool $localized
+     */
+    protected function processResults($uid = 0, $localized = false)
+    {
+        $query = $this->buildQuery($uid, $localized);
+        $items = $this->getAllItems($query);
+        $this->updateResults($items);
 
-		if(!$localized) {
-			$this->processResults($uid, true);
-		}
-	}
+        if (!$localized) {
+            $this->processResults($uid, true);
+        }
+    }
 
-	/**
-	 * @param $items
-	 */
-	protected function updateResults($items) {
-		foreach ($items as $item) {
-			/** @var FrontendPageService $frontendPageService */
-			$frontendPageService = GeneralUtility::makeInstance(FrontendPageService::class, $item);
-			$html = $frontendPageService->getHTML();
+    /**
+     * @param $items
+     */
+    protected function updateResults($items)
+    {
+        foreach ($items as $item) {
+            /** @var FrontendPageService $frontendPageService */
+            $frontendPageService = GeneralUtility::makeInstance(FrontendPageService::class, $item);
+            $html = $frontendPageService->getHTML();
 
-			if (!empty($html)) {
-				/** @var EvaluationService $evaluationUtility */
-				$evaluationUtility = GeneralUtility::makeInstance(EvaluationService::class);
-				$results = $evaluationUtility->evaluate($html, $item['tx_csseo_keyword']);
+            if (!empty($html)) {
+                /** @var EvaluationService $evaluationUtility */
+                $evaluationUtility = GeneralUtility::makeInstance(EvaluationService::class);
+                $results = $evaluationUtility->evaluate($html, $item['tx_csseo_keyword']);
 
-				$this->saveChanges($results, $item['uid']);
-			}
-		}
-	}
+                $this->saveChanges($results, $item['uid']);
+            }
+        }
+    }
 
-	/**
-	 * store the results in the db
-	 * @param $results
-	 * @param $uidForeign
-	 */
-	protected function saveChanges($results, $uidForeign) {
-		/**
-		 * @var Evaluation $evaluation
-		 */
-		$evaluation = $this->evaluationRepository->findByUidForeignAndTableName($uidForeign, $this->tableName);
+    /**
+     * store the results in the db
+     *
+     * @param $results
+     * @param $uidForeign
+     */
+    protected function saveChanges($results, $uidForeign)
+    {
+        /**
+         * @var Evaluation $evaluation
+         */
+        $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($uidForeign, $this->tableName);
 
-		if(!$evaluation) {
-			$evaluation = GeneralUtility::makeInstance(Evaluation::class);
-			$evaluation->setUidForeign($uidForeign);
-			$evaluation->setTablenames($this->tableName);
-		}
+        if (!$evaluation) {
+            $evaluation = GeneralUtility::makeInstance(Evaluation::class);
+            $evaluation->setUidForeign($uidForeign);
+            $evaluation->setTablenames($this->tableName);
+        }
 
-		$evaluation->setResults($results);
+        $evaluation->setResults($results);
 
-		if($evaluation->_isNew()) {
-			$this->evaluationRepository->add($evaluation);
-		} else {
-			$this->evaluationRepository->update($evaluation);
-		}
-		$this->persistenceManager->persistAll();
-	}
+        if ($evaluation->_isNew()) {
+            $this->evaluationRepository->add($evaluation);
+        } else {
+            $this->evaluationRepository->update($evaluation);
+        }
+        $this->persistenceManager->persistAll();
+    }
 
-	/**
-	 * @param $uid
-	 * @param bool $localizations
-	 * @return string
-	 */
-	protected function buildQuery($uid, $localizations = false) {
-		$constraints = ['1'];
-		$tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
-		$allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
+    /**
+     * @param $uid
+     * @param bool $localizations
+     *
+     * @return string
+     */
+    protected function buildQuery($uid, $localizations = false)
+    {
+        $constraints = ['1'];
+        $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
+        $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
 
-		// only with doktype page
-		if($this->tableName == 'pages') {
-			$constraints[] =  'doktype IN (' . implode(',',$allowedDoktypes) . ')';
-		}
+        // only with doktype page
+        if ($this->tableName == 'pages') {
+            $constraints[] = 'doktype IN (' . implode(',', $allowedDoktypes) . ')';
+        }
 
-		// check localization
-		if($localizations) {
-			if($tcaCtrl['transForeignTable']) {
-				$this->tableName = $tcaCtrl['transForeignTable'];
-				$tcaCtrl['transOrigPointerField'] = 'pid';
-			} else {
-				if($tcaCtrl['languageField']) {
-					$constraints[] = $tcaCtrl['languageField'] . ' > 0';
-				}
-			}
-		}
+        // check localization
+        if ($localizations) {
+            if ($tcaCtrl['transForeignTable']) {
+                $this->tableName = $tcaCtrl['transForeignTable'];
+                $tcaCtrl['transOrigPointerField'] = 'pid';
+            } else {
+                if ($tcaCtrl['languageField']) {
+                    $constraints[] = $tcaCtrl['languageField'] . ' > 0';
+                }
+            }
+        }
 
-		// if single uid
-		if($uid > 0) {
-			if($localizations) {
-				$constraints[] =  $tcaCtrl['transOrigPointerField'] . ' = ' . $uid;
-			} else {
-				$constraints[] =  'uid = ' . $uid;
-			}
-		}
+        // if single uid
+        if ($uid > 0) {
+            if ($localizations) {
+                $constraints[] = $tcaCtrl['transOrigPointerField'] . ' = ' . $uid;
+            } else {
+                $constraints[] = 'uid = ' . $uid;
+            }
+        }
 
-		return implode($constraints, ' AND ') . BackendUtility::BEenableFields($this->tableName);
-	}
+        return implode($constraints, ' AND ') . BackendUtility::BEenableFields($this->tableName);
+    }
 
-	/**
-	 * @param $where
-	 * @return array
-	 */
-	protected function getAllItems($where) {
-		$items = [];
+    /**
+     * @param $where
+     *
+     * @return array
+     */
+    protected function getAllItems($where)
+    {
+        $items = [];
 
-		$res = $this->getDatabaseConnection()->exec_SELECTquery(
-			'*',
-			$this->tableName,
-			$where
-		);
-		while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
-			$items[] = $row;
-		}
-		return $items;
-	}
+        $res = $this->getDatabaseConnection()->exec_SELECTquery(
+            '*',
+            $this->tableName,
+            $where
+        );
+        while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+            $items[] = $row;
+        }
+        return $items;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTableName() {
-		return $this->tableName;
-	}
+    /**
+     * @return string
+     */
+    public function getTableName()
+    {
+        return $this->tableName;
+    }
 
-	/**
-	 * @param string $tableName
-	 */
-	public function setTableName($tableName) {
-		$this->tableName = $tableName;
-	}
+    /**
+     * @param string $tableName
+     */
+    public function setTableName($tableName)
+    {
+        $this->tableName = $tableName;
+    }
 
-	/**
-	 * Returns the database connection
-	 *
-	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected function getDatabaseConnection()
-	{
-		return $GLOBALS['TYPO3_DB'];
-	}
-
-
+    /**
+     * Returns the database connection
+     *
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 }

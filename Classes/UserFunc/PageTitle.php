@@ -33,9 +33,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Render the page title tag with cs_seo settings
  *
  * Class PageTitle
+ *
  * @package Clickstorm\CsSeo\UserFunc
  */
-class PageTitle {
+class PageTitle
+{
 
     /**
      * @var TSFEUtility
@@ -45,6 +47,7 @@ class PageTitle {
     /**
      * @param string $oldTitle
      * @param array $content
+     *
      * @return string
      */
     public function render($oldTitle, $content)
@@ -65,16 +68,19 @@ class PageTitle {
 
     /**
      * Set the TSFE
+     *
      * @return void
      */
-    protected function initialize() {
+    protected function initialize()
+    {
         $this->TSFE = GeneralUtility::makeInstance(TSFEUtility::class, $GLOBALS['TSFE']->id);
     }
 
     /**
      * @return array
      */
-    protected function getPage() {
+    protected function getPage()
+    {
         return $this->TSFE->getPage();
     }
 }
