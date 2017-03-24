@@ -82,8 +82,14 @@ class FrontendPageService {
 		$domain = BackendUtility::getViewDomain($pid);
 		$url = $domain . '/index.php?' . $params;
 
+		$headers = null;
+		$emConf = ConfigurationUtility::getEmConfiguration();
+		if ($emConf['basicAuth']) {
+			$headers["Authorization"] = "Basic " . base64_encode($emConf['basicAuthUser'] . ":" . $emConf['basicAuthPass']);
+		}
+
 		$report = [];
-		$content = GeneralUtility::getUrl($url, 0, false, $report);
+		$content = GeneralUtility::getUrl($url, 0, $headers, $report);
 
         if($report['message'] && $report['message'] != 'OK') {
             /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
