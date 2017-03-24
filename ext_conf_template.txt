@@ -33,3 +33,12 @@ minDescription = 140
 
 # cat=evaluation/060; type=integer; label= Max number of h2 headlines in one page
 maxH2 = 6
+
+# cat=authentication/010; type=boolean; label= Enable Basic Authentication for analysing the page
+basicAuth = 0
+
+# cat=authentication/020; type=string; label= BasicAuth Username
+basicAuthUser =
+
+# cat=authentication/030; type=string; label= BasicAuth Password
+basicAuthPass =
