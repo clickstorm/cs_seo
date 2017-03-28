@@ -135,7 +135,7 @@ class Sitemap
                                 $typoLinkConf['additionalParams'] =
                                     '&' . $extConf['additionalParams'] . '=' . $record['uid'];
                                 if ($record['lang']) {
-                                    $typoLinkConf['additionalParams'] .= '&L=' . $record['lang'];
+                                    $typoLinkConf['additionalParams'] .= '&L=' . $this->tsfe->sys_language_uid;
                                 }
                                 $records[$key]['loc'] = $cObject->typoLink_URL($typoLinkConf);
                             }
