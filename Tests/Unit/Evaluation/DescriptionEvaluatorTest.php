@@ -32,116 +32,116 @@ use TYPO3\CMS\Core\Tests\UnitTestCase;
 /**
  * @package cs_seo
  */
-
 class DescriptionEvaluatorTest extends UnitTestCase
 {
 
-	/**
-	 * @var DescriptionEvaluator
-	 */
-	protected $generalEvaluationMock;
+    /**
+     * @var DescriptionEvaluator
+     */
+    protected $generalEvaluationMock;
 
-	/**
-	 * @var int
-	 */
-	protected $min = 140;
+    /**
+     * @var int
+     */
+    protected $min = 140;
 
-	/**
-	 * @var int
-	 */
-	protected $max = 160;
+    /**
+     * @var int
+     */
+    protected $max = 160;
 
 
-	/**
-	 * @return void
-	 */
-	public function setUp()
-	{
-		$this->generalEvaluationMock = $this->getAccessibleMock(DescriptionEvaluator::class, ['dummy'], [new \DOMDocument()]);
-		$extConf = [
-			'minDescription' => $this->min,
-			'maxDescription' => $this->max
-		];
-		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo'] = serialize($extConf);
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils'] = '';
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        $this->generalEvaluationMock =
+            $this->getAccessibleMock(DescriptionEvaluator::class, ['dummy'], [new \DOMDocument()]);
+        $extConf = [
+            'minDescription' => $this->min,
+            'maxDescription' => $this->max
+        ];
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo'] = serialize($extConf);
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils'] = '';
+    }
 
-	}
+    /**
+     * @return void
+     */
+    public function tearDown()
+    {
+        unset($this->generalEvaluationMock);
+        unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
+        unset($GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils']);
+    }
 
-	/**
-	 * @return void
-	 */
-	public function tearDown()
-	{
-		unset($this->generalEvaluationMock);
-		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
-		unset($GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils']);
-	}
+    /**
+     * evaluateTest
+     *
+     * @param string $html
+     * @param mixed $expectedResult
+     *
+     * @dataProvider evaluateTestDataProvider
+     * @return void
+     * @test
+     */
+    public function evaluateTest($html, $expectedResult)
+    {
+        $domDocument = new \DOMDocument();
+        @$domDocument->loadHTML($html);
+        $this->generalEvaluationMock->setDomDocument($domDocument);
+        $result = $this->generalEvaluationMock->evaluate();
 
-	/**
-	 * evaluateTest
-	 *
-	 * @param string $html
-	 * @param mixed $expectedResult
-	 * @dataProvider evaluateTestDataProvider
-	 * @return void
-	 * @test
-	 */
-	public function evaluateTest($html, $expectedResult) {
-		$domDocument = new \DOMDocument();
-		@$domDocument->loadHTML($html);
-		$this->generalEvaluationMock->setDomDocument($domDocument);
-		$result = $this->generalEvaluationMock->evaluate();
+        ksort($expectedResult);
+        ksort($result);
 
-		ksort($expectedResult);
-		ksort($result);
+        $this->assertEquals(json_encode($expectedResult), json_encode($result));
+    }
 
-		$this->assertEquals(json_encode($expectedResult), json_encode($result));
-	}
-
-	/**
-	 * Dataprovider evaluateTest()
-	 *
-	 * @return array
-	 */
-	public function evaluateTestDataProvider()
-	{
-		return [
-			'zero description' => [
-				'',
-				[
-					'count' => 0,
-					'state' => DescriptionEvaluator::STATE_RED
-				]
-			],
-			'short decription' => [
-				'<meta name="description" content="' . str_repeat('.', $this->min-1) . '" />',
-				[
-					'count' => $this->min-1,
-					'state' => DescriptionEvaluator::STATE_YELLOW,
-				]
-			],
-			'min good decription' => [
-				'<meta name="description" content="' . str_repeat('.', $this->min) . '" />',
-				[
-					'count' => $this->min,
-					'state' => DescriptionEvaluator::STATE_GREEN,
-				]
-			],
-			'max good decription' => [
-				'<meta name="description" content="' . str_repeat('.', $this->max) . '" />',
-				[
-					'count' => $this->max,
-					'state' => DescriptionEvaluator::STATE_GREEN,
-				]
-			],
-			'long decription' => [
-				'<meta name="description" content="' . str_repeat('.', $this->max+1) . '" />',
-				[
-					'count' => $this->max+1,
-					'state' => DescriptionEvaluator::STATE_YELLOW,
-				]
-			]
-		];
-	}
-
+    /**
+     * Dataprovider evaluateTest()
+     *
+     * @return array
+     */
+    public function evaluateTestDataProvider()
+    {
+        return [
+            'zero description' => [
+                '',
+                [
+                    'count' => 0,
+                    'state' => DescriptionEvaluator::STATE_RED
+                ]
+            ],
+            'short decription' => [
+                '<meta name="description" content="' . str_repeat('.', $this->min - 1) . '" />',
+                [
+                    'count' => $this->min - 1,
+                    'state' => DescriptionEvaluator::STATE_YELLOW,
+                ]
+            ],
+            'min good decription' => [
+                '<meta name="description" content="' . str_repeat('.', $this->min) . '" />',
+                [
+                    'count' => $this->min,
+                    'state' => DescriptionEvaluator::STATE_GREEN,
+                ]
+            ],
+            'max good decription' => [
+                '<meta name="description" content="' . str_repeat('.', $this->max) . '" />',
+                [
+                    'count' => $this->max,
+                    'state' => DescriptionEvaluator::STATE_GREEN,
+                ]
+            ],
+            'long decription' => [
+                '<meta name="description" content="' . str_repeat('.', $this->max + 1) . '" />',
+                [
+                    'count' => $this->max + 1,
+                    'state' => DescriptionEvaluator::STATE_YELLOW,
+                ]
+            ]
+        ];
+    }
 }

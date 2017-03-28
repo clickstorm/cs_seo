@@ -39,9 +39,11 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * own TSFE to render TSFE in the backend
  *
  * Class TSFEUtility
+ *
  * @package Clickstorm\CsSeo\Utility
  */
-class TSFEUtility {
+class TSFEUtility
+{
 
     /**
      * @var int
@@ -63,10 +65,10 @@ class TSFEUtility {
      */
     protected $typeNum;
 
-	/**
-	 * @var int
-	 */
-	protected $lang;
+    /**
+     * @var int
+     */
+    protected $lang;
 
     /**
      * @var array
@@ -75,18 +77,25 @@ class TSFEUtility {
 
     /**
      * TSFEUtility constructor.
+     *
      * @param int $pageUid
      * @param int $lang
      * @param int $typeNum
      */
-    public function __construct($pageUid, $lang = 0, $typeNum = 654) {
+    public function __construct($pageUid, $lang = 0, $typeNum = 654)
+    {
         $this->pageUid = $pageUid;
         $this->lang = is_array($lang) ? array_shift($lang) : $lang;
-	    $this->typeNum = $typeNum;
+        $this->typeNum = $typeNum;
 
         $environmentService = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\EnvironmentService::class);
 
-        if(!isset($GLOBALS['TSFE']) || ($environmentService->isEnvironmentInBackendMode() && !($GLOBALS['TSFE'] instanceof TypoScriptFrontendController))) {
+        if (!isset($GLOBALS['TSFE'])
+            || ($environmentService->isEnvironmentInBackendMode()
+                && !($GLOBALS['TSFE']
+                    instanceof
+                    TypoScriptFrontendController))
+        ) {
             $this->initTSFE();
         }
         $this->config = $GLOBALS['TSFE']->tmpl->setup['config.'];
@@ -95,15 +104,17 @@ class TSFEUtility {
     /**
      * @return string
      */
-    public function getPagePath() {
-    	$params = ($this->lang > 0) ? ['L' => $this->lang] : [];
+    public function getPagePath()
+    {
+        $params = ($this->lang > 0) ? ['L' => $this->lang] : [];
         return $GLOBALS['TSFE']->cObj->getTypoLink_URL($this->pageUid, $params);
     }
 
     /**
      * @return array
      */
-    public function getPage() {
+    public function getPage()
+    {
         return $GLOBALS['TSFE']->page;
     }
 
@@ -111,34 +122,41 @@ class TSFEUtility {
     /**
      * @return array
      */
-    public function getConfig() {
+    public function getConfig()
+    {
         return $this->config;
     }
 
     /**
      * @return array
      */
-    public function getPageTitleFirst() {
+    public function getPageTitleFirst()
+    {
         return $this->config['pageTitleFirst'];
     }
 
     /**
      * @return string
      */
-    public function getPageTitleSeparator() {
-        return $GLOBALS['TSFE']->cObj->stdWrap($this->config['pageTitleSeparator'], $this->config['pageTitleSeparator.']);
+    public function getPageTitleSeparator()
+    {
+        return $GLOBALS['TSFE']->cObj->stdWrap(
+            $this->config['pageTitleSeparator'],
+            $this->config['pageTitleSeparator.']
+        );
     }
 
     /**
      * @return string
      */
-    public function getSiteTitle() {
-	    $sitetitle = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['sitetitle'];
-	    if($sitetitle) {
-		    return $GLOBALS['TSFE']->sL($sitetitle);
-	    } else {
-		    return $GLOBALS['TSFE']->tmpl->setup['sitetitle'];
-	    }
+    public function getSiteTitle()
+    {
+        $sitetitle = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['sitetitle'];
+        if ($sitetitle) {
+            return $GLOBALS['TSFE']->sL($sitetitle);
+        } else {
+            return $GLOBALS['TSFE']->tmpl->setup['sitetitle'];
+        }
     }
 
     /**
@@ -147,16 +165,17 @@ class TSFEUtility {
      *
      * @return string
      */
-    public function getFinalTitle($title, $titleOnly = false) {
-    	if($titleOnly) {
-	        return $title;
-    	}
+    public function getFinalTitle($title, $titleOnly = false)
+    {
+        if ($titleOnly) {
+            return $title;
+        }
 
         $siteTitle = $this->getSiteTitle();
         $pageTitleFirst = $this->getConfig()['pageTitleFirst'];
         $pageTitleSeparator = $this->getPageTitleSeparator();
 
-        if($pageTitleFirst) {
+        if ($pageTitleFirst) {
             $title .= $pageTitleSeparator . $siteTitle;
         } else {
             $title = $siteTitle . $pageTitleSeparator . $title;
@@ -169,20 +188,25 @@ class TSFEUtility {
      *
      * @return void
      */
-    protected function initTSFE() {
+    protected function initTSFE()
+    {
         try {
-	        GeneralUtility::_GETset($this->lang, 'L');
+            GeneralUtility::_GETset($this->lang, 'L');
             if (!is_object($GLOBALS['TT'])) {
                 $GLOBALS['TT'] = new NullTimeTracker;
                 $GLOBALS['TT']->start();
             }
 
-            $GLOBALS['TSFE'] = GeneralUtility::makeInstance(TypoScriptFrontendController::class,
-                $GLOBALS['TYPO3_CONF_VARS'], $this->pageUid, $this->typeNum);
+            $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
+                TypoScriptFrontendController::class,
+                $GLOBALS['TYPO3_CONF_VARS'],
+                $this->pageUid,
+                $this->typeNum
+            );
 
             $GLOBALS['TSFE']->config = [];
             $GLOBALS['TSFE']->forceTemplateParsing = true;
-	        $GLOBALS['TSFE']->showHiddenPages = true;
+            $GLOBALS['TSFE']->showHiddenPages = true;
 
             $GLOBALS['TSFE']->connectToDB();
             $GLOBALS['TSFE']->initFEuser();
@@ -197,18 +221,19 @@ class TSFEUtility {
             }
 
             $GLOBALS['TSFE']->getConfigArray();
-	        $GLOBALS['TSFE']->settingLanguage();
+            $GLOBALS['TSFE']->settingLanguage();
         } catch (\Exception $e) {
-	        /** @var FlashMessage $message */
-	        $message = GeneralUtility::makeInstance(FlashMessage::class,
-		        $e->getMessage(),
-		        LocalizationUtility::translate('error.no_ts', 'cs_seo'),
-		        FlashMessage::ERROR
-	        );
-	        /** @var FlashMessageService $flashMessageService */
-	        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-	        $messageQueue = $flashMessageService->getMessageQueueByIdentifier('cs_seo');
-	        $messageQueue->addMessage($message);
+            /** @var FlashMessage $message */
+            $message = GeneralUtility::makeInstance(
+                FlashMessage::class,
+                $e->getMessage(),
+                LocalizationUtility::translate('error.no_ts', 'cs_seo'),
+                FlashMessage::ERROR
+            );
+            /** @var FlashMessageService $flashMessageService */
+            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+            $messageQueue = $flashMessageService->getMessageQueueByIdentifier('cs_seo');
+            $messageQueue->addMessage($message);
         }
     }
 }

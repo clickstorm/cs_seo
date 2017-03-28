@@ -31,63 +31,71 @@ namespace Clickstorm\CsSeo\Hook;
  * Hooks for RealUrl
  *
  * Class RealUrlHook
+ *
  * @package Clickstorm\CsSeo\Hook
  */
-class RealUrlHook {
+class RealUrlHook
+{
 
-	/**
-	 * RealURL configuration array for robots.txt and sitemap.xml
-	 *
-	 * @var array
-	 */
-	protected $defaultConfiguration = [
-		'robots.txt' => [
-			'keyValues' => [
-				'type' => 656,
-			]
-		],
-		'sitemap.xml' => [
-			'keyValues' => [
-				'type' => 655,
-			]
-		]
-	];
+    /**
+     * RealURL configuration array for robots.txt and sitemap.xml
+     *
+     * @var array
+     */
+    protected $defaultConfiguration = [
+        'robots.txt' => [
+            'keyValues' => [
+                'type' => 656,
+            ]
+        ],
+        'sitemap.xml' => [
+            'keyValues' => [
+                'type' => 655,
+            ]
+        ]
+    ];
 
-	/**
-	 * Generates additional RealURL configuration for realurl autoconf and merges it with provided configuration
-	 * For detailed configuration documentation look into the manual ({@link https://wiki.typo3.org/Realurl/manual})
-	 *
-	 * @param array $parameters
-	 * @param \DmitryDulepov\Realurl\Configuration\AutomaticConfigurator $parentObject
-	 * @return array
-	 */
-	public function extensionConfiguration($parameters, &$parentObject) {
-		return $this->mergeConfiguration($parameters['config']);
-	}
+    /**
+     * Generates additional RealURL configuration for realurl autoconf and merges it with provided configuration
+     * For detailed configuration documentation look into the manual ({@link https://wiki.typo3.org/Realurl/manual})
+     *
+     * @param array $parameters
+     * @param \DmitryDulepov\Realurl\Configuration\AutomaticConfigurator $parentObject
+     *
+     * @return array
+     */
+    public function extensionConfiguration($parameters, &$parentObject)
+    {
+        return $this->mergeConfiguration($parameters['config']);
+    }
 
-	/**
-	 * Generates additional RealURL configuration for non realurl autoconf and merges it with provided configuration
-	 * For detailed configuration documentation look into the manual ({@link https://wiki.typo3.org/Realurl/manual})
-	 *
-	 * @param array $parameters
-	 * @param \DmitryDulepov\Realurl\Configuration\ConfigurationReader $parentObject
-	 * @return void
-	 */
-	public function postProcessConfiguration($parameters, &$parentObject) {
-		$parameters['configuration'] = $this->mergeConfiguration($parameters['configuration']);
-	}
+    /**
+     * Generates additional RealURL configuration for non realurl autoconf and merges it with provided configuration
+     * For detailed configuration documentation look into the manual ({@link https://wiki.typo3.org/Realurl/manual})
+     *
+     * @param array $parameters
+     * @param \DmitryDulepov\Realurl\Configuration\ConfigurationReader $parentObject
+     *
+     * @return void
+     */
+    public function postProcessConfiguration($parameters, &$parentObject)
+    {
+        $parameters['configuration'] = $this->mergeConfiguration($parameters['configuration']);
+    }
 
-	/**
-	 * @param array $conf
-	 * @return array
-	 */
-	protected function mergeConfiguration($conf) {
-		foreach ($this->defaultConfiguration as $confName => $confValue) {
-			if(!isset($conf['fileName']['index'][$confName])) {
-				$conf['fileName']['index'][$confName] =
-					$this->defaultConfiguration[$confName];
-			}
-		}
-		return $conf;
-	}
+    /**
+     * @param array $conf
+     *
+     * @return array
+     */
+    protected function mergeConfiguration($conf)
+    {
+        foreach ($this->defaultConfiguration as $confName => $confValue) {
+            if (!isset($conf['fileName']['index'][$confName])) {
+                $conf['fileName']['index'][$confName] =
+                    $this->defaultConfiguration[$confName];
+            }
+        }
+        return $conf;
+    }
 }

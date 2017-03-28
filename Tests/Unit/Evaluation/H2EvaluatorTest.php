@@ -32,106 +32,106 @@ use TYPO3\CMS\Core\Tests\UnitTestCase;
 /**
  * @package cs_seo
  */
-
 class H2EvaluatorTest extends UnitTestCase
 {
 
-	/**
-	 * @var H2Evaluator
-	 */
-	protected $generalEvaluationMock;
+    /**
+     * @var H2Evaluator
+     */
+    protected $generalEvaluationMock;
 
-	/**
-	 * @var int
-	 */
-	protected $max = 6;
+    /**
+     * @var int
+     */
+    protected $max = 6;
 
-	/**
-	 * @return void
-	 */
-	public function setUp()
-	{
-		$this->generalEvaluationMock = $this->getAccessibleMock(H2Evaluator::class, ['dummy'], [new \DOMDocument()]);
-		$extConf = [
-			'maxH2' => $this->max
-		];
-		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo'] = serialize($extConf);
-	}
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        $this->generalEvaluationMock = $this->getAccessibleMock(H2Evaluator::class, ['dummy'], [new \DOMDocument()]);
+        $extConf = [
+            'maxH2' => $this->max
+        ];
+        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo'] = serialize($extConf);
+    }
 
-	/**
-	 * @return void
-	 */
-	public function tearDown()
-	{
-		unset($this->generalEvaluationMock);
-		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
-	}
+    /**
+     * @return void
+     */
+    public function tearDown()
+    {
+        unset($this->generalEvaluationMock);
+        unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
+    }
 
-	/**
-	 * htmlspecialcharsOnArray Test
-	 *
-	 * @param string $html
-	 * @param mixed $expectedResult
-	 * @dataProvider evaluateTestDataProvider
-	 * @return void
-	 * @test
-	 */
-	public function evaluateTest($html, $expectedResult) {
-		$domDocument = new \DOMDocument();
-		@$domDocument->loadHTML($html);
-		$this->generalEvaluationMock->setDomDocument($domDocument);
-		$result = $this->generalEvaluationMock->evaluate();
+    /**
+     * htmlspecialcharsOnArray Test
+     *
+     * @param string $html
+     * @param mixed $expectedResult
+     *
+     * @dataProvider evaluateTestDataProvider
+     * @return void
+     * @test
+     */
+    public function evaluateTest($html, $expectedResult)
+    {
+        $domDocument = new \DOMDocument();
+        @$domDocument->loadHTML($html);
+        $this->generalEvaluationMock->setDomDocument($domDocument);
+        $result = $this->generalEvaluationMock->evaluate();
 
-		ksort($expectedResult);
-		ksort($result);
+        ksort($expectedResult);
+        ksort($result);
 
-		$this->assertEquals(json_encode($expectedResult), json_encode($result));
-	}
+        $this->assertEquals(json_encode($expectedResult), json_encode($result));
+    }
 
-	/**
-	 * Dataprovider evaluateTest()
-	 *
-	 * @return array
-	 */
-	public function evaluateTestDataProvider()
-	{
-		return [
-			'zero h2' => [
-				'',
-				[
-					'count' => 0,
-					'state' => H2Evaluator::STATE_RED
-				]
-			],
-			'one h2' => [
-				'<html><body><h2>Headline One</h2></body></html>',
-				[
-					'count' => 1,
-					'state' => H2Evaluator::STATE_GREEN,
-				]
-			],
-			'two h2' => [
-				'<h2>Headline One</h2><h2>Headline Two</h2>',
-				[
-					'state' => H2Evaluator::STATE_GREEN,
-					'count' => 2
-				]
-			],
-			'six h2' => [
-				str_repeat('<h2>Headline</h2>',$this->max),
-				[
-					'state' => H2Evaluator::STATE_GREEN,
-					'count' => $this->max
-				]
-			],
-			'seven h2' => [
-				str_repeat('<h2>Headline</h2>',$this->max+1),
-				[
-					'state' => H2Evaluator::STATE_YELLOW,
-					'count' => $this->max+1
-				]
-			],
-		];
-	}
-
+    /**
+     * Dataprovider evaluateTest()
+     *
+     * @return array
+     */
+    public function evaluateTestDataProvider()
+    {
+        return [
+            'zero h2' => [
+                '',
+                [
+                    'count' => 0,
+                    'state' => H2Evaluator::STATE_RED
+                ]
+            ],
+            'one h2' => [
+                '<html><body><h2>Headline One</h2></body></html>',
+                [
+                    'count' => 1,
+                    'state' => H2Evaluator::STATE_GREEN,
+                ]
+            ],
+            'two h2' => [
+                '<h2>Headline One</h2><h2>Headline Two</h2>',
+                [
+                    'state' => H2Evaluator::STATE_GREEN,
+                    'count' => 2
+                ]
+            ],
+            'six h2' => [
+                str_repeat('<h2>Headline</h2>', $this->max),
+                [
+                    'state' => H2Evaluator::STATE_GREEN,
+                    'count' => $this->max
+                ]
+            ],
+            'seven h2' => [
+                str_repeat('<h2>Headline</h2>', $this->max + 1),
+                [
+                    'state' => H2Evaluator::STATE_YELLOW,
+                    'count' => $this->max + 1
+                ]
+            ],
+        ];
+    }
 }

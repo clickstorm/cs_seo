@@ -39,293 +39,313 @@ use TYPO3\CMS\Frontend\Page\PageRepository;
  * Generates the sitemap.xml
  *
  * Class Sitemap
+ *
  * @package Clickstorm\CsSeo\UserFunc
  */
-class Sitemap {
-	/**
-	 * @var array
-	 */
-	protected $settings;
+class Sitemap
+{
+    /**
+     * @var array
+     */
+    protected $settings;
 
-	/**
-	 * @var StandaloneView
-	 */
-	protected $view;
+    /**
+     * @var StandaloneView
+     */
+    protected $view;
 
-	/**
-	 * @var PageRepository
-	 */
-	protected $pageRepository;
+    /**
+     * @var PageRepository
+     */
+    protected $pageRepository;
 
-	/**
-	 * @var TypoScriptFrontendController
-	 */
-	protected $tsfe;
-
-
-	public function main() {
-		$this->tsfe = $this->getTypoScriptFrontendController();
-		$this->pageRepository = $this->tsfe->sys_page;
-
-		// set TypoScript settings and parse them for Fluid
-		$this->setSettings($this->parseSettings($this->tsfe->tmpl->setup['plugin.']['tx_csseo.']['sitemap.']));
-
-		// init fluid templates
-		$this->view = GeneralUtility::makeInstance(StandaloneView::class);
-		$this->view->setFormat('xml');
-		$this->view->getRequest()->setControllerExtensionName('cs_seo');
-		$absoluteResourcesPath = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/';
-		$this->view->setLayoutRootPaths([$absoluteResourcesPath . 'Private/Layouts/']);
-		$this->view->setPartialRootPaths([$absoluteResourcesPath . 'Private/Partials/']);
-
-		// switch view
-		switch (GeneralUtility::_GP('tx_csseo_view')) {
-			// sitemap for pages
-			case 'pages':
-				$this->view->setTemplatePathAndFilename(
-					$absoluteResourcesPath . 'Private/Templates/Sitemap/Pages.xml'
-				);
-				$settings = $this->settings['pages'];
-
-				// first get the root page
-				$rootPage = $this->tsfe->sys_page->getPage($settings['rootPid']);
-
-				// remove doktype exlude
-				$this->tsfe->sys_page->where_hid_del = str_replace(
-					' AND pages.doktype<200',
-					'',
-					$this->tsfe->sys_page->where_hid_del
-				);
-
-				// get the subpages
-				$subPages = $this->getSubPages($rootPage['uid']);
-
-				// merge all pages
-				$pages = array_merge([$rootPage], $subPages);
-
-				$this->view->assignMultiple(
-					[
-						'lang' => $this->tsfe->sys_language_uid,
-						'pages' => $pages
-					]
-				);
-				break;
-			// sitemap for extensions
-			case 'extension':
-				$this->view->setTemplatePathAndFilename(
-					$absoluteResourcesPath . 'Private/Templates/Sitemap/Extension.xml'
-				);
-				$extName = GeneralUtility::_GP('ext');
-				if ($extName) {
-					$extConf = $this->settings['extensions'][$extName];
-					if ($extConf) {
-						$cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-						$typoLinkConf = [
-							'parameter' => $extConf['detailPid'],
-							'forceAbsoluteUrl' => 1
-						];
-
-						$records = $this->getRecords($extConf);
-
-						if(is_array($records) && count($records) > 0) {
-							foreach ($records as $key => $record) {
-								$typoLinkConf['additionalParams'] = '&' . $extConf['additionalParams'] . '=' . $record['uid'];
-								if ($record['lang']) {
-									$typoLinkConf['additionalParams'] .= '&L=' . $record['lang'];
-								}
-								$records[$key]['loc'] = $cObject->typoLink_URL($typoLinkConf);
-							}
-						}
-
-						$this->view->assignMultiple([
-							'extConf' => $extConf,
-							'records' => $records
-						]);
-					}
-				}
-				break;
-			// list all sitemaps
-			default:
-				$this->view->setTemplatePathAndFilename(
-					$absoluteResourcesPath . 'Private/Templates/Sitemap/ListAll.xml'
-				);
-				$this->view->assign('settings', $this->settings);
-		}
+    /**
+     * @var TypoScriptFrontendController
+     */
+    protected $tsfe;
 
 
-		return $this->beautifyXML($this->view->render());
-	}
+    public function main()
+    {
+        $this->tsfe = $this->getTypoScriptFrontendController();
+        $this->pageRepository = $this->tsfe->sys_page;
 
-	/**
-	 * @param $string XML String
-	 * @return string
-	 */
-	protected function beautifyXML($string) {
-		$dom = new \DOMDocument;
-		$dom->preserveWhiteSpace = false;
-		$dom->loadXML($string);
-		$dom->formatOutput = TRUE;
-		return $dom->saveXml();
-	}
+        // set TypoScript settings and parse them for Fluid
+        $this->setSettings($this->parseSettings($this->tsfe->tmpl->setup['plugin.']['tx_csseo.']['sitemap.']));
 
-	/**
-	 * @return TypoScriptFrontendController
-	 */
-	protected function getTypoScriptFrontendController() {
-		return $GLOBALS['TSFE'];
-	}
+        // init fluid templates
+        $this->view = GeneralUtility::makeInstance(StandaloneView::class);
+        $this->view->setFormat('xml');
+        $this->view->getRequest()->setControllerExtensionName('cs_seo');
+        $absoluteResourcesPath = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/';
+        $this->view->setLayoutRootPaths([$absoluteResourcesPath . 'Private/Layouts/']);
+        $this->view->setPartialRootPaths([$absoluteResourcesPath . 'Private/Partials/']);
 
-	/**
-	 * parse the TypoScript settings for Fluid
-	 *
-	 * @param $settings
-	 * @return array
-	 */
-	protected function parseSettings($settings) {
-		$parsedSettings = [];
-		if (is_array($settings)) {
-			foreach ($settings as $key => $value) {
-				$key = rtrim($key, '.');
-				if (!is_array($value)) {
-					$parsedSettings[$key] = $value;
-				} else {
-					$parsedSettings[$key] = $this->parseSettings($value);
-				}
-			}
-		}
+        // switch view
+        switch (GeneralUtility::_GP('tx_csseo_view')) {
+            // sitemap for pages
+            case 'pages':
+                $this->view->setTemplatePathAndFilename(
+                    $absoluteResourcesPath . 'Private/Templates/Sitemap/Pages.xml'
+                );
+                $settings = $this->settings['pages'];
 
-		return $parsedSettings;
-	}
+                // first get the root page
+                $rootPage = $this->tsfe->sys_page->getPage($settings['rootPid']);
 
-	/**
-	 * @param array $pages
-	 * @param array $newPages
-	 * @return array
-	 */
-	protected function getSubPages($pageUid) {
-		$subPages = $this->tsfe->sys_page->getMenu(
-			$pageUid,
-			'*',
-			'sorting',
-			''
-		);
+                // remove doktype exlude
+                $this->tsfe->sys_page->where_hid_del = str_replace(
+                    ' AND pages.doktype<200',
+                    '',
+                    $this->tsfe->sys_page->where_hid_del
+                );
 
-		foreach ($subPages as $subPage) {
-			ArrayUtility::mergeRecursiveWithOverrule(
-				$subPages,
-				$this->getSubPages($subPage['uid'])
-			);
-		}
+                // get the subpages
+                $subPages = $this->getSubPages($rootPage['uid']);
 
-		return $subPages;
-	}
+                // merge all pages
+                $pages = array_merge([$rootPage], $subPages);
 
-	/**
-	 * @param array $extConf
-	 * @return bool|array
-	 */
-	protected function getRecords($extConf) {
-		$db = $this->getDatabaseConnection();
-		if (!isset($GLOBALS['TCA'][$extConf['table']])) {
-			return false;
-		}
+                $this->view->assignMultiple(
+                    [
+                        'lang' => $this->tsfe->sys_language_uid,
+                        'pages' => $pages
+                    ]
+                );
+                break;
+            // sitemap for extensions
+            case 'extension':
+                $this->view->setTemplatePathAndFilename(
+                    $absoluteResourcesPath . 'Private/Templates/Sitemap/Extension.xml'
+                );
+                $extName = GeneralUtility::_GP('ext');
+                if ($extName) {
+                    $extConf = $this->settings['extensions'][$extName];
+                    if ($extConf) {
+                        $cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+                        $typoLinkConf = [
+                            'parameter' => $extConf['detailPid'],
+                            'forceAbsoluteUrl' => 1
+                        ];
 
-		$table = $extConf['table'];
-		$where = '';
-		$from = $extConf['table'];
-		$select = $table . '.uid';
+                        $records = $this->getRecords($extConf);
 
-		$constraints = [];
-		$lang = $this->getTypoScriptFrontendController()->sys_language_uid;
-		$tca = $GLOBALS['TCA'][$extConf['table']];
+                        if (is_array($records) && count($records) > 0) {
+                            foreach ($records as $key => $record) {
+                                $typoLinkConf['additionalParams'] =
+                                    '&' . $extConf['additionalParams'] . '=' . $record['uid'];
+                                if ($record['lang']) {
+                                    $typoLinkConf['additionalParams'] .= '&L=' . $record['lang'];
+                                }
+                                $records[$key]['loc'] = $cObject->typoLink_URL($typoLinkConf);
+                            }
+                        }
 
-		// storage
-		if ($extConf['storagePid']) {
-			$constraints[] = $table . '.pid IN (' . $extConf['storagePid'] . ')';
-		}
+                        $this->view->assignMultiple(
+                            [
+                                'extConf' => $extConf,
+                                'records' => $records
+                            ]
+                        );
+                    }
+                }
+                break;
+            // list all sitemaps
+            default:
+                $this->view->setTemplatePathAndFilename(
+                    $absoluteResourcesPath . 'Private/Templates/Sitemap/ListAll.xml'
+                );
+                $this->view->assign('settings', $this->settings);
+        }
 
-		// lang
-		$languageField = $tca['ctrl']['languageField'];
-		if ($languageField) {
-			$constraints[] = $table . '.' . $languageField . ' IN (' . $lang . ',-1)';
-			$select .= ', ' . $table . '.' . $languageField . ' AS lang';
-		}
 
-		// categories
-		if ($extConf['categories']) {
-			if ($extConf['categoryField']) {
-				$constraints[] = $extConf['categoryField'] . ' IN (' . $extConf['categories'] . ')';
-			} elseif ($extConf['categoryMMTable']) {
-				$catTable = $extConf['categoryMMTable'];
-				$from .= ' LEFT JOIN ' . $catTable . ' ON ' . $table . '.uid = ' . $catTable . '.uid_foreign';
-				$constraints[] = $catTable . '.uid_local IN (' . $extConf['categories'] . ')';
-				if ($extConf['categoryMMTablename']) {
-					$constraints[] = $catTable . '.tablenames = ' . $db->fullQuoteStr($table, $table);
-				}
-				if ($extConf['categoryMMFieldname']) {
-					$constraints[] = $catTable . '.fieldname = ' . $db->fullQuoteStr(
-							$extConf['categoryMMFieldname'],
-							$table
-						);
-				}
-			}
-		}
+        return $this->beautifyXML($this->view->render());
+    }
 
-		// lastmod
-		if ($tca['ctrl']['tstamp']) {
-			$select .= ', ' . $table . '.' . $tca['ctrl']['tstamp'] . ' AS lastmod';
-		}
+    /**
+     * @param $string XML String
+     *
+     * @return string
+     */
+    protected function beautifyXML($string)
+    {
+        $dom = new \DOMDocument;
+        $dom->preserveWhiteSpace = false;
+        $dom->loadXML($string);
+        $dom->formatOutput = true;
+        return $dom->saveXml();
+    }
 
-		// no index
-		if ($tca['columns']['tx_csseo']) {
-			$from .= ' LEFT JOIN tx_csseo_domain_model_meta ON ' . $table . '.uid = tx_csseo_domain_model_meta.uid_foreign';
-			$constraints[] = '(' . $table . '.tx_csseo = 0 OR
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController()
+    {
+        return $GLOBALS['TSFE'];
+    }
+
+    /**
+     * parse the TypoScript settings for Fluid
+     *
+     * @param $settings
+     *
+     * @return array
+     */
+    protected function parseSettings($settings)
+    {
+        $parsedSettings = [];
+        if (is_array($settings)) {
+            foreach ($settings as $key => $value) {
+                $key = rtrim($key, '.');
+                if (!is_array($value)) {
+                    $parsedSettings[$key] = $value;
+                } else {
+                    $parsedSettings[$key] = $this->parseSettings($value);
+                }
+            }
+        }
+
+        return $parsedSettings;
+    }
+
+    /**
+     * @param array $pages
+     * @param array $newPages
+     *
+     * @return array
+     */
+    protected function getSubPages($pageUid)
+    {
+        $subPages = $this->tsfe->sys_page->getMenu(
+            $pageUid,
+            '*',
+            'sorting',
+            ''
+        );
+
+        foreach ($subPages as $subPage) {
+            ArrayUtility::mergeRecursiveWithOverrule(
+                $subPages,
+                $this->getSubPages($subPage['uid'])
+            );
+        }
+
+        return $subPages;
+    }
+
+    /**
+     * @param array $extConf
+     *
+     * @return bool|array
+     */
+    protected function getRecords($extConf)
+    {
+        $db = $this->getDatabaseConnection();
+        if (!isset($GLOBALS['TCA'][$extConf['table']])) {
+            return false;
+        }
+
+        $table = $extConf['table'];
+        $where = '';
+        $from = $extConf['table'];
+        $select = $table . '.uid';
+
+        $constraints = [];
+        $lang = $this->getTypoScriptFrontendController()->sys_language_uid;
+        $tca = $GLOBALS['TCA'][$extConf['table']];
+
+        // storage
+        if ($extConf['storagePid']) {
+            $constraints[] = $table . '.pid IN (' . $extConf['storagePid'] . ')';
+        }
+
+        // lang
+        $languageField = $tca['ctrl']['languageField'];
+        if ($languageField) {
+            $constraints[] = $table . '.' . $languageField . ' IN (' . $lang . ',-1)';
+            $select .= ', ' . $table . '.' . $languageField . ' AS lang';
+        }
+
+        // categories
+        if ($extConf['categories']) {
+            if ($extConf['categoryField']) {
+                $constraints[] = $extConf['categoryField'] . ' IN (' . $extConf['categories'] . ')';
+            } elseif ($extConf['categoryMMTable']) {
+                $catTable = $extConf['categoryMMTable'];
+                $from .= ' LEFT JOIN ' . $catTable . ' ON ' . $table . '.uid = ' . $catTable . '.uid_foreign';
+                $constraints[] = $catTable . '.uid_local IN (' . $extConf['categories'] . ')';
+                if ($extConf['categoryMMTablename']) {
+                    $constraints[] = $catTable . '.tablenames = ' . $db->fullQuoteStr($table, $table);
+                }
+                if ($extConf['categoryMMFieldname']) {
+                    $constraints[] = $catTable . '.fieldname = ' . $db->fullQuoteStr(
+                        $extConf['categoryMMFieldname'],
+                        $table
+                    );
+                }
+            }
+        }
+
+        // lastmod
+        if ($tca['ctrl']['tstamp']) {
+            $select .= ', ' . $table . '.' . $tca['ctrl']['tstamp'] . ' AS lastmod';
+        }
+
+        // no index
+        if ($tca['columns']['tx_csseo']) {
+            $from .= ' LEFT JOIN tx_csseo_domain_model_meta ON '
+                . $table
+                . '.uid = tx_csseo_domain_model_meta.uid_foreign';
+            $constraints[] = '(' . $table . '.tx_csseo = 0 OR
         	 (tx_csseo_domain_model_meta.tablenames = ' . $db->fullQuoteStr($table, $table) . ' AND
         	 tx_csseo_domain_model_meta.no_index = 0))';
-		}
+        }
 
-		if ($extConf['additionalWhereClause']) {
-		    $constraints[] = $extConf['additionalWhereClause'];
-		}
+        if ($extConf['additionalWhereClause']) {
+            $constraints[] = $extConf['additionalWhereClause'];
+        }
 
-		if (count($constraints)) {
-			$where .= implode($constraints, ' AND ');
-		} else {
-			$where = '1=1';
-		}
+        if (count($constraints)) {
+            $where .= implode($constraints, ' AND ');
+        } else {
+            $where = '1=1';
+        }
 
-		$where .= $this->pageRepository->enableFields(
-			$extConf['table']
-		);
+        $where .= $this->pageRepository->enableFields(
+            $extConf['table']
+        );
 
-		return $db->exec_SELECTgetRows(
-			$select,
-			$from,
-			$where,
-			$table . '.uid'
-		);
-	}
+        return $db->exec_SELECTgetRows(
+            $select,
+            $from,
+            $where,
+            $table . '.uid'
+        );
+    }
 
-	/**
-	 * Returns the database connection
-	 *
-	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
-	}
+    /**
+     * Returns the database connection
+     *
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getSettings() {
-		return $this->settings;
-	}
+    /**
+     * @return array
+     */
+    public function getSettings()
+    {
+        return $this->settings;
+    }
 
-	/**
-	 * @param array $settings
-	 */
-	public function setSettings($settings) {
-		$this->settings = $settings;
-	}
+    /**
+     * @param array $settings
+     */
+    public function setSettings($settings)
+    {
+        $this->settings = $settings;
+    }
 }

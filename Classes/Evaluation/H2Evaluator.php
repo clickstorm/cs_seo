@@ -29,28 +29,29 @@ use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 
 /**
  * Class H2Evaluator
+ *
  * @package Clickstorm\CsSeo\Evaluation
  */
 class H2Evaluator extends AbstractEvaluator
 {
 
-	public function evaluate() {
-		$state = self::STATE_RED;
-		$extConf = ConfigurationUtility::getEmConfiguration();
-		$maxH2 = $extConf['maxH2'];
+    public function evaluate()
+    {
+        $state = self::STATE_RED;
+        $extConf = ConfigurationUtility::getEmConfiguration();
+        $maxH2 = $extConf['maxH2'];
 
-		$count = $this->domDocument->getElementsByTagName('h2')->length;
+        $count = $this->domDocument->getElementsByTagName('h2')->length;
 
-		if($count > 0 && $count <= $maxH2) {
-			$state =  self::STATE_GREEN;
-		} elseif ($count > $maxH2) {
-			$state = self::STATE_YELLOW;
-		}
+        if ($count > 0 && $count <= $maxH2) {
+            $state = self::STATE_GREEN;
+        } elseif ($count > $maxH2) {
+            $state = self::STATE_YELLOW;
+        }
 
-		return [
-			'count' => $count,
-			'state' => $state
-		];
-	}
-
+        return [
+            'count' => $count,
+            'state' => $state
+        ];
+    }
 }

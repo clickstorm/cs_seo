@@ -30,17 +30,20 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class GetValueViewHelper
+ *
  * @package Clickstorm\CsSeo\ViewHelpers
  */
-class GetValueViewHelper extends AbstractViewHelper {
+class GetValueViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * @param array $array
-	 * @param string $key
-	 * @return mixed
-	 */
-	public function render($array, $key) {
-		return $array[$key];
-	}
-
+    /**
+     * @param array $array
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function render($array, $key)
+    {
+        return $array[$key];
+    }
 }

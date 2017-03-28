@@ -39,6 +39,7 @@ use TYPO3\CMS\Frontend\Page\PageGenerator;
  * Google Search Results Preview
  *
  * Class PageTitle
+ *
  * @package Clickstorm\CsSeo\UserFunc
  */
 class PreviewWizard
@@ -112,15 +113,24 @@ class PreviewWizard
     protected function loadJavascript()
     {
         $compress = true;
-        $javascriptFiles = array(
+        $javascriptFiles = [
             'jquery.cs_seo.preview.js'
-        );
+        ];
         // Load jquery
         $this->getPageRenderer()->loadJquery();
         // Load the wizards javascript
         $baseUrl = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/JavaScript/';
         foreach ($javascriptFiles as $javascriptFile) {
-            $this->getPageRenderer()->addJsFile($baseUrl . $javascriptFile, 'text/javascript', $compress, false, '', false, '|', true);
+            $this->getPageRenderer()->addJsFile(
+                $baseUrl . $javascriptFile,
+                'text/javascript',
+                $compress,
+                false,
+                '',
+                false,
+                '|',
+                true
+            );
         }
     }
 
@@ -135,9 +145,9 @@ class PreviewWizard
     {
         // @todo Set to TRUE when finished
         $compress = false;
-        $cssFiles = array(
+        $cssFiles = [
             'Wizard.css'
-        );
+        ];
         $baseUrl = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/CSS/';
         // Load the wizards css
         foreach ($cssFiles as $cssFile) {
@@ -156,14 +166,17 @@ class PreviewWizard
     protected function getBodyContent($data, $table)
     {
         // template1
-	    /** @var StandaloneView $wizardView */
+        /** @var StandaloneView $wizardView */
         $wizardView = GeneralUtility::makeInstance(StandaloneView::class);
         $wizardView->setFormat('html');
-        $wizardView->setLayoutRootPaths([10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']);
-        $wizardView->setTemplatePathAndFilename(ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/Wizard.html');
-        
-        if(strpos($data['uid'], 'NEW') === false) {
+        $wizardView->setLayoutRootPaths(
+            [10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']
+        );
+        $wizardView->setTemplatePathAndFilename(
+            ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/Wizard.html'
+        );
 
+        if (strpos($data['uid'], 'NEW') === false) {
             // set pageID for TSSetup check
             $pageUid = ($table == 'pages') ? $data['uid'] : $data['pid'];
             $_GET['id'] = $pageUid;
@@ -173,42 +186,47 @@ class PreviewWizard
             $backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
             $fullTS = $backendConfigurationManager->getTypoScriptSetup();
 
-            if(isset($fullTS['types.'][$this->typeNum]) || $GLOBALS['BE_USER']->workspace > 0) {
+            if (isset($fullTS['types.'][$this->typeNum]) || $GLOBALS['BE_USER']->workspace > 0) {
                 // render page title
                 $rootline = BackendUtility::BEgetRootLine($pageUid);
 
                 /** @var TSFEUtility $TSFEUtility */
-                $TSFEUtility =  GeneralUtility::makeInstance(TSFEUtility::class, $pageUid, $data['sys_language_uid']);
+                $TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $pageUid, $data['sys_language_uid']);
                 $fallback = [];
 
-                if(isset($GLOBALS['TSFE'])) {
-	                $siteTitle = $TSFEUtility->getSiteTitle();
-	                $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();
-	                $config = $TSFEUtility->getConfig();
+                if (isset($GLOBALS['TSFE'])) {
+                    $siteTitle = $TSFEUtility->getSiteTitle();
+                    $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();
+                    $config = $TSFEUtility->getConfig();
 
-	                if($table == 'pages' || $table == 'pages_language_overlay') {
-		                PageGenerator::generatePageTitle();
-		                $pageTitle = static::getPageRenderer()->getTitle();
-		                // get page path
-		                $path = $TSFEUtility->getPagePath();
-		                // TYPO3 8
-		                $urlScheme = is_array($data['url_scheme']) ? $data['url_scheme'][0] : $data['url_scheme'];
+                    if ($table == 'pages' || $table == 'pages_language_overlay') {
+                        PageGenerator::generatePageTitle();
+                        $pageTitle = static::getPageRenderer()->getTitle();
+                        // get page path
+                        $path = $TSFEUtility->getPagePath();
+                        // TYPO3 8
+                        $urlScheme = is_array($data['url_scheme']) ? $data['url_scheme'][0] : $data['url_scheme'];
 
-		                // check if path is absolute
-		                if (strpos($path, '://') !== false) {
-			                $path = '';
-		                }
+                        // check if path is absolute
+                        if (strpos($path, '://') !== false) {
+                            $path = '';
+                        }
                         $fallback['title'] = 'title';
                         $fallback['uid'] = 'uid';
                         $fallback['table'] = 'table';
-	                } else {
+                    } else {
                         $pageTSConfig = BackendUtility::getPagesTSconfig($pageUid);
 
                         // handle fallback
-                        if(isset($pageTSConfig['tx_csseo.'])) {
+                        if (isset($pageTSConfig['tx_csseo.'])) {
                             foreach ($pageTSConfig['tx_csseo.'] as $key => $settings) {
-                                if(is_string($settings)) {
-                                    if($settings == $data['tablenames'] && isset($pageTSConfig['tx_csseo.'][$key . '.']['fallback.'])) {
+                                if (is_string($settings)) {
+                                    if ($settings == $data['tablenames']
+                                        && isset(
+                                            $pageTSConfig['tx_csseo.'][$key
+                                            . '.']['fallback.']
+                                        )
+                                    ) {
                                         $fallback = $pageTSConfig['tx_csseo.'][$key . '.']['fallback.'];
                                         break;
                                     }
@@ -216,7 +234,7 @@ class PreviewWizard
                             }
                         }
 
-                        if($fallback) {
+                        if ($fallback) {
                             $res = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
                                 '*',
                                 $data['tablenames'],
@@ -228,7 +246,7 @@ class PreviewWizard
                             $row = $res[0];
 
                             foreach ($fallback as $seoField => $fallbackField) {
-                                if(empty($data[$seoField])) {
+                                if (empty($data[$seoField])) {
                                     $data[$seoField] = $row[$fallbackField];
                                 }
                             }
@@ -237,24 +255,26 @@ class PreviewWizard
                             $fallback['table'] = $data['tablenames'];
                         }
 
-		                $pageTitle = $TSFEUtility->getFinalTitle($data['title'], $data['title_only']);
-		                $path = '';
-		                $urlScheme = 'http://';
-	                }
+                        $pageTitle = $TSFEUtility->getFinalTitle($data['title'], $data['title_only']);
+                        $path = '';
+                        $urlScheme = 'http://';
+                    }
 
-	                $wizardView->assignMultiple([
-		                'config' => $config,
-		                'data' => $data,
-                        'domain' => BackendUtility::firstDomainRecord($rootline),
-                        'fallback' => $fallback,
-		                'pageTitle' => $pageTitle,
-		                'pageTitleSeparator' => $pageTitleSeparator,
-		                'path' => $path,
-		                'siteTitle' => $siteTitle,
-		                'urlScheme' => $urlScheme
-	                ]);
-	            } else {
-	                $wizardView->assign('error', 'no_tsfe');
+                    $wizardView->assignMultiple(
+                        [
+                            'config' => $config,
+                            'data' => $data,
+                            'domain' => BackendUtility::firstDomainRecord($rootline),
+                            'fallback' => $fallback,
+                            'pageTitle' => $pageTitle,
+                            'pageTitleSeparator' => $pageTitleSeparator,
+                            'path' => $path,
+                            'siteTitle' => $siteTitle,
+                            'urlScheme' => $urlScheme
+                        ]
+                    );
+                } else {
+                    $wizardView->assign('error', 'no_tsfe');
                 }
             } else {
                 $wizardView->assign('error', 'no_ts');
