@@ -263,7 +263,7 @@ class HeaderData
         $typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
 
         // get active table and uid
-        $tables = self::getPageTS();
+        $tables = ConfigurationUtility::getPageTSconfig();
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $currentItem = self::getCurrentTable($tables, $cObj);
 
@@ -282,8 +282,11 @@ class HeaderData
             // if a fallback is shown, set canonical to the language of the ordered item
             if (!in_array($currentLanguageUid, $allLanguagesFromItem)) {
                 unset($canonicalTypoLinkConf['additionalParams.']);
-                $canonicalTypoLinkConf['additionalParams'] =
-                    '&L=' . $this->getLanguageFromItem($currentItem['table'], $currentItem['uid']);
+                $lang = $this->getLanguageFromItem($currentItem['table'], $currentItem['uid']);
+                if($lang < 0) {
+                    $lang = 0;
+                }
+                $canonicalTypoLinkConf['additionalParams'] = '&L=' . $lang;
             }
         }
         $canonical = $this->cObj->typoLink_URL($canonicalTypoLinkConf);
