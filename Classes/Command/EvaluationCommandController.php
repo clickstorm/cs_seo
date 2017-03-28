@@ -34,6 +34,7 @@ use Clickstorm\CsSeo\Service\FrontendPageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Http\AjaxRequestHandler;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
@@ -92,11 +93,17 @@ class EvaluationCommandController extends CommandController
         $this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
 
         // get parameter
+        $table = '';
         if (empty($params)) {
             $uid = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['uid'];
+            $table = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['table'];
         } else {
             $attr = $params['request']->getParsedBody();
             $uid = $attr['uid'];
+            $table = $attr['table'];
+        }
+        if($table != '') {
+            $this->tableName = $table;
         }
         $this->processResults($uid);
 
@@ -129,7 +136,7 @@ class EvaluationCommandController extends CommandController
     {
         foreach ($items as $item) {
             /** @var FrontendPageService $frontendPageService */
-            $frontendPageService = GeneralUtility::makeInstance(FrontendPageService::class, $item);
+            $frontendPageService = GeneralUtility::makeInstance(FrontendPageService::class, $item, $this->tableName);
             $html = $frontendPageService->getHTML();
 
             if (!empty($html)) {

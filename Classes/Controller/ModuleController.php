@@ -221,15 +221,18 @@ class ModuleController extends ActionController
         if ($table && $table != 'pages') {
             $records = DatabaseUtility::getRecords($table);
             $record = $this->modParams['record'];
-            $results = $this->getResults($record, $table);
+            if($record) {
+                $results = $this->getResults($record, $table);
+            }
+
             $this->view->assignMultiple(
                 [
                     'record' => $record,
-                    'records' => $records,
-                    'table' => $table
+                    'records' => $records
                 ]
             );
         } else {
+            $table = 'pages';
             $lang = $this->modParams['lang'];
             if ($lang > 0) {
                 $page = $this->pageRepository->getPageOverlay($page, $lang);
@@ -248,6 +251,7 @@ class ModuleController extends ActionController
                 'results' => $results,
                 'page' => $page,
                 'tables' => $tables,
+                'table' => $table,
                 'langDisplay' => $this->languages[$langResult],
                 'languages' => $this->languages
             ]

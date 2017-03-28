@@ -14,4 +14,11 @@ tx_csseo {
 		# cs_seo description field fallback = news description field
 		description = description
 	}
+	1.evaluation {
+		# additional params to initialize the detail view
+		getParams = &tx_news_pi1[controller]=News&tx_news_pi1[action]=show&tx_news_pi1[news]=
+
+		# detail pid for the current records
+		detailPid = 
+	}
 }

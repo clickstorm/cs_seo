@@ -15,7 +15,8 @@
             $.post(
                 TYPO3.settings.ajaxUrls['CsSeo::evaluate'],
                 {
-                    uid: $this.data('uid')
+                    uid: $this.data('uid'),
+                    table: $this.data('table')
                 }
                 ).done(function(response){
                     if(response.length > 0) {

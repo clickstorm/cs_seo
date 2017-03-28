@@ -48,6 +48,11 @@ class FrontendPageService
     protected $pageInfo;
 
     /**
+     * @var string
+     */
+    protected $tableName;
+
+    /**
      * @var int
      */
     protected $lang;
@@ -56,10 +61,12 @@ class FrontendPageService
      * TSFEUtility constructor.
      *
      * @param array $pageInfo
+     * @param string $tableName
      */
-    public function __construct($pageInfo)
+    public function __construct($pageInfo, $tableName = 'pages')
     {
         $this->pageInfo = $pageInfo;
+        $this->tableName = $tableName;
     }
 
     /**
@@ -67,24 +74,40 @@ class FrontendPageService
      */
     public function getHTML()
     {
-        $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
-        if (!in_array($this->pageInfo['doktype'], $allowedDoktypes) || $this->pageInfo['tx_csseo_no_index']) {
-            return '';
+        if($this->tableName == 'pages') {
+            $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
+            if (!in_array($this->pageInfo['doktype'], $allowedDoktypes) || $this->pageInfo['tx_csseo_no_index']) {
+                return '';
+            }
         }
 
-        // add id and language
-        if ($this->pageInfo['sys_language_uid'] > 0) {
-            $pid = $this->pageInfo['pid'];
-            $params = 'id=' . $pid . '&L=' . $this->pageInfo['sys_language_uid'];
+        $params = '';
+        $paramId = $this->pageInfo['uid'];
+
+        if($this->tableName && $this->tableName != 'pages') {
+            // record
+            $tableSettings = ConfigurationUtility::getTableSettings($this->tableName);
+            if($tableSettings['evaluation.']) {
+                $params = $tableSettings['evaluation.']['getParams'] . $this->pageInfo['uid'];
+                $paramId = $tableSettings['evaluation.']['detailPid'];
+                if ($this->pageInfo['sys_language_uid'] > 0) {
+                    $params .= '&L=' . $this->pageInfo['sys_language_uid'];
+                }
+            }
         } else {
-            $pid = $this->pageInfo['uid'];
-            $params = 'id=' . $pid;
+            // translated page
+            if ($this->pageInfo['sys_language_uid'] > 0) {
+                $paramId = $this->pageInfo['pid'];
+                $params = '&L=' . $this->pageInfo['sys_language_uid'];
+            }
         }
+
+        $params = 'id=' . $paramId . $params;
 
         // disable cache
         $params .= '&no_cache=1';
 
-        $domain = BackendUtility::getViewDomain($pid);
+        $domain = BackendUtility::getViewDomain($paramId);
         $url = $domain . '/index.php?' . $params;
 
         $report = [];

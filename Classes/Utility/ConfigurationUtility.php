@@ -85,6 +85,26 @@ class ConfigurationUtility
     }
 
     /**
+     * return the settings for a table
+     *
+     * @return array
+     */
+    public static function getTableSettings($tableName)
+    {
+        $pageTSconfig = self::getPageTSconfig();
+        $settings = [];
+        if ($pageTSconfig) {
+            foreach ($pageTSconfig as $tsConfigKey => $tsConfigRow) {
+                if (is_string($tsConfigRow) && $tsConfigRow == $tableName) {
+                    $settings = $pageTSconfig[$tsConfigKey . '.'];
+                }
+            }
+        }
+
+        return $settings;
+    }
+
+    /**
      * return the allowed doktypes of pages for evaluation
      *
      * @return array
