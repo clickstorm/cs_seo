@@ -16,6 +16,7 @@ plugin.tx_csseo {
 				height = {$plugin.tx_csseo.social.openGraph.image.height}
 				width = {$plugin.tx_csseo.social.openGraph.image.width}
 			}
+			type = {$plugin.tx_csseo.social.openGraph.type}
 		}
 		twitter {
 			creator = {$plugin.tx_csseo.social.twitter.creator}

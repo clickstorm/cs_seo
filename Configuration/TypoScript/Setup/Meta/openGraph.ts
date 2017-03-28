@@ -4,7 +4,10 @@ page.headerData.654 {
 	30 {
 		### og:type ###
 		5 = TEXT
-		5.value = <meta property="og:type" content="website" />
+		5 {
+			value < plugin.tx_csseo.social.openGraph.type
+			wrap = <meta property="og:type" content="|" />
+		}
 
 		### og:title ###
 		10 = TEXT

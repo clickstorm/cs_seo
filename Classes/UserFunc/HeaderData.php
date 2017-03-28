@@ -356,7 +356,9 @@ class HeaderData
         }
 
         // og:type
-        $content .= $this->printMetaTag('og:type', 'website', 1);
+        if ($pluginSettings['social.']['openGraph.']['type']) {
+            $content .= $this->printMetaTag('og:type', $pluginSettings['social.']['openGraph.']['type'], 1);
+        }
 
         // og:url
         $content .= $this->printMetaTag('og:url', $canonical, 1);

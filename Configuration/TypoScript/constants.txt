@@ -15,22 +15,25 @@ plugin.tx_csseo {
     # cat=plugin.tx_csseo/social/1; type=string; label= Default Social Image : Default image for Open Graph and Twitter Cards (e.g. fileadmin/user_upload/image.jpg)
     social.defaultImage =
 
-    # cat=plugin.tx_csseo/social/2; type=string; label= Open Graph Width : Width of the Open Graph image
+    # cat=plugin.tx_csseo/social/2; type=string; label= Open Graph Type, more https://developers.facebook.com/docs/reference/opengraph
+    social.openGraph.type = website
+
+    # cat=plugin.tx_csseo/social/3; type=string; label= Open Graph Width : Width of the Open Graph image
     social.openGraph.image.width = 1200
 
-    # cat=plugin.tx_csseo/social/3; type=string; label= Open Graph Height : Height of the Open Graph image
+    # cat=plugin.tx_csseo/social/4; type=string; label= Open Graph Height : Height of the Open Graph image
     social.openGraph.image.height = 628c
 
-    # cat=plugin.tx_csseo/social/4; type=string; label= Twitter Cards Default Image : Extra default image for Twitter (e.g. fileadmin/user_upload/image.jpg)
+    # cat=plugin.tx_csseo/social/5; type=string; label= Twitter Cards Default Image : Extra default image for Twitter (e.g. fileadmin/user_upload/image.jpg)
     social.twitter.defaultImage =
 
-    # cat=plugin.tx_csseo/social/5; type=string; label= Twitter Cards Width : Width of the Twitter Cards image
+    # cat=plugin.tx_csseo/social/6; type=string; label= Twitter Cards Width : Width of the Twitter Cards image
     social.twitter.image.width = 1024
 
-    # cat=plugin.tx_csseo/social/6; type=string; label= Twitter Cards Height : Height of the Twitter Cards image
+    # cat=plugin.tx_csseo/social/7; type=string; label= Twitter Cards Height : Height of the Twitter Cards image
     social.twitter.image.height = 512c
 
-    # cat=plugin.tx_csseo/social/7; type=string; label= Default Twitter Creator : Twitter username (without @)
+    # cat=plugin.tx_csseo/social/8; type=string; label= Default Twitter Creator : Twitter username (without @)
     social.twitter.creator =
 
     # customsubcategory=tracking=User Tracking
