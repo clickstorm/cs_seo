@@ -16,7 +16,7 @@ tx_csseo {
 	}
 	1.evaluation {
 		# additional params to initialize the detail view
-		getParams = &tx_news_pi1[controller]=News&tx_news_pi1[action]=show&tx_news_pi1[news]=
+		getParams = &tx_news_pi1[controller]=News&tx_news_pi1[action]=detail&tx_news_pi1[news]=
 
 		# detail pid for the current records
 		detailPid = 
