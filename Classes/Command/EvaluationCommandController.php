@@ -102,7 +102,7 @@ class EvaluationCommandController extends CommandController
             $uid = $attr['uid'];
             $table = $attr['table'];
         }
-        if($table != '') {
+        if ($table != '') {
             $this->tableName = $table;
         }
         $this->processResults($uid);
@@ -142,7 +142,8 @@ class EvaluationCommandController extends CommandController
             if (!empty($html)) {
                 /** @var EvaluationService $evaluationUtility */
                 $evaluationUtility = GeneralUtility::makeInstance(EvaluationService::class);
-                $results = $evaluationUtility->evaluate($html, $item['tx_csseo_keyword']);
+
+                $results = $evaluationUtility->evaluate($html, $this->getFocusKeyword($item));
 
                 $this->saveChanges($results, $item['uid']);
             }
@@ -237,6 +238,36 @@ class EvaluationCommandController extends CommandController
             $items[] = $row;
         }
         return $items;
+    }
+
+    /**
+     * Get Keyword from record or page
+     *
+     * @param $record
+     * @return string
+     */
+    protected function getFocusKeyword($record)
+    {
+        $keyword = '';
+        if ($record['tx_csseo']) {
+            $metaTableName = 'tx_csseo_domain_model_meta';
+            $where = 'tablenames = \'' . $this->getDatabaseConnection()->quoteStr($this->tableName,
+                    $metaTableName) . '\'';
+            $where .= ' AND uid_foreign = ' . $record['uid'];
+            $where .= BackendUtility::BEenableFields($metaTableName);
+            $res = $this->getDatabaseConnection()->exec_SELECTquery(
+                'keyword',
+                $metaTableName,
+                $where
+            );
+
+            while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+                $keyword = $row['keyword'];
+            }
+        } else {
+            $keyword = $record['tx_csseo_keyword'];
+        }
+        return $keyword;
     }
 
     /**
