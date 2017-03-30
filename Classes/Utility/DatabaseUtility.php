@@ -58,10 +58,10 @@ class DatabaseUtility
             '',
             $GLOBALS['TCA'][$table]['ctrl']['tstamp'] ? $GLOBALS['TCA'][$table]['ctrl']['tstamp']
                 . ' '
-                . QueryInterface::ORDER_ASCENDING : ''
+                . QueryInterface::ORDER_DESCENDING : ''
         );
         while ($row = self::getDatabaseConnection()->sql_fetch_assoc($res)) {
-            $items[$row['uid']] = $row[$GLOBALS['TCA'][$table]['ctrl']['label']];
+            $items[$row['uid']] = $row[$GLOBALS['TCA'][$table]['ctrl']['label']] . ' [' . $row['uid'] . ']';
         }
         return $items;
     }
