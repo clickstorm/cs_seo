@@ -35,7 +35,7 @@ return [
 							    --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_facebook;facebook,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_twitter;twitter,
-								--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, sys_language_uid, l10n_parent, l10n_diffsource, hidden, starttime, endtime'],
+								--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, sys_language_uid, l10n_parent, l10n_diffsource, hidden, starttime, endtime'],
 	],
 	'palettes' => [
 		'preview' => ['showitem' => 'title,title_only,--linebreak--,
@@ -62,6 +62,7 @@ return [
 				'renderType' => 'selectSingle',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
+                'default' => 0,
 				'items' => [
 					['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
 					['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0]
