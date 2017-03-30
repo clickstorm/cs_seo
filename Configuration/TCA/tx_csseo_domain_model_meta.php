@@ -26,17 +26,17 @@ return [
 		'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/Icons/mod.png'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'hidden, sys_language_uid, l10n_parent, l10n_diffsource, title, description, title_only, 
+		'showRecordFieldList' => 'hidden, sys_language_uid, l10n_parent, l10n_diffsource, title, description, title_only,
 								  canonical, no_index, og_title, og_description, og_image, tw_title, tw_description, tw_image, tw_creator',
 	],
 	'types' => [
-		'1' => ['showitem' => '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo, 
+		'1' => ['showitem' => '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_preview;preview,keyword,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_index;index,
 							    --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_facebook;facebook,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_twitter;twitter,
-								--div--;LLL:EXT:cms/locallang_ttc.xlf:tabs.access, sys_language_uid, l10n_parent, l10n_diffsource, hidden;;1, starttime, endtime'],
+								--div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, sys_language_uid, l10n_parent, l10n_diffsource, hidden;;1, starttime, endtime'],
 	],
 	'palettes' => [
 		'preview' => ['showitem' => 'title,title_only,--linebreak--,
@@ -63,6 +63,7 @@ return [
 				'renderType' => 'selectSingle',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
+				'default' => 0,
 				'items' => [
 					['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
 					['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0]
