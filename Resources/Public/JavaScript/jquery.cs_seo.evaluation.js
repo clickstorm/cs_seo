@@ -65,5 +65,9 @@
             }
         }
 
+        if('#cs-record') {
+            $('#cs-record').select2();
+        }
+
     });
 })(TYPO3.jQuery || jQuery);
