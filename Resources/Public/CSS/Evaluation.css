@@ -57,6 +57,12 @@
 .cs-seo-results .right a {
   text-decoration: none;
 }
+.cs-seo-results .evaluation-images img {
+  height: auto;
+  max-height: 200px;
+  max-width: 200px;
+  width: auto;
+}
 .cs-icon {
   position: relative;
   padding-left: 1.5em;

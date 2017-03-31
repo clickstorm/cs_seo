@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-31T09:14:08Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-31T09:26:38Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -90,7 +90,10 @@
 			<source>There are no images on the page</source>
 		</trans-unit>
 		<trans-unit id="evaluation.images.settings">
-			<source>The content of every image should be described by an alternative Attribut.</source>
+			<source>The content of every image should be described by an alternative attribut.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.images.withoutAlt">
+			<source>Images without an alt attribut</source>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword">
 			<source>Focus Keyword</source>

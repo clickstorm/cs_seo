@@ -37,16 +37,18 @@ class ImagesEvaluator extends AbstractEvaluator
     public function evaluate()
     {
         $state = self::STATE_RED;
+        $imagesWithoutAlt = [];
+        $altCount = 0;
 
         $images = $this->domDocument->getElementsByTagName('img');
         $count = $images->length;
 
-        $altCount = 0;
-
         /** @var \DOMElement $element */
         foreach ($images as $element) {
             $alt = $element->getAttribute('alt');
-            if (!empty($alt)) {
+            if (empty($alt)) {
+                $imagesWithoutAlt[] = $element->getAttribute('src');
+            } else {
                 $altCount++;
             }
         }
@@ -63,7 +65,8 @@ class ImagesEvaluator extends AbstractEvaluator
             'count' => $count,
             'altCount' => $altCount,
             'countWithoutAlt' => $count - $altCount,
-            'state' => $state
+            'state' => $state,
+            'images' => $imagesWithoutAlt
         ];
     }
 }
