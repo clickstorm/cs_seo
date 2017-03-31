@@ -29,7 +29,11 @@ return [
 	'palettes' => [
 	],
 	'columns' => [
-
+        'tstamp' => [
+            'config' => [
+                'type' => 'passthrough',
+            ],
+        ],
 		'hidden' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',

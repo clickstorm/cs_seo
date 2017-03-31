@@ -29,6 +29,12 @@
                                 </f:for>
                             </ul>
                         </div>
+                        <div class="results-detail">
+                            <f:render partial="Results/Detail/Intro" arguments="{_all}" />
+                            <f:for each="{results}" as="result" key="key">
+                                <f:render partial="Results/Detail/{key}" arguments="{_all}" />
+                            </f:for>
+                        </div>
                     </f:then>
                     <f:else>
                         <div class="header">

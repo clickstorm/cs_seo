@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-03-16T23:13:14Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-03-31T09:14:08Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
 		<body>
+		<trans-unit id="date.format" approved="yes">
+			<source>%m/%d/%Y %I:%M %p</source>
+			<target>%d.%m.%Y %H:%M Uhr</target>
+		</trans-unit>
 		<trans-unit id="error.no_data" approved="yes">
 			<source>Click 'Save' to show the preview.</source>
 			<target>Drücken Sie 'Speichern', um die Vorschau zu sehen.</target>
@@ -33,6 +37,22 @@
 			<source>has the optimal length</source>
 			<target>hat die optimale Länge</target>
 		</trans-unit>
+		<trans-unit id="evaluation.description.count" approved="yes">
+			<source>The current description consists of %1$s characters.</source>
+			<target>Die aktuelle Beschreibung besteht aus %1$s Zeichen.</target>
+		</trans-unit>
+		<trans-unit id="evaluation.description.no" approved="yes">
+			<source>There is no description set.</source>
+			<target>Es wurde keine Beschreibung angegeben.</target>
+		</trans-unit>
+		<trans-unit id="evaluation.description.settings" approved="yes">
+			<source>The optimal length of the meta description is between %1$s and %2$s characters incl. white spaces.</source>
+			<target>Die optimale Länge der Meta-Beschreibung liegt zwischen %1$s und %2$s Zeichen inkl. Leerzeichen.</target>
+		</trans-unit>
+		<trans-unit id="evaluation.details" approved="yes">
+			<source>Details</source>
+			<target>Details</target>
+		</trans-unit>
 		<trans-unit id="evaluation.h1" approved="yes">
 			<source>H1 headline</source>
 			<target>H1 Überschrift</target>
@@ -44,6 +64,10 @@
 		<trans-unit id="evaluation.h1.2" approved="yes">
 			<source>one headline was found</source>
 			<target>eine Überschrift wurde gefunden</target>
+		</trans-unit>
+		<trans-unit id="evaluation.h1.settings" approved="yes">
+			<source>The page should have one h1 headline.</source>
+			<target>Die Seite sollte eine h1-Überschrift beinhalten.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.h2" approved="yes">
 			<source>H2 headlines</source>
@@ -61,9 +85,17 @@
 			<source>The number of headlines is optimal</source>
 			<target>Die Anzahl der Überschriften ist optimal</target>
 		</trans-unit>
+		<trans-unit id="evaluation.h2.settings" approved="yes">
+			<source>The page should have not more than %1$s h2 headlines.</source>
+			<target>Die Seite sollte nicht mehr als %1$s h2-Überschriften beinhalten.</target>
+		</trans-unit>
 		<trans-unit id="evaluation.header" approved="yes">
 			<source>SEO - Content Analysis</source>
 			<target>SEO - Inhaltsanalyse</target>
+		</trans-unit>
+		<trans-unit id="evaluation.headlines.count" approved="yes">
+			<source>Number of founded headlines: %1$s.</source>
+			<target>Anzahl der gefundenen Überschriften: %1$s.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.images" approved="yes">
 			<source>Alt attributes</source>
@@ -84,6 +116,10 @@
 		<trans-unit id="evaluation.images.no" approved="yes">
 			<source>There are no images on the page</source>
 			<target>Es gibt keine Bilder auf der Seite</target>
+		</trans-unit>
+		<trans-unit id="evaluation.images.settings" approved="yes">
+			<source>The content of every image should be described by an alternative Attribut.</source>
+			<target>Der Inhalt jedes Bildes sollte in dem Attribut &quot;alt&quot; beschrieben sein.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword" approved="yes">
 			<source>Focus Keyword</source>
@@ -117,6 +153,10 @@
 			<source>No keyword was set</source>
 			<target>Es wurde kein Schlüsselwort gesetzt</target>
 		</trans-unit>
+		<trans-unit id="evaluation.keyword.settings" approved="yes">
+			<source>The Focus Keyword should be set in the browser title, the meta description and the content.</source>
+			<target>Das Fokus Keyword ist das Wort, unter dem die Seite in externen Suchmaschinen gefunden werden sollte. Es sollte im Browser-Titel, der Meta-Beschreibung und im Inhalt auftauchen. </target>
+		</trans-unit>
 		<trans-unit id="evaluation.more" approved="yes">
 			<source>More information</source>
 			<target>Weitere Informationen</target>
@@ -140,6 +180,22 @@
 		<trans-unit id="evaluation.title.2" approved="yes">
 			<source>has the optimal length.</source>
 			<target>hat die optimale Länge.</target>
+		</trans-unit>
+		<trans-unit id="evaluation.title.count" approved="yes">
+			<source>The current title consists of %1$s characters.</source>
+			<target>Der aktuelle Titel besteht aus %1$s Zeichen.</target>
+		</trans-unit>
+		<trans-unit id="evaluation.title.no" approved="yes">
+			<source>No title was found.</source>
+			<target>Es wurde kein Titel angegeben.</target>
+		</trans-unit>
+		<trans-unit id="evaluation.title.settings" approved="yes">
+			<source>The optimal length of the browser title is between %1$s and %2$s characters incl. white spaces.</source>
+			<target>Die optimale Länge des Browsertitels liegt zwischen %1$s und %2$s Zeichen inkl. Leerzeichen.</target>
+		</trans-unit>
+		<trans-unit id="evaluation.tstamp" approved="yes">
+			<source>Last update</source>
+			<target>Zuletzt aktualisiert</target>
 		</trans-unit>
 		<trans-unit id="evaluation.update" approved="yes">
 			<source>Update</source>

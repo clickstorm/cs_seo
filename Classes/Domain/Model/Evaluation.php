@@ -49,6 +49,11 @@ class Evaluation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $tablenames;
 
     /**
+     * @var int
+     */
+    protected $tstamp;
+
+    /**
      * @return array
      */
     public function getResults()
@@ -94,5 +99,21 @@ class Evaluation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setTablenames($tablenames)
     {
         $this->tablenames = $tablenames;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTstamp()
+    {
+        return $this->tstamp;
+    }
+
+    /**
+     * @param int $tstamp
+     */
+    public function setTstamp($tstamp)
+    {
+        $this->tstamp = $tstamp;
     }
 }

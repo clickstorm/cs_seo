@@ -225,7 +225,7 @@ class ModuleController extends ActionController
             $records = DatabaseUtility::getRecords($table);
             $record = $this->modParams['record'];
             if($record) {
-                $results = $this->getResults($record, $table);
+                $evaluation = $this->getEvaluation($record, $table);
             }
 
             $this->view->assignMultiple(
@@ -240,22 +240,38 @@ class ModuleController extends ActionController
             if ($lang > 0) {
                 $page = $this->pageRepository->getPageOverlay($page, $lang);
             }
-            $results = $this->getResults($page);
+            $evaluation = $this->getEvaluation($page);
+
             $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?: 0;
-            $this->view->assign('lang', $lang);
+            $this->view->assignMultiple(
+                [
+                    'lang' => $lang,
+                    'langDisplay' => $this->languages[$langResult]
+                ]
+            );
         }
 
-        $score = $results['Percentage'];
-        unset($results['Percentage']);
+        if(isset($evaluation)) {
+            $results = $evaluation->getResults();
+            $score = $results['Percentage'];
+            unset($results['Percentage']);
+            $this->view->assignMultiple(
+                [
+                    'evaluation' => $evaluation,
+                    'score' => $score,
+                    'results' => $results
+                ]
+            );
+        }
+
+        $emConf = ConfigurationUtility::getEmConfiguration();
 
         $this->view->assignMultiple(
             [
-                'score' => $score,
-                'results' => $results,
+                'emConf' => $emConf,
                 'page' => $page,
                 'tables' => $tables,
                 'table' => $table,
-                'langDisplay' => $this->languages[$langResult],
                 'languages' => $this->languages
             ]
         );
@@ -490,17 +506,7 @@ class ModuleController extends ActionController
         return $pages;
     }
 
-    /**
-     * return evaluation results of a specific page
-     *
-     * @param $record
-     * @param $table
-     *
-     * @return array
-     */
-    protected function getResults($record, $table = '')
-    {
-        $results = [];
+    protected function getEvaluation($record, $table = '') {
         if ($table) {
             $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record, $table);
         } else {
@@ -514,8 +520,21 @@ class ModuleController extends ActionController
                 $evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$record['uid'], 'pages');
             }
         }
+        return $evaluation;
+    }
 
-
+    /**
+     * return evaluation results of a specific page
+     *
+     * @param $record
+     * @param $table
+     *
+     * @return array
+     */
+    protected function getResults($record, $table = '')
+    {
+        $results = [];
+        $evaluation = $this->getEvaluation($record, $table);
         if ($evaluation) {
             $results = $evaluation->getResults();
         }

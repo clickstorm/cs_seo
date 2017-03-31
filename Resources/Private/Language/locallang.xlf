@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-16T23:13:14Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-31T09:14:08Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
 		<body>
+		<trans-unit id="date.format">
+			<source>%m/%d/%Y %I:%M %p</source>
+		</trans-unit>
 		<trans-unit id="error.no_data">
 			<source>Click 'Save' to show the preview.</source>
 		</trans-unit>
@@ -26,6 +29,18 @@
 		<trans-unit id="evaluation.description.2">
 			<source>has the optimal length</source>
 		</trans-unit>
+		<trans-unit id="evaluation.description.count">
+			<source>The current description consists of %1$s characters.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.description.no">
+			<source>There is no description set.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.description.settings">
+			<source>The optimal length of the meta description is between %1$s and %2$s characters incl. white spaces.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.details">
+			<source>Details</source>
+		</trans-unit>
 		<trans-unit id="evaluation.h1">
 			<source>H1 headline</source>
 		</trans-unit>
@@ -34,6 +49,9 @@
 		</trans-unit>
 		<trans-unit id="evaluation.h1.2">
 			<source>one headline was found</source>
+		</trans-unit>
+		<trans-unit id="evaluation.h1.settings">
+			<source>The page should have one h1 headline.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.h2">
 			<source>H2 headlines</source>
@@ -47,8 +65,14 @@
 		<trans-unit id="evaluation.h2.2">
 			<source>The number of headlines is optimal</source>
 		</trans-unit>
+		<trans-unit id="evaluation.h2.settings">
+			<source>The page should have not more than %1$s h2 headlines.</source>
+		</trans-unit>
 		<trans-unit id="evaluation.header">
 			<source>SEO - Content Analysis</source>
+		</trans-unit>
+		<trans-unit id="evaluation.headlines.count">
+			<source>Number of founded headlines: %1$s.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.images">
 			<source>Alt attributes</source>
@@ -64,6 +88,9 @@
 		</trans-unit>
 		<trans-unit id="evaluation.images.no">
 			<source>There are no images on the page</source>
+		</trans-unit>
+		<trans-unit id="evaluation.images.settings">
+			<source>The content of every image should be described by an alternative Attribut.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword">
 			<source>Focus Keyword</source>
@@ -89,6 +116,9 @@
 		<trans-unit id="evaluation.keyword.no">
 			<source>No keyword was set</source>
 		</trans-unit>
+		<trans-unit id="evaluation.keyword.settings">
+			<source>The Focus Keyword should be set in the browser title, the meta description and the content.</source>
+		</trans-unit>
 		<trans-unit id="evaluation.more">
 			<source>More information</source>
 		</trans-unit>
@@ -106,6 +136,18 @@
 		</trans-unit>
 		<trans-unit id="evaluation.title.2">
 			<source>has the optimal length.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.title.count">
+			<source>The current title consists of %1$s characters.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.title.no">
+			<source>No title was found.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.title.settings">
+			<source>The optimal length of the browser title is between %1$s and %2$s characters incl. white spaces.</source>
+		</trans-unit>
+		<trans-unit id="evaluation.tstamp">
+			<source>Last update</source>
 		</trans-unit>
 		<trans-unit id="evaluation.update">
 			<source>Update</source>
