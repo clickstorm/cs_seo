@@ -16,8 +16,7 @@
             $inputFallbackTitleHR = findInputFallback('title'),
             $inputFallbackDescriptionHR = findInputFallback('description'),
             $inputSeoDescriptionHR = $panel.find('[data-formengine-input-name$="[description]"], textarea[name$="[description]"]');
-
-        if(fallbackTable == 'pages' || fallbackTable == 'pages_languages_overlay') {
+        if(fallbackTable == 'pages' || fallbackTable == 'pages_language_overlay') {
             var $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[tx_csseo_title]"], input[name$="[tx_csseo_title]_hr"]'),
                 $checkboxTitleOnlyHR = $panel.find('input[data-formengine-input-name$="[tx_csseo_title_only]"], input[name$="[tx_csseo_title_only]_0"]');
         } else {

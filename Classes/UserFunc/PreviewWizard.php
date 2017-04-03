@@ -212,8 +212,8 @@ class PreviewWizard
                             $path = '';
                         }
                         $fallback['title'] = 'title';
-                        $fallback['uid'] = 'uid';
-                        $fallback['table'] = 'table';
+                        $fallback['uid'] = $data['uid'];
+                        $fallback['table'] = $table;
                     } else {
                         $pageTSConfig = BackendUtility::getPagesTSconfig($pageUid);
 
