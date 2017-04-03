@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-03-31T09:26:38Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-04-03T16:46:59Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -66,7 +66,7 @@
 			<target>eine Überschrift wurde gefunden</target>
 		</trans-unit>
 		<trans-unit id="evaluation.h1.settings" approved="yes">
-			<source>The page should have one h1 headline.</source>
+			<source>The page should contain one h1 headline.</source>
 			<target>Die Seite sollte eine h1-Überschrift beinhalten.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.h2" approved="yes">
@@ -86,7 +86,7 @@
 			<target>Die Anzahl der Überschriften ist optimal</target>
 		</trans-unit>
 		<trans-unit id="evaluation.h2.settings" approved="yes">
-			<source>The page should have not more than %1$s h2 headlines.</source>
+			<source>The page should contain not more than %1$s h2 headlines.</source>
 			<target>Die Seite sollte nicht mehr als %1$s h2-Überschriften beinhalten.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.header" approved="yes">
@@ -94,7 +94,7 @@
 			<target>SEO - Inhaltsanalyse</target>
 		</trans-unit>
 		<trans-unit id="evaluation.headlines.count" approved="yes">
-			<source>Number of founded headlines: %1$s.</source>
+			<source>Number of headlines found: %1$s.</source>
 			<target>Anzahl der gefundenen Überschriften: %1$s.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.images" approved="yes">
@@ -118,7 +118,7 @@
 			<target>Es gibt keine Bilder auf der Seite</target>
 		</trans-unit>
 		<trans-unit id="evaluation.images.settings" approved="yes">
-			<source>The content of every image should be described by an alternative attribut.</source>
+			<source>The content of each image should be described in the &quot;alt&quot; attribute.</source>
 			<target>Der Inhalt jedes Bildes sollte in dem Attribut &quot;alt&quot; beschrieben sein.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.images.withoutAlt" approved="yes">
@@ -158,7 +158,7 @@
 			<target>Es wurde kein Schlüsselwort gesetzt</target>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.settings" approved="yes">
-			<source>The Focus Keyword should be set in the browser title, the meta description and the content.</source>
+			<source>The focus keyword is the word under which the page should be found in external search engines. It should appear in the browser title, the meta description and the content.</source>
 			<target>Das Fokus Keyword ist das Wort, unter dem die Seite in externen Suchmaschinen gefunden werden sollte. Es sollte im Browser-Titel, der Meta-Beschreibung und im Inhalt auftauchen. </target>
 		</trans-unit>
 		<trans-unit id="evaluation.more" approved="yes">

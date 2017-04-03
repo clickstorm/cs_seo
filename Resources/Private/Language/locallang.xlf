@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-03-31T09:26:38Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-03T16:46:59Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -51,7 +51,7 @@
 			<source>one headline was found</source>
 		</trans-unit>
 		<trans-unit id="evaluation.h1.settings">
-			<source>The page should have one h1 headline.</source>
+			<source>The page should contain one h1 headline.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.h2">
 			<source>H2 headlines</source>
@@ -66,13 +66,13 @@
 			<source>The number of headlines is optimal</source>
 		</trans-unit>
 		<trans-unit id="evaluation.h2.settings">
-			<source>The page should have not more than %1$s h2 headlines.</source>
+			<source>The page should contain not more than %1$s h2 headlines.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.header">
 			<source>SEO - Content Analysis</source>
 		</trans-unit>
 		<trans-unit id="evaluation.headlines.count">
-			<source>Number of founded headlines: %1$s.</source>
+			<source>Number of headlines found: %1$s.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.images">
 			<source>Alt attributes</source>
@@ -90,7 +90,7 @@
 			<source>There are no images on the page</source>
 		</trans-unit>
 		<trans-unit id="evaluation.images.settings">
-			<source>The content of every image should be described by an alternative attribut.</source>
+			<source>The content of each image should be described in the &quot;alt&quot; attribute.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.images.withoutAlt">
 			<source>Images without an alt attribut</source>
@@ -120,7 +120,7 @@
 			<source>No keyword was set</source>
 		</trans-unit>
 		<trans-unit id="evaluation.keyword.settings">
-			<source>The Focus Keyword should be set in the browser title, the meta description and the content.</source>
+			<source>The focus keyword is the word under which the page should be found in external search engines. It should appear in the browser title, the meta description and the content.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.more">
 			<source>More information</source>
