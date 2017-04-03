@@ -88,6 +88,11 @@ class ModuleController extends ActionController
      */
     protected $showResults = false;
 
+	/**
+	 * @var \Clickstorm\CsSeo\Utility\TSFEUtility
+	 */
+    protected $TSFEUtility;
+
     /**
      * Initialize action
      *
@@ -109,6 +114,8 @@ class ModuleController extends ActionController
 
         // get languages
         $this->languages = $this->getLanguages();
+
+	    $this->TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->id, $this->modParams['lang']);
     }
 
     /**
@@ -138,14 +145,11 @@ class ModuleController extends ActionController
     {
         $fieldNames = ['title', 'tx_csseo_title', 'tx_csseo_title_only', 'description'];
 
-        /** @var TSFEUtility $TSFEUtility */
-        $TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->id, $this->modParams['lang']);
-
         // preview settings
         $previewSettings = [];
-        $previewSettings['siteTitle'] = $TSFEUtility->getSiteTitle();
-        $previewSettings['pageTitleFirst'] = $TSFEUtility->getPageTitleFirst();
-        $previewSettings['pageTitleSeparator'] = $TSFEUtility->getPageTitleSeparator();
+        $previewSettings['siteTitle'] = $this->TSFEUtility->getSiteTitle();
+        $previewSettings['pageTitleFirst'] = $this->TSFEUtility->getPageTitleFirst();
+        $previewSettings['pageTitleSeparator'] = $this->TSFEUtility->getPageTitleSeparator();
 
         if ($previewSettings['pageTitleFirst']) {
             $previewSettings['siteTitle'] = $previewSettings['pageTitleSeparator'] . $previewSettings['siteTitle'];
