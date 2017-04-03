@@ -65,7 +65,7 @@
             }
         }
 
-        if('#cs-record') {
+        if($('#cs-record').length > 0) {
             $('#cs-record').select2();
         }
 
