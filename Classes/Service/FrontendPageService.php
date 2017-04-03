@@ -31,6 +31,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
 
 /**
  * crawl the page
@@ -106,6 +107,12 @@ class FrontendPageService
 
         // disable cache
         $params .= '&no_cache=1';
+
+        // generate chash
+	    /** @var CacheHashCalculator $cacheHash */
+	    $cacheHash = GeneralUtility::makeInstance(CacheHashCalculator::class);
+	    $cHash = $cacheHash->generateForParameters($params);
+	    $params .= $cHash ? '&cHash=' . $cHash : '';
 
         $domain = BackendUtility::getViewDomain($paramId);
         $url = $domain . '/index.php?' . $params;
