@@ -200,11 +200,13 @@ class EvaluationCommandController extends CommandController
         if ($localizations) {
             if ($tcaCtrl['transForeignTable']) {
                 $this->tableName = $tcaCtrl['transForeignTable'];
+	            $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
             } else {
                 if ($tcaCtrl['languageField']) {
                     $constraints[] = $tcaCtrl['languageField'] . ' > 0';
                 } elseif ($this->tableName == 'pages') {
 	                $this->tableName = 'pages_language_overlay';
+	                $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
                 }
             }
         }
@@ -217,7 +219,6 @@ class EvaluationCommandController extends CommandController
                 $constraints[] = 'uid = ' . $uid;
             }
         }
-
         return implode($constraints, ' AND ') . BackendUtility::BEenableFields($this->tableName);
     }
 
