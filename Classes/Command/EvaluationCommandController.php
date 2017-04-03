@@ -200,18 +200,19 @@ class EvaluationCommandController extends CommandController
         if ($localizations) {
             if ($tcaCtrl['transForeignTable']) {
                 $this->tableName = $tcaCtrl['transForeignTable'];
-                $tcaCtrl['transOrigPointerField'] = 'pid';
             } else {
                 if ($tcaCtrl['languageField']) {
                     $constraints[] = $tcaCtrl['languageField'] . ' > 0';
+                } elseif ($this->tableName == 'pages') {
+	                $this->tableName = 'pages_language_overlay';
                 }
             }
         }
 
         // if single uid
         if ($uid > 0) {
-            if ($localizations) {
-                $constraints[] = $tcaCtrl['transOrigPointerField'] . ' = ' . $uid;
+            if ($localizations && $tcaCtrl['transOrigPointerField']) {
+	            $constraints[] = $tcaCtrl['transOrigPointerField'] . ' = ' . $uid;
             } else {
                 $constraints[] = 'uid = ' . $uid;
             }
