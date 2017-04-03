@@ -54,3 +54,17 @@
 	/* Uncomment for 3D effect */
 	/* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
+
+// converts hex to rgba inc. fallback
+.rgba(@alpha, @color: @color-good) {
+	@alphaColor: hsla(hue(@color), saturation(@color), lightness(@color), @alpha);
+	@ieAlphaColor: argb(@alphaColor);
+
+	background-color: @color; // Fallback for older browsers
+	background-color: @alphaColor;
+
+	// IE hacks
+	zoom: 1; // hasLayout
+	background-color: transparent\9;
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColor}, endColorstr=@{ieAlphaColor})"; // IE 8+
+}

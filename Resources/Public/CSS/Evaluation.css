@@ -63,6 +63,48 @@
   max-width: 200px;
   width: auto;
 }
+.cs-seo-results .results-detail {
+  margin: 24px 0 0;
+}
+.cs-seo-results .results-detail p {
+  margin: 0;
+}
+.cs-seo-results .results-detail .intro {
+  background: #d0d0d0;
+  border-radius: 2px 2px 0 0;
+  padding: 10px;
+}
+.cs-seo-results .results-detail .intro h2 {
+  margin: 0 0 12px;
+}
+.cs-seo-results .results-detail .detail {
+  border-top: 1px solid #fff;
+  padding: 10px;
+}
+.cs-seo-results .results-detail .detail.csseo-state-0 {
+  background-color: #c83c3c;
+  background-color: rgba(200, 60, 60, 0.5);
+  zoom: 1;
+  background-color: transparent\9;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#80c83c3c, endColorstr=#80c83c3c)";
+}
+.cs-seo-results .results-detail .detail.csseo-state-1 {
+  background-color: #e8a33d;
+  background-color: rgba(232, 163, 61, 0.5);
+  zoom: 1;
+  background-color: transparent\9;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#80e8a33d, endColorstr=#80e8a33d)";
+}
+.cs-seo-results .results-detail .detail.csseo-state-2 {
+  background-color: #79a548;
+  background-color: rgba(121, 165, 72, 0.5);
+  zoom: 1;
+  background-color: transparent\9;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#8079a548, endColorstr=#8079a548)";
+}
+.cs-seo-results .results-detail .detail h3 {
+  margin: 0 0 12px;
+}
 .cs-icon {
   position: relative;
   padding-left: 1.5em;

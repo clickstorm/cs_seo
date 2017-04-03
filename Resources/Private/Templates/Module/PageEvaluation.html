@@ -32,7 +32,9 @@
                         <div class="results-detail">
                             <f:render partial="Results/Detail/Intro" arguments="{_all}" />
                             <f:for each="{results}" as="result" key="key">
-                                <f:render partial="Results/Detail/{key}" arguments="{_all}" />
+                                <div class="detail evaluation-{key -> f:format.case(mode:'lower')} csseo-state-{result.state}">
+                                    <f:render partial="Results/Detail/{key}" arguments="{_all}" />
+                                </div>
                             </f:for>
                         </div>
                     </f:then>

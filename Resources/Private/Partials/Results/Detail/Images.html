@@ -1,26 +1,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en"
-	  xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
-	  data-namespace-typo3-fluid="true">
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
-<div class="evaluation-images">
-	<h3><f:translate key="evaluation.images" /></h3>
-	<f:translate key="evaluation.images.settings" /><br>
-	<f:if condition="{result.count}">
-		<f:then>
-			<f:translate key="evaluation.images.{result.state}" arguments="{0: result.countWithoutAlt}" />.
-			<f:if condition="{result.images}">
-				<h4><f:translate key="evaluation.images.withoutAlt" /></h4>
-				<f:for each="{result.images}" as="image">
-					<figure>
-						<f:image src="{image}" width="200" height="200" />
-						<figcaption>{image}</figcaption>
-					</figure>
-				</f:for>
-			</f:if>
-		</f:then>
-		<f:else>
-			<f:translate key="evaluation.images.no" />.
-		</f:else>
-	</f:if>
-</div>
+<h3>
+	<f:translate key="evaluation.images"/>
+</h3>
+<f:translate key="evaluation.images.settings"/>
+<br>
+<f:if condition="{result.count}">
+	<f:then>
+		<f:translate key="evaluation.images.{result.state}" arguments="{0: result.countWithoutAlt}"/>.
+		<f:if condition="{result.images}">
+			<h4>
+				<f:translate key="evaluation.images.withoutAlt"/>
+			</h4>
+			<f:for each="{result.images}" as="image">
+				<figure>
+					<img src="{image}" />
+					<figcaption>{image}</figcaption>
+				</figure>
+			</f:for>
+		</f:if>
+	</f:then>
+	<f:else>
+		<f:translate key="evaluation.images.no"/>.
+	</f:else>
+</f:if>
 
