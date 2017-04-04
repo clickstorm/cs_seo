@@ -13,12 +13,12 @@
             <div class="cs-seo-results">
                 <f:if condition="{results}">
                     <f:then>
-                        <div class="header">
+                        <div class="header clearfix">
                             <f:render partial="Results/Percentage" arguments="{result:score}" section="Main"/>
                             <span class="text"><f:translate key="evaluation.header" /></span>
                             <f:render section="Button" arguments="{_all}" />
                             <f:render partial="Results/Bar" arguments="{result:score}" section="Main"/>
-                            <div class="right">
+                            <div class="right last-update">
                                 <f:translate key="evaluation.tstamp"/>:
                                 <f:format.date date="{evaluation.tstamp}" format="{f:translate(key:'date.format')}"/>
                             </div>
@@ -27,7 +27,6 @@
                             <ul>
                                 <f:for each="{results}" as="result" key="key">
                                     <li class="cs-icon csseo-icon-state-{result.state}">
-                                        <f:render partial="Results/{key}" arguments="{result:result}" />
                                         <div class="right">
                                             <a href="javascript:;"
                                                class="csseo-icon-up-open js-csseo-toggle"
@@ -35,6 +34,7 @@
                                                title="{f:translate(key:'evaluation.more')}"
                                             ></a>
                                         </div>
+                                        <f:render partial="Results/{key}" arguments="{result:result}" />
                                         <div class="detail evaluation-{key -> f:format.case(mode:'lower')}">
                                             <f:render partial="Results/Detail/{key}" arguments="{_all}" />
                                         </div>

@@ -20,6 +20,11 @@
 }
 .cs-seo-results .header .text {
   margin-right: 50px;
+  white-space: nowrap;
+}
+.cs-seo-results .header .last-update {
+  padding-top: 3px;
+  margin-left: 20px;
 }
 .cs-seo-results .score {
   border-radius: 4px;
@@ -34,6 +39,7 @@
 }
 .cs-seo-results .results ul li {
   background: #eaeaea;
+  clear: both;
   margin: 0;
   padding: 10px;
 }
