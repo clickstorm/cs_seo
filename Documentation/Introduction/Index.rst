@@ -36,7 +36,7 @@ Features
    - Twitter Cards
 
 - Easily **extend any database record** you like with this SEO properties (news, events etc.)
-- **On-page evaluation** of different SEO aspects (focus keyword, alt attributes etc.)
+- **On-page evaluation** of different SEO aspects (focus keyword, alt attributes etc.) and records (pages, news etc.)
 - **Sitemap.xml** for pages, records inc. multidomain, multilanguages, categories
 - Configure an individual **Robots.txt** per Domain
 - **href="lang"** support
@@ -70,3 +70,7 @@ The backend module gives you an overview and the option to change page propertie
 Extend e.g. the news with SEO properties. So in the detail view, they are automatically shown.
 
 |img-5|
+
+Evaluate this records.
+
+|img-6|

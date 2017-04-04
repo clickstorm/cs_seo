@@ -43,3 +43,11 @@
 .. :name: Screenshot 4
 .. :vspace: 52
 
+.. |img-6|      image:: ../Images/Introduction/cs_seo-record-evaluation.png
+   :height: 501
+   :width: 800
+.. :align: center
+.. :alt: cs_seo record evaluation
+.. :border: 0
+.. :name: Screenshot 5
+.. :vspace: 52
