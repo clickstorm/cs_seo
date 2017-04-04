@@ -11,7 +11,7 @@ Extend existing models
 ^^^^^^^^^^^^^^^^^^^^^^
 
 To extend an already existing extbase model with a detail view, e.g. news or job offers,
-easily complete the following two steps.
+and offer the evaluation of this records, easily complete the following two steps.
 
 
 If the hreflang tag is enabled in TypoScript, the hreflang tag is set for all existing languages of the extended
@@ -58,6 +58,15 @@ Add the following page TSconfig to the page with ID = 1.
 
 		    # cs_seo description field fallback = mymod description field
 		    description = description
+		}
+
+		# enable evaluation for news
+		1.evaluation {
+			# additional params to initialize the detail view, the pipe will be replaced by the uid
+			getParams = &tx_myext_pi1[controller]=MyController&tx_myext_pi1[action]=MyAction&tx_myext_pi1[mymod]=|
+
+			# detail pid for the current records, only if set the table will be available
+			detailPid =
 		}
 	}
 
