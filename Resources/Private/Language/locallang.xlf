@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-03T16:46:59Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-04T06:40:11Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -33,7 +33,7 @@
 			<source>The current description consists of %1$s characters.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.description.no">
-			<source>There is no description set.</source>
+			<source>No description is given.</source>
 		</trans-unit>
 		<trans-unit id="evaluation.description.settings">
 			<source>The optimal length of the meta description is between %1$s and %2$s characters incl. white spaces.</source>

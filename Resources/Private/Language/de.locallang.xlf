@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-04-03T16:46:59Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-04-04T06:40:11Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -42,7 +42,7 @@
 			<target>Die aktuelle Beschreibung besteht aus %1$s Zeichen.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.description.no" approved="yes">
-			<source>There is no description set.</source>
+			<source>No description is given.</source>
 			<target>Es wurde keine Beschreibung angegeben.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.description.settings" approved="yes">
