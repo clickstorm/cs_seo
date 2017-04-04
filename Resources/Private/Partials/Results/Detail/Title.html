@@ -2,8 +2,8 @@
 	  xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
 	  data-namespace-typo3-fluid="true">
 
-<h3><f:translate key="evaluation.title" /></h3>
-<p><f:translate key="evaluation.title.settings" arguments="{0: emConf.minTitle, 1: emConf.maxTitle}" /><br>
+<p class="no-margin">
+	<f:translate key="evaluation.title.settings" arguments="{0: emConf.minTitle, 1: emConf.maxTitle}" /><br>
 	<f:if condition="{result.count}">
 		<f:then>
 			<f:translate key="evaluation.title.count" arguments="{0: result.count}" />

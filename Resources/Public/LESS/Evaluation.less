@@ -48,6 +48,12 @@
     }
   }
 
+  .detail {
+    border-top: 1px solid #fff;
+    margin: 10px 0 0;
+    padding: 10px;
+  }
+
   .bar {
     background: #fff;
     position: absolute;
@@ -74,36 +80,9 @@
       width: auto;
     }
   }
-  .results-detail {
-    margin: 24px 0 0;
-    p {
-      margin: 0;
-    }
-    .intro {
-      background: #d0d0d0;
-      border-radius: 2px 2px 0 0;
-      padding: 10px;
-      h2 {
-        margin: 0 0 12px;
-      }
-    }
-    .detail {
-      border-top: 1px solid #fff;
-      padding: 10px;
-      &.csseo-state-0 {
-        .rgba(.5, @color-failure);
-      }
-      &.csseo-state-1 {
-        .rgba(.5, @color-ok);
-      }
-      &.csseo-state-2 {
-        .rgba(.5, @color-good);
-      }
 
-      h3 {
-        margin: 0 0 12px;
-      }
-    }
+  .no-margin {
+    margin: 0;
   }
 }
 
@@ -167,5 +146,4 @@
       }
     }
   }
-
 }

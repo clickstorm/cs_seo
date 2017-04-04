@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-04T06:40:11Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-04T07:54:59Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -214,6 +214,9 @@
 		</trans-unit>
 		<trans-unit id="partials.module.state.wait">
 			<source>[{{ msg.field }}] wait...</source>
+		</trans-unit>
+		<trans-unit id="select.prepend">
+			<source>Please choose</source>
 		</trans-unit>
 		<trans-unit id="templates.sitemap.extension.no_records">
 			<source>No records were found. Please check your configurations.</source>

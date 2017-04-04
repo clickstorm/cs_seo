@@ -11,7 +11,11 @@
 						<f:then>
 							<div class="header">
 								<div class="right">
-									<a href="javascript:;" id="cs-seo-toggle" class="csseo-icon-up-open" title="{f:translate(key:'evaluation.more')}"></a>
+									<a href="javascript:;"
+									   class="csseo-icon-up-open js-csseo-toggle"
+									   title="{f:translate(key:'evaluation.more')}"
+									   data-content=".cs-seo-results .results"
+									   data-cookie="1"></a>
 								</div>
 								<f:render partial="Results/Percentage" arguments="{result:score}" section="Main"/>
 								<span class="text"><f:translate key="evaluation.header"/></span>
@@ -23,7 +27,9 @@
 							<div class="results">
 								<ul>
 									<f:for each="{results}" as="result" key="key">
-										<f:render partial="Results/{key}" arguments="{result:result}" section="Main"/>
+										<li class="cs-icon csseo-icon-state-{result.state}">
+											<f:render partial="Results/{key}" arguments="{result:result}"/>
+										</li>
 									</f:for>
 								</ul>
 							</div>

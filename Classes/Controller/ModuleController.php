@@ -240,16 +240,33 @@ class ModuleController extends ActionController
             );
         } else {
             $table = 'pages';
-            $lang = $this->modParams['lang'];
-            if ($lang > 0) {
-                $page = $this->pageRepository->getPageOverlay($page, $lang);
+            $languages = [];
+
+            // get available languages
+            $pageOverlays = DatabaseUtility::getPageLanguageOverlays($page['uid']);
+            $languages[0] = $this->languages[0];
+
+            if($pageOverlays) {
+                $languagesUids = array_keys($pageOverlays);
+                foreach($this->languages as $langUid => $languageLabel) {
+                    if($langUid > 0 && in_array($langUid, $languagesUids)) {
+                        $languages[$langUid] = $languageLabel;
+                    }
+                }
+            }
+
+            // get page
+            $languageParam = $this->modParams['lang'];
+            if ($languageParam > 0) {
+                $page = $this->pageRepository->getPageOverlay($page, $languageParam);
             }
             $evaluation = $this->getEvaluation($page);
 
             $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?: 0;
             $this->view->assignMultiple(
                 [
-                    'lang' => $lang,
+                    'lang' => $languageParam,
+                    'languages' => $languages,
                     'langDisplay' => $this->languages[$langResult]
                 ]
             );
@@ -275,8 +292,7 @@ class ModuleController extends ActionController
                 'emConf' => $emConf,
                 'page' => $page,
                 'tables' => $tables,
-                'table' => $table,
-                'languages' => $this->languages
+                'table' => $table
             ]
         );
     }

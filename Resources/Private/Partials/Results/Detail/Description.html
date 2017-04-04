@@ -2,10 +2,7 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<h3>
-	<f:translate key="evaluation.description"/>
-</h3>
-<p>
+<p class="no-margin">
 	<f:translate key="evaluation.description.settings" arguments="{0: emConf.minDescription, 1: emConf.maxDescription}"/>
 	<br>
 	<f:if condition="{result.count}">

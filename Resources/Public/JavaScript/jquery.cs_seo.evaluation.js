@@ -7,6 +7,8 @@
  */
 (function ($) {
     $(document).ready(function(){
+
+        // evaluation update
         $('#cs-seo-evaluate').click(function(key, value) {
             var $this = $(this),
                 $evaluateButton = $('#cs-seo-evaluate');
@@ -42,31 +44,44 @@
             return false;
         });
 
-        var $toggle = $('#cs-seo-toggle');
+        // toggle accordion
+        var $toggles = $('.js-csseo-toggle');
+        if($toggles.length > 0) {
+            $toggles.each(function() {
+	            var $toggle = $(this),
+                    $content = $($toggle.data('content')),
+		            showResults = false,
+		            useCookies = $toggle.data('cookie');
 
-        if($toggle.length > 0) {
-            var $content = $('.cs-seo-results .results');
-            var showResults = $.cookie('seo-results') == 1 ? true : false;
+	            if(useCookies) {
+		            showResults = $.cookie('seo-results') == 1 ? true : false;
+	            }
 
-            function toggleResults() {
-                $content.toggle(showResults);
-                $toggle.toggleClass('csseo-icon-up-open', showResults);
-                $toggle.toggleClass('csseo-icon-down-open', !showResults);
-            }
+	            function toggleResults() {
+		            $content.toggle(showResults);
+		            $toggle.toggleClass('csseo-icon-up-open', showResults);
+		            $toggle.toggleClass('csseo-icon-down-open', !showResults);
+	            }
 
-            $toggle.click(function() {
-                showResults = !showResults;
-                toggleResults();
-                $.cookie('seo-results', showResults ? 1 : 0);
+	            $toggle.click(function() {
+		            showResults = !showResults;
+		            toggleResults();
+		            if(useCookies) {
+			            $.cookie('seo-results', showResults ? 1 : 0);
+		            }
+	            });
+
+	            if(!showResults) {
+		            toggleResults();
+	            }
             });
-
-            if(!showResults) {
-                toggleResults();
-            }
         }
 
-        if($('#cs-record').length > 0) {
-            $('#cs-record').select2();
+        // record selector with search box
+        var $recordSelector = $('#cs-record');
+        if($recordSelector.length > 0) {
+	        $recordSelector.select2();
+	        $recordSelector.find('option[value=""]:not(:selected)').remove();
         }
 
     });

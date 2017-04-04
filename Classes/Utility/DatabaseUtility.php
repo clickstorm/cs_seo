@@ -67,6 +67,34 @@ class DatabaseUtility
     }
 
     /**
+     * @param $table
+     *
+     * @return array
+     */
+    public static function getPageLanguageOverlays($uid)
+    {
+        $items = [];
+        $table = 'pages_language_overlay';
+        $tcaCtrl = $GLOBALS['TCA'][$table]['ctrl'];
+        $where = 'pid = ' . $uid . BackendUtility::BEenableFields($table);
+
+        $res = self::getDatabaseConnection()->exec_SELECTquery(
+            '*',
+            $table,
+            $where,
+            '',
+            $tcaCtrl['languageField']
+                . ' '
+                . QueryInterface::ORDER_ASCENDING
+        );
+
+        while ($row = self::getDatabaseConnection()->sql_fetch_assoc($res)) {
+            $items[$row[$tcaCtrl['languageField']]] = $row;
+        }
+        return $items;
+    }
+
+    /**
      * Returns the database connection
      *
      * @return \TYPO3\CMS\Core\Database\DatabaseConnection

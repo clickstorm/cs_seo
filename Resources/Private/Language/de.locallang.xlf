@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-04-04T06:40:11Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-04-04T07:54:59Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -284,6 +284,10 @@
 		<trans-unit id="partials.module.state.wait" approved="yes">
 			<source>[{{ msg.field }}] wait...</source>
 			<target>[{{ msg.field }}] Bitte warten...</target>
+		</trans-unit>
+		<trans-unit id="select.prepend" approved="yes">
+			<source>Please choose</source>
+			<target>Bitte wählen</target>
 		</trans-unit>
 		<trans-unit id="templates.wizard.description" approved="yes">
 			<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
