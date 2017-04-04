@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-04T07:54:59Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-04T11:30:24Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -40,6 +40,9 @@
 		</trans-unit>
 		<trans-unit id="evaluation.details">
 			<source>Details</source>
+		</trans-unit>
+		<trans-unit id="evaluation.frontend">
+			<source>Open page in new window</source>
 		</trans-unit>
 		<trans-unit id="evaluation.h1">
 			<source>H1 headline</source>
