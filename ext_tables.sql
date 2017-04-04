@@ -95,6 +95,7 @@ CREATE TABLE tx_csseo_domain_model_evaluation (
 	pid int(11) DEFAULT '0' NOT NULL,
 
 	results text NOT NULL,
+	url varchar(255) DEFAULT '' NOT NULL,
 
 	uid_foreign int(11) DEFAULT '0' NOT NULL ,
 	tablenames varchar(255) DEFAULT '' NOT NULL,

@@ -39,6 +39,11 @@ class Evaluation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $results;
 
     /**
+     * @var string
+     */
+    protected $url;
+
+    /**
      * @var int
      */
     protected $uidForeign;
@@ -67,6 +72,22 @@ class Evaluation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setResults($results)
     {
         $this->results = serialize($results);
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
     }
 
     /**

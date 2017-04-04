@@ -100,6 +100,11 @@ class EvaluationService
         $this->evaluators = $evaluators;
     }
 
+    /**
+     * @param string $html
+     * @param string $keyword
+     * @return array
+     */
     public function evaluate($html, $keyword)
     {
         $results = [];

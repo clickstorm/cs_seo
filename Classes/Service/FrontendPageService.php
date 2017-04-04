@@ -71,10 +71,12 @@ class FrontendPageService
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getHTML()
+    public function getFrontendPage()
     {
+        $result = [];
+
         if($this->tableName == 'pages') {
             $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
             if (!in_array($this->pageInfo['doktype'], $allowedDoktypes) || $this->pageInfo['tx_csseo_no_index']) {
@@ -115,10 +117,10 @@ class FrontendPageService
 	    $params .= $cHash ? '&cHash=' . $cHash : '';
 
         $domain = BackendUtility::getViewDomain($paramId);
-        $url = $domain . '/index.php?' . $params;
+        $result['url'] = $domain . '/index.php?' . $params;
 
         $report = [];
-        $content = GeneralUtility::getUrl($url, 0, false, $report);
+        $content = GeneralUtility::getUrl($result['url'], 0, false, $report);
 
         if ($report['message'] && $report['message'] != 'OK') {
             /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
@@ -135,6 +137,10 @@ class FrontendPageService
             $flashMessageQueue->enqueue($flashMessage);
         }
 
-        return in_array($report['error'], [0, 200]) ? $content : '';
+        if(in_array($report['error'], [0, 200])) {
+            $result['content'] = $content;
+        }
+
+        return $result;
     }
 }

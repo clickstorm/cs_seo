@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-12-21T14:12:13Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-04T10:57:15Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -76,6 +76,9 @@
 		</trans-unit>
 		<trans-unit id="tx_csseo_domain_model_evaluation.results">
 			<source>Results</source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_domain_model_evaluation.url">
+			<source>URL</source>
 		</trans-unit>
 		<trans-unit id="tx_csseo_domain_model_meta">
 			<source>SEO options</source>

@@ -137,15 +137,15 @@ class EvaluationCommandController extends CommandController
         foreach ($items as $item) {
             /** @var FrontendPageService $frontendPageService */
             $frontendPageService = GeneralUtility::makeInstance(FrontendPageService::class, $item, $this->tableName);
-            $html = $frontendPageService->getHTML();
+            $frontendPage = $frontendPageService->getFrontendPage();
 
-            if (!empty($html)) {
+            if (isset($frontendPage['content'])) {
                 /** @var EvaluationService $evaluationUtility */
                 $evaluationUtility = GeneralUtility::makeInstance(EvaluationService::class);
 
-                $results = $evaluationUtility->evaluate($html, $this->getFocusKeyword($item));
+                $results = $evaluationUtility->evaluate($frontendPage['content'], $this->getFocusKeyword($item));
 
-                $this->saveChanges($results, $item['uid']);
+                $this->saveChanges($results, $item['uid'], $frontendPage['url']);
             }
         }
     }
@@ -153,10 +153,11 @@ class EvaluationCommandController extends CommandController
     /**
      * store the results in the db
      *
-     * @param $results
-     * @param $uidForeign
+     * @param array $results
+     * @param int $uidForeign
+     * @param string $url
      */
-    protected function saveChanges($results, $uidForeign)
+    protected function saveChanges($results, $uidForeign, $url)
     {
         /**
          * @var Evaluation $evaluation
@@ -169,6 +170,7 @@ class EvaluationCommandController extends CommandController
             $evaluation->setTablenames($this->tableName);
         }
 
+        $evaluation->setUrl($url);
         $evaluation->setResults($results);
 
         if ($evaluation->_isNew()) {

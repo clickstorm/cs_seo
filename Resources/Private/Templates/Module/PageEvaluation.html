@@ -1,4 +1,5 @@
 <div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
 <f:layout name="ModuleEvaluation" />
@@ -21,6 +22,11 @@
                             <div class="right last-update">
                                 <f:translate key="evaluation.tstamp"/>:
                                 <f:format.date date="{evaluation.tstamp}" format="{f:translate(key:'date.format')}"/>
+                                <a href="{evaluation.url}"
+                                   class="actions-window-open"
+                                   title="{f:translate(key:'evaluation.frontend')}"
+                                   target="blank"
+                                ><core:icon identifier="actions-window-open" size="small" /></a>
                             </div>
                         </div>
                         <div class="results">
