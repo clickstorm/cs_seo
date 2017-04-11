@@ -106,7 +106,13 @@ class StructuredData
     {
         /** @var  \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
-        $rootline = $pageRepository->getRootLine($GLOBALS['TSFE']->id);
+        /** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController[] $GLOBALS */
+        $id = $GLOBALS['TSFE']->id;
+        if (!empty($GLOBALS['TSFE']->MP)) {
+            // mouting point page - generate breadcrumb for the mounting point reference page instead
+            list(,$id) = explode('-', $GLOBALS['TSFE']->MP);
+        }
+        $rootline = $pageRepository->getRootLine($id);
 
         $cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
