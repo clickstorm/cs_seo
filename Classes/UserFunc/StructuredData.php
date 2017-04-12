@@ -108,9 +108,9 @@ class StructuredData
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         /** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController[] $GLOBALS */
         $id = $GLOBALS['TSFE']->id;
-        if (!empty($GLOBALS['TSFE']->MP)) {
+        if (!empty($GLOBALS['TSFE']->MP) && preg_match('/^\\d+\\-(\\d+)$/', $GLOBALS['TSFE']->MP, $match)) {
             // mouting point page - generate breadcrumb for the mounting point reference page instead
-            list(,$id) = explode('-', $GLOBALS['TSFE']->MP);
+            $id = intval($match[1]);
         }
         $rootline = $pageRepository->getRootLine($id);
 
