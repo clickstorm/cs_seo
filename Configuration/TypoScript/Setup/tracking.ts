@@ -60,7 +60,7 @@ page {
 	### Downloads with Google Analytics ###
 	includeJSFooter {
 		654 = EXT:cs_seo/Resources/Public/JavaScript/jquery.cs_seo.ga.js
-		654.if.isTrue < plugin.tx_csseo.googleAnalytics
+		654.if.isTrue < plugin.tx_csseo.tracking.googleAnalytics
 	}
 }
 
