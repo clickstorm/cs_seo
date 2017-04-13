@@ -13,6 +13,7 @@
  */
 
 use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -119,7 +120,7 @@ class ext_update {
 		/**
 		 * Finished migration from metaseo
 		 */
-		$message = 'Title, Canonical and NoIndex are migrated. Run <strong>DB compare</strong> in the install tool to remove the fields from metaseo and run the <strong>DB check</strong> to update the reference index.';
+		$message = 'Title, Canonical and NoIndex are migrated. Run DB compare in the install tool to remove the fields from metaseo and run the DB check to update the reference index.';
 		$status = FlashMessage::OK;
 		$title = 'Migrated all metaseo fields!';
 		$this->messageArray[] = [$status, $title, $message];
@@ -154,7 +155,7 @@ class ext_update {
 		/**
 		 * Finished migration from seo_basics
 		 */
-		$message = 'Title and Canonical are migrated. Run <strong>DB compare</strong> in the install tool to remove the fields from metaseo and run the <strong>DB check</strong> to update the reference index.';
+		$message = 'Title and Canonical are migrated. Run DB compare in the install tool to remove the fields from metaseo and run the DB check to update the reference index.';
 		$status = FlashMessage::OK;
 		$title = 'Migrated all seo_basics fields!';
 		$this->messageArray[] = [$status, $title, $message];
@@ -196,17 +197,21 @@ class ext_update {
 	 * @return string
 	 */
 	protected function generateOutput() {
-		$output = '';
+	    /** @var FlashMessageService $flashMessageService */
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+        $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
+
 		foreach ($this->messageArray as $messageItem) {
 			/** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
 			$flashMessage = GeneralUtility::makeInstance(
-				'TYPO3\\CMS\\Core\\Messaging\\FlashMessage',
+				FlashMessage::class,
 				$messageItem[2],
 				$messageItem[1],
 				$messageItem[0]);
-			$output .= $flashMessage->render();
+            $defaultFlashMessageQueue->enqueue($flashMessage);
 		}
-		return $output;
+		return $defaultFlashMessageQueue->renderFlashMessages();
 	}
 
 }
