@@ -35,3 +35,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl') && $
 			\Clickstorm\CsSeo\Hook\RealUrlHook::class . '->postProcessConfiguration';
 	}
 }
+
+// extend records
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['extTablesInclusion-PostProcessing']['cs_seo'] =
+    \Clickstorm\CsSeo\Hook\TableConfigurationPostProcessingHook::class;
