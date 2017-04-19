@@ -199,7 +199,6 @@ class ext_update {
 	protected function generateOutput() {
 	    /** @var FlashMessageService $flashMessageService */
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
         $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
 
 		foreach ($this->messageArray as $messageItem) {
