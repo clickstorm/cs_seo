@@ -59,7 +59,7 @@ If you wish to set the whole page to noindex, e.g. for development, you can use 
 
 ::
 
-	# insert meta robots="noindex,nofollow" on every page
+	# insert meta robots="noindex,follow" on every page
 	page.meta.robots.if >
 
 Don't to forget to remove this TypoScript in production.

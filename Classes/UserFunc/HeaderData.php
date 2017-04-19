@@ -293,7 +293,7 @@ class HeaderData
 
         // index
         if ($meta['no_index']) {
-            $content .= $this->printMetaTag('robots', 'noindex,nofollow');
+            $content .= $this->printMetaTag('robots', 'noindex,follow');
         } else {
             $content .= '<link rel="canonical" href="' . $canonical . '" />';
         }

@@ -24,7 +24,7 @@ config {
 			}
 
 			### Exclude from search engines ###
-			robots = noindex,nofollow
+			robots = noindex,follow
 			robots.if.isTrue.field = tx_csseo_no_index
 		}
 
