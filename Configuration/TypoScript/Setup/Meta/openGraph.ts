@@ -52,23 +52,31 @@ page.headerData.654 {
 				uid.data = page:uid
 				fieldName = tx_csseo_og_image
 			}
-			renderObj = IMG_RESOURCE
+			renderObj = TEXT
 			renderObj {
-				file.import.data = file:current:publicUrl
-				file.height < plugin.tx_csseo.social.openGraph.image.height
-				file.width < plugin.tx_csseo.social.openGraph.image.width
-				stdWrap.dataWrap = <meta property="og:image" content="{TSFE:baseUrl}|" />
+				stdWrap.typolink {
+					parameter.stdWrap {
+						cObject = IMG_RESOURCE
+						cObject.file {
+							import.data = file:current:uid
+							treatIdAsReference = 1
+							height < plugin.tx_csseo.social.openGraph.image.height
+							width < plugin.tx_csseo.social.openGraph.image.width
+						}
+					}
+					returnLast = url
+					forceAbsoluteUrl = 1
+				}
+				required = 1
+				wrap = <meta property="og:image" content="|" />
 			}
 		}
 
 		### default og:image ###
-		55 = IMG_RESOURCE
+		55 < .50.renderObj
 		55 {
+			stdWrap.typolink.parameter.stdWrap.cObject.file.import.data = path:{$plugin.tx_csseo.social.defaultImage}
 			stdWrap.if.isFalse.field = tx_csseo_og_image
-			file.import.data = path:{$plugin.tx_csseo.social.defaultImage}
-			file.height < plugin.tx_csseo.social.openGraph.image.height
-			file.width < plugin.tx_csseo.social.openGraph.image.width
-			stdWrap.dataWrap = <meta property="og:image" content="{TSFE:baseUrl}|" />
 		}
 	}
 }
