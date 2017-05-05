@@ -94,11 +94,13 @@ class Sitemap
                 $rootPage = $this->tsfe->sys_page->getPage($settings['rootPid']);
 
                 // remove doktype exlude
-                $this->tsfe->sys_page->where_hid_del = str_replace(
-                    ' AND pages.doktype<200',
-                    '',
-                    $this->tsfe->sys_page->where_hid_del
-                );
+                $hideDelArray = explode('AND', $this->tsfe->sys_page->where_hid_del);
+                foreach ($hideDelArray as $key => $entry) {
+                    if(strpos($entry,'doktype') !== false) {
+                        unset($hideDelArray[$key]);
+                    }
+                }
+                $this->tsfe->sys_page->where_hid_del = implode('AND', $hideDelArray);
 
                 // get the subpages
                 $subPages = $this->getSubPages($rootPage['uid']);
