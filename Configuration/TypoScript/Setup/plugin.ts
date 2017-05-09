@@ -64,6 +64,7 @@ Allow: /typo3temp/
 Disallow: /*?id=*               # non-realurl URLs
 Disallow: /*cHash               # no cHash
 Disallow: /*tx_powermail_pi1    # no powermail thanks pages
+Disallow: /*tx_form_formframework    # no forms
 
 # sitemap
 Sitemap: |/sitemap.xml
