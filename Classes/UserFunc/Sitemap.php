@@ -243,10 +243,6 @@ class Sitemap
     protected function getRecords($extConf)
     {
         $db = $this->getDatabaseConnection();
-        if (!isset($GLOBALS['TCA'][$extConf['table']])) {
-            return false;
-        }
-
         $table = $extConf['table'];
         $where = '';
         $from = $extConf['table'];
@@ -261,11 +257,28 @@ class Sitemap
             $constraints[] = $table . '.pid IN (' . $extConf['storagePid'] . ')';
         }
 
-        // lang
-        $languageField = $tca['ctrl']['languageField'];
-        if ($languageField) {
-            $constraints[] = $table . '.' . $languageField . ' IN (' . $lang . ',-1)';
-            $select .= ', ' . $table . '.' . $languageField . ' AS lang';
+        if($tca) {
+            // lang
+            $languageField = $tca['ctrl']['languageField'];
+            if ($languageField) {
+                $constraints[] = $table . '.' . $languageField . ' IN (' . $lang . ',-1)';
+                $select .= ', ' . $table . '.' . $languageField . ' AS lang';
+            }
+
+            // lastmod
+            if ($tca['ctrl']['tstamp']) {
+                $select .= ', ' . $table . '.' . $tca['ctrl']['tstamp'] . ' AS lastmod';
+            }
+
+            // no index
+            if ($tca['columns']['tx_csseo']) {
+                $from .= ' LEFT JOIN tx_csseo_domain_model_meta ON '
+                    . $table
+                    . '.uid = tx_csseo_domain_model_meta.uid_foreign';
+                $constraints[] = '(' . $table . '.tx_csseo = 0 OR
+        	 (tx_csseo_domain_model_meta.tablenames = ' . $db->fullQuoteStr($table, $table) . ' AND
+        	 tx_csseo_domain_model_meta.no_index = 0))';
+            }
         }
 
         // categories
@@ -288,21 +301,6 @@ class Sitemap
             }
         }
 
-        // lastmod
-        if ($tca['ctrl']['tstamp']) {
-            $select .= ', ' . $table . '.' . $tca['ctrl']['tstamp'] . ' AS lastmod';
-        }
-
-        // no index
-        if ($tca['columns']['tx_csseo']) {
-            $from .= ' LEFT JOIN tx_csseo_domain_model_meta ON '
-                . $table
-                . '.uid = tx_csseo_domain_model_meta.uid_foreign';
-            $constraints[] = '(' . $table . '.tx_csseo = 0 OR
-        	 (tx_csseo_domain_model_meta.tablenames = ' . $db->fullQuoteStr($table, $table) . ' AND
-        	 tx_csseo_domain_model_meta.no_index = 0))';
-        }
-
         if ($extConf['additionalWhereClause']) {
             $constraints[] = $extConf['additionalWhereClause'];
         }
@@ -313,9 +311,11 @@ class Sitemap
             $where = '1=1';
         }
 
-        $where .= $this->pageRepository->enableFields(
-            $extConf['table']
-        );
+        if($tca) {
+            $where .= $this->pageRepository->enableFields(
+                $extConf['table']
+            );
+        }
 
         return $db->exec_SELECTgetRows(
             $select,
