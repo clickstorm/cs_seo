@@ -53,6 +53,10 @@
 			<source>No Index</source>
 			<target>Vom Index ausschließen</target>
 		</trans-unit>
+		<trans-unit id="pages.tx_csseo_no_index_method" approved="yes">
+			<source>No Index method</source>
+			<target>Vom Index ausschließen (Methode)</target>
+		</trans-unit>
 		<trans-unit id="pages.tx_csseo_og_description" approved="yes">
 			<source>Facebook Description</source>
 			<target>Facebook Beschreibung</target>

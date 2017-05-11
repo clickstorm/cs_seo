@@ -7,6 +7,7 @@ CREATE TABLE pages (
 	tx_csseo_keyword varchar(255) DEFAULT '' NOT NULL,
   tx_csseo_canonical varchar(255) DEFAULT '' NOT NULL,
   tx_csseo_no_index tinyint(1) unsigned DEFAULT '0' NOT NULL,
+  tx_csseo_no_index_method tinyint(1) unsigned DEFAULT '0' NOT NULL,
   tx_csseo_og_title varchar(255) DEFAULT '' NOT NULL,
   tx_csseo_og_description text NOT NULL,
   tx_csseo_og_image int(11) unsigned NOT NULL default '0',
