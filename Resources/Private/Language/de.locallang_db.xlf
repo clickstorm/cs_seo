@@ -53,6 +53,14 @@
 			<source>No Index</source>
 			<target>Vom Index ausschließen</target>
 		</trans-unit>
+		<trans-unit id="pages.tx_csseo_follow" approved="yes">
+			<source>Follow</source>
+			<target>Links folgen</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_no_follow" approved="yes">
+			<source>No Follow</source>
+			<target>Links nicht folgen</target>
+		</trans-unit>
 		<trans-unit id="pages.tx_csseo_og_description" approved="yes">
 			<source>Facebook Description</source>
 			<target>Facebook Beschreibung</target>

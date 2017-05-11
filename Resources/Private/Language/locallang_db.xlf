@@ -41,6 +41,12 @@
 		<trans-unit id="pages.tx_csseo_no_index">
 			<source>No Index</source>
 		</trans-unit>
+		<trans-unit id="pages.tx_csseo_follow" approved="yes">
+			<source>Follow</source>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_no_follow">
+			<source>No Follow</source>
+		</trans-unit>
 		<trans-unit id="pages.tx_csseo_og_description">
 			<source>Facebook Description</source>
 		</trans-unit>
