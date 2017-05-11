@@ -23,9 +23,26 @@ config {
 				htmlSpecialChars = 1
 			}
 
+
 			### Exclude from search engines ###
-			robots = noindex,follow
-			robots.if.isTrue.field = tx_csseo_no_index
+			robots.cObject = CASE
+			robots.cObject {
+				key.field = tx_csseo_no_index_method
+
+				0 = TEXT
+				0 {
+					### Search engines should follow links ###
+					value = noindex,follow
+					if.isTrue.field = tx_csseo_no_index
+				}
+
+				1 = TEXT
+				1 {
+					## Exclude links from search engines ###
+					value = noindex,nofollow
+					if.isTrue.field = tx_csseo_no_index
+				}
+			}
 		}
 
 		### SEO & Social Meta ###

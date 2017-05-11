@@ -89,6 +89,18 @@ $tempColumns = [
             'type' => 'check',
         ]
     ],
+    'tx_csseo_no_index_method' => [
+        'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_no_index_method',
+        'displayCond' => 'FIELD:tx_csseo_no_index:REQ:TRUE',
+        'exclude' => 1,
+        'config' => [
+            'type' => 'select',
+            'items' => [
+                ['noindex,follow', 0],
+                ['noindex,nofollow', 1],
+            ]
+        ]
+    ],
     'tx_csseo_og_title' => [
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_og_title',
         'exclude' => 1,
@@ -251,7 +263,7 @@ $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
     'pages',
     'tx_csseo_index',
-    'tx_csseo_canonical,tx_csseo_no_index');
+    'tx_csseo_canonical,tx_csseo_no_index,tx_csseo_no_index_method');
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
     'pages',
