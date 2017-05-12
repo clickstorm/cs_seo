@@ -167,7 +167,7 @@ class ModuleController extends ActionController
      */
     public function pageIndexAction()
     {
-        $fieldNames = ['title', 'tx_csseo_canonical', 'tx_csseo_no_index', 'no_search'];
+        $fieldNames = ['title', 'tx_csseo_canonical', 'tx_csseo_no_index', 'tx_csseo_no_follow', 'no_search'];
 
         $this->processFields($fieldNames);
     }

@@ -291,11 +291,16 @@ class HeaderData
         }
         $canonical = $this->cObj->typoLink_URL($canonicalTypoLinkConf);
 
-        // index
-        if ($meta['no_index']) {
-            $content .= $this->printMetaTag('robots', 'noindex,follow');
-        } else {
+        if (!$meta['no_index']) {
             $content .= '<link rel="canonical" href="' . $canonical . '" />';
+        }
+
+        // index
+        if($meta['no_index'] || $meta['no_follow']) {
+            $indexStr = $meta['no_index'] ? 'noindex' : 'index';
+            $indexStr .= ',';
+            $indexStr .=  $meta['no_follow'] ? 'nofollow' : 'follow';
+            $content .= $this->printMetaTag('robots', $indexStr);
         }
 
         // hreflang

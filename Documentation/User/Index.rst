@@ -34,6 +34,7 @@ Page Properties
 	`tx\_csseo\_keyword`_          Focus Keyword                      SEO                     string
 	`tx\_csseo\_canonical`_        Canonical URL                      SEO                     string
 	`tx\_csseo\_no\_index`_        No Index                           SEO                     boolean
+	`tx\_csseo\_no\_follow`_       No Follow                          SEO                     boolean
 	`tx\_csseo\_og\_title`_        Facebook Title                     Social Media            string
 	`tx\_csseo\_og\_description`_  Facebook Description               Social Media            text
 	`tx\_csseo\_og\_image`_        Facebook Image                     Social Media            file
@@ -119,6 +120,19 @@ No index
    Description
         If checked, this page will not be visible in search engines. The page will also be excluded from the sitemap.xml.
 
+.. _tx_csseo_no_follow:
+
+No Follow
+"""""""""
+
+.. container:: table-row
+
+   Property
+         tx_csseo_no_follow
+   Data type
+         boolean
+   Description
+        If checked, all links on the web page will not be checked from search engines. Thus the links have no influence on a page rank.
 
 .. _tx_csseo_og_title:
 

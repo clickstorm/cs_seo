@@ -26,7 +26,7 @@ return [
 	],
 	'interface' => [
 		'showRecordFieldList' => 'hidden, sys_language_uid, l10n_parent, l10n_diffsource, title, description, title_only, 
-								  canonical, no_index, og_title, og_description, og_image, tw_title, tw_description, tw_image, tw_creator',
+								  canonical, no_index, no_follow, og_title, og_description, og_image, tw_title, tw_description, tw_image, tw_creator',
 	],
 	'types' => [
 		'1' => ['showitem' => '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo, 
@@ -41,7 +41,7 @@ return [
 		'preview' => ['showitem' => 'title,title_only,--linebreak--,
                                     description'],
 
-		'index' => ['showitem' => 'canonical,no_index'],
+		'index' => ['showitem' => 'canonical,no_index,no_follow'],
 
 		'facebook' => ['showitem' => 'og_title, --linebreak--,
 									    og_description, --linebreak--,
@@ -213,6 +213,13 @@ return [
 				'type' => 'check',
 			]
 		],
+        'no_follow' => [
+            'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_no_follow',
+            'exclude' => 1,
+            'config' => [
+                'type' => 'check',
+            ]
+        ],
 		'og_title' => [
 			'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_og_title',
 			'exclude' => 1,

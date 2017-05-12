@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2016-12-08T10:29:33Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-05-12T12:38:22Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -12,6 +12,10 @@
 		<trans-unit id="tx_csseo_keyword.description" approved="yes">
 			<source>Specify a word or phrase. In the SEO evaluation will be proofed wether this Focus Keyword is set in the browser title, the meta description and in the page content. You can specify multiple, comma-separated alternatives, e.g. for plural or stop words.</source>
 			<target>Geben Sie ein Wort oder eine Phrase an. Bei der SEO Evaluation wird dann überprüft, ob das Fokus Schlüsselwort im Browsertitel, der Seitenbeschreibung und im Inhalt gesetzt ist. Sie können mehrere, mit Komma separtierte Alternativen angeben, zum Beispiel für Plural oder enthaltene Stopwörter.</target>
+		</trans-unit>
+		<trans-unit id="tx_csseo_no_follow.description" approved="yes">
+			<source>If checked, all links on the web page will not be checked from search engines. Thus the links have no influence on a page rank.</source>
+			<target>Falls ja, werden die Verlinkungen auf der Seite nicht weiter von Suchmaschinen überprüft. Somit haben Sie keinen Einfluss auf das Ranking.</target>
 		</trans-unit>
 		<trans-unit id="tx_csseo_no_index.description" approved="yes">
 			<source>If checked, this page will not be visible in search engines.</source>

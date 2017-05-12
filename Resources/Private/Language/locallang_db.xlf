@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-04-04T10:57:15Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-05-12T12:30:25Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -37,6 +37,9 @@
 		</trans-unit>
 		<trans-unit id="pages.tx_csseo_keyword">
 			<source>Focus Keyword</source>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_no_follow">
+			<source>No Follow</source>
 		</trans-unit>
 		<trans-unit id="pages.tx_csseo_no_index">
 			<source>No Index</source>

@@ -24,8 +24,26 @@ config {
 			}
 
 			### Exclude from search engines ###
-			robots = noindex,follow
-			robots.if.isTrue.field = tx_csseo_no_index
+			robots {
+				cObject = COA
+				cObject {
+					10 = TEXT
+					10 {
+						value = index
+						override = noindex
+						override.if.isTrue.field = tx_csseo_no_index
+						wrap = |,
+					}
+
+					20 = TEXT
+					20 {
+						value = follow
+						override = nofollow
+						override.if.isTrue.field = tx_csseo_no_follow
+					}
+				}
+				if.isTrue.data = field:tx_csseo_no_index // field:tx_csseo_no_follow
+			}
 		}
 
 		### SEO & Social Meta ###
