@@ -48,7 +48,7 @@ Set path segments
 .. container:: table-row
 
    Property
-         enable
+         enablePathSegment
    Data type
          :ref:`t3tsref:data-type-boolean`
    Description
@@ -63,7 +63,7 @@ RealURL AutoConf
 .. container:: table-row
 
    Property
-         enable
+         realURLAutoConf
    Data type
          :ref:`t3tsref:data-type-boolean`
    Description
