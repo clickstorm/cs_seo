@@ -53,7 +53,7 @@ Set path segments
          :ref:`t3tsref:data-type-boolean`
    Description
          If enabled, a JS is insert in the page settings, so that the RealURL pathsegment will be filled, if it is empty.
-         This prevents, that if an editor changes the URL, the link also changes.
+         This avoids automatically changing the URL when changing the page title.
 
 .. _basic.realURLAutoConf:
 
