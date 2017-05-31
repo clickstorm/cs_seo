@@ -40,38 +40,26 @@ page.headerData.654 {
 		}
 
 		### twitter:image ###
-		40 = FILES
+		40 = TEXT
 		40 {
-			references {
-				table = pages
-				uid.data = page:uid
-				fieldName = tx_csseo_tw_image
-			}
-			renderObj = TEXT
-			renderObj {
-				stdWrap.typolink {
-					parameter.stdWrap {
-						cObject = IMG_RESOURCE
-						cObject.file {
-							import.data = file:current:uid
-							treatIdAsReference = 1
-							height < plugin.tx_csseo.social.twitter.image.height
-							width < plugin.tx_csseo.social.twitter.image.width
+			stdWrap.typolink {
+				parameter.stdWrap {
+					cObject = IMG_RESOURCE
+					cObject.file {
+						import {
+							preUserFunc = Clickstorm\CsSeo\UserFunc\HeaderData->getSocialMediaImage
+							preUserFunc.field = tx_csseo_tw_image
+							ifEmpty.data = path:{$plugin.tx_csseo.social.twitter.defaultImage} // path:{$plugin.tx_csseo.social.defaultImage}
 						}
+						height < plugin.tx_csseo.social.twitter.image.height
+						width < plugin.tx_csseo.social.twitter.image.width
 					}
-					returnLast = url
-					forceAbsoluteUrl = 1
 				}
-				required = 1
-				wrap = <meta property="twitter:image" content="|" />
+				returnLast = url
+				forceAbsoluteUrl = 1
 			}
-		}
-
-		### default twitter:image ###
-		45 < .40.renderObj
-		45 {
-			stdWrap.typolink.parameter.stdWrap.cObject.file.import.data = path:{$plugin.tx_csseo.social.twitter.defaultImage} // path:{$plugin.tx_csseo.social.defaultImage}
-			stdWrap.if.isFalse.field = tx_csseo_tw_image
+			required = 1
+			wrap = <meta property="twitter:image" content="|" />
 		}
 	}
 }

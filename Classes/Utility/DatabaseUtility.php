@@ -95,6 +95,33 @@ class DatabaseUtility
     }
 
     /**
+     * Returns an image path for the given field and uid
+     *
+     * @param string $table
+     * @param string $field
+     * @param string $uid
+     *
+     * @return string the image path
+     */
+    public static function getImagePath($table, $field, $uid)
+    {
+        /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
+        $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Resource\FileRepository::class
+        );
+
+        $fileObjects = $fileRepository->findByRelation(
+            $table,
+            $field,
+            $uid
+        );
+
+        if ($fileObjects[0]) {
+            return $fileObjects[0]->getOriginalFile()->getPublicUrl();
+        }
+    }
+
+    /**
      * Returns the database connection
      *
      * @return \TYPO3\CMS\Core\Database\DatabaseConnection

@@ -28,6 +28,7 @@ namespace Clickstorm\CsSeo\UserFunc;
  ***************************************************************/
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -166,6 +167,17 @@ class HeaderData
         }
 
         return false;
+    }
+
+    /**
+     * return the social media image for pages
+     *
+     * @param  string          Empty string (no content to process)
+     * @param  array           TypoScript configuration
+     * @return string          HTML output, showing the current server time.
+     */
+    public function getSocialMediaImage($p1, $p2) {
+        return DatabaseUtility::getImagePath('pages', $p2['field'], $GLOBALS['TSFE']->id);
     }
 
     /**
@@ -501,39 +513,18 @@ class HeaderData
      */
     protected function getImageOrFallback($field, $meta)
     {
+        $params = [];
         if (is_array($meta[$field])) {
-            $imageURL = $this->getImagePath($meta[$field]['field'], $meta['uid_foreign'],
-                $meta[$field]['table']);
+            $params['table'] = $meta[$field]['table'];
+            $params['field'] = $meta[$field]['field'];
+            $params['uid'] = $meta['uid_foreign'];
         } else {
-            $imageURL = $this->getImagePath('tx_csseo_' . $field, $meta['uid']);
+            $params['table'] = self::TABLE_NAME_META;
+            $params['field'] = 'tx_csseo_' . $field;
+            $params['uid'] = $meta['uid'];
         }
 
-        return $imageURL;
-    }
-
-    /**
-     * Returns an image path for the given field and uid
-     *
-     * @param string $field
-     * @param string $uid
-     *
-     * @return string the image path
-     */
-    protected function getImagePath($field, $uid, $table = self::TABLE_NAME_META)
-    {
-        /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
-        $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Core\Resource\FileRepository::class
-        );
-        $fileObjects = $fileRepository->findByRelation(
-            $table,
-            $field,
-            $uid
-        );
-
-        if ($fileObjects[0]) {
-            return $fileObjects[0]->getOriginalFile()->getPublicUrl();
-        }
+        return DatabaseUtility::getImagePath($params['table'], $params['field'], $params['uid']);
     }
 
     /**

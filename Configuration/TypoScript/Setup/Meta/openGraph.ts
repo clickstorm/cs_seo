@@ -45,38 +45,26 @@ page.headerData.654 {
 		}
 
 		### og:image ###
-		50 = FILES
+		50 = TEXT
 		50 {
-			references {
-				table = pages
-				uid.data = page:uid
-				fieldName = tx_csseo_og_image
-			}
-			renderObj = TEXT
-			renderObj {
-				stdWrap.typolink {
-					parameter.stdWrap {
-						cObject = IMG_RESOURCE
-						cObject.file {
-							import.data = file:current:uid
-							treatIdAsReference = 1
-							height < plugin.tx_csseo.social.openGraph.image.height
-							width < plugin.tx_csseo.social.openGraph.image.width
+			stdWrap.typolink {
+				parameter.stdWrap {
+					cObject = IMG_RESOURCE
+					cObject.file {
+						import {
+							preUserFunc = Clickstorm\CsSeo\UserFunc\HeaderData->getSocialMediaImage
+							preUserFunc.field = tx_csseo_og_image
+							ifEmpty.data = path:{$plugin.tx_csseo.social.defaultImage}
 						}
+						height < plugin.tx_csseo.social.openGraph.image.height
+						width < plugin.tx_csseo.social.openGraph.image.width
 					}
-					returnLast = url
-					forceAbsoluteUrl = 1
 				}
-				required = 1
-				wrap = <meta property="og:image" content="|" />
+				returnLast = url
+				forceAbsoluteUrl = 1
 			}
-		}
-
-		### default og:image ###
-		55 < .50.renderObj
-		55 {
-			stdWrap.typolink.parameter.stdWrap.cObject.file.import.data = path:{$plugin.tx_csseo.social.defaultImage}
-			stdWrap.if.isFalse.field = tx_csseo_og_image
+			required = 1
+			wrap = <meta property="og:image" content="|" />
 		}
 	}
 }
