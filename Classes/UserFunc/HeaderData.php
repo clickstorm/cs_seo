@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\UserFunc;
 
 /***************************************************************
@@ -38,6 +39,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class HeaderData
 {
+    const TABLE_NAME_META = 'tx_csseo_domain_model_meta';
 
     /**
      * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
@@ -146,6 +148,12 @@ class HeaderData
                     foreach ($tableSettings['fallback'] as $seoField => $fallbackField) {
                         if (empty($meta[$seoField]) && !empty($record[$fallbackField])) {
                             $meta[$seoField] = $record[$fallbackField];
+                            if ($seoField == 'og_image' || $seoField == 'tw_image') {
+                                $meta[$seoField] = [
+                                    'field' => $fallbackField,
+                                    'table' => $tableSettings['table']
+                                ];
+                            }
                         }
                     }
                 }
@@ -182,8 +190,8 @@ class HeaderData
         $row = $res[0];
 
         if (is_array(
-            $row
-        )
+                $row
+            )
             && $row['sys_language_uid'] != $GLOBALS['TSFE']->sys_language_content
             && $GLOBALS['TSFE']->sys_language_contentOL
         ) {
@@ -213,7 +221,7 @@ class HeaderData
     {
         $res = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
             '*',
-            'tx_csseo_domain_model_meta',
+            self::TABLE_NAME_META,
             'tablenames = "'
             . $tableSettings['table']
             . '" AND uid_foreign = '
@@ -283,7 +291,7 @@ class HeaderData
             if (!in_array($currentLanguageUid, $allLanguagesFromItem)) {
                 unset($canonicalTypoLinkConf['additionalParams.']);
                 $lang = $this->getLanguageFromItem($currentItem['table'], $currentItem['uid']);
-                if($lang < 0) {
+                if ($lang < 0) {
                     $lang = 0;
                 }
                 $canonicalTypoLinkConf['additionalParams'] = '&L=' . $lang;
@@ -296,10 +304,10 @@ class HeaderData
         }
 
         // index
-        if($meta['no_index'] || $meta['no_follow']) {
+        if ($meta['no_index'] || $meta['no_follow']) {
             $indexStr = $meta['no_index'] ? 'noindex' : 'index';
             $indexStr .= ',';
-            $indexStr .=  $meta['no_follow'] ? 'nofollow' : 'follow';
+            $indexStr .= $meta['no_follow'] ? 'nofollow' : 'follow';
             $content .= $this->printMetaTag('robots', $indexStr);
         }
 
@@ -309,9 +317,9 @@ class HeaderData
         // the item points not to another page as canonical and
         // the TS setting hreflang.enabled is set to 1
         if (in_array(
-            $currentLanguageUid,
-            $allLanguagesFromItem
-        )
+                $currentLanguageUid,
+                $allLanguagesFromItem
+            )
             && !$meta['no_index']
             && !$meta['canonical']
             && $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['enable']
@@ -349,7 +357,7 @@ class HeaderData
         $ogImageURL = $pluginSettings['social.']['defaultImage'];
 
         if ($meta['og_image']) {
-            $ogImageURL = $this->getImagePath('og_image', $meta['uid']);
+            $ogImageURL = $this->getImageOrFallback('og_image', $meta);
         }
 
         if ($ogImageURL) {
@@ -387,7 +395,7 @@ class HeaderData
         // twitter image and type
         if ($meta['tw_image'] || $meta['og_image']) {
             if ($meta['tw_image']) {
-                $twImageURL = $this->getImagePath('tw_image', $meta['uid']);
+                $twImageURL = $this->getImageOrFallback('tw_image', $meta);
             } else {
                 $twImageURL = $ogImageURL;
             }
@@ -493,21 +501,37 @@ class HeaderData
      *
      * @return string the image path
      */
-    protected function getImagePath($field, $uid)
+    protected function getImagePath($field, $uid, $table = self::TABLE_NAME_META)
     {
         /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
         $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \TYPO3\CMS\Core\Resource\FileRepository::class
         );
         $fileObjects = $fileRepository->findByRelation(
-            'tx_csseo_domain_model_meta',
-            'tx_csseo_' . $field,
+            $table,
+            $field,
             $uid
         );
 
         if ($fileObjects[0]) {
             return $fileObjects[0]->getOriginalFile()->getPublicUrl();
         }
+    }
+
+    /**
+     * @param string $field
+     * @param array $meta
+     *
+     * @return string the image path
+     */
+    protected function getImageOrFallback($field, $meta) {
+        if (is_array($meta[$field])) {
+            $imageURL = $this->getImagePath($meta[$field]['field'], $meta['uid_foreign'],
+                $meta[$field]['table']);
+        } else {
+            $imageURL = $this->getImagePath('tx_csseo_' . $field, $meta['uid']);
+        }
+        return $imageURL;
     }
 
     /**
