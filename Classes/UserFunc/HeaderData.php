@@ -457,16 +457,16 @@ class HeaderData
     protected function getAllLanguagesFromItem($table, $uid)
     {
         $languageIds = [];
+        if (!isset($GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField']) || !isset($GLOBALS['TCA'][$table]['ctrl']['languageField'])) {
+            return $languageIds;
+        }
 
-        $pointerField =
-            isset($GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'])
-                ? $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'] : 'l10n_parent';
+        $pointerField = $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'];
+        $languageField = $GLOBALS['TCA'][$table]['ctrl']['languageField'];
 
-        $languageField =
-            isset($GLOBALS['TCA'][$table]['ctrl']['languageField']) ? $GLOBALS['TCA'][$table]['ctrl']['languageField']
-                : 'sys_language_uid';
-
-        $whereClause = '(' . $pointerField . ' = ' . $uid . ' OR uid = ' . $uid . ')';
+        if ($pointerField || $languageField) {
+            $whereClause = '(' . $pointerField . ' = ' . $uid . ' OR uid = ' . $uid . ')';
+        }
         $whereClause .= $GLOBALS['TSFE']->sys_page->enableFields($table);
 
         $allItems = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($languageField, $table, $whereClause);
@@ -494,6 +494,24 @@ class HeaderData
     }
 
     /**
+     * @param string $field
+     * @param array $meta
+     *
+     * @return string the image path
+     */
+    protected function getImageOrFallback($field, $meta)
+    {
+        if (is_array($meta[$field])) {
+            $imageURL = $this->getImagePath($meta[$field]['field'], $meta['uid_foreign'],
+                $meta[$field]['table']);
+        } else {
+            $imageURL = $this->getImagePath('tx_csseo_' . $field, $meta['uid']);
+        }
+
+        return $imageURL;
+    }
+
+    /**
      * Returns an image path for the given field and uid
      *
      * @param string $field
@@ -516,22 +534,6 @@ class HeaderData
         if ($fileObjects[0]) {
             return $fileObjects[0]->getOriginalFile()->getPublicUrl();
         }
-    }
-
-    /**
-     * @param string $field
-     * @param array $meta
-     *
-     * @return string the image path
-     */
-    protected function getImageOrFallback($field, $meta) {
-        if (is_array($meta[$field])) {
-            $imageURL = $this->getImagePath($meta[$field]['field'], $meta['uid_foreign'],
-                $meta[$field]['table']);
-        } else {
-            $imageURL = $this->getImagePath('tx_csseo_' . $field, $meta['uid']);
-        }
-        return $imageURL;
     }
 
     /**
