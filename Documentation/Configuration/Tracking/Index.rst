@@ -36,6 +36,11 @@ Google Analytics
          :ref:`t3tsref:data-type-string`
    Description
          If set a JS for Google Analytics inc. download tracking is set with the given id (e.g. UX-XXXXXXX-XXX).
+         Furthermore, you can add a link to your website to disable Google Analytics, e.g.
+
+.. code-block:: html
+
+	<a onclick="alert('Google Analytics has been disabled.');" href="javascript:gaOptout()">disable Google Analytics</a>
 
 
 .. _tracking.piwik:
