@@ -21,6 +21,7 @@ Properties
 	============================= ===================================== ======================= ====================
 	`sitemap.pages.rootPid`_      :ref:`t3tsref:data-type-int`          no                      1
 	`sitemap.pages.languageUids`_ :ref:`t3tsref:data-type-list`         no                      0
+	`sitemap.pages.doktypes`_     :ref:`t3tsref:data-type-list`         no                      1
 	`sitemap.additional`_         :ref:`t3tsref:data-type-string`       no
 	============================= ===================================== ======================= ====================
 
@@ -53,6 +54,20 @@ Language Uids
          :ref:`t3tsref:data-type-list`
    Description
          List the language uids (e.g. 0,2,3). For each language an extra sub sitemap.xml will be generated.
+
+.. _sitemap.pages.doktypes:
+
+Doktypes
+""""""""
+
+.. container:: table-row
+
+   Property
+         languageUids
+   Data type
+         :ref:`t3tsref:data-type-list`
+   Description
+         Comma separated list without whitespaces of allowed doktypes in the sitemap.xml (e.g. 1 for pages).
 
 .. _sitemap.additional:
 

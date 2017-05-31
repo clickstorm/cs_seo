@@ -34,13 +34,11 @@ plugin.tx_csseo {
 	}
 	sitemap {
 		pages {
-			# set the root pid for the current domain
 			rootPid = {$plugin.tx_csseo.sitemap.pages.rootPid}
-			# which languages should be shown, e.g.: 0,1
 			languageUids = {$plugin.tx_csseo.sitemap.pages.languageUids}
+			doktypes = {$plugin.tx_csseo.sitemap.pages.doktypes}
 		}
 		additional {
-			# addition external sitemaps, e.g. https://example.org/sitemap-blog.xml
 			1 = {$plugin.tx_csseo.sitemap.additional}
 		}
 	}

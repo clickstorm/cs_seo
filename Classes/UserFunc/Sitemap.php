@@ -110,6 +110,7 @@ class Sitemap
 
                 $this->view->assignMultiple(
                     [
+                        'settings' => $settings,
                         'lang' => $this->tsfe->sys_language_uid,
                         'pages' => $pages
                     ]

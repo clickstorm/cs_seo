@@ -53,7 +53,10 @@ plugin.tx_csseo {
     # cat=plugin.tx_csseo/sitemap/2; type=string; label= Sitemap Language Uids : Available languages for the sitemap.xml (e.g. 0,1).
     sitemap.pages.languageUids = 0
 
-    # cat=plugin.tx_csseo/sitemap/3; type=string; label= External sitemap.xml : Full URL to an external sitemap.xml. Further can be defined in the TypoScript setup.
+    # cat=plugin.tx_csseo/sitemap/3; type=string; label= Allowed doktypes: comma separated list without whitespace of allowed doktypes in the sitemap.xml (e.g. 1 for pages)
+    sitemap.pages.doktypes = 1
+
+    # cat=plugin.tx_csseo/sitemap/4; type=string; label= External sitemap.xml : Full URL to an external sitemap.xml. Further can be defined in the TypoScript setup.
     sitemap.additional =
 
     # customsubcategory=structureddata=Structured Microdata
