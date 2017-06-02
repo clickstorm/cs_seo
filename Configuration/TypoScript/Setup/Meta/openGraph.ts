@@ -66,5 +66,19 @@ page.headerData.654 {
 			required = 1
 			wrap = <meta property="og:image" content="|" />
 		}
+		### og:image:width ###
+		51 = TEXT
+		51 {
+		    value < plugin.tx_csseo.social.openGraph.image.width
+		    intval = 1
+		    wrap = <meta property="og:image:width" content="|" />
+		}
+		### og:image:height ###
+		52 = TEXT
+		52 {
+		    value < plugin.tx_csseo.social.openGraph.image.height
+		    intval = 1
+		    wrap = <meta property="og:image:height" content="|" />
+		}
 	}
 }
