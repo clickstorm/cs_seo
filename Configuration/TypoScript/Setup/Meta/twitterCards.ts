@@ -59,7 +59,7 @@ page.headerData.654 {
 				forceAbsoluteUrl = 1
 			}
 			required = 1
-			wrap = <meta property="twitter:image" content="|" />
+			wrap = <meta name="twitter:image" content="|" />
 		}
 	}
 }
