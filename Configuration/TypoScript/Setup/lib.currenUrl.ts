@@ -14,6 +14,6 @@ lib.currentUrl {
 		additionalParams.wrap = &L=|
 		# exclude L Param an other - L Param is set manually (additionalParams)
 		addQueryString = 1
-		addQueryString.exclude = L,cHash,utm_medium,utm_source,utm_campaign,utm_content,tx_search_pi1[query],src,ref,gclid,cx,ie,cof,siteurl,zanpid,_ult
+		addQueryString.exclude = L,utm_medium,utm_source,utm_campaign,utm_content,tx_search_pi1[query],src,ref,gclid,cx,ie,cof,siteurl,zanpid,_ult
 	}
 }
