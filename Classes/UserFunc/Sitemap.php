@@ -81,6 +81,9 @@ class Sitemap
         $this->view->setLayoutRootPaths([$absoluteResourcesPath . 'Private/Layouts/']);
         $this->view->setPartialRootPaths([$absoluteResourcesPath . 'Private/Partials/']);
 
+        // get PID of root page if rootPid = 0
+        $this->settings['pages']['rootPid'] = !empty($this->settings['pages']['rootPid']) ? $this->settings['pages']['rootPid'] : $GLOBALS['TSFE']->rootLine[0]['uid'];
+
         // switch view
         switch (GeneralUtility::_GP('tx_csseo_view')) {
             // sitemap for pages
