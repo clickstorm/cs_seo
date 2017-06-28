@@ -19,6 +19,7 @@ To install the extension, perform the following steps:
 #. Insert a domain record at the root page.
 #. Make some initial configurations, see :ref:`c_configuration`.
 #. Run the Scheduler Task to evaluate all pages initially, see :ref:`scheduler`.
+#. Take a look to :ref:`admin-faq`. Be aware that we force L=0 in URLs.
 
 |img-1|
 
