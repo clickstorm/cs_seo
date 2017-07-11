@@ -284,7 +284,7 @@ $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
     --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
     --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_facebook;tx_csseo_facebook,
     --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_twitter;tx_csseo_twitter',
-    '1,6',
+    implode(',',\Clickstorm\CsSeo\Utility\ConfigurationUtility::getEvaluationDoktypes()),
     'after:lastUpdated'
 );
 
