@@ -12,7 +12,7 @@
 	"clickstorm",
 	"SEO"
   ],
-  "version": "2.1.1-dev",
+  "version": "2.1.1",
   "replace": {
 	"cs_seo": "*"
   },
