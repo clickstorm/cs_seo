@@ -59,10 +59,8 @@ class HeaderData
      */
     public static function checkSeoGP()
     {
-
         // get table settings
         $tables = ConfigurationUtility::getPageTSconfig();
-
         if ($tables) {
             $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
