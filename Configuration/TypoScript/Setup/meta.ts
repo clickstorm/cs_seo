@@ -3,6 +3,7 @@ config {
 	pageTitleFirst = 1
 	pageTitleSeparator = |
 	pageTitleSeparator.noTrimWrap = | | |
+	titleTagFunction = Clickstorm\CsSeo\UserFunc\PageTitle->render
 	noPageTitle = 2
 }
 

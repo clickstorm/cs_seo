@@ -200,6 +200,7 @@ class PreviewWizard
                     $config = $TSFEUtility->getConfig();
 
                     if ($table == 'pages' || $table == 'pages_language_overlay') {
+                        $GLOBALS['TSFE']->config['config']['noPageTitle'] = 0;
                         PageGenerator::generatePageTitle();
                         $pageTitle = static::getPageRenderer()->getTitle();
                         // get page path
