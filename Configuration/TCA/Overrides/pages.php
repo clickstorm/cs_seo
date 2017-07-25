@@ -282,4 +282,4 @@ $GLOBALS['TCA']['pages']['ctrl']['requestUpdate'] .= ',tx_csseo_no_index';
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerPageTSConfigFile(
 	'cs_seo',
 	'Configuration/TSconfig/news.ts',
-	'EXT:cs_seo - Extend news reocrds');
+	'EXT:cs_seo - Extend news records');
