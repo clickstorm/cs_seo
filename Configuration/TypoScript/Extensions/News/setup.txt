@@ -35,6 +35,12 @@ plugin.tx_csseo.sitemap {
 
 			# string; if set the column 'fieldname' of the MM-table must be this
 			categoryMMFieldname = categories
+
+			# string; set here the name of the category table
+			categoryTable = sys_category
+
+			# string; if set the detail pid column of the category must be this
+			categoryDetailPidField = single_pid
 		}
 	}
 }

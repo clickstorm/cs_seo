@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\UserFunc;
 
 /***************************************************************
@@ -99,7 +100,7 @@ class Sitemap
                 // remove doktype exlude
                 $hideDelArray = explode('AND', $this->tsfe->sys_page->where_hid_del);
                 foreach ($hideDelArray as $key => $entry) {
-                    if(strpos($entry,'doktype') !== false) {
+                    if (strpos($entry, 'doktype') !== false) {
                         unset($hideDelArray[$key]);
                     }
                 }
@@ -129,15 +130,15 @@ class Sitemap
                     $extConf = $this->settings['extensions'][$extName];
                     if ($extConf) {
                         $cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-                        $typoLinkConf = [
-                            'parameter' => $extConf['detailPid'],
-                            'forceAbsoluteUrl' => 1
-                        ];
-
                         $records = $this->getRecords($extConf);
 
                         if (is_array($records) && count($records) > 0) {
                             foreach ($records as $key => $record) {
+                                $detailPid = $record['detailPid'] ?: $extConf['detailPid'];
+                                $typoLinkConf = [
+                                    'parameter' => $detailPid,
+                                    'forceAbsoluteUrl' => 1
+                                ];
                                 $typoLinkConf['additionalParams'] =
                                     '&' . $extConf['additionalParams'] . '=' . $record['uid'];
                                 if ($record['lang']) {
@@ -166,20 +167,6 @@ class Sitemap
 
 
         return $this->beautifyXML($this->view->render());
-    }
-
-    /**
-     * @param $string XML String
-     *
-     * @return string
-     */
-    protected function beautifyXML($string)
-    {
-        $dom = new \DOMDocument;
-        $dom->preserveWhiteSpace = false;
-        $dom->loadXML($string);
-        $dom->formatOutput = true;
-        return $dom->saveXml();
     }
 
     /**
@@ -261,7 +248,7 @@ class Sitemap
             $constraints[] = $table . '.pid IN (' . $extConf['storagePid'] . ')';
         }
 
-        if($tca) {
+        if ($tca) {
             // lang
             $languageField = $tca['ctrl']['languageField'];
             if ($languageField) {
@@ -286,22 +273,39 @@ class Sitemap
         }
 
         // categories
-        if ($extConf['categories']) {
-            if ($extConf['categoryField']) {
-                $constraints[] = $extConf['categoryField'] . ' IN (' . $extConf['categories'] . ')';
-            } elseif ($extConf['categoryMMTable']) {
-                $catTable = $extConf['categoryMMTable'];
-                $from .= ' LEFT JOIN ' . $catTable . ' ON ' . $table . '.uid = ' . $catTable . '.uid_foreign';
-                $constraints[] = $catTable . '.uid_local IN (' . $extConf['categories'] . ')';
+        if ($extConf['categoryField']) {
+            $catField = $extConf['categoryField'];
+            if($extConf['categories']) {
+                $constraints[] = $catField . ' IN (' . $extConf['categories'] . ')';
+            }
+
+            if ($extConf['categoryTable'] && $extConf['categoryDetailPidField']) {
+                $catTable = $extConf['categoryTable'];
+                $from .= ' LEFT JOIN ' . $catTable . ' ON ' . $table . '.' . $catField . ' = ' . $catTable . '.uid';
+                $select .= ', ' . $catTable . '.' . $extConf['categoryDetailPidField'] . ' AS detailPid';
+            }
+        }
+
+        if ($extConf['categoryMMTable']) {
+            $catMMTable = $extConf['categoryMMTable'];
+            $from .= ' LEFT JOIN ' . $catMMTable . ' ON ' . $table . '.uid = ' . $catMMTable . '.uid_foreign';
+            if($extConf['categories']) {
+                $constraints[] = $catMMTable . '.uid_local IN (' . $extConf['categories'] . ')';
                 if ($extConf['categoryMMTablename']) {
-                    $constraints[] = $catTable . '.tablenames = ' . $db->fullQuoteStr($table, $table);
+                    $constraints[] = $catMMTable . '.tablenames = ' . $db->fullQuoteStr($table, $table);
                 }
                 if ($extConf['categoryMMFieldname']) {
-                    $constraints[] = $catTable . '.fieldname = ' . $db->fullQuoteStr(
-                        $extConf['categoryMMFieldname'],
-                        $table
-                    );
+                    $constraints[] = $catMMTable . '.fieldname = ' . $db->fullQuoteStr(
+                            $extConf['categoryMMFieldname'],
+                            $table
+                        );
                 }
+            }
+
+            if ($extConf['categoryTable'] && $extConf['categoryDetailPidField']) {
+                $catTable = $extConf['categoryTable'];
+                $from .= ' LEFT JOIN ' . $catTable . ' ON ' . $catMMTable . '.uid_local = ' . $catTable . '.uid';
+                $select .= ', ' . $catTable . '.' . $extConf['categoryDetailPidField'] . ' AS detailPid';
             }
         }
 
@@ -315,7 +319,7 @@ class Sitemap
             $where = '1=1';
         }
 
-        if($tca) {
+        if ($tca) {
             $where .= $this->pageRepository->enableFields(
                 $extConf['table']
             );
@@ -337,6 +341,21 @@ class Sitemap
     protected function getDatabaseConnection()
     {
         return $GLOBALS['TYPO3_DB'];
+    }
+
+    /**
+     * @param $string XML String
+     *
+     * @return string
+     */
+    protected function beautifyXML($string)
+    {
+        $dom = new \DOMDocument;
+        $dom->preserveWhiteSpace = false;
+        $dom->loadXML($string);
+        $dom->formatOutput = true;
+
+        return $dom->saveXml();
     }
 
     /**
