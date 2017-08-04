@@ -44,7 +44,7 @@ To add records from your own extension you can easily add the following TypoScri
 				# string; add custom query options : title LIKE '%top%'
 				additionalWhereClause =
 
-				# comma separated list; page uid where are the records stored
+				# comma separated list; page uid where the records are stored
 				storagePid =
 
 				# int; page uid where the details are shown
@@ -67,6 +67,12 @@ To add records from your own extension you can easily add the following TypoScri
 
 				# string; if set the column 'fieldname' of the MM-table must be this
 				categoryMMFieldname = categories
+
+                # string; set here the name of the category table, required if you use the categoryDetailPidField
+                categoryTable = sys_category
+
+                # string; if set the detailPid will be overwritten if the category of a record has a field with this name and this field is not empty
+                categoryDetailPidField = single_pid
 			}
 		}
 	}
