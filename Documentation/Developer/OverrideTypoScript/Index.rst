@@ -22,23 +22,29 @@ If you set some meta tags in your own extension you can easily remove some of ou
     # check if detail view
     [globalVar = GP:tx_news_pi1|news > 0]
 
-    # remove all metatags from cs_seo
-    page.headerData.654 >
+        # remove all meta tags from cs_seo
+        page.headerData.654 >
 
-    # remove canonical
-    page.headerData.654.10 >
+        # disable title tag
+        page.headerData.654.5 >
 
-    # remove href lang
-    page.headerData.654.20 >
+        # remove meta description
+        page.headerData.654.7 >
 
-    # disable title tag
-    config.noPageTitle = 1
+        # remove canonical
+        page.headerData.654.10 >
 
-    # remove meta description
-    page.meta.description >
+        # remove robots
+        page.headerData.654.15 >
 
-    # remove robots
-    page.meta.robots >
+        # remove open graph tags
+        page.headerData.654.30 >
+
+        # remove twitter card summary
+        page.headerData.654.35 >
+
+        # remove twitter card tags
+        page.headerData.654.40 >
 
     [end]
 
@@ -60,6 +66,8 @@ If you wish to set the whole page to noindex, e.g. for development, you can use 
 ::
 
 	# insert meta robots="noindex,follow" on every page
-	page.meta.robots.if >
+	page.headerData.654.15 >
+	page.headerData.654.15 = TEXT
+    page.headerData.654.15.value = <meta name="robots" content="noindex,follow">
 
 Don't to forget to remove this TypoScript in production.
