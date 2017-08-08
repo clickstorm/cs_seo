@@ -114,10 +114,7 @@ return [
 				'max' => 20,
 				'eval' => 'datetime',
 				'checkbox' => 0,
-				'default' => 0,
-				'range' => [
-					'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
-				],
+				'default' => 0
 			],
 		],
 		'endtime' => [
@@ -130,10 +127,7 @@ return [
 				'max' => 20,
 				'eval' => 'datetime',
 				'checkbox' => 0,
-				'default' => 0,
-				'range' => [
-					'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
-				],
+				'default' => 0
 			],
 		],
 
