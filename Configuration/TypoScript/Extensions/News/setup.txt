@@ -9,6 +9,9 @@ plugin.tx_csseo.sitemap {
 			# string; will be attached to the typolink, more params are possible, the last one is the record param
 			additionalParams = tx_news_pi1[news]
 
+			# boolean; use cHash on url creation
+			useCacheHash = 1
+
 			# string; add custom query options : title LIKE '%top%'
 			additionalWhereClause = type=0
 
