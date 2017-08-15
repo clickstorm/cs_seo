@@ -39,7 +39,10 @@ To add records from your own extension you can easily add the following TypoScri
 				table = tx_myext_domain_model_entry
 
 				# string; will be attached to the typolink, more params are possible, the last one is the record param
-				additionalParams = tx_myext_pi1[entry]
+				additionalParams = tx_myext_pi1[controller]=Entry&tx_myext_pi1[action]=show&tx_myext_pi1[entry]
+
+                # boolean; use cHash on url creation
+                useCacheHash = 1
 
 				# string; add custom query options : title LIKE '%top%'
 				additionalWhereClause =
