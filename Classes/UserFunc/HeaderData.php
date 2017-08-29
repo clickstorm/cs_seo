@@ -168,17 +168,6 @@ class HeaderData
     }
 
     /**
-     * return the social media image for pages
-     *
-     * @param  string          Empty string (no content to process)
-     * @param  array           TypoScript configuration
-     * @return string          HTML output, showing the current server time.
-     */
-    public function getSocialMediaImage($p1, $p2) {
-        return DatabaseUtility::getImagePath('pages', $p2['field'], $GLOBALS['TSFE']->id);
-    }
-
-    /**
      * DB query to get the fallback properties
      *
      * @param $tableSettings
@@ -437,7 +426,8 @@ class HeaderData
      */
     protected function escapeContent($content)
     {
-        return htmlentities(preg_replace('/\s\s+/', ' ', preg_replace('#<[^>]+>#', ' ', $content)));
+        return htmlentities(preg_replace('/\s\s+/', ' ', preg_replace('#<[^>]+>#', ' ', $content)),
+            ENT_COMPAT, ini_get("default_charset"), false);
     }
 
     /**
@@ -549,5 +539,17 @@ class HeaderData
         ];
 
         return $this->cObj->typoLink_URL($conf);
+    }
+
+    /**
+     * return the social media image for pages
+     *
+     * @param  string          Empty string (no content to process)
+     * @param  array           TypoScript configuration
+     * @return string          HTML output, showing the current server time.
+     */
+    public function getSocialMediaImage($p1, $p2)
+    {
+        return DatabaseUtility::getImagePath('pages', $p2['field'], $GLOBALS['TSFE']->id);
     }
 }
