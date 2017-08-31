@@ -1,3 +1,4 @@
+{namespace cs=Clickstorm\CsSeo\ViewHelpers}
 <html xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
@@ -14,7 +15,9 @@
 		</f:then>
 		<f:else>
 			<f:for each="{pages}" as="page">
-				<f:render partial="Sitemap/Page.xml" arguments="{_all}" section="Main" />
+				<f:if condition="{cs:showInDefaultLanguage(fieldValue:page.l18n_cfg)}">
+					<f:render partial="Sitemap/Page.xml" arguments="{_all}" section="Main" />
+				</f:if>
 			</f:for>
 		</f:else>
 	</f:if>
