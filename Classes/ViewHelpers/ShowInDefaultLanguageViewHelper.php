@@ -30,7 +30,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
- * Class IsInListViewHelper
+ * Class ShowInDefaultLanguageViewHelper
  *
  * @package Clickstorm\CsSeo\ViewHelpers
  */
