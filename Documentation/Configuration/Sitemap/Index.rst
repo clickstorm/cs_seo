@@ -16,14 +16,17 @@ Properties
 
 .. container:: ts-properties
 
-	============================= ===================================== ======================= ====================
-	Property                      Data type                             :ref:`t3tsref:stdwrap`  Default
-	============================= ===================================== ======================= ====================
-	`sitemap.pages.rootPid`_      :ref:`t3tsref:data-type-int`          no                      1
-	`sitemap.pages.languageUids`_ :ref:`t3tsref:data-type-list`         no                      0
-	`sitemap.pages.doktypes`_     :ref:`t3tsref:data-type-list`         no                      1
-	`sitemap.additional`_         :ref:`t3tsref:data-type-string`       no
-	============================= ===================================== ======================= ====================
+	================================ ===================================== ======================= ====================
+	Property                         Data type                             :ref:`t3tsref:stdwrap`  Default
+	================================ ===================================== ======================= ====================
+	`sitemap.pages.rootPid`_         :ref:`t3tsref:data-type-int`          no                      1
+	`sitemap.pages.languageUids`_    :ref:`t3tsref:data-type-list`         no                      0
+	`sitemap.pages.doktypes`_        :ref:`t3tsref:data-type-list`         no                      1
+	`sitemap.additional`_            :ref:`t3tsref:data-type-string`       no
+	`sitemap.view.layoutRootPath`_   :ref:`t3tsref:data-type-string`       no
+	`sitemap.view.partialRootPath`_  :ref:`t3tsref:data-type-string`       no
+	`sitemap.view.templateRootPath`_ :ref:`t3tsref:data-type-string`       no
+	================================ ===================================== ======================= ====================
 
 plugin.tx_csseo.sitemap.
 
@@ -82,6 +85,48 @@ Additional
          :ref:`t3tsref:data-type-string`
    Description
          If you would like to add an external sub sitemap.xml enter the complete URL here. More URLs can be added in the TypoScript Setup.
+
+.. _sitemap.view.layoutRootPath:
+
+Layout Root Path
+""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         view.layoutRootPath
+   Data type
+         :ref:`t3tsref:data-type-string`
+   Description
+         Path to layout files. If set this path will be checked first for layouts used in all sitemaps. Layouts in `EXT:cs_seo/Resources/Private/Layouts` are always the fallback.
+
+.. _sitemap.view.partialRootPath:
+
+Partial Root Path
+"""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         view.partialRootPath
+   Data type
+         :ref:`t3tsref:data-type-string`
+   Description
+         Path to partial files. If set this path will be checked first for partials used in all sitemaps. Layouts in `EXT:cs_seo/Resources/Private/Partials` are always the fallback.
+
+.. _sitemap.view.templateRootPath:
+
+Template Root Path
+""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         view.templateRootPath
+   Data type
+         :ref:`t3tsref:data-type-string`
+   Description
+         Path to template files. If set this path will be checked first for templates used in all sitemaps. Templates in `EXT:cs_seo/Resources/Private/Templates/Sitemap` are always the fallback.
 
 .. _sitemap.xml.news:
 
