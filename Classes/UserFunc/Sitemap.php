@@ -78,9 +78,9 @@ class Sitemap
         $this->view = GeneralUtility::makeInstance(StandaloneView::class);
         $this->view->setFormat('xml');
         $this->view->getRequest()->setControllerExtensionName('cs_seo');
-        $absoluteResourcesPath = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/';
-        $this->view->setLayoutRootPaths([$absoluteResourcesPath . 'Private/Layouts/']);
-        $this->view->setPartialRootPaths([$absoluteResourcesPath . 'Private/Partials/']);
+        $this->view->setLayoutRootPaths($this->settings['view']['layoutRootPaths']);
+        $this->view->setPartialRootPaths($this->settings['view']['partialRootPaths']);
+        $this->view->setTemplateRootPaths($this->settings['view']['templateRootPaths']);
 
         // get PID of root page if rootPid = 0
         $this->settings['pages']['rootPid'] = !empty($this->settings['pages']['rootPid']) ? $this->settings['pages']['rootPid'] : $GLOBALS['TSFE']->rootLine[0]['uid'];
@@ -89,9 +89,7 @@ class Sitemap
         switch (GeneralUtility::_GP('tx_csseo_view')) {
             // sitemap for pages
             case 'pages':
-                $this->view->setTemplatePathAndFilename(
-                    $absoluteResourcesPath . 'Private/Templates/Sitemap/Pages.xml'
-                );
+                $this->view->setTemplate('Pages');
                 $settings = $this->settings['pages'];
 
                 // first get the root page
@@ -122,9 +120,7 @@ class Sitemap
                 break;
             // sitemap for extensions
             case 'extension':
-                $this->view->setTemplatePathAndFilename(
-                    $absoluteResourcesPath . 'Private/Templates/Sitemap/Extension.xml'
-                );
+                $this->view->setTemplate('Extension');
                 $extName = GeneralUtility::_GP('ext');
                 if ($extName) {
                     $extConf = $this->settings['extensions'][$extName];
@@ -160,9 +156,7 @@ class Sitemap
                 break;
             // list all sitemaps
             default:
-                $this->view->setTemplatePathAndFilename(
-                    $absoluteResourcesPath . 'Private/Templates/Sitemap/ListAll.xml'
-                );
+                $this->view->setTemplate('ListAll');
                 $this->view->assign('settings', $this->settings);
         }
 

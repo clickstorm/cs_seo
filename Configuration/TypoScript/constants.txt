@@ -59,6 +59,15 @@ plugin.tx_csseo {
     # cat=plugin.tx_csseo/sitemap/4; type=string; label= External sitemap.xml : Full URL to an external sitemap.xml. Further can be defined in the TypoScript setup.
     sitemap.additional =
 
+    sitemap.view {
+        # cat=plugin.tx_csseo/sitemap/5; type=string; label= Path to layout files. If set this path will be checked first for layouts used in sitemaps.
+        layoutRootPath =
+        # cat=plugin.tx_csseo/sitemap/6; type=string; label= Path to partial files. If set this path will be checked first for partials used in sitemaps.
+        partialRootPath =
+        # cat=plugin.tx_csseo/sitemap/7; type=string; label= Path to template files. If set this path will be checked first for templates used in sitemaps..
+        templateRootPath =
+    }
+
     # customsubcategory=structureddata=Structured Microdata
     # cat=plugin.tx_csseo/structureddata/1; type=boolean; label= Enable SiteSearch : Add microdata for sitesearch.
     structureddata.search.enable =
