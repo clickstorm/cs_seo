@@ -63,7 +63,7 @@ Doktypes
 .. container:: table-row
 
    Property
-         languageUids
+         doktypes
    Data type
          :ref:`t3tsref:data-type-list`
    Description
