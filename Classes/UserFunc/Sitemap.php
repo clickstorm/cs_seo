@@ -139,9 +139,7 @@ class Sitemap
                                     'parameter' => $detailPid,
                                     'forceAbsoluteUrl' => 1
                                 ];
-                                if (isset($extConf['useCacheHash']) && $extConf['useCacheHash'] === true){
-                                    $typoLinkConf['useCacheHash'] = 1;
-                                }
+                                $typoLinkConf['useCacheHash'] = !empty($extConf['useCacheHash']);
                                 $typoLinkConf['additionalParams'] =
                                     '&' . $extConf['additionalParams'] . '=' . $record['uid'];
                                 if ($record['lang']) {
