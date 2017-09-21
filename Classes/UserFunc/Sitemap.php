@@ -125,10 +125,16 @@ class Sitemap
                 if ($extName) {
                     $extConf = $this->settings['extensions'][$extName];
                     if ($extConf) {
-                        $cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-                        $records = $this->getRecords($extConf);
-
+                        if (!empty($extConf['getRecordsUserFunction'])) {
+                            $params = [
+                                'extConf' => $extConf
+                            ];
+                            $records = GeneralUtility::callUserFunction($extConf['getRecordsUserFunction'], $params, $this);
+                        } else {
+                            $records = $this->getRecords($extConf);
+                        }
                         if (is_array($records) && count($records) > 0) {
+                            $cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
                             foreach ($records as $key => $record) {
                                 $detailPid = $record['detailPid'] ?: $extConf['detailPid'];
                                 $typoLinkConf = [

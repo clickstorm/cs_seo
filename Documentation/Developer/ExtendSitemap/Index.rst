@@ -71,11 +71,14 @@ To add records from your own extension you can easily add the following TypoScri
 				# string; if set the column 'fieldname' of the MM-table must be this
 				categoryMMFieldname = categories
 
-                # string; set here the name of the category table, required if you use the categoryDetailPidField
-                categoryTable = sys_category
+				# string; set here the name of the category table, required if you use the categoryDetailPidField
+				categoryTable = sys_category
 
-                # string; if set the detailPid will be overwritten if the category of a record has a field with this name and this field is not empty
-                categoryDetailPidField = single_pid
+				# string; if set the detailPid will be overwritten if the category of a record has a field with this name and this field is not empty
+				categoryDetailPidField = single_pid
+
+				# string; If set the user function is called to fetch the records for the sitemap. The configuration is passed to the user function.
+				getRecordsUserFunction = Vendor\MyExt\UserFunction\CsSeoSitemap->getMyRecords
 			}
 		}
 	}
@@ -85,7 +88,7 @@ To add records from your own extension you can easily add the following TypoScri
 Add more external sitemaps
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you wish to set the whole page to noindex, e.g. for development, you can use the following TS.
+It is possible to add custom sitemaps via TypoScript:
 
 ::
 
@@ -95,5 +98,3 @@ If you wish to set the whole page to noindex, e.g. for development, you can use 
 			10 = https://mysite.com/sitemap-blog.xml
 		}
 	}
-
-Don't to forget to remove this TypoScript in production.
