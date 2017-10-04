@@ -50,6 +50,9 @@ To add records from your own extension you can easily add the following TypoScri
 				# comma separated list; page uid where the records are stored
 				storagePid =
 
+				# int; extend the storage pid by a recursive level
+				recursive =
+
 				# int; page uid where the details are shown
 				detailPid =
 

@@ -246,7 +246,12 @@ class Sitemap
 
         // storage
         if ($extConf['storagePid']) {
-            $constraints[] = $table . '.pid IN (' . $extConf['storagePid'] . ')';
+            $storagePid = $extConf['storagePid'];
+            $recursive = (int)$extConf['recursive'];
+            if($recursive > 0) {
+                $storagePid = \Clickstorm\CsSeo\Utility\DatabaseUtility::extendPidListByChildren($storagePid, $recursive);
+            }
+            $constraints[] = $table . '.pid IN (' . $storagePid . ')';
         }
 
         if ($tca) {
