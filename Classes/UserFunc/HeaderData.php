@@ -550,6 +550,12 @@ class HeaderData
      */
     public function getSocialMediaImage($p1, $p2)
     {
+        if($GLOBALS['TSFE']->page['_PAGES_OVERLAY']) {
+            $image = DatabaseUtility::getImagePath('pages_language_overlay', $p2['field'], $GLOBALS['TSFE']->page['_PAGES_OVERLAY_UID']);
+            if(!empty($image)) {
+                return $image;
+            }
+        }
         return DatabaseUtility::getImagePath('pages', $p2['field'], $GLOBALS['TSFE']->id);
     }
 }

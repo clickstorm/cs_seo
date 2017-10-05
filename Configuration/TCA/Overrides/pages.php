@@ -119,7 +119,6 @@ $tempColumns = [
     'tx_csseo_og_image' => [
         'exclude' => 1,
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_og_image',
-        'l10n_mode' => 'exclude',
         'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
             'tx_csseo_og_image',
             [
@@ -220,7 +219,6 @@ $tempColumns = [
     'tx_csseo_tw_image' => [
         'exclude' => 1,
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_image',
-        'l10n_mode' => 'exclude',
         'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
             'tx_csseo_tw_image',
             [
