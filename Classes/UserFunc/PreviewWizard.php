@@ -210,7 +210,12 @@ class PreviewWizard
 
                         // check if path is absolute
                         if (strpos($path, '://') !== false) {
-                            $path = '';
+                            $pathData = parse_url($path);
+                            if(isset($pathData['path']) && !empty($pathData['path'])) {
+                                $path = ltrim($pathData['path'], '/');
+                            } else {
+                                $path = '';
+                            }
                         }
                         $fallback['title'] = 'title';
                         $fallback['uid'] = $data['uid'];
