@@ -9,7 +9,7 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 	// highlight some cells
 	angular.forEach(csSEO.gridOptions.columnDefs, function(value, key) {
 		csSEO.gridOptions.columnDefs[key].cellClass = function(grid, row, col, rowRenderIndex, colRenderIndex) {
-			if((csSEO.gridOptions.doktypes.indexOf(row.entity.doktype) == -1)) {
+			if((csSEO.gridOptions.doktypes.indexOf(parseInt(row.entity.doktype))) == -1) {
 				return 'text-muted';
 			}
 		}

@@ -382,7 +382,7 @@ class ModuleController extends ActionController
      */
     protected function buildGridJSON($rowEntries, $columnDefs)
     {
-        $doktypes = '["' . implode('","', ConfigurationUtility::getEvaluationDoktypes()) . '"]';
+        $doktypes = '[' . implode(',', ConfigurationUtility::getEvaluationDoktypes()) . ']';
         return '
 			{
 				data:' . json_encode($rowEntries) . ',
@@ -395,7 +395,7 @@ class ModuleController extends ActionController
 				doktypes: ' . $doktypes . ',
 				i18n: \'' . $GLOBALS['LANG']->lang . '\',
 				cellEditableCondition: function($scope) {
-					return (' . $doktypes . '.indexOf($scope.row.entity.doktype) > -1)
+					return (' . $doktypes . '.indexOf(parseInt($scope.row.entity.doktype)) > -1)
 				}
 			}
 		';
