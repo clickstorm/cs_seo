@@ -96,15 +96,15 @@ class DatabaseUtility
     }
 
     /**
-     * Returns an image path for the given field and uid
+     * Returns an image file for the given field and uid
      *
      * @param string $table
      * @param string $field
      * @param string $uid
      *
-     * @return string the image path
+     * @return \TYPO3\CMS\Core\Resource\File|null
      */
-    public static function getImagePath($table, $field, $uid)
+    public static function getFile($table, $field, $uid)
     {
         /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
         $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
@@ -118,7 +118,7 @@ class DatabaseUtility
         );
 
         if ($fileObjects[0]) {
-            return $fileObjects[0]->getOriginalFile()->getPublicUrl();
+            return $fileObjects[0]->getOriginalFile();
         }
     }
 

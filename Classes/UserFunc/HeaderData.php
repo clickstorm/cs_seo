@@ -512,7 +512,10 @@ class HeaderData
             $params['uid'] = $meta['uid'];
         }
 
-        return DatabaseUtility::getImagePath($params['table'], $params['field'], $params['uid']);
+        $image = DatabaseUtility::getFile($params['table'], $params['field'], $params['uid']);
+        if($image) {
+            return $image->getPublicUrl();
+        }
     }
 
     /**
@@ -546,16 +549,19 @@ class HeaderData
      *
      * @param  string          Empty string (no content to process)
      * @param  array           TypoScript configuration
-     * @return string          HTML output, showing the current server time.
+     * @return integer         uid of the file
      */
     public function getSocialMediaImage($p1, $p2)
     {
         if($GLOBALS['TSFE']->page['_PAGES_OVERLAY']) {
-            $image = DatabaseUtility::getImagePath('pages_language_overlay', $p2['field'], $GLOBALS['TSFE']->page['_PAGES_OVERLAY_UID']);
+            $image = DatabaseUtility::getFile('pages_language_overlay', $p2['field'], $GLOBALS['TSFE']->page['_PAGES_OVERLAY_UID']);
             if(!empty($image)) {
-                return $image;
+                return $image->getUid();
             }
         }
-        return DatabaseUtility::getImagePath('pages', $p2['field'], $GLOBALS['TSFE']->id);
+        $image = DatabaseUtility::getFile('pages', $p2['field'], $GLOBALS['TSFE']->id);
+        if(!empty($image)) {
+            return $image->getUid();
+        }
     }
 }
