@@ -94,6 +94,19 @@ class ModuleController extends ActionController
     protected $TSFEUtility;
 
     /**
+     * field names to show in current action
+     *
+     * @var array $fieldNames
+     */
+    protected $fieldNames = [];
+
+    /**
+     * field names with an image relation
+     * @var array
+     */
+    protected $imageFieldNames = ['tx_csseo_og_image','tx_csseo_tw_image'];
+
+    /**
      * Initialize action
      *
      * @return void
@@ -143,7 +156,7 @@ class ModuleController extends ActionController
      */
     public function pageMetaAction()
     {
-        $fieldNames = ['title', 'tx_csseo_title', 'tx_csseo_title_only', 'description'];
+        $this->fieldNames = ['title', 'tx_csseo_title', 'tx_csseo_title_only', 'description'];
 
         // preview settings
         $previewSettings = [];
@@ -159,7 +172,7 @@ class ModuleController extends ActionController
 
         $this->view->assign('previewSettings', json_encode($previewSettings));
 
-        $this->processFields($fieldNames);
+        $this->processFields();
     }
 
     /**
@@ -167,9 +180,9 @@ class ModuleController extends ActionController
      */
     public function pageIndexAction()
     {
-        $fieldNames = ['title', 'tx_csseo_canonical', 'tx_csseo_no_index', 'tx_csseo_no_follow', 'no_search'];
+        $this->fieldNames = ['title', 'tx_csseo_canonical', 'tx_csseo_no_index', 'tx_csseo_no_follow', 'no_search'];
 
-        $this->processFields($fieldNames);
+        $this->processFields();
     }
 
     /**
@@ -177,9 +190,9 @@ class ModuleController extends ActionController
      */
     public function pageOpenGraphAction()
     {
-        $fieldNames = ['title', 'tx_csseo_og_title', 'tx_csseo_og_description', 'tx_csseo_og_image'];
+        $this->fieldNames = ['title', 'tx_csseo_og_title', 'tx_csseo_og_description', 'tx_csseo_og_image'];
 
-        $this->processFields($fieldNames);
+        $this->processFields();
     }
 
     /**
@@ -187,10 +200,10 @@ class ModuleController extends ActionController
      */
     public function pageTwitterCardsAction()
     {
-        $fieldNames =
+        $this->fieldNames =
             ['title', 'tx_csseo_tw_title', 'tx_csseo_tw_description', 'tx_csseo_tw_creator', 'tx_csseo_tw_image'];
 
-        $this->processFields($fieldNames);
+        $this->processFields();
     }
 
     /**
@@ -198,9 +211,9 @@ class ModuleController extends ActionController
      */
     public function pageResultsAction()
     {
-        $fieldNames = ['title', 'tx_csseo_keyword', 'results'];
+        $this->fieldNames = ['title', 'tx_csseo_keyword', 'results'];
         $this->showResults = true;
-        $this->processFields($fieldNames);
+        $this->processFields();
     }
 
     /**
@@ -338,9 +351,8 @@ class ModuleController extends ActionController
     /**
      * process all fields for the UI grid JSON
      *
-     * @param $fieldNames
      */
-    protected function processFields($fieldNames)
+    protected function processFields()
     {
         // build the rows
         if ($this->modParams['id'] == 0) {
@@ -349,7 +361,7 @@ class ModuleController extends ActionController
 
         // build the columns
         $columnDefs = [];
-        foreach ($fieldNames as $fieldName) {
+        foreach ($this->fieldNames as $fieldName) {
             $columnDefs[] = $this->getColumnDefinition($fieldName);
         }
 
@@ -427,8 +439,6 @@ class ModuleController extends ActionController
                     break;
                 case 'inline':
                     $columnDef['type'] = 'object';
-                    $columnDef['width'] = 100;
-                    $columnDef['enableFiltering'] = false;
                     break;
                 case 'text':
                     $columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'];
@@ -495,13 +505,34 @@ class ModuleController extends ActionController
         // default query settings
         $fields = '*';
         $sortField = 'sorting';
+        $table = 'pages';
+        $uid = $page['uid'];
 
         // decrease the depth
         $depth--;
 
         // add the current language value
         if ($this->modParams['lang'] > 0) {
+            if($page['_PAGES_OVERLAY_UID']) {
+                $uid = $page['_PAGES_OVERLAY_UID'];
+                $table = 'pages_language_overlay';
+            }
+
             $page['sys_language_uid'] = $this->languages[$page['_PAGES_OVERLAY_LANGUAGE'] ?: 0];
+        }
+
+        // process social media image fields
+        foreach ($this->imageFieldNames as $imageFieldName) {
+            if(in_array($imageFieldName, $this->fieldNames)) {
+                $image = '';
+                if($page[$imageFieldName]) {
+                    $imageFile =  DatabaseUtility::getFile($table, $imageFieldName, $uid);
+                    if($imageFile) {
+                        $image = $imageFile->getPublicUrl();
+                    }
+                }
+                $page[$imageFieldName] = $image;
+            }
         }
 
         if ($this->showResults) {
