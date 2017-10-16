@@ -77,6 +77,9 @@
 .cs-seo-results .no-margin {
   margin: 0;
 }
+#cs-seo-evaluate {
+  margin-top: -2px;
+}
 .cs-icon {
   position: relative;
   padding-left: 1.5em;
