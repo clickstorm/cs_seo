@@ -1,9 +1,11 @@
 # customsubcategory=sitemap=Sitemap.xml
 # cat=plugin.tx_csseo News/sitemap/1; type=int; label= Storage Pid
 plugin.tx_csseo.sitemap.extensions.news.storagePid =
-# cat=plugin.tx_csseo News/sitemap/2; type=int; label= Detail Pid
+# cat=plugin.tx_csseo News/sitemap/2; type=int; label= Recursive Level
+plugin.tx_csseo.sitemap.extensions.news.recursive =
+# cat=plugin.tx_csseo News/sitemap/3; type=int; label= Detail Pid
 plugin.tx_csseo.sitemap.extensions.news.detailPid =
-# cat=plugin.tx_csseo News/sitemap/3; type=string; label= Language Uids
+# cat=plugin.tx_csseo News/sitemap/4; type=string; label= Language Uids
 plugin.tx_csseo.sitemap.extensions.news.languageUids =
-# cat=plugin.tx_csseo News/sitemap/3; type=string; label= Categories
+# cat=plugin.tx_csseo News/sitemap/5; type=string; label= Categories
 plugin.tx_csseo.sitemap.extensions.news.categories =
