@@ -82,8 +82,10 @@ class Sitemap
         $this->view->setPartialRootPaths($this->settings['view']['partialRootPaths']);
         $this->view->setTemplateRootPaths($this->settings['view']['templateRootPaths']);
 
-        // get PID of root page if rootPid = 0
-        $this->settings['pages']['rootPid'] = !empty($this->settings['pages']['rootPid']) ? $this->settings['pages']['rootPid'] : $GLOBALS['TSFE']->rootLine[0]['uid'];
+        // get UID of current page if rootPid = 0
+        if(empty($this->settings['pages']['rootPid'])) {
+            $this->settings['pages']['rootPid'] = $GLOBALS['TSFE']->id;
+        }
 
         // switch view
         switch (GeneralUtility::_GP('tx_csseo_view')) {

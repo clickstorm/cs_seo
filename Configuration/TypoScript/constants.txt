@@ -48,7 +48,7 @@ plugin.tx_csseo {
 
     # customsubcategory=sitemap=Sitemap.xml
     # cat=plugin.tx_csseo/sitemap/1; type=int; label= Sitemap Root Pid : The root pid of the current domain
-    sitemap.pages.rootPid = 1
+    sitemap.pages.rootPid =
 
     # cat=plugin.tx_csseo/sitemap/2; type=string; label= Sitemap Language Uids : Available languages for the sitemap.xml (e.g. 0,1).
     sitemap.pages.languageUids = 0
