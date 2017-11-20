@@ -1,18 +1,13 @@
 /**
- * Google Preview
+ * Change speaking path segment
  *
  * @author Marc Hirdes
- * @version 1.0
- * @license clickstorm GmbH
  */
 (function ($, TYPO3) {
     $(document).ready(function(){
-        var $title = $('.js-cs-seo-title'),
-            $inputSeoTitleHR = $('input[data-formengine-input-name$="[tx_csseo_title]"], input[name$="[tx_csseo_title]_hr"]'),
-            $inputPageTitleHR = $('input[data-formengine-input-name$="[title]"], input[name$="[title]_hr"]'),
+        var $inputPageTitleHR = $('input[data-formengine-input-name$="[title]"], input[name$="[title]_hr"]'),
             $inputPathSegmentHR = $('input[data-formengine-input-name$="[tx_realurl_pathsegment]"], input[name$="[tx_realurl_pathsegment]_hr"]'),
             $inputPathSegment = $('input[name$="[tx_realurl_pathsegment]"]'),
-            separator = $title.data('separator') ? $title.data('separator') : '',
             pageUid = $('input[name="popViewId"]').val();
 
         var seoURLoptions = {
@@ -24,7 +19,10 @@
 
         // check if path segment is empty or is siteroot
         if($inputPathSegment.val() == '') {
-            var initialTitle = $('input[name$="[title]"]').val();
+            var initialTitle = $('input[name$="[nav_title]"]').val();
+            if(initialTitle == '') {
+                $('input[name$="[title]"]').val();
+            }
             if(initialTitle == '' || initialTitle == '[Default Title]') {
                 $inputPageTitleHR.on('keyup.csseopath', function() {
                     updatePathSegment($inputPageTitleHR.val());
