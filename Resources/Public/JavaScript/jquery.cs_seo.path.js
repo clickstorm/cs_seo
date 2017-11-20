@@ -21,7 +21,7 @@
         if($inputPathSegment.val() == '') {
             var initialTitle = $('input[name$="[nav_title]"]').val();
             if(initialTitle == '') {
-                $('input[name$="[title]"]').val();
+	            initialTitle = $('input[name$="[title]"]').val();
             }
             if(initialTitle == '' || initialTitle == '[Default Title]') {
                 $inputPageTitleHR.on('keyup.csseopath', function() {
