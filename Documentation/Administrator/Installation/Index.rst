@@ -20,7 +20,7 @@ To install the extension, perform the following steps:
 #. Make some initial configurations, see :ref:`c_configuration`.
 #. Run the Scheduler Task to evaluate all pages initially, see :ref:`scheduler`.
 #. Take a look to :ref:`admin-faq`. **Be aware** that we force L=0 in URLs. Furthermore we fill in the speaking path
-   segment of realURL. See :ref:`basic.realURLAutoConf` if you don't need this.
+   segment of realURL. See :ref:`basic.realURLAutoConf` if you don't need this. Also check your body tag.
 
 |img-1|
 

@@ -17,6 +17,7 @@ Properties
 	Property                      Data type                             :ref:`t3tsref:stdwrap`  Default
 	============================= ===================================== ======================= ====================
 	`tracking.googleAnalytics`_   :ref:`t3tsref:data-type-string`       no
+	`tracking.googleTagManager`_  :ref:`t3tsref:data-type-string`       no
 	`tracking.piwik`_             :ref:`t3tsref:data-type-string`       no
 	`tracking.piwik.id`_          :ref:`t3tsref:data-type-string`       no                      1
 	============================= ===================================== ======================= ====================
@@ -42,6 +43,20 @@ Google Analytics
 
 	<a onclick="alert('Google Analytics has been disabled.');" href="javascript:gaOptout()">disable Google Analytics</a>
 
+.. _tracking.googleTagManager:
+
+Google Tag Manager
+""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         googleTagManager
+   Data type
+         :ref:`t3tsref:data-type-string`
+   Description
+         If set (e.g. 'GTM-XXXXXXXX'), the Google Tag Manager is enabled. Check your TypoScript bodyTag and
+         bodyTagCObject configuration.
 
 .. _tracking.piwik:
 
