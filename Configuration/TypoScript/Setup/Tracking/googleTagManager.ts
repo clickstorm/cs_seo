@@ -18,18 +18,22 @@ page.jsInline.654.15 {
 
 page.bodyTagCObject = COA
 page.bodyTagCObject {
-	1 = TEXT
-	1.value = <body>
-
-	654 = TEXT
+	654 = COA
 	654 {
-		value = {$plugin.tx_csseo.tracking.googleTagManager}
-		wrap (
-                <!-- Google Tag Manager (noscript) -->
-				<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=|"
-				height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-				<!-- End Google Tag Manager (noscript) -->
-		)
-		required = 1
+		10 = TEXT
+		10.value = <body>
+
+		20 = TEXT
+		20 {
+			value = {$plugin.tx_csseo.tracking.googleTagManager}
+			wrap (
+			<!-- Google Tag Manager (noscript) -->
+			<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=|" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+			<!-- End Google Tag Manager (noscript) -->
+			)
+			required = 1
+		}
+
+		if.isTrue = {$plugin.tx_csseo.tracking.googleTagManager}
 	}
 }
