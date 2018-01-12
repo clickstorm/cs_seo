@@ -18,13 +18,13 @@ page.jsInline.654.15 {
 
 page.bodyTagCObject = COA
 page.bodyTagCObject {
+	10 = TEXT
+	10.value = <body>
+
 	654 = COA
 	654 {
 		10 = TEXT
-		10.value = <body>
-
-		20 = TEXT
-		20 {
+		10 {
 			value = {$plugin.tx_csseo.tracking.googleTagManager}
 			wrap (
 			<!-- Google Tag Manager (noscript) -->
@@ -33,7 +33,5 @@ page.bodyTagCObject {
 			)
 			required = 1
 		}
-
-		if.isTrue = {$plugin.tx_csseo.tracking.googleTagManager}
 	}
 }
