@@ -41,10 +41,10 @@ If you want to hide the evalutation for some editors or pages, you can use TScon
 
 ::
 
-	# page TSconfig
+	# user TSconfig
 	page.mod.web_layout.tx_csseo.disable = 0
 
-	# user TSconfig
+	# page TSconfig
 	mod.web_layout.tx_csseo.disable = 0
 
 
