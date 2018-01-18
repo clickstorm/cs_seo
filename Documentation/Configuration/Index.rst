@@ -37,6 +37,17 @@ manager (:ref:`admin-configuration`). Some max values were also used to define t
 You can also define if the evaluation should be visible in the page module and at which position. You can say, which
 evaluators are available and you can write your own ones (:ref:`extend-evaluation`).
 
+If you want to hide the evalutation for some editors or pages, you can use TSconfig.
+
+::
+
+	# page TSconfig
+	page.mod.web_layout.tx_csseo.disable = 0
+
+	# user TSconfig
+	mod.web_layout.tx_csseo.disable = 0
+
+
 Sitemap.xml
 ^^^^^^^^^^^
 Automatically a sitemap.xml for the default language is generated. No extra fields in the page settings were defined.
