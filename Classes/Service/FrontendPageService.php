@@ -102,6 +102,8 @@ class FrontendPageService
             if ($this->pageInfo['sys_language_uid'] > 0) {
                 $paramId = $this->pageInfo['pid'];
                 $params = '&L=' . $this->pageInfo['sys_language_uid'];
+            } else {
+                $params = '&L=0';
             }
         }
 

@@ -10,7 +10,7 @@ $GLOBALS['TCA']['pages']['columns']['nav_title']['config']['max'] = $extConf['ma
 $GLOBALS['TCA']['pages']['columns']['description']['config']['max'] = $extConf['maxDescription'];
 
 // Path segment auto fill
-if($extConf['enablePathSegment'] && isset($GLOBALS['TCA']['pages']['columns']['tx_realurl_pathsegment'])) {
+if ($extConf['enablePathSegment'] && isset($GLOBALS['TCA']['pages']['columns']['tx_realurl_pathsegment'])) {
     $GLOBALS['TCA']['pages']['columns']['tx_realurl_pathsegment']['config']['eval'] .= ',required';
     $GLOBALS['TCA']['pages']['columns']['tx_realurl_pathsegment']['config']['wizards'] = [
         '_POSITION' => 'bottom',
@@ -46,16 +46,16 @@ $tempColumns = [
             'type' => 'check',
         ]
     ],
-	'tx_csseo_keyword' => [
-		'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_keyword',
-		'exclude' => 1,
-		'config' => [
-			'type' => 'input',
-			'max' => 256,
-			'size' => 48,
-			'eval' => 'trim',
-		],
-	],
+    'tx_csseo_keyword' => [
+        'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_keyword',
+        'exclude' => 1,
+        'config' => [
+            'type' => 'input',
+            'max' => 256,
+            'size' => 48,
+            'eval' => 'trim',
+        ],
+    ],
     'tx_csseo_canonical' => [
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_canonical',
         'exclude' => 1,
@@ -346,6 +346,6 @@ $GLOBALS['TCA']['pages']['ctrl']['requestUpdate'] .= ',tx_csseo_no_index';
 
 // register page TSconfig
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerPageTSConfigFile(
-	'cs_seo',
-	'Configuration/TSconfig/news.ts',
-	'EXT:cs_seo - Extend news records');
+    'cs_seo',
+    'Configuration/TSconfig/news.ts',
+    'EXT:cs_seo - Extend news records');
