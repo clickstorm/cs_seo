@@ -26,6 +26,7 @@ namespace Clickstorm\CsSeo\UserFunc;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -269,6 +270,7 @@ class PreviewWizard
                     $wizardView->assignMultiple(
                         [
                             'config' => $config,
+                            'extConf' => ConfigurationUtility::getEmConfiguration(),
                             'data' => $data,
                             'domain' => BackendUtility::firstDomainRecord($rootline),
                             'fallback' => $fallback,
