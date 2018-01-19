@@ -33,6 +33,7 @@ use \TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Backend\Utility\BackendUtility;
 use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use \TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -107,7 +108,7 @@ class TSFEUtility
     public function getPagePath()
     {
         $params = ['L' => (int)$this->lang];
-        return $GLOBALS['TSFE']->cObj->getTypoLink_URL($this->pageUid, $params);
+        return ltrim($GLOBALS['TSFE']->cObj->getTypoLink_URL($this->pageUid, $params),'/');
     }
 
     /**
@@ -221,7 +222,22 @@ class TSFEUtility
 
             $GLOBALS['TSFE']->getConfigArray();
             $GLOBALS['TSFE']->settingLanguage();
-            $GLOBALS['TSFE']->preparePageContentGeneration();
+
+            // set absRefPrefix to show url path in backend with realUrl
+            if(VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 8000000) {
+                $GLOBALS['TSFE']->preparePageContentGeneration();
+            } else {
+                if (!empty($GLOBALS['TSFE']->config['config']['absRefPrefix'])) {
+                    $absRefPrefix = trim($GLOBALS['TSFE']->config['config']['absRefPrefix']);
+                    if ($absRefPrefix === 'auto') {
+                        $GLOBALS['TSFE']->absRefPrefix = GeneralUtility::getIndpEnv('TYPO3_SITE_PATH');
+                    } else {
+                        $GLOBALS['TSFE']->absRefPrefix = $absRefPrefix;
+                    }
+                } else {
+                    $GLOBALS['TSFE']->absRefPrefix = '';
+                }
+            }
         } catch (\Exception $e) {
             /** @var FlashMessage $message */
             $message = GeneralUtility::makeInstance(
