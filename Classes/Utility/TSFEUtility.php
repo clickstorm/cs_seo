@@ -106,7 +106,7 @@ class TSFEUtility
      */
     public function getPagePath()
     {
-        $params = ($this->lang > 0) ? ['L' => $this->lang] : [];
+        $params = ['L' => (int)$this->lang];
         return $GLOBALS['TSFE']->cObj->getTypoLink_URL($this->pageUid, $params);
     }
 
@@ -207,7 +207,6 @@ class TSFEUtility
             $GLOBALS['TSFE']->config = [];
             $GLOBALS['TSFE']->forceTemplateParsing = true;
             $GLOBALS['TSFE']->showHiddenPages = true;
-
             $GLOBALS['TSFE']->connectToDB();
             $GLOBALS['TSFE']->initFEuser();
             $GLOBALS['TSFE']->determineId();
@@ -222,6 +221,7 @@ class TSFEUtility
 
             $GLOBALS['TSFE']->getConfigArray();
             $GLOBALS['TSFE']->settingLanguage();
+            $GLOBALS['TSFE']->preparePageContentGeneration();
         } catch (\Exception $e) {
             /** @var FlashMessage $message */
             $message = GeneralUtility::makeInstance(
