@@ -15,7 +15,7 @@
 		</trans-unit>
 		<trans-unit id="tx_csseo_no_follow.description" approved="yes">
 			<source>If checked, all links on the web page will not be checked from search engines. Thus the links have no influence on a page rank.</source>
-			<target>Falls ja, werden die Verlinkungen auf der Seite nicht weiter von Suchmaschinen überprüft. Somit haben Sie keinen Einfluss auf das Ranking.</target>
+			<target>Falls ja, werden die Verlinkungen auf der Seite nicht weiter von Suchmaschinen überprüft. Somit haben sie keinen Einfluss auf das Ranking.</target>
 		</trans-unit>
 		<trans-unit id="tx_csseo_no_index.description" approved="yes">
 			<source>If checked, this page will not be visible in search engines.</source>
