@@ -192,7 +192,7 @@ class PreviewWizard
                 $rootline = BackendUtility::BEgetRootLine($pageUid);
 
                 /** @var TSFEUtility $TSFEUtility */
-                $TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $pageUid, $data['sys_language_uid']);
+                $TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $pageUid, (int)$data['sys_language_uid']);
                 $fallback = [];
 
                 if (isset($GLOBALS['TSFE'])) {
