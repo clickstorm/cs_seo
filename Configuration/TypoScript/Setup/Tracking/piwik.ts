@@ -13,7 +13,7 @@ page.jsInline.654.20 {
 		_paq.push(['setTrackerUrl', u+'piwik.php']);
 		_paq.push(['setSiteId', {$plugin.tx_csseo.tracking.piwik.id}]);
 		var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-		g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+		g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'/js/piwik.min.js'; s.parentNode.insertBefore(g,s);
 		})();
 		/* End PIWIK */
 	)
