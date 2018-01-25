@@ -1,5 +1,5 @@
 page.headerData.654 {
-	### desription ###
+	### description ###
 	7 = TEXT
 	7 {
 		field = description
