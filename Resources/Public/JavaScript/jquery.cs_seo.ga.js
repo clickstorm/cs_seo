@@ -49,12 +49,6 @@
 
                 if (track) {
                     ga('send', 'event', elEv.category.toLowerCase(), elEv.action.toLowerCase(), elEv.label.toLowerCase(), elEv.value, {'nonInteraction': elEv.non_i});
-                    if (el.attr('target') == undefined || el.attr('target').toLowerCase() != '_blank') {
-                        setTimeout(function () {
-                            location.href = elEv.loc;
-                        }, 400);
-                        return false;
-                    }
                 }
             }
         });
