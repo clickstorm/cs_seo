@@ -11,7 +11,7 @@ tsConfigPid = 1
 maxTitle = 57
 
 # cat=page/020; type=integer; label= Max characters of description
-maxDescription = 156
+maxDescription = 300
 
 # cat=page/030; type=integer; label= Max characters of nav title
 maxNavTitle = 50
