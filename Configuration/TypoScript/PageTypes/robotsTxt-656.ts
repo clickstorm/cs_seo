@@ -41,3 +41,12 @@ pageCsSeoRobotsTxt {
 		stdWrap.ifEmpty.cObject =< plugin.tx_csseo.robots
 	}
 }
+
+[compatVersion = 8.7.0]
+pageCsSeoRobotsTxt {
+	config {
+		additionalHeaders >
+		additionalHeaders.10.header = Content-Type:text/plain;charset=utf-8
+	}
+}
+[end]
