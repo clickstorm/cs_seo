@@ -13,7 +13,7 @@ pageCsSeoRobotsTxt {
 
 	config {
 		disableAllHeaderCode = 1
-		additionalHeaders = Content-Type:text/plain;charset=utf-8
+		additionalHeaders.10.header = Content-Type:text/plain;charset=utf-8
 		xhtml_cleaning = 0
 		admPanel = 0
 		debug = 0
