@@ -201,7 +201,7 @@ class ModuleController extends ActionController
     public function pageTwitterCardsAction()
     {
         $this->fieldNames =
-            ['title', 'tx_csseo_tw_title', 'tx_csseo_tw_description', 'tx_csseo_tw_creator', 'tx_csseo_tw_image'];
+            ['title', 'tx_csseo_tw_title', 'tx_csseo_tw_description', 'tx_csseo_tw_creator', 'tx_csseo_tw_site', 'tx_csseo_tw_image'];
 
         $this->processFields();
     }

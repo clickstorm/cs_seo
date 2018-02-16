@@ -26,7 +26,8 @@ return [
 	],
 	'interface' => [
 		'showRecordFieldList' => 'hidden, sys_language_uid, l10n_parent, l10n_diffsource, title, description, title_only, 
-								  canonical, no_index, no_follow, og_title, og_description, og_image, tw_title, tw_description, tw_image, tw_creator',
+								  canonical, no_index, no_follow, og_title, og_description, og_image, tw_title, tw_description, 
+								  tw_image, tw_creator, tw_site',
 	],
 	'types' => [
 		'1' => ['showitem' => '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo, 
@@ -50,7 +51,7 @@ return [
 		'twitter' => ['showitem' => 'tw_title, --linebreak--,
 								    tw_description, --linebreak--,
 								    tw_image, --linebreak--,
-								    tw_creator']
+								    tw_creator, tw_site']
 	],
 	'columns' => [
 
@@ -423,7 +424,15 @@ return [
 				'eval' => 'trim',
 			]
 		],
-
+        'tw_site' => [
+            'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_site',
+            'exclude' => 1,
+            'config' => [
+                'type' => 'input',
+                'max' => '40',
+                'eval' => 'trim',
+            ]
+        ],
 		'uid_foreign' => [
 			'config' => [
 				'type' => 'passthrough'

@@ -411,10 +411,16 @@ class HeaderData
             $content .= $this->printMetaTag('twitter:image', $finalTwImageURL);
         }
 
-        // creator
+        // twitter:creator
         $content .= $this->printMetaTag(
             'twitter:creator',
             $this->escapeContent($meta['tw_creator'] ?: $pluginSettings['social.']['twitter.']['creator'])
+        );
+
+        // twitter:site
+        $content .= $this->printMetaTag(
+            'twitter:site',
+            $this->escapeContent($meta['tw_site'] ?: $pluginSettings['social.']['twitter.']['site'])
         );
 
         return $content;

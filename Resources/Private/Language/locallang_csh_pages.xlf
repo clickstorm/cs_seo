@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-05-12T12:38:22Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2018-02-16T09:04:16Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -43,6 +43,9 @@
 		</trans-unit>
 		<trans-unit id="tx_csseo_tw_image.description">
 			<source>This image will be shown, if the user shares this page on twitter. Fallback is the open graph image. It will be scaled to 1024 x 512 pixels.</source>
+		</trans-unit>
+		<trans-unit id="tx_csseo_tw_site.description">
+			<source>Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be used in the card footer. The account should belong to your website.</source>
 		</trans-unit>
 		<trans-unit id="tx_csseo_tw_title.description">
 			<source>This title will be shown, if the user shares this page on twitter. Fallback is the open graph title. </source>

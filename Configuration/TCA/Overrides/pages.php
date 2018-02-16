@@ -305,6 +305,15 @@ $tempColumns = [
             'eval' => 'trim',
         ]
     ],
+    'tx_csseo_tw_site' => [
+        'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_site',
+        'exclude' => 1,
+        'config' => [
+            'type' => 'input',
+            'max' => '40',
+            'eval' => 'trim',
+        ]
+    ],
 ];
 
 // add new fields
@@ -339,7 +348,7 @@ $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
     'tx_csseo_tw_title, --linebreak--,
     tx_csseo_tw_description, --linebreak--,
     tx_csseo_tw_image, --linebreak--,
-    tx_csseo_tw_creator');
+    tx_csseo_tw_creator, tx_csseo_tw_site');
 
 // add no_index to request update
 $GLOBALS['TCA']['pages']['ctrl']['requestUpdate'] .= ',tx_csseo_no_index';

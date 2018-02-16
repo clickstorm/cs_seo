@@ -36,6 +36,9 @@ plugin.tx_csseo {
     # cat=plugin.tx_csseo/social/8; type=string; label= Default Twitter Creator : Twitter username (without @)
     social.twitter.creator =
 
+    # cat=plugin.tx_csseo/social/9; type=string; label= Default Twitter Site : Twitter username (without @)
+    social.twitter.site =
+
     # customsubcategory=tracking=User Tracking
     # cat=plugin.tx_csseo/tracking/1; type=string; label= Google Analytics ID : If set (e.g. UA-XXXXXX-XXX), Google Analytics and the download tracking is enabled.
     tracking.googleAnalytics =

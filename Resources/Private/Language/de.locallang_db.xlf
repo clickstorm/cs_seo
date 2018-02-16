@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-05-12T12:30:25Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2018-02-16T08:56:13Z">
 		<header>
 			<generator>LFEditor</generator>
 		</header>
@@ -88,6 +88,10 @@
 		<trans-unit id="pages.tx_csseo_tw_image" approved="yes">
 			<source>Twitter Image</source>
 			<target>Twitter Bild</target>
+		</trans-unit>
+		<trans-unit id="pages.tx_csseo_tw_site" approved="yes">
+			<source>Twitter Site</source>
+			<target>Twitter Seite</target>
 		</trans-unit>
 		<trans-unit id="pages.tx_csseo_tw_title" approved="yes">
 			<source>Twitter Title</source>

@@ -42,6 +42,7 @@ Page Properties
 	`tx\_csseo\_tw\_description`_  Twitter Description                Social Media            text
 	`tx\_csseo\_tw\_image`_        Twitter Image                      Social Media            file
 	`tx\_csseo\_tw\_creator`_      Twitter Creator                    Social Media            string
+	`tx\_csseo\_tw\_site`_         Twitter Site                       Social Media            string
 	============================== ================================== ======================= ====================
 
 Property details
@@ -235,6 +236,21 @@ Twitter Creator
    Description
         Enter a twitter username without the @ sign. If the user shares the page on twitter,
         this account will be shown as creator.
+
+.. _tx_csseo_tw_site:
+
+Twitter Site
+""""""""""""
+
+.. container:: table-row
+
+   Property
+         tx_csseo_tw_site
+   Data type
+         string
+   Description
+        Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be used
+        in the card footer. The account should belong to your website.
 
 .. _user-faq:
 

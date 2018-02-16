@@ -29,13 +29,23 @@ page.headerData.654 {
 			required = 1
 		}
 
-		### twitter:author ###
+		### twitter:creator ###
 		30 = TEXT
 		30 {
 			data = page:tx_csseo_tw_creator
 			htmlSpecialChars = 1
-			wrap = <meta name="twitter:site" content="@|" />
+			wrap = <meta name="twitter:creator" content="@|" />
 			ifEmpty = {$plugin.tx_csseo.social.twitter.creator}
+			required = 1
+		}
+
+		### twitter:site ###
+		35 = TEXT
+		35 {
+			data = page:tx_csseo_tw_site
+			htmlSpecialChars = 1
+			wrap = <meta name="twitter:site" content="@|" />
+			ifEmpty = {$plugin.tx_csseo.social.twitter.site}
 			required = 1
 		}
 
