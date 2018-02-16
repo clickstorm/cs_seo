@@ -1,5 +1,4 @@
 ### Google Tag Manager ###
-
 page.jsInline.654.15 = TEXT
 page.jsInline.654.15 {
 	value = {$plugin.tx_csseo.tracking.googleTagManager}
@@ -14,24 +13,4 @@ page.jsInline.654.15 {
 	)
 	wrap.splitChar = #
 	required = 1
-}
-
-page.bodyTagCObject = COA
-page.bodyTagCObject {
-	10 = TEXT
-	10.value = <body>
-
-	654 = COA
-	654 {
-		10 = TEXT
-		10 {
-			value = {$plugin.tx_csseo.tracking.googleTagManager}
-			wrap (
-			<!-- Google Tag Manager (noscript) -->
-			<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=|" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-			<!-- End Google Tag Manager (noscript) -->
-			)
-			required = 1
-		}
-	}
 }

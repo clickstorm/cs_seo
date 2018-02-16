@@ -55,8 +55,11 @@ Google Tag Manager
    Data type
          :ref:`t3tsref:data-type-string`
    Description
-         If set (e.g. 'GTM-XXXXXXXX'), the Google Tag Manager is enabled. Check your TypoScript bodyTag and
-         bodyTagCObject configuration.
+         If set (e.g. 'GTM-XXXXXXXX'), the Google Tag Manager is enabled. Furthermore Google Tag Manager requires an
+         additional fallback for clients who disabled JS
+         - `Google Tag Manager Quickstart <https://developers.google.com/tag-manager/quickstart/>`_ . Therefore
+         cs_seo offers an extra TypoScript file which you can include (like here :ref:`admin-installation`) or copy and
+         modify. **!If you include the TS file check your body tag afterwards!**
 
 .. _tracking.piwik:
 
