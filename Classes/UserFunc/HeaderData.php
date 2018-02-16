@@ -150,7 +150,8 @@ class HeaderData
                             if ($seoField == 'og_image' || $seoField == 'tw_image') {
                                 $meta[$seoField] = [
                                     'field' => $fallbackField,
-                                    'table' => $tableSettings['table']
+                                    'table' => $tableSettings['table'],
+                                    'uid_foreign' => $tableSettings['uid']
                                 ];
                             }
                         }
@@ -505,7 +506,7 @@ class HeaderData
         if (is_array($meta[$field])) {
             $params['table'] = $meta[$field]['table'];
             $params['field'] = $meta[$field]['field'];
-            $params['uid'] = $meta['uid_foreign'];
+            $params['uid'] = $meta[$field]['uid_foreign'];
         } else {
             $params['table'] = self::TABLE_NAME_META;
             $params['field'] = 'tx_csseo_' . $field;
