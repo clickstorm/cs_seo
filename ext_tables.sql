@@ -59,6 +59,7 @@ CREATE TABLE tx_csseo_domain_model_meta (
 	tw_description text,
 	tw_image int(11) unsigned NOT NULL default '0',
 	tw_creator varchar(255) DEFAULT '' NOT NULL,
+	tw_site varchar(255) DEFAULT '' NOT NULL,
 
 	uid_foreign int(11) DEFAULT '0' NOT NULL ,
 	tablenames varchar(255) DEFAULT '' NOT NULL,
