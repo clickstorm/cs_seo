@@ -221,7 +221,7 @@ class EvaluationCommandController extends CommandController
                 $constraints[] = 'uid = ' . $uid;
             }
         }
-        return implode($constraints, ' AND ') . BackendUtility::BEenableFields($this->tableName);
+        return implode($constraints, ' AND ') . BackendUtility::BEenableFields($this->tableName) . BackendUtility::deleteClause($this->tableName);
     }
 
     /**
@@ -259,6 +259,7 @@ class EvaluationCommandController extends CommandController
                     $metaTableName) . '\'';
             $where .= ' AND uid_foreign = ' . $record['uid'];
             $where .= BackendUtility::BEenableFields($metaTableName);
+            $where .= BackendUtility::deleteClause($metaTableName);
             $res = $this->getDatabaseConnection()->exec_SELECTquery(
                 'keyword',
                 $metaTableName,

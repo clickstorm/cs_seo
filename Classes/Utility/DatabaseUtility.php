@@ -55,12 +55,13 @@ class DatabaseUtility
         $res = self::getDatabaseConnection()->exec_SELECTquery(
             '*',
             $table,
-            '1=1 ' . BackendUtility::BEenableFields($table),
+            '1=1 ' . BackendUtility::BEenableFields($table) . BackendUtility::deleteClause($table),
             '',
             $GLOBALS['TCA'][$table]['ctrl']['tstamp'] ? $GLOBALS['TCA'][$table]['ctrl']['tstamp']
                 . ' '
                 . QueryInterface::ORDER_DESCENDING : ''
         );
+
         while ($row = self::getDatabaseConnection()->sql_fetch_assoc($res)) {
             $items[$row['uid']] = $row[$GLOBALS['TCA'][$table]['ctrl']['label']] . ' [' . $row['uid'] . ']';
         }
@@ -77,7 +78,7 @@ class DatabaseUtility
         $items = [];
         $table = 'pages_language_overlay';
         $tcaCtrl = $GLOBALS['TCA'][$table]['ctrl'];
-        $where = 'pid = ' . $uid . BackendUtility::BEenableFields($table);
+        $where = 'pid = ' . $uid . BackendUtility::BEenableFields($table) . BackendUtility::deleteClause($table);
 
         $res = self::getDatabaseConnection()->exec_SELECTquery(
             '*',
