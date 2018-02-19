@@ -1,4 +1,7 @@
 <?php
+
+$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
+
 return [
 	'ctrl' => [
 		'title' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:tx_csseo_domain_model_meta',
@@ -156,7 +159,7 @@ return [
 				'cols' => 40,
 				'rows' => 5,
 				'eval' => 'trim',
-				'max' => '200',
+				'max' => $extConf['maxDescription'],
 			]
 		],
 		'title_only' => [
