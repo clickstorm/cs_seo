@@ -56,6 +56,32 @@ $tempColumns = [
 			'eval' => 'trim',
 		],
 	],
+    'tx_csseo_canonical' => [
+        'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_canonical',
+        'exclude' => 1,
+        'displayCond' => 'FIELD:tx_csseo_no_index:REQ:FALSE',
+        'config' => [
+            'type' => 'input',
+            'max' => '256',
+            'eval' => 'trim',
+            'wizards' => [
+                'link' => [
+                    'type' => 'popup',
+                    'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:header_link_formlabel',
+                    'icon' => 'actions-wizard-link',
+                    'module' => [
+                        'name' => 'wizard_link',
+                    ],
+                    'params' => [
+                        'blindLinkOptions' => 'file, folder, mail, spec',
+                        'blindLinkFields' => '',
+                    ],
+                    'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1'
+                ]
+            ],
+            'softref' => 'typolink'
+        ]
+    ],
     'tx_csseo_og_title' => [
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_og_title',
         'exclude' => 1,
@@ -289,6 +315,11 @@ $GLOBALS['TCA']['pages_language_overlay']['palettes']['metatags']['showitem'] =
     'tx_csseo_preview',
     'tx_csseo_title,tx_csseo_title_only,--linebreak--,
     description;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.description');
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+    'pages_language_overlay',
+    'tx_csseo_index',
+    'tx_csseo_canonical');
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
     'pages_language_overlay',

@@ -68,6 +68,8 @@ page.headerData.654 {
 						noTrimWrap = | href="|" />|
 					}
 
+					### only if localized page will be indexed ###
+					if.isFalse.field = tx_csseo_canonical // tx_csseo_no_index // content_from_pid
 				}
 				doNotLinkIt = 1
 			}
