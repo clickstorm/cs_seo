@@ -7,4 +7,5 @@ page.jsInline.654 = COA
 	page.jsInline.654 >
 	page.bodyTagCObject.654 >
 	page.includeJSFooter.654 >
+	page.headerData.654.100 >
 [end]
