@@ -1,24 +1,11 @@
 {namespace cs=Clickstorm\CsSeo\ViewHelpers}
+<?xml version="1.0" encoding="UTF-8" ?>
 <html xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
 <f:layout name="Sitemap.xml" />
 
 <f:section name="Main">
-	<f:if condition="{lang} > 0">
-		<f:then>
-			<f:for each="{pages}" as="page">
-				<f:if condition="{page._PAGES_OVERLAY_LANGUAGE} == {lang}">
-					<f:render partial="Sitemap/Page.xml" arguments="{_all}" section="Main" />
-				</f:if>
-			</f:for>
-		</f:then>
-		<f:else>
-			<f:for each="{pages}" as="page">
-				<f:if condition="{cs:showInDefaultLanguage(fieldValue:page.l18n_cfg)}">
-					<f:render partial="Sitemap/Page.xml" arguments="{_all}" section="Main" />
-				</f:if>
-			</f:for>
-		</f:else>
-	</f:if>
+	<f:render partial="Sitemap/Pages.xml" arguments="{_all}" section="Main"/>
 </f:section>
+</html>

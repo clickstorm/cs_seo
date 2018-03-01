@@ -106,17 +106,11 @@ class Sitemap
                 }
                 $this->tsfe->sys_page->where_hid_del = implode('AND', $hideDelArray);
 
-                // get the subpages
-                $subPages = $this->getSubPages($rootPage['uid']);
-
-                // merge all pages
-                $pages = array_merge([$rootPage], $subPages);
-
                 $this->view->assignMultiple(
                     [
                         'settings' => $settings,
                         'lang' => $this->tsfe->sys_language_uid,
-                        'pages' => $pages
+                        'pageUid' => $rootPage['uid']
                     ]
                 );
                 break;
