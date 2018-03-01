@@ -6,6 +6,7 @@
 <f:layout name="Sitemap.xml" />
 
 <f:section name="Main">
-	<f:render partial="Sitemap/Pages.xml" arguments="{_all}" section="Main"/>
+	<f:render partial="Sitemap/PageCheck.xml" arguments="{page:rootPage,lang:lang,settings:settings}" section="Main"/>
+	<f:render partial="Sitemap/Pages.xml" arguments="{pageUid:rootPage.uid,lang:lang,settings:settings}" section="Main"/>
 </f:section>
 </html>

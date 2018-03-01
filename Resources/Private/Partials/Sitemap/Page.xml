@@ -4,13 +4,9 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
 <f:section name="Main">
-	<f:if condition="{cs:isInList(list:settings.doktypes,item:page.doktype)}">
-		<f:if condition="{page.tx_csseo_no_index} == 0">
-			<url>
-				<loc>{f:uri.page(pageUid:page.uid,absolute:1) -> f:format.htmlspecialchars()}</loc>
-				<f:if condition="{page.tstamp}"><lastmod>{page.tstamp -> f:format.date(format:'Y-m-d')}</lastmod></f:if>
-			</url>
-		</f:if>
-	</f:if>
+	<url>
+		<loc>{f:uri.page(pageUid:page.uid,absolute:1) -> f:format.htmlspecialchars()}</loc>
+		<f:if condition="{page.tstamp}"><lastmod>{page.tstamp -> f:format.date(format:'Y-m-d')}</lastmod></f:if>
+	</url>
 </f:section>
 </html>

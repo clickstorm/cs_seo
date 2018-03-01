@@ -1,0 +1,24 @@
+{namespace cs=Clickstorm\CsSeo\ViewHelpers}
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+<f:section name="Main">
+	<f:if condition="{page.tx_csseo_no_index} == 0">
+		<f:if condition="{cs:isInList(list:settings.doktypes,item:page.doktype)}">
+			<f:if condition="{lang} > 0">
+				<f:then>
+					<f:if condition="{page._PAGES_OVERLAY_LANGUAGE} == {lang}">
+						<f:render partial="Sitemap/Page.xml" arguments="{_all}" section="Main"/>
+					</f:if>
+				</f:then>
+				<f:else>
+					<f:if condition="{cs:showInDefaultLanguage(fieldValue:page.l18n_cfg)}">
+						<f:render partial="Sitemap/Page.xml" arguments="{_all}" section="Main"/>
+					</f:if>
+				</f:else>
+			</f:if>
+		</f:if>
+	</f:if>
+</f:section>
+</html>

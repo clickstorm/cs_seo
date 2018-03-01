@@ -94,9 +94,6 @@ class Sitemap
                 $this->view->setTemplate('Pages');
                 $settings = $this->settings['pages'];
 
-                // first get the root page
-                $rootPage = $this->tsfe->sys_page->getPage($settings['rootPid']);
-
                 // remove doktype exlude
                 $hideDelArray = explode('AND', $this->tsfe->sys_page->where_hid_del);
                 foreach ($hideDelArray as $key => $entry) {
@@ -106,11 +103,14 @@ class Sitemap
                 }
                 $this->tsfe->sys_page->where_hid_del = implode('AND', $hideDelArray);
 
+                // first get the root page
+                $rootPage = $this->tsfe->sys_page->getPage((int)$settings['rootPid']);
+
                 $this->view->assignMultiple(
                     [
                         'settings' => $settings,
                         'lang' => $this->tsfe->sys_language_uid,
-                        'pageUid' => $rootPage['uid']
+                        'rootPage' => $rootPage
                     ]
                 );
                 break;
