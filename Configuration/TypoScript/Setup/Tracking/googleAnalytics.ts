@@ -1,10 +1,19 @@
 ### Google Analytics ###
-page.headerData.654.100 = TEXT
+page.headerData.654.100 = COA
 page.headerData.654.100 {
-	value = {$plugin.tx_csseo.tracking.googleAnalytics}
-	wrap (
+	10 = TEXT
+	10.value = {$plugin.tx_csseo.tracking.googleAnalytics}
+	10.wrap (
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=#"></script>
+	)
+	10.wrap.splitChar = #
+	10.required = 1
+
+	20 = TEXT
+	20.value = {$plugin.tx_csseo.tracking.googleAnalytics}
+	20.wrap (
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script>
     /* Google Analytics Optout */
     var gaProperty = '#';
@@ -27,8 +36,8 @@ page.headerData.654.100 {
     /* End Google Analytics */
 </script>
 	)
-	wrap.splitChar = #
-	required = 1
+	20.wrap.splitChar = #
+	20.required = 1
 }
 
 ### Downloads with Google Analytics ###
