@@ -1,6 +1,6 @@
 ### Google Analytics ###
-page.headerData.654.100 = COA
-page.headerData.654.100 {
+page.headerData.657.10 = COA
+page.headerData.657.10 {
 	10 = TEXT
 	10.value = {$plugin.tx_csseo.tracking.googleAnalytics}
 	10.wrap (
