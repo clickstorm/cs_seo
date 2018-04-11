@@ -25,8 +25,6 @@ namespace Clickstorm\CsSeo\Evaluation;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Core\Charset\CharsetConverter;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class AbstractLengthEvaluator
@@ -46,9 +44,7 @@ abstract class AbstractLengthEvaluator extends AbstractEvaluator
     {
         $state = self::STATE_RED;
 
-        /** @var CharsetConverter $charsetConverter */
-        $charsetConverter = GeneralUtility::makeInstance(CharsetConverter::class);
-        $count = $charsetConverter->strlen('utf-8', $content);
+        $count = mb_strlen($content, 'UTF-8');
 
         if ($count >= $min && $count <= $max) {
             $state = self::STATE_GREEN;
