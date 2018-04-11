@@ -26,15 +26,15 @@ namespace Clickstorm\CsSeo\Utility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
+use Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
-use \TYPO3\CMS\Backend\Utility\BackendUtility;
-use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use \TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 
 /**
  * own TSFE to render TSFE in the backend
@@ -194,7 +194,7 @@ class TSFEUtility
         try {
             GeneralUtility::_GETset($this->lang, 'L');
             if (!is_object($GLOBALS['TT'])) {
-                $GLOBALS['TT'] = new NullTimeTracker;
+                $GLOBALS['TT'] = GeneralUtility::makeInstance(TimeTracker::class, false);
                 $GLOBALS['TT']->start();
             }
 
