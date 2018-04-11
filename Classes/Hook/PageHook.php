@@ -59,7 +59,7 @@ class PageHook
 
     public function __construct()
     {
-        $this->resourcesPath = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/';
+        $this->resourcesPath = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/';
     }
 
     /**

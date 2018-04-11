@@ -120,7 +120,7 @@ class PreviewWizard
         // Load jquery
         $this->getPageRenderer()->loadJquery();
         // Load the wizards javascript
-        $baseUrl = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/JavaScript/';
+        $baseUrl = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Public/JavaScript/';
         foreach ($javascriptFiles as $javascriptFile) {
             $this->getPageRenderer()->addJsFile(
                 $baseUrl . $javascriptFile,
@@ -149,7 +149,7 @@ class PreviewWizard
         $cssFiles = [
             'Wizard.css'
         ];
-        $baseUrl = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/CSS/';
+        $baseUrl = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Public/CSS/';
         // Load the wizards css
         foreach ($cssFiles as $cssFile) {
             $this->getPageRenderer()->addCssFile($baseUrl . $cssFile, 'stylesheet', 'all', '', $compress, false);

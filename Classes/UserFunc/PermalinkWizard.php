@@ -103,7 +103,7 @@ class PermalinkWizard
         // Load jquery
         $this->getPageRenderer()->loadJquery();
         // Load the wizards javascript
-        $baseUrl = ExtensionManagementUtility::extRelPath('cs_seo') . 'Resources/Public/JavaScript/';
+        $baseUrl = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Public/JavaScript/';
         foreach ($javascriptFiles as $javascriptFile) {
             $this->getPageRenderer()->addJsFile(
                 $baseUrl . $javascriptFile,
