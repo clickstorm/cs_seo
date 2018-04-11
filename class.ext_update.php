@@ -1,4 +1,7 @@
 <?php
+
+namespace Clickstorm\CsSeo;
+
 /**
  * This file is part of the TYPO3 CMS project.
  *
