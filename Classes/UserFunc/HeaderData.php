@@ -30,6 +30,8 @@ namespace Clickstorm\CsSeo\UserFunc;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -177,16 +179,15 @@ class HeaderData
      */
     protected function getRecord($tableSettings)
     {
-        $where = 'uid = ' . $tableSettings['uid'];
-        $where .= $GLOBALS['TSFE']->sys_page->enableFields($tableSettings['table']);
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-            '*',
-            $tableSettings['table'],
-            $where,
-            '',
-            '',
-            1
-        );
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableSettings['table']);
+
+        $res = $queryBuilder->select('*')
+            ->from($tableSettings['table'])
+            ->where($queryBuilder->expr()->eq('uid',
+                $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)))
+            ->execute()->fetchAll();
+
         $row = $res[0];
 
         if (is_array(
@@ -215,22 +216,21 @@ class HeaderData
      *
      * @param $tableSettings
      *
-     * @return bool
+     * @return array
      */
     protected function getMetaProperties($tableSettings)
     {
-        $res = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-            '*',
-            self::TABLE_NAME_META,
-            'tablenames = "'
-            . $tableSettings['table']
-            . '" AND uid_foreign = '
-            . $tableSettings['uid']
-            . ' AND deleted=0',
-            '',
-            '',
-            1
-        );
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(self::TABLE_NAME_META);
+
+        $res = $queryBuilder->select('*')
+            ->from(self::TABLE_NAME_META)
+            ->where(
+                $queryBuilder->expr()->eq('uid_foreign',
+                    $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)),
+                $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableSettings['table']))
+            )
+            ->execute()->fetchAll();
 
         return isset($res[0]) ? $res[0] : [];
     }
@@ -468,15 +468,24 @@ class HeaderData
             return $languageIds;
         }
 
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+
         $pointerField = $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'];
         $languageField = $GLOBALS['TCA'][$table]['ctrl']['languageField'];
 
-        if ($pointerField || $languageField) {
-            $whereClause = '(' . $pointerField . ' = ' . $uid . ' OR uid = ' . $uid . ')';
-        }
-        $whereClause .= $GLOBALS['TSFE']->sys_page->enableFields($table);
-
-        $allItems = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($languageField, $table, $whereClause);
+        $allItems = $queryBuilder->select($languageField)
+            ->from($table)
+            ->where(
+                $queryBuilder->expr()->eq($pointerField,
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+            )
+            ->orWhere(
+                $queryBuilder->expr()->eq('uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+            )
+            ->execute()
+            ->fetchAll();
 
         foreach ($allItems as $item) {
             $languageIds[] = $item[$languageField];
@@ -493,11 +502,19 @@ class HeaderData
      */
     protected function getLanguageFromItem($table, $uid)
     {
-        $whereClause = 'uid = ' . $uid;
-        $whereClause .= $GLOBALS['TSFE']->sys_page->enableFields($table);
-        $item = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('sys_language_uid', $table, $whereClause);
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
 
-        return $item[0]['sys_language_uid'];
+        $items = $queryBuilder->select('sys_language_uid')
+            ->from($table)
+            ->where(
+                $queryBuilder->expr()->eq('uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+            )
+            ->execute()
+            ->fetchAll();
+
+        return $items[0]['sys_language_uid'];
     }
 
     /**
@@ -520,7 +537,7 @@ class HeaderData
         }
 
         $image = DatabaseUtility::getFile($params['table'], $params['field'], $params['uid']);
-        if($image) {
+        if ($image) {
             return $image->getPublicUrl();
         }
     }
@@ -560,14 +577,15 @@ class HeaderData
      */
     public function getSocialMediaImage($p1, $p2)
     {
-        if($GLOBALS['TSFE']->page['_PAGES_OVERLAY']) {
-            $image = DatabaseUtility::getFile('pages_language_overlay', $p2['field'], $GLOBALS['TSFE']->page['_PAGES_OVERLAY_UID']);
-            if(!empty($image)) {
+        if ($GLOBALS['TSFE']->page['_PAGES_OVERLAY']) {
+            $image = DatabaseUtility::getFile('pages_language_overlay', $p2['field'],
+                $GLOBALS['TSFE']->page['_PAGES_OVERLAY_UID']);
+            if (!empty($image)) {
                 return $image->getUid();
             }
         }
         $image = DatabaseUtility::getFile('pages', $p2['field'], $GLOBALS['TSFE']->id);
-        if(!empty($image)) {
+        if (!empty($image)) {
             return $image->getUid();
         }
     }

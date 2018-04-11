@@ -31,6 +31,8 @@ use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -592,6 +594,9 @@ class ModuleController extends ActionController
      * Initialize action
      *
      * @return void
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
     protected function initializeAction()
     {
@@ -650,14 +655,15 @@ class ModuleController extends ActionController
     {
         $languages[0] = 'Default';
 
-        $res = $this->getDatabaseConnection()->exec_SELECTquery(
-            'sys_language.*',
-            'sys_language',
-            'sys_language.hidden=0',
-            '',
-            'sys_language.title'
-        );
-        while ($lRow = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_language');
+
+        $res = $queryBuilder->select('*')
+            ->from('sys_language')
+            ->orderBy('title')
+            ->execute();
+
+        while ($lRow = $res->fetch()) {
             if ($this->getBackendUser()->checkLanguageAccess($lRow['uid'])) {
                 $languages[$lRow['uid']] = $lRow['hidden'] ? '(' . $lRow['title'] . ')' : $lRow['title'];
             }
@@ -673,15 +679,5 @@ class ModuleController extends ActionController
         }
 
         return $languages;
-    }
-
-    /**
-     * Returns the database connection
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
     }
 }

@@ -30,6 +30,8 @@ namespace Clickstorm\CsSeo\Hook;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Controller\PageLayoutController;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -61,65 +63,6 @@ class PageHook
     {
         $this->resourcesPath = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/';
     }
-
-    /**
-     * Load the necessary css
-     *
-     * This will only be done when the referenced record is available
-     *
-     * @return void
-     */
-    protected function loadCss()
-    {
-        // @todo Set to TRUE when finished
-        $compress = false;
-        $cssFiles = [
-            'Icons.css',
-            'Evaluation.css'
-        ];
-
-        $baseUrl = $this->resourcesPath . 'Public/CSS/';
-
-        // Load the wizards css
-        foreach ($cssFiles as $cssFile) {
-            $this->getPageRenderer()->addCssFile($baseUrl . $cssFile, 'stylesheet', 'all', '', $compress, false);
-        }
-    }
-
-    /**
-     * Load the necessary javascript
-     *
-     * This will only be done when the referenced record is available
-     *
-     * @return void
-     */
-    protected function loadJavascript()
-    {
-        $compress = false;
-        $javascriptFiles = [
-            'jquery.cookie.js',
-            'jquery.cs_seo.evaluation.js'
-        ];
-        // Load jquery
-        $this->getPageRenderer()->loadJquery();
-
-        // Load the wizards javascript
-        $baseUrl = $this->resourcesPath . 'Public/JavaScript/';
-
-        foreach ($javascriptFiles as $javascriptFile) {
-            $this->getPageRenderer()->addJsFile(
-                $baseUrl . $javascriptFile,
-                'text/javascript',
-                $compress,
-                false,
-                '',
-                true,
-                '|',
-                true
-            );
-        }
-    }
-
 
     /**
      * Add sys_notes as additional content to the footer of the page module
@@ -197,7 +140,32 @@ class PageHook
         if (in_array($page['doktype'], $allowedDoktypes) && $page['hidden'] == 0) {
             return true;
         }
+
         return false;
+    }
+
+    /**
+     * Load the necessary css
+     *
+     * This will only be done when the referenced record is available
+     *
+     * @return void
+     */
+    protected function loadCss()
+    {
+        // @todo Set to TRUE when finished
+        $compress = false;
+        $cssFiles = [
+            'Icons.css',
+            'Evaluation.css'
+        ];
+
+        $baseUrl = $this->resourcesPath . 'Public/CSS/';
+
+        // Load the wizards css
+        foreach ($cssFiles as $cssFile) {
+            $this->getPageRenderer()->addCssFile($baseUrl . $cssFile, 'stylesheet', 'all', '', $compress, false);
+        }
     }
 
     /**
@@ -208,7 +176,42 @@ class PageHook
         if (!isset($this->pageRenderer)) {
             $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         }
+
         return $this->pageRenderer;
+    }
+
+    /**
+     * Load the necessary javascript
+     *
+     * This will only be done when the referenced record is available
+     *
+     * @return void
+     */
+    protected function loadJavascript()
+    {
+        $compress = false;
+        $javascriptFiles = [
+            'jquery.cookie.js',
+            'jquery.cs_seo.evaluation.js'
+        ];
+        // Load jquery
+        $this->getPageRenderer()->loadJquery();
+
+        // Load the wizards javascript
+        $baseUrl = $this->resourcesPath . 'Public/JavaScript/';
+
+        foreach ($javascriptFiles as $javascriptFile) {
+            $this->getPageRenderer()->addJsFile(
+                $baseUrl . $javascriptFile,
+                'text/javascript',
+                $compress,
+                false,
+                '',
+                true,
+                '|',
+                true
+            );
+        }
     }
 
     /**
@@ -219,6 +222,8 @@ class PageHook
      */
     protected function getResults($pageInfo, $lang)
     {
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_csseo_domain_model_evaluation');
         $results = [];
 
         if ($lang) {
@@ -234,27 +239,19 @@ class PageHook
             $uidForeign = $pageInfo['uid'];
         }
 
-        $where = 'uid_foreign = ' . $uidForeign;
-        $where .= ' AND tablenames = "' . $tableName . '"';
+        $res = $queryBuilder->select('results')
+            ->from('tx_csseo_domain_model_evaluation')
+            ->where(
+                $queryBuilder->expr()->eq('uid_foreign',
+                    $queryBuilder->createNamedParameter($uidForeign, \PDO::PARAM_INT)),
+                $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableName))
+            )
+            ->execute();
 
-        $res = $this->getDatabaseConnection()->exec_SELECTquery(
-            'results',
-            'tx_csseo_domain_model_evaluation',
-            $where
-        );
-        while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+        while ($row = $res->fetch()) {
             $results = unserialize($row['results']);
         }
-        return $results;
-    }
 
-    /**
-     * Returns the database connection
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
+        return $results;
     }
 }

@@ -29,6 +29,9 @@ namespace Clickstorm\CsSeo\UserFunc;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -242,14 +245,21 @@ class PreviewWizard
                         }
 
                         if ($fallback) {
-                            $res = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-                                '*',
-                                $data['tablenames'],
-                                'uid=' . $data['uid_foreign'],
-                                '',
-                                '',
-                                1
-                            );
+                            /** @var QueryBuilder $queryBuilder */
+                            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($data['tablenames']);
+
+                            $queryBuilder
+                                ->getRestrictions()
+                                ->removeAll();
+
+                            $res = $queryBuilder->select('*')
+                                ->from( $data['tablenames'])
+                                ->where(
+                                    $queryBuilder->expr()->eq('uid',
+                                        $queryBuilder->createNamedParameter($data['uid_foreign'], \PDO::PARAM_INT))
+                                )
+                                ->execute()->fetchAll();
+
                             $row = $res[0];
 
                             foreach ($fallback as $seoField => $fallbackField) {

@@ -27,6 +27,8 @@ namespace Clickstorm\CsSeo\UserFunc;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -83,7 +85,7 @@ class Sitemap
         $this->view->setTemplateRootPaths($this->settings['view']['templateRootPaths']);
 
         // get UID of current page if rootPid = 0
-        if(empty($this->settings['pages']['rootPid'])) {
+        if (empty($this->settings['pages']['rootPid'])) {
             $this->settings['pages']['rootPid'] = $GLOBALS['TSFE']->id;
         }
 
@@ -125,7 +127,8 @@ class Sitemap
                             $params = [
                                 'extConf' => $extConf
                             ];
-                            $records = GeneralUtility::callUserFunction($extConf['getRecordsUserFunction'], $params, $this);
+                            $records = GeneralUtility::callUserFunction($extConf['getRecordsUserFunction'], $params,
+                                $this);
                         } else {
                             $records = $this->getRecords($extConf);
                         }
@@ -199,44 +202,20 @@ class Sitemap
     }
 
     /**
-     * @param array $pages
-     * @param array $newPages
-     *
-     * @return array
-     */
-    protected function getSubPages($pageUid)
-    {
-        $subPages = $this->tsfe->sys_page->getMenu(
-            $pageUid,
-            '*',
-            'sorting',
-            ''
-        );
-
-        foreach ($subPages as $subPage) {
-            ArrayUtility::mergeRecursiveWithOverrule(
-                $subPages,
-                $this->getSubPages($subPage['uid'])
-            );
-        }
-
-        return $subPages;
-    }
-
-    /**
      * @param array $extConf
      *
      * @return bool|array
      */
     protected function getRecords($extConf)
     {
-        $db = $this->getDatabaseConnection();
         $table = $extConf['table'];
-        $where = '';
-        $from = $extConf['table'];
-        $select = $table . '.uid';
-
         $constraints = [];
+
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+
+        $queryBuilder->select($table . '.uid');
+
         $lang = $this->getTypoScriptFrontendController()->sys_language_uid;
         $tca = $GLOBALS['TCA'][$extConf['table']];
 
@@ -244,105 +223,119 @@ class Sitemap
         if ($extConf['storagePid']) {
             $storagePid = $extConf['storagePid'];
             $recursive = (int)$extConf['recursive'];
-            if($recursive > 0) {
-                $storagePid = \Clickstorm\CsSeo\Utility\DatabaseUtility::extendPidListByChildren($storagePid, $recursive);
+            if ($recursive > 0) {
+                $storagePid = \Clickstorm\CsSeo\Utility\DatabaseUtility::extendPidListByChildren($storagePid,
+                    $recursive);
             }
-            $constraints[] = $table . '.pid IN (' . $storagePid . ')';
+            $constraints[] = $queryBuilder->expr()->in($table . '.pid', $storagePid);
         }
 
         if ($tca) {
             // lang
             $languageField = $tca['ctrl']['languageField'];
             if ($languageField) {
-                $constraints[] = $table . '.' . $languageField . ' IN (' . $lang . ',-1)';
-                $select .= ', ' . $table . '.' . $languageField . ' AS lang';
+                $constraints[] = $queryBuilder->expr()->in($languageField, [$lang, -1]);
+                $queryBuilder->addSelect($table . '.' . $languageField . ' AS lang');
             }
 
             // lastmod
             if ($tca['ctrl']['tstamp']) {
-                $select .= ', ' . $table . '.' . $tca['ctrl']['tstamp'] . ' AS lastmod';
+                $queryBuilder->addSelect($table . '.' . $tca['ctrl']['tstamp'] . ' AS lastmod');
             }
 
             // no index
             if ($tca['columns']['tx_csseo']) {
-                $from .= ' LEFT JOIN tx_csseo_domain_model_meta ON '
-                    . $table
-                    . '.uid = tx_csseo_domain_model_meta.uid_foreign';
-                $constraints[] = '(' . $table . '.tx_csseo = 0 OR
-        	 (tx_csseo_domain_model_meta.tablenames = ' . $db->fullQuoteStr($table, $table) . ' AND
-        	 tx_csseo_domain_model_meta.no_index = 0))';
+                $queryBuilder->leftJoin(
+                    $table,
+                    'tx_csseo_domain_model_meta',
+                    'meta',
+                    $queryBuilder->expr()->eq('meta.uid_foreign', $queryBuilder->quoteIdentifier($table . '.uid'))
+                );
+
+                $constraints[] = $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->eq($table . '.tx_csseo', 0),
+                    $queryBuilder->expr()->andX(
+                        $queryBuilder->expr()->eq('meta.tablenames', $queryBuilder->createNamedParameter($table)),
+                        $queryBuilder->expr()->eq('meta.no_index', 0)
+                    )
+                );
             }
         }
 
         // categories
         if ($extConf['categoryField']) {
             $catField = $extConf['categoryField'];
-            if($extConf['categories']) {
-                $constraints[] = $catField . ' IN (' . $extConf['categories'] . ')';
+            if ($extConf['categories']) {
+                $constraints[] = $queryBuilder->expr()->in($table . '.' . $catField, $extConf['categories']);
             }
 
             if ($extConf['categoryTable'] && $extConf['categoryDetailPidField']) {
                 $catTable = $extConf['categoryTable'];
-                $from .= ' LEFT JOIN ' . $catTable . ' ON ' . $table . '.' . $catField . ' = ' . $catTable . '.uid';
-                $select .= ', ' . $catTable . '.' . $extConf['categoryDetailPidField'] . ' AS detailPid';
+
+                $queryBuilder->leftJoin(
+                    $table,
+                    $catTable,
+                    'category',
+                    $queryBuilder->expr()->eq('category.uid_foreign',
+                        $queryBuilder->quoteIdentifier($table . '.' . $catField))
+                );
+
+                $queryBuilder->addSelect($catTable . '.' . $extConf['categoryDetailPidField'] . ' AS detailPid');
             }
         }
 
         if ($extConf['categoryMMTable']) {
             $catMMTable = $extConf['categoryMMTable'];
-            $from .= ' LEFT JOIN ' . $catMMTable . ' ON ' . $table . '.uid = ' . $catMMTable . '.uid_foreign';
-            if($extConf['categories']) {
-                $constraints[] = $catMMTable . '.uid_local IN (' . $extConf['categories'] . ')';
+
+            $queryBuilder->leftJoin(
+                $table,
+                $catMMTable,
+                'categoryMM',
+                $queryBuilder->expr()->eq('categoryMM.uid_foreign', $queryBuilder->quoteIdentifier($table . '.uid'))
+            );
+
+            if ($extConf['categories']) {
+                $constraints[] = $queryBuilder->expr()->in($catMMTable . '.uid_local',
+                    $queryBuilder->createNamedParameter($extConf['categories']));
                 if ($extConf['categoryMMTablename']) {
-                    $constraints[] = $catMMTable . '.tablenames = ' . $db->fullQuoteStr($table, $table);
+                    $constraints[] = $queryBuilder->expr()->eq($catMMTable . '.tablenames',
+                        $queryBuilder->createNamedParameter($table));
                 }
                 if ($extConf['categoryMMFieldname']) {
-                    $constraints[] = $catMMTable . '.fieldname = ' . $db->fullQuoteStr(
-                            $extConf['categoryMMFieldname'],
-                            $table
-                        );
+                    $constraints[] = $queryBuilder->expr()->eq($catMMTable . '.fieldname',
+                        $queryBuilder->createNamedParameter($extConf['categoryMMFieldname']));
                 }
             }
 
             if ($extConf['categoryTable'] && $extConf['categoryDetailPidField']) {
                 $catTable = $extConf['categoryTable'];
-                $from .= ' LEFT JOIN ' . $catTable . ' ON ' . $catMMTable . '.uid_local = ' . $catTable . '.uid';
-                $select .= ', ' . $catTable . '.' . $extConf['categoryDetailPidField'] . ' AS detailPid';
+                $queryBuilder->leftJoin(
+                    $catMMTable,
+                    $catTable,
+                    'category',
+                    $queryBuilder->expr()->eq('category.uid', $queryBuilder->quoteIdentifier($catMMTable . '.uid_local'))
+                );
+                $queryBuilder->addSelect('category.' . $extConf['categoryDetailPidField'] . ' AS detailPid');
             }
         }
 
-        if ($extConf['additionalWhereClause']) {
-            $constraints[] = $extConf['additionalWhereClause'];
+        /** @TODO add signal for addition where clause */
+//        if ($extConf['additionalWhereClause']) {
+//            $constraints[] = $extConf['additionalWhereClause'];
+//        }
+
+        if (!$tca) {
+            // reset query restrictions
+            $queryBuilder
+                ->getRestrictions()
+                ->removeAll();
         }
 
-        if (count($constraints)) {
-            $where .= implode($constraints, ' AND ');
-        } else {
-            $where = '1=1';
-        }
-
-        if ($tca) {
-            $where .= $this->pageRepository->enableFields(
-                $extConf['table']
-            );
-        }
-
-        return $db->exec_SELECTgetRows(
-            $select,
-            $from,
-            $where,
-            $table . '.uid'
-        );
-    }
-
-    /**
-     * Returns the database connection
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
+        return $queryBuilder
+            ->from('tx_csseo_domain_model_evaluation')
+            ->where($constraints)
+            ->execute()
+            ->fetchAll();
     }
 
     /**
@@ -374,5 +367,30 @@ class Sitemap
     public function setSettings($settings)
     {
         $this->settings = $settings;
+    }
+
+    /**
+     * @param array $pages
+     * @param array $newPages
+     *
+     * @return array
+     */
+    protected function getSubPages($pageUid)
+    {
+        $subPages = $this->tsfe->sys_page->getMenu(
+            $pageUid,
+            '*',
+            'sorting',
+            ''
+        );
+
+        foreach ($subPages as $subPage) {
+            ArrayUtility::mergeRecursiveWithOverrule(
+                $subPages,
+                $this->getSubPages($subPage['uid'])
+            );
+        }
+
+        return $subPages;
     }
 }

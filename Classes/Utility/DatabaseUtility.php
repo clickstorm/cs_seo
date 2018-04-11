@@ -1,7 +1,10 @@
 <?php
+
 namespace Clickstorm\CsSeo\Utility;
 
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Frontend\Page\PageRepository;
@@ -52,19 +55,23 @@ class DatabaseUtility
     {
         $items = [];
 
-        $res = self::getDatabaseConnection()->exec_SELECTquery(
-            '*',
-            $table,
-            '1=1 ' . BackendUtility::BEenableFields($table) . BackendUtility::deleteClause($table),
-            '',
-            $GLOBALS['TCA'][$table]['ctrl']['tstamp'] ? $GLOBALS['TCA'][$table]['ctrl']['tstamp']
-                . ' '
-                . QueryInterface::ORDER_DESCENDING : ''
-        );
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
 
-        while ($row = self::getDatabaseConnection()->sql_fetch_assoc($res)) {
+        $queryBuilder
+            ->select('*')
+            ->from($table);
+
+        if ($GLOBALS['TCA'][$table]['ctrl']['tstamp']) {
+            $queryBuilder->orderBy($GLOBALS['TCA'][$table]['ctrl']['tstamp'], 'DESC');
+        }
+
+        $res = $queryBuilder->execute();
+
+        while ($row = $res->fetch()) {
             $items[$row['uid']] = $row[$GLOBALS['TCA'][$table]['ctrl']['label']] . ' [' . $row['uid'] . ']';
         }
+
         return $items;
     }
 
@@ -78,21 +85,24 @@ class DatabaseUtility
         $items = [];
         $table = 'pages_language_overlay';
         $tcaCtrl = $GLOBALS['TCA'][$table]['ctrl'];
-        $where = 'pid = ' . $uid . BackendUtility::BEenableFields($table) . BackendUtility::deleteClause($table);
 
-        $res = self::getDatabaseConnection()->exec_SELECTquery(
-            '*',
-            $table,
-            $where,
-            '',
-            $tcaCtrl['languageField']
-                . ' '
-                . QueryInterface::ORDER_ASCENDING
-        );
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
 
-        while ($row = self::getDatabaseConnection()->sql_fetch_assoc($res)) {
+        $res = $queryBuilder
+            ->select('*')
+            ->from($table)
+            ->where(
+                $queryBuilder->expr()->eq('pid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+            )
+            ->orderBy($tcaCtrl['languageField'])
+            ->execute();
+
+        while ($row = $res->fetch()) {
             $items[$row[$tcaCtrl['languageField']]] = $row;
         }
+
         return $items;
     }
 
@@ -148,16 +158,7 @@ class DatabaseUtility
                 }
             }
         }
-        return GeneralUtility::uniqueList($recursiveStoragePids);
-    }
 
-    /**
-     * Returns the database connection
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    public static function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
+        return GeneralUtility::uniqueList($recursiveStoragePids);
     }
 }

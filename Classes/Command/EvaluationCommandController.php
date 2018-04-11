@@ -33,7 +33,8 @@ use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Service\FrontendPageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
@@ -83,8 +84,7 @@ class EvaluationCommandController extends CommandController
      */
     protected function processResults($uid = 0, $localized = false)
     {
-        $query = $this->buildQuery($uid, $localized);
-        $items = $this->getAllItems($query);
+        $items = $this->getAllItems($uid, $localized);
         $this->updateResults($items);
 
         if (!$localized) {
@@ -93,24 +93,26 @@ class EvaluationCommandController extends CommandController
     }
 
     /**
-     * @param $uid
-     * @param bool $localizations
-     *
-     * @return string
+     * @param int $uid
+     * @param bool $localized
+     * @return array
      */
-    protected function buildQuery($uid, $localizations = false)
+    protected function getAllItems($uid, $localized = false)
     {
-        $constraints = ['1'];
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->tableName);
+        $constraints = [];
+
         $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
         $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
 
         // only with doktype page
         if ($this->tableName == 'pages') {
-            $constraints[] = 'doktype IN (' . implode(',', $allowedDoktypes) . ')';
+            $constraints[] = $queryBuilder->expr()->in('doktype', $allowedDoktypes);
         }
 
         // check localization
-        if ($localizations) {
+        if ($localized) {
             if ($tcaCtrl['transForeignTable']) {
                 $this->tableName = $tcaCtrl['transForeignTable'];
                 $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
@@ -126,46 +128,24 @@ class EvaluationCommandController extends CommandController
 
         // if single uid
         if ($uid > 0) {
-            if ($localizations && $tcaCtrl['transOrigPointerField']) {
-                $constraints[] = $tcaCtrl['transOrigPointerField'] . ' = ' . $uid;
+            if ($localized && $tcaCtrl['transOrigPointerField']) {
+                $constraints[] = $queryBuilder->expr()->eq($tcaCtrl['transOrigPointerField'],
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT));
             } else {
-                $constraints[] = 'uid = ' . $uid;
+                $constraints[] = $queryBuilder->expr()->eq('uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT));
             }
         }
 
-        return implode($constraints,
-                ' AND ') . BackendUtility::BEenableFields($this->tableName) . BackendUtility::deleteClause($this->tableName);
-    }
-
-    /**
-     * @param $where
-     *
-     * @return array
-     */
-    protected function getAllItems($where)
-    {
-        $items = [];
-
-        $res = $this->getDatabaseConnection()->exec_SELECTquery(
-            '*',
-            $this->tableName,
-            $where
-        );
-        while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
-            $items[] = $row;
-        }
+        $items = $queryBuilder->select('*')
+            ->from($this->tableName)
+            ->where(
+                $constraints
+            )
+            ->execute()
+            ->fetchAll();
 
         return $items;
-    }
-
-    /**
-     * Returns the database connection
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
     }
 
     /**
@@ -200,18 +180,20 @@ class EvaluationCommandController extends CommandController
         $keyword = '';
         if ($record['tx_csseo']) {
             $metaTableName = 'tx_csseo_domain_model_meta';
-            $where = 'tablenames = \'' . $this->getDatabaseConnection()->quoteStr($this->tableName,
-                    $metaTableName) . '\'';
-            $where .= ' AND uid_foreign = ' . $record['uid'];
-            $where .= BackendUtility::BEenableFields($metaTableName);
-            $where .= BackendUtility::deleteClause($metaTableName);
-            $res = $this->getDatabaseConnection()->exec_SELECTquery(
-                'keyword',
-                $metaTableName,
-                $where
-            );
 
-            while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+            /** @var QueryBuilder $queryBuilder */
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($metaTableName);
+
+            $res = $queryBuilder->select('keyword')
+                ->from('tx_csseo_domain_model_evaluation')
+                ->where(
+                    $queryBuilder->expr()->eq('uid_foreign',
+                        $queryBuilder->createNamedParameter($record['uid'], \PDO::PARAM_INT)),
+                    $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($this->tableName))
+                )
+                ->execute();
+
+            while ($row = $res->fetch()) {
                 $keyword = $row['keyword'];
             }
         } else {
@@ -306,5 +288,50 @@ class EvaluationCommandController extends CommandController
     public function setTableName($tableName)
     {
         $this->tableName = $tableName;
+    }
+
+    /**
+     * @param $uid
+     * @param bool $localizations
+     *
+     * @return string
+     */
+    protected function buildQuery($uid, $localizations = false)
+    {
+        $constraints = ['1'];
+        $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
+        $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
+
+        // only with doktype page
+        if ($this->tableName == 'pages') {
+            $constraints[] = 'doktype IN (' . implode(',', $allowedDoktypes) . ')';
+        }
+
+        // check localization
+        if ($localizations) {
+            if ($tcaCtrl['transForeignTable']) {
+                $this->tableName = $tcaCtrl['transForeignTable'];
+                $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
+            } else {
+                if ($tcaCtrl['languageField']) {
+                    $constraints[] = $tcaCtrl['languageField'] . ' > 0';
+                } elseif ($this->tableName == 'pages') {
+                    $this->tableName = 'pages_language_overlay';
+                    $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
+                }
+            }
+        }
+
+        // if single uid
+        if ($uid > 0) {
+            if ($localizations && $tcaCtrl['transOrigPointerField']) {
+                $constraints[] = $tcaCtrl['transOrigPointerField'] . ' = ' . $uid;
+            } else {
+                $constraints[] = 'uid = ' . $uid;
+            }
+        }
+
+        return implode($constraints,
+                ' AND ') . BackendUtility::BEenableFields($this->tableName) . BackendUtility::deleteClause($this->tableName);
     }
 }
