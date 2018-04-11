@@ -69,8 +69,6 @@ class PermalinkWizard
     public function __construct()
     {
         $GLOBALS['SOBE'] = $this;
-        // Define the document template object
-        $this->doc = GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Template\DocumentTemplate::class);
     }
 
     /**

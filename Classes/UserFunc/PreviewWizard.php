@@ -83,9 +83,6 @@ class PreviewWizard
     {
         $this->getLanguageService()->includeLLFile('EXT:cs_templates/Resources/Private/Language/locallang.xlf');
         $GLOBALS['SOBE'] = $this;
-        // Define the document template object
-        $this->doc = GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Template\DocumentTemplate::class);
-        $this->doc->setModuleTemplate('EXT:cs_seo/Resources/Private/Templates/Wizard.html');
     }
 
     /**
