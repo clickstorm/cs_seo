@@ -118,7 +118,7 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 
 			if(newValue != oldValue) {
 				$scope.msg.state = 'wait';
-				$http.post(TYPO3.settings.ajaxUrls['CsSeo::update'], {
+				$http.post(TYPO3.settings.ajaxUrls['tx_csseo_update'], {
 					entry: rowEntity,
 					field : colDef.name,
 					value: newValue

@@ -88,9 +88,9 @@ class ModuleController extends ActionController
      */
     protected $showResults = false;
 
-	/**
-	 * @var \Clickstorm\CsSeo\Utility\TSFEUtility
-	 */
+    /**
+     * @var \Clickstorm\CsSeo\Utility\TSFEUtility
+     */
     protected $TSFEUtility;
 
     /**
@@ -104,52 +104,7 @@ class ModuleController extends ActionController
      * field names with an image relation
      * @var array
      */
-    protected $imageFieldNames = ['tx_csseo_og_image','tx_csseo_tw_image'];
-
-    /**
-     * Initialize action
-     *
-     * @return void
-     */
-    protected function initializeAction()
-    {
-        // initialize page/be_user TSconfig settings
-        $this->id = (int)GeneralUtility::_GP('id');
-        $this->modSharedTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.SHARED');
-        $this->modTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.' . $this->moduleName);
-
-        // initialize settings of the module
-        $this->initializeModParams();
-        if (!$this->request->hasArgument('action') && $this->modParams['action']) {
-            $this->request->setArgument('action', $this->modParams['action']);
-            $this->forward($this->modParams['action']);
-        }
-
-        // get languages
-        $this->languages = $this->getLanguages();
-
-	    $this->TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->id, $this->modParams['lang']);
-    }
-
-    /**
-     * initialize the settings for the current view
-     *
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     */
-    protected function initializeModParams()
-    {
-        foreach ($this->modParams as $name => $value) {
-            $this->modParams[$name] = ((int)GeneralUtility::_GP($name) > 0)
-                ? (int)GeneralUtility::_GP($name)
-                : $this->getBackendUser()->getSessionData(self::SESSION_PREFIX . $name);
-
-            if ($this->request->hasArgument($name)) {
-                $arg = $this->request->getArgument($name);
-                $this->modParams[$name] = ($name == 'action' || $name == 'table') ? $arg : (int)$arg;
-            }
-            $this->getBackendUser()->setAndSaveSessionData(self::SESSION_PREFIX . $name, $this->modParams[$name]);
-        }
-    }
+    protected $imageFieldNames = ['tx_csseo_og_image', 'tx_csseo_tw_image'];
 
     /**
      * Show SEO fields
@@ -173,179 +128,6 @@ class ModuleController extends ActionController
         $this->view->assign('previewSettings', json_encode($previewSettings));
 
         $this->processFields();
-    }
-
-    /**
-     * Show Open Graph properties
-     */
-    public function pageIndexAction()
-    {
-        $this->fieldNames = ['title', 'tx_csseo_canonical', 'tx_csseo_no_index', 'tx_csseo_no_follow', 'no_search'];
-
-        $this->processFields();
-    }
-
-    /**
-     * Show Open Graph properties
-     */
-    public function pageOpenGraphAction()
-    {
-        $this->fieldNames = ['title', 'tx_csseo_og_title', 'tx_csseo_og_description', 'tx_csseo_og_image'];
-
-        $this->processFields();
-    }
-
-    /**
-     * Show Twitter Cards properties
-     */
-    public function pageTwitterCardsAction()
-    {
-        $this->fieldNames =
-            ['title', 'tx_csseo_tw_title', 'tx_csseo_tw_description', 'tx_csseo_tw_creator', 'tx_csseo_tw_site', 'tx_csseo_tw_image'];
-
-        $this->processFields();
-    }
-
-    /**
-     * Show page evaluation results
-     */
-    public function pageResultsAction()
-    {
-        $this->fieldNames = ['title', 'tx_csseo_keyword', 'results'];
-        $this->showResults = true;
-        $this->processFields();
-    }
-
-    /**
-     * Show page evaluation results
-     */
-    public function pageEvaluationAction()
-    {
-        $page = $this->pageRepository->getPage($this->modParams['id']);
-        $extKey = 'cs_seo';
-        $tables = [
-            'pages' => LocalizationUtility::translate($GLOBALS['TCA']['pages']['ctrl']['title'], $extKey)
-        ];
-
-        $tablesToExtend = ConfigurationUtility::getTablesToExtend();
-
-        foreach ($tablesToExtend as $tableToExtend) {
-            $tableSettings = ConfigurationUtility::getTableSettings($tableToExtend);
-            if($tableSettings['evaluation.'] && $tableSettings['evaluation.']['detailPid']) {
-                $tables[$tableToExtend] =
-                    LocalizationUtility::translate($GLOBALS['TCA'][$tableToExtend]['ctrl']['title'], $extKey);
-            }
-        }
-
-        $table = $this->modParams['table'];
-        if ($table && $table != 'pages') {
-            $records = DatabaseUtility::getRecords($table);
-            $record = $this->modParams['record'];
-            if($record) {
-                $evaluation = $this->getEvaluation($record, $table);
-            }
-
-            $this->view->assignMultiple(
-                [
-                    'record' => $record,
-                    'records' => $records
-                ]
-            );
-        } else {
-            $table = 'pages';
-            $languages = [];
-
-            // get available languages
-            $pageOverlays = DatabaseUtility::getPageLanguageOverlays($page['uid']);
-            $languages[0] = $this->languages[0];
-
-            if($pageOverlays) {
-                $languagesUids = array_keys($pageOverlays);
-                foreach($this->languages as $langUid => $languageLabel) {
-                    if($langUid > 0 && in_array($langUid, $languagesUids)) {
-                        $languages[$langUid] = $languageLabel;
-                    }
-                }
-            }
-
-            // get page
-            $languageParam = $this->modParams['lang'];
-            if ($languageParam > 0) {
-                $page = $this->pageRepository->getPageOverlay($page, $languageParam);
-            }
-            $evaluation = $this->getEvaluation($page);
-
-            $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?: 0;
-            $this->view->assignMultiple(
-                [
-                    'lang' => $languageParam,
-                    'languages' => $languages,
-                    'langDisplay' => $this->languages[$langResult]
-                ]
-            );
-        }
-
-        if(isset($evaluation)) {
-            $results = $evaluation->getResults();
-            $score = $results['Percentage'];
-            unset($results['Percentage']);
-            $this->view->assignMultiple(
-                [
-                    'evaluation' => $evaluation,
-                    'score' => $score,
-                    'results' => $results
-                ]
-            );
-        }
-
-        $emConf = ConfigurationUtility::getEmConfiguration();
-
-        $this->view->assignMultiple(
-            [
-                'emConf' => $emConf,
-                'page' => $page,
-                'tables' => $tables,
-                'table' => $table
-            ]
-        );
-    }
-
-    /**
-     * Renders the menu so that it can be returned as response to an AJAX call
-     *
-     * @param array $params Array of parameters from the AJAX interface, currently unused
-     * @param \TYPO3\CMS\Core\Http\AjaxRequestHandler $ajaxObj Object of type AjaxRequestHandler
-     *
-     * @return void
-     */
-    public function update($params = [], \TYPO3\CMS\Core\Http\AjaxRequestHandler &$ajaxObj = null)
-    {
-
-        // get parameter
-        $postdata = file_get_contents("php://input");
-        $attr = json_decode($postdata);
-
-        // prepare data array
-        $tableName = 'pages';
-        $uid = $attr->entry->uid;
-        $field = $attr->field;
-
-        // check for language overlay
-        if ($attr->entry->_PAGES_OVERLAY && isset($GLOBALS['TCA']['pages_language_overlay']['columns'][$field])) {
-            $tableName = 'pages_language_overlay';
-            $uid = $attr->entry->_PAGES_OVERLAY_UID;
-        }
-
-        // update map
-        $data[$tableName][$uid][$field] = $attr->value;
-
-        // update data
-        $dataHandler = $this->getDataHandler();
-        $dataHandler->datamap = $data;
-        $dataHandler->process_datamap();
-        if (!empty($dataHandler->errorLog)) {
-            $ajaxObj->addContent('Error', implode(',', $dataHandler->errorLog));
-        }
     }
 
     /**
@@ -382,35 +164,6 @@ class ModuleController extends ActionController
                 'languages' => $this->languages
             ]
         );
-    }
-
-    /**
-     * returns the final JSON incl. settings for the UI Grid
-     *
-     * @param $rowEntries
-     * @param $columnDefs
-     *
-     * @return string
-     */
-    protected function buildGridJSON($rowEntries, $columnDefs)
-    {
-        $doktypes = '[' . implode(',', ConfigurationUtility::getEvaluationDoktypes()) . ']';
-        return '
-			{
-				data:' . json_encode($rowEntries) . ',
-				columnDefs: [' . implode(',', $columnDefs) . '],
-				enableSorting: true,
-				showTreeExpandNoChildren: false,
-				enableGridMenu: true,
-				expandAll: true,
-				enableFiltering: true,
-				doktypes: ' . $doktypes . ',
-				i18n: \'' . $GLOBALS['LANG']->lang . '\',
-				cellEditableCondition: function($scope) {
-					return (' . $doktypes . '.indexOf(parseInt($scope.row.entity.doktype)) > -1)
-				}
-			}
-		';
     }
 
     /**
@@ -491,6 +244,16 @@ class ModuleController extends ActionController
     }
 
     /**
+     * Returns the language service
+     *
+     * @return LanguageService
+     */
+    protected function getLanguageService()
+    {
+        return $GLOBALS['LANG'];
+    }
+
+    /**
      * recursive function for building a page array
      *
      * @param array $page the current page
@@ -513,7 +276,7 @@ class ModuleController extends ActionController
 
         // add the current language value
         if ($this->modParams['lang'] > 0) {
-            if($page['_PAGES_OVERLAY_UID']) {
+            if ($page['_PAGES_OVERLAY_UID']) {
                 $uid = $page['_PAGES_OVERLAY_UID'];
                 $table = 'pages_language_overlay';
             }
@@ -523,11 +286,11 @@ class ModuleController extends ActionController
 
         // process social media image fields
         foreach ($this->imageFieldNames as $imageFieldName) {
-            if(in_array($imageFieldName, $this->fieldNames)) {
+            if (in_array($imageFieldName, $this->fieldNames)) {
                 $image = '';
-                if($page[$imageFieldName]) {
-                    $imageFile =  DatabaseUtility::getFile($table, $imageFieldName, $uid);
-                    if($imageFile) {
+                if ($page[$imageFieldName]) {
+                    $imageFile = DatabaseUtility::getFile($table, $imageFieldName, $uid);
+                    if ($imageFile) {
                         $image = $imageFile->getPublicUrl();
                     }
                 }
@@ -556,24 +319,8 @@ class ModuleController extends ActionController
                 }
             }
         }
-        return $pages;
-    }
 
-    protected function getEvaluation($record, $table = '') {
-        if ($table) {
-            $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record, $table);
-        } else {
-            if (isset($record['_PAGES_OVERLAY_LANGUAGE'])) {
-                $evaluation =
-                    $this->evaluationRepository->findByUidForeignAndTableName(
-                        $record['_PAGES_OVERLAY_UID'],
-                        'pages_language_overlay'
-                    );
-            } else {
-                $evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$record['uid'], 'pages');
-            }
-        }
-        return $evaluation;
+        return $pages;
     }
 
     /**
@@ -591,7 +338,307 @@ class ModuleController extends ActionController
         if ($evaluation) {
             $results = $evaluation->getResults();
         }
+
         return $results;
+    }
+
+    protected function getEvaluation($record, $table = '')
+    {
+        if ($table) {
+            $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record, $table);
+        } else {
+            if (isset($record['_PAGES_OVERLAY_LANGUAGE'])) {
+                $evaluation =
+                    $this->evaluationRepository->findByUidForeignAndTableName(
+                        $record['_PAGES_OVERLAY_UID'],
+                        'pages_language_overlay'
+                    );
+            } else {
+                $evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$record['uid'], 'pages');
+            }
+        }
+
+        return $evaluation;
+    }
+
+    /**
+     * returns the final JSON incl. settings for the UI Grid
+     *
+     * @param $rowEntries
+     * @param $columnDefs
+     *
+     * @return string
+     */
+    protected function buildGridJSON($rowEntries, $columnDefs)
+    {
+        $doktypes = '[' . implode(',', ConfigurationUtility::getEvaluationDoktypes()) . ']';
+
+        return '
+			{
+				data:' . json_encode($rowEntries) . ',
+				columnDefs: [' . implode(',', $columnDefs) . '],
+				enableSorting: true,
+				showTreeExpandNoChildren: false,
+				enableGridMenu: true,
+				expandAll: true,
+				enableFiltering: true,
+				doktypes: ' . $doktypes . ',
+				i18n: \'' . $GLOBALS['LANG']->lang . '\',
+				cellEditableCondition: function($scope) {
+					return (' . $doktypes . '.indexOf(parseInt($scope.row.entity.doktype)) > -1)
+				}
+			}
+		';
+    }
+
+    /**
+     * Show Open Graph properties
+     */
+    public function pageIndexAction()
+    {
+        $this->fieldNames = ['title', 'tx_csseo_canonical', 'tx_csseo_no_index', 'tx_csseo_no_follow', 'no_search'];
+
+        $this->processFields();
+    }
+
+    /**
+     * Show Open Graph properties
+     */
+    public function pageOpenGraphAction()
+    {
+        $this->fieldNames = ['title', 'tx_csseo_og_title', 'tx_csseo_og_description', 'tx_csseo_og_image'];
+
+        $this->processFields();
+    }
+
+    /**
+     * Show Twitter Cards properties
+     */
+    public function pageTwitterCardsAction()
+    {
+        $this->fieldNames =
+            [
+                'title',
+                'tx_csseo_tw_title',
+                'tx_csseo_tw_description',
+                'tx_csseo_tw_creator',
+                'tx_csseo_tw_site',
+                'tx_csseo_tw_image'
+            ];
+
+        $this->processFields();
+    }
+
+    /**
+     * Show page evaluation results
+     */
+    public function pageResultsAction()
+    {
+        $this->fieldNames = ['title', 'tx_csseo_keyword', 'results'];
+        $this->showResults = true;
+        $this->processFields();
+    }
+
+    /**
+     * Show page evaluation results
+     */
+    public function pageEvaluationAction()
+    {
+        $page = $this->pageRepository->getPage($this->modParams['id']);
+        $extKey = 'cs_seo';
+        $tables = [
+            'pages' => LocalizationUtility::translate($GLOBALS['TCA']['pages']['ctrl']['title'], $extKey)
+        ];
+
+        $tablesToExtend = ConfigurationUtility::getTablesToExtend();
+
+        foreach ($tablesToExtend as $tableToExtend) {
+            $tableSettings = ConfigurationUtility::getTableSettings($tableToExtend);
+            if ($tableSettings['evaluation.'] && $tableSettings['evaluation.']['detailPid']) {
+                $tables[$tableToExtend] =
+                    LocalizationUtility::translate($GLOBALS['TCA'][$tableToExtend]['ctrl']['title'], $extKey);
+            }
+        }
+
+        $table = $this->modParams['table'];
+        if ($table && $table != 'pages') {
+            $records = DatabaseUtility::getRecords($table);
+            $record = $this->modParams['record'];
+            if ($record) {
+                $evaluation = $this->getEvaluation($record, $table);
+            }
+
+            $this->view->assignMultiple(
+                [
+                    'record' => $record,
+                    'records' => $records
+                ]
+            );
+        } else {
+            $table = 'pages';
+            $languages = [];
+
+            // get available languages
+            $pageOverlays = DatabaseUtility::getPageLanguageOverlays($page['uid']);
+            $languages[0] = $this->languages[0];
+
+            if ($pageOverlays) {
+                $languagesUids = array_keys($pageOverlays);
+                foreach ($this->languages as $langUid => $languageLabel) {
+                    if ($langUid > 0 && in_array($langUid, $languagesUids)) {
+                        $languages[$langUid] = $languageLabel;
+                    }
+                }
+            }
+
+            // get page
+            $languageParam = $this->modParams['lang'];
+            if ($languageParam > 0) {
+                $page = $this->pageRepository->getPageOverlay($page, $languageParam);
+            }
+            $evaluation = $this->getEvaluation($page);
+
+            $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?: 0;
+            $this->view->assignMultiple(
+                [
+                    'lang' => $languageParam,
+                    'languages' => $languages,
+                    'langDisplay' => $this->languages[$langResult]
+                ]
+            );
+        }
+
+        if (isset($evaluation)) {
+            $results = $evaluation->getResults();
+            $score = $results['Percentage'];
+            unset($results['Percentage']);
+            $this->view->assignMultiple(
+                [
+                    'evaluation' => $evaluation,
+                    'score' => $score,
+                    'results' => $results
+                ]
+            );
+        }
+
+        $emConf = ConfigurationUtility::getEmConfiguration();
+
+        $this->view->assignMultiple(
+            [
+                'emConf' => $emConf,
+                'page' => $page,
+                'tables' => $tables,
+                'table' => $table
+            ]
+        );
+    }
+
+    /**
+     * Renders the menu so that it can be returned as response to an AJAX call
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function update(
+        \Psr\Http\Message\ServerRequestInterface $request,
+        \Psr\Http\Message\ResponseInterface $response
+    ) {
+
+        // get parameter
+        $postdata = file_get_contents("php://input");
+        $attr = json_decode($postdata);
+
+        // prepare data array
+        $tableName = 'pages';
+        $uid = $attr->entry->uid;
+        $field = $attr->field;
+
+        // check for language overlay
+        if ($attr->entry->_PAGES_OVERLAY && isset($GLOBALS['TCA']['pages_language_overlay']['columns'][$field])) {
+            $tableName = 'pages_language_overlay';
+            $uid = $attr->entry->_PAGES_OVERLAY_UID;
+        }
+
+        // update map
+        $data[$tableName][$uid][$field] = $attr->value;
+
+        // update data
+        $dataHandler = $this->getDataHandler();
+        $dataHandler->datamap = $data;
+        $dataHandler->process_datamap();
+        if (!empty($dataHandler->errorLog)) {
+            $response->getBody()->write('Error: ' . implode(',', $dataHandler->errorLog));
+        }
+
+        return $response;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Core\DataHandling\DataHandler
+     */
+    public function getDataHandler()
+    {
+        if (!isset($this->dataHandler)) {
+            $this->dataHandler = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
+            $this->dataHandler->start(null, null);
+        }
+
+        return $this->dataHandler;
+    }
+
+    /**
+     * Initialize action
+     *
+     * @return void
+     */
+    protected function initializeAction()
+    {
+        // initialize page/be_user TSconfig settings
+        $this->id = (int)GeneralUtility::_GP('id');
+        $this->modSharedTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.SHARED');
+        $this->modTSconfig = BackendUtility::getModTSconfig($this->id, 'mod.' . $this->moduleName);
+
+        // initialize settings of the module
+        $this->initializeModParams();
+        if (!$this->request->hasArgument('action') && $this->modParams['action']) {
+            $this->request->setArgument('action', $this->modParams['action']);
+            $this->forward($this->modParams['action']);
+        }
+
+        // get languages
+        $this->languages = $this->getLanguages();
+
+        $this->TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->id, $this->modParams['lang']);
+    }
+
+    /**
+     * initialize the settings for the current view
+     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     */
+    protected function initializeModParams()
+    {
+        foreach ($this->modParams as $name => $value) {
+            $this->modParams[$name] = ((int)GeneralUtility::_GP($name) > 0)
+                ? (int)GeneralUtility::_GP($name)
+                : $this->getBackendUser()->getSessionData(self::SESSION_PREFIX . $name);
+
+            if ($this->request->hasArgument($name)) {
+                $arg = $this->request->getArgument($name);
+                $this->modParams[$name] = ($name == 'action' || $name == 'table') ? $arg : (int)$arg;
+            }
+            $this->getBackendUser()->setAndSaveSessionData(self::SESSION_PREFIX . $name, $this->modParams[$name]);
+        }
+    }
+
+    /**
+     * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+     */
+    protected function getBackendUser()
+    {
+        return $GLOBALS['BE_USER'];
     }
 
     /**
@@ -624,19 +671,8 @@ class ModuleController extends ActionController
                     ? $this->modTSconfig['properties']['defaultLanguageLabel']
                     : $this->modSharedTSconfig['properties']['defaultLanguageLabel'];
         }
-        return $languages;
-    }
 
-    /**
-     * @return \TYPO3\CMS\Core\DataHandling\DataHandler
-     */
-    public function getDataHandler()
-    {
-        if (!isset($this->dataHandler)) {
-            $this->dataHandler = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
-            $this->dataHandler->start(null, null);
-        }
-        return $this->dataHandler;
+        return $languages;
     }
 
     /**
@@ -647,23 +683,5 @@ class ModuleController extends ActionController
     protected function getDatabaseConnection()
     {
         return $GLOBALS['TYPO3_DB'];
-    }
-
-    /**
-     * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
-     */
-    protected function getBackendUser()
-    {
-        return $GLOBALS['BE_USER'];
-    }
-
-    /**
-     * Returns the language service
-     *
-     * @return LanguageService
-     */
-    protected function getLanguageService()
-    {
-        return $GLOBALS['LANG'];
     }
 }

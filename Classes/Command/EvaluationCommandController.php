@@ -33,7 +33,6 @@ use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Service\FrontendPageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Http\AjaxRequestHandler;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -79,42 +78,6 @@ class EvaluationCommandController extends CommandController
     }
 
     /**
-     * make the ajax update
-     *
-     * @param array $params Array of parameters from the AJAX interface, currently unused
-     * @param AjaxRequestHandler $ajaxObj Object of type AjaxRequestHandler
-     *
-     * @return void
-     */
-    public function ajaxUpdate($params = [], AjaxRequestHandler &$ajaxObj = null)
-    {
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
-        $this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
-
-        // get parameter
-        $table = '';
-        if (empty($params)) {
-            $uid = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['uid'];
-            $table = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['table'];
-        } else {
-            $attr = $params['request']->getParsedBody();
-            $uid = $attr['uid'];
-            $table = $attr['table'];
-        }
-        if ($table != '') {
-            $this->tableName = $table;
-        }
-        $this->processResults($uid);
-
-        /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
-        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-        /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
-        $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
-        $ajaxObj->addContent('messages', $flashMessageQueue->renderFlashMessages());
-    }
-
-    /**
      * @param int $uid
      * @param bool $localized
      */
@@ -127,6 +90,82 @@ class EvaluationCommandController extends CommandController
         if (!$localized) {
             $this->processResults($uid, true);
         }
+    }
+
+    /**
+     * @param $uid
+     * @param bool $localizations
+     *
+     * @return string
+     */
+    protected function buildQuery($uid, $localizations = false)
+    {
+        $constraints = ['1'];
+        $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
+        $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
+
+        // only with doktype page
+        if ($this->tableName == 'pages') {
+            $constraints[] = 'doktype IN (' . implode(',', $allowedDoktypes) . ')';
+        }
+
+        // check localization
+        if ($localizations) {
+            if ($tcaCtrl['transForeignTable']) {
+                $this->tableName = $tcaCtrl['transForeignTable'];
+                $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
+            } else {
+                if ($tcaCtrl['languageField']) {
+                    $constraints[] = $tcaCtrl['languageField'] . ' > 0';
+                } elseif ($this->tableName == 'pages') {
+                    $this->tableName = 'pages_language_overlay';
+                    $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
+                }
+            }
+        }
+
+        // if single uid
+        if ($uid > 0) {
+            if ($localizations && $tcaCtrl['transOrigPointerField']) {
+                $constraints[] = $tcaCtrl['transOrigPointerField'] . ' = ' . $uid;
+            } else {
+                $constraints[] = 'uid = ' . $uid;
+            }
+        }
+
+        return implode($constraints,
+                ' AND ') . BackendUtility::BEenableFields($this->tableName) . BackendUtility::deleteClause($this->tableName);
+    }
+
+    /**
+     * @param $where
+     *
+     * @return array
+     */
+    protected function getAllItems($where)
+    {
+        $items = [];
+
+        $res = $this->getDatabaseConnection()->exec_SELECTquery(
+            '*',
+            $this->tableName,
+            $where
+        );
+        while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+            $items[] = $row;
+        }
+
+        return $items;
+    }
+
+    /**
+     * Returns the database connection
+     *
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    protected function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
     }
 
     /**
@@ -148,6 +187,38 @@ class EvaluationCommandController extends CommandController
                 $this->saveChanges($results, $item['uid'], $frontendPage['url']);
             }
         }
+    }
+
+    /**
+     * Get Keyword from record or page
+     *
+     * @param $record
+     * @return string
+     */
+    protected function getFocusKeyword($record)
+    {
+        $keyword = '';
+        if ($record['tx_csseo']) {
+            $metaTableName = 'tx_csseo_domain_model_meta';
+            $where = 'tablenames = \'' . $this->getDatabaseConnection()->quoteStr($this->tableName,
+                    $metaTableName) . '\'';
+            $where .= ' AND uid_foreign = ' . $record['uid'];
+            $where .= BackendUtility::BEenableFields($metaTableName);
+            $where .= BackendUtility::deleteClause($metaTableName);
+            $res = $this->getDatabaseConnection()->exec_SELECTquery(
+                'keyword',
+                $metaTableName,
+                $where
+            );
+
+            while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
+                $keyword = $row['keyword'];
+            }
+        } else {
+            $keyword = $record['tx_csseo_keyword'];
+        }
+
+        return $keyword;
     }
 
     /**
@@ -182,97 +253,43 @@ class EvaluationCommandController extends CommandController
     }
 
     /**
-     * @param $uid
-     * @param bool $localizations
+     * make the ajax update
      *
-     * @return string
-     */
-    protected function buildQuery($uid, $localizations = false)
-    {
-        $constraints = ['1'];
-        $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
-        $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
-
-        // only with doktype page
-        if ($this->tableName == 'pages') {
-            $constraints[] = 'doktype IN (' . implode(',', $allowedDoktypes) . ')';
-        }
-
-        // check localization
-        if ($localizations) {
-            if ($tcaCtrl['transForeignTable']) {
-                $this->tableName = $tcaCtrl['transForeignTable'];
-	            $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
-            } else {
-                if ($tcaCtrl['languageField']) {
-                    $constraints[] = $tcaCtrl['languageField'] . ' > 0';
-                } elseif ($this->tableName == 'pages') {
-	                $this->tableName = 'pages_language_overlay';
-	                $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
-                }
-            }
-        }
-
-        // if single uid
-        if ($uid > 0) {
-            if ($localizations && $tcaCtrl['transOrigPointerField']) {
-	            $constraints[] = $tcaCtrl['transOrigPointerField'] . ' = ' . $uid;
-            } else {
-                $constraints[] = 'uid = ' . $uid;
-            }
-        }
-        return implode($constraints, ' AND ') . BackendUtility::BEenableFields($this->tableName) . BackendUtility::deleteClause($this->tableName);
-    }
-
-    /**
-     * @param $where
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface $response
      *
-     * @return array
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function getAllItems($where)
-    {
-        $items = [];
+    public function ajaxUpdate(
+        \Psr\Http\Message\ServerRequestInterface $request,
+        \Psr\Http\Message\ResponseInterface $response
+    ) {
+        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
+        $this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
 
-        $res = $this->getDatabaseConnection()->exec_SELECTquery(
-            '*',
-            $this->tableName,
-            $where
-        );
-        while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
-            $items[] = $row;
-        }
-        return $items;
-    }
-
-    /**
-     * Get Keyword from record or page
-     *
-     * @param $record
-     * @return string
-     */
-    protected function getFocusKeyword($record)
-    {
-        $keyword = '';
-        if ($record['tx_csseo']) {
-            $metaTableName = 'tx_csseo_domain_model_meta';
-            $where = 'tablenames = \'' . $this->getDatabaseConnection()->quoteStr($this->tableName,
-                    $metaTableName) . '\'';
-            $where .= ' AND uid_foreign = ' . $record['uid'];
-            $where .= BackendUtility::BEenableFields($metaTableName);
-            $where .= BackendUtility::deleteClause($metaTableName);
-            $res = $this->getDatabaseConnection()->exec_SELECTquery(
-                'keyword',
-                $metaTableName,
-                $where
-            );
-
-            while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($res)) {
-                $keyword = $row['keyword'];
-            }
+        // get parameter
+        $table = '';
+        if (empty($params)) {
+            $uid = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['uid'];
+            $table = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['table'];
         } else {
-            $keyword = $record['tx_csseo_keyword'];
+            $attr = $params['request']->getParsedBody();
+            $uid = $attr['uid'];
+            $table = $attr['table'];
         }
-        return $keyword;
+        if ($table != '') {
+            $this->tableName = $table;
+        }
+        $this->processResults($uid);
+
+        /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+        /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
+        $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
+        $response->getBody()->write($flashMessageQueue->renderFlashMessages());
+
+        return $response;
     }
 
     /**
@@ -289,15 +306,5 @@ class EvaluationCommandController extends CommandController
     public function setTableName($tableName)
     {
         $this->tableName = $tableName;
-    }
-
-    /**
-     * Returns the database connection
-     *
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    protected function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
     }
 }

@@ -15,7 +15,7 @@
 
             $evaluateButton.before('<p class="cs-wait">...</p>');
             $.post(
-                TYPO3.settings.ajaxUrls['CsSeo::evaluate'],
+                TYPO3.settings.ajaxUrls['tx_csseo_evaluate'],
                 {
                     uid: $this.data('uid'),
                     table: $this.data('table')
