@@ -16,7 +16,7 @@ if($extConf['enablePathSegment'] && isset($GLOBALS['TCA']['pages_language_overla
         '_POSITION' => 'bottom',
         'permalinkWizard' => [
             'type' => 'userFunc',
-            'userFunc' => 'Clickstorm\\CsSeo\\UserFunc\\PermalinkWizard->render'
+            'userFunc' => \Clickstorm\CsSeo\UserFunc\PermalinkWizard::class . '->render'
         ]
     ];
 }
@@ -34,7 +34,7 @@ $tempColumns = [
                 '_POSITION' => 'bottom',
                 'previewWizard' => [
                     'type' => 'userFunc',
-                    'userFunc' => 'Clickstorm\\CsSeo\\UserFunc\\PreviewWizard->render'
+                    'userFunc' => \Clickstorm\CsSeo\UserFunc\PreviewWizard::class . '->render'
                 ]
             ]
         ]

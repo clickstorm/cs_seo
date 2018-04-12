@@ -146,7 +146,7 @@ return [
 					'_POSITION' => 'bottom',
 					'previewWizard' => [
 						'type' => 'userFunc',
-						'userFunc' => 'Clickstorm\\CsSeo\\UserFunc\\PreviewWizard->render'
+                        'userFunc' => \Clickstorm\CsSeo\UserFunc\PreviewWizard::class . '->render'
 					]
 				]
 			]
