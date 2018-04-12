@@ -48,16 +48,6 @@ use TYPO3\CMS\Frontend\Page\PageGenerator;
  */
 class PreviewWizard
 {
-
-    /**
-     * The document template object
-     *
-     * Needs to be a local variable of the class.
-     *
-     * @var \TYPO3\CMS\Backend\Template\DocumentTemplate
-     */
-    public $doc;
-
     /**
      * @var PageRenderer
      */
