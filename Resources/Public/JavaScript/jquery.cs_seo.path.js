@@ -20,10 +20,10 @@
         // check if path segment is empty or is siteroot
         if($inputPathSegment.val() == '') {
             var initialTitle = $('input[name$="[nav_title]"]').val();
-            if(initialTitle == '') {
+            if(!initialTitle) {
 	            initialTitle = $('input[name$="[title]"]').val();
             }
-            if(initialTitle == '' || initialTitle == '[Default Title]') {
+            if(!initialTitle || initialTitle == '[Default Title]') {
                 $inputPageTitleHR.on('keyup.csseopath', function() {
                     updatePathSegment($inputPageTitleHR.val());
                 });
