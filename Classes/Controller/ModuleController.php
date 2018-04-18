@@ -163,7 +163,8 @@ class ModuleController extends ActionController
                 'pageJSON' => $this->buildGridJSON($rowEntries, $columnDefs),
                 'depth' => $this->modParams['depth'],
                 'lang' => $this->modParams['lang'],
-                'languages' => $this->languages
+                'languages' => $this->languages,
+                'action' => $this->modParams['action']
             ]
         );
     }
