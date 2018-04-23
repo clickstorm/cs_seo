@@ -281,4 +281,4 @@
         return oldval;
     }
 
-})((TYPO3.jQuery));
+})((TYPO3.jQuery || jQuery || $));

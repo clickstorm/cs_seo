@@ -85,4 +85,4 @@
         }
 
     });
-})(TYPO3.jQuery || jQuery);
+})(TYPO3.jQuery || jQuery || $);

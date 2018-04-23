@@ -61,4 +61,4 @@
         }
 
     });
-})(TYPO3.jQuery, TYPO3);
+})(TYPO3.jQuery || jQuery || $);

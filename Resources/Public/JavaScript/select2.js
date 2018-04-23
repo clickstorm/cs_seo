@@ -5713,4 +5713,4 @@
 
 	// Return the Select2 instance for anyone who is importing it.
 	return select2;
-})(TYPO3.jQuery || jQuery);
+})(TYPO3.jQuery || jQuery || $);
