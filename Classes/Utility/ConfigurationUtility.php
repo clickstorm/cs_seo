@@ -59,8 +59,7 @@ class ConfigurationUtility
         $extConf = self::getEmConfiguration();
         $tsConfigPid = $extConf['tsConfigPid'] ?: 1;
 
-        $rootLine = \TYPO3\CMS\Backend\Utility\BackendUtility::BEgetRootLine($tsConfigPid, '', true);
-        $pageTSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($tsConfigPid, $rootLine);
+        $pageTSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($tsConfigPid);
         return $pageTSconfig['tx_csseo.'] ?: [];
     }
 
