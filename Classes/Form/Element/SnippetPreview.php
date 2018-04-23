@@ -1,5 +1,5 @@
 <?php
-namespace Clickstorm\CsSeo\UserFunc;
+namespace Clickstorm\CsSeo\Form\Element;
 
 /***************************************************************
  *  Copyright notice
@@ -28,6 +28,10 @@ namespace Clickstorm\CsSeo\UserFunc;
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
+use TYPO3\CMS\Backend\Form\AbstractNode;
+use TYPO3\CMS\Backend\Form\Element\InputTextElement;
+use TYPO3\CMS\Backend\Form\Element\TextElement;
+use TYPO3\CMS\Backend\Form\NodeFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -46,7 +50,7 @@ use TYPO3\CMS\Frontend\Page\PageGenerator;
  *
  * @package Clickstorm\CsSeo\UserFunc
  */
-class PreviewWizard
+class SnippetPreview extends AbstractNode
 {
     /**
      * @var PageRenderer
@@ -59,39 +63,26 @@ class PreviewWizard
     protected $typeNum = 654;
 
     /**
-     * Constructs this view
-     *
-     * Defines the global variable SOBE. Normally this is used by the wizards
-     * which are one file only. This view is now the class with the global
-     * variable name SOBE.
-     *
-     * Defines the document template object.
-     *
-     * @see \TYPO3\CMS\Backend\Template\DocumentTemplate
-     */
-    public function __construct()
-    {
-        $this->getLanguageService()->includeLLFile('EXT:cs_templates/Resources/Private/Language/locallang.xlf');
-        $GLOBALS['SOBE'] = $this;
-    }
-
-    /**
      * @param array $cont
      * @param \TYPO3\CMS\Backend\Form\Element\InputTextElement $inputTextElement
      *
      * @return string
      */
-    public function render($cont, $inputTextElement)
+    public function render()
     {
+        // first get input element
+        $inputField = GeneralUtility::makeInstance(InputTextElement::class, $this->nodeFactory, $this->data);
+        $resultArray = $inputField->render();
+
         // Load necessary JavaScript
         $this->loadJavascript();
         // Load necessary CSS
         $this->loadCss();
 
-        // get Content
-        $content = $this->getBodyContent($cont['row'], $cont['table']);
+        // add wizard content
+        $resultArray['html'] .= $this->getBodyContent($this->data['databaseRow'], $this->data['table']);
 
-        return $content;
+        return $resultArray;
     }
 
     /**

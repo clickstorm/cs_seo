@@ -140,15 +140,9 @@ return [
 			'exclude' => 1,
 			'config' => [
 				'type' => 'input',
+                'renderType' => 'snippetPreview',
 				'max' => $extConf['maxTitle'],
-				'eval' => 'trim',
-				'wizards' => [
-					'_POSITION' => 'bottom',
-					'previewWizard' => [
-						'type' => 'userFunc',
-                        'userFunc' => \Clickstorm\CsSeo\UserFunc\PreviewWizard::class . '->render'
-					]
-				]
+				'eval' => 'trim'
 			]
 		],
 		'description' => [
