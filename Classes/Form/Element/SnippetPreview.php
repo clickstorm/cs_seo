@@ -40,6 +40,7 @@ use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
@@ -166,7 +167,14 @@ class SnippetPreview extends AbstractNode
 
                     if ($table == 'pages' || $table == 'pages_language_overlay') {
                         $GLOBALS['TSFE']->config['config']['noPageTitle'] = 0;
-                        PageGenerator::generatePageTitle();
+
+                        /** @TODO remove in 10 */
+                        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 9000000) {
+                            $GLOBALS['TSFE']->generatePageTitle();
+                        } else {
+                            PageGenerator::generatePageTitle();
+                        }
+
                         $pageTitle = static::getPageRenderer()->getTitle();
                         // get page path
                         $path = $TSFEUtility->getPagePath();
