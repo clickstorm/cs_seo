@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\Form\Element;
 
 /***************************************************************
@@ -63,10 +64,9 @@ class SnippetPreview extends AbstractNode
     protected $typeNum = 654;
 
     /**
-     * @param array $cont
-     * @param \TYPO3\CMS\Backend\Form\Element\InputTextElement $inputTextElement
+     * Render the input field with additional snippet preview
      *
-     * @return string
+     * @return array
      */
     public function render()
     {
@@ -75,45 +75,15 @@ class SnippetPreview extends AbstractNode
         $resultArray = $inputField->render();
 
         // Load necessary JavaScript
-        $this->loadJavascript();
+        $resultArray['requireJsModules'] = $this->loadJavascript();
+
         // Load necessary CSS
-        $this->loadCss();
+        $resultArray['stylesheetFiles'] = $this->loadCss();
 
         // add wizard content
-        $resultArray['html'] .= $this->getBodyContent($this->data['databaseRow'], $this->data['table']);
+        $resultArray['html'] .= $this->getBodyContent($this->data['databaseRow'], $this->data['tableName']);
 
         return $resultArray;
-    }
-
-    /**
-     * Load the necessary javascript
-     *
-     * This will only be done when the referenced record is available
-     *
-     * @return void
-     */
-    protected function loadJavascript()
-    {
-        $compress = true;
-        $javascriptFiles = [
-            'jquery.cs_seo.preview.js'
-        ];
-        // Load jquery
-        $this->getPageRenderer()->loadJquery();
-        // Load the wizards javascript
-        $baseUrl = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Public/JavaScript/';
-        foreach ($javascriptFiles as $javascriptFile) {
-            $this->getPageRenderer()->addJsFile(
-                $baseUrl . $javascriptFile,
-                'text/javascript',
-                $compress,
-                false,
-                '',
-                false,
-                '|',
-                true
-            );
-        }
     }
 
     /**
@@ -121,20 +91,32 @@ class SnippetPreview extends AbstractNode
      *
      * This will only be done when the referenced record is available
      *
-     * @return void
+     * @return array
      */
     protected function loadCss()
     {
-        // @todo Set to TRUE when finished
-        $compress = false;
+        $stylesheetFiles = [];
         $cssFiles = [
             'Wizard.css'
         ];
         $baseUrl = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Public/CSS/';
         // Load the wizards css
         foreach ($cssFiles as $cssFile) {
-            $this->getPageRenderer()->addCssFile($baseUrl . $cssFile, 'stylesheet', 'all', '', $compress, false);
+            $stylesheetFiles[] = $baseUrl . $cssFile;
         }
+        return $stylesheetFiles;
+    }
+
+    /**
+     * @return PageRenderer
+     */
+    protected function getPageRenderer()
+    {
+        if (!isset($this->pageRenderer)) {
+            $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        }
+
+        return $this->pageRenderer;
     }
 
     /**
@@ -173,7 +155,8 @@ class SnippetPreview extends AbstractNode
                 $rootline = BackendUtility::BEgetRootLine($pageUid);
 
                 /** @var TSFEUtility $TSFEUtility */
-                $TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $pageUid, (int)$data['sys_language_uid']);
+                $TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $pageUid,
+                    (int)$data['sys_language_uid']);
                 $fallback = [];
 
                 if (isset($GLOBALS['TSFE'])) {
@@ -193,7 +176,7 @@ class SnippetPreview extends AbstractNode
                         // check if path is absolute
                         if (strpos($path, '://') !== false) {
                             $pathData = parse_url($path);
-                            if(isset($pathData['path']) && !empty($pathData['path'])) {
+                            if (isset($pathData['path']) && !empty($pathData['path'])) {
                                 $path = ltrim($pathData['path'], '/');
                             } else {
                                 $path = '';
@@ -231,7 +214,7 @@ class SnippetPreview extends AbstractNode
                                 ->removeAll();
 
                             $res = $queryBuilder->select('*')
-                                ->from( $data['tablenames'])
+                                ->from($data['tablenames'])
                                 ->where(
                                     $queryBuilder->expr()->eq('uid',
                                         $queryBuilder->createNamedParameter($data['uid_foreign'], \PDO::PARAM_INT))
@@ -278,18 +261,24 @@ class SnippetPreview extends AbstractNode
         } else {
             $wizardView->assign('error', 'no_data');
         }
+
         return $wizardView->render();
     }
 
     /**
-     * @return PageRenderer
+     * Load the necessary javascript
+     *
+     * This will only be done when the referenced record is available
+     *
+     * @return array
      */
-    protected function getPageRenderer()
+    protected function loadJavascript()
     {
-        if (!isset($this->pageRenderer)) {
-            $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        }
-        return $this->pageRenderer;
+        return [
+            'snippetPreview' => [
+                'TYPO3/CMS/CsSeo/FormEngine/Element/SnippetPreview' => 'function(SnippetPreview){SnippetPreview.initialize()}'
+            ]
+        ];
     }
 
     /**
