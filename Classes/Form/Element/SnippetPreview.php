@@ -100,10 +100,10 @@ class SnippetPreview extends AbstractNode
         $cssFiles = [
             'Wizard.css'
         ];
-        $baseUrl = ExtensionManagementUtility::siteRelPath('cs_seo') . 'Resources/Public/CSS/';
+        $baseUrl = PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('cs_seo')) . 'Resources/Public/CSS/';
         // Load the wizards css
         foreach ($cssFiles as $cssFile) {
-            $stylesheetFiles[] = '../'.$baseUrl . $cssFile;
+            $stylesheetFiles[] = $baseUrl . $cssFile;
         }
         return $stylesheetFiles;
     }
