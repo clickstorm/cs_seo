@@ -20,4 +20,5 @@ Here are some hints for admins. How to install the extension.
 	Installation/Index
 	Migration/Index
 	ExtensionManagerConf/Index
+	SchedulerTask/Index
 	TroubleShooting/Index
