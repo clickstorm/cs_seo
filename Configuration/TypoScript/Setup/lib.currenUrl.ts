@@ -5,9 +5,21 @@ lib.currentUrl {
 		parameter.data = page:tx_csseo_canonical // page:content_from_pid // page:uid
 		forceAbsoluteUrl = 1
 		returnLast = url
-		# use only params that are considered for the cache
-		additionalParams.data = tx_csseo_url_parameters
 		# add cHash
 		useCacheHash = 1
+
+		# use only params that are considered for the cache
+		additionalParams {
+			data = tx_csseo_url_parameters
+
+			# respect content_fallback
+			append = TEXT
+			append {
+				required = 1
+				data = page:_PAGES_OVERLAY_LANGUAGE
+				ifEmpty = 0
+				wrap = &L=|
+			}
+		}
 	}
 }
