@@ -47,4 +47,8 @@ if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
         'priority' => 30,
         'class' => \Clickstorm\CsSeo\Form\Element\SnippetPreview::class,
     ];
+
+    // add hook to get current cHash params
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['getData'][$_EXTKEY] =
+        \Clickstorm\CsSeo\Hook\CurrentUrlGetDataHook::class;
 }
