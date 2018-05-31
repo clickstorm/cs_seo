@@ -56,8 +56,8 @@ page.headerData.654 {
 							preUserFunc.field = tx_csseo_og_image
 							ifEmpty.data = path:{$plugin.tx_csseo.social.defaultImage}
 						}
-						height < plugin.tx_csseo.social.openGraph.image.height
-						width < plugin.tx_csseo.social.openGraph.image.width
+						height = {$plugin.tx_csseo.social.openGraph.image.height}
+						width = {$plugin.tx_csseo.social.openGraph.image.width}
 					}
 				}
 				returnLast = url
