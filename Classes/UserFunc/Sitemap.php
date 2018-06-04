@@ -27,11 +27,13 @@ namespace Clickstorm\CsSeo\UserFunc;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use In2code\Powermail\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\CMS\Extensionmanager\Utility\DatabaseUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -211,8 +213,15 @@ class Sitemap
         $table = $extConf['table'];
         $constraints = [];
 
+        $accessTimeStamp = (int)$GLOBALS['SIM_ACCESS_TIME'];
+
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+
+        // remove all restrictions for join
+        $queryBuilder
+            ->getRestrictions()
+            ->removeAll();
 
         $queryBuilder->select($table . '.uid')->from($table);
 
@@ -234,7 +243,7 @@ class Sitemap
             // lang
             $languageField = $tca['ctrl']['languageField'];
             if ($languageField) {
-                $constraints[] = $queryBuilder->expr()->in($languageField, [$lang, -1]);
+                $constraints[] = $queryBuilder->expr()->in($table . '.' . $languageField, [$lang, -1]);
                 $queryBuilder->addSelect($table . '.' . $languageField . ' AS lang');
             }
 
@@ -243,26 +252,65 @@ class Sitemap
                 $queryBuilder->addSelect($table . '.' . $tca['ctrl']['tstamp'] . ' AS lastmod');
             }
 
+            // hidden
+            if ($tca['ctrl']['enablecolumns']['disabled']) {
+                $constraints[] =  $queryBuilder->expr()->eq($table . '.' . $tca['ctrl']['enablecolumns']['disabled'], 0);
+            }
+
+            // deleted
+            if ($tca['ctrl']['enablecolumns']['delete']) {
+                $constraints[] =  $queryBuilder->expr()->eq($table . '.' . $tca['ctrl']['enablecolumns']['delete'], 0);
+            }
+
+            // starttime
+            if ($tca['ctrl']['enablecolumns']['starttime']) {
+                $constraints[] = $queryBuilder->expr()->lte(
+                    $table . '.' . $tca['ctrl']['enablecolumns']['starttime'],
+                    $accessTimeStamp
+                );
+            }
+
+            // endtime
+            if ($tca['ctrl']['enablecolumns']['endtime']) {
+                $endTimeColumn = $table . '.' . $tca['ctrl']['enablecolumns']['endtime'];
+                $constraints[] = $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->eq($endTimeColumn, 0),
+                    $queryBuilder->expr()->gt($endTimeColumn, $accessTimeStamp)
+                );
+            }
+
             // no index
             if ($tca['columns']['tx_csseo']) {
+                $metaTableAlias = 'meta';
                 $queryBuilder->leftJoin(
                     $table,
                     'tx_csseo_domain_model_meta',
-                    'meta',
+                    $metaTableAlias,
                     $queryBuilder->expr()->eq('meta.uid_foreign', $queryBuilder->quoteIdentifier($table . '.uid'))
                 );
 
                 $constraints[] = $queryBuilder->expr()->orX(
                     $queryBuilder->expr()->eq($table . '.tx_csseo', 0),
                     $queryBuilder->expr()->andX(
-                        $queryBuilder->expr()->eq('meta.tablenames', $queryBuilder->createNamedParameter($table)),
-                        $queryBuilder->expr()->eq('meta.no_index', 0)
+                        $queryBuilder->expr()->eq($metaTableAlias . '.tablenames', $queryBuilder->createNamedParameter($table, \PDO::PARAM_STR)),
+                        $queryBuilder->expr()->eq($metaTableAlias . '.no_index', 0),
+                        $queryBuilder->expr()->eq($metaTableAlias . '.hidden', 0),
+                        $queryBuilder->expr()->eq($metaTableAlias . '.deleted', 0),
+                        $queryBuilder->expr()->lte(
+                            $metaTableAlias . '.starttime',
+                            $accessTimeStamp
+                        ),
+                        $queryBuilder->expr()->orX(
+                            $queryBuilder->expr()->eq($metaTableAlias . '.endtime', 0),
+                            $queryBuilder->expr()->gt($metaTableAlias . '.endtime', $accessTimeStamp)
+                        )
                     )
                 );
             }
         }
 
         // categories
+        // @TODO: add query restrictions
         if ($extConf['categoryField']) {
             $catField = $extConf['categoryField'];
             if ($extConf['categories']) {
@@ -287,7 +335,7 @@ class Sitemap
         if ($extConf['categoryMMTable']) {
             $catMMTable = $extConf['categoryMMTable'];
 
-            $queryBuilder->leftJoin(
+            $queryBuilder->join(
                 $table,
                 $catMMTable,
                 'categoryMM',
@@ -319,17 +367,11 @@ class Sitemap
             }
         }
 
-        /** @TODO add signal for addition where clause */
-//        if ($extConf['additionalWhereClause']) {
-//            $constraints[] = $extConf['additionalWhereClause'];
-//        }
+        /** @var Dispatcher $signalSlotDispatcher */
+        $signalSlotDispatcher = ObjectUtility::getObjectManager()->get(Dispatcher::class);
+        $signalSlotDispatcher->dispatch(__CLASS__, 'sitemapAdditionalConstraints', [&$constraints, $queryBuilder, $extConf, $this]);
 
-        if (!$tca) {
-            // reset query restrictions
-            $queryBuilder
-                ->getRestrictions()
-                ->removeAll();
-        }
+
 
         if($constraints) {
             foreach ($constraints as $i => $constraint) {
@@ -340,7 +382,6 @@ class Sitemap
                 }
             }
         }
-
 
         return $queryBuilder
             ->execute()

@@ -100,7 +100,7 @@ class PageHook
                 $tsSetup =
                     $configurationManager->getConfiguration(
                         ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK,
-                        'csseo'
+                        'CsSeoHook'
                     );
                 $layoutPaths = $tsSetup["view"]["layoutRootPaths"] ?: $layoutPaths;
                 $partialPaths = $tsSetup["view"]["partialRootPaths"] ?: $partialPaths;
