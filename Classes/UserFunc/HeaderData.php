@@ -498,11 +498,11 @@ class HeaderData
             )
             ->execute()
             ->fetchAll();
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($queryBuilder->getSQL());
+
         foreach ($allItems as $item) {
             $languageIds[] = $item[$languageField];
         }
-        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($languageIds);
+
         return $languageIds;
     }
 
