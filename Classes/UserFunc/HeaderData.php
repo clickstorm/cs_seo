@@ -240,22 +240,55 @@ class HeaderData
     /**
      * render the meta tags
      *
-     * @param $meta
+     * @param $metaData
      *
      * @return string
      */
-    protected function renderContent($meta)
+    protected function renderContent($metaData)
     {
+        $metaTags = [];
+
+        /** @var Dispatcher $signalSlotDispatcher */
+        $signalSlotDispatcher = ObjectUtility::getObjectManager()->get(Dispatcher::class);
+
         /** @var \Clickstorm\CsSeo\Utility\TSFEUtility $tsfeUtility */
         $tsfeUtility = GeneralUtility::makeInstance(\Clickstorm\CsSeo\Utility\TSFEUtility::class, $GLOBALS['TSFE']->id);
         $pluginSettings = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.'];
 
-        $title = $meta['title'];
-        $metaTags = [];
+        // get active table and uid
+        $tables = ConfigurationUtility::getPageTSconfig();
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $currentItemConf = self::getCurrentTable($tables, $cObj);
+
+        // possible args: metaData, l10nItems, currentLanguageUid
+        $defaultArgs = [];
+        $signalSlotDispatcher->dispatch(__CLASS__, 'beforeMetaTagsCreatedForRecords',
+            [
+                &$defaultArgs,
+                [
+                    'currentItemConf' => $currentItemConf,
+                    'metaData' => $metaData,
+                    'pluginSettings' => $pluginSettings
+
+                ],
+                $this
+            ]);
+
+        if (is_array($defaultArgs['metaData'])) {
+            $metaData = array_merge($metaData, $defaultArgs['metaData']);
+        }
+
+        $l10nItems = $defaultArgs['l10nItems'] ?: $this->getAllLanguagesFromItem($currentItemConf['table'],
+            $currentItemConf['uid']);
+
+        $currentLanguageUid = $defaultArgs['currentLanguageUid'] ?: $GLOBALS['TSFE']->sys_language_uid;
+
+        // start to render metaTags
+        $title = $metaData['title'];
 
         // title
         if ($title) {
-            $title = $tsfeUtility->getFinalTitle($meta['title'], $meta['title_only']);
+            $title = $tsfeUtility->getFinalTitle($metaData['title'], $metaData['title_only']);
         } else {
             // fallback to page title
             $pageTitleFunc = GeneralUtility::makeInstance(PageTitle::class);
@@ -265,34 +298,25 @@ class HeaderData
         $metaTags['title'] = '<title>' . $this->escapeContent($title) . '</title>';
 
         // description
-        $metaTags['description'] = $this->printMetaTag('description', $this->escapeContent($meta['description']));
+        $metaTags['description'] = $this->printMetaTag('description', $this->escapeContent($metaData['description']));
 
         // hreflang & canonical
         $typoLinkConf = $GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.'];
         unset($typoLinkConf['parameter.']);
         $typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
 
-        // get active table and uid
-        $tables = ConfigurationUtility::getPageTSconfig();
-        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $currentItem = self::getCurrentTable($tables, $cObj);
-
-        $allLanguagesFromItem = $this->getAllLanguagesFromItem($currentItem['table'], $currentItem['uid']);
-
-        $currentLanguageUid = $GLOBALS['TSFE']->sys_language_uid;
-
         // canonical
         $canonicalTypoLinkConf = [];
-        if ($meta['canonical']) {
-            $canonicalTypoLinkConf['parameter'] = $meta['canonical'];
+        if ($metaData['canonical']) {
+            $canonicalTypoLinkConf['parameter'] = $metaData['canonical'];
             $canonicalTypoLinkConf['forceAbsoluteUrl'] = 1;
         } else {
             $canonicalTypoLinkConf = $typoLinkConf;
 
             // if a fallback is shown, set canonical to the language of the ordered item
-            if (!in_array($currentLanguageUid, $allLanguagesFromItem)) {
+            if (!in_array($currentLanguageUid, $l10nItems)) {
                 unset($canonicalTypoLinkConf['additionalParams.']['append.']['data']);
-                $lang = $this->getLanguageFromItem($currentItem['table'], $currentItem['uid']);
+                $lang = $this->getLanguageFromItem($currentItemConf['table'], $currentItemConf['uid']);
                 if ($lang < 0) {
                     $lang = 0;
                 }
@@ -301,15 +325,15 @@ class HeaderData
         }
         $canonical = $this->cObj->typoLink_URL($canonicalTypoLinkConf);
 
-        if (!$meta['no_index']) {
+        if (!$metaData['no_index']) {
             $metaTags['canonical'] = '<link rel="canonical" href="' . $canonical . '" />';
         }
 
         // index
-        if ($meta['no_index'] || $meta['no_follow']) {
-            $indexStr = $meta['no_index'] ? 'noindex' : 'index';
+        if ($metaData['no_index'] || $metaData['no_follow']) {
+            $indexStr = $metaData['no_index'] ? 'noindex' : 'index';
             $indexStr .= ',';
-            $indexStr .= $meta['no_follow'] ? 'nofollow' : 'follow';
+            $indexStr .= $metaData['no_follow'] ? 'nofollow' : 'follow';
             $metaTags['robots'] = $this->printMetaTag('robots', $indexStr);
         }
 
@@ -320,10 +344,10 @@ class HeaderData
         // the TS setting hreflang.enabled is set to 1
         if (in_array(
                 $currentLanguageUid,
-                $allLanguagesFromItem
+                $l10nItems
             )
-            && !$meta['no_index']
-            && !$meta['canonical']
+            && !$metaData['no_index']
+            && !$metaData['canonical']
             && $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['enable']
         ) {
             $langIds = explode(",", $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['ids']);
@@ -335,7 +359,7 @@ class HeaderData
             foreach ($langIds as $key => $langId) {
                 // set hreflang only for languages of the TS setup and if the language is also localized for the item
                 // if the language doesn't exist for the item and a fallback language is shown, the hreflang is not set and the canonical points to the fallback url
-                if (in_array($langId, $allLanguagesFromItem)) {
+                if (in_array($langId, $l10nItems)) {
                     unset($hreflangTypoLinkConf['additionalParams.']['append.']['data']);
                     $hreflangTypoLinkConf['additionalParams.']['append.']['value'] = $langId;
                     $hreflangUrl = $this->cObj->typoLink_URL($hreflangTypoLinkConf);
@@ -349,18 +373,18 @@ class HeaderData
         }
 
         // og:title
-        $ogTitle = $meta['og_title'] ?: $title;
+        $ogTitle = $metaData['og_title'] ?: $title;
         $metaTags['og:title'] = $this->printMetaTag('og:title', $this->escapeContent($ogTitle), 1);
 
         // og:description
-        $ogDescription = $meta['og_description'] ?: $meta['description'];
+        $ogDescription = $metaData['og_description'] ?: $metaData['description'];
         $metaTags['og:description'] = $this->printMetaTag('og:description', $this->escapeContent($ogDescription), 1);
 
         // og:image
         $ogImageURL = $pluginSettings['social.']['defaultImage'];
 
-        if ($meta['og_image']) {
-            $ogImageURL = $this->getImageOrFallback('og_image', $meta);
+        if ($metaData['og_image']) {
+            $ogImageURL = $this->getImageOrFallback('og_image', $metaData);
         }
 
         if ($ogImageURL) {
@@ -387,20 +411,21 @@ class HeaderData
             $this->escapeContent($GLOBALS['TSFE']->tmpl->sitetitle), 1);
 
         // twitter title
-        if ($meta['tw_title']) {
-            $metaTags['twitter:title'] = $this->printMetaTag('twitter:title', $this->escapeContent($meta['tw_title']));
+        if ($metaData['tw_title']) {
+            $metaTags['twitter:title'] = $this->printMetaTag('twitter:title',
+                $this->escapeContent($metaData['tw_title']));
         }
 
         // twitter description
-        if ($meta['tw_description']) {
+        if ($metaData['tw_description']) {
             $metaTags['twitter:description'] = $this->printMetaTag('twitter:description',
-                $this->escapeContent($meta['tw_description']));
+                $this->escapeContent($metaData['tw_description']));
         }
 
         // twitter image and type
-        if ($meta['tw_image'] || $meta['og_image']) {
-            if ($meta['tw_image']) {
-                $twImageURL = $this->getImageOrFallback('tw_image', $meta);
+        if ($metaData['tw_image'] || $metaData['og_image']) {
+            if ($metaData['tw_image']) {
+                $twImageURL = $this->getImageOrFallback('tw_image', $metaData);
             } else {
                 $twImageURL = $ogImageURL;
             }
@@ -419,56 +444,27 @@ class HeaderData
         // twitter:creator
         $metaTags['twitter:creator'] = $this->printMetaTag(
             'twitter:creator',
-            $this->escapeContent($meta['tw_creator'] ?: $pluginSettings['social.']['twitter.']['creator'])
+            $this->escapeContent($metaData['tw_creator'] ?: $pluginSettings['social.']['twitter.']['creator'])
         );
 
         // twitter:site
         $metaTags['twitter:site'] = $this->printMetaTag(
             'twitter:site',
-            $this->escapeContent($meta['tw_site'] ?: $pluginSettings['social.']['twitter.']['site'])
+            $this->escapeContent($metaData['tw_site'] ?: $pluginSettings['social.']['twitter.']['site'])
         );
 
-        /** @var Dispatcher $signalSlotDispatcher */
-        $signalSlotDispatcher = ObjectUtility::getObjectManager()->get(Dispatcher::class);
         $args = [
-            'settings' => $pluginSettings,
-            'item' => $currentItem,
-            'l10nItems' => $allLanguagesFromItem
+            'currentItemConf' => $currentItemConf,
+            'l10nItems' => $l10nItems,
+            'metaData' => $metaData,
+            'pluginSettings' => $pluginSettings,
+            'typoLinkConf' => $typoLinkConf
         ];
 
-        $signalSlotDispatcher->dispatch(__CLASS__, 'headerDataForRecords',
+        $signalSlotDispatcher->dispatch(__CLASS__, 'afterMetaTagsCreatedForRecords',
             [&$metaTags, $args, $this]);
 
         return implode("\n", $metaTags);
-    }
-
-    /**
-     * @param string $content
-     *
-     * @return string
-     */
-    protected function escapeContent($content)
-    {
-        return htmlentities(preg_replace('/\s\s+/', ' ', preg_replace('#<[^>]+>#', ' ', $content)),
-            ENT_COMPAT, ini_get("default_charset"), false);
-    }
-
-    /**
-     * @param string $name
-     * @param string $value
-     * @param bool $property
-     *
-     * @return string
-     */
-    protected function printMetaTag($name, $value, $property = false)
-    {
-        if (empty($value)) {
-            return '';
-        }
-
-        $propertyString = $property ? 'property' : 'name';
-
-        return '<meta ' . $propertyString . '="' . $name . '" content="' . $value . '" />';
     }
 
     /**
@@ -502,12 +498,41 @@ class HeaderData
             )
             ->execute()
             ->fetchAll();
-
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($queryBuilder->getSQL());
         foreach ($allItems as $item) {
             $languageIds[] = $item[$languageField];
         }
-
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($languageIds);
         return $languageIds;
+    }
+
+    /**
+     * @param string $content
+     *
+     * @return string
+     */
+    protected function escapeContent($content)
+    {
+        return htmlentities(preg_replace('/\s\s+/', ' ', preg_replace('#<[^>]+>#', ' ', $content)),
+            ENT_COMPAT, ini_get("default_charset"), false);
+    }
+
+    /**
+     * @param string $name
+     * @param string $value
+     * @param bool $property
+     *
+     * @return string
+     */
+    protected function printMetaTag($name, $value, $property = false)
+    {
+        if (empty($value)) {
+            return '';
+        }
+
+        $propertyString = $property ? 'property' : 'name';
+
+        return '<meta ' . $propertyString . '="' . $name . '" content="' . $value . '" />';
     }
 
     /**
