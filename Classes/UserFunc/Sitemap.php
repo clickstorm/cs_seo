@@ -214,7 +214,7 @@ class Sitemap
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
 
-        $queryBuilder->select($table . '.uid');
+        $queryBuilder->select($table . '.uid')->from($table);
 
         $lang = $this->getTypoScriptFrontendController()->sys_language_uid;
         $tca = $GLOBALS['TCA'][$extConf['table']];
@@ -331,9 +331,18 @@ class Sitemap
                 ->removeAll();
         }
 
+        if($constraints) {
+            foreach ($constraints as $i => $constraint) {
+                if($i == 0) {
+                    $queryBuilder->where($constraint);
+                } else {
+                    $queryBuilder->andWhere($constraint);
+                }
+            }
+        }
+
+
         return $queryBuilder
-            ->from('tx_csseo_domain_model_evaluation')
-            ->where($constraints)
             ->execute()
             ->fetchAll();
     }
