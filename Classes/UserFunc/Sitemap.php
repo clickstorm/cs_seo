@@ -30,6 +30,7 @@ namespace Clickstorm\CsSeo\UserFunc;
 use In2code\Powermail\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -367,6 +368,10 @@ class Sitemap
                 );
                 $queryBuilder->addSelect($catTableAlias . '.' . $extConf['categoryDetailPidField'] . ' AS detailPid');
             }
+        }
+
+        if($extConf['additionalWhereClause']) {
+            $constraints[] = QueryHelper::stripLogicalOperatorPrefix($extConf['additionalWhereClause']);
         }
 
         /** @var Dispatcher $signalSlotDispatcher */
