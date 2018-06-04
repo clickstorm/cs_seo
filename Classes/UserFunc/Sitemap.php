@@ -310,7 +310,6 @@ class Sitemap
         }
 
         // categories
-        // @TODO: add query restrictions
         if ($extConf['categoryField']) {
             $catField = $extConf['categoryField'];
             if ($extConf['categories']) {
@@ -319,59 +318,60 @@ class Sitemap
 
             if ($extConf['categoryTable'] && $extConf['categoryDetailPidField']) {
                 $catTable = $extConf['categoryTable'];
+                $catTableAlias = 'category';
 
                 $queryBuilder->leftJoin(
                     $table,
                     $catTable,
                     'category',
                     $queryBuilder->expr()->eq('category.uid_foreign',
-                        $queryBuilder->quoteIdentifier($table . '.' . $catField))
+                        $queryBuilder->quoteIdentifier($catTableAlias . '.' . $catField))
                 );
 
-                $queryBuilder->addSelect($catTable . '.' . $extConf['categoryDetailPidField'] . ' AS detailPid');
+                $queryBuilder->addSelect($catTableAlias . '.' . $extConf['categoryDetailPidField'] . ' AS detailPid');
             }
         }
 
         if ($extConf['categoryMMTable']) {
             $catMMTable = $extConf['categoryMMTable'];
+            $catMMTableAlias = 'categoryMM';
 
             $queryBuilder->join(
                 $table,
                 $catMMTable,
-                'categoryMM',
-                $queryBuilder->expr()->eq('categoryMM.uid_foreign', $queryBuilder->quoteIdentifier($table . '.uid'))
+                $catMMTableAlias,
+                $queryBuilder->expr()->eq($catMMTableAlias . '.uid_foreign', $queryBuilder->quoteIdentifier($table . '.uid'))
             );
 
             if ($extConf['categories']) {
-                $constraints[] = $queryBuilder->expr()->in($catMMTable . '.uid_local',
+                $constraints[] = $queryBuilder->expr()->in($catMMTableAlias . '.uid_local',
                     $queryBuilder->createNamedParameter($extConf['categories']));
                 if ($extConf['categoryMMTablename']) {
-                    $constraints[] = $queryBuilder->expr()->eq($catMMTable . '.tablenames',
+                    $constraints[] = $queryBuilder->expr()->eq($catMMTableAlias . '.tablenames',
                         $queryBuilder->createNamedParameter($table));
                 }
                 if ($extConf['categoryMMFieldname']) {
-                    $constraints[] = $queryBuilder->expr()->eq($catMMTable . '.fieldname',
+                    $constraints[] = $queryBuilder->expr()->eq($catMMTableAlias . '.fieldname',
                         $queryBuilder->createNamedParameter($extConf['categoryMMFieldname']));
                 }
             }
 
             if ($extConf['categoryTable'] && $extConf['categoryDetailPidField']) {
                 $catTable = $extConf['categoryTable'];
+                $catTableAlias = 'category';
                 $queryBuilder->leftJoin(
-                    $catMMTable,
+                    $catMMTableAlias,
                     $catTable,
-                    'category',
-                    $queryBuilder->expr()->eq('category.uid', $queryBuilder->quoteIdentifier($catMMTable . '.uid_local'))
+                    $catTableAlias,
+                    $queryBuilder->expr()->eq($catTableAlias . '.uid', $queryBuilder->quoteIdentifier($catMMTableAlias . '.uid_local'))
                 );
-                $queryBuilder->addSelect('category.' . $extConf['categoryDetailPidField'] . ' AS detailPid');
+                $queryBuilder->addSelect($catTableAlias . '.' . $extConf['categoryDetailPidField'] . ' AS detailPid');
             }
         }
 
         /** @var Dispatcher $signalSlotDispatcher */
         $signalSlotDispatcher = ObjectUtility::getObjectManager()->get(Dispatcher::class);
         $signalSlotDispatcher->dispatch(__CLASS__, 'sitemapAdditionalConstraints', [&$constraints, $queryBuilder, $extConf, $this]);
-
-
 
         if($constraints) {
             foreach ($constraints as $i => $constraint) {
@@ -384,6 +384,7 @@ class Sitemap
         }
 
         return $queryBuilder
+            ->groupBy($table . '.uid')
             ->execute()
             ->fetchAll();
     }
