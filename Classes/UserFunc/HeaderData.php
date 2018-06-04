@@ -289,12 +289,12 @@ class HeaderData
 
             // if a fallback is shown, set canonical to the language of the ordered item
             if (!in_array($currentLanguageUid, $allLanguagesFromItem)) {
-                unset($canonicalTypoLinkConf['additionalParams.']);
+                unset($canonicalTypoLinkConf['additionalParams.']['append.']['data']);
                 $lang = $this->getLanguageFromItem($currentItem['table'], $currentItem['uid']);
                 if ($lang < 0) {
                     $lang = 0;
                 }
-                $canonicalTypoLinkConf['additionalParams'] = '&L=' . $lang;
+                $canonicalTypoLinkConf['additionalParams.']['append.']['value'] = $lang;
             }
         }
         $canonical = $this->cObj->typoLink_URL($canonicalTypoLinkConf);
@@ -333,8 +333,8 @@ class HeaderData
                 // set hreflang only for languages of the TS setup and if the language is also localized for the item
                 // if the language doesn't exist for the item and a fallback language is shown, the hreflang is not set and the canonical points to the fallback url
                 if (in_array($langId, $allLanguagesFromItem)) {
-                    unset($hreflangTypoLinkConf['additionalParams.']);
-                    $hreflangTypoLinkConf['additionalParams'] = '&L=' . $langId;
+                    unset($hreflangTypoLinkConf['additionalParams.']['append.']['data']);
+                    $hreflangTypoLinkConf['additionalParams.']['append.']['value'] = $langId;
                     $hreflangUrl = $this->cObj->typoLink_URL($hreflangTypoLinkConf);
                     $content .= '<link rel="alternate" hreflang="'
                         . $langKeys[$key]

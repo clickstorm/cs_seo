@@ -62,6 +62,7 @@ page.headerData.654 {
 						typolink {
 							parameter.data = page:uid
 							additionalParams.append >
+							additionalParams.append = TEXT
 							additionalParams.append.data = register:lParam
 							additionalParams.append.wrap = &L=|
 						}
