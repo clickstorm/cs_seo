@@ -259,8 +259,8 @@ class Sitemap
             }
 
             // deleted
-            if ($tca['ctrl']['enablecolumns']['delete']) {
-                $constraints[] =  $queryBuilder->expr()->eq($table . '.' . $tca['ctrl']['enablecolumns']['delete'], 0);
+            if ($tca['ctrl']['delete']) {
+                $constraints[] =  $queryBuilder->expr()->eq($table . '.' . $tca['ctrl']['delete'], 0);
             }
 
             // starttime
