@@ -135,6 +135,7 @@ class Sitemap
                         } else {
                             $records = $this->getRecords($extConf);
                         }
+
                         if (is_array($records) && count($records) > 0) {
                             $cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
                             foreach ($records as $key => $record) {
@@ -144,8 +145,10 @@ class Sitemap
                                     'forceAbsoluteUrl' => 1
                                 ];
                                 $typoLinkConf['useCacheHash'] = !empty($extConf['useCacheHash']);
+                                $linkUid = $record['transOrigPointerField']?:$record['uid'];
+
                                 $typoLinkConf['additionalParams'] =
-                                    '&' . $extConf['additionalParams'] . '=' . $record['uid'];
+                                    '&' . $extConf['additionalParams'] . '=' . $linkUid;
                                 if ($record['lang']) {
                                     $typoLinkConf['additionalParams'] .= '&L=' . $this->tsfe->sys_language_uid;
                                 }
@@ -246,6 +249,10 @@ class Sitemap
             if ($languageField) {
                 $constraints[] = $queryBuilder->expr()->in($table . '.' . $languageField, [$lang, -1]);
                 $queryBuilder->addSelect($table . '.' . $languageField . ' AS lang');
+            }
+
+            if ($tca['ctrl']['transOrigPointerField']) {
+                $queryBuilder->addSelect($table . '.' . $tca['ctrl']['transOrigPointerField'] . ' AS transOrigPointerField');
             }
 
             // lastmod
