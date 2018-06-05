@@ -337,7 +337,7 @@ class Sitemap
             $catMMTable = $extConf['categoryMMTable'];
             $catMMTableAlias = 'categoryMM';
 
-            $queryBuilder->join(
+            $queryBuilder->leftJoin(
                 $table,
                 $catMMTable,
                 $catMMTableAlias,
@@ -347,10 +347,12 @@ class Sitemap
             if ($extConf['categories']) {
                 $constraints[] = $queryBuilder->expr()->in($catMMTableAlias . '.uid_local',
                     $queryBuilder->createNamedParameter($extConf['categories']));
-                if ($extConf['categoryMMTablename']) {
+
+                if ($extConf['categoryMMTablenames']) {
                     $constraints[] = $queryBuilder->expr()->eq($catMMTableAlias . '.tablenames',
                         $queryBuilder->createNamedParameter($table));
                 }
+
                 if ($extConf['categoryMMFieldname']) {
                     $constraints[] = $queryBuilder->expr()->eq($catMMTableAlias . '.fieldname',
                         $queryBuilder->createNamedParameter($extConf['categoryMMFieldname']));
