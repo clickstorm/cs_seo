@@ -61,9 +61,10 @@ page.headerData.654 {
 					20 {
 						typolink {
 							parameter.data = page:uid
-							additionalParams >
-							additionalParams.data = register:lParam
-							additionalParams.wrap = &L=|
+							additionalParams.append >
+							additionalParams.append = TEXT
+							additionalParams.append.data = register:lParam
+							additionalParams.append.wrap = &L=|
 						}
 						noTrimWrap = | href="|" />|
 					}
