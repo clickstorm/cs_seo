@@ -9,7 +9,7 @@ page.jsInline.654.20 {
 		_paq.push(['trackPageView']);
 		_paq.push(['enableLinkTracking']);
 		(function() {
-		var u="//#/";
+		var u="//#";
 		_paq.push(['setTrackerUrl', u+'js/']);
 		_paq.push(['setSiteId', {$plugin.tx_csseo.tracking.piwik.id}]);
 		var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
