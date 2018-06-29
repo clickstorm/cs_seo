@@ -357,7 +357,10 @@ class HeaderData
         $ogImageURL = $pluginSettings['social.']['defaultImage'];
 
         if ($meta['og_image']) {
-            $ogImageURL = $this->getImageOrFallback('og_image', $meta);
+            $ogImageURLFromRecord = $this->getImageOrFallback('og_image', $meta);
+            if ($ogImageURLFromRecord) {
+                $ogImageURL = $ogImageURLFromRecord;
+            }
         }
 
         if ($ogImageURL) {
@@ -393,12 +396,16 @@ class HeaderData
         }
 
         // twitter image and type
+        $twImageURL = '';
         if ($meta['tw_image'] || $meta['og_image']) {
             if ($meta['tw_image']) {
                 $twImageURL = $this->getImageOrFallback('tw_image', $meta);
             } else {
                 $twImageURL = $ogImageURL;
             }
+        }
+
+        if($twImageURL) {
             $content .= $this->printMetaTag('twitter:card', 'summary_large_image');
         } else {
             $twImageURL =
@@ -520,7 +527,7 @@ class HeaderData
         }
 
         $image = DatabaseUtility::getFile($params['table'], $params['field'], $params['uid']);
-        if($image) {
+        if ($image) {
             return $image->getPublicUrl();
         }
     }
@@ -560,14 +567,15 @@ class HeaderData
      */
     public function getSocialMediaImage($p1, $p2)
     {
-        if($GLOBALS['TSFE']->page['_PAGES_OVERLAY']) {
-            $image = DatabaseUtility::getFile('pages_language_overlay', $p2['field'], $GLOBALS['TSFE']->page['_PAGES_OVERLAY_UID']);
-            if(!empty($image)) {
+        if ($GLOBALS['TSFE']->page['_PAGES_OVERLAY']) {
+            $image = DatabaseUtility::getFile('pages_language_overlay', $p2['field'],
+                $GLOBALS['TSFE']->page['_PAGES_OVERLAY_UID']);
+            if (!empty($image)) {
                 return $image->getUid();
             }
         }
         $image = DatabaseUtility::getFile('pages', $p2['field'], $GLOBALS['TSFE']->id);
-        if(!empty($image)) {
+        if (!empty($image)) {
             return $image->getUid();
         }
     }
