@@ -440,9 +440,7 @@ class HeaderData
         } else {
             $twImageURL =
                 $pluginSettings['social.']['twitter.']['defaultImage'] ?: $pluginSettings['social.']['defaultImage'];
-            if ($twImageURL) {
-                $metaTags['twitter:card'] = $this->printMetaTag('twitter:card', 'summary');
-            }
+            $metaTags['twitter:card'] = $this->printMetaTag('twitter:card', 'summary');
         }
 
         if ($twImageURL) {
