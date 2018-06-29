@@ -384,7 +384,10 @@ class HeaderData
         $ogImageURL = $pluginSettings['social.']['defaultImage'];
 
         if ($metaData['og_image']) {
-            $ogImageURL = $this->getImageOrFallback('og_image', $metaData);
+            $ogImageURLFromRecord = $this->getImageOrFallback('og_image', $metaData);
+            if ($ogImageURLFromRecord) {
+                $ogImageURL = $ogImageURLFromRecord;
+            }
         }
 
         if ($ogImageURL) {
@@ -423,17 +426,23 @@ class HeaderData
         }
 
         // twitter image and type
+        $twImageURL = '';
         if ($metaData['tw_image'] || $metaData['og_image']) {
             if ($metaData['tw_image']) {
                 $twImageURL = $this->getImageOrFallback('tw_image', $metaData);
             } else {
                 $twImageURL = $ogImageURL;
             }
+        }
+
+        if ($twImageURL) {
             $metaTags['twitter:card'] = $this->printMetaTag('twitter:card', 'summary_large_image');
         } else {
             $twImageURL =
                 $pluginSettings['social.']['twitter.']['defaultImage'] ?: $pluginSettings['social.']['defaultImage'];
-            $metaTags['twitter:card'] = $this->printMetaTag('twitter:card', 'summary');
+            if ($twImageURL) {
+                $metaTags['twitter:card'] = $this->printMetaTag('twitter:card', 'summary');
+            }
         }
 
         if ($twImageURL) {
