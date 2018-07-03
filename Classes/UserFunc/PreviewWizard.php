@@ -180,6 +180,7 @@ class PreviewWizard
         if (strpos($data['uid'], 'NEW') === false) {
             // set pageID for TSSetup check
             $pageUid = ($table == 'pages') ? $data['uid'] : $data['pid'];
+
             $_GET['id'] = $pageUid;
 
             // check if TS page type exists
@@ -202,6 +203,7 @@ class PreviewWizard
 
                     if ($table == 'pages' || $table == 'pages_language_overlay') {
                         $GLOBALS['TSFE']->config['config']['noPageTitle'] = 0;
+                        $GLOBALS['TSFE']->page = $data;
                         PageGenerator::generatePageTitle();
                         $pageTitle = static::getPageRenderer()->getTitle();
                         // get page path

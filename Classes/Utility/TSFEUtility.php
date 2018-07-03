@@ -86,6 +86,15 @@ class TSFEUtility
     public function __construct($pageUid, $lang = 0, $typeNum = 654)
     {
         $this->pageUid = $pageUid;
+
+        // catch workspace overlay
+        if (ExtensionManagementUtility::isLoaded('version')) {
+            $wsOverlay = BackendUtility::getRecordWSOL('pages', $this->pageUid, 'uid');
+            if($wsOverlay['_ORIG_uid'] && $wsOverlay['_ORIG_uid'] != $this->pageUid) {
+                $this->pageUid = $wsOverlay['_ORIG_uid'];
+            }
+        }
+
         $this->lang = is_array($lang) ? array_shift($lang) : $lang;
         $this->typeNum = $typeNum;
 
