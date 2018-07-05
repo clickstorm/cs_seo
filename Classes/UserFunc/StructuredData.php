@@ -101,6 +101,7 @@ class StructuredData
      * @param $content
      *
      * @return string
+     * @throws \Exception
      */
     public function getBreadcrumb($conf, $content)
     {
@@ -125,7 +126,7 @@ class StructuredData
             ];
 
             if ($GLOBALS['TSFE']->sys_language_uid > 0) {
-                $page = $pageRepository->getPageOverlay($page);
+                $page = $pageRepository->getPageOverlay($page, $GLOBALS['TSFE']->sys_language_uid);
             }
 
             $siteLinks[] = [
