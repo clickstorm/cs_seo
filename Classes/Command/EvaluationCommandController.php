@@ -69,6 +69,8 @@ class EvaluationCommandController extends CommandController
     /**
      * @param int $uid
      * @param string $tableName
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
     public function updateCommand($uid = 0, $tableName = '')
     {
@@ -81,6 +83,8 @@ class EvaluationCommandController extends CommandController
     /**
      * @param int $uid
      * @param bool $localized
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
     protected function processResults($uid = 0, $localized = false)
     {
@@ -101,14 +105,16 @@ class EvaluationCommandController extends CommandController
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->tableName);
-        $constraints = [];
+
+        $queryBuilder->select('*')
+            ->from($this->tableName);
 
         $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
         $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
 
         // only with doktype page
         if ($this->tableName == 'pages') {
-            $constraints[] = $queryBuilder->expr()->in('doktype', $allowedDoktypes);
+            $queryBuilder->andWhere($queryBuilder->expr()->in('doktype', $allowedDoktypes));
         }
 
         // check localization
@@ -118,7 +124,7 @@ class EvaluationCommandController extends CommandController
                 $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
             } else {
                 if ($tcaCtrl['languageField']) {
-                    $constraints[] = $tcaCtrl['languageField'] . ' > 0';
+                    $queryBuilder->andWhere($queryBuilder->expr()->gt($tcaCtrl['languageField']), 0);
                 } elseif ($this->tableName == 'pages') {
                     $this->tableName = 'pages_language_overlay';
                     $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
@@ -129,19 +135,15 @@ class EvaluationCommandController extends CommandController
         // if single uid
         if ($uid > 0) {
             if ($localized && $tcaCtrl['transOrigPointerField']) {
-                $constraints[] = $queryBuilder->expr()->eq($tcaCtrl['transOrigPointerField'],
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT));
+                $queryBuilder->andWhere($queryBuilder->expr()->eq($tcaCtrl['transOrigPointerField'],
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)));
             } else {
-                $constraints[] = $queryBuilder->expr()->eq('uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT));
+                $queryBuilder->andWhere($queryBuilder->expr()->eq('uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)));
             }
         }
 
-        $items = $queryBuilder->select('*')
-            ->from($this->tableName)
-            ->where(
-                $constraints
-            )
+        $items = $queryBuilder
             ->execute()
             ->fetchAll();
 
@@ -150,6 +152,8 @@ class EvaluationCommandController extends CommandController
 
     /**
      * @param $items
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
     protected function updateResults($items)
     {
@@ -209,6 +213,8 @@ class EvaluationCommandController extends CommandController
      * @param array $results
      * @param int $uidForeign
      * @param string $url
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
     protected function saveChanges($results, $uidForeign, $url)
     {
@@ -241,6 +247,8 @@ class EvaluationCommandController extends CommandController
      * @param \Psr\Http\Message\ResponseInterface $response
      *
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
     public function ajaxUpdate(
         \Psr\Http\Message\ServerRequestInterface $request,
@@ -270,6 +278,7 @@ class EvaluationCommandController extends CommandController
         /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
         $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
         $response->getBody()->write($flashMessageQueue->renderFlashMessages());
+        $response = $response->withHeader('Content-Type', 'text/html; charset=utf-8');
 
         return $response;
     }
@@ -288,50 +297,5 @@ class EvaluationCommandController extends CommandController
     public function setTableName($tableName)
     {
         $this->tableName = $tableName;
-    }
-
-    /**
-     * @param $uid
-     * @param bool $localizations
-     *
-     * @return string
-     */
-    protected function buildQuery($uid, $localizations = false)
-    {
-        $constraints = ['1'];
-        $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
-        $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
-
-        // only with doktype page
-        if ($this->tableName == 'pages') {
-            $constraints[] = 'doktype IN (' . implode(',', $allowedDoktypes) . ')';
-        }
-
-        // check localization
-        if ($localizations) {
-            if ($tcaCtrl['transForeignTable']) {
-                $this->tableName = $tcaCtrl['transForeignTable'];
-                $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
-            } else {
-                if ($tcaCtrl['languageField']) {
-                    $constraints[] = $tcaCtrl['languageField'] . ' > 0';
-                } elseif ($this->tableName == 'pages') {
-                    $this->tableName = 'pages_language_overlay';
-                    $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
-                }
-            }
-        }
-
-        // if single uid
-        if ($uid > 0) {
-            if ($localizations && $tcaCtrl['transOrigPointerField']) {
-                $constraints[] = $tcaCtrl['transOrigPointerField'] . ' = ' . $uid;
-            } else {
-                $constraints[] = 'uid = ' . $uid;
-            }
-        }
-
-        return implode($constraints,
-                ' AND ') . BackendUtility::BEenableFields($this->tableName) . BackendUtility::deleteClause($this->tableName);
     }
 }
