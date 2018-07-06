@@ -125,7 +125,6 @@ class EvaluationCommandController extends CommandController
                 } elseif ($this->tableName == 'pages') {
                     $this->tableName = 'pages_language_overlay';
                     $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
-                    $queryBuilder->from($this->tableName);
                 }
             }
         }
