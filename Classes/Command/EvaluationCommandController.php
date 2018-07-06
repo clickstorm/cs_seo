@@ -106,9 +106,6 @@ class EvaluationCommandController extends CommandController
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->tableName);
 
-        $queryBuilder->select('*')
-            ->from($this->tableName);
-
         $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
         $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
 
@@ -124,10 +121,11 @@ class EvaluationCommandController extends CommandController
                 $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
             } else {
                 if ($tcaCtrl['languageField']) {
-                    $queryBuilder->andWhere($queryBuilder->expr()->gt($tcaCtrl['languageField']), 0);
+                    $queryBuilder->andWhere($queryBuilder->expr()->gt($tcaCtrl['languageField'], 0));
                 } elseif ($this->tableName == 'pages') {
                     $this->tableName = 'pages_language_overlay';
                     $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
+                    $queryBuilder->from($this->tableName);
                 }
             }
         }
@@ -143,7 +141,8 @@ class EvaluationCommandController extends CommandController
             }
         }
 
-        $items = $queryBuilder
+        $items = $queryBuilder->select('*')
+            ->from($this->tableName)
             ->execute()
             ->fetchAll();
 
@@ -260,13 +259,13 @@ class EvaluationCommandController extends CommandController
 
         // get parameter
         $table = '';
+        $params = $request->getParsedBody();
         if (empty($params)) {
             $uid = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['uid'];
             $table = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['table'];
         } else {
-            $attr = $params['request']->getParsedBody();
-            $uid = $attr['uid'];
-            $table = $attr['table'];
+            $uid = $params['uid'];
+            $table = $params['table'];
         }
         if ($table != '') {
             $this->tableName = $table;
