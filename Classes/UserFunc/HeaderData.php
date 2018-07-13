@@ -29,7 +29,6 @@ namespace Clickstorm\CsSeo\UserFunc;
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
-use In2code\Powermail\Utility\ObjectUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -249,7 +248,7 @@ class HeaderData
         $metaTags = [];
 
         /** @var Dispatcher $signalSlotDispatcher */
-        $signalSlotDispatcher = ObjectUtility::getObjectManager()->get(Dispatcher::class);
+        $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
 
         /** @var \Clickstorm\CsSeo\Utility\TSFEUtility $tsfeUtility */
         $tsfeUtility = GeneralUtility::makeInstance(\Clickstorm\CsSeo\Utility\TSFEUtility::class, $GLOBALS['TSFE']->id);

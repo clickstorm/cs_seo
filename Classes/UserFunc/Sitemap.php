@@ -27,13 +27,13 @@ namespace Clickstorm\CsSeo\UserFunc;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use In2code\Powermail\Utility\ObjectUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\QueryHelper;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\CMS\Extensionmanager\Utility\DatabaseUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -145,7 +145,7 @@ class Sitemap
                                     'forceAbsoluteUrl' => 1
                                 ];
                                 $typoLinkConf['useCacheHash'] = !empty($extConf['useCacheHash']);
-                                $linkUid = $record['transOrigPointerField']?:$record['uid'];
+                                $linkUid = $record['transOrigPointerField'] ?: $record['uid'];
 
                                 $typoLinkConf['additionalParams'] =
                                     '&' . $extConf['additionalParams'] . '=' . $linkUid;
@@ -262,12 +262,12 @@ class Sitemap
 
             // hidden
             if ($tca['ctrl']['enablecolumns']['disabled']) {
-                $constraints[] =  $queryBuilder->expr()->eq($table . '.' . $tca['ctrl']['enablecolumns']['disabled'], 0);
+                $constraints[] = $queryBuilder->expr()->eq($table . '.' . $tca['ctrl']['enablecolumns']['disabled'], 0);
             }
 
             // deleted
             if ($tca['ctrl']['delete']) {
-                $constraints[] =  $queryBuilder->expr()->eq($table . '.' . $tca['ctrl']['delete'], 0);
+                $constraints[] = $queryBuilder->expr()->eq($table . '.' . $tca['ctrl']['delete'], 0);
             }
 
             // starttime
@@ -300,7 +300,8 @@ class Sitemap
                 $constraints[] = $queryBuilder->expr()->orX(
                     $queryBuilder->expr()->eq($table . '.tx_csseo', 0),
                     $queryBuilder->expr()->andX(
-                        $queryBuilder->expr()->eq($metaTableAlias . '.tablenames', $queryBuilder->createNamedParameter($table, \PDO::PARAM_STR)),
+                        $queryBuilder->expr()->eq($metaTableAlias . '.tablenames',
+                            $queryBuilder->createNamedParameter($table, \PDO::PARAM_STR)),
                         $queryBuilder->expr()->eq($metaTableAlias . '.no_index', 0),
                         $queryBuilder->expr()->eq($metaTableAlias . '.hidden', 0),
                         $queryBuilder->expr()->eq($metaTableAlias . '.deleted', 0),
@@ -348,7 +349,8 @@ class Sitemap
                 $table,
                 $catMMTable,
                 $catMMTableAlias,
-                $queryBuilder->expr()->eq($catMMTableAlias . '.uid_foreign', $queryBuilder->quoteIdentifier($table . '.uid'))
+                $queryBuilder->expr()->eq($catMMTableAlias . '.uid_foreign',
+                    $queryBuilder->quoteIdentifier($table . '.uid'))
             );
 
             if ($extConf['categories']) {
@@ -373,23 +375,25 @@ class Sitemap
                     $catMMTableAlias,
                     $catTable,
                     $catTableAlias,
-                    $queryBuilder->expr()->eq($catTableAlias . '.uid', $queryBuilder->quoteIdentifier($catMMTableAlias . '.uid_local'))
+                    $queryBuilder->expr()->eq($catTableAlias . '.uid',
+                        $queryBuilder->quoteIdentifier($catMMTableAlias . '.uid_local'))
                 );
                 $queryBuilder->addSelect($catTableAlias . '.' . $extConf['categoryDetailPidField'] . ' AS detailPid');
             }
         }
 
-        if($extConf['additionalWhereClause']) {
+        if ($extConf['additionalWhereClause']) {
             $constraints[] = QueryHelper::stripLogicalOperatorPrefix($extConf['additionalWhereClause']);
         }
 
         /** @var Dispatcher $signalSlotDispatcher */
-        $signalSlotDispatcher = ObjectUtility::getObjectManager()->get(Dispatcher::class);
-        $signalSlotDispatcher->dispatch(__CLASS__, 'sitemapAdditionalConstraints', [&$constraints, $queryBuilder, $extConf, $this]);
+        $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
+        $signalSlotDispatcher->dispatch(__CLASS__, 'sitemapAdditionalConstraints',
+            [&$constraints, $queryBuilder, $extConf, $this]);
 
-        if($constraints) {
+        if ($constraints) {
             foreach ($constraints as $i => $constraint) {
-                if($i == 0) {
+                if ($i == 0) {
                     $queryBuilder->where($constraint);
                 } else {
                     $queryBuilder->andWhere($constraint);
