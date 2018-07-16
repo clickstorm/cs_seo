@@ -82,7 +82,7 @@
 			<target>Es wurden keine Überschriften gefunden</target>
 		</trans-unit>
 		<trans-unit id="evaluation.h2.1" approved="yes">
-			<source>There are to many headlines (%1$s) on the page</source>
+			<source>There are too many headlines (%1$s) on the page</source>
 			<target>Es gibt zu viele Überschriften (%1$s) auf der Seite</target>
 		</trans-unit>
 		<trans-unit id="evaluation.h2.2" approved="yes">
