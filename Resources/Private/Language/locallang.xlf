@@ -63,7 +63,7 @@
 			<source>No headlines were found</source>
 		</trans-unit>
 		<trans-unit id="evaluation.h2.1">
-			<source>There are to many headlines (%1$s) on the page</source>
+			<source>There are too many headlines (%1$s) on the page</source>
 		</trans-unit>
 		<trans-unit id="evaluation.h2.2">
 			<source>The number of headlines is optimal</source>
