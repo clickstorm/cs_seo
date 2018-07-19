@@ -35,9 +35,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -98,7 +96,7 @@ class SnippetPreview extends AbstractNode
         $cssFiles = [
             'Wizard.css'
         ];
-        $baseUrl = PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath('cs_seo')) . 'Resources/Public/CSS/';
+        $baseUrl = 'EXT:cs_seo/Resources/Public/CSS/';
         // Load the wizards css
         foreach ($cssFiles as $cssFile) {
             $stylesheetFiles[] = $baseUrl . $cssFile;
@@ -133,10 +131,10 @@ class SnippetPreview extends AbstractNode
         $wizardView = GeneralUtility::makeInstance(StandaloneView::class);
         $wizardView->setFormat('html');
         $wizardView->setLayoutRootPaths(
-            [10 => ExtensionManagementUtility::extPath('cs_seo') . '/Resources/Private/Layouts/']
+            [10 => 'EXT:cs_seo/Resources/Private/Layouts/']
         );
         $wizardView->setTemplatePathAndFilename(
-            ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/Wizard.html'
+             'EXT:cs_seo/Resources/Private/Templates/Wizard.html'
         );
 
         if (strpos($data['uid'], 'NEW') === false) {

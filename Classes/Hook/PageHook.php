@@ -34,7 +34,6 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Fluid\View\StandaloneView;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
@@ -61,7 +60,7 @@ class PageHook
 
     public function __construct()
     {
-        $this->resourcesPath = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/';
+        $this->resourcesPath = 'EXT:cs_seo/Resources/';
     }
 
     /**
@@ -88,9 +87,8 @@ class PageHook
                 $this->view->setFormat('html');
                 $this->view->getRequest()->setControllerExtensionName('cs_seo');
 
-                $absoluteResourcesPath = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/';
-                $layoutPaths = [$absoluteResourcesPath . 'Private/Layouts/'];
-                $partialPaths = [$absoluteResourcesPath . 'Private/Partials/'];
+                $layoutPaths = [$this->resourcesPath . 'Private/Layouts/'];
+                $partialPaths = [$this->resourcesPath . 'Private/Partials/'];
 
                 // load partial paths info from TypoScript
                 /** @var ObjectManager $objectManager */
@@ -108,8 +106,7 @@ class PageHook
                 $this->view->setLayoutRootPaths($layoutPaths);
                 $this->view->setPartialRootPaths($partialPaths);
 
-                $this->view->setTemplatePathAndFilename(
-                    ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Private/Templates/PageHook.html'
+                $this->view->setTemplatePathAndFilename($this->resourcesPath . 'Private/Templates/PageHook.html'
                 );
 
                 $results = $this->getResults($pageInfo, $parentObject->current_sys_language);
