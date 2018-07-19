@@ -28,7 +28,6 @@ namespace Clickstorm\CsSeo\UserFunc;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -91,7 +90,7 @@ class PermalinkWizard
         // Load jquery
         $this->getPageRenderer()->loadJquery();
         // Load the wizards javascript
-        $baseUrl = ExtensionManagementUtility::extPath('cs_seo') . 'Resources/Public/JavaScript/';
+        $baseUrl = 'EXT:cs_seo/Resources/Public/JavaScript/';
         foreach ($javascriptFiles as $javascriptFile) {
             $this->getPageRenderer()->addJsFile(
                 $baseUrl . $javascriptFile,
