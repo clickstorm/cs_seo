@@ -84,6 +84,22 @@ class SnippetPreview extends AbstractNode
     }
 
     /**
+     * Load the necessary javascript
+     *
+     * This will only be done when the referenced record is available
+     *
+     * @return array
+     */
+    protected function loadJavascript()
+    {
+        return [
+            'snippetPreview' => [
+                'TYPO3/CMS/CsSeo/FormEngine/Element/SnippetPreview' => 'function(SnippetPreview){SnippetPreview.initialize()}'
+            ]
+        ];
+    }
+
+    /**
      * Load the necessary css
      *
      * This will only be done when the referenced record is available
@@ -101,19 +117,8 @@ class SnippetPreview extends AbstractNode
         foreach ($cssFiles as $cssFile) {
             $stylesheetFiles[] = $baseUrl . $cssFile;
         }
+
         return $stylesheetFiles;
-    }
-
-    /**
-     * @return PageRenderer
-     */
-    protected function getPageRenderer()
-    {
-        if (!isset($this->pageRenderer)) {
-            $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        }
-
-        return $this->pageRenderer;
     }
 
     /**
@@ -134,12 +139,18 @@ class SnippetPreview extends AbstractNode
             [10 => 'EXT:cs_seo/Resources/Private/Layouts/']
         );
         $wizardView->setTemplatePathAndFilename(
-             'EXT:cs_seo/Resources/Private/Templates/Wizard.html'
+            'EXT:cs_seo/Resources/Private/Templates/Wizard.html'
         );
 
         if (strpos($data['uid'], 'NEW') === false) {
             // set pageID for TSSetup check
-            $pageUid = ($table == 'pages') ? $data['uid'] : $data['pid'];
+            $pageUid = $data['pid'];
+
+            // use page uid or t3ver_oid is set
+            if ($table == 'pages') {
+                $pageUid = $data['t3ver_oid'] ?: $data['uid'];
+            }
+
             $_GET['id'] = $pageUid;
 
             // check if TS page type exists
@@ -270,19 +281,15 @@ class SnippetPreview extends AbstractNode
     }
 
     /**
-     * Load the necessary javascript
-     *
-     * This will only be done when the referenced record is available
-     *
-     * @return array
+     * @return PageRenderer
      */
-    protected function loadJavascript()
+    protected function getPageRenderer()
     {
-        return [
-            'snippetPreview' => [
-                'TYPO3/CMS/CsSeo/FormEngine/Element/SnippetPreview' => 'function(SnippetPreview){SnippetPreview.initialize()}'
-            ]
-        ];
+        if (!isset($this->pageRenderer)) {
+            $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        }
+
+        return $this->pageRenderer;
     }
 
     /**
