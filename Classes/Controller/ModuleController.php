@@ -179,8 +179,7 @@ class ModuleController extends ActionController
     protected function getColumnDefinition($fieldName)
     {
         $columnDef = ['field' => $fieldName];
-        if ($fieldName == 'sys_language_uid' || $fieldName == 'results') {
-        } else {
+        if ($fieldName != 'sys_language_uid' && $fieldName != 'results') {
             $columnDef['displayName'] =
                 $this->getLanguageService()->sL($GLOBALS['TCA']['pages']['columns'][$fieldName]['label']);
             switch ($GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['type']) {
