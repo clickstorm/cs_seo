@@ -1,6 +1,7 @@
 <?php
 namespace Clickstorm\CsSeo\Utility;
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
@@ -59,7 +60,10 @@ class ConfigurationUtility
         $extConf = self::getEmConfiguration();
         $tsConfigPid = $extConf['tsConfigPid'] ?: 1;
 
-        $pageTSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig($tsConfigPid);
+        // get rootLine first to prevent caching from pageTSconfig
+        $rootLine = BackendUtility::BEgetRootLine($tsConfigPid, '', true);
+        $pageTSconfig = BackendUtility::getPagesTSconfig($tsConfigPid, $rootLine);
+
         return $pageTSconfig['tx_csseo.'] ?: [];
     }
 
