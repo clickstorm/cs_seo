@@ -2,7 +2,7 @@
 namespace Clickstorm\CsSeo\Tests\Utility;
 
 use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /***************************************************************
  *

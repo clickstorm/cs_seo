@@ -15,12 +15,14 @@
   "require": {
 	"typo3/cms-core": "^8.7 || >=9.0.0 <9.3.0"
   },
+  "require-dev": {
+	"nimut/testing-framework": "*"
+  },
   "replace": {
 	"cs_seo": "*"
   },
   "suggest": {
-	"dmitryd/realurl": "Speaking URLs for TYPO3",
-	"nimut/testing-framework": "Testing Framework for TYPO3 CMS Extensions"
+	"dmitryd/realurl": "Speaking URLs for TYPO3"
   },
   "autoload": {
 	"psr-4": {

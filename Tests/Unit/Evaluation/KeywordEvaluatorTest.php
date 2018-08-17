@@ -3,7 +3,7 @@ namespace Clickstorm\CsSeo\Tests\Utility;
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /***************************************************************
  *

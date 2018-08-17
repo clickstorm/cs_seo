@@ -3,7 +3,7 @@ namespace Clickstorm\CsSeo\Tests\Utility;
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\ImagesEvaluator;
-use TYPO3\CMS\Core\Tests\UnitTestCase;
+use Nimut\TestingFramework\TestCase\UnitTestCase;
 
 /***************************************************************
  *
@@ -98,6 +98,7 @@ class ImagesEvaluatorTest extends UnitTestCase
                     'count' => 0,
                     'altCount' => 0,
                     'countWithoutAlt' => 0,
+                    'images' => [],
                     'state' => AbstractEvaluator::STATE_GREEN
                 ]
             ],
@@ -107,6 +108,7 @@ class ImagesEvaluatorTest extends UnitTestCase
                     'count' => 1,
                     'altCount' => 0,
                     'countWithoutAlt' => 1,
+                    'images' => [""],
                     'state' => AbstractEvaluator::STATE_RED
                 ]
             ],
@@ -116,15 +118,17 @@ class ImagesEvaluatorTest extends UnitTestCase
                     'count' => 1,
                     'altCount' => 1,
                     'countWithoutAlt' => 0,
+                    'images' => [],
                     'state' => AbstractEvaluator::STATE_GREEN
                 ]
             ],
             'one alt missing' => [
-                '<img alt="" /><img alt="Test" />',
+                '<img alt="" src="myImage.png" /><img alt="Test" />',
                 [
                     'count' => 2,
                     'altCount' => 1,
                     'countWithoutAlt' => 1,
+                    'images' => ["myImage.png"],
                     'state' => AbstractEvaluator::STATE_YELLOW
                 ]
             ],
@@ -134,6 +138,7 @@ class ImagesEvaluatorTest extends UnitTestCase
                     'count' => 3,
                     'altCount' => 3,
                     'countWithoutAlt' => 0,
+                    'images' => [],
                     'state' => AbstractEvaluator::STATE_GREEN
                 ]
             ]
