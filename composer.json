@@ -2,7 +2,7 @@
   "name": "clickstorm/cs_seo",
   "type": "typo3-cms-extension",
   "description": "[clickstorm] SEO",
-  "homepage": "http://www.clickstorm.de",
+  "homepage": "https://www.clickstorm.de",
   "license": [
 	"GPL-2.0+"
   ],
@@ -12,19 +12,24 @@
 	"clickstorm",
 	"SEO"
   ],
-  "version": "3.0.3-dev",
-  "replace": {
-	"cs_seo": "*"
-  },
   "require": {
 	"typo3/cms-core": "^8.7 || >=9.0.0 <9.3.0"
   },
+  "replace": {
+	"cs_seo": "*"
+  },
   "suggest": {
-	"typo3-ter/realurl": "*"
+	"dmitryd/realurl": "Speaking URLs for TYPO3",
+	"nimut/testing-framework": "Testing Framework for TYPO3 CMS Extensions"
   },
   "autoload": {
 	"psr-4": {
 	  "Clickstorm\\CsSeo\\": "Classes/"
+	}
+  },
+  "autoload-dev": {
+	"psr-4": {
+	  "Clickstorm\\CsSeo\\Tests\\": "Tests"
 	}
   }
 }
