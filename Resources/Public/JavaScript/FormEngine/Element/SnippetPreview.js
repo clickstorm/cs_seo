@@ -21,7 +21,7 @@ define(['jquery'], function($) {
 				$inputFallbackDescriptionHR = findInputFallback('description'),
 				$inputSeoDescriptionHR = $panel.find('[data-formengine-input-name$="[description]"], textarea[name$="[description]"]');
 			if(fallbackTable == 'pages') {
-				var $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[tx_csseo_title]"], input[name$="[tx_csseo_title]_hr"]'),
+				var $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[seo_title]"], input[name$="[seo_title]_hr"]'),
 					$checkboxTitleOnlyHR = $panel.find('input[data-formengine-input-name$="[tx_csseo_title_only]"], input[name$="[tx_csseo_title_only]_0"]');
 			} else {
 				var $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[title]"], input[name$="[title]_hr"]'),
