@@ -13,10 +13,14 @@
 	"SEO"
   ],
   "require": {
-	"typo3/cms-core": "^9.4"
+	"typo3/cms-core": "^9.4",
+	"typo3/cms-seo": "^9.4"
   },
   "require-dev": {
 	"nimut/testing-framework": "*"
+  },
+  "suggest": {
+	"typo3/scheduler": "^9.4"
   },
   "replace": {
 	"cs_seo": "*"
