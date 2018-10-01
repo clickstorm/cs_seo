@@ -221,7 +221,7 @@ class ModuleController extends ActionController
                 $columnDef['cellTemplate'] =
                     '<div class="ui-grid-cell-contents ng-binding ng-scope"><span ng-repeat="i in grid.appScope.rangeArray | limitTo: row.entity.level">&nbsp;&nbsp;</span>{{row.entity.title}}</div>';
                 break;
-            case 'tx_csseo_title':
+            case 'seo_title':
                 $columnDef['min'] = 35;
                 break;
             case 'description':

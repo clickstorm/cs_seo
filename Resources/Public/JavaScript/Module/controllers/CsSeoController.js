@@ -39,7 +39,7 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 	$scope.$watch('currentValue', function (newValue, oldValue, $scope) {
 		if(newValue !== undefined) {
 			var characterCount = newValue.length;
-			if($scope.currentField == 'tx_csseo_title' && $scope.pageTitleOnly == false) {
+			if($scope.currentField == 'seo_title' && $scope.pageTitleOnly == false) {
 				characterCount += csSEO.previewSettings.siteTitle.length;
 			}
 			$scope.prbValue = characterCount;
@@ -51,13 +51,14 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 				case 'title':
 					$scope.pageTitle = newValue;
 					break;
-				case 'tx_csseo_title':
+				case 'seo_title':
 					$scope.pageCsSeoTitle = newValue;
 					break;
 				case 'tx_csseo_title_only':
 					$scope.pageTitleOnly = newValue;
 					break;
 			}
+
 			if($scope.currentField != 'description') {
 				$scope.previewTitle = previewTitleFactory.getTitle($scope.pageTitle, $scope.pageCsSeoTitle, $scope.pageTitleOnly);
 			}
@@ -103,7 +104,7 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 			if($scope.wizardInit) {
 				$scope.pageTitle = rowEntity.title;
 				$scope.pageDescription = rowEntity.description;
-				$scope.pageCsSeoTitle = rowEntity.tx_csseo_title;
+				$scope.pageCsSeoTitle = rowEntity.seo_title;
 				$scope.pageTitleOnly = rowEntity.tx_csseo_title_only;
 				$scope.currentField = colDef.field;
 				$scope.previewTitle = previewTitleFactory.getTitle($scope.pageTitle, $scope.pageCsSeoTitle, $scope.pageTitleOnly);
