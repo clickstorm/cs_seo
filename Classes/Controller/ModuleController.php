@@ -118,7 +118,7 @@ class ModuleController extends ActionController
      */
     public function pageMetaAction()
     {
-        $this->fieldNames = ['title', 'tx_csseo_title', 'tx_csseo_title_only', 'description'];
+        $this->fieldNames = ['title', 'seo_title', 'tx_csseo_title_only', 'description'];
 
         // preview settings
         $previewSettings = [];
@@ -402,7 +402,7 @@ class ModuleController extends ActionController
      */
     public function pageIndexAction()
     {
-        $this->fieldNames = ['title', 'tx_csseo_canonical', 'tx_csseo_no_index', 'tx_csseo_no_follow', 'no_search'];
+        $this->fieldNames = ['title', 'canonical_link', 'no_index', 'no_follow', 'no_search'];
 
         $this->processFields();
     }
@@ -412,7 +412,7 @@ class ModuleController extends ActionController
      */
     public function pageOpenGraphAction()
     {
-        $this->fieldNames = ['title', 'tx_csseo_og_title', 'tx_csseo_og_description', 'tx_csseo_og_image'];
+        $this->fieldNames = ['title', 'og_title', 'og_description', 'og_image'];
 
         $this->processFields();
     }
@@ -425,11 +425,11 @@ class ModuleController extends ActionController
         $this->fieldNames =
             [
                 'title',
-                'tx_csseo_tw_title',
-                'tx_csseo_tw_description',
+                'twitter_title',
+                'twitter_description',
                 'tx_csseo_tw_creator',
                 'tx_csseo_tw_site',
-                'tx_csseo_tw_image'
+                'twitter_image'
             ];
 
         $this->processFields();
