@@ -43,28 +43,32 @@ return [
 		],
 		'starttime' => [
 			'exclude' => 1,
-			'l10n_mode' => 'mergeIfNotBlank',
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
 			'config' => [
 				'type' => 'input',
+                'renderType' => 'inputDateTime',
 				'size' => 13,
-				'max' => 20,
 				'eval' => 'datetime',
 				'checkbox' => 0,
-				'default' => 0
+				'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true
+                ]
 			],
 		],
 		'endtime' => [
 			'exclude' => 1,
-			'l10n_mode' => 'mergeIfNotBlank',
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
 			'config' => [
 				'type' => 'input',
+                'renderType' => 'inputDateTime',
 				'size' => 13,
-				'max' => 20,
 				'eval' => 'datetime',
 				'checkbox' => 0,
-				'default' => 0
+				'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true
+                ]
 			],
 		],
 		'results' => [

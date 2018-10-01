@@ -12,6 +12,8 @@ $GLOBALS['TCA']['pages']['columns']['description']['config']['max'] = $extConf['
 $GLOBALS['TCA']['pages']['columns']['seo_title']['config']['max'] = $extConf['maxTitle'];
 $GLOBALS['TCA']['pages']['columns']['seo_title']['config']['renderType'] = 'snippetPreview';
 
+$GLOBALS['TCA']['pages']['columns']['no_index']['onChange'] = 'reload';
+
 // define new fields
 $tempColumns = [
     'tx_csseo_title_only' => [
@@ -71,9 +73,6 @@ $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
     'twittercards',
     '--linebreak--,
     tx_csseo_tw_creator, tx_csseo_tw_site');
-
-// add no_index to request update
-$GLOBALS['TCA']['pages']['ctrl']['requestUpdate'] .= ',no_index';
 
 // register page TSconfig
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerPageTSConfigFile(

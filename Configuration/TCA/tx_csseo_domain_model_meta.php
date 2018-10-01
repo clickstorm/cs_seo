@@ -111,28 +111,32 @@ return [
 		],
 		'starttime' => [
 			'exclude' => 1,
-			'l10n_mode' => 'mergeIfNotBlank',
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
 			'config' => [
 				'type' => 'input',
+                'renderType' => 'inputDateTime',
 				'size' => 13,
-				'max' => 20,
 				'eval' => 'datetime',
 				'checkbox' => 0,
-				'default' => 0
+				'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true
+                ]
 			],
 		],
 		'endtime' => [
 			'exclude' => 1,
-			'l10n_mode' => 'mergeIfNotBlank',
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
 			'config' => [
 				'type' => 'input',
+                'renderType' => 'inputDateTime',
 				'size' => 13,
-				'max' => 20,
 				'eval' => 'datetime',
 				'checkbox' => 0,
-				'default' => 0
+				'default' => 0,
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true
+                ]
 			],
 		],
 
@@ -180,23 +184,9 @@ return [
 			'displayCond' => 'FIELD:tx_csseo_no_index:REQ:FALSE',
 			'config' => [
 				'type' => 'input',
+                'renderType' => 'inputLink',
 				'max' => '256',
 				'eval' => 'trim',
-				'wizards' => [
-					'link' => [
-						'type' => 'popup',
-						'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:header_link_formlabel',
-						'icon' => 'actions-wizard-link',
-						'module' => [
-							'name' => 'wizard_link',
-						],
-						'params' => [
-							'blindLinkOptions' => 'file, folder, mail, spec',
-							'blindLinkFields' => '',
-						],
-						'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1'
-					]
-				],
 				'softref' => 'typolink'
 			]
 		],
@@ -244,38 +234,6 @@ return [
 				[
 					'appearance' => [
 						'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference'
-					],
-					'foreign_types' => [
-						'0' => [
-							'showitem' => '
-                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                        --palette--;;filePalette'
-						],
-						\TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => [
-							'showitem' => '
-                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                        --palette--;;filePalette'
-						],
-						\TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-							'showitem' => '
-                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                        --palette--;;filePalette'
-						],
-						\TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => [
-							'showitem' => '
-                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                        --palette--;;filePalette'
-						],
-						\TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => [
-							'showitem' => '
-                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                        --palette--;;filePalette'
-						],
-						\TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
-							'showitem' => '
-                        --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                        --palette--;;filePalette'
-						]
 					],
                     'overrideChildTca' => [
                         'types' => [
@@ -344,38 +302,6 @@ return [
 				[
 					'appearance' => [
 						'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference'
-					],
-					'foreign_types' => [
-						'0' => [
-							'showitem' => '
-                    --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                    --palette--;;filePalette'
-						],
-						\TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => [
-							'showitem' => '
-                    --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                    --palette--;;filePalette'
-						],
-						\TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-							'showitem' => '
-                    --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                    --palette--;;filePalette'
-						],
-						\TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => [
-							'showitem' => '
-                    --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                    --palette--;;filePalette'
-						],
-						\TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => [
-							'showitem' => '
-                    --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                    --palette--;;filePalette'
-						],
-						\TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
-							'showitem' => '
-                    --palette--;LLL:EXT:lang/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                    --palette--;;filePalette'
-						]
 					],
                     'overrideChildTca' => [
                         'types' => [
