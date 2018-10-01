@@ -216,9 +216,12 @@ class TSFEUtility
             );
 
             $GLOBALS['TSFE']->config = [];
+            $GLOBALS['TSFE']->workspacePreview = $this->workspaceUid;
             $GLOBALS['TSFE']->forceTemplateParsing = true;
             $GLOBALS['TSFE']->showHiddenPages = true;
+            $GLOBALS['TSFE']->initFEuser();
             $GLOBALS['TSFE']->determineId();
+            $GLOBALS['TSFE']->initTemplate();
             $GLOBALS['TSFE']->newCObj();
 
             $GLOBALS['TSFE']->getConfigArray();
