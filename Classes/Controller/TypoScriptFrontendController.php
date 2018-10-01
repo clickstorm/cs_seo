@@ -30,6 +30,8 @@ namespace Clickstorm\CsSeo\Controller;
 use TYPO3\CMS\Core\Error\Http\ServiceUnavailableException;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\ErrorController;
+use TYPO3\CMS\Frontend\Page\PageAccessFailureReasons;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
@@ -142,10 +144,15 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
                     $this->id = $theFirstPage['uid'];
                 } else {
                     $message = 'No pages are found on the rootlevel!';
-                    if ($this->checkPageUnavailableHandler()) {
-                        $this->pageUnavailableAndExit($message);
-                    } else {
-                        GeneralUtility::sysLog($message, 'cms', GeneralUtility::SYSLOG_SEVERITY_ERROR);
+                    $this->logger->alert($message);
+                    try {
+                        $response = GeneralUtility::makeInstance(ErrorController::class)->unavailableAction(
+                            $GLOBALS['TYPO3_REQUEST'],
+                            $message,
+                            ['code' => PageAccessFailureReasons::NO_PAGES_FOUND]
+                        );
+                        throw new ImmediateResponseException($response, 1533931299);
+                    } catch (ServiceUnavailableException $e) {
                         throw new ServiceUnavailableException($message, 1301648975);
                     }
                 }
