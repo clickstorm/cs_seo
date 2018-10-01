@@ -113,7 +113,7 @@ class HeaderData
         }
 
         // page
-        $pagesTable = $GLOBALS['TSFE']->sys_language_uid > 0 ? 'pages_language_overlay' : 'pages';
+        $pagesTable = 'pages';
         if (in_array($pagesTable, $tables)) {
             $pageUid = $GLOBALS['TSFE']->page['_PAGES_OVERLAY_UID'] ?: $GLOBALS['TSFE']->id;
 
@@ -625,7 +625,7 @@ class HeaderData
     public function getSocialMediaImage($p1, $p2)
     {
         if ($GLOBALS['TSFE']->page['_PAGES_OVERLAY']) {
-            $image = DatabaseUtility::getFile('pages_language_overlay', $p2['field'],
+            $image = DatabaseUtility::getFile('pages', $p2['field'],
                 $GLOBALS['TSFE']->page['_PAGES_OVERLAY_UID']);
             if (!empty($image)) {
                 return $image->getUid();

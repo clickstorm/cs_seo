@@ -233,7 +233,7 @@ class ModuleController extends ActionController
             case 'sys_language_uid':
                 $columnDef['displayName'] =
                     $this->getLanguageService()->sL(
-                        $GLOBALS['TCA']['pages_language_overlay']['columns'][$fieldName]['label']
+                        $GLOBALS['TCA']['pages']['columns'][$fieldName]['label']
                     );
                 $columnDef['width'] = 100;
                 $columnDef['type'] = 'object';
@@ -285,7 +285,6 @@ class ModuleController extends ActionController
         if ($this->modParams['lang'] > 0) {
             if ($page['_PAGES_OVERLAY_UID']) {
                 $uid = $page['_PAGES_OVERLAY_UID'];
-                $table = 'pages_language_overlay';
             }
 
             $page['sys_language_uid'] = $this->languages[$page['_PAGES_OVERLAY_LANGUAGE'] ?: 0];
@@ -358,7 +357,7 @@ class ModuleController extends ActionController
                 $evaluation =
                     $this->evaluationRepository->findByUidForeignAndTableName(
                         $record['_PAGES_OVERLAY_UID'],
-                        'pages_language_overlay'
+                        'pages'
                     );
             } else {
                 $evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$record['uid'], 'pages');
@@ -563,8 +562,7 @@ class ModuleController extends ActionController
         $field = $attr->field;
 
         // check for language overlay
-        if ($attr->entry->_PAGES_OVERLAY && isset($GLOBALS['TCA']['pages_language_overlay']['columns'][$field])) {
-            $tableName = 'pages_language_overlay';
+        if ($attr->entry->_PAGES_OVERLAY && isset($GLOBALS['TCA']['pages']['columns'][$field])) {
             $uid = $attr->entry->_PAGES_OVERLAY_UID;
         }
 

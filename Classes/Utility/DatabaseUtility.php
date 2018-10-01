@@ -83,7 +83,7 @@ class DatabaseUtility
     public static function getPageLanguageOverlays($uid)
     {
         $items = [];
-        $table = 'pages_language_overlay';
+        $table = 'pages';
         $tcaCtrl = $GLOBALS['TCA'][$table]['ctrl'];
 
         /** @var QueryBuilder $queryBuilder */

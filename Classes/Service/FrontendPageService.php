@@ -87,7 +87,7 @@ class FrontendPageService
         $params = '';
         $paramId = $this->pageInfo['uid'];
 
-        if($this->tableName && !in_array($this->tableName, ['pages', 'pages_language_overlay'])) {
+        if($this->tableName && $this->tableName != 'pages') {
             // record
             $tableSettings = ConfigurationUtility::getTableSettings($this->tableName);
             if($tableSettings['evaluation.']) {

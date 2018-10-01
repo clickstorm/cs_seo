@@ -122,9 +122,6 @@ class EvaluationCommandController extends CommandController
             } else {
                 if ($tcaCtrl['languageField']) {
                     $queryBuilder->andWhere($queryBuilder->expr()->gt($tcaCtrl['languageField'], 0));
-                } elseif ($this->tableName == 'pages') {
-                    $this->tableName = 'pages_language_overlay';
-                    $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
                 }
             }
         }

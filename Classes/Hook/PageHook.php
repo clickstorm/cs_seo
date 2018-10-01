@@ -224,7 +224,6 @@ class PageHook
         $results = [];
 
         if ($lang) {
-            $tableName = 'pages_language_overlay';
             $localizedPageInfo = BackendUtility::getRecordLocalization('pages', $pageInfo['uid'], $lang);
             if ($localizedPageInfo[0]) {
                 $uidForeign = $localizedPageInfo[0]['uid'];

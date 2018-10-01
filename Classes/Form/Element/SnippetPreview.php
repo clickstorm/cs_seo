@@ -172,7 +172,7 @@ class SnippetPreview extends AbstractNode
                     $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();
                     $config = $TSFEUtility->getConfig();
 
-                    if ($table == 'pages' || $table == 'pages_language_overlay') {
+                    if ($table == 'pages') {
                         $GLOBALS['TSFE']->config['config']['noPageTitle'] = 0;
 
                         /** @TODO remove in 10 */
