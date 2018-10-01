@@ -132,7 +132,6 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
         // We find the first page belonging to the current domain
         $timeTracker->push('fetch_the_id domain/', '');
         // The page_id of the current domain
-        $this->domainStartPage = $this->findDomainRecord($this->TYPO3_CONF_VARS['SYS']['recursiveDomainSearch']);
         if (!$this->id) {
             if ($this->domainStartPage) {
                 // If the id was not previously set, set it to the id of the domain.
