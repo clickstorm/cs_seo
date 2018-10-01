@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\Utility;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -40,14 +41,23 @@ class ConfigurationUtility
 {
 
     /**
-     * Get the configuration from the extension manager
+     * return the table names to extend
      *
      * @return array
      */
-    public static function getEmConfiguration()
+    public static function getTablesToExtend()
     {
-        $conf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
-        return is_array($conf) ? $conf : [];
+        $pageTSconfig = self::getPageTSconfig();
+        $tables = [];
+        if ($pageTSconfig) {
+            foreach ($pageTSconfig as $table) {
+                if (is_string($table)) {
+                    $tables[] = $table;
+                }
+            }
+        }
+
+        return $tables;
     }
 
     /**
@@ -67,23 +77,15 @@ class ConfigurationUtility
     }
 
     /**
-     * return the table names to extend
+     * Get the configuration from the extension manager
      *
      * @return array
      */
-    public static function getTablesToExtend()
+    public static function getEmConfiguration()
     {
-        $pageTSconfig = self::getPageTSconfig();
-        $tables = [];
-        if ($pageTSconfig) {
-            foreach ($pageTSconfig as $table) {
-                if (is_string($table)) {
-                    $tables[] = $table;
-                }
-            }
-        }
+        $conf = $confArray = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('cs_seo');
 
-        return $tables;
+        return is_array($conf) ? $conf : [];
     }
 
     /**
@@ -118,6 +120,7 @@ class ConfigurationUtility
         if ($extConf['evaluationDoktypes']) {
             $allowedDoktypes = GeneralUtility::trimExplode(',', $extConf['evaluationDoktypes']);
         }
+
         return $allowedDoktypes;
     }
 }
