@@ -40,7 +40,7 @@ class EvaluationController extends ActionController
 
     /**
      * @var EvaluationRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $evaluationRepository;
 

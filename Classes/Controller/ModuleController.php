@@ -55,13 +55,13 @@ class ModuleController extends ActionController
 
     /**
      * @var \TYPO3\CMS\Frontend\Page\PageRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $pageRepository;
 
     /**
      * @var \Clickstorm\CsSeo\Domain\Repository\EvaluationRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $evaluationRepository;
 

@@ -51,13 +51,13 @@ class EvaluationCommandController extends CommandController
 
     /**
      * @var \Clickstorm\CsSeo\Domain\Repository\EvaluationRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $evaluationRepository;
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $persistenceManager;
 
