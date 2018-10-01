@@ -202,7 +202,7 @@ class TSFEUtility
     protected function initTSFE()
     {
         try {
-            GeneralUtility::_GETset($this->lang, 'L');
+            $_GET['L'] = $this->lang;
             if (!is_object($GLOBALS['TT'])) {
                 $GLOBALS['TT'] = GeneralUtility::makeInstance(TimeTracker::class, false);
                 $GLOBALS['TT']->start();
