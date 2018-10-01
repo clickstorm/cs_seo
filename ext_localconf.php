@@ -2,7 +2,7 @@
 defined('TYPO3_MODE') || die('Access denied.');
 
 if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
-    $confArray = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get($_EXTKEY);
+    $confArray = \Clickstorm\CsSeo\Utility\ConfigurationUtility::getEmConfiguration();
 
     if (TYPO3_MODE === 'BE') {
 

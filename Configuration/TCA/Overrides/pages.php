@@ -2,7 +2,7 @@
 defined('TYPO3_MODE') || die('Access denied.');
 
 // get extension configurations
-$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
+$extConf = \Clickstorm\CsSeo\Utility\ConfigurationUtility::getEmConfiguration();
 
 // SEO Settings
 $GLOBALS['TCA']['pages']['columns']['title']['config']['max'] = $extConf['maxTitle'];

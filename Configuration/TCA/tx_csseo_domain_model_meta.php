@@ -1,6 +1,6 @@
 <?php
 
-$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
+$extConf = \Clickstorm\CsSeo\Utility\ConfigurationUtility::getEmConfiguration();
 
 return [
 	'ctrl' => [
