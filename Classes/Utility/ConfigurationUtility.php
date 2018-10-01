@@ -61,8 +61,7 @@ class ConfigurationUtility
         $tsConfigPid = $extConf['tsConfigPid'] ?: 1;
 
         // get rootLine first to prevent caching from pageTSconfig
-        $rootLine = BackendUtility::BEgetRootLine($tsConfigPid, '', true);
-        $pageTSconfig = BackendUtility::getPagesTSconfig($tsConfigPid, $rootLine);
+        $pageTSconfig = BackendUtility::getPagesTSconfig($tsConfigPid);
 
         return $pageTSconfig['tx_csseo.'] ?: [];
     }
