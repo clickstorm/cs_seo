@@ -51,14 +51,9 @@ class TableConfigurationPostProcessingHook implements TableConfigurationPostProc
         // add new fields to pages
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
             'pages',
-            '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo, 
-            --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_preview;tx_csseo_preview,tx_csseo_keyword,
-            --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_index;tx_csseo_index,
-            --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
-            --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_facebook;tx_csseo_facebook,
-            --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_twitter;tx_csseo_twitter',
+            'tx_csseo_keyword',
             implode(',',\Clickstorm\CsSeo\Utility\ConfigurationUtility::getEvaluationDoktypes()),
-            'after:lastUpdated'
+            'after:canonical_link'
         );
         
         // Extend TCA of records like news etc.
