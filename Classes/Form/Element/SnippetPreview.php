@@ -235,7 +235,6 @@ class SnippetPreview extends AbstractNode
 
                         $pageTitle = $TSFEUtility->getFinalTitle($data['title'], $data['title_only']);
                         $path = '';
-                        $urlScheme = 'http://';
                     }
 
                     $wizardView->assignMultiple(
@@ -243,13 +242,11 @@ class SnippetPreview extends AbstractNode
                             'config' => $config,
                             'extConf' => ConfigurationUtility::getEmConfiguration(),
                             'data' => $data,
-                            'domain' => BackendUtility::firstDomainRecord($rootline),
                             'fallback' => $fallback,
                             'pageTitle' => $pageTitle,
                             'pageTitleSeparator' => $pageTitleSeparator,
                             'path' => $path,
-                            'siteTitle' => $siteTitle,
-                            'urlScheme' => $urlScheme
+                            'siteTitle' => $siteTitle
                         ]
                     );
                 } else {
