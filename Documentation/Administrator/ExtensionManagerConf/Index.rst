@@ -24,7 +24,6 @@ Properties
 	Property                             Data type                             Default
 	==================================== ===================================== ====================
 	`basic.enablePathSegment`_           :ref:`t3tsref:data-type-boolean`      true
-	`basic.realURLAutoConf`_             :ref:`t3tsref:data-type-boolean`      true
 	`basic.tsConfigPid`_                 :ref:`t3tsref:data-type-integer`      1
 	`page.maxTitle`_                     :ref:`t3tsref:data-type-integer`      57
 	`page.maxDescription`_               :ref:`t3tsref:data-type-integer`      156
@@ -54,20 +53,6 @@ Set path segments
    Description
          If enabled, a JS is insert in the page settings, so that the RealURL pathsegment will be filled, if it is empty.
          This avoids automatically changing the URL when changing the page title.
-
-.. _basic.realURLAutoConf:
-
-RealURL AutoConf
-""""""""""""""""
-
-.. container:: table-row
-
-   Property
-         realURLAutoConf
-   Data type
-         :ref:`t3tsref:data-type-boolean`
-   Description
-         If set, sitemap.xml and robots.txt maps to the page types from cs_seo.
 
 .. _basic.tsConfigPid:
 

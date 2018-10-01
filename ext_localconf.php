@@ -25,18 +25,6 @@ if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['Clickstorm\\CsSeo\\Evaluation\\TCA\\RobotsExistsEvaluator'] = '';
     }
 
-    // realURL autoconf
-    if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('realurl') && $confArray['realURLAutoConf']) {
-        $realUrlConfArray = @unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['realurl']);
-        if (!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']) && $realUrlConfArray['enableAutoConf']) {
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/realurl/class.tx_realurl_autoconfgen.php']['extensionConfiguration'][$_EXTKEY] =
-                \Clickstorm\CsSeo\Hook\RealUrlHook::class . '->extensionConfiguration';
-        } else {
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']['ConfigurationReader_postProc'][$_EXTKEY] =
-                \Clickstorm\CsSeo\Hook\RealUrlHook::class . '->postProcessConfiguration';
-        }
-    }
-
     // extend records
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['extTablesInclusion-PostProcessing']['cs_seo'] =
         \Clickstorm\CsSeo\Hook\TableConfigurationPostProcessingHook::class;

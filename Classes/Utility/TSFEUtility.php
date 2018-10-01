@@ -221,12 +221,6 @@ class TSFEUtility
             $GLOBALS['TSFE']->initTemplate();
             $GLOBALS['TSFE']->newCObj();
 
-            if (ExtensionManagementUtility::isLoaded('realurl')) {
-                $rootline = BackendUtility::BEgetRootLine($this->pageUid);
-                $host = BackendUtility::firstDomainRecord($rootline);
-                $_SERVER['HTTP_HOST'] = $host;
-            }
-
             $GLOBALS['TSFE']->getConfigArray();
             $GLOBALS['TSFE']->settingLanguage();
 

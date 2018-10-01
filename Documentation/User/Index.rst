@@ -14,10 +14,6 @@ Users Manual
 With this extension editors can easily set some advanced properties for SEO in the page settings.
 With the Google search result preview the editor can see the effects of some properties directly.
 
-Without this extension it is a problem that the speaking URL changes also, when the editor changes a page title.
-The page is not available with the old URL anymore. So now when the user creates a new page,
-the RealURL path segment will be set automatically.
-
 We also change the max characters settings in some fields so that they are not too long for search results.
 Furthermore the new configurations are good explained. You can see the explanation as usual by hovering the label.
 

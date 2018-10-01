@@ -73,7 +73,7 @@ Allow: /typo3conf/ext/
 Allow: /typo3temp/
 
 # parameters
-Disallow: /*?id=*               # non-realurl URLs
+Disallow: /*?id=*               # non speaking URLs
 Disallow: /*cHash               # no cHash
 Disallow: /*tx_powermail_pi1    # no powermail thanks pages
 Disallow: /*tx_form_formframework    # no forms

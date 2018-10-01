@@ -9,18 +9,6 @@ $GLOBALS['TCA']['pages']['columns']['title']['config']['max'] = $extConf['maxTit
 $GLOBALS['TCA']['pages']['columns']['nav_title']['config']['max'] = $extConf['maxNavTitle'];
 $GLOBALS['TCA']['pages']['columns']['description']['config']['max'] = $extConf['maxDescription'];
 
-// Path segment auto fill
-if ($extConf['enablePathSegment'] && isset($GLOBALS['TCA']['pages']['columns']['tx_realurl_pathsegment'])) {
-    $GLOBALS['TCA']['pages']['columns']['tx_realurl_pathsegment']['config']['eval'] .= ',required';
-    $GLOBALS['TCA']['pages']['columns']['tx_realurl_pathsegment']['config']['wizards'] = [
-        '_POSITION' => 'bottom',
-        'permalinkWizard' => [
-            'type' => 'userFunc',
-            'userFunc' => \Clickstorm\CsSeo\UserFunc\PermalinkWizard::class . '->render'
-        ]
-    ];
-}
-
 // define new fields
 $tempColumns = [
     'tx_csseo_title' => [

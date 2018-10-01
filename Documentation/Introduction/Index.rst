@@ -41,7 +41,6 @@ Features
 - Configure an individual **Robots.txt** per Domain
 - **href="lang"** support
 - Backend module in AngularJS to edit the properties directly
-- Set automatically the path segement from RealURL while creating a new page
 - Tracking with Google Analytics inc. download tracking
 - Tracking with Piwik
 - Migrate properties from metaseo and seo_basics

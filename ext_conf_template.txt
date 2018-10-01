@@ -1,9 +1,6 @@
 # cat=basic/enable/010; type=boolean; label= Set path segments : Enable the JS for automatic filling of the path segment, if this is empty
 enablePathSegment = 1
 
-# cat=basic/enable/020; type=boolean; label= RealURL AutoConf : If set, sitemap.xml and robots.txt maps to the page types from cs_seo.
-realURLAutoConf = 1
-
 # cat=basic/enable/030; type=integer; label= TsConfig PID : The Pid where the pageTsConfig is set to extend records
 tsConfigPid = 1
 
