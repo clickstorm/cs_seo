@@ -389,7 +389,7 @@ class ModuleController extends ActionController
 				expandAll: true,
 				enableFiltering: true,
 				doktypes: ' . $doktypes . ',
-				i18n: \'' . $GLOBALS['LANG']->lang . '\',
+				i18n: \'' . $this->modParams['lang'] . '\',
 				cellEditableCondition: function($scope) {
 					return (' . $doktypes . '.indexOf(parseInt($scope.row.entity.doktype)) > -1)
 				}
