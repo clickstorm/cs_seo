@@ -175,28 +175,13 @@ class SnippetPreview extends AbstractNode
                     if ($table == 'pages') {
                         $GLOBALS['TSFE']->config['config']['noPageTitle'] = 0;
 
-                        /** @TODO remove in 10 */
-                        if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 9000000) {
-                            $GLOBALS['TSFE']->generatePageTitle();
-                        } else {
-                            PageGenerator::generatePageTitle();
-                        }
+                        $GLOBALS['TSFE']->generatePageTitle();
 
                         $pageTitle = static::getPageRenderer()->getTitle();
+
                         // get page path
                         $path = $TSFEUtility->getPagePath();
-                        // TYPO3 8
-                        $urlScheme = is_array($data['url_scheme']) ? $data['url_scheme'][0] : $data['url_scheme'];
 
-                        // check if path is absolute
-                        if (strpos($path, '://') !== false) {
-                            $pathData = parse_url($path);
-                            if (isset($pathData['path']) && !empty($pathData['path'])) {
-                                $path = ltrim($pathData['path'], '/');
-                            } else {
-                                $path = '';
-                            }
-                        }
                         $fallback['title'] = 'title';
                         $fallback['uid'] = $data['uid'];
                         $fallback['table'] = $table;

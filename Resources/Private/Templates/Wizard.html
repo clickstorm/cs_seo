@@ -17,7 +17,7 @@
                 data-fallback-description="{fallback.description}">
                 <f:format.crop maxCharacters="66" respectWordBoundaries="0">{pageTitle}</f:format.crop>
             </h3>
-            <div class="url">{f:if(condition:"{urlScheme}=='2'",then:'https://')}{domain}{f:if(condition:"{path}=='/'",then:path,else:'/{path}')}</div>
+            <div class="url">{path}</div>
                 <span class="js-cs-seo-desc"><f:format.crop maxCharacters="{extConf.maxDescription}" respectWordBoundaries="0">{data.description}</f:format.crop></span>
                 <span class="js-cs-seo-hidden" style="{f:if(condition:data.description,then:'display:none;')}"><f:translate key="templates.wizard.description" extensionName="cs_seo" /></span>
             </p>
