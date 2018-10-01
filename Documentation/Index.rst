@@ -29,7 +29,7 @@ SEO
 		Enable SEO features on pages and models
 
 	:Keywords:
-		seo,meta,tags,google,open,graph,facebook,twitter,cards,href,lang,index,search,engine,sitemap
+		seo,meta,tags,google,open,graph,facebook,twitter,cards,href,lang,index,search,engine
 
 	:Copyright:
 		2016

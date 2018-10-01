@@ -258,8 +258,3 @@ The title, description and an image should be available on every page. The title
 You can set the description in the SEO tab. A default image for sharing can be set by the open graph image field in the
 Social Media tab.
 
-**Why there are no extra fields for the sitemap.xml configuration?**
-The more an editor can configure, the more confused he is. Therefore we decide to use the no index field to exclude
-a page / record from the sitemap, too. The priority and the change frequency were usually ignored by editors and are also
-not very important for Google etc.
-

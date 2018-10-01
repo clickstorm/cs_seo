@@ -221,9 +221,6 @@
 		<trans-unit id="select.prepend">
 			<source>Please choose</source>
 		</trans-unit>
-		<trans-unit id="templates.sitemap.extension.no_records">
-			<source>No records were found. Please check your configurations.</source>
-		</trans-unit>
 		<trans-unit id="templates.wizard.description">
 			<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
 		</trans-unit>

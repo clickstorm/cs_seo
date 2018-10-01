@@ -32,30 +32,6 @@ plugin.tx_csseo {
 		piwik = {$plugin.tx_csseo.tracking.piwik}
 		piwik.id = {$plugin.tx_csseo.tracking.piwik.id}
 	}
-	sitemap {
-		view {
-			layoutRootPaths {
-				0 = EXT:cs_seo/Resources/Private/Layouts
-				10 = {$plugin.tx_csseo.sitemap.view.layoutRootPath}
-			}
-			partialRootPaths {
-				0 = EXT:cs_seo/Resources/Private/Partials
-				10 = {$plugin.tx_csseo.sitemap.view.partialRootPath}
-			}
-			templateRootPaths {
-				0 = EXT:cs_seo/Resources/Private/Templates/Sitemap/
-				10 = {$plugin.tx_csseo.sitemap.view.templateRootPath}
-			}
-		}
-		pages {
-			rootPid = {$plugin.tx_csseo.sitemap.pages.rootPid}
-			languageUids = {$plugin.tx_csseo.sitemap.pages.languageUids}
-			doktypes = {$plugin.tx_csseo.sitemap.pages.doktypes}
-		}
-		additional {
-			1 = {$plugin.tx_csseo.sitemap.additional}
-		}
-	}
 	# default robots.txt content #
 	robots = TEXT
 	robots {

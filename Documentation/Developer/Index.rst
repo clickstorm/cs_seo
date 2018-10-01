@@ -19,5 +19,4 @@ Here you find information for developers, e.g how to extend an existing extbase 
 
 	ExtendExistingModel/Index
 	ExtendEvaluation/Index
-	ExtendSitemap/Index
 	OverrideTypoScript/Index

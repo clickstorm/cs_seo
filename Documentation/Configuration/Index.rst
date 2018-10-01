@@ -8,7 +8,7 @@
 Configuration
 =============
 
-Here you find information for integrators, e.g how to set up the sitemap.xml or the hreflang.
+Here you find information for integrators, e.g how to set up the hreflang.
 
 Main Topics
 -----------
@@ -47,30 +47,6 @@ If you want to hide the evalutation for some editors or pages, you can use TScon
 	# page TSconfig
 	mod.web_layout.tx_csseo.disable = 0
 
-
-Sitemap.xml
-^^^^^^^^^^^
-Automatically a sitemap.xml for the default language is generated. No extra fields in the page settings were defined.
-If No Index is set, the page is also not visible in the sitemap - :ref:`user-faq`.
-
-Pages
-"""""
-If you need more languages or the website has an other root pid than 1 use the TypoScript settings: :ref:`sitemap.xml`.
-
-News
-""""
-If you would like to show also a sitemap for the news, include the TypoScript called "Sitemap.xml for news". Then configure
-at least the detail pid. More here: :ref:`sitemap.xml.news`.
-
-Other Extensions and external sitemaps
-""""""""""""""""""""""""""""""""""""""
-For other extension records or additional, external sitemaps take a look here: :ref:`extend-sitemap`.
-
-RealURL
-"""""""
-If you use RealURL, cs_seo automatically configures that the path sitemap.xml maps to the page type 655. If you wan't to disable
-this, use the setting in the extension manager: :ref:`basic.realURLAutoConf`.
-
 Robots.txt
 ^^^^^^^^^^
 The default robots.txt is configured via TypoScript.
@@ -79,11 +55,6 @@ Domain Records
 """"""""""""""
 You can also define a different content for each domain. Therefore use the extra field in the **sys domain records**
 or a TypoScript Condition.
-
-RealURL
-"""""""
-If you use RealURL, cs_seo automatically configures that the path robots.txt maps to the page type 656. If you wan't to disable
-this, use the setting in the extension manager: :ref:`basic.realURLAutoConf`.
 
 User Tracking
 ^^^^^^^^^^^^^
@@ -97,6 +68,5 @@ TypoScript Settings Reference
 	:titlesonly:
 
 	Language/Index
-	Sitemap/Index
 	Social/Index
 	Tracking/Index
