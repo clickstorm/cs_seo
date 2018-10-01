@@ -216,33 +216,15 @@ class TSFEUtility
             );
 
             $GLOBALS['TSFE']->config = [];
-            $GLOBALS['TSFE']->workspacePreview = $this->workspaceUid;
             $GLOBALS['TSFE']->forceTemplateParsing = true;
             $GLOBALS['TSFE']->showHiddenPages = true;
-            $GLOBALS['TSFE']->connectToDB();
-            $GLOBALS['TSFE']->initFEuser();
             $GLOBALS['TSFE']->determineId();
-            $GLOBALS['TSFE']->initTemplate();
             $GLOBALS['TSFE']->newCObj();
 
             $GLOBALS['TSFE']->getConfigArray();
             $GLOBALS['TSFE']->settingLanguage();
 
-            // set absRefPrefix to show url path in backend with realUrl
-            if(VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 8000000) {
-                $GLOBALS['TSFE']->preparePageContentGeneration();
-            } else {
-                if (!empty($GLOBALS['TSFE']->config['config']['absRefPrefix'])) {
-                    $absRefPrefix = trim($GLOBALS['TSFE']->config['config']['absRefPrefix']);
-                    if ($absRefPrefix === 'auto') {
-                        $GLOBALS['TSFE']->absRefPrefix = GeneralUtility::getIndpEnv('TYPO3_SITE_PATH');
-                    } else {
-                        $GLOBALS['TSFE']->absRefPrefix = $absRefPrefix;
-                    }
-                } else {
-                    $GLOBALS['TSFE']->absRefPrefix = '';
-                }
-            }
+            $GLOBALS['TSFE']->preparePageContentGeneration();
         } catch (\Exception $e) {
             /** @var FlashMessage $message */
             $message = GeneralUtility::makeInstance(
@@ -254,7 +236,7 @@ class TSFEUtility
             /** @var FlashMessageService $flashMessageService */
             $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
             $messageQueue = $flashMessageService->getMessageQueueByIdentifier('cs_seo');
-            $messageQueue->addMessage($message);
+            $messageQueue->enqueue($message);
         }
     }
 }
