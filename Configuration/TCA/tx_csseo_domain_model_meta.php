@@ -106,6 +106,7 @@ return [
 			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.hidden',
 			'config' => [
 				'type' => 'check',
+                'renderType' => 'checkboxToggle'
 			],
 		],
 		'starttime' => [
@@ -161,6 +162,7 @@ return [
 			'exclude' => 1,
 			'config' => [
 				'type' => 'check',
+                'renderType' => 'checkboxToggle'
 			]
 		],
 		'keyword' => [
@@ -203,6 +205,7 @@ return [
 			'exclude' => 1,
 			'config' => [
 				'type' => 'check',
+                'renderType' => 'checkboxToggle'
 			]
 		],
         'no_follow' => [
@@ -210,6 +213,7 @@ return [
             'exclude' => 1,
             'config' => [
                 'type' => 'check',
+                'renderType' => 'checkboxToggle'
             ]
         ],
 		'og_title' => [

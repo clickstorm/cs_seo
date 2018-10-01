@@ -19,6 +19,7 @@ $tempColumns = [
         'exclude' => 1,
         'config' => [
             'type' => 'check',
+            'renderType' => 'checkboxToggle'
         ]
     ],
     'tx_csseo_keyword' => [
