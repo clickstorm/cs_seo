@@ -132,8 +132,9 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
                 $this->id = $this->domainStartPage;
             } else {
                 // Find the first 'visible' page in that domain
-                $theFirstPage = $this->sys_page->getFirstWebPage($this->id);
-                if ($theFirstPage) {
+                $rootLevelPages = $this->sys_page->getMenu([0], 'uid', 'sorting', '', false);
+                if (!empty($rootLevelPages)) {
+                    $theFirstPage = reset($rootLevelPages);
                     $this->id = $theFirstPage['uid'];
                 } else {
                     $message = 'No pages are found on the rootlevel!';
