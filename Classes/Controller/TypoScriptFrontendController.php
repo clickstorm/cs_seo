@@ -28,6 +28,7 @@ namespace Clickstorm\CsSeo\Controller;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Error\Http\ServiceUnavailableException;
+use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\ErrorController;
@@ -139,7 +140,7 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
                     $this->logger->alert($message);
                     try {
                         $response = GeneralUtility::makeInstance(ErrorController::class)->unavailableAction(
-                            $GLOBALS['TYPO3_REQUEST'],
+                            new ServerRequest(),
                             $message,
                             ['code' => PageAccessFailureReasons::NO_PAGES_FOUND]
                         );

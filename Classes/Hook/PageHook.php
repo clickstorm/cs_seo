@@ -70,6 +70,7 @@ class PageHook
      * @param PageLayoutController $parentObject
      *
      * @return string
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidExtensionNameException
      */
     public function render(array $params, PageLayoutController $parentObject)
     {
