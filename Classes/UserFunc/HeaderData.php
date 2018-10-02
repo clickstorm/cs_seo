@@ -29,7 +29,6 @@ namespace Clickstorm\CsSeo\UserFunc;
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -410,7 +409,7 @@ class HeaderData
 
         // og:site_name
         $metaTags['og:site_name'] = $this->printMetaTag('og:site_name',
-            $this->escapeContent($GLOBALS['TSFE']->tmpl->sitetitle), 1);
+            $this->escapeContent($tsfeUtility->getSiteTitle()), 1);
 
         // twitter title
         if ($metaData['tw_title']) {
