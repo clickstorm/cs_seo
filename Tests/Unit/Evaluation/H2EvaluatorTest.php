@@ -54,7 +54,7 @@ class H2EvaluatorTest extends UnitTestCase
         $extConf = [
             'maxH2' => $this->max
         ];
-        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo'] = serialize($extConf);
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo'] = $extConf;
     }
 
     /**
@@ -63,7 +63,7 @@ class H2EvaluatorTest extends UnitTestCase
     public function tearDown()
     {
         unset($this->generalEvaluationMock);
-        unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
+        unset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']);
     }
 
     /**

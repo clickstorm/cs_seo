@@ -60,7 +60,7 @@ class TitleEvaluatorTest extends UnitTestCase
             'minTitle' => $this->min,
             'maxTitle' => $this->max
         ];
-        $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo'] = serialize($extConf);
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo'] = $extConf;
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils'] = '';
     }
 
@@ -70,7 +70,7 @@ class TitleEvaluatorTest extends UnitTestCase
     public function tearDown()
     {
         unset($this->generalEvaluationMock);
-        unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['cs_seo']);
+        unset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']);
         unset($GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils']);
     }
 
