@@ -554,20 +554,20 @@ class ModuleController extends ActionController
 
         // get parameter
         $postdata = file_get_contents("php://input");
-        $attr = json_decode($postdata);
+        $attr = json_decode($postdata, true);
 
         // prepare data array
         $tableName = 'pages';
-        $uid = $attr->entry->uid;
-        $field = $attr->field;
+        $uid = $attr['entry']['uid'];
+        $field = $attr['field'];
 
         // check for language overlay
-        if ($attr->entry->_PAGES_OVERLAY && isset($GLOBALS['TCA']['pages']['columns'][$field])) {
-            $uid = $attr->entry->_PAGES_OVERLAY_UID;
+        if ($attr['entry']['_PAGES_OVERLAY'] && isset($GLOBALS['TCA']['pages']['columns'][$field])) {
+            $uid = $attr['entry']['_PAGES_OVERLAY_UID'];
         }
 
         // update map
-        $data[$tableName][$uid][$field] = $attr->value;
+        $data[$tableName][$uid][$field] = $attr['value'];
 
         // update data
         $dataHandler = $this->getDataHandler();
