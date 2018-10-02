@@ -86,9 +86,6 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
      */
     public function setSysPageWhereClause()
     {
-        if ($GLOBALS['BE_USER']->workspace > 0) {
-            $this->sys_page->versioningPreview = true;
-        }
         $this->sys_page->where_hid_del = '';
         $this->sys_page->where_groupAccess = '';
     }
@@ -106,11 +103,7 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
         $timeTracker = $this->getTimeTracker();
         $timeTracker->push('fetch_the_id initialize/', '');
         // Initialize the page-select functions.
-        $this->sys_page = GeneralUtility::makeInstance(PageRepository::class);
-        $this->sys_page->versioningPreview =
-            $this->fePreview === 2 || (int)$this->workspacePreview || (bool)GeneralUtility::_GP('ADMCMD_view');
-        $this->sys_page->versioningWorkspaceId = $this->whichWorkspace();
-        $this->sys_page->init($this->showHiddenPage);
+        $this->sys_page = GeneralUtility::makeInstance(PageRepository::class, $this->context);
         // Set the valid usergroups for FE
         $this->initUserGroups();
         // Sets sys_page where-clause
