@@ -189,11 +189,10 @@ class PageHook
     {
         $compress = false;
         $javascriptFiles = [
+            'jquery.min.js',
             'jquery.cookie.js',
             'jquery.cs_seo.evaluation.js'
         ];
-        // Load jquery
-        $this->getPageRenderer()->loadJquery();
 
         // Load the wizards javascript
         $baseUrl = $this->resourcesPath . 'Public/JavaScript/';
