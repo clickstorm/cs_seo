@@ -15,6 +15,7 @@ namespace Clickstorm\CsSeo;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
@@ -91,18 +92,10 @@ class ext_update
             'tx_metaseo_is_exclude' => 'tx_csseo_no_index',
         ];
 
-        $this->migrateFields($fieldsToMigrate, 'pages');
+        DatabaseUtility::migrateColumnNames($fieldsToMigrate, 'pages');
 
         // update title only if absolute title
         $this->updateTitleOnly('tx_metaseo_pagetitle', 'pages_language_overlay');
-
-        // migrate pages_language_overlay
-        $fieldsToMigrate = [
-            'tx_metaseo_pagetitle' => 'tx_csseo_title',
-            'tx_metaseo_pagetitle_rel' => 'tx_csseo_title',
-        ];
-
-        $this->migrateFields($fieldsToMigrate, 'pages_language_overlay');
 
         /**
          * Finished migration from metaseo
@@ -146,33 +139,7 @@ class ext_update
             ->execute();
     }
 
-    /**
-     * Migrate fields from one column to another of a table
-     *
-     * @param array $fieldsToMigrate
-     * @param string $table
-     *
-     * @return void
-     */
-    protected function migrateFields($fieldsToMigrate, $table)
-    {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable($table);
-        foreach ($fieldsToMigrate as $oldField => $newField) {
 
-            $queryBuilder
-                ->update($table, 'u')
-                ->where(
-                    $queryBuilder->expr()->orX(
-                        $queryBuilder->expr()->eq($newField, ''),
-                        $queryBuilder->expr()->isNull($newField)
-                    )
-                )
-                ->set('u.' . $newField, $queryBuilder->createNamedParameter('u.' . $oldField))
-                ->execute();
-        }
-    }
 
     /**
      * Check if seo_basics was installed and then transfer the properties from pages and pages_language_overlay
@@ -198,8 +165,7 @@ class ext_update
             'tx_seo_canonicaltag' => 'tx_csseo_canonical',
         ];
 
-        $this->migrateFields($fieldsToMigrate, 'pages');
-        $this->migrateFields($fieldsToMigrate, 'pages_language_overlay');
+        DatabaseUtility::migrateColumnNames($fieldsToMigrate, 'pages');
 
         /**
          * Finished migration from seo_basics
@@ -214,6 +180,7 @@ class ext_update
      * Generates output by using flash messages
      *
      * @return string
+     * @throws \TYPO3\CMS\Core\Exception
      */
     protected function generateOutput()
     {

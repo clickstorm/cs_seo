@@ -37,3 +37,7 @@ if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['getData'][$_EXTKEY] =
         \Clickstorm\CsSeo\Hook\CurrentUrlGetDataHook::class;
 }
+
+// upgrade wizard
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'][\Clickstorm\CsSeo\Updates\PagesUpdater::$identifier]
+    = \Clickstorm\CsSeo\Updates\PagesUpdater::class;

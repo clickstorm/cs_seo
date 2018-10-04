@@ -161,4 +161,61 @@ class DatabaseUtility
 
         return GeneralUtility::uniqueList($recursiveStoragePids);
     }
+
+    /**
+     * Migrate fields from one column to another of a table
+     *
+     * @param array $columnNamesToMigrate
+     * @param string $table
+     *
+     * @return void
+     */
+    public static function migrateColumnNames($columnNamesToMigrate, $table)
+    {
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable($table);
+        foreach ($columnNamesToMigrate as $oldCol => $newCol) {
+            $queryBuilder
+                ->update($table, 'u')
+                ->where(
+                    $queryBuilder->expr()->orX(
+                        $queryBuilder->expr()->eq($newCol, $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)),
+                        $queryBuilder->expr()->isNull($newCol)
+                    )
+                )
+                ->set('u.' . $newCol, $queryBuilder->quoteIdentifier('u.' . $oldCol), false)
+                ->execute();
+        }
+    }
+
+    /**
+     * Migrate fields from one column to another of a table
+     *
+     * @param array $content
+     * @param string $column
+     * @param string $table
+     * @param string $tableRelated
+     *
+     * @return void
+     */
+    public static function migrateRelatedColumnContent($content, $column, $table, $tableRelated)
+    {
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable($table);
+
+        foreach ($content as $oldContent => $newContent) {
+            $queryBuilder
+                ->update($table, 'u')
+                ->where(
+                    $queryBuilder->expr()->andX(
+                        $queryBuilder->expr()->eq($column, $queryBuilder->createNamedParameter($oldContent)),
+                        $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableRelated))
+                    )
+                )
+                ->set('u.' . $column, $queryBuilder->createNamedParameter($newContent), false)
+                ->execute();
+        }
+    }
 }
