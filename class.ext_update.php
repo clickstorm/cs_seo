@@ -21,7 +21,6 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\Generic\Query;
 
 /**
  * Update class for the extension manager.
@@ -65,7 +64,7 @@ class ext_update
     }
 
     /**
-     * Check if metaseo was installed and then transfer the properties from pages and pages_language_overlay
+     * Check if metaseo was installed and then transfer the properties from pages
      *
      * @return void
      */
@@ -93,9 +92,6 @@ class ext_update
         ];
 
         DatabaseUtility::migrateColumnNames($fieldsToMigrate, 'pages');
-
-        // update title only if absolute title
-        $this->updateTitleOnly('tx_metaseo_pagetitle', 'pages_language_overlay');
 
         /**
          * Finished migration from metaseo
@@ -142,7 +138,7 @@ class ext_update
 
 
     /**
-     * Check if seo_basics was installed and then transfer the properties from pages and pages_language_overlay
+     * Check if seo_basics was installed and then transfer the properties from pages
      *
      * @return void
      */
