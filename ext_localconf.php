@@ -41,3 +41,13 @@ if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
 // upgrade wizard
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'][\Clickstorm\CsSeo\Updates\PagesUpdater::$identifier]
     = \Clickstorm\CsSeo\Updates\PagesUpdater::class;
+
+/** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
+$signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
+
+$signalSlotDispatcher->connect(
+    'TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaService',
+    'tablesDefinitionIsBeingBuilt',
+    \Clickstorm\CsSeo\Hook\SqlExpectedSchemaHook::class,
+    'addMetadataDatabaseSchemaToTablesDefinition'
+);
