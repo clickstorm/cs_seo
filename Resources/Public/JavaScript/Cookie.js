@@ -5,8 +5,10 @@
  * Copyright 2006, 2014 Klaus Hartl
  * Released under the MIT license
  */
-(function ($) {
-
+define(['jquery'], function() {
+        
+        var Cookie = {};
+        
 	var pluses = /\+/g;
 
 	function encode(s) {
@@ -41,7 +43,7 @@
 		return $.isFunction(converter) ? converter(value) : value;
 	}
 
-	var config = $.cookie = function (key, value, options) {
+	var config = Cookie.cookie = function (key, value, options) {
 
 		// Write
 
@@ -94,10 +96,10 @@
 
 	config.defaults = {};
 
-	$.removeCookie = function (key, options) {
+	Cookie.removeCookie = function (key, options) {
 		// Must not alter options, thus extending a fresh object...
 		$.cookie(key, '', $.extend({}, options, { expires: -1 }));
 		return !$.cookie(key);
 	};
-
-})(window.$);
+        return Cookie;
+});
