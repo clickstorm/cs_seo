@@ -108,19 +108,12 @@ class FrontendPageService
             }
         }
 
-        // disable cache
-        $params .= '&no_cache=1';
-
-        // generate chash
-        /** @var CacheHashCalculator $cacheHash */
-        $cacheHash = GeneralUtility::makeInstance(CacheHashCalculator::class);
-        $cHash = $cacheHash->generateForParameters($params);
-        $params .= $cHash ? '&cHash=' . $cHash : '';
-
+        // build url
         $result['url'] = BackendUtility::getPreviewUrl($paramId, '', null, '', '', $params);
 
         $report = [];
         $content = GeneralUtility::getUrl($result['url'], 0, false, $report);
+
 
         if ($report['message'] && $report['message'] != 'OK') {
             /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */

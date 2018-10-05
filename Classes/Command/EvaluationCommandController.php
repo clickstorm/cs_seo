@@ -184,7 +184,7 @@ class EvaluationCommandController extends CommandController
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($metaTableName);
 
             $res = $queryBuilder->select('keyword')
-                ->from('tx_csseo_domain_model_evaluation')
+                ->from($metaTableName)
                 ->where(
                     $queryBuilder->expr()->eq('uid_foreign',
                         $queryBuilder->createNamedParameter($record['uid'], \PDO::PARAM_INT)),
