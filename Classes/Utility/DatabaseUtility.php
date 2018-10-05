@@ -93,12 +93,12 @@ class DatabaseUtility
             ->select('*')
             ->from($table)
             ->where(
-                $queryBuilder->expr()->eq('pid',
+                $queryBuilder->expr()->eq($tcaCtrl['transOrigPointerField'],
                     $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
             )
             ->orderBy($tcaCtrl['languageField'])
             ->execute();
-
+        \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($queryBuilder->getSQL());
         while ($row = $res->fetch()) {
             $items[$row[$tcaCtrl['languageField']]] = $row;
         }
