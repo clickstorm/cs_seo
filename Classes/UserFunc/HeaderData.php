@@ -545,23 +545,26 @@ class HeaderData
      * @param string $table
      * @param string $uid
      *
-     * @return array
+     * @return int
      */
     protected function getLanguageFromItem($table, $uid)
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+        if($GLOBALS['TCA'][$table]['ctrl']['languageField']) {
+            /** @var QueryBuilder $queryBuilder */
+            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
 
-        $items = $queryBuilder->select('sys_language_uid')
-            ->from($table)
-            ->where(
-                $queryBuilder->expr()->eq('uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
-            )
-            ->execute()
-            ->fetchAll();
+            $items = $queryBuilder->select($GLOBALS['TCA'][$table]['ctrl']['languageField'])
+                ->from($table)
+                ->where(
+                    $queryBuilder->expr()->eq('uid',
+                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+                )
+                ->execute()
+                ->fetchAll();
 
-        return $items[0]['sys_language_uid'];
+            return $items[0]['sys_language_uid'];
+        }
+        return 0;
     }
 
     /**
