@@ -258,28 +258,9 @@ class HeaderData
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $currentItemConf = self::getCurrentTable($tables, $cObj);
 
-        // possible args: metaData, l10nItems, currentLanguageUid
-        $defaultArgs = [];
-        $signalSlotDispatcher->dispatch(__CLASS__, 'beforeMetaTagsCreatedForRecords',
-            [
-                &$defaultArgs,
-                [
-                    'currentItemConf' => $currentItemConf,
-                    'metaData' => $metaData,
-                    'pluginSettings' => $pluginSettings
+        $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], $currentItemConf['uid']);
 
-                ],
-                $this
-            ]);
-
-        if (is_array($defaultArgs['metaData'])) {
-            $metaData = array_merge($metaData, $defaultArgs['metaData']);
-        }
-
-        $l10nItems = $defaultArgs['l10nItems'] ?: $this->getAllLanguagesFromItem($currentItemConf['table'],
-            $currentItemConf['uid']);
-
-        $currentLanguageUid = $defaultArgs['currentLanguageUid'] ?: $GLOBALS['TSFE']->sys_language_uid;
+        $currentLanguageUid = $GLOBALS['TSFE']->sys_language_uid;
 
         // start to render metaTags
         $title = $metaData['title'];
@@ -295,8 +276,6 @@ class HeaderData
 
         $metaTags['title'] = '<title>' . $this->escapeContent($title) . '</title>';
 
-        // description
-        $metaTags['description'] = $this->printMetaTag('description', $this->escapeContent($metaData['description']));
 
         // hreflang & canonical
         $typoLinkConf = $GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.'];

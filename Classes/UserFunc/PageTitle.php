@@ -26,6 +26,7 @@ namespace Clickstorm\CsSeo\UserFunc;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Clickstorm\CsSeo\Service\MetaDataService;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -54,17 +55,24 @@ class PageTitle
     {
         // initalize TSFE
         $this->initialize();
+        $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
 
-        // get all configurations
-        $page = $this->getPage();
+        if($metaData) {
+            $title = $this->TSFE->getFinalTitle($metaData['title'], $metaData['title_only']);
+        } else {
+            // get all configurations
+            $page = $this->getPage();
 
-        // build the title
-        $title = $page['seo_title']
-            ?: $GLOBALS['TSFE']->altPageTitle
-            ?: $page['title']
-        ;
+            // build the title
+            $title = $page['seo_title']
+                ?: $GLOBALS['TSFE']->altPageTitle
+                    ?: $page['title']
+            ;
 
-        $title = $this->TSFE->getFinalTitle($title, $page['tx_csseo_title_only']);
+            $title = $this->TSFE->getFinalTitle($title, $page['tx_csseo_title_only']);
+        }
+
+
 
         return $title;
     }

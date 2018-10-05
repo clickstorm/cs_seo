@@ -42,9 +42,15 @@ if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'][\Clickstorm\CsSeo\Updates\PagesUpdater::$identifier]
     = \Clickstorm\CsSeo\Updates\PagesUpdater::class;
 
+// generate and overwrite header data
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Frontend\Page\PageGenerator']['generateMetaTags'][] =
+    \Clickstorm\CsSeo\Metatag\MetaTagGenerator::class . '->generate';
+
+
 /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
 $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
 
+// add tx_csseo fields to extended tables
 $signalSlotDispatcher->connect(
     'TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaService',
     'tablesDefinitionIsBeingBuilt',
