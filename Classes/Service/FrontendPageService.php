@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\Service;
 
 /***************************************************************
@@ -72,12 +73,13 @@ class FrontendPageService
 
     /**
      * @return array
+     * @throws \TYPO3\CMS\Core\Exception
      */
     public function getFrontendPage()
     {
         $result = [];
 
-        if($this->tableName == 'pages') {
+        if ($this->tableName == 'pages') {
             $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
             if (!in_array($this->pageInfo['doktype'], $allowedDoktypes) || $this->pageInfo['tx_csseo_no_index']) {
                 return '';
@@ -87,10 +89,10 @@ class FrontendPageService
         $params = '';
         $paramId = $this->pageInfo['uid'];
 
-        if($this->tableName && $this->tableName != 'pages') {
+        if ($this->tableName && $this->tableName != 'pages') {
             // record
             $tableSettings = ConfigurationUtility::getTableSettings($this->tableName);
-            if($tableSettings['evaluation.']) {
+            if ($tableSettings['evaluation.']) {
                 $params = str_replace('|', $this->pageInfo['uid'], $tableSettings['evaluation.']['getParams']);
                 $paramId = $tableSettings['evaluation.']['detailPid'];
                 if ($this->pageInfo['sys_language_uid'] > 0) {
@@ -100,26 +102,22 @@ class FrontendPageService
         } else {
             // translated page
             if ($this->pageInfo['sys_language_uid'] > 0) {
-                $paramId = $this->pageInfo['pid'];
                 $params = '&L=' . $this->pageInfo['sys_language_uid'];
             } else {
                 $params = '&L=0';
             }
         }
 
-        $params = 'id=' . $paramId . $params;
-
         // disable cache
         $params .= '&no_cache=1';
 
         // generate chash
-	    /** @var CacheHashCalculator $cacheHash */
-	    $cacheHash = GeneralUtility::makeInstance(CacheHashCalculator::class);
-	    $cHash = $cacheHash->generateForParameters($params);
-	    $params .= $cHash ? '&cHash=' . $cHash : '';
+        /** @var CacheHashCalculator $cacheHash */
+        $cacheHash = GeneralUtility::makeInstance(CacheHashCalculator::class);
+        $cHash = $cacheHash->generateForParameters($params);
+        $params .= $cHash ? '&cHash=' . $cHash : '';
 
-        $domain = BackendUtility::getViewDomain($paramId);
-        $result['url'] = $domain . '/index.php?' . $params;
+        $result['url'] = BackendUtility::getPreviewUrl($paramId, '', null, '', '', $params);
 
         $report = [];
         $content = GeneralUtility::getUrl($result['url'], 0, false, $report);
@@ -139,7 +137,7 @@ class FrontendPageService
             $flashMessageQueue->enqueue($flashMessage);
         }
 
-        if(in_array($report['error'], [0, 200])) {
+        if (in_array($report['error'], [0, 200])) {
             $result['content'] = $content;
         }
 

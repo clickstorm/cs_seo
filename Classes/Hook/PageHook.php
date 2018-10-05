@@ -222,6 +222,7 @@ class PageHook
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_csseo_domain_model_evaluation');
         $results = [];
+        $tableName = 'pages';
 
         if ($lang) {
             $localizedPageInfo = BackendUtility::getRecordLocalization('pages', $pageInfo['uid'], $lang);
@@ -231,7 +232,6 @@ class PageHook
                 return [];
             }
         } else {
-            $tableName = 'pages';
             $uidForeign = $pageInfo['uid'];
         }
 
