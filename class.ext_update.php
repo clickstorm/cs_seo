@@ -169,7 +169,7 @@ class ext_update
                         $queryBuilder->expr()->isNull($newField)
                     )
                 )
-                ->set('u.' . $newField, $queryBuilder->createNamedParameter('u.' . $oldField))
+                ->set('u.' . $newField, $queryBuilder->quoteIdentifier('u.' . $oldField), false)
                 ->execute();
         }
     }
