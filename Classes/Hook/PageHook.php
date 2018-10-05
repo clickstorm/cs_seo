@@ -197,6 +197,8 @@ class PageHook
         // Load the wizards javascript
         $baseUrl = $this->resourcesPath . 'Public/JavaScript/';
 
+        $this->getPageRenderer()->loadRequireJsModule('jquery');
+
         foreach ($javascriptFiles as $javascriptFile) {
             $this->getPageRenderer()->addJsFile(
                 $baseUrl . $javascriptFile,

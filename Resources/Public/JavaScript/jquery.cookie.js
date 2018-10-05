@@ -100,4 +100,4 @@
 		return !$.cookie(key);
 	};
 
-})(TYPO3.jQuery || jQuery || $);
+})(window.$);
