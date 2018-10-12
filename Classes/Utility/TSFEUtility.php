@@ -118,7 +118,6 @@ class TSFEUtility
     protected function initTSFE()
     {
         try {
-            $_GET['L'] = $this->lang;
             if (!is_object($GLOBALS['TT'])) {
                 $GLOBALS['TT'] = GeneralUtility::makeInstance(TimeTracker::class, false);
                 $GLOBALS['TT']->start();
@@ -131,7 +130,7 @@ class TSFEUtility
                 $this->typeNum
             );
 
-            $GLOBALS['TSFE']->config = [];
+
             $GLOBALS['TSFE']->workspacePreview = $this->workspaceUid;
             $GLOBALS['TSFE']->forceTemplateParsing = true;
             $GLOBALS['TSFE']->showHiddenPages = true;
@@ -141,6 +140,7 @@ class TSFEUtility
             $GLOBALS['TSFE']->newCObj();
 
             $GLOBALS['TSFE']->getConfigArray();
+            $GLOBALS['TSFE']->config['config']['sys_language_uid'] = $this->lang;
             $GLOBALS['TSFE']->settingLanguage();
 
             $GLOBALS['TSFE']->preparePageContentGeneration();
