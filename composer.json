@@ -18,7 +18,7 @@
 	"nimut/testing-framework": "*"
   },
   "suggest": {
-	"typo3/scheduler": "^9.4"
+	"typo3/scheduler": "^9.5"
   },
   "replace": {
 	"cs_seo": "self.version"
