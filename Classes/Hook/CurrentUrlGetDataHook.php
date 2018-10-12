@@ -5,6 +5,7 @@ namespace Clickstorm\CsSeo\Hook;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectGetDataHookInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
 
 /***************************************************************
  *
@@ -55,7 +56,10 @@ class CurrentUrlGetDataHook implements ContentObjectGetDataHookInterface
             return $returnValue;
         }
 
-        $cHash_array = $GLOBALS['TSFE']->cHash_array;
+        $GET = GeneralUtility::_GET();
+        $GET['id'] = $GLOBALS['TSFE']->id;
+        $cacheHash = GeneralUtility::makeInstance(CacheHashCalculator::class);
+        $cHash_array = $cacheHash->getRelevantParameters(GeneralUtility::implodeArrayForUrl('', $GET));
         unset($cHash_array['encryptionKey']);
 
         return GeneralUtility::implodeArrayForUrl('', $cHash_array);

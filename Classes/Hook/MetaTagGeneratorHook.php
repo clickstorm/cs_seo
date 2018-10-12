@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickstorm\CsSeo\MetaTag;
+namespace Clickstorm\CsSeo\Hook;
 
 use Clickstorm\CsSeo\Service\MetaDataService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
@@ -36,7 +36,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-class MetaTagGenerator
+class MetaTagGeneratorHook
 {
     /**
      * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
@@ -122,19 +122,22 @@ class MetaTagGenerator
     protected function renderContent($metaData): void
     {
         $metaTagManagerRegistry = GeneralUtility::makeInstance(MetaTagManagerRegistry::class);
-        $tsfeUtility = GeneralUtility::makeInstance(TSFEUtility::class, $GLOBALS['TSFE']->id);
         $pluginSettings = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.'];
 
         $ogImageUrl = $this->getOgImage($metaData,$pluginSettings);
         $twImageUrl = $this->getTwImage($metaData,$pluginSettings);
 
+        //@todo: remove default when https://forge.typo3.org/issues/86570 is merged
+        $noIndex = ((bool)$metaData['no_index']) ? 'noindex' : 'index';
+        $noFollow = ((bool)$metaData['no_follow']) ? 'nofollow' : 'follow';
+
         $generators = [
             'description' => ['value' => $metaData['description']],
+            'robots' => ['value' => implode(',', [$noIndex, $noFollow])],
             'og:title' => ['value' => $metaData['og_title']],
             'og:description' => ['value' => $metaData['og_description']],
             'og:image' => ['value' => $ogImageUrl],
             'og:type' => ['value' => $pluginSettings['social.']['openGraph.']['type']],
-            'og:sitename' => ['value' => $tsfeUtility->getSiteTitle()],
             'og:locale' => ['value' => $GLOBALS['TSFE']->config['config']['locale_all']],
             'twitter:title' => ['value' =>  $metaData['tw_title']],
             'twitter:description' => ['value' =>  $metaData['tw_description']],
@@ -145,8 +148,9 @@ class MetaTagGenerator
         ];
 
         foreach ($generators as $key => $params) {
+            $manager = $metaTagManagerRegistry->getManagerForProperty($key);
+            $manager->removeProperty($key);
             if(!empty($params['value'])) {
-                $manager = $metaTagManagerRegistry->getManagerForProperty($key);
                 $manager->addProperty($key, $this->escapeContent($params['value']));
             }
         }
