@@ -48,6 +48,11 @@ class MetaDataService
 
     public function getMetaData(): ?array
     {
+        // check if metadata was already set
+        if($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData']) {
+            return $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'];
+        }
+
         // get table settings
         $tables = ConfigurationUtility::getPageTSconfig();
         if ($tables) {
@@ -79,6 +84,9 @@ class MetaDataService
                         }
                     }
                 }
+
+                // set metaData in Globals
+                $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'] = $metaData;
 
                 return $metaData;
             }
