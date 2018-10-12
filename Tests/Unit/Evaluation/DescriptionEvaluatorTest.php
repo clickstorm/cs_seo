@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\Tests\Utility;
 
 use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
