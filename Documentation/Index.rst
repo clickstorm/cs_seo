@@ -35,7 +35,7 @@ SEO
 		2016
 
 	:Author:
-		Angela Dudtkowski, Marc Hirdes, Andreas Kirilow
+		Pascale Beier, Angela Dudtkowski, Marc Hirdes, Andreas Kirilow
 
 	:Email:
 		hirdes@clickstorm.de

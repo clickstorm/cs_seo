@@ -28,20 +28,15 @@ Features
 
 - Advanced page settings
    - Preview for search results on Google (SERP)
-   - Override Browser Title
-   - Canonical URL
-   - No index
    - Focus Keyword
-   - Open Graph
-   - Twitter Cards
 
 - Easily **extend any database record** you like with this SEO properties (news, events etc.)
 - **On-page evaluation** of different SEO aspects (focus keyword, alt attributes etc.) and records (pages, news etc.)
-- Configure an individual **Robots.txt** per Domain
-- **href="lang"** support
+- **href="lang"** support for extensions
+- Define fallback images for Open Graph and Twitter Cards
 - Backend module in AngularJS to edit the properties directly
 - Tracking with Google Analytics inc. download tracking
-- Tracking with Piwik
+- Tracking with Matomo (Piwik)
 - Migrate properties from metaseo and seo_basics
 
 .. _screenshots:

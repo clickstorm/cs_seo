@@ -35,7 +35,7 @@
 		2016
 
 	:Autor:
-		Angela Dudtkowski, Marc Hirdes, Andreas Kirilow
+		Pascale Beier, Angela Dudtkowski, Marc Hirdes, Andreas Kirilow
 
 	:E-Mail:
 		hirdes@clickstorm.de

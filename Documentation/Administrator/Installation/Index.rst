@@ -15,10 +15,9 @@ To install the extension, perform the following steps:
 
 #. Download and install the extension via Extension Manager or Composer
 #. Include the TypoScript from the extension! This is shown in the screenshot below.
-#. Insert a domain record at the root page.
 #. Make some initial configurations, see :ref:`c_configuration`.
 #. Run the Scheduler Task to evaluate all pages initially, see :ref:`scheduler-tasks`.
-#. Take a look to :ref:`admin-faq`. **Be aware** that we force L=0 in URLs. Also check the content of the robots.txt.
+#. Take a look to :ref:`admin-faq`.
 
 |img-1|
 

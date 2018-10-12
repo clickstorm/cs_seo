@@ -16,7 +16,7 @@ Please include the TypoScript from the extension in your root ts.
 
 There is no domain displayed in the google preview. What should I do?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Please insert a domain record at the the root page.
+Please add a Site Configuration for your root page.
 
 I can't find a robots meta tag with index,follow. Is this a bug?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -35,25 +35,3 @@ Allow from xxx.xxx.xxx.xxx
 You could also use the domain instead of the IP.
 
 Allow from .mydomian.com
-
-The canonical URL adds &L=0 to all URLs. How can I prevent this?
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-We have to force the language for the correct language fallback. To prevent the param in the URL you can
-configure RealURL as it is shown here:
-
-::
-
-	$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['realurl']['_DEFAULT'] = [
-	    'preVars' => [
-	        [
-	            'GETvar' => 'L',
-	            'valueMap' => [
-	                'de' => '1',
-	            ],
-	            'noMatch' => 'bypass',
-	        ]
-	    ]
-	];
-
-
-So the L param will only be added to the URL, if the value is defined in the valueMap.

@@ -17,7 +17,7 @@ $EM_CONF[$_EXTKEY] = [
 						and a Focus Keyword. Robots.txt handling. Support for Session Tracking (Google Analytics or Matomo) 
 						and href="lang" tags. Further features are shown in the extension manual.',
     'category' => 'services',
-    'author' => 'Angela Dudtkowski, Marc Hirdes, Andreas Kirilow - clickstorm GmbH',
+    'author' => 'Pascale Beier, Angela Dudtkowski, Marc Hirdes, Andreas Kirilow - clickstorm GmbH',
     'author_email' => 'hirdes@clickstorm.de',
     'author_company' => 'clickstorm GmbH',
     'state' => 'stable',

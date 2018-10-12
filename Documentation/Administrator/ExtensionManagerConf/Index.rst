@@ -23,7 +23,6 @@ Properties
 	==================================== ===================================== ====================
 	Property                             Data type                             Default
 	==================================== ===================================== ====================
-	`basic.enablePathSegment`_           :ref:`t3tsref:data-type-boolean`      true
 	`basic.tsConfigPid`_                 :ref:`t3tsref:data-type-integer`      1
 	`page.maxTitle`_                     :ref:`t3tsref:data-type-integer`      57
 	`page.maxDescription`_               :ref:`t3tsref:data-type-integer`      156
@@ -38,21 +37,6 @@ Properties
 
 Basic configurations
 ^^^^^^^^^^^^^^^^^^^^
-
-.. _basic.enablePathSegment:
-
-Set path segments
-"""""""""""""""""
-
-.. container:: table-row
-
-   Property
-         enablePathSegment
-   Data type
-         :ref:`t3tsref:data-type-boolean`
-   Description
-         If enabled, a JS is insert in the page settings, so that the RealURL pathsegment will be filled, if it is empty.
-         This avoids automatically changing the URL when changing the page title.
 
 .. _basic.tsConfigPid:
 

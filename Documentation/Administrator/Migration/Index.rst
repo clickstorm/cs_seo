@@ -16,4 +16,4 @@ like the browser title or the canonical URL. Therefor you have to install cs_seo
 
 |img-2|
 
-After that you can delete the other SEO extension and update your database
+After that you can delete the other SEO extension and update your database.

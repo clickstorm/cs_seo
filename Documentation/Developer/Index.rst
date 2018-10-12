@@ -19,4 +19,4 @@ Here you find information for developers, e.g how to extend an existing extbase 
 
 	ExtendExistingModel/Index
 	ExtendEvaluation/Index
-	OverrideTypoScript/Index
+	OverrideMetaTags/Index

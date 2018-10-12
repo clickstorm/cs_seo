@@ -49,12 +49,8 @@ If you want to hide the evalutation for some editors or pages, you can use TScon
 
 Robots.txt
 ^^^^^^^^^^
-The default robots.txt is configured via TypoScript.
-
-Domain Records
-""""""""""""""
-You can also define a different content for each domain. Therefore use the extra field in the **sys domain records**
-or a TypoScript Condition.
+Use the static routes, to configure your robots.txt, see
+`TYPO3 CMS Core ChangeLog <https://docs.typo3.org/typo3cms/extensions/core/Changelog/9.5/Feature-86214-ImplementStaticRoutes.html>`_.
 
 User Tracking
 ^^^^^^^^^^^^^

@@ -63,8 +63,8 @@ Google Tag Manager
 
 .. _tracking.piwik:
 
-Piwik
-"""""
+Piwik (Matomo)
+""""""""""""""
 
 .. container:: table-row
 
