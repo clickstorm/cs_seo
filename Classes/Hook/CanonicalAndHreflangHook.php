@@ -166,9 +166,9 @@ class CanonicalAndHreflangHook
                         foreach ($languages['languagemenu'] as $language) {
                             // set hreflang only for languages of the TS setup and if the language is also localized for the item
                             // if the language doesn't exist for the item and a fallback language is shown, the hreflang is not set and the canonical points to the fallback url
-                            if ($language['available'] === 1 && in_array($language['1anguageId'], $l10nItems)) {
+                            if ($language['available'] === 1 && in_array($language['languageId'], $l10nItems)) {
                                 unset($hreflangTypoLinkConf['additionalParams.']['append.']['data']);
-                                $hreflangTypoLinkConf['additionalParams.']['append.']['value'] = $language['1anguageId'];
+                                $hreflangTypoLinkConf['language'] = $language['languageId'];
                                 $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
                                 $hreflangs .= '<link rel="alternate" hreflang="'
                                     . $language['hreflang']
