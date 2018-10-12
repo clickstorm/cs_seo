@@ -186,31 +186,8 @@ class PageHook
      * @return void
      */
     protected function loadJavascript()
-    {
-        $compress = false;
-        $javascriptFiles = [
-            'jquery.min.js',
-            'jquery.cookie.js',
-            'jquery.cs_seo.evaluation.js'
-        ];
-
-        // Load the wizards javascript
-        $baseUrl = $this->resourcesPath . 'Public/JavaScript/';
-
-        $this->getPageRenderer()->loadRequireJsModule('jquery');
-
-        foreach ($javascriptFiles as $javascriptFile) {
-            $this->getPageRenderer()->addJsFile(
-                $baseUrl . $javascriptFile,
-                'text/javascript',
-                $compress,
-                false,
-                '',
-                true,
-                '|',
-                true
-            );
-        }
+    {       
+        $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/CsSeo/Evaluation');
     }
 
     /**

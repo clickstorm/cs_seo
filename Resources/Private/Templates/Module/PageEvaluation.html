@@ -1,11 +1,12 @@
-<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
-     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers" 
+     data-namespace-typo3-fluid="true">
 
-<f:layout name="ModuleEvaluation" />
+<f:layout name="Module"/>
 
 <f:section name="Main">
-    <h1><f:translate key="layouts.module.action.pageEvaluation" /></h1>
+    <h1><f:translate key="layouts.module.action.pageEvaluation"/></h1>
     <p></p>
     <!-- From -->
     <f:render partial="Module/FormEvaluation" arguments="{_all}" section="Main" />
@@ -72,4 +73,4 @@
         <f:translate key="evaluation.update" />
     </button>
 </f:section>
-</div>
+</html>

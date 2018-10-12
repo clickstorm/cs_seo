@@ -5,7 +5,7 @@
  * @version 1.0
  * @license clickstorm GmbH
  */
-(function ($) {
+define(['jquery', 'TYPO3/CMS/CsSeo/Cookie'], function($, Cookie) {
     $(document).ready(function(){
 
         // evaluation update
@@ -54,7 +54,7 @@
 		            useCookies = $toggle.data('cookie');
 
 	            if(useCookies) {
-		            showResults = $.cookie('seo-results') == 1 ? true : false;
+		            showResults = Cookie.cookie('seo-results') == 1 ? true : false;
 	            }
 
 	            function toggleResults() {
@@ -67,7 +67,7 @@
 		            showResults = !showResults;
 		            toggleResults();
 		            if(useCookies) {
-			            $.cookie('seo-results', showResults ? 1 : 0);
+			            Cookie.cookie('seo-results', showResults ? 1 : 0);
 		            }
 	            });
 
@@ -85,4 +85,4 @@
         }
 
     });
-})(window.$);
+});
