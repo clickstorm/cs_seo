@@ -2,15 +2,6 @@ plugin.tx_csseo {
     # cat=plugin.tx_csseo/language/1; type=string; label= Override the sitetitle : Translation for the browser title prefix/suffix, e.g. LLL:EXT:myext/Resources/Language/locallang.xlf:sitetitle
     sitetitle =
 
-    # cat=plugin.tx_csseo/language/2; type=boolean; label= Enable Hreflang tags : Add href="lang" meta tags for all available translations of a page.
-    hreflang.enable =
-
-    # cat=plugin.tx_csseo/language/3; type=string; label= Hreflang Language Uids : List the language uids, which should be linked with a Hreflang tag (e.g. 0,2,3)
-    hreflang.ids =
-
-    # cat=plugin.tx_csseo/language/4; type=string; label= Hreflang Language Keys : List the language keys for the Hreflang tags - same order as hreflang.uids (e.g. en,de,ch)
-    hreflang.keys =
-
     # customsubcategory=social=Social Media
     # cat=plugin.tx_csseo/social/1; type=string; label= Default Social Image : Default image for Open Graph and Twitter Cards (e.g. fileadmin/user_upload/image.jpg)
     social.defaultImage =

@@ -17,3 +17,8 @@ like the browser title or the canonical URL. Therefor you have to install cs_seo
 |img-2|
 
 After that you can delete the other SEO extension and update your database.
+
+From older versions
+^^^^^^^^^^^^^^^^^^^
+
+Please take a look at our :ref:`_changelog`.

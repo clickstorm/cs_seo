@@ -17,6 +17,7 @@ namespace Clickstorm\CsSeo\Hook;
 
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use Clickstorm\CsSeo\Service\MetaDataService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
@@ -25,6 +26,7 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Frontend\DataProcessing\LanguageMenuProcessor;
 use TYPO3\CMS\Seo\Canonical\CanonicalGenerator;
 use TYPO3\CMS\Seo\HrefLang\HrefLangGenerator;
 
@@ -154,25 +156,22 @@ class CanonicalAndHreflangHook
                         )
                         && !$metaData['no_index']
                         && !$metaData['canonical']
-                        && $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['enable']
+                        && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site
                     ) {
-                        $langIds = explode(",",
-                            $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['ids']);
-                        $langKeys = explode(",",
-                            $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['keys']);
-
+                        $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
+                        $languages = $languageMenu->process($cObj, [], [], []);
                         $hreflangTypoLinkConf = $typoLinkConf;
                         $metaTags['hreflang'] = '';
 
-                        foreach ($langIds as $key => $langId) {
+                        foreach ($languages['languagemenu'] as $language) {
                             // set hreflang only for languages of the TS setup and if the language is also localized for the item
                             // if the language doesn't exist for the item and a fallback language is shown, the hreflang is not set and the canonical points to the fallback url
-                            if (in_array($langId, $l10nItems)) {
+                            if ($language['available'] === 1 && in_array($language['1anguageId'], $l10nItems)) {
                                 unset($hreflangTypoLinkConf['additionalParams.']['append.']['data']);
-                                $hreflangTypoLinkConf['additionalParams.']['append.']['value'] = $langId;
+                                $hreflangTypoLinkConf['additionalParams.']['append.']['value'] = $language['1anguageId'];
                                 $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
                                 $hreflangs .= '<link rel="alternate" hreflang="'
-                                    . $langKeys[$key]
+                                    . $language['hreflang']
                                     . '" href="'
                                     . $hreflangUrl
                                     . '" />';
