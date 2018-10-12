@@ -30,9 +30,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ext_update
 {
-
-    const FOLDER_CATEGORY_IMAGES = '/_migrated/news_categories';
-
     /**
      * Array of flash messages (params) array[][status,title,message]
      *
@@ -44,6 +41,7 @@ class ext_update
      * Main update function called by the extension manager.
      *
      * @return string
+     * @throws \TYPO3\CMS\Core\Exception
      */
     public function main()
     {
@@ -85,10 +83,10 @@ class ext_update
 
         // migrate pages
         $fieldsToMigrate = [
-            'tx_metaseo_pagetitle' => 'tx_csseo_title',
-            'tx_metaseo_pagetitle_rel' => 'tx_csseo_title',
-            'tx_metaseo_canonicalurl' => 'tx_csseo_canonical',
-            'tx_metaseo_is_exclude' => 'tx_csseo_no_index',
+            'tx_metaseo_pagetitle' => 'seo_title',
+            'tx_metaseo_pagetitle_rel' => 'seo_title',
+            'tx_metaseo_canonicalurl' => 'canonical_link',
+            'tx_metaseo_is_exclude' => 'no_index',
         ];
 
         DatabaseUtility::migrateColumnNames($fieldsToMigrate, 'pages');
@@ -136,7 +134,6 @@ class ext_update
     }
 
 
-
     /**
      * Check if seo_basics was installed and then transfer the properties from pages
      *
@@ -157,8 +154,8 @@ class ext_update
 
         // migrate pages
         $fieldsToMigrate = [
-            'tx_seo_titletag' => 'tx_csseo_title',
-            'tx_seo_canonicaltag' => 'tx_csseo_canonical',
+            'tx_seo_titletag' => 'seo_title',
+            'tx_seo_canonicaltag' => 'canonical_link',
         ];
 
         DatabaseUtility::migrateColumnNames($fieldsToMigrate, 'pages');

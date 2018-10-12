@@ -1,6 +1,3 @@
-# cat=basic/enable/010; type=boolean; label= Set path segments : Enable the JS for automatic filling of the path segment, if this is empty
-enablePathSegment = 1
-
 # cat=basic/enable/030; type=integer; label= TsConfig PID : The Pid where the pageTsConfig is set to extend records
 tsConfigPid = 1
 

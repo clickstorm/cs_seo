@@ -2,19 +2,17 @@
   "name": "clickstorm/cs_seo",
   "type": "typo3-cms-extension",
   "description": "[clickstorm] SEO",
-  "homepage": "https://www.clickstorm.de",
-  "license": [
-	"GPL-2.0+"
-  ],
   "keywords": [
-	"typo3",
-	"cms",
+	"TYPO3",
+	"extension",
 	"clickstorm",
 	"SEO"
   ],
+  "homepage": "https://www.clickstorm.de",
+  "license": ["GPL-2.0-or-later"],
   "require": {
-	"typo3/cms-core": "^9.4",
-	"typo3/cms-seo": "^9.4"
+	"typo3/cms-core": "^9.5",
+	"typo3/cms-seo": "^9.5"
   },
   "require-dev": {
 	"nimut/testing-framework": "*"
@@ -23,7 +21,7 @@
 	"typo3/scheduler": "^9.4"
   },
   "replace": {
-	"cs_seo": "*"
+	"cs_seo": "self.version"
   },
   "autoload": {
 	"psr-4": {

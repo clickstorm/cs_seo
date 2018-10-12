@@ -42,10 +42,3 @@ CREATE TABLE tx_csseo_domain_model_evaluation (
 	uid_foreign int(11) DEFAULT '0' NOT NULL ,
 	tablenames varchar(255) DEFAULT '' NOT NULL
 );
-
-#
-# Table structure for external table 'tx_myext_domain_model_mymod'
-#
-# CREATE TABLE tx_myext_domain_model_mymod (
-#	  tx_csseo int(11) unsigned NOT NULL default '0',
-# );
