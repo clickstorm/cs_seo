@@ -229,7 +229,6 @@ class ModuleController extends ActionController
         ];
 
         $this->cssFiles = [
-            'Lib/bootstrap/css/bootstrap.min.css',
             'Lib/ui-grid/ui-grid.min.css',
             'Wizard.css',
             'Module.css'
