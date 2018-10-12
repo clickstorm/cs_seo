@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\Evaluation;
 
 /***************************************************************
@@ -25,6 +26,7 @@ namespace Clickstorm\CsSeo\Evaluation;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 
 /**
@@ -98,6 +100,11 @@ abstract class AbstractEvaluator implements EvaluationInterface
         $this->keyword = strtolower($keyword);
     }
 
+    public function validate()
+    {
+        return [];
+    }
+
     /**
      * @param string $tagName
      *
@@ -147,10 +154,5 @@ abstract class AbstractEvaluator implements EvaluationInterface
         }
 
         return $content;
-    }
-
-    public function validate()
-    {
-        return [];
     }
 }

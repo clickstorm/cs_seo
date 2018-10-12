@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\Evaluation;
 
 /***************************************************************
@@ -25,6 +26,7 @@ namespace Clickstorm\CsSeo\Evaluation;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -45,21 +47,21 @@ class ImagesEvaluator extends AbstractEvaluator
         $images = $this->domDocument->getElementsByTagName('img');
         $count = $images->length;
         $baseTags = $this->domDocument->getElementsByTagName('base');
-        foreach($baseTags as $baseTag) {
-        	$baseUrl = $baseTag->getAttribute('href');
+        foreach ($baseTags as $baseTag) {
+            $baseUrl = $baseTag->getAttribute('href');
         }
 
         /** @var \DOMElement $element */
         foreach ($images as $element) {
             $alt = $element->getAttribute('alt');
             if (empty($alt)) {
-	            $url = $element->getAttribute('src');
-	            if (!GeneralUtility::isValidUrl($url)) {
-		            if($baseUrl) {
-		            	$url = $baseUrl . $url;
-		            }
-	            }
-	            $imagesWithoutAlt[] = $url;
+                $url = $element->getAttribute('src');
+                if (!GeneralUtility::isValidUrl($url)) {
+                    if ($baseUrl) {
+                        $url = $baseUrl . $url;
+                    }
+                }
+                $imagesWithoutAlt[] = $url;
             } else {
                 $altCount++;
             }

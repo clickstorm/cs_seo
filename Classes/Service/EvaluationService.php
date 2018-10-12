@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\Service;
 
 /***************************************************************
@@ -62,6 +63,37 @@ class EvaluationService
     }
 
     /**
+     * @param string $html
+     * @param string $keyword
+     * @return array
+     */
+    public function evaluate($html, $keyword)
+    {
+        $results = [];
+
+        $this->initEvaluators();
+
+        $domDocument = new \DOMDocument;
+        @$domDocument->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+
+        foreach ($this->evaluators as $evaluatorName => $evaluatorClass) {
+            $evaluatorInstance = GeneralUtility::makeInstance($evaluatorClass, $domDocument, $keyword);
+            $results[$evaluatorName] = $evaluatorInstance->evaluate();
+        }
+
+        uasort(
+            $results,
+            function ($a, $b) {
+                return $a['state'] - $b['state'];
+            }
+        );
+
+        $results['Percentage'] = $this->getFinalPercentage($results);
+
+        return $results;
+    }
+
+    /**
      * @TODO find a better solution for defaults
      */
     public function initEvaluators()
@@ -99,38 +131,6 @@ class EvaluationService
 
         $this->evaluators = $evaluators;
     }
-
-    /**
-     * @param string $html
-     * @param string $keyword
-     * @return array
-     */
-    public function evaluate($html, $keyword)
-    {
-        $results = [];
-
-        $this->initEvaluators();
-
-        $domDocument = new \DOMDocument;
-        @$domDocument->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
-
-        foreach ($this->evaluators as $evaluatorName => $evaluatorClass) {
-            $evaluatorInstance = GeneralUtility::makeInstance($evaluatorClass, $domDocument, $keyword);
-            $results[$evaluatorName] = $evaluatorInstance->evaluate();
-        }
-
-        uasort(
-            $results,
-            function ($a, $b) {
-                return $a['state'] - $b['state'];
-            }
-        );
-
-        $results['Percentage'] = $this->getFinalPercentage($results);
-
-        return $results;
-    }
-
 
     /**
      * @param $results

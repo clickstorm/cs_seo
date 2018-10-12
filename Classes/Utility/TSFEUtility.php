@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\Utility;
 
 /***************************************************************
@@ -55,7 +56,7 @@ class TSFEUtility
      * @var int
      */
     protected $workspaceUid;
-    
+
     /**
      * @var int
      */
@@ -109,95 +110,10 @@ class TSFEUtility
     }
 
     /**
-     * @return string
-     */
-    public function getPagePath()
-    {
-        $parameter = [
-            'parameter' => $this->pageUid,
-            'additionalParams' => '&L=' . (int)$this->lang,
-            'forceAbsoluteUrl' => 1
-        ];
-        return $GLOBALS['TSFE']->cObj->typoLink_URL($parameter);
-    }
-
-    /**
-     * @return array
-     */
-    public function getPage()
-    {
-        return $GLOBALS['TSFE']->page;
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPageTitleFirst()
-    {
-        return $this->config['pageTitleFirst'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getPageTitleSeparator()
-    {
-        return $GLOBALS['TSFE']->cObj->stdWrap(
-            $this->config['pageTitleSeparator'],
-            $this->config['pageTitleSeparator.']
-        );
-    }
-
-    /**
-     * @return string
-     */
-    public function getSiteTitle()
-    {
-        $sitetitle = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['sitetitle'];
-        if ($sitetitle) {
-            return $GLOBALS['TSFE']->sL($sitetitle);
-        } else {
-            return $GLOBALS['TSFE']->tmpl->setup['sitetitle'];
-        }
-    }
-
-    /**
-     * @var string $title
-     * @var bool $title
-     *
-     * @return string
-     */
-    public function getFinalTitle($title, $titleOnly = false)
-    {
-        if ($titleOnly) {
-            return $title;
-        }
-
-        $siteTitle = $this->getSiteTitle();
-        $pageTitleFirst = $this->getConfig()['pageTitleFirst'];
-        $pageTitleSeparator = $this->getPageTitleSeparator();
-
-        if ($pageTitleFirst) {
-            $title .= $pageTitleSeparator . $siteTitle;
-        } else {
-            $title = $siteTitle . $pageTitleSeparator . $title;
-        }
-        return $title;
-    }
-
-    /**
      * initialize the TSFE for the backend
      *
      * @return void
+     * @throws \TYPO3\CMS\Core\Exception
      */
     protected function initTSFE()
     {
@@ -241,5 +157,92 @@ class TSFEUtility
             $messageQueue = $flashMessageService->getMessageQueueByIdentifier('cs_seo');
             $messageQueue->enqueue($message);
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function getPagePath()
+    {
+        $parameter = [
+            'parameter' => $this->pageUid,
+            'additionalParams' => '&L=' . (int)$this->lang,
+            'forceAbsoluteUrl' => 1
+        ];
+
+        return $GLOBALS['TSFE']->cObj->typoLink_URL($parameter);
+    }
+
+    /**
+     * @return array
+     */
+    public function getPage()
+    {
+        return $GLOBALS['TSFE']->page;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPageTitleFirst()
+    {
+        return $this->config['pageTitleFirst'];
+    }
+
+    /**
+     * @var string $title
+     * @var bool $title
+     *
+     * @return string
+     */
+    public function getFinalTitle($title, $titleOnly = false)
+    {
+        if ($titleOnly) {
+            return $title;
+        }
+
+        $siteTitle = $this->getSiteTitle();
+        $pageTitleFirst = $this->getConfig()['pageTitleFirst'];
+        $pageTitleSeparator = $this->getPageTitleSeparator();
+
+        if ($pageTitleFirst) {
+            $title .= $pageTitleSeparator . $siteTitle;
+        } else {
+            $title = $siteTitle . $pageTitleSeparator . $title;
+        }
+
+        return $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSiteTitle()
+    {
+        $sitetitle = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['sitetitle'];
+        if ($sitetitle) {
+            return $GLOBALS['TSFE']->sL($sitetitle);
+        } else {
+            return $GLOBALS['TSFE']->tmpl->setup['sitetitle'];
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPageTitleSeparator()
+    {
+        return $GLOBALS['TSFE']->cObj->stdWrap(
+            $this->config['pageTitleSeparator'],
+            $this->config['pageTitleSeparator.']
+        );
     }
 }

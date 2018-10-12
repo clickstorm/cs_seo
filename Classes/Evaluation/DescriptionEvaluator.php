@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\Evaluation;
 
 /***************************************************************
@@ -25,6 +26,7 @@ namespace Clickstorm\CsSeo\Evaluation;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 
 /**
@@ -42,6 +44,7 @@ class DescriptionEvaluator extends AbstractLengthEvaluator
         $extConf = ConfigurationUtility::getEmConfiguration();
 
         $description = $this->getMetaTagContent('description');
+
         return $this->evaluateLength($description, $extConf['minDescription'], $extConf['maxDescription']);
     }
 }

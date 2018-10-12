@@ -56,7 +56,7 @@ class MetaTagGeneratorHook
     {
 
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
-        if($metaData === null) {
+        if ($metaData === null) {
             return;
         }
 
@@ -67,10 +67,51 @@ class MetaTagGeneratorHook
 
     /**
      * @param array $metaData
+     */
+    protected function renderContent($metaData): void
+    {
+        $metaTagManagerRegistry = GeneralUtility::makeInstance(MetaTagManagerRegistry::class);
+        $pluginSettings = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.'];
+
+        $ogImageUrl = $this->getOgImage($metaData, $pluginSettings);
+        $twImageUrl = $this->getTwImage($metaData, $pluginSettings);
+
+        //@todo: remove default when https://forge.typo3.org/issues/86570 is merged
+        $noIndex = ((bool)$metaData['no_index']) ? 'noindex' : 'index';
+        $noFollow = ((bool)$metaData['no_follow']) ? 'nofollow' : 'follow';
+
+        $generators = [
+            'description' => ['value' => $metaData['description']],
+            'robots' => ['value' => implode(',', [$noIndex, $noFollow])],
+            'og:title' => ['value' => $metaData['og_title']],
+            'og:description' => ['value' => $metaData['og_description']],
+            'og:image' => ['value' => $ogImageUrl],
+            'og:type' => ['value' => $pluginSettings['social.']['openGraph.']['type']],
+            'og:locale' => ['value' => $GLOBALS['TSFE']->config['config']['locale_all']],
+            'twitter:title' => ['value' => $metaData['tw_title']],
+            'twitter:description' => ['value' => $metaData['tw_description']],
+            'twitter:image' => ['value' => $twImageUrl],
+            'twitter:card' => ['value' => ($ogImageUrl || $twImageUrl) ? 'summary_large_image' : 'summary'],
+            'twitter:creator' => ['value' => $metaData['tw_creator'] ?: $pluginSettings['social.']['twitter.']['creator']],
+            'twitter:site' => ['value' => $metaData['tw_site'] ?: $pluginSettings['social.']['twitter.']['site']],
+        ];
+
+        foreach ($generators as $key => $params) {
+            $manager = $metaTagManagerRegistry->getManagerForProperty($key);
+            $manager->removeProperty($key);
+            if (!empty($params['value'])) {
+                $manager->addProperty($key, $this->escapeContent($params['value']));
+            }
+        }
+    }
+
+    /**
+     * @param array $metaData
      * @param array $pluginSettings
      * @return string
      */
-    protected function getOgImage(array $metaData, array $pluginSettings): string {
+    protected function getOgImage(array $metaData, array $pluginSettings): string
+    {
         // og:image
         $ogImageURL = $pluginSettings['social.']['defaultImage'];
         if ($metaData['og_image']) {
@@ -91,68 +132,27 @@ class MetaTagGeneratorHook
     }
 
     /**
-     * @param array $metaData
-     * @param array $pluginSettings
-     * @return string
+     * @param string $field
+     * @param array $meta
+     *
+     * @return string the image path
      */
-    protected function getTwImage(array $metaData, array $pluginSettings): string {
-        $twImageURL = $pluginSettings['social.']['twitter.']['defaultImage'];
-        if ($metaData['tw_image']) {
-            $twImageURLFromRecord = $this->getImageOrFallback('tw_image', $metaData);
-            if($twImageURLFromRecord) {
-                $twImageURL = $twImageURLFromRecord;
-            }
-        }
-
-        if (empty($twImageURL)) {
-            return '';
-        }
-
-        return $this->getScaledImagePath(
-            $twImageURL,
-            $pluginSettings['social.']['twitter.']['image.']
-        );
-
-
-    }
-
-    /**
-     * @param array $metaData
-     */
-    protected function renderContent($metaData): void
+    protected function getImageOrFallback($field, $meta)
     {
-        $metaTagManagerRegistry = GeneralUtility::makeInstance(MetaTagManagerRegistry::class);
-        $pluginSettings = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.'];
+        $params = [];
+        if (is_array($meta[$field])) {
+            $params['table'] = $meta[$field]['table'];
+            $params['field'] = $meta[$field]['field'];
+            $params['uid'] = $meta[$field]['uid_foreign'];
+        } else {
+            $params['table'] = MetaDataService::TABLE_NAME_META;
+            $params['field'] = 'tx_csseo_' . $field;
+            $params['uid'] = $meta['uid'];
+        }
 
-        $ogImageUrl = $this->getOgImage($metaData,$pluginSettings);
-        $twImageUrl = $this->getTwImage($metaData,$pluginSettings);
-
-        //@todo: remove default when https://forge.typo3.org/issues/86570 is merged
-        $noIndex = ((bool)$metaData['no_index']) ? 'noindex' : 'index';
-        $noFollow = ((bool)$metaData['no_follow']) ? 'nofollow' : 'follow';
-
-        $generators = [
-            'description' => ['value' => $metaData['description']],
-            'robots' => ['value' => implode(',', [$noIndex, $noFollow])],
-            'og:title' => ['value' => $metaData['og_title']],
-            'og:description' => ['value' => $metaData['og_description']],
-            'og:image' => ['value' => $ogImageUrl],
-            'og:type' => ['value' => $pluginSettings['social.']['openGraph.']['type']],
-            'og:locale' => ['value' => $GLOBALS['TSFE']->config['config']['locale_all']],
-            'twitter:title' => ['value' =>  $metaData['tw_title']],
-            'twitter:description' => ['value' =>  $metaData['tw_description']],
-            'twitter:image' => ['value' =>  $twImageUrl],
-            'twitter:card' => ['value' =>  ($ogImageUrl || $twImageUrl) ? 'summary_large_image' : 'summary'],
-            'twitter:creator' => ['value' =>  $metaData['tw_creator'] ?: $pluginSettings['social.']['twitter.']['creator']],
-            'twitter:site' => ['value' => $metaData['tw_site'] ?: $pluginSettings['social.']['twitter.']['site']],
-        ];
-
-        foreach ($generators as $key => $params) {
-            $manager = $metaTagManagerRegistry->getManagerForProperty($key);
-            $manager->removeProperty($key);
-            if(!empty($params['value'])) {
-                $manager->addProperty($key, $this->escapeContent($params['value']));
-            }
+        $image = DatabaseUtility::getFile($params['table'], $params['field'], $params['uid']);
+        if ($image) {
+            return $image->getPublicUrl();
         }
     }
 
@@ -183,31 +183,31 @@ class MetaTagGeneratorHook
     }
 
     /**
-     * @param string $field
-     * @param array $meta
-     *
-     * @return string the image path
+     * @param array $metaData
+     * @param array $pluginSettings
+     * @return string
      */
-    protected function getImageOrFallback($field, $meta)
+    protected function getTwImage(array $metaData, array $pluginSettings): string
     {
-        $params = [];
-        if (is_array($meta[$field])) {
-            $params['table'] = $meta[$field]['table'];
-            $params['field'] = $meta[$field]['field'];
-            $params['uid'] = $meta[$field]['uid_foreign'];
-        } else {
-            $params['table'] = MetaDataService::TABLE_NAME_META;
-            $params['field'] = 'tx_csseo_' . $field;
-            $params['uid'] = $meta['uid'];
+        $twImageURL = $pluginSettings['social.']['twitter.']['defaultImage'];
+        if ($metaData['tw_image']) {
+            $twImageURLFromRecord = $this->getImageOrFallback('tw_image', $metaData);
+            if ($twImageURLFromRecord) {
+                $twImageURL = $twImageURLFromRecord;
+            }
         }
 
-        $image = DatabaseUtility::getFile($params['table'], $params['field'], $params['uid']);
-        if ($image) {
-            return $image->getPublicUrl();
+        if (empty($twImageURL)) {
+            return '';
         }
+
+        return $this->getScaledImagePath(
+            $twImageURL,
+            $pluginSettings['social.']['twitter.']['image.']
+        );
+
+
     }
-
-
 
     /**
      * @param string $content

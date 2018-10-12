@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\Domain\Model;
 
 /***************************************************************

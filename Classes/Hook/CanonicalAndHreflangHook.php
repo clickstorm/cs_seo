@@ -51,8 +51,10 @@ class CanonicalAndHreflangHook
      * @param TypoScriptFrontendController $typoScriptFrontendController
      * @param Dispatcher $signalSlotDispatcher
      */
-    public function __construct(TypoScriptFrontendController $typoScriptFrontendController = null, Dispatcher $signalSlotDispatcher = null)
-    {
+    public function __construct(
+        TypoScriptFrontendController $typoScriptFrontendController = null,
+        Dispatcher $signalSlotDispatcher = null
+    ) {
         if ($typoScriptFrontendController === null) {
             $typoScriptFrontendController = $this->getTypoScriptFrontendController();
         }
@@ -63,6 +65,13 @@ class CanonicalAndHreflangHook
         $this->signalSlotDispatcher = $signalSlotDispatcher;
     }
 
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
+    }
 
     /**
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
@@ -75,7 +84,7 @@ class CanonicalAndHreflangHook
 
         $metaData = $metaDataService->getMetaData();
 
-        if($metaData) {
+        if ($metaData) {
             /** @var ContentObjectRenderer $cObj */
             $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
             $context = GeneralUtility::makeInstance(Context::class);
@@ -93,8 +102,8 @@ class CanonicalAndHreflangHook
 
             $href = '';
             $this->signalSlotDispatcher->dispatch(self::class, 'beforeGeneratingCanonical', [&$href]);
-            if($href !== 'none') {
-                if(empty($href)) {
+            if ($href !== 'none') {
+                if (empty($href)) {
 
 
                     // canonical
@@ -120,7 +129,7 @@ class CanonicalAndHreflangHook
                     }
                 }
 
-                if(!empty($href)) {
+                if (!empty($href)) {
                     $canonical = '<link ' . GeneralUtility::implodeAttributes([
                             'rel' => 'canonical',
                             'href' => $href
@@ -132,8 +141,8 @@ class CanonicalAndHreflangHook
             $hreflangs = '';
             $this->signalSlotDispatcher->dispatch(self::class, 'beforeGeneratingHreflang', [&$hreflangs]);
 
-            if($hreflangs !== 'none') {
-                if(empty($hreflangs)) {
+            if ($hreflangs !== 'none') {
+                if (empty($hreflangs)) {
                     // hreflang
                     // if the item for the current language uid exists and
                     // the item is not set to no index and
@@ -147,8 +156,10 @@ class CanonicalAndHreflangHook
                         && !$metaData['canonical']
                         && $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['enable']
                     ) {
-                        $langIds = explode(",", $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['ids']);
-                        $langKeys = explode(",", $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['keys']);
+                        $langIds = explode(",",
+                            $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['ids']);
+                        $langKeys = explode(",",
+                            $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['keys']);
 
                         $hreflangTypoLinkConf = $typoLinkConf;
                         $metaTags['hreflang'] = '';
@@ -172,7 +183,7 @@ class CanonicalAndHreflangHook
                 $this->typoScriptFrontendController->additionalHeaderData[] = $hreflangs;
             }
 
-        // if no extension metadata use the core href lang generator
+            // if no extension metadata use the core href lang generator
         } else {
             $canonicalGenerator = GeneralUtility::makeInstance(CanonicalGenerator::class);
             $canonicalGenerator->generate();
@@ -219,13 +230,5 @@ class CanonicalAndHreflangHook
         }
 
         return $languageIds;
-    }
-
-    /**
-     * @return TypoScriptFrontendController
-     */
-    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
-    {
-        return $GLOBALS['TSFE'];
     }
 }

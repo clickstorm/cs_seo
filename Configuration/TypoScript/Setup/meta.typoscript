@@ -3,6 +3,8 @@ config {
 	pageTitleFirst = 1
 	pageTitleSeparator = |
 	pageTitleSeparator.noTrimWrap = | | |
+
+	# @todo use TitleTagProvider when https://forge.typo3.org/issues/86573 is solved
 	titleTagFunction = Clickstorm\CsSeo\UserFunc\PageTitle->render
 }
 

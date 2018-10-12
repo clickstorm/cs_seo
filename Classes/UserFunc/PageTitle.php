@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\UserFunc;
 
 /***************************************************************
@@ -57,7 +58,7 @@ class PageTitle
         $this->initialize();
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
 
-        if($metaData) {
+        if ($metaData) {
             $title = $this->TSFE->getFinalTitle($metaData['title'], $metaData['title_only']);
         } else {
             // get all configurations
@@ -66,14 +67,11 @@ class PageTitle
             // build the title
             $title = $page['seo_title']
                 ?: $GLOBALS['TSFE']->altPageTitle
-                    ?: $page['title']
-            ;
+                    ?: $page['title'];
 
             $title = $this->TSFE->getFinalTitle($title, $page['tx_csseo_title_only']);
         }
-
-
-
+        
         return $title;
     }
 

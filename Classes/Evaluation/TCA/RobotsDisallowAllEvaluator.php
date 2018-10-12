@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\Evaluation\TCA;
 
 /***************************************************************
@@ -45,6 +46,7 @@ class RobotsDisallowAllEvaluator
      *     and changed if needed.
      *
      * @return string Evaluated field value
+     * @throws \TYPO3\CMS\Core\Exception
      */
     public function evaluateFieldValue($value, $is_in, &$set)
     {

@@ -49,7 +49,7 @@ class MetaDataService
     public function getMetaData(): ?array
     {
         // check if metadata was already set
-        if($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData']) {
+        if ($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData']) {
             return $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'];
         }
 
@@ -91,31 +91,45 @@ class MetaDataService
                 return $metaData;
             }
         }
+
         return null;
     }
 
     /**
-     * DB query to get the current meta properties
+     * Check if extension detail view or page properties should be used
      *
-     * @param $tableSettings
+     * @param $tables
+     * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj
+     * @param bool $checkOnly
      *
-     * @return array
+     * @return array|bool
      */
-    protected function getMetaProperties($tableSettings)
+    public static function getCurrentTableConfiguration($tables, $cObj, $checkOnly = false)
     {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(self::TABLE_NAME_META);
+        foreach ($tables as $key => $table) {
+            if (isset($tables[$key . '.']['enable'])) {
+                $settings = $tables[$key . '.'];
+                $uid = intval($cObj->getData($settings['enable']));
 
-        $res = $queryBuilder->select('*')
-            ->from(self::TABLE_NAME_META)
-            ->where(
-                $queryBuilder->expr()->eq('uid_foreign',
-                    $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)),
-                $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableSettings['table']))
-            )
-            ->execute()->fetchAll();
+                if ($uid) {
+                    if ($checkOnly) {
+                        return true;
+                    }
+                    $data = [
+                        'table' => $table,
+                        'uid' => $uid,
+                    ];
 
-        return isset($res[0]) ? $res[0] : [];
+                    if (isset($settings['fallback.']) && count($settings['fallback.']) > 0) {
+                        $data['fallback'] = $settings['fallback.'];
+                    }
+
+                    return $data;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -160,39 +174,26 @@ class MetaDataService
     }
 
     /**
-     * Check if extension detail view or page properties should be used
+     * DB query to get the current meta properties
      *
-     * @param $tables
-     * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj
-     * @param bool $checkOnly
+     * @param $tableSettings
      *
-     * @return array|bool
+     * @return array
      */
-    public static function getCurrentTableConfiguration($tables, $cObj, $checkOnly = false)
+    protected function getMetaProperties($tableSettings)
     {
-        foreach ($tables as $key => $table) {
-            if (isset($tables[$key . '.']['enable'])) {
-                $settings = $tables[$key . '.'];
-                $uid = intval($cObj->getData($settings['enable']));
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(self::TABLE_NAME_META);
 
-                if ($uid) {
-                    if ($checkOnly) {
-                        return true;
-                    }
-                    $data = [
-                        'table' => $table,
-                        'uid' => $uid,
-                    ];
+        $res = $queryBuilder->select('*')
+            ->from(self::TABLE_NAME_META)
+            ->where(
+                $queryBuilder->expr()->eq('uid_foreign',
+                    $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)),
+                $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableSettings['table']))
+            )
+            ->execute()->fetchAll();
 
-                    if (isset($settings['fallback.']) && count($settings['fallback.']) > 0) {
-                        $data['fallback'] = $settings['fallback.'];
-                    }
-
-                    return $data;
-                }
-            }
-        }
-
-        return false;
+        return isset($res[0]) ? $res[0] : [];
     }
 }

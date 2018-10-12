@@ -56,17 +56,6 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
     }
 
     /**
-     * @override
-     */
-    protected function initPageRenderer()
-    {
-        if ($this->pageRenderer !== null) {
-            return;
-        }
-        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-    }
-
-    /**
      * page is in backend so found is true
      *
      * @param string $reason Reason text
@@ -77,18 +66,6 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
     public function pageNotFoundAndExit($reason = '', $header = '')
     {
         return;
-    }
-
-    /**
-     * Sets sys_page where-clause
-     *
-     * @return void
-     * @access private
-     */
-    public function setSysPageWhereClause()
-    {
-        $this->sys_page->where_hid_del = '';
-        $this->sys_page->where_groupAccess = '';
     }
 
     /**
@@ -170,7 +147,7 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
         }
         if (is_array($this->TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['fetchPageId-PostProcessing'])) {
             foreach ($this->TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['fetchPageId-PostProcessing'] as
-                $functionReference) {
+                     $functionReference) {
                 $parameters = ['parentObject' => $this];
                 GeneralUtility::callUserFunction($functionReference, $parameters, $this);
             }
@@ -183,5 +160,28 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
     protected function getTimeTracker()
     {
         return $GLOBALS['TT'];
+    }
+
+    /**
+     * Sets sys_page where-clause
+     *
+     * @return void
+     * @access private
+     */
+    public function setSysPageWhereClause()
+    {
+        $this->sys_page->where_hid_del = '';
+        $this->sys_page->where_groupAccess = '';
+    }
+
+    /**
+     * @override
+     */
+    protected function initPageRenderer()
+    {
+        if ($this->pageRenderer !== null) {
+            return;
+        }
+        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
     }
 }

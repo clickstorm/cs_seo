@@ -28,7 +28,7 @@ namespace Clickstorm\CsSeo\Hook;
  ***************************************************************/
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
-use TYPO3\CMS\Core\Database\TableConfigurationPostProcessingHookInterface ;
+use TYPO3\CMS\Core\Database\TableConfigurationPostProcessingHookInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
@@ -38,7 +38,8 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  *
  * @package Clickstorm\CsSeo\Hook
  */
-class TableConfigurationPostProcessingHook implements TableConfigurationPostProcessingHookInterface {
+class TableConfigurationPostProcessingHook implements TableConfigurationPostProcessingHookInterface
+{
 
     /**
      * Function which may process data created / registered by extTables
@@ -46,18 +47,19 @@ class TableConfigurationPostProcessingHook implements TableConfigurationPostProc
      *
      * @return void
      */
-    public function processData() {
-           
+    public function processData()
+    {
+
         // add new fields to pages
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
             'pages',
             'tx_csseo_keyword,
             --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
             --palette--;;opengraph,--palette--;;twittercards',
-            implode(',',\Clickstorm\CsSeo\Utility\ConfigurationUtility::getEvaluationDoktypes()),
+            implode(',', \Clickstorm\CsSeo\Utility\ConfigurationUtility::getEvaluationDoktypes()),
             'after:canonical_link'
         );
-        
+
         // Extend TCA of records like news etc.
         $tempColumns = [
             'tx_csseo' => [
@@ -77,16 +79,16 @@ class TableConfigurationPostProcessingHook implements TableConfigurationPostProc
                     ],
                     'behaviour' => [
                         'localizationMode' => 'select',
-                        'localizeChildrenAtParentLocalization' => TRUE,
+                        'localizeChildrenAtParentLocalization' => true,
                     ],
                 ],
             ]
         ];
 
         $tables = ConfigurationUtility::getTablesToExtend();
-        if($tables) {
+        if ($tables) {
             foreach ($tables as $table) {
-                ExtensionManagementUtility::addTCAcolumns($table,$tempColumns);
+                ExtensionManagementUtility::addTCAcolumns($table, $tempColumns);
                 ExtensionManagementUtility::addToAllTCAtypes(
                     $table,
                     '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,tx_csseo'

@@ -186,7 +186,7 @@ class PageHook
      * @return void
      */
     protected function loadJavascript()
-    {       
+    {
         $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/CsSeo/Evaluation');
     }
 
