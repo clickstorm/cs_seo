@@ -1,0 +1,626 @@
+56aa42f [TASK] set version to 4.0.1-dev
+f33d600 [RELEASE] 4.0.0 - Support TYPO3 v9 LTS - see changelog for migration
+552e305 [BUGFIX] composer constraint
+1cf2275 [BUGFIX] provide correct language for snippet preview
+a533cd9 [BUGFIX] use language from site config
+967e860 [FEATURE] use hreflang keys from site configuration
+d263d6e [BUGFIX] remove additional bootstrap css
+3b70042 [TASK] cleanup locallang
+2e8b56f [FEATURE] update documentation
+bf8f1f7 [TASK] cleanup
+26af751 [FEATURE] override metatag and canonical generator
+d092a0c [FEATURE] set metadata global
+5014211 Merge branch 'master' of https://github.com/clickstorm/cs_seo
+a9d8470 [FEATURE] cleanup test
+1ca1ce5 [TASK] cleanup root files
+28c5045 [FEATURE] use module templates
+582aee5 [FEATURE] use requireJS
+20ad454 [BUGFIX] missed new typoscript file extension
+c2cae0f [FEATURE] #91 use new .tsconfig file extension
+21a884b [FEATURE] #91 use new .typoscript file extension
+fb43468 [BUGFIX] #199 check languageField for header data
+4805d51 [BUGFIX] evalutaion records
+987433f [BUGFIX] use l10nparent for pages overlays
+320d99d [BUGFIX] js handling page hook
+92fcb34 [BUGFIX] evalutation page hook language
+eee8ec2 [FEATURE] better tca order
+02c37e4 [FEATURE] use new meta tag API
+8bfa53a [FEATURE] automatically add configured sql fields to database
+a2ec075 [FEATURE] use auto create managed DB fields
+b451af4 [BUGFIX] remove pages_language_overlay in ext update
+0a79bde [FEATURE] update wizard to migrate pages fields
+151373c [BUGFIX] remove deprecated getFirstWebPage
+7151eb7 [BUGFIX] remove deprecated loadjQuery
+609a16a [BUGFIX] don't use GLOBAL TYPO3_REQUEST
+e0e42c8 [BUGFIX] remove deprecated versioningPreview
+b1dc99d [BUGFIX] use getSiteTitle from Utility
+56e7fa3 [BUGFIX] use json decode as array
+0dfdd7a [BUGFIX] use new Extenion Conf API
+3ee2e58 [BUGFIX] preview in backend module
+77af0d2 [FEATURE] update module fields
+e2a91f6 [BUGFIX] reset tsfe utility
+19759bf [BUGFIX] remove not used view helpers
+347e2ee [FEATURE] use one method to access the extension manager conf
+cde058f [BUGFIX] migrate TSFEUtility
+99ac61d [BUGFIX] don't use ['TYPO3_CONF_VARS']['EXT']['extConf'][]
+bf43f73 [FEATURE] remove sitemap.xml generation - use core https://forge.typo3.org/issues/84525
+f97941d [FEATURE] TCA migrations
+31e12ee [BUGFIX] don't use ['lang']
+925d9ef [BUGFIX] remove deprecated getset funtion
+7057940 [BUGFIX] remove rootline param from getPageTSconfig
+c6b8edd [BUGFIX] remove not used domain in snippet preview
+a06b23a [FEATURE] show page path
+e7d6e32 [FEATURE] use seo title in page preview
+a99e2e8 [BUGFIX] remove pageOverlayFields
+62c83b6 [FEATURE] use renderType checkboxToggle
+5f94243 [FEATURE] clean up ext_tables.sql
+440ffe4 [FEATURE] remove already existing core fields
+c1c6c66 [FEATURE] remove realurl integration
+b21fbe7 [FEATURE] remove pages_language_overlay
+b6a85b2 [FEATURE] add required core extensions to composer.json
+a621b81 [BUGFIX] remove find domain record
+eecdce7 [BUGFIX] remove deprecated devlog
+3c4a330 [BUGFIX] get pageTSconfig in module controller
+7e7c230 [BUGFIX] Replace @inject with @TYPO3\CMS\Extbase\Annotation\Inject
+4d1da57 [TASK] update versions to prepare for 9 LTS
+7e92b9d [FEATURE] update tests
+b67219c [FEATURE] update composer json
+645690b [BUGFIX] sonarqube issue in module controller
+67b3354 [TASK] set version to 3.0.3-dev
+020a464 [RELEASE] 3.0.2 - several small bugfixes
+2a9437f [BUGFIX] #191 prevent caching from pageTSconfig while TCA is being processed
+947f52b [BUGFIX] #192 Error when editing a moved page in workspace draft mode
+cbadd9f [BUGFIX] #184 change paths to extension assets
+f1b4ea5 Merge pull request #188 from nebrot/patch-1
+f5172e6 Merge pull request #189 from nebrot/patch-2
+c40ff7b [BUGFIX] #187 "TYPO3 is undefined"
+30411a6  [BUGFIX] #184 change paths to backend-javascripts
+e01ac4b Merge pull request #186 from mindbreaker/master
+5f4ba3e Update locallang.xlf
+59a1f68 Update de.locallang.xlf
+299d96a [BUGFIX] #185 remove powermail object utility
+2de37ab [TASK] set version to 3.0.2-dev
+d89698a [RELEASE] 3.0.1 - Bugfix in evalutation
+c7e764f [BUGFIX] remove redundant query->from in evalutation
+92883dd [BUGFIX] evaluate translations
+2ad6ace [BUGFIX] #183 evalutaion query
+d09577a [TASK] set version to 3.0.1-dev
+51b76d6 [RELEASE] 3.0.0 - migrate code for 8 LTS - changelog on https://github.com/clickstorm/cs_seo/releases
+793c04a [TASK] #182 add hint to robots.txt
+ed87211 [BUGFIX] breadcrumb language overlay title
+959cbf3 Merge pull request #178 from Nemo64/patch-1
+42f224d [BUGFIX] set always twitter:card
+5639afe [BUGFIX] #180 Not existing og_image overrides defaultImage
+ab7cd30 add altPageTitle fallback
+cdf1eaf [BUGFIX] #175 constant editor wrong type for news.storagePid
+c157f48 Merge branch 'master' of https://github.com/clickstorm/cs_seo
+20503a0 [BUGFIX] #174 avoid piwik double slash
+a3f7f53 [BUGFIX] link to default language record in sitemap
+ff929e8 [BUGFIX] MM tablenames in sitemap
+aadaf05 [BUGFIX] deleted in records sitemap
+0bbf94f [BUGFIX] remove var dump
+7559da8 [FEATURE] add signal before generating header data for records
+663df85 [BUGFIX] add use statements
+932ce2e [FEATURE] add signal to modify header data for records
+5b9ec67 [BUGFIX] hreflang append records
+9f61764 [BUGFIX] enable additionalWhereClause in sitemap again
+4c9ff6a [BUGFIX] sitemap category contraint
+bdb874f [BUGFIX] href lang with new get params
+b5a60d0 [BUGFIX] sitemap.xml doctrine query
+8cbf5a9 [BUGFIX] sitemap constriants
+6324269 [BUGFIX] update use statements
+3e7e637 Merge pull request #172 from dhuf/patch-1
+830eb5c [BUGFIX] respect content_fallback
+c281c54 [BUGFIX] og:image read height/width directly from Contants
+4f8f76c [FEATURE] #171 avoid addQueryString for canonical, use only cHash params - thanks to @Nemo64
+37bbeba [TASK] update doc for scheduler tasks
+6e50fb8 Merge pull request #170 from dacostafilipe/fix-wizard-css
+3446a01 Moved to `PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath())` as `ExtensionManagementUtility::siteRelPath` is deprecated in Typo3 9
+cb44b46 [BUGFIX] Fix backend style loading by using relative path for stylesheets in SnippetPreview
+1ed3d7d [TASK] deprecated to add costum rootline to getPagesTSconfig
+5a4bde7 [FEATURE] use TSFE->generatePageTitle
+af38c28 [FEATURE] migrate Snippet Preview js
+ee270f4 [FEATURE] migrate TYPO3.jQuery to $
+9d039df [FEATURE] migrate preview wizard to renderType
+d06df10 [FEATURE] #158 optimize Piwik JS code
+cb4f582 Merge pull request #167 from HenningCash/fix/workspace
+edf785c [BUGFIX] Respect current workspace in backend
+f355339 Merge pull request #165 from hotbytes/master
+6279b74 Added a variable that helps keeping the current action view when changing the language or the depth in the backend module.
+adbc68a Fixed a typo in the Module/Grid partial.
+17bdd95 [BUGFIX] #143 JS error while update the speaking path
+e5e01fb [BUGFIX] userfunc notation
+b838979 [BUGFIX] remove doc variable
+27a7a97 [BUGFIX] remove DocumentTemplate
+a3ba0a6 [BUGFIX] migrate ext update
+9f45213 [BUGFIX] migrate strlen from Charsetconverter
+4d38baa [BUGFIX] remove TYPO3_DB
+f8f9e8a [BUGFIX] migrate null time tracker
+ebdc929 [FEATURE] migrate to doctrine statements
+d8eb581 [BUGFIX] migrate extRelPath
+57085a4 [BUGFIX] add a namespace to update script
+27d99af [BUGFIX] #163 migrate AjaxHandler
+b9cee55 [TASK] set version to 3.0.0-dev
+9b8111e [TASK] set version to 2.3.3-dev
+1fee8fc [RELEASE] 2.3.2 - single bugfix to include GA on detail pages again
+622a270 [BUGFIX] Google Analytics on detail pages
+03c8884 [TASK] set version to 2.3.2-dev
+414e2fb [RELEASE] 2.3.1 - Bugfix Google Analytics new tracking code
+53a5257 Merge pull request #160 from WebDevJona/master
+598c69f [FIX] Splitting gA script tags to prevent multiple typoscript wrap inserts, which are not supported.
+db98cfc [TASK] set version to 2.3.1-dev
+384aa12 [RELEASE] v. 2.3.0 - DB update required - twitter:site, Google Tag Manager, new GA tracking code, canonical in pages_language_overlay
+256d3aa [BUGFIX] include root page in sitemap
+5ae029e [BUGFIX] split sitemap subpages to prevent memory limit error
+863dbd2 [FEATURE] Change Google Analytics Tracking Code to gtag.js
+4ed1170 [FEATURE] #157 canonical for pages_lanugage_overlay
+42bc482 [BUGFIX] add BackendUtility::deleteClause to backend queries
+fced433 [BUGFIX] respect max length in meta table
+d83c696 [BUGFIX] #152 description via page:description data
+62493bb [BUGFIX] add twitter:site also to meta table
+4987aa3 [FEATURE] #140 add twitter:site field - db update required
+6408bf1 [FEATURE] make GTM bodyTagCObject optional
+232bca2 Merge pull request #153 from pixelart/fix/robots-content-type
+b37b46f Merge pull request #156 from dogawaf/patch-1
+28027eb [BUGFIX] Fix og_image fallback when no cs_seo IRRE-record exists
+91b45fb [BUGFIX] Content-Type header for robots.txt
+c43f8d2 Merge pull request #145 from nebrot/patch-1
+08852dd Merge pull request #147 from aw029/master
+11ff7c2 Merge pull request #150 from adudtkowski/patch-1
+56daf3f Remove location change from jquery.cs_seo.ga.js
+a3dfe1e [BUGFIX] doc spelling
+776ad89 [BUGFIX] SERP force sys_language_uid
+2b81ffb [BUGFIX] #149 respect max characters in SERP
+c333ee0 [BUGFIX] speaking paths in backend with realurl > 2.3
+a5edfd1 [BUGFIX] force L=0 in page preview
+c01f439 [BUGFIX] force L=0 in evalutation
+f26285c [BUGFIX] switch user and page TSconfig in doc
+b800557 [TASK] update doc a728e6aa94225f12a60f8ec307051f21c789bd93
+49d19fd [BUGFIX] add allways the body tag
+d8660b2 [FEATURE] using compressed version of piwik
+6145f71 [Bugfix] Correct misspelled comment
+99b06ec [BUGFIX] Google Tag Manager inclusion
+0d28439 [FEATURE] Google Tag Manager - check your bodyTag conf!
+e3ea8ce [TASK] doc installation section add hint for fill in path segment
+0d4deec [BUGFIX] #139 variable missing
+1a757a4 [BUGFIX] #139 use nav title for initial path segment if set
+438c5e5 [FEATURE] better SVG icon
+a094cea [BUGFIX] sitemap.xml pages use current pid if rootPid is empty and set constant rootPid=
+dc70be9 Merge pull request #138 from jwittorf/master
+3595369 [FEATURE] doc explain index sitemap.xml
+d987ec3 [BUGFIX] Add missing sitemap.extensions.news.recursive constant
+d87cd66 [TASK] Set version to 2.2.1-dev
+6527463 [RELEASE] v. 2.2.0 - Category sinlge pid, cHash and recursive storage in sitemap.xml, costum doctypes in evaluation, localize social media images and show image paths in SEO module. Fix: Preview URL in multidomain. More information: https://github.com/clickstorm/cs_seo/commits/master
+63ce02d [FEATURE] SVG extension icon
+cba21e2 [FEATURE] use TYPO3 button layout in evaluation module
+d3db189 [BUGFIX] Less CSS map
+0de4263 [FEATURE] show social media image paths in module
+da5ac83 [FEATURE] extend doc with robots index,follow explanation
+71df05d [BUGFIX] use social media image uid instead of path
+ea04b26 [BUGFIX] #137 Google URL preview on multidomain installations
+3d10319 [BUGFIX] #135 parse doktype as int
+49bbd11 [FEATURE] #136 Localize social media images for pages
+64e82ed [BUGFIX] editable costum doctypes in SEO modul
+a65c3cc [BUGFIX] #134 remove l10nmode exclude for social media images
+b0d9ceb [FEATURE] recursive storage for records in the sitemap.xml
+bf26476 Merge pull request #133 from ervaude/getSitemapRecordsUserFunction
+d93e996 [FEATURE] Make it possible to fetch records for sitemap by UserFunction
+2339f59 Merge pull request #131 from ervaude/standaloneView
+240801e Merge pull request #129 from ervaude/doktypes
+1187c8c Merge pull request #127 from ervaude/useCacheHash
+71c1cf9 [FEATURE] Allow overrides of layouts, partials and templates for sitemaps
+8ed0e15 [BUGFIX] Use correct property in documentation for doktypes
+eb74604 [BUGFIX] Respect useCacheHash configuration in extension sitemap
+50cd472 Merge pull request #125 from ervaude/hideInDefaultLanguage
+5ec3ba4 [BUGFIX] Use correct class name in annotation
+dc1ad4e [BUGFIX] Do not include pages in sitemap that are hidden in default language
+cbba28c [BUGFIX] #120 Avoid double htmlentity encoding
+f7acf5d [BUGFIX] documentation whitespace
+869418c [TASK] #121 documentation update
+76cc940 Merge pull request #121 from kozodev/add-cHash-as-option-in-sitemap-for-extensions
+bdf5969 Update setup.txt
+1ab34ca [FEATURE] add useCacheHash as option in sitemap for extension
+9a6b7fb [BUGFIX] #118 Documentation outdated 'Override TypoScript'
+6c8a16e [BUGFIX] remove ranges on start and endtime
+3f5cdfa [FEATURE] documentation update for detailPid in categories
+57b5054 [FEATURE] sitemap.xml get category single pid
+ece619c [TASK] Set version to 2.1.3-dev
+4816e83 [RELEASE] v. 2.1.2 - avoid TypoScript conditions for better performance - check your TS settings, TYPO3 8.7 social images crop in backend
+d83df47 [BUGFIX] #116 TYPO3 8.7 crop social media images in backend
+974434d Merge pull request #115 from cseifert/master
+cf66f1b [BUGFIX] Correct Page TSConfig include spelling mistake
+84fcbcf [BUGFIX] show page title in wizard
+2b751f1 [BUGFIX] avoid TypoScript conditions
+2014d64 [TASK] Set version to 2.1.2-dev
+cc1b721 [RELEASE] v. 2.1.1 Bugfix release - remove not null on text fields in the DB, add SEO fields to individual doktypes
+5f4d7d5 [BUGFIX] #111 add page SEO fields after all
+6360fad [BUGFIX] #111 add SEO page settings to allowed evaluation doktypes
+befa836 [BUGFIX] #107 #110 remove not null from text fields (DB update required)
+b3e29e3 [TASK] Set version to 2.1.1-dev
+20ae84a [RELEASE] 2.1.0 - nofollow in page settings, configure doktypes in sitemap. Several bugfixes. More information: https://github.com/clickstorm/cs_seo/commits/master
+6455ec1 [FEATURE] #16 DOC add L=0 hint to installation section
+a7f66cf Merge pull request #105 from MediaCluster/master
+e8233fb dirty hack for "dynamic" rootPid (transitional)
+0550814 [BUGFIX] #103 Remove cHash from addQueryString.exclude
+e389720 Merge pull request #100 from grimmcreative/patch-1
+a80bceb [BUG] twitter:image is a name not a property
+74ba2b2 Merge pull request #94 from HenningCash/fix/install
+1fb59c8 [BUGFIX] Don't run any hooks during TYPO3 install
+0bebc41 [BUGFIX] #83 Locallized pages dosen't show social media images in 8.7
+a3958fd [FEATURE] #84 extend doc with gaOptout() link
+4508a98 [FEATURE] #89 Make doktypes for the sitemap.xml configurable
+6e38ba8 [FEATURE] #87 get language items only if TCA fields are set
+abf3d41 [FEATURE] #92 fallback og_image and tw_image on records
+4414ef9 Merge pull request #88 from tantegerda1/documentation
+f31b593 [TASK] Clarify config option
+d439a8e [BUGFIX] Properly name configuration options
+3da29e7 [FEATURE] #86 Add ability choose noindex,follow or noindex,nofollow
+5410f7b [FEATURE] allow table with no TCA in sitemap.xml
+8d93dd4 [TASK] add tx_form_formframework parameter
+9f8cd9e [BUGFIX] #77 #82 TYPO3 8.7 sitemap.xml below folders
+c9e133d [TASK] Set version to 2.0.2-dev
+ce67c81 [RELEASE] v. 2.0.1 - bugfix release: set noindex,follow; absolute URLs for social images; use Hook to extend TCA after other extensions. More information: https://github.com/clickstorm/cs_seo/commits/master
+3259ef7 [BUGFIX] #71 revert version
+e75006d [BUGFIX] absolute URLs in og and twitter images
+380de99 [BUGFIX] #79 noindex,follow as default
+579d63b Merge pull request #76 from nebrot/patch-1
+c3ddd5c [Bugfix] Remove duplicate line
+f90f8a1 Merge pull request #74 from mat-hew1/bugfix/MountingPointSupportInBreadcrumb
+21bd8df [BUGFIX] #67 Google Analytics download JS condition
+2f473f7 [BUGFIX] #68 update script flash messanger
+40c47c6 [FEATURE] #69 use hook to extend records TCA
+91eb9a9 [BUGFIX] Verify TSFE-MountPoint before use.
+ebcbc59 Merge pull request #72 from mat-hew1/bugfix/MountingPointSupportInBreadcrumb
+9ae9c07 [BUGFIX] Issue #71 Wrong breadcrumb for Mounting-Point pages
+528d2ca [TASK] Set version to 2.0.1-dev
+5a1d8e2 [RELEASE] v. 2.0.0 - drop compatibility 6.2 release, no breaking changes. Update database Analyzer. New Features: evaluation of records, more details in results, meta breadcrumb. Bugfixes. More information here: https://github.com/clickstorm/cs_seo/releases
+c4d42a7 [FEATURE] doc add screen shot of record evaluation
+98e55a6 [BUGFIX] Link label
+e44b9c6 [BUGFIX] add condition if URL is set
+ffb747f [FEATURE] save evaluation URL
+a3fbdd7 [FEATURE] doc evaluation record
+b749406 [BUGFIX] mobile evaluation
+c62a253 [BUGFIX] replace pipe with uid
+cfd39a8 [FEATURE] evaluation details in accordion
+73c5068 [BUGFIX] spelling evaluation detail
+17b027c [BUGFIX] progressbar label in TYPO3 8.6
+4eeb78a [FEATURE] initial style evaluation details
+78aaa19 [BUGFIX] english in result details
+e7b3ed3 [BUGFIX] use correct language in page evalutaion
+476002c [FEATURE] generate cHash for record evaluation in TYPO3 8.6
+f9903f8 [BUGFIX] prefix img with base URL
+81da588 [BUGFIX] preview wizard fallback
+a80ed6d [BUGFIX] page_language_overlay evaluation in TYPO3 8.6
+8b3f21a [BUGFIX] initialize tsfe to get pages overlay in 8.6
+9bb3688 [BUGFIX] JS condition
+e645d4b [FEATURE] show images without an alt tag
+6abffa1 [FEATURE] details for evalutation results
+e1fe66f [FEATURE] select autocomplete records evaluation
+282c4a8 [BUGFIX] sorting evaluation
+9275b43 [BUGFIX] #63 extended TCA TYPO3 8.6
+ddf51f6 [FEATURE] use keyword from record
+18de669 [BUGFIX] news TSconfig evaluation
+68ee404 [BUGFIX] #56 add image translation fields to db for correct translation handling
+0008fdb [FEATURE] #20 evaluate records like news
+03cea35 [FEATURE] #57 og type via TypoScript for records
+8bc5608 [BUGFIX] canonical for records with L=-1
+adbba96 [FEATURE] #45 Split the meta Elements
+3fea4dd [BUGFIX] #61 #62 Sitemap with L=-1 records
+74400c8 Merge pull request #59 from jacrasmussen/feature/psr2
+c2fe1b8 [TASK] Reformat class files according to PSR-2
+75085b5 [FEATURE] choose record
+05a4230 [FEATURE] show record list in evaluation
+3116f35 [FEATURE] show evalutaion tables in module
+6be2907 [FEATURE] choose language for evaluation in module
+a728e6a [FEATURE] #53 disable evaluation in page module via TSconfig
+d411c8b [FEATURE] Use ConfigurationUtility
+84521f4 [BUGFIX] wrong comment
+9065d96 [FEATURE] provide page TSconfig for news sitemap.xml
+c9d1565 Merge pull request #54 from aw029/master
+faadfea [BUGFIX] Usage of tmpl->flatSetup prevents page from beeing cachable
+994b0a8 [FEATURE] #46 Settings to enable Evaluation for own Doktypes
+7cd6a90 [BUGFIX] #49 JS update preview with fallback by records
+519421e [BUGFIX] #49 TSconfig fallback not respected for google preview
+bcf5f16 [BUGFIX] evaluation no cache
+879cee3 [BUGFIX] error handling evaluation
+6d9e732 [BUGFIX] turn off redirect https if set in the page settings
+4238908 [BUGFIX] add l10n_mode to social media images for correct fallback
+179297b [FEATURE] doc update: add sitemap additionalWhereClause
+737aeeb [BUGFIX] allow in sitemap only news type=0
+7e2eb27 [BUGFIX] #41 replace success with done jquery
+1bb7bd5 Merge branch 'master' of https://github.com/clickstorm/cs_seo
+392b20f Merge pull request #48 from r3h6/issue47
+538c240 [BUGFIX] #79371 change requirements in composer.json to typo3/cms-core
+73ce585 [BUGFIX] Resolve issue 47
+518e664 [BUGFIX] #43 TS Override misspelling
+0cf43b9 [BUGFIX] Typo in documentation
+af82564 Merge pull request #44 from dhuf/master
+a28f6cc [TASK] Typo fix
+584cf1e [BUGFIX] use pid from selected page
+4192fdf [BUGFIX] error handling in SEO module if no TS is included
+1395bbd [BUGFIX] disable search index for additional page types
+086af6b [FEATURE] documentation update RealURL and L=0
+66a96ba [BUGFIX] remove unused function call
+f82380d [BUGFIX] 8.5 TCA language field was dropped
+c52334c [BUGFIX] records canonical absolute
+518ef80 [BUGFIX] escape text meta content
+af44061 [BUGFIX] Match the condition for RealURL autoconf
+2e80152 [BUGFIX] realURL Hook if configuration were already made
+8fb29cf Merge pull request #38 from christian-forgacs/master
+51152cd [BUGFIX] #37 add correct implementation for realurl configuration
+4b0a699 [FEATURE] add missing .htaccess files for private folders with deny from all
+5c3cc31 [FEATURE] add .gitignore to exclude phpstorm and netbeans project folder
+3be7d94 [BUGFIX] Sitemap if additionalWhere is empty
+1aabd58 [FEATURE] remove code for TYPO3 6.2 in Page Hook
+58bec33 [BUGFIX] TCA wizard link
+905a715 [BUGFIX] TCA deprecated FeInterface
+8944a05 [FEATURE] remove deprecated TCA
+ad847fb [FEATURE] remove TCA from ext_tables
+ef497cb Merge pull request #35 from werkraum/sitemap--add-additionalWhereClause
+1ac4e02 Merge pull request #33 from aw029/master
+c56f23a [FEATURE] update version and dependencies
+24dbfea [BUGFIX] #34 Umlauts counted as 2 characters
+9460dfd fix code format
+a5ed09a Update Sitemap.php
+66e5ef2 Update Sitemap.php
+3570edf [FEATURE] add additionalWhereClause for extensions
+304d86a [TASK] Set version to 1.8.5-dev
+5942c67 [RELEASE] v. 1.8.4 - bugfix release: href="lang" TypoScript sorting, further small fixes
+896093b [FEATURE] Update the extension description
+c8e1fab [BUGFIX] #32 docs(installation): Screenshot is missing
+6a8ba17 Revert "[BUGFIX] add slash on resource-url-buildung"
+c5ff5a1 [BUGFIX] add slash on resource-url-buildung
+14eeedb [BUGFIX] workspace preview wizard
+1b1eeb6 [BUGFIX] #79021 page settings if exired and parent is shortcut
+3ec9078 [FEATURE] support for google structured data (siteSearch and Breadcrumb) @see https://developers.google.com/search/docs/guides/intro-structured-data
+262a4fc [BUGFIX] TypoScript loading order for href lang
+e0c2fb0 [BUGFIX] Spelling evaluation
+8d940b6 Merge pull request #31 from jacrasmussen/issue-30
+a8b2f8d Merge pull request #29 from jacrasmussen/master
+dfaa2e6 [BUGFIX] Ensure HTTP reponse 200 is accepted while fetching HTML content
+2585bb6 [BUGFIX] Ensure HTTP reponse 200 is accepted while fetching HTML content
+63087b1 [BUGFIX] Fix missing commas in module layouts
+cc8f5cd [TASK] Set version to 1.8.4-dev
+6bc4124 [RELEASE] v. 1.8.3 - bugfix release: sitemap index markup
+93a469c [BUGFIX] Sitemap Index Markup
+92678cc [TASK] Set version to 1.8.3-dev
+d36207f [RELEASE] v. 1.8.1 - bugfix release: disable sitemap.xml cache
+2302bec Revert "[RELEASE] v. 1.8.1 - bugfix release: disable sitemap.xml cache"
+d485903 [RELEASE] v. 1.8.1 - bugfix release: disable sitemap.xml cache
+0407545 [BUGFIX] disable cache for sitemap.xml
+d175667 [BUGFIX] emconf description
+cfb8283 [TASK] Set version to 1.8.1-dev
+39c8a35 [RELEASE] v. 1.8.0 - feature release: Sitemap.xml and robots.txt handling, Evaluation improved. DATABASE UPDATE and UPDATE IN EXTENSION MANAGER SETTINGS REQUIRED!
+d70d4ae [FEATURE] focus keyword alternatives
+6da50f7 [FEATURE] format sitemap output
+82b55c9 [BUGFIX] 8.4 compatibility
+b233a3c [BUGFIX] sourceopt and robots fallback override
+782f719 [BUGFIX] doc label and version
+9ee20a4 [FEATURE] doc update
+24f8380 [BUGFIX] evaluation keyword multiple times in title or description
+b616534 [FEATURE] fallback robots
+6986f92 Merge branch 'master' of https://github.com/clickstorm/cs_seo
+b2213b3 [FEATURE] add editable robots.txt, thanks to TYPO3 CodeFabrik, TechDivision GmbH
+724f076 [BUGFIX] evaluation tests
+8f0d693 [FEATURE] #25 make evaluation parameter configurable in extension manager
+bd62f5c [FEATURE] #26 override Sitetitel via TypoScript
+20db494 [BUGFIX] sitemap no index join
+d0babcb Merge branch 'sitemap.xml'
+46c7b32 [BUGFIX] #27 change evaluation description too short text
+b3458fb [FEATURE] doc extend sitemap
+f685257 [BUGFIX] doc sitemap reference
+5a4b339 [FEATURE] doc sitemap reference
+9f150ec [BUGFIX] extension format htmlspecialchars
+84a7906 [BUGFIX] recursvie folder and no index
+aa3ccd2 [BUGFIX] recursvie
+0348e08 [BUGFIX] extension language uids
+4e4ccd3 [FEATURE] no index from cs_seo
+5026c2e [FEATURE] describe more settings
+98cee47 [FEATURE] settings TS
+c893fc8 [FEATURE] category support
+3b9ea82 [FEATURE] language support
+7687c90 [BUGFIX] page link
+8b69d81 [FEATURE] show page and extension sitemap
+33a2b93 [FEATURE] split TypoScript
+77e62f2 [BUGFIX] No tracking of backend user
+5a8f2c9 [FEATURE] Google Analytics Opt-out
+8555306 [BUGFIX] include Analytics Code in header as it is recommended
+3cf88c9 [TASK] Set version to 1.7.2-dev
+4a5f98f [RELEASE] v. 1.7.1 - bugfix release: evaluation UTF-8, wizard path, configurable paths
+a201a11 [BUGFIX] #21 rel path for public resources
+8135a01 [BUGFIX] #21 / #22 TYPO3 6.2 compatibility
+d4ea491 [FEATURE] doc: allow from domain
+dc7f917 [BUGFIX] #22 provide evaluation if no TypoScript is included
+759d7fe [BUGFIX] path to wizard
+0fe8a98 Merge pull request #22 from mimoat/master
+5e6af07 [BUGFIX] title evaluator too long
+904a94a [BUGFIX] keyword evaluator UTF-8
+8a5e844 [BUGFIX] allow template / partial to be overwritten via TS
+5105328 Merge pull request #21 from mimoat/master
+b06b0cb correct assets paths
+d87d6f9 [TASK] Set version to 1.7.1-dev
+8a972bb [RELEASE] v. 1.7.0 - small feature release: twitter card large image, multidomain evaluation, pid config for pageTS and bugfixes.
+d16f58a [BUGFIX] module label description
+4dcf731 [FEATURE] #8 Twitter Card - summary large image
+c377b7b [FEATURE] remove .htaccess auth and add doc entry
+ebb1f3b [FEATURE] evaluation with .htaccess auth
+1fce54f [BUGFIX] Default language in preview
+2a92cc7 [FEATURE] enable multi domain for evaluation
+ed22fba [BUGFIX] #77914 add language to URL in preview wizard
+2a98dc0 [BUGFIX] remove workspace TCA for evaluation table
+9939008 [FEATURE] set TsConfig Pid
+33a209b [BUGFIX] add doc image
+86c6437 [TASK] Set version to 1.6.1-dev
+a76c056 [RELEASE] v. 1.6.0 - feature release: On-page SEO evaluation and focus keyword. Update the database and clear the system cache. Read the docs and run the new scheduler task.
+9a97209 [MERGE] branch evaluation
+ab9cb8a [BUGFIX] backslash in templates
+49a1971 [BUGFIX] spelling keyword
+063f679 [BUGFIX] contains keyword spelling
+fa0ef33 [BUGFIX] contains keyword count
+f27acd0 [FEATURE] doc scheduler task
+c29e20f [BUGFIX] spelling
+e66b4ff [BUGFIX] JS in live mode
+414287f [FEATURE] add screenshot doc
+0daf045 [FEATURE] extend evaluations doc
+f6038f0 [FEATURE] ext settings in doc
+4ff143b [BUGFIX] module
+18d569d [FEATURE] toggle results
+375e056 [FEATURE] Module evaluation style
+59a2cff [FEATURE] change style
+4270a36 [FEATURE] icons
+8d628ab [BUGFIX] page hidden
+3077273 [BUGFIX] page query
+11cac5b [BUGFIX] inject manager
+b6fdfb9 [FEEATURE] update header comments
+fd91310 [FEEATURE] style wait
+a4bcd8b [BUGFIX] ext conf description
+bb3f312 [FEATURE] select evaluators
+614bea5 [FEATURE] 6.2 compatibility
+97f0f7b [FEATURE] update animation
+3598e1f [FEATURE] optional page hook
+c630b04 [FEATURE] link to module and fix seconds for flash message
+d8af719 [FEATURE] backend module style
+c059ed5 [FEATURE] backend modules
+e6277a0 Merge branch 'evaluation' of https://github.com/clickstorm/cs_seo into evaluation
+9f0134d [FEATURE] localized items
+6bfa6b3 [FEATURE] #14 remove dist from branch
+e0a8af0 [BUGFIX] #14 remove dist section in composer.json
+f134287 [FEATURE] case keyword
+196db0b [FEATURE] Evaluator registration
+8a2d09a [FEATURE] Test images and keywords
+a7c8735 [FEATURE] more tests
+3940132 [FEATURE] Change structure
+768d529 [BUGFIX] sorting order
+c5d8180 [BUGFIX] evaluate keyword
+24db5c1 [FEATURE] update new pages
+7643b2a [FEATURE] add update button
+e8cf2be [BUGFIX] results
+90e773e [FEATURE] Add Command to Update results
+80a21eb [FEATURE] exclude pages without index
+a5a41f1 [BUGFIX] locallang
+149a435 [FEATURE] locallang
+016d889 [BUGFIX] keyword results
+7c2925c [FEATURE] style
+0301822 [BUGFIX] percentage round
+ab02c3b [BUGFIX] CSS
+599e36c [BUGFIX] image
+599af15 [FEATURE] description, title, CSS, sort
+a1794d1 [FEATURE] h1, h2, images
+b143f7c [TASK] Set version to 1.5.2-dev
+b8ddc02 [RELEASE] v. 1.5.1 - bugfix release: title only and PHP version dependency
+2f41e7a [FEATURE] first analysis
+b6affc0 [FEATURE] add page hook
+da18cfb [FEATURE] add focus keyword field
+f003ab0 [BUGFIX] #13 title only behaviour
+0c226c9 [FEATURE] #12 add required PHP Version
+eebbb5f [TASK] Set version to 1.5.1-dev
+205d4e4 [RELEASE] v. 1.5.0 - Advanced href=lang for records, Twitter fallback image, bugfixes
+5e36eb3 [FEATURE] #9 add an extra default image for Twitter
+612d867 [FEATURE] categories in constant editor
+a747e5c [FEATURE] clean up the constants editor
+19c42f0 [FEATURE] Title-Fallback if nothing is given
+33a05fd [FEATURE] Canonical tag for fallback pages and items
+6d894e2 [FEATURE] hreflang only for existing item-languages & set correct canonical on fallback
+2b1de4c [FEATURE] hreflang-Tag in every language fpr detail views
+80f5736 [BUGFIX] spelling
+c1b0223 [BUGFIX] #7 Fluidcontent and cs_seo pageTS cache
+f14df4f [BUGFIX] #6 check if DB is initialized
+fb9e813 [BUGFIX] spelling
+841c36f [BUGFIX] keyowrds in composer.json
+d67afd6 [TASK] Set version to 1.4.2-dev
+a8dca21 [RELEASE] v. 1.4.1
+3b53cf1 [BUGFIX] PHP7 compatibility
+e55b0b3 [BUGFIX] #5 deprecation notices
+c3275b3 [TASK] Set version to 1.4.1-dev
+8e923a1 [RELEASE] v. 1.4.0
+f0c4dc4 [FEATURE] Set image size via TypoScript
+15e8721 [BUGFIX] HeaderData canonical and image
+a6cba6c [BUGFIX] Title keyup 6.2
+55467be [BUGFIX] pageUid in Wizard
+7838af2 [BUGFIX] If page is folder
+659165f Merge branch 'master' of https://github.com/clickstorm/cs_seo
+4f4a75c [BUGFIX] href in GA script
+fcfe52c [BUGFIX] Canonical URL parameter
+57645f1 [BUGFIX] TS settings outside condition
+5679397 [FEATURE] new example TS for extensions
+7555d79 [BGUFIX] change docu example
+5682245 [FEATURE] change settings name
+ec60693 [BUGFIX] check TS of current PID, thanks to Carsten Hager
+a027ac2 [BUGFIX] TYPO3 6.2 no page TSconfig and JS title keyup
+11ac95d [BUGFIX] Preview JS in TYPO3 6.2
+20b5093 [FEATURE] exclude params from canonical
+71117db [BUGFIX] remove unused hooks
+ec7c848 [FEATURE] localize in tca
+9cbfe49 [FEATURE] Update documentation
+0fea7ab [FEATURE] Link in wizard
+6c31561 [FEATURE] Localization
+9e224c4 [FEATURE] Frontend output
+b54cfd2 [FEATURE] Initial preview
+862e098 [FEATURE] Update preview
+8ee795e [FEATURE] Add fields to table
+e39d154 [TASK] Set version to 1.3.1-dev
+a8ed78c [RELEASE] v. 1.3.0
+aee0395 [FEATURE] Show error on update
+2061dc1 [FEATURE] Extend documentation
+4976975 [BUGFIX] Language Overlay update
+010f5e8 [BUGFIX] #4 Constants transfer issue hreflang.uids => hreflang.ids
+16ec83f Merge branch 'master' of https://github.com/clickstorm/cs_seo
+22b0865 [BUGFIX] Check if path is absolute in wizard
+558c622 [FEATURE] icon module
+d094974 [BUGFIX] Add ui-grid CSS
+e3d3b0e [BUGFIX] CSS Checkbox
+b8776d7 [BUGFIX] CSS compress
+ac3d45e [BUGFIX] compatibility 6.2
+f8bb6f2 [BUGFIX] remove fileadmin from robots.txt
+5947734 [BUGFIX] compatibility 6.2
+f1b9bbb Merge branch 'module'
+4034633 [FEATURE] cleanUp
+9c76ee9 [FEATURE] partials
+bf2a8fd [FEATURE] add value viewHelper
+fedadc6 [FEATURE] title length
+e9a0514 [FEATURE] Get siteTitle
+16fd8f2 [FEATURE] Translation
+de237a7 [BUGFIX] Layout
+bac4bda [FEATURE] Show level
+9af7dd9 [FEATURE] Show language and doktype
+0eb1af9 [FEATURE] Preview Edit
+64c4606 [FEATURE] Update Description
+822bf0d [FEATURE] Init preview
+c7366c7 [FEATURE] Show Google preview
+55fbffe [FEATURE] Language and depth
+29bcb2d [FEATURE] Feedback icons
+a67eb85 [BUGFIX] file download GA JS
+98082d2 [FEATURE] keyup update
+d2d7dc9 [FEATURE] Edit properties
+019de84 [FEATURE] Show properties
+4d92e73  [TASK] Set version to 1.2.1-dev
+1bcd106 [RELEASE] v. 1.2.0
+da7b0fc [FEATURE] Check if title is default
+3997568 [FEATURE] Specific configuration manager
+b486292 [BUGFIX] Check if TSFE instance is correct and backend mode
+14f1d45 [BUGFIX] Check if TSFE instance is correct and backend mode
+820dd67 Revert "[BUGFIX] Check if TSFE instance is correct"
+bb051b0 [BUGFIX] Check if TSFE instance is correct
+69b2be5 [BUGFIX] TS Check
+1362a1f Merge pull request #3 from randomresult/patch-1
+ad3e5d0 [BUGFIX] Set dist-url to github
+9cf0253 [FEATURE] Advanced description
+3cb80ad [FEATURE] Error output if no TS was found
+9e13589 [BUGFIX] Remove unused ViewHelper
+8bd8878 [BUGFIX] remove userFunc
+862a278 [FEATURE] Add module
+ce95d9f [FEATURE] Create README.md
+f563d0e [FEATURE] Update Documentation
+fc4514a [BUGFIX] Add page fields only to standard pages and Backend User Sections
+33f5439 [FEATURE] Options for lengths and auto fill, thanks to Henrik Andersen
+026c3e8 [FEATURE] robots.txt example
+6b33040 [TASK] Set version to 1.1.1-dev
+b10ee8b [RELEASE] v. 1.1.0
+fa72617 [FEATURE] Migrate tx_metaseo_pagetitle_rel from metaseo
+54a6351 [FEATURE] Migration from seo_basics
+a1d091a [FEATURE] Update PhpDoc
+0dd117a [BUGFIX] Comments in ext_update
+96c6906 [FEATURE] Update script to migrate properties from metaseo
+af0e81a [BUGFIX] Logo Documentation
+4995c01 [TASK] Set version to 1.0.1-dev
+a1d1715 [INIT]
