@@ -299,6 +299,7 @@ class Sitemap
 
                 $constraints[] = $queryBuilder->expr()->orX(
                     $queryBuilder->expr()->eq($table . '.tx_csseo', 0),
+                    $queryBuilder->expr()->isNull($table . '.tx_csseo'),
                     $queryBuilder->expr()->andX(
                         $queryBuilder->expr()->eq($metaTableAlias . '.tablenames',
                             $queryBuilder->createNamedParameter($table, \PDO::PARAM_STR)),
