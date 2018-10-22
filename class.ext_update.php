@@ -165,7 +165,7 @@ class ext_update
                 ->update($table, 'u')
                 ->where(
                     $queryBuilder->expr()->orX(
-                        $queryBuilder->expr()->eq($newField, ''),
+                        $queryBuilder->expr()->eq($newField, $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)),
                         $queryBuilder->expr()->isNull($newField)
                     )
                 )
@@ -214,6 +214,7 @@ class ext_update
      * Generates output by using flash messages
      *
      * @return string
+     * @throws \TYPO3\CMS\Core\Exception
      */
     protected function generateOutput()
     {
