@@ -52,7 +52,7 @@ class GetSubPagesViewHelper extends AbstractViewHelper
             (int)$this->arguments['pageUid'],
             '*',
             'sorting',
-            ''
+            ' AND pages.is_siteroot = 0'
         );
     }
 }
