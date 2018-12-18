@@ -10,16 +10,18 @@ page.meta {
 	twitter:creator {
 		data = page:tx_csseo_tw_creator
 		htmlSpecialChars = 1
-		wrap = <meta name="twitter:creator" content="@|" />
+		wrap = @|
 		ifEmpty = {$plugin.tx_csseo.social.twitter.creator}
+		required = 1
 	}
 
 	### twitter:site ###
 	twitter:site {
 		data = page:tx_csseo_tw_site
 		htmlSpecialChars = 1
-		wrap = <meta name="twitter:site" content="@|" />
+		wrap = @|
 		ifEmpty = {$plugin.tx_csseo.social.twitter.site}
+		required = 1
 	}
 
 	### twitter:image ###
