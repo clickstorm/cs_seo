@@ -4,9 +4,9 @@ page.headerData.657 = COA
 <INCLUDE_TYPOSCRIPT: source="DIR:EXT:cs_seo/Configuration/TypoScript/Setup/Tracking/" extensions="typoscript">
 
 ### Disable Tracking if Backend User detected ###
-[globalVar = TSFE:beUserLogin > 0]
+[getTSFE().beUserLogin]
 	page.jsInline.654 >
 	page.bodyTagCObject.654 >
 	page.includeJSFooter.654 >
 	page.headerData.657 >
-[end]
+[END]
