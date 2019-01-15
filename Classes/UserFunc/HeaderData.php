@@ -287,6 +287,10 @@ class HeaderData
 
         // title
         if ($title) {
+            // update title for indexed search
+            $GLOBALS['TSFE']->indexedDocTitle = $title;
+
+            // add suffix or prefix
             $title = $tsfeUtility->getFinalTitle($metaData['title'], $metaData['title_only']);
         } else {
             // fallback to page title
