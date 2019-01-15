@@ -58,7 +58,10 @@ class PageTitle
         $this->initialize();
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
 
-        if ($metaData) {
+        if ($metaData && $metaData['title']) {
+            // update title for indexed search
+            $GLOBALS['TSFE']->indexedDocTitle = $metaData['title'];
+
             $title = $this->TSFE->getFinalTitle($metaData['title'], $metaData['title_only']);
         } else {
             // get all configurations
