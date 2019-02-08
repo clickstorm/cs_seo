@@ -412,7 +412,8 @@ class HeaderData
         $metaTags['og:url'] = $this->printMetaTag('og:url', $canonical, 1);
 
         // og:locale
-        $metaTags['og:locale'] = $this->printMetaTag('og:locale', $GLOBALS['TSFE']->config['config']['locale_all'], 1);
+        $ogLocale = strstr($GLOBALS['TSFE']->config['config']['locale_all'], '.', true);
+        $metaTags['og:locale'] = $this->printMetaTag('og:locale', $ogLocale, 1);
 
         // og:site_name
         $metaTags['og:site_name'] = $this->printMetaTag('og:site_name',
