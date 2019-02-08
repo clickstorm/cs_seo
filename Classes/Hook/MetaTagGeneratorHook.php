@@ -87,7 +87,7 @@ class MetaTagGeneratorHook
             'og:description' => ['value' => $metaData['og_description']],
             'og:image' => ['value' => $ogImageUrl],
             'og:type' => ['value' => $pluginSettings['social.']['openGraph.']['type']],
-            'og:locale' => ['value' => $GLOBALS['TSFE']->config['config']['locale_all']],
+            'og:locale' => ['value' => strstr($GLOBALS['TSFE']->config['config']['locale_all'], '.', true)],
             'twitter:title' => ['value' => $metaData['tw_title']],
             'twitter:description' => ['value' => $metaData['tw_description']],
             'twitter:image' => ['value' => $twImageUrl],
