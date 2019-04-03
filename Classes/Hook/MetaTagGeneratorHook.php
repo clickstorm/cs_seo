@@ -100,7 +100,7 @@ class MetaTagGeneratorHook
             $manager = $metaTagManagerRegistry->getManagerForProperty($key);
             $manager->removeProperty($key);
             if (!empty($params['value'])) {
-                $manager->addProperty($key, $this->escapeContent($params['value']));
+                $manager->addProperty($key, $params['value']);
             }
         }
     }
@@ -216,7 +216,6 @@ class MetaTagGeneratorHook
      */
     protected function escapeContent($content)
     {
-        return htmlentities(preg_replace('/\s\s+/', ' ', preg_replace('#<[^>]+>#', ' ', $content)),
-            ENT_COMPAT, ini_get("default_charset"), false);
+        return preg_replace('/\s\s+/', ' ', preg_replace('#<[^>]+>#', ' ', $content));
     }
 }
