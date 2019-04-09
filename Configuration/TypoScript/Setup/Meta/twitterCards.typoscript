@@ -24,15 +24,14 @@ page.meta {
 		required = 1
 	}
 
-	### twitter:image ###
+	### twitter:image default ###
 	twitter:image.stdWrap.typolink {
 		parameter.stdWrap {
 			cObject = IMG_RESOURCE
 			cObject.file {
 				import {
-					preUserFunc = Clickstorm\CsSeo\UserFunc\HeaderData->getSocialMediaImage
-					preUserFunc.field = twitter_image
-					ifEmpty.data = path:{$plugin.tx_csseo.social.twitter.defaultImage} // path:{$plugin.tx_csseo.social.defaultImage}
+					data = path:{$plugin.tx_csseo.social.twitter.defaultImage} // path:{$plugin.tx_csseo.social.defaultImage}
+					if.isFalse.field = twitter_image
 				}
 				height < plugin.tx_csseo.social.twitter.image.height
 				width < plugin.tx_csseo.social.twitter.image.width

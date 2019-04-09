@@ -5,15 +5,14 @@ page.meta {
 	### og:site_name ###
 	og:site_name.data = TSFE:tmpl|sitetitle
 
-	### og:image ###
+	### default og:image ###
 	og:image.stdWrap.typolink {
 		parameter.stdWrap {
 			cObject = IMG_RESOURCE
 			cObject.file {
 				import {
-					preUserFunc = Clickstorm\CsSeo\UserFunc\HeaderData->getSocialMediaImage
-					preUserFunc.field = og_image
-					ifEmpty.data = path:{$plugin.tx_csseo.social.defaultImage}
+					data = path:{$plugin.tx_csseo.social.defaultImage}
+					if.isFalse.field = og_image
 				}
 				height = {$plugin.tx_csseo.social.openGraph.image.height}
 				width = {$plugin.tx_csseo.social.openGraph.image.width}
