@@ -338,6 +338,8 @@ class HeaderData
             $indexStr .= ',';
             $indexStr .= $metaData['no_follow'] ? 'nofollow' : 'follow';
             $metaTags['robots'] = $this->printMetaTag('robots', $indexStr);
+        } else {
+            $metaTags['robots'] = $this->printMetaTag('robots', 'index,follow');
         }
 
         // hreflang
