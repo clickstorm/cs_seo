@@ -16,7 +16,6 @@ page.headerData.654 {
 			override = nofollow
 			override.if.isTrue.field = tx_csseo_no_follow
 		}
-		if.isTrue.data = field:tx_csseo_no_index // field:tx_csseo_no_follow
 		wrap = <meta name="robots" content="|">
 	}
 }
