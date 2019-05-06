@@ -49,6 +49,10 @@ class KeywordEvaluator extends AbstractEvaluator
             $keywords = GeneralUtility::trimExplode(',', $this->keyword);
 
             foreach ($keywords as $keyword) {
+                if(empty($keyword)) {
+                    continue;
+                }
+
                 $contains['title'] += substr_count(
                     strtolower($this->getSingleDomElementContentByTagName('title')),
                     $keyword

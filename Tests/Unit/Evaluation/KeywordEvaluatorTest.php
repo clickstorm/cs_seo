@@ -101,6 +101,18 @@ class KeywordEvaluatorTest extends UnitTestCase
                     'state' => AbstractEvaluator::STATE_RED
                 ]
             ],
+            'keyword equals , only' => [
+                '<title>Test</title>',
+                ',',
+                [
+                    'contains' => [
+                        'title' => 0,
+                        'description' => 0,
+                        'body' => 0,
+                    ],
+                    'state' => AbstractEvaluator::STATE_YELLOW
+                ]
+            ],
             'keyword set, not found' => [
                 '',
                 'Test',
@@ -183,6 +195,18 @@ class KeywordEvaluatorTest extends UnitTestCase
                         'body' => 1,
                     ],
                     'state' => AbstractEvaluator::STATE_GREEN
+                ]
+            ],
+            'keyword with , and empty string' => [
+                '<title>Test</title>',
+                'Test,',
+                [
+                    'contains' => [
+                        'title' => 1,
+                        'description' => 0,
+                        'body' => 0,
+                    ],
+                    'state' => AbstractEvaluator::STATE_YELLOW
                 ]
             ],
             'keyword alternative set, found everywhere' => [
