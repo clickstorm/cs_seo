@@ -347,15 +347,13 @@ class HeaderData
         // the item is not set to no index and
         // the item points not to another page as canonical and
         // the TS setting hreflang.enabled is set to 1
-        // hreflang only if canonical and current url are equal
         if (in_array(
                 $currentLanguageUid,
                 $l10nItems
             )
             && !$metaData['no_index']
             && !$metaData['canonical']
-            && $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['enable']
-            && $canonical == GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL')
+            && $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['enable'])
         ) {
             $langIds = explode(",", $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['ids']);
             $langKeys = explode(",", $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['hreflang.']['keys']);
