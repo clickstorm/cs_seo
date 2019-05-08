@@ -20,9 +20,6 @@ page.headerData.654 {
 				equals.ifEmpty = 0
 				negate = 1
 			}
-			# hreflang only if canonical and current url are equal
-			value.cObject < lib.currentUrl
-			equals.data = getIndpEnv:TYPO3_REQUEST_URL
 		}
 		special = language
 		special.value < plugin.tx_csseo.hreflang.ids
