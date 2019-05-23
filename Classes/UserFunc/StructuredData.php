@@ -114,7 +114,13 @@ class StructuredData
             // mouting point page - generate breadcrumb for the mounting point reference page instead
             $id = intval($match[1]);
         }
+
         $rootline = $pageRepository->getRootLine($id);
+
+        // prevent output of empty rootline
+        if (count($rootline) < 2) {
+            return '';
+        }
 
         $cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
