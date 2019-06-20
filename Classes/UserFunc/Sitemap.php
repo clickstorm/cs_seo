@@ -106,6 +106,8 @@ class Sitemap
                         unset($hideDelArray[$key]);
                     }
                 }
+                // show only pages without canonical tag
+                $hideDelArray[] = ' (`pages`.`tx_csseo_canonical` = \'\')';
                 $this->tsfe->sys_page->where_hid_del = implode('AND', $hideDelArray);
 
                 // first get the root page
