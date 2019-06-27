@@ -118,6 +118,14 @@ class StructuredData
 
         $rootline = GeneralUtility::makeInstance(RootlineUtility::class, $id)->get();
 
+        // remove DOKTYPE_SYSFOLDER from rootline
+        foreach ($rootline as $key => $page) {
+            if ($page['doktype'] === PageRepository::DOKTYPE_SYSFOLDER) {
+                unset($rootline[$key]);
+            }
+        }
+        $rootline = array_values($rootline);
+
         // prevent output of empty rootline
         if (count($rootline) < 2) {
             return '';
