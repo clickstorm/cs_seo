@@ -28,6 +28,7 @@ namespace Clickstorm\CsSeo\UserFunc;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -115,7 +116,7 @@ class StructuredData
             $id = intval($match[1]);
         }
 
-        $rootline = $pageRepository->getRootLine($id);
+        $rootline = GeneralUtility::makeInstance(RootlineUtility::class, $id)->get();
 
         // prevent output of empty rootline
         if (count($rootline) < 2) {
