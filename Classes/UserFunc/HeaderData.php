@@ -138,6 +138,9 @@ class HeaderData
             if ($tableSettings) {
                 // get record
                 $record = $this->getRecord($tableSettings);
+                if (!is_array($record)) {
+                    return false;
+                }
 
                 if ($record['_LOCALIZED_UID']) {
                     $tableSettings['uid'] = $record['_LOCALIZED_UID'];
@@ -183,30 +186,21 @@ class HeaderData
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableSettings['table']);
 
-        $res = $queryBuilder->select('*')
+        $row = $queryBuilder->select('*')
             ->from($tableSettings['table'])
             ->where($queryBuilder->expr()->eq('uid',
                 $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)))
-            ->execute()->fetchAll();
+            ->execute()
+            ->fetch();
 
-        $row = $res[0];
-
-        if (is_array(
-                $row
-            )
-            && $row['sys_language_uid'] != $GLOBALS['TSFE']->sys_language_content
-            && $GLOBALS['TSFE']->sys_language_contentOL
-        ) {
-            $rowOL = $GLOBALS['TSFE']->sys_page->getRecordOverlay(
+        if (is_array($row)) {
+            $GLOBALS['TSFE']->sys_page->versionOL($tableSettings['table'], $row);
+            $row = $GLOBALS['TSFE']->sys_page->getRecordOverlay(
                 $tableSettings['table'],
                 $row,
                 $GLOBALS['TSFE']->sys_language_content,
                 $GLOBALS['TSFE']->sys_language_contentOL
             );
-
-            if (!empty($rowOL)) {
-                $row = $rowOL;
-            }
         }
 
         return $row;
