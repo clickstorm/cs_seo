@@ -27,6 +27,7 @@ namespace Clickstorm\CsSeo\UserFunc;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -113,8 +114,13 @@ class StructuredData
             // mouting point page - generate breadcrumb for the mounting point reference page instead
             $id = intval($match[1]);
         }
-        $rootline = $pageRepository->getRootLine($id);
+        $rootline = GeneralUtility::makeInstance(RootlineUtility::class, $id)->get();
 
+        // remove DOKTYPE_SYSFOLDER from rootline
+        $rootline = array_values(array_filter($rootline, function ($item) {
+            return $item['doktype'] !== PageRepository::DOKTYPE_SYSFOLDER;
+        }));
+        
         $cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
         $siteLinks = [];
