@@ -157,7 +157,7 @@ class CanonicalAndHreflangHook
                         && !$metaData['no_index']
                         && !$metaData['canonical']
                         && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site
-                        // && $href == GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL')
+                        && $href == GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL')
                     ) {
                         $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
                         $languages = $languageMenu->process($cObj, [], [], []);
