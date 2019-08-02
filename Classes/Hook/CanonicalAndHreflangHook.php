@@ -108,10 +108,9 @@ class CanonicalAndHreflangHook
                 if (empty($href)) {
 
                     // canonical
-                    $canonicalTypoLinkConf = [];
+                    $canonicalTypoLinkConf = ['forceAbsoluteUrl' => 1];
                     if ($metaData['canonical']) {
                         $canonicalTypoLinkConf['parameter'] = $metaData['canonical'];
-                        $canonicalTypoLinkConf['forceAbsoluteUrl'] = 1;
                     } else {
                         $canonicalTypoLinkConf = $typoLinkConf;
 
@@ -144,6 +143,8 @@ class CanonicalAndHreflangHook
 
             if ($hreflangs !== 'none') {
                 if (empty($hreflangs)) {
+                    $hrefLangArray = [];
+
                     // hreflang
                     // if the item for the current language uid exists and
                     // the item is not set to no index and
@@ -156,7 +157,7 @@ class CanonicalAndHreflangHook
                         && !$metaData['no_index']
                         && !$metaData['canonical']
                         && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site
-                        && $href == GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL')
+                        // && $href == GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL')
                     ) {
                         $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
                         $languages = $languageMenu->process($cObj, [], [], []);
@@ -170,11 +171,15 @@ class CanonicalAndHreflangHook
                                 unset($hreflangTypoLinkConf['additionalParams.']['append.']['data']);
                                 $hreflangTypoLinkConf['language'] = $language['languageId'];
                                 $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
-                                $hreflangs .= '<link rel="alternate" hreflang="'
-                                    . $language['hreflang']
-                                    . '" href="'
-                                    . $hreflangUrl
-                                    . '" />';
+                                $hrefLangArray[] = ['hreflang' => $language['hreflang'], 'href' => $hreflangUrl];
+                            }
+                        }
+
+                        // add the x-default
+                        if(count($hrefLangArray) > 0) {
+                            $hrefLangArray[] = ['hreflang' => 'x-default', 'href' => $hrefLangArray[0]['href']];
+                            foreach ($hrefLangArray as $item) {
+                                $hreflangs .= '<link rel="alternate" hreflang="' . $item['hreflang'] . '" href="' . $item['href'] . '" />';
                             }
                         }
                     }
