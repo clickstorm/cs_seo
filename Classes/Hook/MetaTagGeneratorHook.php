@@ -76,13 +76,8 @@ class MetaTagGeneratorHook
         $ogImageUrl = $this->getOgImage($metaData, $pluginSettings);
         $twImageUrl = $this->getTwImage($metaData, $pluginSettings);
 
-        //@todo: remove default when https://forge.typo3.org/issues/86570 is merged
-        $noIndex = ((bool)$metaData['no_index']) ? 'noindex' : 'index';
-        $noFollow = ((bool)$metaData['no_follow']) ? 'nofollow' : 'follow';
-
         $generators = [
             'description' => ['value' => $metaData['description']],
-            'robots' => ['value' => implode(',', [$noIndex, $noFollow])],
             'og:title' => ['value' => $metaData['og_title']],
             'og:description' => ['value' => $metaData['og_description']],
             'og:image' => ['value' => $ogImageUrl],
@@ -95,6 +90,13 @@ class MetaTagGeneratorHook
             'twitter:creator' => ['value' => $metaData['tw_creator'] ?: $pluginSettings['social.']['twitter.']['creator']],
             'twitter:site' => ['value' => $metaData['tw_site'] ?: $pluginSettings['social.']['twitter.']['site']],
         ];
+        
+        $noIndex = ((bool)$metaData['no_index']) ? 'noindex' : 'index';
+        $noFollow = ((bool)$metaData['no_follow']) ? 'nofollow' : 'follow';
+        
+        if($noIndex === 'noindex' || $noFollow === 'nofollow') {
+            $generators['robots'] => ['value' => implode(',', [$noIndex, $noFollow])],
+        }
 
         foreach ($generators as $key => $params) {
             $manager = $metaTagManagerRegistry->getManagerForProperty($key);
