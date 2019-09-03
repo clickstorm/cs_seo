@@ -10,7 +10,7 @@
     <p></p>
     <!-- From -->
     <f:render partial="Module/FormEvaluation" arguments="{_all}" section="Main" />
-    <f:if condition="{page}">
+    <f:if condition="{page} || {table} != 'pages'">
         <f:then>
             <div class="cs-seo-results">
                 <f:if condition="{results}">
