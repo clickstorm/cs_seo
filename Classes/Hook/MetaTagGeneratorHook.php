@@ -95,7 +95,7 @@ class MetaTagGeneratorHook
         $noFollow = ((bool)$metaData['no_follow']) ? 'nofollow' : 'follow';
         
         if($noIndex === 'noindex' || $noFollow === 'nofollow') {
-            $generators['robots'] => ['value' => implode(',', [$noIndex, $noFollow])],
+            $generators['robots'] = ['value' => implode(',', [$noIndex, $noFollow])];
         }
 
         foreach ($generators as $key => $params) {
