@@ -34,6 +34,7 @@ use Clickstorm\CsSeo\Service\FrontendPageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
@@ -238,16 +239,13 @@ class EvaluationCommandController extends CommandController
      * make the ajax update
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
      *
      * @return \Psr\Http\Message\ResponseInterface
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    public function ajaxUpdate(
-        \Psr\Http\Message\ServerRequestInterface $request,
-        \Psr\Http\Message\ResponseInterface $response
-    ) {
+    public function ajaxUpdate(\Psr\Http\Message\ServerRequestInterface $request)
+    {
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
         $this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
@@ -271,10 +269,8 @@ class EvaluationCommandController extends CommandController
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
         /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
         $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
-        $response->getBody()->write($flashMessageQueue->renderFlashMessages());
-        $response = $response->withHeader('Content-Type', 'text/html; charset=utf-8');
 
-        return $response;
+        return new HtmlResponse($flashMessageQueue->renderFlashMessages());
     }
 
     /**
