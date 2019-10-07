@@ -687,15 +687,11 @@ class ModuleController extends ActionController
      * Renders the menu so that it can be returned as response to an AJAX call
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function update(
-        \Psr\Http\Message\ServerRequestInterface $request,
-        \Psr\Http\Message\ResponseInterface $response
-    ) {
-
+    public function update(\Psr\Http\Message\ServerRequestInterface $request)
+    {
         // get parameter
         $postdata = file_get_contents("php://input");
         $attr = json_decode($postdata, true);
@@ -717,6 +713,7 @@ class ModuleController extends ActionController
         $dataHandler = $this->getDataHandler();
         $dataHandler->datamap = $data;
         $dataHandler->process_datamap();
+        $response = new HtmlResponse();
         if (!empty($dataHandler->errorLog)) {
             $response->getBody()->write('Error: ' . implode(',', $dataHandler->errorLog));
         }
