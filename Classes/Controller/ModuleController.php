@@ -713,7 +713,7 @@ class ModuleController extends ActionController
         $dataHandler = $this->getDataHandler();
         $dataHandler->datamap = $data;
         $dataHandler->process_datamap();
-        $response = new HtmlResponse();
+        $response = new HtmlResponse('');
         if (!empty($dataHandler->errorLog)) {
             $response->getBody()->write('Error: ' . implode(',', $dataHandler->errorLog));
         }
