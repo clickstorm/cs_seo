@@ -3,17 +3,12 @@
 	<pages>
 		<uid>1</uid>
 		<pid>0</pid>
-		<seo_title></seo_title>
-		<no_index>0</no_index>
 		<tx_csseo_title>old title</tx_csseo_title>
 		<tx_csseo_no_index>1</tx_csseo_no_index>
 	</pages>
 	<pages>
 		<uid>2</uid>
 		<pid>1</pid>
-		<seo_title></seo_title>
-		<no_index>0</no_index>
-		<tx_csseo_title>second title</tx_csseo_title>
-		<tx_csseo_no_index>0</tx_csseo_no_index>
+		<tx_csseo_canonical>https://www.clickstorm.de/</tx_csseo_canonical>
 	</pages>
 </dataset>

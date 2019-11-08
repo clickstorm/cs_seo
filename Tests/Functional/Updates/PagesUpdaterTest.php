@@ -26,21 +26,16 @@ class PagesUpdaterTest extends FunctionalTestCase
         $this->importDataSet(__DIR__ . '/../Fixtures/pages.xml');
 
         $this->pagesUpdater = new PagesUpdater();
+        $this->pagesUpdater->executeUpdate();
     }
-
     /**
      * @test
+     *
+     * @dataProvider executeUpdateDataProvider
      */
-    public function executeUpdate()
+    public function executeUpdate($id, $exp)
     {
-        $this->pagesUpdater->executeUpdate();
-
-        $exp = [
-            'seo_title' => 'old title',
-            'no_index' => 1
-        ];
-
-        $actual = $this->getRow(1, array_keys($exp));
+        $actual = $this->getRow($id, array_keys($exp));
 
         $this->assertEquals($exp, $actual);
     }
@@ -59,5 +54,30 @@ class PagesUpdaterTest extends FunctionalTestCase
             ->setMaxResults(1);
 
         return $queryBuilder->execute()->fetch();
+    }
+
+    /**
+     * Dataprovider executeUpdate()
+     *
+     * @return array
+     */
+    public function executeUpdateDataProvider()
+    {
+        return [
+            'page with title and noindex' => [
+                1,
+                [
+                    'seo_title' => 'old title',
+                    'no_index' => 1
+                ]
+            ],
+            'page with canonical' => [
+                2,
+                [
+                    'seo_title' => '',
+                    'canonical_link' => 'https://www.clickstorm.de/'
+                ]
+            ],
+        ];
     }
 }
