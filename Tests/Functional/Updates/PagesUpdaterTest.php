@@ -76,6 +76,12 @@ class PagesUpdaterTest extends FunctionalTestCase
                     'canonical_link' => 'https://www.clickstorm.de/'
                 ]
             ],
+            'page seo title already set' => [
+                3,
+                [
+                    'seo_title' => 'new title',
+                ]
+            ],
         ];
     }
 }

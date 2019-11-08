@@ -11,4 +11,9 @@
 		<pid>1</pid>
 		<tx_csseo_canonical>https://www.clickstorm.de/</tx_csseo_canonical>
 	</pages>
+	<pages>
+		<uid>3</uid>
+		<pid>1</pid>
+		<seo_title>new title</seo_title>
+	</pages>
 </dataset>

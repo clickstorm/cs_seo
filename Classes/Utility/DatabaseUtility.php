@@ -172,6 +172,7 @@ class DatabaseUtility
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable($table);
+
         foreach ($columnNamesToMigrate as $oldCol => $newCol) {
             $queryBuilder
                 ->update($table, 'u')
@@ -183,6 +184,8 @@ class DatabaseUtility
                 )
                 ->set('u.' . $newCol, $queryBuilder->quoteIdentifier('u.' . $oldCol), false)
                 ->execute();
+            
+            $queryBuilder->resetQueryParts();
         }
     }
 
@@ -213,6 +216,8 @@ class DatabaseUtility
                 )
                 ->set('u.' . $column, $queryBuilder->createNamedParameter($newContent), false)
                 ->execute();
+
+            $queryBuilder->resetQueryParts();
         }
     }
 }
