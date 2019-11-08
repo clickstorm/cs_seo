@@ -21,7 +21,7 @@ return [
 		'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/mod.png'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'restults',
+		'showRecordFieldList' => 'results',
 	],
 	'types' => [
 		'1' => ['showitem' => 'results'],
