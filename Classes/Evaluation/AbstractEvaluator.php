@@ -27,16 +27,12 @@ namespace Clickstorm\CsSeo\Evaluation;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Clickstorm\CsSeo\Utility\ConfigurationUtility;
-
 /**
  * Class AbstractEvaluator
  *
- * @package Clickstorm\CsSeo\Evaluation
  */
 abstract class AbstractEvaluator implements EvaluationInterface
 {
-
     const STATE_GREEN = 2;
     const STATE_YELLOW = 1;
     const STATE_RED = 0;

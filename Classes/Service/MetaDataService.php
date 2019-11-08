@@ -149,18 +149,20 @@ class MetaDataService
 
         $row = $queryBuilder->select('*')
             ->from($tableSettings['table'])
-            ->where($queryBuilder->expr()->eq('uid',
-                $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)))
+            ->where($queryBuilder->expr()->eq(
+                'uid',
+                $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)
+            ))
             ->execute()
             ->fetch();
 
         if (is_array($row)) {
             $GLOBALS['TSFE']->sys_page->versionOL($tableSettings['table'], $row);
             $row = $GLOBALS['TSFE']->sys_page->getRecordOverlay(
-                    $tableSettings['table'],
-                    $row,
-                    $GLOBALS['TSFE']->sys_language_content,
-                    $GLOBALS['TSFE']->sys_language_contentOL
+                $tableSettings['table'],
+                $row,
+                $GLOBALS['TSFE']->sys_language_content,
+                $GLOBALS['TSFE']->sys_language_contentOL
             );
         }
 
@@ -182,8 +184,10 @@ class MetaDataService
         $res = $queryBuilder->select('*')
             ->from(self::TABLE_NAME_META)
             ->where(
-                $queryBuilder->expr()->eq('uid_foreign',
-                    $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)),
+                $queryBuilder->expr()->eq(
+                    'uid_foreign',
+                    $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)
+                ),
                 $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableSettings['table']))
             )
             ->execute()->fetchAll();

@@ -32,7 +32,6 @@ use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 /**
  * Class TitleEvaluator
  *
- * @package Clickstorm\CsSeo\Evaluation
  */
 class TitleEvaluator extends AbstractLengthEvaluator
 {

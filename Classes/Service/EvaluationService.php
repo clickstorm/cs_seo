@@ -29,14 +29,13 @@ namespace Clickstorm\CsSeo\Service;
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * service to evaluate a html page
  *
  * Class EvaluationService
  *
- * @package Clickstorm\CsSeo\Service
  */
 class EvaluationService
 {
@@ -127,7 +126,6 @@ class EvaluationService
                 }
             }
         }
-
 
         $this->evaluators = $evaluators;
     }

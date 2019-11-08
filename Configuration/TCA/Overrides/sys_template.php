@@ -8,4 +8,3 @@ defined('TYPO3_MODE') || die('Access denied.');
     'Configuration/TypoScript/Additional/Tracking/GoogleTagManager/',
     'SEO - Google Tag Manager !bodyTagCObject'
 );
- 

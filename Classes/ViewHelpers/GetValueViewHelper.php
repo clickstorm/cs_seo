@@ -27,12 +27,11 @@ namespace Clickstorm\CsSeo\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class GetValueViewHelper
  *
- * @package Clickstorm\CsSeo\ViewHelpers
  */
 class GetValueViewHelper extends AbstractViewHelper
 {

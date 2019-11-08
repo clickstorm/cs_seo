@@ -10,4 +10,3 @@ return [
         'target' => \Clickstorm\CsSeo\Command\EvaluationCommandController::class . '::ajaxUpdate'
     ]
 ];
- 

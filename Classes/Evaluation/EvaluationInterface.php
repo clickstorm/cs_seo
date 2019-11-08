@@ -30,7 +30,6 @@ namespace Clickstorm\CsSeo\Evaluation;
 /**
  * Interface EvaluationInterface
  *
- * @package Clickstorm\CsSeo\Evaluation
  */
 interface EvaluationInterface
 {

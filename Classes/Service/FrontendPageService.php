@@ -31,15 +31,13 @@ use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * crawl the page
  *
  * Class FrontendPageService
  *
- * @package Clickstorm\CsSeo\Service
  */
 class FrontendPageService
 {
@@ -114,13 +112,12 @@ class FrontendPageService
         $report = [];
         $content = GeneralUtility::getUrl($result['url'], 0, false, $report);
 
-
         if ($report['message'] && $report['message'] != 'OK') {
             /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
             $flashMessage = GeneralUtility::makeInstance(
                 FlashMessage::class,
                 $report['message'],
-                "",
+                '',
                 FlashMessage::ERROR
             );
             /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */

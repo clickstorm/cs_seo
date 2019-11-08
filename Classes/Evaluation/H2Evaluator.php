@@ -32,11 +32,9 @@ use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 /**
  * Class H2Evaluator
  *
- * @package Clickstorm\CsSeo\Evaluation
  */
 class H2Evaluator extends AbstractEvaluator
 {
-
     public function evaluate()
     {
         $state = self::STATE_RED;

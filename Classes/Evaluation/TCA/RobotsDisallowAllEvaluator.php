@@ -26,14 +26,13 @@ namespace Clickstorm\CsSeo\Evaluation\TCA;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use \TYPO3\CMS\Core\Messaging\FlashMessage;
-use \TYPO3\CMS\Core\Messaging\FlashMessageService;
-use \TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class RobotsEvaluator
  *
- * @package Clickstorm\CsSeo\Evaluation
  */
 class RobotsDisallowAllEvaluator
 {
@@ -57,7 +56,7 @@ class RobotsDisallowAllEvaluator
                 $GLOBALS['LANG']->sL(
                     'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:evaluation.tca.robots_txt.robots_disallow_all'
                 ),
-                "",
+                '',
                 FlashMessage::WARNING
             );
             /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */

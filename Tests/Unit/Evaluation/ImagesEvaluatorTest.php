@@ -32,7 +32,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  ***************************************************************/
 
 /**
- * @package cs_seo
  */
 class ImagesEvaluatorTest extends UnitTestCase
 {
@@ -109,7 +108,7 @@ class ImagesEvaluatorTest extends UnitTestCase
                     'count' => 1,
                     'altCount' => 0,
                     'countWithoutAlt' => 1,
-                    'images' => [""],
+                    'images' => [''],
                     'state' => AbstractEvaluator::STATE_RED
                 ]
             ],
@@ -129,7 +128,7 @@ class ImagesEvaluatorTest extends UnitTestCase
                     'count' => 2,
                     'altCount' => 1,
                     'countWithoutAlt' => 1,
-                    'images' => ["myImage.png"],
+                    'images' => ['myImage.png'],
                     'state' => AbstractEvaluator::STATE_YELLOW
                 ]
             ],

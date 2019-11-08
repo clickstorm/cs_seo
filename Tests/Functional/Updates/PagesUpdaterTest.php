@@ -3,11 +3,9 @@
 namespace Clickstorm\CsSeo\Tests\Updates;
 
 use Clickstorm\CsSeo\Updates\PagesUpdater;
-use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PagesUpdaterTest extends FunctionalTestCase
 {

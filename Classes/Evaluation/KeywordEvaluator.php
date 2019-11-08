@@ -32,11 +32,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Class KeywordEvaluator
  *
- * @package Clickstorm\CsSeo\Evaluation
  */
 class KeywordEvaluator extends AbstractEvaluator
 {
-
     public function evaluate()
     {
         $results = [];
@@ -51,7 +49,7 @@ class KeywordEvaluator extends AbstractEvaluator
             $keywords = GeneralUtility::trimExplode(',', $this->keyword);
 
             foreach ($keywords as $keyword) {
-                if(empty($keyword)) {
+                if (empty($keyword)) {
                     continue;
                 }
 

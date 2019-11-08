@@ -33,17 +33,16 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * hook to display the evaluation results in the page module
  *
  * Class pageHook
  *
- * @package Clickstorm\CsSeo\Hook
  */
 class PageHook
 {
@@ -101,13 +100,14 @@ class PageHook
                         ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
                     );
 
-                $layoutPaths = $tsSetup["module."]["tx_csseo."]["view."]["layoutRootPaths."] ?: $layoutPaths;
-                $partialPaths = $tsSetup["module."]["tx_csseo."]["view."]["partialRootPaths."] ?: $partialPaths;
+                $layoutPaths = $tsSetup['module.']['tx_csseo.']['view.']['layoutRootPaths.'] ?: $layoutPaths;
+                $partialPaths = $tsSetup['module.']['tx_csseo.']['view.']['partialRootPaths.'] ?: $partialPaths;
 
                 $this->view->setLayoutRootPaths($layoutPaths);
                 $this->view->setPartialRootPaths($partialPaths);
 
-                $this->view->setTemplatePathAndFilename($this->resourcesPath . 'Private/Templates/PageHook.html'
+                $this->view->setTemplatePathAndFilename(
+                    $this->resourcesPath . 'Private/Templates/PageHook.html'
                 );
 
                 $results = $this->getResults($pageInfo, $parentObject->current_sys_language);
@@ -217,8 +217,10 @@ class PageHook
         $res = $queryBuilder->select('results')
             ->from('tx_csseo_domain_model_evaluation')
             ->where(
-                $queryBuilder->expr()->eq('uid_foreign',
-                    $queryBuilder->createNamedParameter($uidForeign, \PDO::PARAM_INT)),
+                $queryBuilder->expr()->eq(
+                    'uid_foreign',
+                    $queryBuilder->createNamedParameter($uidForeign, \PDO::PARAM_INT)
+                ),
                 $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableName))
             )
             ->execute();

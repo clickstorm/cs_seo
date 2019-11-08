@@ -3,11 +3,7 @@
 namespace Clickstorm\CsSeo\Hook;
 
 use Clickstorm\CsSeo\Service\MetaDataService;
-use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
-use Clickstorm\CsSeo\Utility\TSFEUtility;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\MetaTag\MetaTagManagerRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -54,7 +50,6 @@ class MetaTagGeneratorHook
      */
     public function generate(array $params)
     {
-
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
         if ($metaData === null) {
             return;
@@ -62,7 +57,6 @@ class MetaTagGeneratorHook
 
         // render content
         $this->renderContent($metaData);
-
     }
 
     /**
@@ -90,11 +84,11 @@ class MetaTagGeneratorHook
             'twitter:creator' => ['value' => $metaData['tw_creator'] ?: $pluginSettings['social.']['twitter.']['creator']],
             'twitter:site' => ['value' => $metaData['tw_site'] ?: $pluginSettings['social.']['twitter.']['site']],
         ];
-        
+
         $noIndex = ((bool)$metaData['no_index']) ? 'noindex' : 'index';
         $noFollow = ((bool)$metaData['no_follow']) ? 'nofollow' : 'follow';
-        
-        if($noIndex === 'noindex' || $noFollow === 'nofollow') {
+
+        if ($noIndex === 'noindex' || $noFollow === 'nofollow') {
             $generators['robots'] = ['value' => implode(',', [$noIndex, $noFollow])];
         }
 
@@ -207,8 +201,6 @@ class MetaTagGeneratorHook
             $twImageURL,
             $pluginSettings['social.']['twitter.']['image.']
         );
-
-
     }
 
     /**

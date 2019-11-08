@@ -30,7 +30,6 @@ namespace Clickstorm\CsSeo\Domain\Model;
 /**
  * Class Evaluation
  *
- * @package Clickstorm\CsSeo\Domain\Model
  */
 class Evaluation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {

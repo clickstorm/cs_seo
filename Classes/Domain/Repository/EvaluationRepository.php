@@ -32,11 +32,9 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 /**
  * Class EvaluationRepository
  *
- * @package Clickstorm\CsSeo\Domain\Repository
  */
 class EvaluationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
-
     protected $respectStoragePage = false;
 
     public function initializeObject()
@@ -58,7 +56,6 @@ class EvaluationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
      */
     public function findByUidForeignAndTableName($uidForeign, $tableName)
     {
-
         $query = $this->createQuery();
 
         $constraints = [];

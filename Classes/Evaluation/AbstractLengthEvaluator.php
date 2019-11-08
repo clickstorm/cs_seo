@@ -30,7 +30,6 @@ namespace Clickstorm\CsSeo\Evaluation;
 /**
  * Class AbstractLengthEvaluator
  *
- * @package Clickstorm\CsSeo\Evaluation
  */
 abstract class AbstractLengthEvaluator extends AbstractEvaluator
 {

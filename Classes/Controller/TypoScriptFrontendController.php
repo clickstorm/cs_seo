@@ -38,7 +38,6 @@ use TYPO3\CMS\Frontend\Page\PageRepository;
 /**
  * Class TypoScriptFrontendController
  *
- * @package Clickstorm\CsSeo\Controller
  */
 class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
 {

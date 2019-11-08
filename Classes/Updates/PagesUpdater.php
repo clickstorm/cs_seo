@@ -4,7 +4,6 @@ namespace Clickstorm\CsSeo\Updates;
 
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
@@ -36,7 +35,6 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 class PagesUpdater implements UpgradeWizardInterface
 {
     public static $identifier = 'tx_csseo_pages';
-
 
     /**
      * Return the identifier for this wizard

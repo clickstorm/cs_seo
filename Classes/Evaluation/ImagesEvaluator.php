@@ -32,11 +32,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Class ImagesEvaluator
  *
- * @package Clickstorm\CsSeo\Evaluation
  */
 class ImagesEvaluator extends AbstractEvaluator
 {
-
     public function evaluate()
     {
         $state = self::STATE_RED;

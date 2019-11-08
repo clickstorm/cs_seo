@@ -3,12 +3,8 @@
 namespace Clickstorm\CsSeo\Utility;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use TYPO3\CMS\Frontend\Page\PageRepository;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 
 /***************************************************************
  *
@@ -41,7 +37,6 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
  *
  * Class DatabaseUtility
  *
- * @package Clickstorm\CsSeo\Utility
  */
 class DatabaseUtility
 {
@@ -93,8 +88,10 @@ class DatabaseUtility
             ->select('*')
             ->from($table)
             ->where(
-                $queryBuilder->expr()->eq($tcaCtrl['transOrigPointerField'],
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+                $queryBuilder->expr()->eq(
+                    $tcaCtrl['transOrigPointerField'],
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                )
             )
             ->orderBy($tcaCtrl['languageField'])
             ->execute();

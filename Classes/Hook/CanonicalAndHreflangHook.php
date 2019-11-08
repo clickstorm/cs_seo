@@ -15,15 +15,14 @@ namespace Clickstorm\CsSeo\Hook;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Context\LanguageAspect;
-use TYPO3\CMS\Core\Site\Entity\Site;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use Clickstorm\CsSeo\Service\MetaDataService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\DataProcessing\LanguageMenuProcessor;
@@ -151,9 +150,9 @@ class CanonicalAndHreflangHook
                     // the item points not to another page as canonical and
                     // the TS setting hreflang.enabled is set to 1
                     if (in_array(
-                            $currentLanguageUid,
-                            $l10nItems
-                        )
+                        $currentLanguageUid,
+                        $l10nItems
+                    )
                         && !$metaData['no_index']
                         && !$metaData['canonical']
                         && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site
@@ -176,7 +175,7 @@ class CanonicalAndHreflangHook
                         }
 
                         // add the x-default
-                        if(count($hrefLangArray) > 0) {
+                        if (count($hrefLangArray) > 0) {
                             $hrefLangArray[] = ['hreflang' => 'x-default', 'href' => $hrefLangArray[0]['href']];
                             foreach ($hrefLangArray as $item) {
                                 $hreflangs .= '<link rel="alternate" hreflang="' . $item['hreflang'] . '" href="' . $item['href'] . '" />';
@@ -194,7 +193,6 @@ class CanonicalAndHreflangHook
             $hrefLangGenerator = GeneralUtility::makeInstance(HrefLangGenerator::class);
             $hrefLangGenerator->generate();
         }
-
     }
 
     /**
@@ -219,12 +217,16 @@ class CanonicalAndHreflangHook
         $allItems = $queryBuilder->select($languageField)
             ->from($table)
             ->where(
-                $queryBuilder->expr()->eq($pointerField,
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+                $queryBuilder->expr()->eq(
+                    $pointerField,
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                )
             )
             ->orWhere(
-                $queryBuilder->expr()->eq('uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                )
             )
             ->execute()
             ->fetchAll();
@@ -244,14 +246,16 @@ class CanonicalAndHreflangHook
      */
     protected function getLanguageFromItem($table, $uid)
     {
-        if($GLOBALS['TCA'][$table]['ctrl']['languageField']) {
+        if ($GLOBALS['TCA'][$table]['ctrl']['languageField']) {
             /** @var QueryBuilder $queryBuilder */
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
             $items = $queryBuilder->select($GLOBALS['TCA'][$table]['ctrl']['languageField'])
                 ->from($table)
                 ->where(
-                    $queryBuilder->expr()->eq('uid',
-                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT))
+                    $queryBuilder->expr()->eq(
+                        'uid',
+                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    )
                 )
                 ->execute()
                 ->fetchAll();

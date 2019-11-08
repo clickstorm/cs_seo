@@ -36,7 +36,6 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  *
  * Class TCA
  *
- * @package Clickstorm\CsSeo\Hook
  */
 class TableConfigurationPostProcessingHook implements TableConfigurationPostProcessingHookInterface
 {
@@ -96,5 +95,4 @@ class TableConfigurationPostProcessingHook implements TableConfigurationPostProc
             }
         }
     }
-
 }

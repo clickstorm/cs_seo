@@ -32,7 +32,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  ***************************************************************/
 
 /**
- * @package cs_seo
  */
 class KeywordEvaluatorTest extends UnitTestCase
 {

@@ -31,7 +31,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  ***************************************************************/
 
 /**
- * @package cs_seo
  */
 class DescriptionEvaluatorTest extends UnitTestCase
 {
@@ -50,7 +49,6 @@ class DescriptionEvaluatorTest extends UnitTestCase
      * @var int
      */
     protected $max = 160;
-
 
     /**
      * @return void

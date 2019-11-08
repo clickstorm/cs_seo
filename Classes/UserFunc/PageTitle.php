@@ -36,7 +36,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * Class PageTitle
  *
- * @package Clickstorm\CsSeo\UserFunc
  */
 class PageTitle
 {
@@ -74,7 +73,7 @@ class PageTitle
 
             $title = $this->TSFE->getFinalTitle($title, $page['tx_csseo_title_only']);
         }
-        
+
         return $title;
     }
 

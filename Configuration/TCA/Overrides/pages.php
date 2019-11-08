@@ -61,7 +61,7 @@ $tempColumns = [
 $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
     preg_replace('/description(.*,|.*$)/', '', $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem']);
 
-foreach($GLOBALS['TCA']['pages']['types'] as $key => $type) {
+foreach ($GLOBALS['TCA']['pages']['types'] as $key => $type) {
     $type['showitem'] =
         str_replace('--palette--;;opengraph,', '', $type['showitem']);
     $GLOBALS['TCA']['pages']['types'][$key]['showitem'] =
@@ -73,16 +73,19 @@ foreach($GLOBALS['TCA']['pages']['types'] as $key => $type) {
     'pages',
     'seo',
     'tx_csseo_title_only,--linebreak--,
-    description;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.description');
+    description;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.description'
+);
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
     'pages',
     'twittercards',
     '--linebreak--,
-    tx_csseo_tw_creator, tx_csseo_tw_site');
+    tx_csseo_tw_creator, tx_csseo_tw_site'
+);
 
 // register page TSconfig
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerPageTSConfigFile(
     'cs_seo',
     'Configuration/TSconfig/news.tsconfig',
-    'EXT:cs_seo - Extend news records');
+    'EXT:cs_seo - Extend news records'
+);

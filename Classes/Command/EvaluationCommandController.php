@@ -37,14 +37,13 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use \TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
+use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 /**
  * Class EvaluationCommandController
  *
- * @package Clickstorm\CsSeo\Command
  */
 class EvaluationCommandController extends CommandController
 {
@@ -129,11 +128,15 @@ class EvaluationCommandController extends CommandController
         // if single uid
         if ($uid > 0) {
             if ($localized && $tcaCtrl['transOrigPointerField']) {
-                $queryBuilder->andWhere($queryBuilder->expr()->eq($tcaCtrl['transOrigPointerField'],
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)));
+                $queryBuilder->andWhere($queryBuilder->expr()->eq(
+                    $tcaCtrl['transOrigPointerField'],
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                ));
             } else {
-                $queryBuilder->andWhere($queryBuilder->expr()->eq('uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)));
+                $queryBuilder->andWhere($queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                ));
             }
         }
 
@@ -186,8 +189,10 @@ class EvaluationCommandController extends CommandController
             $res = $queryBuilder->select('keyword')
                 ->from($metaTableName)
                 ->where(
-                    $queryBuilder->expr()->eq('uid_foreign',
-                        $queryBuilder->createNamedParameter($record['uid'], \PDO::PARAM_INT)),
+                    $queryBuilder->expr()->eq(
+                        'uid_foreign',
+                        $queryBuilder->createNamedParameter($record['uid'], \PDO::PARAM_INT)
+                    ),
                     $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($this->tableName))
                 )
                 ->execute();

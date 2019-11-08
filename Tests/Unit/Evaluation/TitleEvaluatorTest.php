@@ -31,7 +31,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  ***************************************************************/
 
 /**
- * @package cs_seo
  */
 class TitleEvaluatorTest extends UnitTestCase
 {

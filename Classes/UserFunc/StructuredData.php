@@ -29,13 +29,12 @@ namespace Clickstorm\CsSeo\UserFunc;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
-use TYPO3\CMS\Frontend\Page\PageRepository;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * Render the structured Data for Google SiteSearch and Breadcrumb
  *
- * @package Clickstorm\CsSeo\UserFunc
  * @see https://developers.google.com/search/docs/guides/intro-structured-data
  */
 class StructuredData

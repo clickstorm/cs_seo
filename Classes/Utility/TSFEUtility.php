@@ -30,19 +30,15 @@ namespace Clickstorm\CsSeo\Utility;
 use Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * own TSFE to render TSFE in the backend
  *
  * Class TSFEUtility
  *
- * @package Clickstorm\CsSeo\Utility
  */
 class TSFEUtility
 {
@@ -129,7 +125,6 @@ class TSFEUtility
                 $this->pageUid,
                 $this->typeNum
             );
-
 
             $GLOBALS['TSFE']->workspacePreview = $this->workspaceUid;
             $GLOBALS['TSFE']->forceTemplateParsing = true;

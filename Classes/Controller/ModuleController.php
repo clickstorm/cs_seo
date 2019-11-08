@@ -30,22 +30,19 @@ namespace Clickstorm\CsSeo\Controller;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Lang\LanguageService;
-use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
-use TYPO3\CMS\Backend\Template\ModuleTemplate;
-use TYPO3\CMS\Core\Http\HtmlResponse;
 
 /**
  * Class ModuleController
  *
- * @package Clickstorm\CsSeo\Controller
  */
 class ModuleController extends ActionController
 {
@@ -501,7 +498,8 @@ class ModuleController extends ActionController
             $uriBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Routing\UriBuilder::class);
             $menuItem->setHref((string)$uriBuilder->buildUriFromRoute(
                 'web_CsSeoMod1',
-                ['tx_csseo_web_csseomod1' => ['action' => $menuKey, 'Controller' => 'Module']]))
+                ['tx_csseo_web_csseomod1' => ['action' => $menuKey, 'Controller' => 'Module']]
+            ))
                 ->setTitle($this->getLanguageService()->sL(
                     'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:layouts.module.action.' . $menuKey
                 ));
@@ -693,7 +691,7 @@ class ModuleController extends ActionController
     public function update(\Psr\Http\Message\ServerRequestInterface $request)
     {
         // get parameter
-        $postdata = file_get_contents("php://input");
+        $postdata = file_get_contents('php://input');
         $attr = json_decode($postdata, true);
 
         // prepare data array

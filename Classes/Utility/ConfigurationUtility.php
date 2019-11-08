@@ -35,7 +35,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * Class ConfigurationUtility
  *
- * @package Clickstorm\CsSeo\Utility
  */
 class ConfigurationUtility
 {

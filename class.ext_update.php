@@ -14,7 +14,6 @@ namespace Clickstorm\CsSeo;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -25,8 +24,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 /**
  * Update class for the extension manager.
  *
- * @package TYPO3
- * @subpackage tx_csseo
  */
 class ext_update
 {
@@ -133,7 +130,6 @@ class ext_update
             ->execute();
     }
 
-
     /**
      * Check if seo_basics was installed and then transfer the properties from pages
      *
@@ -187,7 +183,8 @@ class ext_update
                 FlashMessage::class,
                 $messageItem[2],
                 $messageItem[1],
-                $messageItem[0]);
+                $messageItem[0]
+            );
             $defaultFlashMessageQueue->enqueue($flashMessage);
         }
 
@@ -205,5 +202,4 @@ class ext_update
     {
         return true;
     }
-
 }

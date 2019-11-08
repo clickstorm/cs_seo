@@ -44,7 +44,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  *
  * Class PageTitle
  *
- * @package Clickstorm\CsSeo\UserFunc
  */
 class SnippetPreview extends AbstractNode
 {
@@ -161,8 +160,11 @@ class SnippetPreview extends AbstractNode
                 $rootline = BackendUtility::BEgetRootLine($pageUid);
 
                 /** @var TSFEUtility $TSFEUtility */
-                $TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $pageUid,
-                    (int)$data['sys_language_uid']);
+                $TSFEUtility = GeneralUtility::makeInstance(
+                    TSFEUtility::class,
+                    $pageUid,
+                    (int)$data['sys_language_uid']
+                );
                 $fallback = [];
 
                 if (isset($GLOBALS['TSFE'])) {
@@ -214,8 +216,10 @@ class SnippetPreview extends AbstractNode
                             $res = $queryBuilder->select('*')
                                 ->from($data['tablenames'])
                                 ->where(
-                                    $queryBuilder->expr()->eq('uid',
-                                        $queryBuilder->createNamedParameter($data['uid_foreign'], \PDO::PARAM_INT))
+                                    $queryBuilder->expr()->eq(
+                                        'uid',
+                                        $queryBuilder->createNamedParameter($data['uid_foreign'], \PDO::PARAM_INT)
+                                    )
                                 )
                                 ->execute()->fetchAll();
 
