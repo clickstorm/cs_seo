@@ -71,6 +71,7 @@ class MetaTagGeneratorHook
         $twImageUrl = $this->getTwImage($metaData, $pluginSettings);
 
         $generators = [
+            'robots' => ['value' => ''],
             'description' => ['value' => $metaData['description']],
             'og:title' => ['value' => $metaData['og_title']],
             'og:description' => ['value' => $metaData['og_description']],
