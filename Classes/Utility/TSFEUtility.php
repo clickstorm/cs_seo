@@ -235,6 +235,10 @@ class TSFEUtility
      */
     public function getPageTitleSeparator()
     {
+        if (empty($GLOBALS['TSFE']->cObj)) {
+            $GLOBALS['TSFE']->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
+        }
+        
         return $GLOBALS['TSFE']->cObj->stdWrap(
             $this->config['pageTitleSeparator'],
             $this->config['pageTitleSeparator.']
