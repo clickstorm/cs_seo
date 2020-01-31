@@ -22,11 +22,11 @@ $EM_CONF[$_EXTKEY] = [
     'author_company' => 'clickstorm GmbH',
     'state' => 'stable',
     'clearCacheOnLoad' => 1,
-    'version' => '4.2.2-dev',
+    'version' => '5.0.0-dev',
     'constraints' => [
         'depends' => [
-            'typo3' => '9.5.0-9.5.99',
-            'seo' => '9.5.0-9.5.99'
+            'typo3' => '10.0.0-10.2.99',
+            'seo' => '10.0.0-10.2.99'
         ]
     ],
     'autoload' => [

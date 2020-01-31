@@ -11,14 +11,14 @@
   "homepage": "https://www.clickstorm.de",
   "license": ["GPL-2.0-or-later"],
   "require": {
-	"typo3/cms-core": "^9.5",
-	"typo3/cms-seo": "^9.5"
+	"typo3/cms-core": "^10.0",
+	"typo3/cms-seo": "^10.0"
   },
   "require-dev": {
 	"nimut/testing-framework": "*"
   },
   "suggest": {
-	"typo3/scheduler": "^9.5"
+	"typo3/scheduler": "^10.0"
   },
   "replace": {
 	"cs_seo": "self.version"
