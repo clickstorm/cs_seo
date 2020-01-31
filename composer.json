@@ -21,7 +21,7 @@
 	"typo3/scheduler": "^10.0"
   },
   "replace": {
-	"cs_seo": "self.version"
+	"typo3-ter/cs_seo": "self.version"
   },
   "autoload": {
 	"psr-4": {
@@ -32,5 +32,8 @@
 	"psr-4": {
 	  "Clickstorm\\CsSeo\\Tests\\": "Tests"
 	}
+  },
+  "branch-alias": {
+	"dev-master": "5x-dev"
   }
 }
