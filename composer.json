@@ -33,7 +33,9 @@
 	  "Clickstorm\\CsSeo\\Tests\\": "Tests"
 	}
   },
-  "branch-alias": {
-	"dev-master": "5x-dev"
+  "extra": {
+	"branch-alias": {
+	  "dev-master": "5x-dev"
+	}
   }
 }
