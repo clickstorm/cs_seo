@@ -33,6 +33,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -73,8 +74,9 @@ class PageHook
      */
     public function render(array $params, PageLayoutController $parentObject)
     {
+        $tsConfig = BackendUtility::getPagesTSconfig($parentObject->id);
         if ($parentObject->MOD_SETTINGS['function'] == 1
-            && !$parentObject->modTSconfig['properties']['tx_csseo.']['disable']
+            && !$tsConfig['mod.']['web_layout.']['tx_csseo.']['disable']
         ) {
             $pageInfo = $parentObject->pageinfo;
             if ($this->pageCanBeIndexed($pageInfo)) {
@@ -110,7 +112,7 @@ class PageHook
                     $this->resourcesPath . 'Private/Templates/PageHook.html'
                 );
 
-                $results = $this->getResults($pageInfo, $parentObject->current_sys_language);
+                $results = $this->getResults($pageInfo, $parentObject->MOD_SETTINGS['language']);
                 $score = $results['Percentage'];
                 unset($results['Percentage']);
 
@@ -118,7 +120,7 @@ class PageHook
                     [
                         'score' => $score,
                         'results' => $results,
-                        'page' => $parentObject->pageinfo
+                        'page' => BackendUtility::readPageAccess($parentObject->id, $GLOBALS['BE_USER']->getPagePermsClause(Permission::PAGE_SHOW))
                     ]
                 );
 
