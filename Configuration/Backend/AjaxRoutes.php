@@ -7,6 +7,6 @@ return [
     ],
     'tx_csseo_evaluate' => [
         'path' => '/cs_seo/evaluate',
-        'target' => \Clickstorm\CsSeo\Command\EvaluationCommandController::class . '::ajaxUpdate'
+        'target' => \Clickstorm\CsSeo\Command\EvaluationCommand::class . '::ajaxUpdate'
     ]
 ];

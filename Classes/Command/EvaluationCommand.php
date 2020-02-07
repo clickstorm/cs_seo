@@ -32,27 +32,37 @@ use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Service\FrontendPageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Controller\CommandController;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
-/**
- * Class EvaluationCommandController
- *
- */
-class EvaluationCommandController extends CommandController
+class EvaluationCommand extends Command
 {
 
     /**
-     * @var \Clickstorm\CsSeo\Domain\Repository\EvaluationRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * evaluationRepository
+     *
+     * @var EvaluationRepository
      */
-    protected $evaluationRepository;
+    protected $evaluationRepository = null;
+
+    /**
+     * Inject a evaluationRepository
+     *
+     * @param EvaluationRepository $evaluationRepository
+     */
+    public function injectEvaluationRepository(EvaluationRepository $evaluationRepository)
+    {
+        $this->evaluationRepository = $evaluationRepository;
+    }
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
@@ -66,16 +76,87 @@ class EvaluationCommandController extends CommandController
     protected $tableName = 'pages';
 
     /**
+     * make the ajax update
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     */
+    public function ajaxUpdate(\Psr\Http\Message\ServerRequestInterface $request)
+    {
+        $this->init();
+
+        // get parameter
+        $table = '';
+        $params = $request->getParsedBody();
+        if (empty($params)) {
+            $uid = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['uid'];
+            $table = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['table'];
+        } else {
+            $uid = $params['uid'];
+            $table = $params['table'];
+        }
+        if ($table != '') {
+            $this->tableName = $table;
+        }
+        $this->processResults($uid);
+
+        /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+        /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
+        $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
+
+        return new HtmlResponse($flashMessageQueue->renderFlashMessages());
+    }
+
+    /**
+     * @return string
+     */
+    public function getTableName()
+    {
+        return $this->tableName;
+    }
+
+    /**
+     * @param string $tableName
+     */
+    public function setTableName($tableName)
+    {
+        $this->tableName = $tableName;
+    }
+
+    protected function init()
+    {
+        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+        $this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
+        $this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
+    }
+
+    /**
+     * Configure the command by defining the name, options and arguments
+     */
+    protected function configure()
+    {
+        $this->setDescription('SEO evaluation of a single entry or the whole site')
+            ->addArgument('tableName', InputArgument::OPTIONAL)
+            ->addArgument('uid', InputArgument::OPTIONAL);
+    }
+
+    /**
      * @param int $uid
      * @param string $tableName
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    public function updateCommand($uid = 0, $tableName = '')
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!empty($tableName)) {
-            $this->tableName = $tableName;
+        $this->init();
+        if ($input->hasArgument('tableName') && !empty($input->getArgument('tableName'))) {
+            $this->tableName = $input->getArgument('tableName');
         }
+        $uid = $input->hasArgument('uid') ? (int)$input->getArgument('uid') : 0;
         $this->processResults($uid);
     }
 
@@ -152,6 +233,7 @@ class EvaluationCommandController extends CommandController
      * @param $items
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     * @throws \TYPO3\CMS\Core\Exception
      */
     protected function updateResults($items)
     {
@@ -238,59 +320,5 @@ class EvaluationCommandController extends CommandController
             $this->evaluationRepository->update($evaluation);
         }
         $this->persistenceManager->persistAll();
-    }
-
-    /**
-     * make the ajax update
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
-     */
-    public function ajaxUpdate(\Psr\Http\Message\ServerRequestInterface $request)
-    {
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
-        $this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
-
-        // get parameter
-        $table = '';
-        $params = $request->getParsedBody();
-        if (empty($params)) {
-            $uid = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['uid'];
-            $table = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['table'];
-        } else {
-            $uid = $params['uid'];
-            $table = $params['table'];
-        }
-        if ($table != '') {
-            $this->tableName = $table;
-        }
-        $this->processResults($uid);
-
-        /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
-        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-        /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
-        $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
-
-        return new HtmlResponse($flashMessageQueue->renderFlashMessages());
-    }
-
-    /**
-     * @return string
-     */
-    public function getTableName()
-    {
-        return $this->tableName;
-    }
-
-    /**
-     * @param string $tableName
-     */
-    public function setTableName($tableName)
-    {
-        $this->tableName = $tableName;
     }
 }
