@@ -166,7 +166,6 @@ class SnippetPreview extends AbstractNode
                     (int)$data['sys_language_uid']
                 );
                 $fallback = [];
-
                 if (isset($GLOBALS['TSFE'])) {
                     $siteTitle = $TSFEUtility->getSiteTitle();
                     $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();

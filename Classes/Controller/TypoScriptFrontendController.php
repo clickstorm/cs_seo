@@ -33,7 +33,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\ErrorController;
 use TYPO3\CMS\Frontend\Page\PageAccessFailureReasons;
-use TYPO3\CMS\Frontend\Page\PageRepository;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 
 /**
  * Class TypoScriptFrontendController
@@ -93,8 +93,6 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
             $this->type = $idParts[1];
         }
 
-        // If $this->id is a string, it's an alias
-        $this->checkAndSetAlias();
         // The id and type is set to the integer-value - just to be sure...
         $this->id = (int)$this->id;
         $this->type = (int)$this->type;

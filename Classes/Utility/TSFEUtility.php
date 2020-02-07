@@ -28,11 +28,18 @@ namespace Clickstorm\CsSeo\Utility;
  ***************************************************************/
 
 use Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\TypoScriptAspect;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Site\Entity\SiteInterface;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * own TSFE to render TSFE in the backend
@@ -84,12 +91,13 @@ class TSFEUtility
      * @param int $pageUid
      * @param int $lang
      * @param int $typeNum
+     * @throws \TYPO3\CMS\Core\Exception
      */
     public function __construct($pageUid, $lang = 0, $typeNum = 654)
     {
         $this->pageUid = $pageUid;
         $this->workspaceUid = $GLOBALS['BE_USER']->workspace ?: 0;
-        $this->lang = is_array($lang) ? array_shift($lang) : $lang;
+        $this->lang = (int)(is_array($lang) ? array_shift($lang) : $lang);
         $this->typeNum = $typeNum;
 
         $environmentService = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\EnvironmentService::class);
@@ -119,26 +127,27 @@ class TSFEUtility
                 $GLOBALS['TT']->start();
             }
 
+            $context = GeneralUtility::makeInstance(Context::class);
+            $typoScriptAspect = GeneralUtility::makeInstance(TypoScriptAspect::class, true);
+            $context->setAspect('typoscript', $typoScriptAspect);
+            $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->pageUid);
+
             $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
                 TypoScriptFrontendController::class,
-                $GLOBALS['TYPO3_CONF_VARS'],
-                $this->pageUid,
-                $this->typeNum
+                $context,
+                $site,
+                $site->getLanguageById($this->lang)
             );
 
-            $GLOBALS['TSFE']->workspacePreview = $this->workspaceUid;
-            $GLOBALS['TSFE']->forceTemplateParsing = true;
-            $GLOBALS['TSFE']->showHiddenPages = true;
-            $GLOBALS['TSFE']->initFEuser();
-            $GLOBALS['TSFE']->determineId();
-            $GLOBALS['TSFE']->initTemplate();
-            $GLOBALS['TSFE']->newCObj();
+            $GLOBALS['TSFE']->fe_user = GeneralUtility::makeInstance(FrontendUserAuthentication::class);
 
+            $GLOBALS['TSFE']->determineId();
+            $GLOBALS['TSFE']->newCObj();
             $GLOBALS['TSFE']->getConfigArray();
             $GLOBALS['TSFE']->config['config']['sys_language_uid'] = $this->lang;
             $GLOBALS['TSFE']->settingLanguage();
 
-            $GLOBALS['TSFE']->preparePageContentGeneration();
+            $GLOBALS['TSFE']->preparePageContentGeneration($GLOBALS['TYPO3_REQUEST']);
         } catch (\Exception $e) {
             /** @var FlashMessage $message */
             $message = GeneralUtility::makeInstance(
@@ -185,10 +194,10 @@ class TSFEUtility
     }
 
     /**
-     * @var string $title
+     * @return string
      * @var bool $title
      *
-     * @return string
+     * @var string $title
      */
     public function getFinalTitle($title, $titleOnly = false)
     {
@@ -214,11 +223,18 @@ class TSFEUtility
      */
     public function getSiteTitle()
     {
-        $sitetitle = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.']['sitetitle'];
-        if ($sitetitle) {
-            return $GLOBALS['TSFE']->sL($sitetitle);
-        } else {
-            return $GLOBALS['TSFE']->tmpl->setup['sitetitle'];
+        if (!is_object($GLOBALS['TSFE'])) {
+            return '';
+        }
+        if ($GLOBALS['TSFE']->getLanguage() instanceof SiteLanguage
+            && trim($GLOBALS['TSFE']->getLanguage()->getWebsiteTitle()) !== ''
+        ) {
+            return trim($GLOBALS['TSFE']->getLanguage()->getWebsiteTitle());
+        }
+        if ($GLOBALS['TSFE']->getSite() instanceof SiteInterface
+            && trim($GLOBALS['TSFE']->getSite()->getConfiguration()['websiteTitle']) !== ''
+        ) {
+            return trim($GLOBALS['TSFE']->getSite()->getConfiguration()['websiteTitle']);
         }
     }
 
@@ -235,13 +251,14 @@ class TSFEUtility
      */
     public function getPageTitleSeparator()
     {
-        if (empty($GLOBALS['TSFE']->cObj)) {
-            $GLOBALS['TSFE']->cObj = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
+        if (!is_object($GLOBALS['TSFE'])) {
+            return '';
         }
         
         return $GLOBALS['TSFE']->cObj->stdWrap(
             $this->config['pageTitleSeparator'],
             $this->config['pageTitleSeparator.']
         );
+
     }
 }
