@@ -32,8 +32,11 @@ use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -54,10 +57,9 @@ class ModuleController extends ActionController
     const MOD_NAME = 'web_CsSeoMod1';
 
     /**
-     * @var \TYPO3\CMS\Frontend\Page\PageRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var \TYPO3\CMS\Core\Domain\Repository\PageRepository
      */
-    protected $pageRepository;
+    protected $pageRepository = null;
 
     /**
      * @var \Clickstorm\CsSeo\Domain\Repository\EvaluationRepository
@@ -177,7 +179,8 @@ class ModuleController extends ActionController
      */
     protected function processFields()
     {
-        // add grid JS and CSS files
+        $context = GeneralUtility::makeInstance(Context::class);
+            // add grid JS and CSS files
         $this->assignGridResources();
 
         // build the rows
@@ -193,9 +196,13 @@ class ModuleController extends ActionController
 
         // fetch the rows
         if ($this->modParams['lang'] > 0) {
-            $this->pageRepository->sys_language_uid = $this->modParams['lang'];
+            /** @var LanguageAspect $languageAspect */
+            $languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $this->modParams['lang']);
+            $context->setAspect('Language', $languageAspect);
             $columnDefs[] = $this->getColumnDefinition('sys_language_uid');
         }
+
+        $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class, $context);
 
         $page = $this->pageRepository->getPage($this->modParams['id']);
         $rowEntries = $this->getPageTree($page, $this->modParams['depth']);

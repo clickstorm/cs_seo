@@ -26,6 +26,7 @@ namespace Clickstorm\CsSeo\Evaluation\TCA;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -49,7 +50,7 @@ class RobotsExistsEvaluator
      */
     public function evaluateFieldValue($value, $is_in, &$set)
     {
-        if (file_exists(PATH_site . 'robots.txt') && strlen($value) > 0) {
+        if (file_exists(Environment::getPublicPath() . '/robots.txt') && strlen($value) > 0) {
             /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
             $flashMessage = GeneralUtility::makeInstance(
                 FlashMessage::class,

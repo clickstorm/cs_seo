@@ -3,8 +3,10 @@
 namespace Clickstorm\CsSeo\Service;
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -41,9 +43,21 @@ class MetaDataService
      */
     public $cObj;
 
+    /**
+     * @var PageRepository
+     */
+    protected $pageRepository = null;
+
+    /**
+     * @var \TYPO3\CMS\Core\Context\AspectInterface|\TYPO3\CMS\Core\Context\LanguageAspect|null
+     */
+    protected $languageAspect = null;
+
     public function __construct()
     {
         $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class, $this->context);
+        $this->languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
     }
 
     public function getMetaData(): ?array
@@ -157,12 +171,12 @@ class MetaDataService
             ->fetch();
 
         if (is_array($row)) {
-            $GLOBALS['TSFE']->sys_page->versionOL($tableSettings['table'], $row);
-            $row = $GLOBALS['TSFE']->sys_page->getRecordOverlay(
+            $this->pageRepository->versionOL($tableSettings['table'], $row);
+            $row = $this->pageRepository->getRecordOverlay(
                 $tableSettings['table'],
                 $row,
-                $GLOBALS['TSFE']->sys_language_content,
-                $GLOBALS['TSFE']->sys_language_contentOL
+                $this->languageAspect->getContentId(),
+                $this->languageAspect->getLegacyLanguageMode()
             );
         }
 

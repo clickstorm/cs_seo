@@ -27,10 +27,11 @@ namespace Clickstorm\CsSeo\UserFunc;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Page\PageRepository;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 
 /**
  * Render the structured Data for Google SiteSearch and Breadcrumb
@@ -106,8 +107,9 @@ class StructuredData
      */
     public function getBreadcrumb($conf, $content)
     {
-        /** @var  \TYPO3\CMS\Frontend\Page\PageRepository $pageRepository */
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+        $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+
         /** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController[] $GLOBALS */
         $id = $GLOBALS['TSFE']->id;
         if (!empty($GLOBALS['TSFE']->MP) && preg_match('/^\\d+\\-(\\d+)$/', $GLOBALS['TSFE']->MP, $match)) {
@@ -137,8 +139,8 @@ class StructuredData
                 'forceAbsoluteUrl' => 1
             ];
 
-            if ($GLOBALS['TSFE']->sys_language_uid > 0) {
-                $page = $pageRepository->getPageOverlay($page, $GLOBALS['TSFE']->sys_language_uid);
+            if ($languageAspect->getId() > 0) {
+                $page = $pageRepository->getPageOverlay($page, $languageAspect->getId());
             }
 
             $siteLinks[] = [
