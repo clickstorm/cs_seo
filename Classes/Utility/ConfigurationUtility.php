@@ -122,4 +122,12 @@ class ConfigurationUtility
 
         return $allowedDoktypes;
     }
+
+    /**
+     * @return bool
+     */
+    public static function useAdditionalCanonicalizedUrlParametersOnly() {
+        $extConf = self::getEmConfiguration();
+        return (bool)$extConf['useAdditionalCanonicalizedUrlParametersOnly'];
+    }
 }

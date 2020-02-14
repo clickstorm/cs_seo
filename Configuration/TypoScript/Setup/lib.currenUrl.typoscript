@@ -2,7 +2,7 @@
 lib.currentUrl = TEXT
 lib.currentUrl {
 	typolink {
-		parameter.data = page:tx_csseo_canonical // page:content_from_pid // page:uid
+		parameter.data = page:canonical_link // page:content_from_pid // page:uid
 		forceAbsoluteUrl = 1
 		returnLast = url
 		# add cHash

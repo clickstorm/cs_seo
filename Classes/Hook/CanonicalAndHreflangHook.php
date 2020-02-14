@@ -81,31 +81,46 @@ class CanonicalAndHreflangHook
      */
     public function generate(): void
     {
-        $metaDataService = GeneralUtility::makeInstance(MetaDataService::class);
+        $href = '';
+        $this->signalSlotDispatcher->dispatch(self::class, 'beforeGeneratingCanonical', [&$href]);
 
-        $metaData = $metaDataService->getMetaData();
+        $hreflangs = '';
+        $this->signalSlotDispatcher->dispatch(self::class, 'beforeGeneratingHreflang', [&$hreflangs]);
 
-        if ($metaData) {
+        // stop here if both should not be set
+        if ($href === 'none' && $hreflangs === 'none') {
+            return;
+        }
+
+        if (empty($href) || empty($hreflangs)) {
+            $metaDataService = GeneralUtility::makeInstance(MetaDataService::class);
+            $metaData = $metaDataService->getMetaData();
+            $useAdditionalCanonicalizedUrlParametersOnly = ConfigurationUtility::useAdditionalCanonicalizedUrlParametersOnly();
+
             /** @var ContentObjectRenderer $cObj */
             $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
             $context = GeneralUtility::makeInstance(Context::class);
-
-            $currentLanguageUid = $context->getAspect('language')->getId();
-
-            $tables = ConfigurationUtility::getPageTSconfig();
-            $currentItemConf = $metaDataService::getCurrentTableConfiguration($tables, $cObj);
-
-            $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], $currentItemConf['uid']);
-
             $typoLinkConf = $GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.'];
-            unset($typoLinkConf['parameter.']);
-            $typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
+            $tempLinkVars = $GLOBALS['TSFE']->linkVars;
 
-            $href = '';
-            $this->signalSlotDispatcher->dispatch(self::class, 'beforeGeneratingCanonical', [&$href]);
-            if ($href !== 'none') {
-                if (empty($href)) {
+            // remove config.linkVars temporary
+            if ($useAdditionalCanonicalizedUrlParametersOnly) {
+                $GLOBALS['TSFE']->linkVars = '';
+            }
 
+            // check if the current page is a detail page of a record
+            if ($metaData) {
+                $currentLanguageUid = $context->getAspect('language')->getId();
+
+                $tables = ConfigurationUtility::getPageTSconfig();
+                $currentItemConf = $metaDataService::getCurrentTableConfiguration($tables, $cObj);
+
+                $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], $currentItemConf['uid']);
+
+                unset($typoLinkConf['parameter.']);
+                $typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
+
+                if (empty($href) && !$metaData['no_index']) {
                     // canonical
                     $canonicalTypoLinkConf = ['forceAbsoluteUrl' => 1];
                     if ($metaData['canonical']) {
@@ -123,76 +138,94 @@ class CanonicalAndHreflangHook
                             $canonicalTypoLinkConf['additionalParams.']['append.']['value'] = $lang;
                         }
                     }
-                    if (!$metaData['no_index']) {
-                        $href = $cObj->typoLink_URL($canonicalTypoLinkConf);
-                    }
+                    $href = $cObj->typoLink_URL($canonicalTypoLinkConf);
                 }
 
-                if (!empty($href)) {
-                    $canonical = '<link ' . GeneralUtility::implodeAttributes([
-                            'rel' => 'canonical',
-                            'href' => $href
-                        ], true) . '/>' . LF;
-                    $this->typoScriptFrontendController->additionalHeaderData[] = $canonical;
-                }
-            }
+                if (empty($hreflangs)
+                    && in_array($currentLanguageUid, $l10nItems)
+                    && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site
+                    && $href === GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL')
+                ) {
+                    $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
+                    $languages = $languageMenu->process($cObj, [], [], []);
+                    $hreflangTypoLinkConf = $typoLinkConf;
+                    unset($hreflangTypoLinkConf['additionalParams.']['append.']['data']);
 
-            $hreflangs = '';
-            $this->signalSlotDispatcher->dispatch(self::class, 'beforeGeneratingHreflang', [&$hreflangs]);
-
-            if ($hreflangs !== 'none') {
-                if (empty($hreflangs)) {
-                    $hrefLangArray = [];
-
-                    // hreflang
-                    // if the item for the current language uid exists and
-                    // the item is not set to no index and
-                    // the item points not to another page as canonical and
-                    // the TS setting hreflang.enabled is set to 1
-                    if (in_array(
-                        $currentLanguageUid,
-                        $l10nItems
-                    )
-                        && !$metaData['no_index']
-                        && !$metaData['canonical']
-                        && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site
-                        && $href == GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL')
-                    ) {
-                        $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
-                        $languages = $languageMenu->process($cObj, [], [], []);
-                        $hreflangTypoLinkConf = $typoLinkConf;
-                        $metaTags['hreflang'] = '';
-
-                        foreach ($languages['languagemenu'] as $language) {
-                            // set hreflang only for languages of the TS setup and if the language is also localized for the item
-                            // if the language doesn't exist for the item and a fallback language is shown, the hreflang is not set and the canonical points to the fallback url
-                            if ($language['available'] === 1 && in_array($language['languageId'], $l10nItems)) {
-                                unset($hreflangTypoLinkConf['additionalParams.']['append.']['data']);
-                                $hreflangTypoLinkConf['language'] = $language['languageId'];
-                                $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
-                                $hrefLangArray[] = ['hreflang' => $language['hreflang'], 'href' => $hreflangUrl];
-                            }
-                        }
-
-                        // add the x-default
-                        if (count($hrefLangArray) > 0) {
-                            $hrefLangArray[] = ['hreflang' => 'x-default', 'href' => $hrefLangArray[0]['href']];
-                            foreach ($hrefLangArray as $item) {
-                                $hreflangs .= '<link rel="alternate" hreflang="' . $item['hreflang'] . '" href="' . $item['href'] . '" />';
-                            }
+                    foreach ($languages['languagemenu'] as $language) {
+                        // set hreflang only for languages of the TS setup and if the language is also localized for the item
+                        // if the language doesn't exist for the item and a fallback language is shown, the hreflang is not set and the canonical points to the fallback url
+                        if ($language['available'] === 1 && in_array($language['languageId'], $l10nItems)) {
+                            $hreflangTypoLinkConf['language'] = $language['languageId'];
+                            $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
+                            $hrefLangArray[] = ['hreflang' => $language['hreflang'], 'href' => $hreflangUrl];
                         }
                     }
+                    $hreflangs = $this->printHreflangs($hrefLangArray);
                 }
-                $this->typoScriptFrontendController->additionalHeaderData[] = $hreflangs;
-            }
 
-            // if no extension metadata use the core href lang generator
-        } else {
-            $canonicalGenerator = GeneralUtility::makeInstance(CanonicalGenerator::class);
-            $canonicalGenerator->generate();
-            $hrefLangGenerator = GeneralUtility::makeInstance(HrefLangGenerator::class);
-            $hrefLangGenerator->generate();
+                // pages record
+            } else {
+                // use own implementation for canonicals and hreflangs
+                if ($useAdditionalCanonicalizedUrlParametersOnly) {
+                    if (empty($GLOBALS['TSFE']->typoScriptFrontendController->page['no_index'])) {
+                        if (empty($href)) {
+                            $href = $cObj->typoLink_URL($typoLinkConf);
+                        }
+
+                        if (empty($hreflangs)
+                            && empty($GLOBALS['TSFE']->typoScriptFrontendController->page['content_from_pid'])
+                            && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site) {
+
+                            $hrefLangArray = [];
+                            $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
+                            $languages = $languageMenu->process($cObj, [], [], []);
+
+                            // prepate typolink conf for dynamic hreflang
+                            $hreflangTypoLinkConf = $typoLinkConf;
+                            unset($hreflangTypoLinkConf['additionalParams.']['append.']['data']);
+                            unset($hreflangTypoLinkConf['parameter.']);
+                            $hreflangTypoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
+
+                            // prepare typolink conf for hreflang with canonical link
+                            $hreflangTypoLinkConfForCanonical = $hreflangTypoLinkConf;
+                            unset($hreflangTypoLinkConfForCanonical['additionalParams.']);
+
+                            $canonicalsByLanguages = $this->getCanonicalFromAllLanguagesOfPage($GLOBALS['TSFE']->id);
+
+                            foreach ($languages['languagemenu'] as $language) {
+                                if ($language['available'] === 1 && !empty($language['link'])) {
+                                    // check canonicals from all languages
+                                    if(empty($canonicalsByLanguages[$language['languageId']])) {
+                                        $hreflangTypoLinkConf['language'] = $language['languageId'];
+                                        $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
+                                    } else {
+                                        $hreflangTypoLinkConfForCanonical['parameter'] = $canonicalsByLanguages[$language['languageId']];
+                                        $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConfForCanonical);
+                                    }
+                                    $hrefLangArray[] = ['hreflang' => $language['hreflang'], 'href' => $hreflangUrl];
+                                }
+                            }
+                            
+                            $hreflangs = $this->printHreflangs($hrefLangArray);
+                        }
+                    }
+                    // use core implementation for canonicals and hreflangs
+                } else {
+                    $GLOBALS['TSFE']->linkVars = $tempLinkVars;
+                    $canonicalGenerator = GeneralUtility::makeInstance(CanonicalGenerator::class);
+                    $canonicalGenerator->generate();
+                    $hrefLangGenerator = GeneralUtility::makeInstance(HrefLangGenerator::class);
+                    $hrefLangGenerator->generate();
+
+                    return;
+                }
+            }
+            if ($useAdditionalCanonicalizedUrlParametersOnly) {
+                $GLOBALS['TSFE']->linkVars = $tempLinkVars;
+            }
         }
+        $this->printCanonical($href);
+        $this->addHreflangsToHeaderData($hreflangs);
     }
 
     /**
@@ -259,8 +292,94 @@ class CanonicalAndHreflangHook
                 )
                 ->execute()
                 ->fetchAll();
+
             return $items[0]['sys_language_uid'];
         }
+
         return 0;
+    }
+
+    /**
+     * converts hreflang links to HTML tags
+     *
+     * @param array $hrefLangArray
+     * @return string
+     */
+    protected function printHreflangs($hrefLangArray)
+    {
+        $hreflangs = '';
+        // add the x-default
+        if (count($hrefLangArray) > 0) {
+            $hrefLangArray[] = ['hreflang' => 'x-default', 'href' => $hrefLangArray[0]['href']];
+            foreach ($hrefLangArray as $item) {
+                $hreflangs .= '<link rel="alternate" hreflang="' . $item['hreflang'] . '" href="' . $item['href'] . '" />';
+            }
+        }
+
+        return $hreflangs;
+    }
+
+    /**
+     * @param string $uid
+     *
+     * @return int
+     */
+    protected function getCanonicalFromAllLanguagesOfPage($uid)
+    {
+        $res = [];
+
+        $table = 'pages';
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+        $items = $queryBuilder->select($GLOBALS['TCA'][$table]['ctrl']['languageField'], 'canonical_link')
+            ->from($table)
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                )
+            )
+            ->orWhere(
+                $queryBuilder->expr()->eq(
+                    $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'],
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                )
+            )
+            ->execute()
+            ->fetchAll();
+
+        foreach ($items as $item) {
+            $res[$item['sys_language_uid']] = $item['canonical_link'];
+        }
+
+        return $res;
+    }
+
+    /**
+     * convert the link to an canonical tag and add them to the header data
+     *
+     * @param string $href
+     */
+    protected function printCanonical($href)
+    {
+        if (!empty($href) && $href !== 'none') {
+            $canonical = '<link ' . GeneralUtility::implodeAttributes([
+                    'rel' => 'canonical',
+                    'href' => $href
+                ], true) . '/>' . LF;
+            $this->typoScriptFrontendController->additionalHeaderData[] = $canonical;
+        }
+    }
+
+    /**
+     * finally add the hreflang HTML to additional header data
+     *
+     * @param string $hreflangs
+     */
+    protected function addHreflangsToHeaderData($hreflangs)
+    {
+        if (!empty($hreflangs) && $hreflangs !== 'none') {
+            $this->typoScriptFrontendController->additionalHeaderData[] = $hreflangs;
+        }
     }
 }
