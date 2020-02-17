@@ -254,7 +254,7 @@ class TSFEUtility
         if (!is_object($GLOBALS['TSFE'])) {
             return '';
         }
-        
+
         return $GLOBALS['TSFE']->cObj->stdWrap(
             $this->config['pageTitleSeparator'],
             $this->config['pageTitleSeparator.']
