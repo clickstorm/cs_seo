@@ -21,7 +21,7 @@
 	"typo3/scheduler": "^9.5"
   },
   "replace": {
-	"cs_seo": "self.version"
+	"typo3-ter/cs_seo": "self.version"
   },
   "autoload": {
 	"psr-4": {
