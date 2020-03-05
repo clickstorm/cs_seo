@@ -130,4 +130,12 @@ class ConfigurationUtility
         $extConf = self::getEmConfiguration();
         return (bool)$extConf['useAdditionalCanonicalizedUrlParametersOnly'];
     }
+
+    /**
+     * @return int
+     */
+    public static function getXdefault() {
+        $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
+        return (int)$site->getAttribute('txCsseoXdefault');
+    }
 }

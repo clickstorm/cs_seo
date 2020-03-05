@@ -157,7 +157,7 @@ class CanonicalAndHreflangHook
                         if ($language['available'] === 1 && in_array($language['languageId'], $l10nItems)) {
                             $hreflangTypoLinkConf['language'] = $language['languageId'];
                             $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
-                            $hrefLangArray[] = ['hreflang' => $language['hreflang'], 'href' => $hreflangUrl];
+                            $hrefLangArray[$language['languageId']] = ['hreflang' => $language['hreflang'], 'href' => $hreflangUrl];
                         }
                     }
                     $hreflangs = $this->printHreflangs($hrefLangArray);
@@ -165,8 +165,8 @@ class CanonicalAndHreflangHook
 
                 // pages record
             } else {
-                // use own implementation for canonicals and hreflangs
-                if ($useAdditionalCanonicalizedUrlParametersOnly) {
+                // use own implementation for canonicals and hreflangs by config or if x-default equals not the default language
+                if ($useAdditionalCanonicalizedUrlParametersOnly || ConfigurationUtility::getXdefault() > 0) {
                     if (empty($GLOBALS['TSFE']->typoScriptFrontendController->page['no_index'])) {
                         if (empty($href)) {
                             $href = $cObj->typoLink_URL($typoLinkConf);
@@ -202,7 +202,7 @@ class CanonicalAndHreflangHook
                                         $hreflangTypoLinkConfForCanonical['parameter'] = $canonicalsByLanguages[$language['languageId']];
                                         $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConfForCanonical);
                                     }
-                                    $hrefLangArray[] = ['hreflang' => $language['hreflang'], 'href' => $hreflangUrl];
+                                    $hrefLangArray[$language['languageId']] = ['hreflang' => $language['hreflang'], 'href' => $hreflangUrl];
                                 }
                             }
                             
@@ -310,7 +310,8 @@ class CanonicalAndHreflangHook
         $hreflangs = '';
         // add the x-default
         if (count($hrefLangArray) > 0) {
-            $hrefLangArray[] = ['hreflang' => 'x-default', 'href' => $hrefLangArray[0]['href']];
+            $xDefaultLanguageId = ConfigurationUtility::getXdefault();
+            $hrefLangArray[] = ['hreflang' => 'x-default', 'href' => $hrefLangArray[$xDefaultLanguageId]['href']];
             foreach ($hrefLangArray as $item) {
                 $hreflangs .= '<link rel="alternate" hreflang="' . $item['hreflang'] . '" href="' . $item['href'] . '" />';
             }
