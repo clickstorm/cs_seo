@@ -33,6 +33,8 @@ Features
 - Easily **extend any database record** you like with this SEO properties (news, events etc.)
 - **On-page evaluation** of different SEO aspects (focus keyword, alt attributes etc.) and records (pages, news etc.)
 - **href="lang"** support for extensions
+- add only specific parameters to canonical and hreflang
+- allow all languages for the x-default attribute
 - Define fallback images for Open Graph and Twitter Cards
 - Backend module in AngularJS to edit the properties directly
 - Tracking with Google Analytics inc. download tracking

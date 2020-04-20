@@ -3,6 +3,8 @@
 namespace Clickstorm\CsSeo\Utility;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Exception;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
@@ -121,5 +123,31 @@ class ConfigurationUtility
         }
 
         return $allowedDoktypes;
+    }
+
+    /**
+     * @return bool
+     */
+    public static function useAdditionalCanonicalizedUrlParametersOnly() {
+        $extConf = self::getEmConfiguration();
+        return (bool)$extConf['useAdditionalCanonicalizedUrlParametersOnly'];
+    }
+
+    /**
+     * returns the x-default from site config
+     *
+     * @return int
+     */
+    public static function getXdefault() {
+        $xDefault = 0;
+
+        /** @var Site $site */
+        $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
+
+        if(isset($site->getConfiguration()['txCsseoXdefault'])) {
+            $xDefault = (int)$site->getAttribute('txCsseoXdefault');
+        }
+
+        return $xDefault;
     }
 }
