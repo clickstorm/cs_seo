@@ -215,7 +215,7 @@ class CanonicalAndHreflangHook
                     $canonicalGenerator = GeneralUtility::makeInstance(CanonicalGenerator::class);
                     $canonicalGenerator->generate();
                     $hrefLangGenerator = GeneralUtility::makeInstance(HrefLangGenerator::class);
-                    $hrefLangGenerator->generate();
+                    //$hrefLangGenerator->generate();
 
                     return;
                 }

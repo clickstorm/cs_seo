@@ -55,8 +55,10 @@ class ModuleController extends ActionController
      */
     const SESSION_PREFIX = 'tx_csseo_';
     const MOD_NAME = 'web_CsSeoMod1';
-
+    
     /**
+     * pageRepository
+     * 
      * @var \TYPO3\CMS\Core\Domain\Repository\PageRepository
      */
     protected $pageRepository = null;
@@ -146,6 +148,16 @@ class ModuleController extends ActionController
         'pageResults',
         'pageEvaluation'
     ];
+
+	/**
+	 * Inject a pageRepository
+	 *
+	 * @param \TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository
+	 */
+	public function injectPageRepository(\TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository)
+	{
+		$this->pageRepository = $pageRepository;
+	}
 
     /**
      * Show SEO fields

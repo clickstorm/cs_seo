@@ -85,7 +85,7 @@ class FrontendPageService
         }
 
         $params = '';
-        $paramId = $this->pageInfo['uid'];
+		$paramId = $this->pageInfo['l10n_parent'] != 0 ? $this->pageInfo['l10n_parent'] : $this->pageInfo['uid'];
 
         if ($this->tableName && $this->tableName != 'pages') {
             // record

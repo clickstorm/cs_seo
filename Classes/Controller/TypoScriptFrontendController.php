@@ -47,14 +47,6 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
     public $showHiddenPage = true;
 
     /**
-     * @override
-     */
-    public function getPageRenderer()
-    {
-        return $GLOBALS['TBE_TEMPLATE']->getPageRenderer();
-    }
-
-    /**
      * page is in backend so found is true
      *
      * @param string $reason Reason text
@@ -65,90 +57,6 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
     public function pageNotFoundAndExit($reason = '', $header = '')
     {
         return;
-    }
-
-    /**
-     * Get The Page ID
-     * Override because force HTTPS is not necessary
-     *
-     * @throws ServiceUnavailableException
-     * @return void
-     * @access private
-     */
-    public function fetch_the_id()
-    {
-        $timeTracker = $this->getTimeTracker();
-        $timeTracker->push('fetch_the_id initialize/', '');
-        // Initialize the page-select functions.
-        $this->sys_page = GeneralUtility::makeInstance(PageRepository::class, $this->context);
-        // Set the valid usergroups for FE
-        $this->initUserGroups();
-        // Sets sys_page where-clause
-        $this->setSysPageWhereClause();
-        // Splitting $this->id by a period (.).
-        // First part is 'id' and second part (if exists) will overrule the &type param
-        $idParts = explode('.', $this->id, 2);
-        $this->id = $idParts[0];
-        if (isset($idParts[1])) {
-            $this->type = $idParts[1];
-        }
-
-        // The id and type is set to the integer-value - just to be sure...
-        $this->id = (int)$this->id;
-        $this->type = (int)$this->type;
-        $timeTracker->pull();
-        // We find the first page belonging to the current domain
-        $timeTracker->push('fetch_the_id domain/', '');
-        // The page_id of the current domain
-        if (!$this->id) {
-            if ($this->domainStartPage) {
-                // If the id was not previously set, set it to the id of the domain.
-                $this->id = $this->domainStartPage;
-            } else {
-                // Find the first 'visible' page in that domain
-                $rootLevelPages = $this->sys_page->getMenu([0], 'uid', 'sorting', '', false);
-                if (!empty($rootLevelPages)) {
-                    $theFirstPage = reset($rootLevelPages);
-                    $this->id = $theFirstPage['uid'];
-                } else {
-                    $message = 'No pages are found on the rootlevel!';
-                    $this->logger->alert($message);
-                    try {
-                        $response = GeneralUtility::makeInstance(ErrorController::class)->unavailableAction(
-                            new ServerRequest(),
-                            $message,
-                            ['code' => PageAccessFailureReasons::NO_PAGES_FOUND]
-                        );
-                        throw new ImmediateResponseException($response, 1533931299);
-                    } catch (ServiceUnavailableException $e) {
-                        throw new ServiceUnavailableException($message, 1301648975);
-                    }
-                }
-            }
-        }
-        $timeTracker->pull();
-        $timeTracker->push('fetch_the_id rootLine/', '');
-        // We store the originally requested id
-        $this->requestedId = $this->id;
-        $this->getPageAndRootlineWithDomain($this->domainStartPage);
-        $timeTracker->pull();
-
-        // Set no_cache if set
-        if ($this->page['no_cache']) {
-            $this->set_no_cache('no_cache is set in page properties');
-        }
-        // Init SYS_LASTCHANGED
-        $this->register['SYS_LASTCHANGED'] = (int)$this->page['tstamp'];
-        if ($this->register['SYS_LASTCHANGED'] < (int)$this->page['SYS_LASTCHANGED']) {
-            $this->register['SYS_LASTCHANGED'] = (int)$this->page['SYS_LASTCHANGED'];
-        }
-        if (is_array($this->TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['fetchPageId-PostProcessing'])) {
-            foreach ($this->TYPO3_CONF_VARS['SC_OPTIONS']['tslib/class.tslib_fe.php']['fetchPageId-PostProcessing'] as
-                     $functionReference) {
-                $parameters = ['parentObject' => $this];
-                GeneralUtility::callUserFunction($functionReference, $parameters, $this);
-            }
-        }
     }
 
     /**
