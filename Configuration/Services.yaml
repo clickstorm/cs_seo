@@ -1,0 +1,7 @@
+services:
+  Clickstorm\CsSeo\HrefLang\EventListener\CsSeoHrefLang:
+    tags:
+      - name: event.listener
+        identifier: 'cs_seo/CsSeoHrefLang'
+        after: 'typo3-seo/hreflangGenerator'
+        event: TYPO3\CMS\Frontend\Event\ModifyHrefLangTagsEvent
