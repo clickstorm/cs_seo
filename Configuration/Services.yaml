@@ -1,4 +1,12 @@
 services:
+  Clickstorm\CsSeo\Hook\SqlExpectedSchemaHook:
+    tags:
+      - name: event.listener
+        identifier: 'cs_seo/SqlExpectedSchemaHook'
+        after: 'addMysqlFulltextIndex'
+        event: TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent
+        method: 'addMetadataDatabaseSchemaToTablesDefinition'
+
   Clickstorm\CsSeo\HrefLang\EventListener\CsSeoHrefLang:
     tags:
       - name: event.listener

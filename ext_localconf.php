@@ -55,14 +55,3 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Frontend\Page\PageGenerator
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Frontend\Page\PageGenerator']['generateMetaTags'][] =
     \Clickstorm\CsSeo\Hook\CanonicalAndHreflangHook::class . '->generate';
-
-/** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
-$signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\SignalSlot\Dispatcher::class);
-
-// add tx_csseo fields to extended tables
-$signalSlotDispatcher->connect(
-    'TYPO3\\CMS\\Install\\Service\\SqlExpectedSchemaService',
-    'tablesDefinitionIsBeingBuilt',
-    \Clickstorm\CsSeo\Hook\SqlExpectedSchemaHook::class,
-    'addMetadataDatabaseSchemaToTablesDefinition'
-);
