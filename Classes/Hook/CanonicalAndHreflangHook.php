@@ -237,29 +237,6 @@ class CanonicalAndHreflangHook
     }
 
     /**
-     * converts hreflang links to HTML tags
-     *
-     * @param array $hrefLangArray
-     * @return string
-     */
-    protected function printHreflangs($hrefLangArray)
-    {
-        $hreflangs = '';
-        // add the x-default
-        if (count($hrefLangArray) > 0) {
-            $xDefaultLanguageId = ConfigurationUtility::getXdefault();
-            if(isset($hrefLangArray[$xDefaultLanguageId]) && $hrefLangArray[$xDefaultLanguageId]['href']) {
-                $hrefLangArray[] = ['hreflang' => 'x-default', 'href' => $hrefLangArray[$xDefaultLanguageId]['href']];
-            }
-            foreach ($hrefLangArray as $item) {
-                $hreflangs .= '<link rel="alternate" hreflang="' . $item['hreflang'] . '" href="' . $item['href'] . '" />';
-            }
-        }
-
-        return $hreflangs;
-    }
-
-    /**
      * @param string $uid
      *
      * @return int
