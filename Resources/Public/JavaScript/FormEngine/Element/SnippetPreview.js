@@ -31,7 +31,6 @@ define(['jquery'], function($) {
 			var titleOnly = $checkboxTitleOnlyHR.is(":checked");
 
 			$inputSeoTitleHR.on('keyup.csseotitle', function() {
-				console.log('up');
 				updateTitle();
 			});
 

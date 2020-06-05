@@ -140,7 +140,8 @@ class TSFEUtility
             );
 
             $GLOBALS['TSFE']->fe_user = GeneralUtility::makeInstance(FrontendUserAuthentication::class);
-
+            $GLOBALS['TSFE']->id = $this->pageUid;
+            
             $GLOBALS['TSFE']->determineId();
             $GLOBALS['TSFE']->newCObj();
             $GLOBALS['TSFE']->getConfigArray();
