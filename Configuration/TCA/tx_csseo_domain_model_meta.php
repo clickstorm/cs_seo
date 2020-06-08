@@ -28,13 +28,13 @@ return [
         'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/mod.png'
     ],
     'interface' => [
-        'showRecordFieldList' => 'hidden, sys_language_uid, l10n_parent, l10n_diffsource, title, description, title_only, 
-								  canonical, no_index, no_follow, og_title, og_description, og_image, tw_title, tw_description, 
+        'showRecordFieldList' => 'hidden, sys_language_uid, l10n_parent, l10n_diffsource, title, description,
+								  canonical, no_index, no_follow, og_title, og_description, og_image, tw_title, tw_description,
 								  tw_image, tw_creator, tw_site',
     ],
     'types' => [
         '1' => [
-            'showitem' => '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo, 
+            'showitem' => '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_preview;preview,keyword,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_index;index,
 							    --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
@@ -48,13 +48,12 @@ return [
     ],
     'palettes' => [
         'access' => [
-            'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:starttime_formlabel, 
+            'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:starttime_formlabel,
                             endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:endtime_formlabel'
         ],
 
         'preview' => [
-            'showitem' => 'title,title_only,--linebreak--,
-                                    description'
+            'showitem' => 'title,--linebreak--,description'
         ],
 
         'index' => ['showitem' => 'canonical,no_index,no_follow'],
@@ -173,14 +172,6 @@ return [
                 'rows' => 5,
                 'eval' => 'trim',
                 'max' => $extConf['maxDescription'],
-            ]
-        ],
-        'title_only' => [
-            'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_title_only',
-            'exclude' => 1,
-            'config' => [
-                'type' => 'check',
-                'renderType' => 'checkboxToggle'
             ]
         ],
         'keyword' => [

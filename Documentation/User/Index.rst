@@ -25,7 +25,6 @@ Page Properties
 	============================== ================================== ======================= ====================
 	Property                       Label                                 Tab                     Type
 	============================== ================================== ======================= ====================
-	`tx\_csseo\_title\_only`_      Title only                         SEO                     boolean
 	`tx\_csseo\_keyword`_          Focus Keyword                      SEO                     string
 	`tx\_csseo\_tw\_creator`_      Twitter Creator                    Social Media            string
 	`tx\_csseo\_tw\_site`_         Twitter Site                       Social Media            string
@@ -33,20 +32,6 @@ Page Properties
 
 Property details
 ^^^^^^^^^^^^^^^^
-.. _tx_csseo_title_only:
-
-Title only
-""""""""""
-
-.. container:: table-row
-
-   Property
-         tx_csseo_title_only
-   Data type
-         boolean
-   Description
-        Show the browser title without the site title in case the space isn't enough.
-
 .. _tx_csseo_keyword:
 
 Focus Keyword

@@ -56,9 +56,6 @@
 		<trans-unit id="pages.tx_csseo_title">
 			<source>Browser Title</source>
 		</trans-unit>
-		<trans-unit id="pages.tx_csseo_title_only">
-			<source>Title only</source>
-		</trans-unit>
 		<trans-unit id="pages.tx_csseo_tw_creator">
 			<source>Twitter Creator</source>
 		</trans-unit>

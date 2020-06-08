@@ -141,7 +141,7 @@ class TSFEUtility
 
             $GLOBALS['TSFE']->fe_user = GeneralUtility::makeInstance(FrontendUserAuthentication::class);
             $GLOBALS['TSFE']->id = $this->pageUid;
-            
+
             $GLOBALS['TSFE']->determineId();
             $GLOBALS['TSFE']->newCObj();
             $GLOBALS['TSFE']->getConfigArray();
@@ -200,12 +200,8 @@ class TSFEUtility
      *
      * @var string $title
      */
-    public function getFinalTitle($title, $titleOnly = false)
+    public function getFinalTitle($title)
     {
-        if ($titleOnly) {
-            return $title;
-        }
-
         $siteTitle = $this->getSiteTitle();
         $pageTitleFirst = $this->getConfig()['pageTitleFirst'];
         $pageTitleSeparator = $this->getPageTitleSeparator();

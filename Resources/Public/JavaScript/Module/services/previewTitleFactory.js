@@ -1,15 +1,15 @@
 csSeoApp.factory('previewTitleFactory', function() {
 	var factory = {};
 
-	factory.getTitle = function(pageTitle, pageCsSeoTitle, titleOnly) {
+	factory.getTitle = function(pageTitle, pageCsSeoTitle) {
 		var title = pageCsSeoTitle ? pageCsSeoTitle : pageTitle;
-		if (titleOnly == false) {
-			if (csSEO.previewSettings.pageTitleFirst) {
-				title += csSEO.previewSettings.siteTitle;
-			} else {
-				title = csSEO.previewSettings.siteTitle + title;
-			}
-		}
+
+    if (csSEO.previewSettings.pageTitleFirst) {
+      title += csSEO.previewSettings.siteTitle;
+    } else {
+      title = csSEO.previewSettings.siteTitle + title;
+    }
+
 		return title;
 	};
 

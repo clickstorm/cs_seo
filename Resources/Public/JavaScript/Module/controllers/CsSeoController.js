@@ -31,7 +31,6 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 	$scope.prbMin = 0;
 
 	$scope.pageTitle = '';
-	$scope.pageTitleOnly = 0;
 	$scope.pageDescription = '';
 
 
@@ -39,7 +38,7 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 	$scope.$watch('currentValue', function (newValue, oldValue, $scope) {
 		if(newValue !== undefined) {
 			var characterCount = newValue.length;
-			if($scope.currentField == 'seo_title' && $scope.pageTitleOnly == false) {
+			if($scope.currentField == 'seo_title') {
 				characterCount += csSEO.previewSettings.siteTitle.length;
 			}
 			$scope.prbValue = characterCount;
@@ -54,13 +53,10 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 				case 'seo_title':
 					$scope.pageCsSeoTitle = newValue;
 					break;
-				case 'tx_csseo_title_only':
-					$scope.pageTitleOnly = newValue;
-					break;
 			}
 
 			if($scope.currentField != 'description') {
-				$scope.previewTitle = previewTitleFactory.getTitle($scope.pageTitle, $scope.pageCsSeoTitle, $scope.pageTitleOnly);
+				$scope.previewTitle = previewTitleFactory.getTitle($scope.pageTitle, $scope.pageCsSeoTitle);
 			}
 		}
 	});
@@ -105,9 +101,8 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 				$scope.pageTitle = rowEntity.title;
 				$scope.pageDescription = rowEntity.description;
 				$scope.pageCsSeoTitle = rowEntity.seo_title;
-				$scope.pageTitleOnly = rowEntity.tx_csseo_title_only;
 				$scope.currentField = colDef.field;
-				$scope.previewTitle = previewTitleFactory.getTitle($scope.pageTitle, $scope.pageCsSeoTitle, $scope.pageTitleOnly);
+				$scope.previewTitle = previewTitleFactory.getTitle($scope.pageTitle, $scope.pageCsSeoTitle);
 			}
 		});
 

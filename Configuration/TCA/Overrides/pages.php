@@ -16,14 +16,6 @@ $GLOBALS['TCA']['pages']['columns']['no_index']['onChange'] = 'reload';
 
 // define new fields
 $tempColumns = [
-    'tx_csseo_title_only' => [
-        'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_title_only',
-        'exclude' => 1,
-        'config' => [
-            'type' => 'check',
-            'renderType' => 'checkboxToggle'
-        ]
-    ],
     'tx_csseo_keyword' => [
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_keyword',
         'exclude' => 1,
@@ -72,8 +64,7 @@ foreach ($GLOBALS['TCA']['pages']['types'] as $key => $type) {
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
     'pages',
     'seo',
-    'tx_csseo_title_only,--linebreak--,
-    description;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.description'
+    'description;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.description'
 );
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(

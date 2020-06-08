@@ -55,10 +55,10 @@ class ModuleController extends ActionController
      */
     const SESSION_PREFIX = 'tx_csseo_';
     const MOD_NAME = 'web_CsSeoMod1';
-    
+
     /**
      * pageRepository
-     * 
+     *
      * @var \TYPO3\CMS\Core\Domain\Repository\PageRepository
      */
     protected $pageRepository = null;
@@ -164,7 +164,7 @@ class ModuleController extends ActionController
      */
     public function pageMetaAction()
     {
-        $this->fieldNames = ['title', 'seo_title', 'tx_csseo_title_only', 'description'];
+        $this->fieldNames = ['title', 'seo_title', 'description'];
 
         // preview settings
         $previewSettings = [];

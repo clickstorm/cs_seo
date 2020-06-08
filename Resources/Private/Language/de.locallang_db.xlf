@@ -73,10 +73,6 @@
 			<source>Browser Title</source>
 			<target>Browsertitel</target>
 		</trans-unit>
-		<trans-unit id="pages.tx_csseo_title_only" approved="yes">
-			<source>Title only</source>
-			<target>Nur Titel</target>
-		</trans-unit>
 		<trans-unit id="pages.tx_csseo_tw_creator" approved="yes">
 			<source>Twitter Creator</source>
 			<target>Twitter Ersteller</target>
