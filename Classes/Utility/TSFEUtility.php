@@ -37,6 +37,8 @@ use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -110,7 +112,11 @@ class TSFEUtility
         ) {
             $this->initTSFE();
         }
-        $this->config = $GLOBALS['TSFE']->tmpl->setup['config.'];
+
+        $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
+        $fullTS = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+
+        $this->config = $fullTS['config.'];
     }
 
     /**
@@ -142,8 +148,9 @@ class TSFEUtility
             $GLOBALS['TSFE']->fe_user = GeneralUtility::makeInstance(FrontendUserAuthentication::class);
             $GLOBALS['TSFE']->id = $this->pageUid;
 
-            $GLOBALS['TSFE']->determineId();
             $GLOBALS['TSFE']->newCObj();
+            $GLOBALS['TSFE']->determineId();
+
             $GLOBALS['TSFE']->getConfigArray();
             $GLOBALS['TSFE']->config['config']['sys_language_uid'] = $this->lang;
             $GLOBALS['TSFE']->settingLanguage();
