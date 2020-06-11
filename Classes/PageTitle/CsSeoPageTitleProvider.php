@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickstorm\CsSeo\UserFunc;
+namespace Clickstorm\CsSeo\PageTitle;
 
 /***************************************************************
  *
@@ -29,6 +29,7 @@ namespace Clickstorm\CsSeo\UserFunc;
 
 use Clickstorm\CsSeo\Service\MetaDataService;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
+use TYPO3\CMS\Core\PageTitle\AbstractPageTitleProvider;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -37,7 +38,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Class PageTitle
  *
  */
-class PageTitle
+class CsSeoPageTitleProvider extends AbstractPageTitleProvider
 {
 
     /**
@@ -51,7 +52,7 @@ class PageTitle
      *
      * @return string
      */
-    public function render($oldTitle, $content)
+    public function __construct()
     {
         // initalize TSFE
         $this->initialize();
@@ -61,20 +62,8 @@ class PageTitle
             // update title for indexed search
             $GLOBALS['TSFE']->indexedDocTitle = $metaData['title'];
 
-            $title = $this->TSFE->getFinalTitle($metaData['title'], $metaData['title_only']);
-        } else {
-            // get all configurations
-            $page = $this->getPage();
-
-            // build the title
-            $title = $page['seo_title']
-                ?: $GLOBALS['TSFE']->altPageTitle
-                    ?: $page['title'];
-
-            $title = $this->TSFE->getFinalTitle($title, $page['tx_csseo_title_only']);
+            $this->title = $metaData['title'];
         }
-
-        return $title;
     }
 
     /**
