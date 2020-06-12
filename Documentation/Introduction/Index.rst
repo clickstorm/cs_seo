@@ -39,7 +39,6 @@ Features
 - Backend module in AngularJS to edit the properties directly
 - Tracking with Google Analytics inc. download tracking
 - Tracking with Matomo (Piwik)
-- Migrate properties from metaseo and seo_basics
 
 .. _screenshots:
 
