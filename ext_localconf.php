@@ -10,7 +10,7 @@ if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
         if (!isset($confArray['inPageModule']) || $confArray['inPageModule'] < 2) {
             $hook = ($confArray['inPageModule'] == 1) ? 'drawFooterHook' : 'drawHeaderHook';
 
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php'][$hook][$_EXTKEY] =
+            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/db_layout.php'][$hook]['cs_seo'] =
                 \Clickstorm\CsSeo\Hook\PageHook::class . '->render';
         }
 
@@ -30,7 +30,7 @@ if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
     ];
 
     // add hook to get current cHash params
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['getData'][$_EXTKEY] =
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['getData']['cs_seo'] =
         \Clickstorm\CsSeo\Hook\CurrentUrlGetDataHook::class;
 }
 
@@ -44,7 +44,7 @@ if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
     }
 '));
 
-// remove canonical hreflang generator
+//// remove canonical hreflang generator
 // @TODO: remove when https://forge.typo3.org/issues/86577 is fixed
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Frontend\Page\PageGenerator']['generateMetaTags'] =
     array_diff(
