@@ -34,10 +34,6 @@ if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
         \Clickstorm\CsSeo\Hook\CurrentUrlGetDataHook::class;
 }
 
-// upgrade wizard
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'][\Clickstorm\CsSeo\Updates\PagesUpdater::$identifier]
-    = \Clickstorm\CsSeo\Updates\PagesUpdater::class;
-
 // Add module configuration
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup(trim('
     config.pageTitleProviders {
