@@ -7,7 +7,13 @@ services:
         event: TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent
         method: 'addMetadataDatabaseSchemaToTablesDefinition'
 
-  Clickstorm\CsSeo\HrefLang\EventListener\CsSeoHrefLang:
+  Clickstorm\CsSeo\EventListener\CanonicalListener:
+    tags:
+      - name: event.listener
+        identifier: 'cs-seo/canonical'
+        event: TYPO3\CMS\Seo\Event\ModifyUrlForCanonicalTagEvent
+
+  Clickstorm\CsSeo\EventListener\HrefLangListener:
     tags:
       - name: event.listener
         identifier: 'cs_seo/CsSeoHrefLang'
