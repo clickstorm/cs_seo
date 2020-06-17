@@ -78,6 +78,7 @@ class HrefLangService extends AbstractUrlService
             // pages record
         } else {
             // use own implementation for canonicals and hreflangs by config or if x-default equals not the default language
+            // @TODO: own implementation can be removed, when https://forge.typo3.org/issues/90936 is fixed
             if ($useAdditionalCanonicalizedUrlParametersOnly || ConfigurationUtility::getXdefault() > 0) {
                 $hrefLangArray = [];
                 if (empty($GLOBALS['TSFE']->typoScriptFrontendController->page['no_index'])
@@ -86,7 +87,7 @@ class HrefLangService extends AbstractUrlService
                     $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
                     $languages = $languageMenu->process($cObj, [], [], []);
 
-                    // prepate typolink conf for dynamic hreflang
+                    // prepare typolink conf for dynamic hreflang
                     $hreflangTypoLinkConf = $typoLinkConf;
                     unset($hreflangTypoLinkConf['additionalParams.']['append.']['data']);
                     unset($hreflangTypoLinkConf['parameter.']);
