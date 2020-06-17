@@ -53,6 +53,15 @@ class EvaluationCommand extends Command
      * @var EvaluationRepository
      */
     protected $evaluationRepository = null;
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected $persistenceManager;
+    /**
+     * @var string
+     */
+    protected $tableName = 'pages';
 
     /**
      * Inject a evaluationRepository
@@ -63,17 +72,6 @@ class EvaluationCommand extends Command
     {
         $this->evaluationRepository = $evaluationRepository;
     }
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-     * @TYPO3\CMS\Extbase\Annotation\Inject
-     */
-    protected $persistenceManager;
-
-    /**
-     * @var string
-     */
-    protected $tableName = 'pages';
 
     /**
      * make the ajax update
@@ -111,53 +109,11 @@ class EvaluationCommand extends Command
         return new HtmlResponse($flashMessageQueue->renderFlashMessages());
     }
 
-    /**
-     * @return string
-     */
-    public function getTableName()
-    {
-        return $this->tableName;
-    }
-
-    /**
-     * @param string $tableName
-     */
-    public function setTableName($tableName)
-    {
-        $this->tableName = $tableName;
-    }
-
     protected function init()
     {
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
         $this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
-    }
-
-    /**
-     * Configure the command by defining the name, options and arguments
-     */
-    protected function configure()
-    {
-        $this->setDescription('SEO evaluation of a single entry or the whole site')
-            ->addArgument('tableName', InputArgument::OPTIONAL)
-            ->addArgument('uid', InputArgument::OPTIONAL);
-    }
-
-    /**
-     * @param int $uid
-     * @param string $tableName
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $this->init();
-        if ($input->hasArgument('tableName') && !empty($input->getArgument('tableName'))) {
-            $this->tableName = $input->getArgument('tableName');
-        }
-        $uid = $input->hasArgument('uid') ? (int)$input->getArgument('uid') : 0;
-        $this->processResults($uid);
     }
 
     /**
@@ -320,5 +276,49 @@ class EvaluationCommand extends Command
             $this->evaluationRepository->update($evaluation);
         }
         $this->persistenceManager->persistAll();
+    }
+
+    /**
+     * @return string
+     */
+    public function getTableName()
+    {
+        return $this->tableName;
+    }
+
+    /**
+     * @param string $tableName
+     */
+    public function setTableName($tableName)
+    {
+        $this->tableName = $tableName;
+    }
+
+    /**
+     * Configure the command by defining the name, options and arguments
+     */
+    protected function configure()
+    {
+        $this->setDescription('SEO evaluation of a single entry or the whole site')
+            ->addArgument('tableName', InputArgument::OPTIONAL)
+            ->addArgument('uid', InputArgument::OPTIONAL);
+    }
+
+    /**
+     * @param int $uid
+     * @param string $tableName
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $this->init();
+        if ($input->hasArgument('tableName') && !empty($input->getArgument('tableName'))) {
+            $this->tableName = $input->getArgument('tableName');
+        }
+        $uid = $input->hasArgument('uid') ? (int)$input->getArgument('uid') : 0;
+        $this->processResults($uid);
+
+        return 0;
     }
 }
