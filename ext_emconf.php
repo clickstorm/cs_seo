@@ -12,17 +12,17 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => '[clickstorm] SEO',
-    'description' => 'SEO Extension: Enables important on-page features for search engine optimization (SEO). Expands 
-						the page settings and any existing records, e.g. with a preview for Google search results (SERP), 
-						and a Focus Keyword. Robots.txt handling. Support for Session Tracking (Google Analytics or Matomo) 
+    'description' => 'SEO Extension: Enables important on-page features for search engine optimization (SEO). Expands
+						the page settings and any existing records, e.g. with a preview for Google search results (SERP),
+						and a Focus Keyword. Robots.txt handling. Support for Session Tracking (Google Analytics or Matomo)
 						and href="lang" tags. Further features are shown in the extension manual.',
     'category' => 'services',
-    'author' => 'Pascale Beier, Angela Dudtkowski, Marc Hirdes, Andreas Kirilow - clickstorm GmbH',
+    'author' => 'Pascale Beier, Angela Dudtkowski, Marc Hirdes, Andreas Kirilow, Alexander König - clickstorm GmbH',
     'author_email' => 'hirdes@clickstorm.de',
     'author_company' => 'clickstorm GmbH',
     'state' => 'stable',
     'clearCacheOnLoad' => 1,
-    'version' => '5.0.0-dev',
+    'version' => '5.0.0',
     'constraints' => [
         'depends' => [
             'typo3' => '10.0.0-10.4.99',
