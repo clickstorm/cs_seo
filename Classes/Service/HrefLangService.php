@@ -15,13 +15,14 @@ use TYPO3\CMS\Frontend\DataProcessing\LanguageMenuProcessor;
 class HrefLangService extends AbstractUrlService
 {
     /**
+     * @param array $hreflangs
+     *
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
      */
-    public function getHrefLangs(): array
+    public function getHrefLangs($hreflangs): array
     {
-        $hreflangs = [];
         $metaDataService = GeneralUtility::makeInstance(MetaDataService::class);
         $metaData = $metaDataService->getMetaData();
         $useAdditionalCanonicalizedUrlParametersOnly = ConfigurationUtility::useAdditionalCanonicalizedUrlParametersOnly();

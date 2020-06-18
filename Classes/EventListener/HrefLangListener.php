@@ -14,6 +14,6 @@ class HrefLangListener
     public function __invoke(ModifyHrefLangTagsEvent $event): void
     {
         $hrefLangService = GeneralUtility::makeInstance(HrefLangService::class);
-        $event->setHrefLangs($hrefLangService->getHrefLangs());
+        $event->setHrefLangs($hrefLangService->getHrefLangs($event->getHrefLangs()));
     }
 }
