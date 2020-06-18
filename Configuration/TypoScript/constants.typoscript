@@ -62,6 +62,7 @@ module.tx_csseo_mod1 {
     view {
         # cat=module.tx_csseo_mod1/file; type=string; label=Path to template root (BE)
         templateRootPath = EXT:cs_seo/Resources/Private/Templates/
+        templateRootPath = EXT:cs_seo/Resources/Private/Templates/
         # cat=module.tx_csseo_mod1/file; type=string; label=Path to template partials (BE)
         partialRootPath = EXT:cs_seo/Resources/Private/Partials/
         # cat=module.tx_csseo_mod1/file; type=string; label=Path to template layouts (BE)

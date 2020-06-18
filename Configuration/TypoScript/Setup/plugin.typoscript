@@ -24,32 +24,6 @@ plugin.tx_csseo {
 		piwik = {$plugin.tx_csseo.tracking.piwik}
 		piwik.id = {$plugin.tx_csseo.tracking.piwik.id}
 	}
-	# default robots.txt content #
-	robots = TEXT
-	robots {
-		data = getIndpEnv : TYPO3_REQUEST_HOST
-		noTrimWrap = | ||
-		wrap2 (
-User-Agent: *
-Allow: /
-
-# folders
-Disallow: /t3lib/
-Disallow: /typo3/
-Disallow: /typo3conf/
-Allow: /typo3conf/ext/
-Allow: /typo3temp/
-
-# parameters
-Disallow: /*?id=*               # non speaking URLs
-Disallow: /*cHash               # no cHash
-Disallow: /*tx_powermail_pi1    # no powermail thanks pages
-Disallow: /*tx_form_formframework    # no forms
-
-# sitemap
-Sitemap: |/sitemap.xml
-		)
-	}
 	structureddata {
 		search {
 			enable = {$plugin.tx_csseo.structureddata.search.enable}
