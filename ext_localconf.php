@@ -34,6 +34,10 @@ if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
         \Clickstorm\CsSeo\Hook\CurrentUrlGetDataHook::class;
 }
 
+// generate and overwrite header data
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Frontend\Page\PageGenerator']['generateMetaTags'][] =
+    \Clickstorm\CsSeo\Hook\MetaTagGeneratorHook::class . '->generate';
+
 // Add module configuration
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup(trim('
     config.pageTitleProviders {
