@@ -70,9 +70,14 @@ class ConfigurationUtility
     {
         $extConf = self::getEmConfiguration();
         $tsConfigPid = $extConf['tsConfigPid'] ?: 1;
+        $pageTSconfig = [];
 
         // get rootLine first to prevent caching from pageTSconfig
-        $pageTSconfig = BackendUtility::getPagesTSconfig($tsConfigPid);
+        try {
+            $pageTSconfig = BackendUtility::getPagesTSconfig($tsConfigPid);
+        } catch (\Exception $e) {
+            // db not fully created
+        }
 
         return $pageTSconfig['tx_csseo.'] ?: [];
     }
