@@ -149,8 +149,8 @@ class ConfigurationUtility
         /** @var Site $site */
         $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
 
-        if(isset($site->getConfiguration()['txCsseoXdefault'])) {
-            $xDefault = (int)$site->getAttribute('txCsseoXdefault');
+        if(($site instanceof Site) && isset($site->getConfiguration()['txCsseoXdefault'])) {
+             $xDefault = (int)$site->getAttribute('txCsseoXdefault');
         }
 
         return $xDefault;
