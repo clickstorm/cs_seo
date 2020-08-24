@@ -68,7 +68,7 @@ class MetaDataService
         }
 
         // get table settings
-        $tables = ConfigurationUtility::getPageTSconfig();
+        $tables = ConfigurationUtility::getTablesToExtend();
         if ($tables) {
             // get active table name und settings
             $tableSettings = $this->getCurrentTableConfiguration($tables, $this->cObj);
@@ -123,22 +123,21 @@ class MetaDataService
      */
     public static function getCurrentTableConfiguration($tables, $cObj, $checkOnly = false)
     {
-        foreach ($tables as $key => $table) {
-            if (isset($tables[$key . '.']['enable'])) {
-                $settings = $tables[$key . '.'];
-                $uid = intval($cObj->getData($settings['enable']));
+        foreach ($tables as $tableName => $tableSettings) {
+            if (isset($tableSettings['enable'])) {
+                $uid = intval($cObj->getData($tableSettings['enable']));
 
                 if ($uid) {
                     if ($checkOnly) {
                         return true;
                     }
                     $data = [
-                        'table' => $table,
+                        'table' => $tableName,
                         'uid' => $uid,
                     ];
 
-                    if (isset($settings['fallback.']) && count($settings['fallback.']) > 0) {
-                        $data['fallback'] = $settings['fallback.'];
+                    if (isset($tableSettings['fallback']) && count($tableSettings['fallback']) > 0) {
+                        $data['fallback'] = $tableSettings['fallback'];
                     }
 
                     return $data;

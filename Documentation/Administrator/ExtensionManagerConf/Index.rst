@@ -23,7 +23,6 @@ Properties
 	======================================================= ===================================== ====================
 	Property                                                Data type                             Default
 	======================================================= ===================================== ====================
-	`basic.tsConfigPid`_                                    :ref:`t3tsref:data-type-integer`      1
 	`basic.useAdditionalCanonicalizedUrlParametersOnly`_    :ref:`t3tsref:data-type-boolean`      false
 	`page.maxTitle`_                                        :ref:`t3tsref:data-type-integer`      57
 	`page.maxDescription`_                                  :ref:`t3tsref:data-type-integer`      156
@@ -39,29 +38,15 @@ Properties
 Basic configurations
 ^^^^^^^^^^^^^^^^^^^^
 
-.. _basic.tsConfigPid:
-
-TsConfig PID
-""""""""""""
-
-.. container:: table-row
-
-   Property
-         tsConfigPid
-   Data type
-         :ref:`t3tsref:data-type-integer`
-   Description
-         Enter the uid of the page where the page TSConfig is stored to extend records, e.g. news.
-
 .. _basic.useAdditionalCanonicalizedUrlParametersOnly:
 
 use AdditionalCanonicalizedUrlParameters only
-""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""
 
 .. container:: table-row
 
    Property
-         tsConfigPid
+         useAdditionalCanonicalizedUrlParametersOnly
    Data type
          :ref:`t3tsref:data-type-boolean`
    Description

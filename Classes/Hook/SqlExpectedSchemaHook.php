@@ -3,15 +3,7 @@
 namespace Clickstorm\CsSeo\Hook;
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
-use Psr\EventDispatcher\EventDispatcherInterface;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Configuration\Loader\PageTsConfigLoader;
-use TYPO3\CMS\Core\Configuration\Parser\PageTsConfigParser;
 use TYPO3\CMS\Core\Database\Event\AlterTableDefinitionStatementsEvent;
-use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Configuration\TypoScript\ConditionMatching\ConditionMatcher;
 
 /***************************************************************
  *
@@ -48,38 +40,13 @@ class SqlExpectedSchemaHook
 	 */
 	public function addMetadataDatabaseSchemaToTablesDefinition(AlterTableDefinitionStatementsEvent $event)
 	{
-		$extConf = ConfigurationUtility::getEmConfiguration();
-		$tsConfigPid = $extConf['tsConfigPid'] ?: 1;
-		$contentHashCache = GeneralUtility::makeInstance(CacheManager::class)->getCache('hash');
-		$eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
-		$loader = GeneralUtility::makeInstance(PageTsConfigLoader::class, $eventDispatcher);
-		$rootLine = BackendUtility::BEgetRootLine($tsConfigPid, '', true);
-		$tsConfigString = $loader->load(array_reverse($rootLine));
+		$config = ConfigurationUtility::getTablesToExtend();
 
-		$parser = GeneralUtility::makeInstance(
-			PageTsConfigParser::class,
-			GeneralUtility::makeInstance(TypoScriptParser::class),
-			$contentHashCache
-		);
-		$pagesTSconfig = $parser->parse(
-			$tsConfigString,
-			GeneralUtility::makeInstance(ConditionMatcher::class, null, $tsConfigPid, $rootLine),
-			null
-		);
-
-		$tables = [];
-		if ($pagesTSconfig['tx_csseo.']) {
-			foreach ($pagesTSconfig['tx_csseo.'] as $table) {
-				if (is_string($table)) {
-					$tables[] = $table;
-				}
-			}
-		}
-		if ($tables) {
-			foreach ($tables as $table) {
-				$sqlString = str_repeat(PHP_EOL, 3) . 'CREATE TABLE ' . $table . ' (' . PHP_EOL
-					. ' tx_csseo int(11) DEFAULT \'0\' NOT NULL' . PHP_EOL . ');' . str_repeat(PHP_EOL, 3);
-				$event->addSqlData($sqlString);
+		if ($config) {
+			foreach ($config as $tableName => $tableSettings) {
+                $sqlString = str_repeat(PHP_EOL, 3) . 'CREATE TABLE ' . $tableName . ' (' . PHP_EOL
+                    . ' tx_csseo int(11) DEFAULT \'0\' NOT NULL' . PHP_EOL . ');' . str_repeat(PHP_EOL, 3);
+                $event->addSqlData($sqlString);
 			}
 		}
 	}

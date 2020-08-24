@@ -73,10 +73,3 @@ foreach ($GLOBALS['TCA']['pages']['types'] as $key => $type) {
     '--linebreak--,
     tx_csseo_tw_creator, tx_csseo_tw_site'
 );
-
-// register page TSconfig
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerPageTSConfigFile(
-    'cs_seo',
-    'Configuration/TSconfig/news.tsconfig',
-    'EXT:cs_seo - Extend news records'
-);

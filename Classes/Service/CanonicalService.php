@@ -41,7 +41,7 @@ class CanonicalService extends AbstractUrlService
         if ($metaData) {
             $currentLanguageUid = $context->getAspect('language')->getId();
 
-            $tables = ConfigurationUtility::getPageTSconfig();
+            $tables = ConfigurationUtility::getTablesToExtend();
             $currentItemConf = $metaDataService::getCurrentTableConfiguration($tables, $cObj);
 
             $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], $currentItemConf['uid']);

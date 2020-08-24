@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Utility;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -48,17 +49,10 @@ class ConfigurationUtility
      */
     public static function getTablesToExtend()
     {
-        $pageTSconfig = self::getPageTSconfig();
-        $tables = [];
-        if ($pageTSconfig) {
-            foreach ($pageTSconfig as $table) {
-                if (is_string($table)) {
-                    $tables[] = $table;
-                }
-            }
-        }
+        $config = self::getYamlConfig();
 
-        return $tables;
+        return isset($config['records']) && is_array($config['records']) ?
+            $config['records'] : [];
     }
 
     /**
@@ -66,32 +60,17 @@ class ConfigurationUtility
      *
      * @return array
      */
-    public static function getPageTSconfig()
+    public static function getYamlConfig()
     {
-        $extConf = self::getEmConfiguration();
-        $tsConfigPid = $extConf['tsConfigPid'] ?: 1;
-        $pageTSconfig = [];
+        $fileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
+        $config = [];
 
-        try {
-            // get rootLine first to prevent caching from pageTSconfig
-            $pageTSconfig = BackendUtility::getPagesTSconfig($tsConfigPid);
-        } catch (\Exception $e) {
-            // db not fully created
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cs_seo']['yamlConfigFile']) && is_string($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cs_seo']['yamlConfigFile'])) {
+            $newConfig = $fileLoader->load($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cs_seo']['yamlConfigFile']);
+            $config = $newConfig;
         }
 
-        return $pageTSconfig['tx_csseo.'] ?: [];
-    }
-
-    /**
-     * Get the configuration from the extension manager
-     *
-     * @return array
-     */
-    public static function getEmConfiguration()
-    {
-        $conf = $confArray = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('cs_seo');
-
-        return is_array($conf) ? $conf : [];
+        return $config;
     }
 
     /**
@@ -101,17 +80,10 @@ class ConfigurationUtility
      */
     public static function getTableSettings($tableName)
     {
-        $pageTSconfig = self::getPageTSconfig();
-        $settings = [];
-        if ($pageTSconfig) {
-            foreach ($pageTSconfig as $tsConfigKey => $tsConfigRow) {
-                if (is_string($tsConfigRow) && $tsConfigRow == $tableName) {
-                    $settings = $pageTSconfig[$tsConfigKey . '.'];
-                }
-            }
-        }
+        $config = self::getYamlConfig();
 
-        return $settings;
+        return isset($config['records'][$tableName]) && is_array($config['records'][$tableName])
+            ? $config['records'][$tableName] : [];
     }
 
     /**
@@ -131,10 +103,24 @@ class ConfigurationUtility
     }
 
     /**
+     * Get the configuration from the extension manager
+     *
+     * @return array
+     */
+    public static function getEmConfiguration()
+    {
+        $conf = $confArray = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('cs_seo');
+
+        return is_array($conf) ? $conf : [];
+    }
+
+    /**
      * @return bool
      */
-    public static function useAdditionalCanonicalizedUrlParametersOnly() {
+    public static function useAdditionalCanonicalizedUrlParametersOnly()
+    {
         $extConf = self::getEmConfiguration();
+
         return (bool)$extConf['useAdditionalCanonicalizedUrlParametersOnly'];
     }
 
@@ -143,13 +129,14 @@ class ConfigurationUtility
      *
      * @return int
      */
-    public static function getXdefault() {
+    public static function getXdefault()
+    {
         $xDefault = 0;
 
         /** @var Site $site */
         $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
 
-        if(isset($site->getConfiguration()['txCsseoXdefault'])) {
+        if (isset($site->getConfiguration()['txCsseoXdefault'])) {
             $xDefault = (int)$site->getAttribute('txCsseoXdefault');
         }
 

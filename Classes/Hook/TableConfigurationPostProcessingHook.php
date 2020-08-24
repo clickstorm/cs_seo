@@ -85,11 +85,12 @@ class TableConfigurationPostProcessingHook implements TableConfigurationPostProc
         ];
 
         $tables = ConfigurationUtility::getTablesToExtend();
+
         if ($tables) {
-            foreach ($tables as $table) {
-                ExtensionManagementUtility::addTCAcolumns($table, $tempColumns);
+            foreach ($tables as $tableName => $tableConfig) {
+                ExtensionManagementUtility::addTCAcolumns($tableName, $tempColumns);
                 ExtensionManagementUtility::addToAllTCAtypes(
-                    $table,
+                    $tableName,
                     '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,tx_csseo'
                 );
             }

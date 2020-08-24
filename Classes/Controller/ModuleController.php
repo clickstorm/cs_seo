@@ -602,11 +602,10 @@ class ModuleController extends ActionController
 
         $tablesToExtend = ConfigurationUtility::getTablesToExtend();
 
-        foreach ($tablesToExtend as $tableToExtend) {
-            $tableSettings = ConfigurationUtility::getTableSettings($tableToExtend);
-            if ($tableSettings['evaluation.'] && $tableSettings['evaluation.']['detailPid']) {
-                $tables[$tableToExtend] =
-                    LocalizationUtility::translate($GLOBALS['TCA'][$tableToExtend]['ctrl']['title'], $extKey);
+        foreach ($tablesToExtend as $tableName => $tableConfig) {
+            if ($tableConfig['evaluation'] && $tableConfig['evaluation']['detailPid']) {
+                $tables[$tableName] =
+                    LocalizationUtility::translate($GLOBALS['TCA'][$tableName]['ctrl']['title'], $extKey);
             }
         }
 
