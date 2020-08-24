@@ -63,10 +63,10 @@ class CurrentUrlGetDataHook implements ContentObjectGetDataHookInterface
         $cHash_array = $cacheHash->getRelevantParameters(GeneralUtility::implodeArrayForUrl('', $GET));
         unset($cHash_array['encryptionKey']);
 
-        if(ConfigurationUtility::useAdditionalCanonicalizedUrlParametersOnly()) {
+        if (ConfigurationUtility::useAdditionalCanonicalizedUrlParametersOnly()) {
             $canonicalParams = array_flip((array)$GLOBALS['TYPO3_CONF_VARS']['FE']['additionalCanonicalizedUrlParameters']);
             $canonicalParams['id'] = $GET['id'];
-            $cHash_array = array_intersect_key($cHash_array,$canonicalParams);
+            $cHash_array = array_intersect_key($cHash_array, $canonicalParams);
         }
 
         return GeneralUtility::implodeArrayForUrl('', $cHash_array);

@@ -43,7 +43,7 @@ class HrefLangService extends AbstractUrlService
             $hrefLangArray = [];
             $currentLanguageUid = $context->getAspect('language')->getId();
 
-            $tables = ConfigurationUtility::getPageTSconfig();
+            $tables = ConfigurationUtility::getTablesToExtend();
             $currentItemConf = $metaDataService::getCurrentTableConfiguration($tables, $cObj);
 
             $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], $currentItemConf['uid']);
@@ -132,8 +132,7 @@ class HrefLangService extends AbstractUrlService
      * @param array $hrefLangArray
      * @return array
      */
-    protected
-    function finalizeHrefLangs(
+    protected function finalizeHrefLangs(
         $hrefLangArray
     ) {
         $hreflangs = [];

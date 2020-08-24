@@ -149,15 +149,15 @@ class ModuleController extends ActionController
         'pageEvaluation'
     ];
 
-	/**
-	 * Inject a pageRepository
-	 *
-	 * @param \TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository
-	 */
-	public function injectPageRepository(\TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository)
-	{
-		$this->pageRepository = $pageRepository;
-	}
+    /**
+     * Inject a pageRepository
+     *
+     * @param \TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository
+     */
+    public function injectPageRepository(\TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository)
+    {
+        $this->pageRepository = $pageRepository;
+    }
 
     /**
      * Show SEO fields
@@ -192,7 +192,7 @@ class ModuleController extends ActionController
     protected function processFields()
     {
         $context = GeneralUtility::makeInstance(Context::class);
-            // add grid JS and CSS files
+        // add grid JS and CSS files
         $this->assignGridResources();
 
         // build the rows
@@ -602,11 +602,10 @@ class ModuleController extends ActionController
 
         $tablesToExtend = ConfigurationUtility::getTablesToExtend();
 
-        foreach ($tablesToExtend as $tableToExtend) {
-            $tableSettings = ConfigurationUtility::getTableSettings($tableToExtend);
-            if ($tableSettings['evaluation.'] && $tableSettings['evaluation.']['detailPid']) {
-                $tables[$tableToExtend] =
-                    LocalizationUtility::translate($GLOBALS['TCA'][$tableToExtend]['ctrl']['title'], $extKey);
+        foreach ($tablesToExtend as $tableName => $tableConfig) {
+            if ($tableConfig['evaluation'] && $tableConfig['evaluation']['detailPid']) {
+                $tables[$tableName] =
+                    LocalizationUtility::translate($GLOBALS['TCA'][$tableName]['ctrl']['title'], $extKey);
             }
         }
 

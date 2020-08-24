@@ -41,7 +41,6 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * own TSFE to render TSFE in the backend
@@ -263,6 +262,5 @@ class TSFEUtility
             $this->config['pageTitleSeparator'],
             $this->config['pageTitleSeparator.']
         );
-
     }
 }

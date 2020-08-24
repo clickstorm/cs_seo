@@ -185,26 +185,11 @@ class SnippetPreview extends AbstractNode
                         $fallback['uid'] = $data['uid'];
                         $fallback['table'] = $table;
                     } else {
-                        $pageTSConfig = BackendUtility::getPagesTSconfig($pageUid);
+                        $tableSettings = ConfigurationUtility::getTableSettings($data['tablenames']);
 
-                        // handle fallback
-                        if (isset($pageTSConfig['tx_csseo.'])) {
-                            foreach ($pageTSConfig['tx_csseo.'] as $key => $settings) {
-                                if (is_string($settings)) {
-                                    if ($settings == $data['tablenames']
-                                        && isset(
-                                            $pageTSConfig['tx_csseo.'][$key
-                                            . '.']['fallback.']
-                                        )
-                                    ) {
-                                        $fallback = $pageTSConfig['tx_csseo.'][$key . '.']['fallback.'];
-                                        break;
-                                    }
-                                }
-                            }
-                        }
+                        if ($tableSettings && is_array($tableSettings['fallback']) && !empty($tableSettings['fallback'])) {
+                            $fallback = $tableSettings['fallback'];
 
-                        if ($fallback) {
                             /** @var QueryBuilder $queryBuilder */
                             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($data['tablenames']);
 
