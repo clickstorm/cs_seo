@@ -158,12 +158,13 @@ class SnippetPreview extends AbstractNode
             if (isset($fullTS['types.'][$this->typeNum]) || $GLOBALS['BE_USER']->workspace > 0) {
                 // render page title
                 $rootline = BackendUtility::BEgetRootLine($pageUid);
+                $sysLanguageUid = is_array($data['sys_language_uid']) ? (int)current($data['sys_language_uid']) : (int)$data['sys_language_uid'];
 
                 /** @var TSFEUtility $TSFEUtility */
                 $TSFEUtility = GeneralUtility::makeInstance(
                     TSFEUtility::class,
                     $pageUid,
-                    (int)$data['sys_language_uid']
+                    $sysLanguageUid
                 );
                 $fallback = [];
                 if (isset($GLOBALS['TSFE'])) {
