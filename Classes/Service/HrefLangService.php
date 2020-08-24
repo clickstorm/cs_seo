@@ -132,8 +132,7 @@ class HrefLangService extends AbstractUrlService
      * @param array $hrefLangArray
      * @return array
      */
-    protected
-    function finalizeHrefLangs(
+    protected function finalizeHrefLangs(
         $hrefLangArray
     ) {
         $hreflangs = [];

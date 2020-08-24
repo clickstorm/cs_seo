@@ -187,7 +187,7 @@ class SnippetPreview extends AbstractNode
                     } else {
                         $tableSettings = ConfigurationUtility::getTableSettings($data['tablenames']);
 
-                        if($tableSettings && is_array($tableSettings['fallback']) && !empty($tableSettings['fallback'])) {
+                        if ($tableSettings && is_array($tableSettings['fallback']) && !empty($tableSettings['fallback'])) {
                             $fallback = $tableSettings['fallback'];
 
                             /** @var QueryBuilder $queryBuilder */

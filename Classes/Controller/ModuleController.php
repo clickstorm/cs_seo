@@ -149,15 +149,15 @@ class ModuleController extends ActionController
         'pageEvaluation'
     ];
 
-	/**
-	 * Inject a pageRepository
-	 *
-	 * @param \TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository
-	 */
-	public function injectPageRepository(\TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository)
-	{
-		$this->pageRepository = $pageRepository;
-	}
+    /**
+     * Inject a pageRepository
+     *
+     * @param \TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository
+     */
+    public function injectPageRepository(\TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository)
+    {
+        $this->pageRepository = $pageRepository;
+    }
 
     /**
      * Show SEO fields
@@ -192,7 +192,7 @@ class ModuleController extends ActionController
     protected function processFields()
     {
         $context = GeneralUtility::makeInstance(Context::class);
-            // add grid JS and CSS files
+        // add grid JS and CSS files
         $this->assignGridResources();
 
         // build the rows

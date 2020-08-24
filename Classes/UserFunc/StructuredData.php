@@ -28,10 +28,10 @@ namespace Clickstorm\CsSeo\UserFunc;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 
 /**
  * Render the structured Data for Google SiteSearch and Breadcrumb

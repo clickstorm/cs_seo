@@ -184,7 +184,7 @@ class DatabaseUtility
                 )
                 ->set('u.' . $newCol, $queryBuilder->quoteIdentifier('u.' . $oldCol), false)
                 ->execute();
-            
+
             $queryBuilder->resetQueryParts();
         }
     }
