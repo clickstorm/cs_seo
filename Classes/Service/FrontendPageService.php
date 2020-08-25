@@ -90,9 +90,9 @@ class FrontendPageService
         if ($this->tableName && $this->tableName != 'pages') {
             // record
             $tableSettings = ConfigurationUtility::getTableSettings($this->tableName);
-            if ($tableSettings['evaluation.']) {
-                $params = str_replace('|', $this->pageInfo['uid'], $tableSettings['evaluation.']['getParams']);
-                $paramId = $tableSettings['evaluation.']['detailPid'];
+            if ($tableSettings['evaluation']) {
+                $params = str_replace('|', $this->pageInfo['uid'], $tableSettings['evaluation']['getParams']);
+                $paramId = $tableSettings['evaluation']['detailPid'];
                 if ($this->pageInfo['sys_language_uid'] > 0) {
                     $params .= '&L=' . $this->pageInfo['sys_language_uid'];
                 }
