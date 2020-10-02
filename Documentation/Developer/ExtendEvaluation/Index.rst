@@ -69,7 +69,7 @@ The key is important. In the results the partial with the path Results\\My will 
 ------------------------------------------------
 
 .. code-block:: typoscript
-   
+
    module.tx_csseo.view.partialRootPaths.10 = EXT:my_ext/Resources/Private/Partials
 
 
