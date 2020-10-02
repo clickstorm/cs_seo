@@ -110,7 +110,7 @@ class FrontendPageService
         $result['url'] = BackendUtility::getPreviewUrl($paramId, '', null, '', '', $params);
 
         $report = [];
-        $content = GeneralUtility::getUrl($result['url'], 0, false, $report);
+        $content = GeneralUtility::getUrl($result['url'], 0, ['X-CS-SEO' => '1'], $report);
 
         if ($report['message'] && $report['message'] != 'OK') {
             /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
