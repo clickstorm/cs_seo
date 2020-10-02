@@ -29,7 +29,8 @@ Add the following yaml content to a file EXT:myext/Configuration/CsSeo/config.ya
 
 .. code-block:: yaml
 
-	records:
+   records:
+
       # new index and table name of the model
       tx_myext_domain_model_mymod:
 
@@ -50,7 +51,7 @@ Add the following yaml content to a file EXT:myext/Configuration/CsSeo/config.ya
 
             # additional params to initialize the detail view, the pipe will be replaced by the uid
             getParams: >-
-            &tx_myext_pi1[controller]=MyController&tx_myext_pi1[action]=MyAction&tx_myext_pi1[mymod]=|
+               &tx_myext_pi1[controller]=MyController&tx_myext_pi1[action]=MyAction&tx_myext_pi1[mymod]=|
 
             # detail pid for the current records, only if set the table will be available
             detailPid: 100
