@@ -68,16 +68,15 @@ The key is important. In the results the partial with the path Results\\My will 
 3. Create a partial and add the partialRootPaths
 ------------------------------------------------
 
-::
-
-module.tx_csseo.view.partialRootPaths.10 = EXT:my_ext/Resources/Private/Partials
+.. code-block:: typoscript
+   
+   module.tx_csseo.view.partialRootPaths.10 = EXT:my_ext/Resources/Private/Partials
 
 
 In the partial folder create a folder called Results. In this folder insert your partial file My.html.
 
 .. code-block:: html
 
-	<?xml version="1.0" encoding="UTF-8" ?>
 	<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
 	      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 	<body>

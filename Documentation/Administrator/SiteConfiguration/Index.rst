@@ -11,9 +11,7 @@
 Site Configuration
 ------------------
 
-In the site configuration you can make some configurations.
-
-|img-3|
+In the site configuration you can set the following options.
 
 Properties
 ^^^^^^^^^^

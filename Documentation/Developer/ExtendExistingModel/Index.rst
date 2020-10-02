@@ -30,26 +30,27 @@ Add the following yaml content to a file EXT:myext/Configuration/CsSeo/config.ya
 .. code-block:: yaml
 
 	records:
-		# new index and table name of the model
-		tx_myext_domain_model_mymod:
+      # new index and table name of the model
+      tx_myext_domain_model_mymod:
 
-		   # if the get parameter is set in the URL the cs_seo properties will be shown
-		   enable: 'GP:tx_myext_pi1|mymod'
+         # if the get parameter is set in the URL the cs_seo properties will be shown
+         enable: 'GP:tx_myext_pi1|mymod'
 
-		   # if the model already has fields like title etc. define them as fallback
-		   fallback:
+         # if the model already has fields like title etc. define them as fallback
+         fallback:
 
-		    # cs_seo title field fallback = mymod title field
-		    title: title
+         # cs_seo title field fallback = mymod title field
+         title: title
 
-		    # cs_seo description field fallback = mymod description field
-		    description: description
+         # cs_seo description field fallback = mymod description field
+         description: description
 
          # enable evaluation for mymod
          evaluation:
+
             # additional params to initialize the detail view, the pipe will be replaced by the uid
             getParams: >-
-               &tx_myext_pi1[controller]=MyController&tx_myext_pi1[action]=MyAction&tx_myext_pi1[mymod]=|
+            &tx_myext_pi1[controller]=MyController&tx_myext_pi1[action]=MyAction&tx_myext_pi1[mymod]=|
 
             # detail pid for the current records, only if set the table will be available
             detailPid: 100

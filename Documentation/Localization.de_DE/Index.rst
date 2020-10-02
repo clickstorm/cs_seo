@@ -9,7 +9,7 @@
 .. _start:
 
 =============================================================
-###PROJECT_NAME### (Deutsch)
+###[clickstorm] SEO### (Deutsch)
 =============================================================
 
 .. only:: html
@@ -32,10 +32,10 @@
 		seo,meta,tags,google,open,graph,facebook,twitter,cards,href,lang,index,suchmaschine
 
 	:Copyright:
-		2016
+		2020
 
 	:Autor:
-		Pascale Beier, Angela Dudtkowski, Marc Hirdes, Andreas Kirilow
+		Pascale Beier, Angela Dudtkowski, Marc Hirdes, Andreas Kirilow, Andreas König
 
 	:E-Mail:
 		hirdes@clickstorm.de
@@ -49,19 +49,3 @@
 
 	Der Inhalt dieses Dokuments bezieht sich auf TYPO3,
 	ein GNU/GPL CMS-Framework auf `www.typo3.org <https://typo3.org/>`__.
-
-
-	**Inhaltsverzeichnis**
-
-.. toctree::
-	:maxdepth: 3
-	:titlesonly:
-
-..	Introduction/Index
-..	UserManual/Index
-..	AdministratorManual/Index
-..	Configuration/Index
-..	DeveloperCorner/Index
-..	KnownProblems/Index
-..	ToDoList/Index
-..	ChangeLog/Index

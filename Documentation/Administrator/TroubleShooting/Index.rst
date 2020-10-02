@@ -31,13 +31,16 @@ the x with the IP from the server.
 
 .. code-block:: apache
 
-	Order allow,deny
+   Order allow,deny
    Allow from xxx.xxx.xxx.xxx
 
 
 You could also use the domain instead of the IP.
 
-Allow from .mydomian.com
+.. code-block:: apache
+
+   Allow from .mydomian.com
+
 
 In my setup I need specific options to handle the evaluation request. How can I solve this?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -46,7 +49,7 @@ e.g. in your .htacces file.
 
 .. code-block:: apache
 
-	RewriteCond %{REQUEST_URI} ^/en [NC]
+   RewriteCond %{REQUEST_URI} ^/en [NC]
    RewriteCond %{HTTP:X-CS-SEO} !^1$
    RewriteRule ^(.*)$ https://en.example.org/$1 [L,R=301]
 
@@ -59,7 +62,7 @@ record or via TypoScript
 
 .. code-block:: typoscript
 
-	plugin.tx_csseo.sitetitle = my site title
+   plugin.tx_csseo.sitetitle = my site title
 
 
 You can also change or remove the symbol via TypoScript, see also
@@ -67,4 +70,4 @@ You can also change or remove the symbol via TypoScript, see also
 
 .. code-block:: typoscript
 
-	config.pageTitleSeparator =
+   config.pageTitleSeparator =
