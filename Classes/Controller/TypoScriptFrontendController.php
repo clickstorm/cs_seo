@@ -170,7 +170,6 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
     public function setSysPageWhereClause()
     {
         $this->sys_page->where_hid_del = '';
-        $this->sys_page->where_groupAccess = '';
     }
 
     /**
