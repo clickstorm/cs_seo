@@ -72,7 +72,7 @@ class MetaTagGeneratorHook
 
         $generators = [
             'robots' => ['value' => ''],
-            'description' => ['value' => $metaData['description']],
+            'description' => ['value' => strip_tags($metaData['description'], '<sup><sub>')],
             'og:title' => ['value' => $metaData['og_title']],
             'og:description' => ['value' => $metaData['og_description']],
             'og:image' => ['value' => $ogImageUrl],
