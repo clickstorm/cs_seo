@@ -99,6 +99,19 @@ class MetaDataService
                                 ];
                             }
                         }
+                        // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
+                        elseif (preg_match('/{([^}]+)}/', $fallbackField)) {
+                        	$curlyBracketSeoField = $fallbackField;
+                        	$matches = [];
+	                        preg_match_all('/{([^}]+)}/', $fallbackField, $matches);
+	                        $matchesWithCurlyBrackets = $matches[0];
+	                        $matchesWithoutCurlyBrackets = $matches[1];
+	                        foreach ($matchesWithCurlyBrackets as $key => $matchWithCurlyBracket) {
+	                        	$recordField = $matchesWithoutCurlyBrackets[$key];
+		                        $curlyBracketSeoField = str_replace($matchWithCurlyBracket, $record[$recordField], $curlyBracketSeoField);
+	                        }
+	                        $metaData[$seoField] = $curlyBracketSeoField;
+                        }
                     }
                 }
 
