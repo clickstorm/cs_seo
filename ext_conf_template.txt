@@ -7,6 +7,9 @@ maxTitle = 57
 # cat=page/020; type=integer; label= Max characters of description
 maxDescription = 156
 
+# cat=page/022; type=boolean; label= Crop description for extended tables, if it exceeds "Max characters of description"
+cropDescription = 0
+
 # cat=page/030; type=integer; label= Max characters of nav title
 maxNavTitle = 50
 

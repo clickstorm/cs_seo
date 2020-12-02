@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Hook;
 
 use Clickstorm\CsSeo\Service\MetaDataService;
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\MetaTag\MetaTagManagerRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -69,6 +70,12 @@ class MetaTagGeneratorHook
 
         $ogImageUrl = $this->getOgImage($metaData, $pluginSettings);
         $twImageUrl = $this->getTwImage($metaData, $pluginSettings);
+
+        // Crop meta description if cropDescription is active
+	    $emConfiguration = ConfigurationUtility::getEmConfiguration();
+	    if($emConfiguration['cropDescription']) {
+		    $metaData['description'] = substr($metaData['description'], 0, $emConfiguration['maxDescription']) . '...';
+	    }
 
         $generators = [
             'robots' => ['value' => ''],
