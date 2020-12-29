@@ -167,7 +167,7 @@ class DatabaseUtility
      *
      * @return void
      */
-    public static function migrateColumnNames($columnNamesToMigrate, $table)
+    public static function migrateColumnNames($columnNamesToMigrate, $table, $columnsNumeric = [])
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
@@ -175,16 +175,29 @@ class DatabaseUtility
 
         foreach ($columnNamesToMigrate as $oldCol => $newCol) {
             $queryBuilder
-                ->update($table, 'u')
-                ->where(
-                    $queryBuilder->expr()->orX(
-                        $queryBuilder->expr()->eq($newCol, $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)),
-                        $queryBuilder->expr()->isNull($newCol)
-                    )
-                )
-                ->set('u.' . $newCol, $queryBuilder->quoteIdentifier('u.' . $oldCol), false)
+                ->update($table, 'u');
+
+            $orx = $queryBuilder->expr()->orX();
+
+            $orx->add(
+                $queryBuilder->expr()->isNull($newCol)
+            );
+
+            if (in_array($oldCol, $columnsNumeric, true)) {
+                $orx->add(
+                    $queryBuilder->expr()->eq($newCol, $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT))
+                );
+            } else {
+                $orx->add(
+                    $queryBuilder->expr()->eq($newCol, $queryBuilder->createNamedParameter('', \PDO::PARAM_STR))
+                );
+            }
+
+            $queryBuilder->where($orx);
+
+            $queryBuilder->set('u.' . $newCol, $queryBuilder->quoteIdentifier('u.' . $oldCol), false)
                 ->execute();
-            
+
             $queryBuilder->resetQueryParts();
         }
     }

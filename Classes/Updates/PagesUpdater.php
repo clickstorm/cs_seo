@@ -34,6 +34,28 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
  ***************************************************************/
 class PagesUpdater implements UpgradeWizardInterface
 {
+    public const COLUMNS_TO_MIGRATE = [
+        'tx_csseo_title' => 'seo_title',
+        'tx_csseo_canonical' => 'canonical_link',
+        'tx_csseo_no_index' => 'no_index',
+        'tx_csseo_no_follow' => 'no_follow',
+        'tx_csseo_og_title' => 'og_title',
+        'tx_csseo_og_description' => 'og_description',
+        'tx_csseo_og_image' => 'og_image',
+        'tx_csseo_tw_title' => 'twitter_title',
+        'tx_csseo_tw_description' => 'twitter_description',
+        'tx_csseo_tw_image' => 'twitter_image'
+    ];
+    public const COLUMNS_NUMERIC = [
+        'tx_csseo_no_index',
+        'tx_csseo_no_follow',
+        'tx_csseo_og_image',
+        'tx_csseo_tw_image'
+    ];
+    public const COLUMNS_WITH_FAL = [
+        'tx_csseo_og_image' => 'og_image',
+        'tx_csseo_tw_image' => 'twitter_image'
+    ];
     public static $identifier = 'tx_csseo_pages';
 
     /**
@@ -77,27 +99,9 @@ class PagesUpdater implements UpgradeWizardInterface
      */
     public function executeUpdate(): bool
     {
-        $fieldsToMigrate = [
-            'tx_csseo_title' => 'seo_title',
-            'tx_csseo_canonical' => 'canonical_link',
-            'tx_csseo_no_index' => 'no_index',
-            'tx_csseo_no_follow' => 'no_follow',
-            'tx_csseo_og_title' => 'og_title',
-            'tx_csseo_og_description' => 'og_description',
-            'tx_csseo_og_image' => 'og_image',
-            'tx_csseo_tw_title' => 'twitter_title',
-            'tx_csseo_tw_description' => 'twitter_description',
-            'tx_csseo_tw_image' => 'twitter_image'
-        ];
 
-        DatabaseUtility::migrateColumnNames($fieldsToMigrate, 'pages');
-
-        $content = [
-            'tx_csseo_og_image' => 'og_image',
-            'tx_csseo_tw_image' => 'twitter_image'
-        ];
-
-        DatabaseUtility::migrateRelatedColumnContent($content, 'fieldname', 'sys_file_reference', 'pages');
+        DatabaseUtility::migrateColumnNames(self::COLUMNS_TO_MIGRATE, 'pages', self::COLUMNS_NUMERIC);
+        DatabaseUtility::migrateRelatedColumnContent(self::COLUMNS_WITH_FAL, 'fieldname', 'sys_file_reference', 'pages');
 
         return true;
     }
