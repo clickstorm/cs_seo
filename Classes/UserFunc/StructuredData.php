@@ -143,7 +143,7 @@ class StructuredData
 
             $siteLinks[] = [
                 'link' => $cObject->typoLink_URL($typoLinkConf),
-                'name' => $page['title'],
+                'name' => $page['nav_title'] ?: $page['title'],
             ];
         }
 
