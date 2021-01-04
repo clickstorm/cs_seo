@@ -84,6 +84,7 @@ class EvaluationCommand extends Command
      */
     public function ajaxUpdate(\Psr\Http\Message\ServerRequestInterface $request)
     {
+        // @extensionScannerIgnoreLine
         $this->init();
 
         // get parameter
@@ -312,7 +313,9 @@ class EvaluationCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // @extensionScannerIgnoreLine
         $this->init();
+
         if ($input->hasArgument('tableName') && !empty($input->getArgument('tableName'))) {
             $this->tableName = $input->getArgument('tableName');
         }

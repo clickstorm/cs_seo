@@ -75,6 +75,7 @@ class PageHook
     public function render(array $params, PageLayoutController $parentObject)
     {
         $tsConfig = BackendUtility::getPagesTSconfig($parentObject->id);
+        // @extensionScannerIgnoreLine
         if ($parentObject->MOD_SETTINGS['function'] == 1
             && !$tsConfig['mod.']['web_layout.']['tx_csseo.']['disable']
         ) {
@@ -112,6 +113,7 @@ class PageHook
                     $this->resourcesPath . 'Private/Templates/PageHook.html'
                 );
 
+                // @extensionScannerIgnoreLine
                 $results = $this->getResults($pageInfo, $parentObject->MOD_SETTINGS['language']);
                 $score = $results['Percentage'];
                 unset($results['Percentage']);

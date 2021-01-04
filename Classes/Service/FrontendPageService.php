@@ -110,7 +110,7 @@ class FrontendPageService
         // build url
         $result['url'] = BackendUtility::getPreviewUrl($paramId, '', null, '', '', $params);
 
-        // fetch url 
+        // fetch url
         $response = GeneralUtility::makeInstance(RequestFactory::class)->request($result['url'], 'GET',
             ['headers' => ['X-CS-SEO' => '1']]);
 

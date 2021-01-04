@@ -104,6 +104,7 @@ class MetaTagGeneratorHook
             $manager = $metaTagManagerRegistry->getManagerForProperty($key);
             $manager->removeProperty($key);
             if (!empty($params['value'])) {
+                // @extensionScannerIgnoreLine
                 $manager->addProperty($key, $params['value']);
             }
         }

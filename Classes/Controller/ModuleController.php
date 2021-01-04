@@ -87,7 +87,7 @@ class ModuleController extends ActionController
     /**
      * @var array
      */
-    protected $modSharedTSconfig = [];
+    protected $modTSconfig = [];
 
     /**
      * @var array
@@ -762,12 +762,13 @@ class ModuleController extends ActionController
     {
         // initialize page/be_user TSconfig settings
         $this->id = (int)GeneralUtility::_GP('id');
-        $this->modSharedTSconfig = BackendUtility::getPagesTSconfig($this->id)['mod.']['SHARED.'] ?? [];
+        $this->modTSconfig = BackendUtility::getPagesTSconfig($this->id)['mod.']['SHARED.'] ?? [];
 
         // initialize settings of the module
         $this->initializeModParams();
         if (!$this->request->hasArgument('action') && $this->modParams['action']) {
             $this->request->setArgument('action', $this->modParams['action']);
+            // @extensionScannerIgnoreLine
             $this->forward($this->modParams['action']);
         }
 
@@ -827,9 +828,10 @@ class ModuleController extends ActionController
                 $languages[$lRow['uid']] = $lRow['hidden'] ? '(' . $lRow['title'] . ')' : $lRow['title'];
             }
         }
+        
         // Setting alternative default label:
-        if ($this->modSharedTSconfig['properties']['defaultLanguageLabel']) {
-            $languages[0] = $this->modSharedTSconfig['properties']['defaultLanguageLabel'];
+        if ($this->modTSconfig['properties']['defaultLanguageLabel']) {
+            $languages[0] = $this->modTSconfig['properties']['defaultLanguageLabel'];
         }
 
         return $languages;
