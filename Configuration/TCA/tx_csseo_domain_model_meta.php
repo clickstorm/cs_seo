@@ -27,11 +27,6 @@ return [
         'searchFields' => 'title,description,',
         'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/mod.png'
     ],
-    'interface' => [
-        'showRecordFieldList' => 'hidden, sys_language_uid, l10n_parent, l10n_diffsource, title, description,
-								  canonical, no_index, no_follow, og_title, og_description, og_image, tw_title, tw_description,
-								  tw_image, tw_creator, tw_site',
-    ],
     'types' => [
         '1' => [
             'showitem' => '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,
@@ -96,7 +91,6 @@ return [
         ],
         'l10n_parent' => [
             'displayCond' => 'FIELD:sys_language_uid:>:0',
-            'exclude' => 1,
             'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
             'config' => [
                 'type' => 'select',

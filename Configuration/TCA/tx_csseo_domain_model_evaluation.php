@@ -20,9 +20,6 @@ return [
         'searchFields' => 'title,description,',
         'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/mod.png'
     ],
-    'interface' => [
-        'showRecordFieldList' => 'results',
-    ],
     'types' => [
         '1' => ['showitem' => 'results'],
     ],
