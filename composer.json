@@ -1,41 +1,43 @@
 {
-  "name": "clickstorm/cs_seo",
-  "type": "typo3-cms-extension",
-  "description": "[clickstorm] SEO",
-  "keywords": [
-	"TYPO3",
-	"extension",
-	"clickstorm",
-	"SEO"
-  ],
-  "homepage": "https://www.clickstorm.de",
-  "license": ["GPL-2.0-or-later"],
-  "require": {
-	"typo3/cms-core": "^10.0",
-	"typo3/cms-seo": "^10.0"
-  },
-  "require-dev": {
-	"nimut/testing-framework": "*"
-  },
-  "suggest": {
-	"typo3/scheduler": "^10.0"
-  },
-  "replace": {
-	"typo3-ter/cs_seo": "self.version"
-  },
-  "autoload": {
-	"psr-4": {
-	  "Clickstorm\\CsSeo\\": "Classes/"
+	"name": "clickstorm/cs_seo",
+	"type": "typo3-cms-extension",
+	"description": "[clickstorm] SEO",
+	"keywords": [
+		"TYPO3",
+		"extension",
+		"clickstorm",
+		"SEO"
+	],
+	"homepage": "https://www.clickstorm.de",
+	"license": [
+		"GPL-2.0-or-later"
+	],
+	"require": {
+		"typo3/cms-core": "^10.0",
+		"typo3/cms-seo": "^10.0"
+	},
+	"require-dev": {
+		"nimut/testing-framework": "*"
+	},
+	"suggest": {
+		"typo3/scheduler": "^10.0"
+	},
+	"replace": {
+		"typo3-ter/cs_seo": "self.version"
+	},
+	"autoload": {
+		"psr-4": {
+			"Clickstorm\\CsSeo\\": "Classes/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Clickstorm\\CsSeo\\Tests\\": "Tests"
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "cs_seo"
+		}
 	}
-  },
-  "autoload-dev": {
-	"psr-4": {
-	  "Clickstorm\\CsSeo\\Tests\\": "Tests"
-	}
-  },
-  "extra": {
-	"branch-alias": {
-	  "dev-master": "5.x-dev"
-	}
-  }
 }
