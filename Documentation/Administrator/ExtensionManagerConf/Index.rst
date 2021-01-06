@@ -26,6 +26,7 @@ Properties
 	`basic.useAdditionalCanonicalizedUrlParametersOnly`_    :ref:`t3tsref:data-type-boolean`      false
 	`page.maxTitle`_                                        :ref:`t3tsref:data-type-integer`      57
 	`page.maxDescription`_                                  :ref:`t3tsref:data-type-integer`      156
+	`page.cropDescription`_                                 :ref:`t3tsref:data-type-boolean`      false
 	`page.maxNavTitle`_                                     :ref:`t3tsref:data-type-integer`      50
 	`evaluation.inPageModule`_                              :ref:`t3tsref:data-type-integer`      0
 	`evaluation.evaluationDoktypes`_                        :ref:`t3tsref:data-type-string`       1
@@ -88,6 +89,22 @@ Max characters of description
          :ref:`t3tsref:data-type-integer`
    Description
          The recommended maximum number of characters for the meta description tag.
+
+
+.. _page.cropDescription:
+
+Crop description
+""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         cropDescription
+   Data type
+         :ref:`t3tsref:data-type-boolean`
+   Description
+         Crop description for extended tables, if it exceeds "Max characters of description".
+
 
 .. _page.maxNavTitle:
 

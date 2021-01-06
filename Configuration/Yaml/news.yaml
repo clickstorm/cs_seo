@@ -1,22 +1,29 @@
 # This is an example how to extend news records, use it via imports:
 # imports:
 #   - { resource: "EXT:cs_seo/Configuration/Yaml/news.yaml" }
-
 records:
+
   # new index and table name of the model
   tx_news_domain_model_news:
+
     # getText. Returns news uid. If set, news meta tags are shown.
     enable: 'GP:tx_news_pi1|news'
 
+
     # if the model already has fields like title etc. define them as fallback
     fallback:
+
       # cs_seo title field fallback = news title field
       title: title
+
       # cs_seo description field fallback = news description field
-      description: description
+      # also more fields possible within curly brackets, e.g. description: {teaser} - {author}
+      description: teaser
+
 
     # enable evaluation for news
     evaluation:
+
       # additional params to initialize the detail view, the pipe will be replaced by the uid
       getParams: >-
         &tx_news_pi1[controller]=News&tx_news_pi1[action]=detail&tx_news_pi1[news]=|

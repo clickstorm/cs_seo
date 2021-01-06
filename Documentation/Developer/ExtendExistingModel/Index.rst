@@ -40,11 +40,12 @@ Add the following yaml content to a file EXT:myext/Configuration/CsSeo/config.ya
          # if the model already has fields like title etc. define them as fallback
          fallback:
 
-         # cs_seo title field fallback = mymod title field
-         title: title
+            # cs_seo title field fallback = mymod title field
+            title: title
 
-         # cs_seo description field fallback = mymod description field
-         description: description
+            # cs_seo description field fallback = mymod description field
+            # also more fields possible within curly brackets, e.g. description: {teaser} - {company}
+            description: description
 
          # enable evaluation for mymod
          evaluation:
