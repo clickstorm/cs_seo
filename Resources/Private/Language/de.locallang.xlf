@@ -18,8 +18,8 @@
 			<target>Es konnte kein Seitentyp mit der Nummer 654 gefunden werden. Das TypoScript der Extension 'cs_seo' muss in das Root-Template eingebunden werden.</target>
 		</trans-unit>
 		<trans-unit id="error.no_tsfe" approved="yes">
-			<source>The TypoScript of the current page could not be loaded.</source>
-			<target>Das TypoScript dieser Seite konnte nicht geladen werden.</target>
+			<source>The TypoScript of the current page could not be loaded. Either it is not configured or no site configuration was found.</source>
+			<target>Das TypoScript dieser Seite konnte nicht geladen werden. Entweder ist es nicht konfiguriert oder es wurde keine Seitenkonfiguration gefunden.</target>
 		</trans-unit>
 		<trans-unit id="evaluation.description" approved="yes">
 			<source>Meta Description</source>
