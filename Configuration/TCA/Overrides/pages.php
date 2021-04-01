@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3_MODE') or die();
 
 // get extension configurations
 $extConf = \Clickstorm\CsSeo\Utility\ConfigurationUtility::getEmConfiguration();

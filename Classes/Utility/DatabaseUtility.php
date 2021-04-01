@@ -2,6 +2,8 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
+use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Database\QueryGenerator;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -115,8 +117,8 @@ class DatabaseUtility
     public static function getFile($table, $field, $uid)
     {
         /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
-        $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Core\Resource\FileRepository::class
+        $fileRepository = GeneralUtility::makeInstance(
+            FileRepository::class
         );
 
         $fileObjects = $fileRepository->findByRelation(
@@ -144,7 +146,7 @@ class DatabaseUtility
             return $pidList;
         }
 
-        $queryGenerator = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\QueryGenerator::class);
+        $queryGenerator = GeneralUtility::makeInstance(QueryGenerator::class);
         $recursiveStoragePids = $pidList;
         $storagePids = GeneralUtility::intExplode(',', $pidList);
         foreach ($storagePids as $startPid) {

@@ -2,6 +2,9 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use TYPO3\CMS\Backend\Routing\UriBuilder;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 /***************************************************************
  *
  *  Copyright notice
@@ -41,7 +44,7 @@ use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Lang\LanguageService;
+use TYPO3\CMS\Core\Localization\LanguageService;
 
 /**
  * Class ModuleController
@@ -154,7 +157,7 @@ class ModuleController extends ActionController
      *
      * @param \TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository
      */
-    public function injectPageRepository(\TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository)
+    public function injectPageRepository(PageRepository $pageRepository)
     {
         $this->pageRepository = $pageRepository;
     }
@@ -330,7 +333,7 @@ class ModuleController extends ActionController
     /**
      * Returns the language service
      *
-     * @return LanguageService
+     * @return \TYPO3\CMS\Core\Localization\LanguageService
      */
     protected function getLanguageService()
     {
@@ -514,7 +517,7 @@ class ModuleController extends ActionController
         foreach ($this->menuSetup as $menuKey) {
             $menuItem = $menu->makeMenuItem();
             /** @var \TYPO3\CMS\Backend\Routing\UriBuilder $uriBuilder */
-            $uriBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Backend\Routing\UriBuilder::class);
+            $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
             $menuItem->setHref((string)$uriBuilder->buildUriFromRoute(
                 'web_CsSeoMod1',
                 ['tx_csseo_web_csseomod1' => ['action' => $menuKey, 'Controller' => 'Module']]
@@ -706,7 +709,7 @@ class ModuleController extends ActionController
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function update(\Psr\Http\Message\ServerRequestInterface $request)
+    public function update(ServerRequestInterface $request)
     {
         // get parameter
         $postdata = file_get_contents('php://input');
@@ -743,7 +746,7 @@ class ModuleController extends ActionController
     protected function getDataHandler()
     {
         if (!isset($this->dataHandler)) {
-            $this->dataHandler = GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
+            $this->dataHandler = GeneralUtility::makeInstance(DataHandler::class);
             $this->dataHandler->start(null, null);
         }
 

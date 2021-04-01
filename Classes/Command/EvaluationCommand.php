@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Command;
 
+use Psr\Http\Message\ServerRequestInterface;
 /***************************************************************
  *
  *  Copyright notice
@@ -82,7 +83,7 @@ class EvaluationCommand extends Command
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    public function ajaxUpdate(\Psr\Http\Message\ServerRequestInterface $request)
+    public function ajaxUpdate(ServerRequestInterface $request)
     {
         // @extensionScannerIgnoreLine
         $this->init();

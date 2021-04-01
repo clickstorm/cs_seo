@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
+use TYPO3\CMS\Extbase\Service\EnvironmentService;
 /***************************************************************
  *
  *  Copyright notice
@@ -101,7 +102,7 @@ class TSFEUtility
         $this->lang = (int)(is_array($lang) ? array_shift($lang) : $lang);
         $this->typeNum = $typeNum;
 
-        $environmentService = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Service\EnvironmentService::class);
+        $environmentService = GeneralUtility::makeInstance(EnvironmentService::class);
 
         if (!isset($GLOBALS['TSFE'])
             || ($environmentService->isEnvironmentInBackendMode()
@@ -129,7 +130,7 @@ class TSFEUtility
         try {
             if (!is_object($GLOBALS['TT'])) {
                 $GLOBALS['TT'] = GeneralUtility::makeInstance(TimeTracker::class, false);
-                $GLOBALS['TT']->start();
+                GeneralUtility::makeInstance(TimeTracker::class)->start();
             }
 
             $context = GeneralUtility::makeInstance(Context::class);

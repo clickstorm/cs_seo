@@ -1,4 +1,12 @@
 services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Clickstorm\CsSeo\:
+    resource: '../Classes/*'
+    
   Clickstorm\CsSeo\Hook\SqlExpectedSchemaHook:
     tags:
       - name: event.listener

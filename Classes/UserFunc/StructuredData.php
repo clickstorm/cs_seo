@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\UserFunc;
 
+use Clickstorm\CsSeo\Utility\TSFEUtility;
 /***************************************************************
  *
  *  Copyright notice
@@ -49,7 +50,7 @@ class StructuredData
     public function __construct()
     {
         $this->tsfeUtility =
-            GeneralUtility::makeInstance(\Clickstorm\CsSeo\Utility\TSFEUtility::class, $GLOBALS['TSFE']->id);
+            GeneralUtility::makeInstance(TSFEUtility::class, $GLOBALS['TSFE']->id);
     }
 
     /**

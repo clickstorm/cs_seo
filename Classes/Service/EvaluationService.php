@@ -2,6 +2,12 @@
 
 namespace Clickstorm\CsSeo\Service;
 
+use Clickstorm\CsSeo\Evaluation\H1Evaluator;
+use Clickstorm\CsSeo\Evaluation\H2Evaluator;
+use Clickstorm\CsSeo\Evaluation\TitleEvaluator;
+use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
+use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
+use Clickstorm\CsSeo\Evaluation\ImagesEvaluator;
 /***************************************************************
  *
  *  Copyright notice
@@ -102,12 +108,12 @@ class EvaluationService
 
         // default
         $availableEvaluators = [
-            'H1' => \Clickstorm\CsSeo\Evaluation\H1Evaluator::class,
-            'H2' => \Clickstorm\CsSeo\Evaluation\H2Evaluator::class,
-            'Title' => \Clickstorm\CsSeo\Evaluation\TitleEvaluator::class,
-            'Description' => \Clickstorm\CsSeo\Evaluation\DescriptionEvaluator::class,
-            'Keyword' => \Clickstorm\CsSeo\Evaluation\KeywordEvaluator::class,
-            'Images' => \Clickstorm\CsSeo\Evaluation\ImagesEvaluator::class
+            'H1' => H1Evaluator::class,
+            'H2' => H2Evaluator::class,
+            'Title' => TitleEvaluator::class,
+            'Description' => DescriptionEvaluator::class,
+            'Keyword' => KeywordEvaluator::class,
+            'Images' => ImagesEvaluator::class
         ];
 
         // additional evaluators
