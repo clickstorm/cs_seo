@@ -32,7 +32,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class RobotsEvaluator
- *
  */
 class RobotsDisallowAllEvaluator
 {

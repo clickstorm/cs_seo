@@ -6,7 +6,7 @@ services:
 
   Clickstorm\CsSeo\:
     resource: '../Classes/*'
-    
+
   Clickstorm\CsSeo\Hook\SqlExpectedSchemaHook:
     tags:
       - name: event.listener

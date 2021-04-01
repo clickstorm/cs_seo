@@ -29,7 +29,6 @@ namespace Clickstorm\CsSeo\Evaluation;
 
 /**
  * Class AbstractEvaluator
- *
  */
 abstract class AbstractEvaluator implements EvaluationInterface
 {
@@ -111,9 +110,8 @@ abstract class AbstractEvaluator implements EvaluationInterface
         $elements = $this->domDocument->getElementsByTagName($tagName);
         if ($elements->item(0)) {
             return $elements->item(0)->textContent;
-        } else {
-            return '';
         }
+        return '';
     }
 
     /**

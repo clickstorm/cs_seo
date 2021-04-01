@@ -2,12 +2,6 @@
 
 namespace Clickstorm\CsSeo\Service;
 
-use Clickstorm\CsSeo\Evaluation\H1Evaluator;
-use Clickstorm\CsSeo\Evaluation\H2Evaluator;
-use Clickstorm\CsSeo\Evaluation\TitleEvaluator;
-use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
-use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
-use Clickstorm\CsSeo\Evaluation\ImagesEvaluator;
 /***************************************************************
  *
  *  Copyright notice
@@ -34,6 +28,12 @@ use Clickstorm\CsSeo\Evaluation\ImagesEvaluator;
  ***************************************************************/
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
+use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
+use Clickstorm\CsSeo\Evaluation\H1Evaluator;
+use Clickstorm\CsSeo\Evaluation\H2Evaluator;
+use Clickstorm\CsSeo\Evaluation\ImagesEvaluator;
+use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
+use Clickstorm\CsSeo\Evaluation\TitleEvaluator;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -41,7 +41,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * service to evaluate a html page
  *
  * Class EvaluationService
- *
  */
 class EvaluationService
 {
@@ -78,7 +77,7 @@ class EvaluationService
 
         $this->initEvaluators();
 
-        $domDocument = new \DOMDocument;
+        $domDocument = new \DOMDocument();
         @$domDocument->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
 
         foreach ($this->evaluators as $evaluatorName => $evaluatorClass) {

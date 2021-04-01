@@ -36,7 +36,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Get Extension Configuration
  *
  * Class ConfigurationUtility
- *
  */
 class ConfigurationUtility
 {

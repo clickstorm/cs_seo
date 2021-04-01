@@ -2,7 +2,6 @@
 
 namespace Clickstorm\CsSeo\Domain\Repository;
 
-use TYPO3\CMS\Extbase\Persistence\Repository;
 /***************************************************************
  *
  *  Copyright notice
@@ -29,10 +28,10 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
  ***************************************************************/
 
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Class EvaluationRepository
- *
  */
 class EvaluationRepository extends Repository
 {

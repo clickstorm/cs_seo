@@ -46,12 +46,12 @@ class MetaDataService
     /**
      * @var PageRepository
      */
-    protected $pageRepository = null;
+    protected $pageRepository;
 
     /**
      * @var \TYPO3\CMS\Core\Context\AspectInterface|\TYPO3\CMS\Core\Context\LanguageAspect|null
      */
-    protected $languageAspect = null;
+    protected $languageAspect;
 
     public function __construct()
     {
@@ -101,16 +101,16 @@ class MetaDataService
                         }
                         // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
                         elseif (preg_match('/{([^}]+)}/', $fallbackField)) {
-                        	$curlyBracketSeoField = $fallbackField;
-                        	$matches = [];
-	                        preg_match_all('/{([^}]+)}/', $fallbackField, $matches);
-	                        $matchesWithCurlyBrackets = $matches[0];
-	                        $matchesWithoutCurlyBrackets = $matches[1];
-	                        foreach ($matchesWithCurlyBrackets as $key => $matchWithCurlyBracket) {
-	                        	$recordField = $matchesWithoutCurlyBrackets[$key];
-		                        $curlyBracketSeoField = str_replace($matchWithCurlyBracket, $record[$recordField], $curlyBracketSeoField);
-	                        }
-	                        $metaData[$seoField] = $curlyBracketSeoField;
+                            $curlyBracketSeoField = $fallbackField;
+                            $matches = [];
+                            preg_match_all('/{([^}]+)}/', $fallbackField, $matches);
+                            $matchesWithCurlyBrackets = $matches[0];
+                            $matchesWithoutCurlyBrackets = $matches[1];
+                            foreach ($matchesWithCurlyBrackets as $key => $matchWithCurlyBracket) {
+                                $recordField = $matchesWithoutCurlyBrackets[$key];
+                                $curlyBracketSeoField = str_replace($matchWithCurlyBracket, $record[$recordField], $curlyBracketSeoField);
+                            }
+                            $metaData[$seoField] = $curlyBracketSeoField;
                         }
                     }
                 }
@@ -138,7 +138,7 @@ class MetaDataService
     {
         foreach ($tables as $tableName => $tableSettings) {
             if (isset($tableSettings['enable'])) {
-                $uid = intval($cObj->getData($tableSettings['enable']));
+                $uid = (int)($cObj->getData($tableSettings['enable']));
 
                 if ($uid) {
                     if ($checkOnly) {

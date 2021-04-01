@@ -31,7 +31,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class GetValueViewHelper
- *
  */
 class GetValueViewHelper extends AbstractViewHelper
 {

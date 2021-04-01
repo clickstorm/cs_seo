@@ -29,7 +29,6 @@ namespace Clickstorm\CsSeo\Evaluation;
 
 /**
  * Interface EvaluationInterface
- *
  */
 interface EvaluationInterface
 {

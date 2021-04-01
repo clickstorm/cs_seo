@@ -35,7 +35,6 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * Hook to extend the tca
  *
  * Class TCA
- *
  */
 class TableConfigurationPostProcessingHook implements TableConfigurationPostProcessingHookInterface
 {
@@ -43,8 +42,6 @@ class TableConfigurationPostProcessingHook implements TableConfigurationPostProc
     /**
      * Function which may process data created / registered by extTables
      * scripts (f.e. modifying TCA data of all extensions)
-     *
-     * @return void
      */
     public function processData()
     {

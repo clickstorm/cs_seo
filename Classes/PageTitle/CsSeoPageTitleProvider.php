@@ -36,7 +36,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Render the page title tag with cs_seo settings
  *
  * Class PageTitle
- *
  */
 class CsSeoPageTitleProvider extends AbstractPageTitleProvider
 {
@@ -68,8 +67,6 @@ class CsSeoPageTitleProvider extends AbstractPageTitleProvider
 
     /**
      * Set the TSFE
-     *
-     * @return void
      */
     protected function initialize()
     {

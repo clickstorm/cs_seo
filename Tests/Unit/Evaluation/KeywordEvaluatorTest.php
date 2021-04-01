@@ -31,8 +31,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-/**
- */
 class KeywordEvaluatorTest extends UnitTestCase
 {
 
@@ -41,9 +39,6 @@ class KeywordEvaluatorTest extends UnitTestCase
      */
     protected $generalEvaluationMock;
 
-    /**
-     * @return void
-     */
     public function setUp()
     {
         $this->generalEvaluationMock = $this->getAccessibleMock(
@@ -53,9 +48,6 @@ class KeywordEvaluatorTest extends UnitTestCase
         );
     }
 
-    /**
-     * @return void
-     */
     public function tearDown()
     {
         unset($this->generalEvaluationMock);
@@ -68,7 +60,6 @@ class KeywordEvaluatorTest extends UnitTestCase
      * @param mixed $expectedResult
      *
      * @dataProvider evaluateTestDataProvider
-     * @return void
      * @test
      */
     public function evaluateTest($html, $keyword, $expectedResult)
@@ -82,7 +73,7 @@ class KeywordEvaluatorTest extends UnitTestCase
         ksort($expectedResult);
         ksort($result);
 
-        $this->assertEquals(json_encode($expectedResult), json_encode($result));
+        self::assertEquals(json_encode($expectedResult), json_encode($result));
     }
 
     /**

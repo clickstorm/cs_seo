@@ -2,10 +2,10 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
-use TYPO3\CMS\Core\Resource\FileRepository;
-use TYPO3\CMS\Core\Database\QueryGenerator;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Database\QueryGenerator;
+use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
@@ -38,7 +38,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Access to the Database
  *
  * Class DatabaseUtility
- *
  */
 class DatabaseUtility
 {
@@ -166,8 +165,6 @@ class DatabaseUtility
      *
      * @param array $columnNamesToMigrate
      * @param string $table
-     *
-     * @return void
      */
     public static function migrateColumnNames($columnNamesToMigrate, $table)
     {
@@ -198,8 +195,6 @@ class DatabaseUtility
      * @param string $column
      * @param string $table
      * @param string $tableRelated
-     *
-     * @return void
      */
     public static function migrateRelatedColumnContent($content, $column, $table, $tableRelated)
     {

@@ -38,7 +38,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * crawl the page
  *
  * Class FrontendPageService
- *
  */
 class FrontendPageService
 {
@@ -111,8 +110,11 @@ class FrontendPageService
         $result['url'] = BackendUtility::getPreviewUrl($paramId, '', null, '', '', $params);
 
         // fetch url
-        $response = GeneralUtility::makeInstance(RequestFactory::class)->request($result['url'], 'GET',
-            ['headers' => ['X-CS-SEO' => '1']]);
+        $response = GeneralUtility::makeInstance(RequestFactory::class)->request(
+            $result['url'],
+            'GET',
+            ['headers' => ['X-CS-SEO' => '1']]
+        );
 
         if (in_array($response->getStatusCode(), [0, 200])) {
             $result['content'] = $response->getBody()->getContents();

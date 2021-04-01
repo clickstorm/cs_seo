@@ -2,7 +2,7 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
-use TYPO3\CMS\Extbase\Service\EnvironmentService;
+use Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
 /***************************************************************
  *
  *  Copyright notice
@@ -28,7 +28,6 @@ use TYPO3\CMS\Extbase\Service\EnvironmentService;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\TypoScriptAspect;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
@@ -40,6 +39,7 @@ use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Service\EnvironmentService;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
@@ -47,7 +47,6 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
  * own TSFE to render TSFE in the backend
  *
  * Class TSFEUtility
- *
  */
 class TSFEUtility
 {
@@ -122,7 +121,6 @@ class TSFEUtility
     /**
      * initialize the TSFE for the backend
      *
-     * @return void
      * @throws \TYPO3\CMS\Core\Exception
      */
     protected function initTSFE()

@@ -31,7 +31,6 @@ use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 
 /**
  * Class H2Evaluator
- *
  */
 class H2Evaluator extends AbstractEvaluator
 {

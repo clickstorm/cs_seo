@@ -30,8 +30,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-/**
- */
 class DescriptionEvaluatorTest extends UnitTestCase
 {
 
@@ -50,9 +48,6 @@ class DescriptionEvaluatorTest extends UnitTestCase
      */
     protected $max = 160;
 
-    /**
-     * @return void
-     */
     public function setUp()
     {
         $this->generalEvaluationMock =
@@ -65,9 +60,6 @@ class DescriptionEvaluatorTest extends UnitTestCase
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils'] = '';
     }
 
-    /**
-     * @return void
-     */
     public function tearDown()
     {
         unset($this->generalEvaluationMock);
@@ -82,7 +74,6 @@ class DescriptionEvaluatorTest extends UnitTestCase
      * @param mixed $expectedResult
      *
      * @dataProvider evaluateTestDataProvider
-     * @return void
      * @test
      */
     public function evaluateTest($html, $expectedResult)
@@ -95,7 +86,7 @@ class DescriptionEvaluatorTest extends UnitTestCase
         ksort($expectedResult);
         ksort($result);
 
-        $this->assertEquals(json_encode($expectedResult), json_encode($result));
+        self::assertEquals(json_encode($expectedResult), json_encode($result));
     }
 
     /**

@@ -2,9 +2,9 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
-use TYPO3\CMS\Backend\Routing\UriBuilder;
-use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use Clickstorm\CsSeo\Utility\DatabaseUtility;
+use Clickstorm\CsSeo\Utility\TSFEUtility;
 /***************************************************************
  *
  *  Copyright notice
@@ -30,25 +30,23 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Clickstorm\CsSeo\Utility\ConfigurationUtility;
-use Clickstorm\CsSeo\Utility\DatabaseUtility;
-use Clickstorm\CsSeo\Utility\TSFEUtility;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
-use TYPO3\CMS\Core\Localization\LanguageService;
 
 /**
  * Class ModuleController
- *
  */
 class ModuleController extends ActionController
 {
@@ -64,7 +62,7 @@ class ModuleController extends ActionController
      *
      * @var \TYPO3\CMS\Core\Domain\Repository\PageRepository
      */
-    protected $pageRepository = null;
+    protected $pageRepository;
 
     /**
      * @var \Clickstorm\CsSeo\Domain\Repository\EvaluationRepository
@@ -121,19 +119,16 @@ class ModuleController extends ActionController
     protected $imageFieldNames = ['tx_csseo_og_image', 'tx_csseo_tw_image'];
 
     /**
-     *
      * @var array
      */
     protected $jsFiles = [];
 
     /**
-     *
      * @var array
      */
     protected $requireJsModules = [];
 
     /**
-     *
      * @var array
      */
     protected $cssFiles = [];
@@ -190,7 +185,6 @@ class ModuleController extends ActionController
 
     /**
      * process all fields for the UI grid JSON
-     *
      */
     protected function processFields()
     {
@@ -756,7 +750,6 @@ class ModuleController extends ActionController
     /**
      * Initialize action
      *
-     * @return void
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
@@ -831,7 +824,7 @@ class ModuleController extends ActionController
                 $languages[$lRow['uid']] = $lRow['hidden'] ? '(' . $lRow['title'] . ')' : $lRow['title'];
             }
         }
-        
+
         // Setting alternative default label:
         if ($this->modTSconfig['properties']['defaultLanguageLabel']) {
             $languages[0] = $this->modTSconfig['properties']['defaultLanguageLabel'];

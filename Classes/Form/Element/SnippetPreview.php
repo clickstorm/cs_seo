@@ -43,7 +43,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  * Google Search Results Preview
  *
  * Class PageTitle
- *
  */
 class SnippetPreview extends AbstractNode
 {

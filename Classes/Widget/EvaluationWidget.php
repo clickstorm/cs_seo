@@ -1,4 +1,5 @@
 <?php
+
 namespace Clickstorm\CsSeo\Widget;
 
 use TYPO3\CMS\Dashboard\Widgets\WidgetInterface;
