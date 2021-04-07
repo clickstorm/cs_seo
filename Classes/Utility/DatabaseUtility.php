@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\QueryGenerator;
@@ -216,5 +217,35 @@ class DatabaseUtility
 
             $queryBuilder->resetQueryParts();
         }
+    }
+
+    public static function getLanguagesInBackend(int $pageId = 0): array
+    {
+        $languages[0] = 'Default';
+
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_language');
+
+        $res = $queryBuilder->select('*')
+            ->from('sys_language')
+            ->orderBy('title')
+            ->execute();
+
+        while ($lRow = $res->fetch()) {
+            if (GlobalsUtility::getBackendUser()->checkLanguageAccess($lRow['uid'])) {
+                $languages[$lRow['uid']] = $lRow['hidden'] ? '(' . $lRow['title'] . ')' : $lRow['title'];
+            }
+        }
+
+        // Setting alternative default label:
+        if($pageId) {
+            $modTSconfig = BackendUtility::getPagesTSconfig($pageId)['mod.']['SHARED.'] ?? [];
+            if ($modTSconfig['properties']['defaultLanguageLabel']) {
+                $languages[0] = $modTSconfig['properties']['defaultLanguageLabel'];
+            }
+        }
+
+
+        return $languages;
     }
 }

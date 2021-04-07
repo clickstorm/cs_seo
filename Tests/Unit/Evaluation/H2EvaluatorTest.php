@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickstorm\CsSeo\Tests\Utility;
+namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\H2Evaluator;
 use Nimut\TestingFramework\TestCase\UnitTestCase;

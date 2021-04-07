@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickstorm\CsSeo\Tests\Utility;
+namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
@@ -206,10 +206,10 @@ class KeywordEvaluatorTest extends UnitTestCase
 						<meta name="description" content="Test in TYPO3 like Test TYPO3">
 				</head>
 				<body>
-					Sed augue ipsum, egestas nec, vestibulum et, malesuada adipiscing, dui. Praesent venenatis metus at 
+					Sed augue ipsum, egestas nec, vestibulum et, malesuada adipiscing, dui. Praesent venenatis metus at
 					tortor pulvinar varius. Test TYPO3 Vestibulum volutpat pretium libero. Pellentesque posuere.
-					Quisque id odio. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. 
-					Pellentesque egestas, neque sit amet convallis pulvinar, justo nulla eleifend augue, ac auctor 
+					Quisque id odio. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam.
+					Pellentesque egestas, neque sit amet convallis pulvinar, justo nulla eleifend augue, ac auctor
 					orci leo non est. Tests TYPO3 Phasellus tempus.
 				</body>',
                 'Test TYPO3, Test in TYPO3, Tests TYPO3',

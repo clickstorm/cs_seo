@@ -25,7 +25,22 @@ $boot = function () {
             'mod1',
             '',
             [
-                \Clickstorm\CsSeo\Controller\ModuleController::class => 'pageMeta, pageIndex, pageOpenGraph, pageTwitterCards, pageResults, pageEvaluation'
+                \Clickstorm\CsSeo\Controller\ModuleWebController::class => 'pageMeta, pageIndex, pageOpenGraph, pageTwitterCards, pageResults, pageEvaluation'
+            ],
+            [
+                'access' => 'user,group',
+                'icon' => 'EXT:cs_seo/Resources/Public/Icons/mod.svg',
+                'labels' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf',
+            ]
+        );
+
+        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+            'cs_seo',
+            'file',
+            'mod_file',
+            'bottom',
+            [
+                \Clickstorm\CsSeo\Controller\ModuleFileController::class => 'showEmptyImageAlt'
             ],
             [
                 'access' => 'user,group',

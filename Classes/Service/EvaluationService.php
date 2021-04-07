@@ -27,6 +27,7 @@ namespace Clickstorm\CsSeo\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
 use Clickstorm\CsSeo\Evaluation\H1Evaluator;
@@ -49,6 +50,23 @@ class EvaluationService
      * @var array
      */
     protected $evaluators;
+
+    /**
+     * evaluationRepository
+     *
+     * @var EvaluationRepository
+     */
+    protected $evaluationRepository = null;
+
+    /**
+     * Inject a evaluationRepository
+     *
+     * @param EvaluationRepository $evaluationRepository
+     */
+    public function injectEvaluationRepository(EvaluationRepository $evaluationRepository)
+    {
+        $this->evaluationRepository = $evaluationRepository;
+    }
 
     /**
      * @return array
@@ -166,5 +184,43 @@ class EvaluationService
             'state' => $state,
             'count' => $count
         ];
+    }
+
+    /**
+     * return evaluation results of a specific page
+     *
+     * @param $record
+     * @param $table
+     *
+     * @return array
+     */
+    public function getResults($record, $table = '')
+    {
+        $results = [];
+        $evaluation = $this->getEvaluation($record, $table);
+        if ($evaluation) {
+            $results = $evaluation->getResults();
+        }
+
+        return $results;
+    }
+
+    public function getEvaluation($record, $table = '')
+    {
+        if ($table) {
+            $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record, $table);
+        } else {
+            if (isset($record['_PAGES_OVERLAY_LANGUAGE'])) {
+                $evaluation =
+                    $this->evaluationRepository->findByUidForeignAndTableName(
+                        $record['_PAGES_OVERLAY_UID'],
+                        'pages'
+                    );
+            } else {
+                $evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$record['uid'], 'pages');
+            }
+        }
+
+        return $evaluation;
     }
 }

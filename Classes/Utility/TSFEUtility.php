@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Utility;
 
 use Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
+
 /***************************************************************
  *
  *  Copyright notice
@@ -261,5 +262,22 @@ class TSFEUtility
             $this->config['pageTitleSeparator'],
             $this->config['pageTitleSeparator.']
         );
+    }
+
+    public function getPreviewSettings(): array
+    {
+        // preview settings
+        $previewSettings = [];
+        $previewSettings['siteTitle'] = $this->getSiteTitle();
+        $previewSettings['pageTitleFirst'] = $this->getPageTitleFirst();
+        $previewSettings['pageTitleSeparator'] = $this->getPageTitleSeparator();
+
+        if ($previewSettings['pageTitleFirst']) {
+            $previewSettings['siteTitle'] = $previewSettings['pageTitleSeparator'] . $previewSettings['siteTitle'];
+        } else {
+            $previewSettings['siteTitle'] .= $previewSettings['pageTitleSeparator'];
+        }
+
+        return $previewSettings;
     }
 }
