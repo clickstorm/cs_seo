@@ -30,3 +30,6 @@ minDescription = 140
 
 # cat=evaluation/060; type=integer; label= Max number of h2 headlines in one page
 maxH2 = 6
+
+# cat=file/010; type=string; label= Additional columns of sys_file_medata to show in file module
+modFileColumns = title,description

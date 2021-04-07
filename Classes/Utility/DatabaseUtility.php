@@ -6,6 +6,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\QueryGenerator;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -112,7 +113,7 @@ class DatabaseUtility
      * @param string $field
      * @param string $uid
      *
-     * @return \TYPO3\CMS\Core\Resource\File|null
+     * @return File|null
      */
     public static function getFile($table, $field, $uid)
     {
@@ -130,6 +131,49 @@ class DatabaseUtility
         if ($fileObjects[0]) {
             return $fileObjects[0]->getOriginalFile();
         }
+    }
+
+    public static function getImageWithEmptyAlt(int $storage, string $identifier, $countAll = false, $includeImagesWithAlt = false)
+    {
+        $tableName = 'sys_file';
+        $joinTableName = 'sys_file_metadata';
+
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable($tableName);
+
+        $queryBuilder
+            ->select('file.*')
+            ->from($tableName, 'file')
+            ->leftJoin(
+                'file',
+                $joinTableName,
+                'meta',
+                $queryBuilder->expr()->eq(
+                    'meta.file', $queryBuilder->quoteIdentifier('file.uid')
+                )
+            )
+            ->where(
+                $queryBuilder->expr()->eq('file.type', $queryBuilder->createNamedParameter(File::FILETYPE_IMAGE, \PDO::PARAM_INT)),
+                $queryBuilder->expr()->eq('file.storage', $queryBuilder->createNamedParameter($storage, \PDO::PARAM_INT)),
+                $queryBuilder->expr()->like('file.identifier', $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR)),
+            );
+
+        if(!$includeImagesWithAlt) {
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->eq('meta.alternative', $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)),
+                    $queryBuilder->expr()->isNull('meta.alternative')
+                )
+            );
+        }
+
+        if($countAll) {
+            $queryBuilder->count('file.uid');
+        } else {
+            $queryBuilder->setMaxResults(1);
+        }
+
+        return $queryBuilder->execute()->fetchAll();
     }
 
     /**
@@ -238,13 +282,12 @@ class DatabaseUtility
         }
 
         // Setting alternative default label:
-        if($pageId) {
+        if ($pageId) {
             $modTSconfig = BackendUtility::getPagesTSconfig($pageId)['mod.']['SHARED.'] ?? [];
             if ($modTSconfig['properties']['defaultLanguageLabel']) {
                 $languages[0] = $modTSconfig['properties']['defaultLanguageLabel'];
             }
         }
-
 
         return $languages;
     }

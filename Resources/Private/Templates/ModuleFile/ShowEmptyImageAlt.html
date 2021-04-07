@@ -1,12 +1,71 @@
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
-     xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
-     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
-     data-namespace-typo3-fluid="true">
+<html xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <f:layout name="Module"/>
 
 <f:section name="Main">
-    <h1><f:translate key="layouts.module.action.showEmptyImageAlt"/></h1>
-    <p></p>
+    <h1>
+        <f:translate key="layouts.module.action.showEmptyImageAlt"/>
+    </h1>
+    <p>
+        <f:translate key="module.file.count"/>
+        : {numberOfImagesWithoutAlt} / {numberOfAllImages}
+    </p>
+    <p>
+        <f:translate key="sys_file.identifier"/>
+        : {identifier}
+    </p>
+    <f:form action="">
+        <f:translate key="module.file.recursive"/>
+        <f:form.checkbox name="recursive" value="1"/>
+    </f:form>
+    <f:if condition="{image}">
+        <f:then>
+            <div class="csseo-card">
+                <div class="csseo-card__image">
+                    <f:image image="{image}" maxWidth="800" maxHeight="600"/>
+                    <be:link.editRecord class="btn btn-default" uid="{image.originalResource.properties.metadata_uid}" table="sys_file_metadata">
+                        <core:icon identifier="actions-document-edit"/>
+                        <f:translate key="LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:edit"/>
+                    </be:link.editRecord>
+                    <a class="btn btn-default" href="#" data-dispatch-action="TYPO3.InfoWindow.showItem" data-dispatch-args-list="sys_file,{image.uid}" title="" data-original-title="Display information">
+                        <core:icon identifier="actions-info"/>
+                        <f:translate key="LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:showInfo"/>
+                    </a>
+                </div>
+                <div class="csseo-card__title">
+                    <p>
+                        <f:translate key="sys_file.name"/>
+                        : {image.originalResource.name}
+                    </p>
+                </div>
+
+                <f:form class="csseo-card__form" action="update">
+                    <div class="row">
+                        <f:for each="{columns}" key="columnName" as="columnLabel">
+                            <div class="form-group col-md-12">
+                                <label for="cs-{columnName}">
+                                    <f:translate key="{columnLabel}"/>
+                                </label>
+                                <f:form.textfield id="cs-{columnName}" class="form-control" name="title" value="{image.originalResource.properties.{columnName}}"/>
+                            </div>
+                        </f:for>
+
+                        <div class="form-group col-md-12">
+                            <f:form.button class="btn btn-default">
+                                <core:icon identifier="actions-save"/>
+                                <f:translate key="module.btn.submit_and_next"/>
+                            </f:form.button>
+                        </div>
+                    </div>
+                </f:form>
+            </div>
+        </f:then>
+        <f:else>
+
+        </f:else>
+    </f:if>
 </f:section>
 </html>

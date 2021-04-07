@@ -44,7 +44,7 @@ abstract class AbstractModuleController extends ActionController
     /**
      * @var array
      */
-    protected $cssFiles = [];
+    protected array $cssFiles = [];
 
     /**
      * @var array
@@ -86,15 +86,18 @@ abstract class AbstractModuleController extends ActionController
     protected function initializeModParams()
     {
         foreach ($this->modParams as $name => $value) {
-            $this->modParams[$name] = ((int)GeneralUtility::_GP($name) > 0)
-                ? (int)GeneralUtility::_GP($name)
-                : GlobalsUtility::getBackendUser()->getSessionData(static::$session_prefix . $name);
+            $modParam = GeneralUtility::_GP($name)?: GlobalsUtility::getBackendUser()->getSessionData(static::$session_prefix . $name);
+            if(is_numeric($modParam)) {
+                $modParam = (int)$modParam;
+            }
+            $this->modParams[$name] = $modParam;
 
             if ($this->request->hasArgument($name)) {
                 $arg = $this->request->getArgument($name);
                 $this->modParams[$name] = ($name === 'action' || $name === 'table') ? $arg : (int)$arg;
             }
-            GlobalsUtility::getBackendUser()->setAndSaveSessionData(static::$session_prefix . $name, $this->modParams[$name]);
+            GlobalsUtility::getBackendUser()->setAndSaveSessionData(static::$session_prefix . $name,
+                $this->modParams[$name]);
         }
     }
 
@@ -126,7 +129,7 @@ abstract class AbstractModuleController extends ActionController
         }
 
         foreach ($this->cssFiles as $cssFile) {
-            $moduleTemplate->getPageRenderer()->addCssFile('EXT:cs_seo/Resources/Public/CSS/' . $cssFile);
+            $moduleTemplate->getPageRenderer()->addCssFile('EXT:cs_seo/Resources/Public/Css/' . $cssFile);
         }
 
         // Shortcut in doc header

@@ -108,7 +108,7 @@ class SnippetPreview extends AbstractNode
         $cssFiles = [
             'Wizard.css'
         ];
-        $baseUrl = 'EXT:cs_seo/Resources/Public/CSS/';
+        $baseUrl = 'EXT:cs_seo/Resources/Public/Css/';
         // Load the wizards css
         foreach ($cssFiles as $cssFile) {
             $stylesheetFiles[] = $baseUrl . $cssFile;

@@ -159,7 +159,7 @@ class PageHook
             'Evaluation.css'
         ];
 
-        $baseUrl = $this->resourcesPath . 'Public/CSS/';
+        $baseUrl = $this->resourcesPath . 'Public/Css/';
 
         // Load the wizards css
         foreach ($cssFiles as $cssFile) {
