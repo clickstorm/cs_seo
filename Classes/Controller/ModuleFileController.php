@@ -118,7 +118,7 @@ class ModuleFileController extends AbstractModuleController
             $file->getMetaData()->add($fields);
             $file->getMetaData()->save();
 
-            if ($file->getProperty('title')) {
+            if ($file->getProperty('alternative')) {
                 $message = GeneralUtility::makeInstance(FlashMessage::class,
                     $file->getName() . ' ' . GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.message'
