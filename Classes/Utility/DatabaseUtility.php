@@ -133,13 +133,22 @@ class DatabaseUtility
         }
     }
 
-    public static function getImageWithEmptyAlt(int $storage, string $identifier, $countAll = false, $includeImagesWithAlt = false)
+    public static function getImageWithEmptyAlt(int $storage, string $identifier, $includeSubfolders = true, $countAll = false, $includeImagesWithAlt = false)
     {
         $tableName = 'sys_file';
         $joinTableName = 'sys_file_metadata';
 
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable($tableName);
+
+        if($includeSubfolders) {
+            $folderExpression = $queryBuilder->expr()->like('file.identifier', $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR));
+        } else {
+            // get folder hash
+            $resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+            $folder = $resourceFactory->getFolderObjectFromCombinedIdentifier($storage . ':' . $identifier);
+            $folderExpression = $queryBuilder->expr()->eq('file.folder_hash', $queryBuilder->createNamedParameter($folder->getHashedIdentifier(), \PDO::PARAM_STR));
+        }
 
         $queryBuilder
             ->select('file.*')
@@ -155,8 +164,10 @@ class DatabaseUtility
             ->where(
                 $queryBuilder->expr()->eq('file.type', $queryBuilder->createNamedParameter(File::FILETYPE_IMAGE, \PDO::PARAM_INT)),
                 $queryBuilder->expr()->eq('file.storage', $queryBuilder->createNamedParameter($storage, \PDO::PARAM_INT)),
-                $queryBuilder->expr()->like('file.identifier', $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR)),
+                $folderExpression
             );
+
+
 
         if(!$includeImagesWithAlt) {
             $queryBuilder->andWhere(

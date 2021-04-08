@@ -2,27 +2,17 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
-use Clickstorm\CsSeo\Utility\ConfigurationUtility;
-use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
-use Clickstorm\CsSeo\Utility\TSFEUtility;
-use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Context\LanguageAspect;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Domain\Repository\PageRepository;
-use TYPO3\CMS\Core\Http\HtmlResponse;
-use TYPO3\CMS\Core\Imaging\Icon;
-use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageRendererResolver;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class ModuleController
@@ -32,6 +22,7 @@ abstract class AbstractModuleController extends ActionController
     public static $session_prefix = 'tx_csseo_';
     public static $mod_name = 'web_CsSeoMod1';
     public static $uriPrefix = 'tx_csseo_web_csseomod1';
+    public static $flashMessageDurationInSeconds = 5;
 
     protected array $menuSetup = [];
     /**
@@ -53,6 +44,8 @@ abstract class AbstractModuleController extends ActionController
      * @var array
      */
     protected $jsFiles = [];
+
+    protected string $jsInlineCode = '';
 
     /**
      * @var array
@@ -89,8 +82,8 @@ abstract class AbstractModuleController extends ActionController
     protected function initializeModParams()
     {
         foreach ($this->modParams as $name => $value) {
-            $modParam = GeneralUtility::_GP($name)?: GlobalsUtility::getBackendUser()->getSessionData(static::$session_prefix . $name);
-            if(is_numeric($modParam)) {
+            $modParam = GeneralUtility::_GP($name) !== null ? GeneralUtility::_GP($name) : GlobalsUtility::getBackendUser()->getSessionData(static::$session_prefix . $name);
+            if (is_numeric($modParam)) {
                 $modParam = (int)$modParam;
             }
             $this->modParams[$name] = $modParam;
@@ -135,6 +128,12 @@ abstract class AbstractModuleController extends ActionController
             $moduleTemplate->getPageRenderer()->addCssFile('EXT:cs_seo/Resources/Public/Css/' . $cssFile);
         }
 
+        $this->jsInlineCode .= $this->renderFlashMessages();
+
+        if ($this->jsInlineCode) {
+            $moduleTemplate->getPageRenderer()->addJsInlineCode('csseo-inline', $this->jsInlineCode);
+        }
+
         // Shortcut in doc header
         $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
@@ -150,7 +149,7 @@ abstract class AbstractModuleController extends ActionController
 
         // The page will show only if there is a valid page and if this page
         // may be viewed by the user
-        if(is_numeric($this->modParams['id'])) {
+        if (is_numeric($this->modParams['id'])) {
             $metaInfo = BackendUtility::readPageAccess($this->id, $this->perms_clause);
         } else {
             $metaInfo = [
@@ -187,7 +186,40 @@ abstract class AbstractModuleController extends ActionController
         return $moduleTemplate->renderContent();
     }
 
-    protected function addModuleButtons(ButtonBar $buttonBar):void
+    protected function renderFlashMessages(): string
+    {
+        $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+        $messageQueue = $flashMessageService->getMessageQueueByIdentifier(static::$mod_name);
+
+        if($messageQueue->isEmpty()) {
+            return '';
+        }
+
+        $messages = [];
+
+        $severityMapping = [
+            AbstractMessage::OK => 'success',
+            AbstractMessage::ERROR => 'error',
+            AbstractMessage::INFO => 'info',
+            AbstractMessage::NOTICE => 'notice',
+            AbstractMessage::WARNING => 'waring'
+        ];
+
+        foreach ($messageQueue->getAllMessages() as $flashMessage) {
+            $method = $severityMapping[$flashMessage->getSeverity()] ?: 'info';
+            $messages[] =
+                'top.TYPO3.Notification.' . $method . '("' . $flashMessage->getTitle() . '", "' . $flashMessage->getMessage() . '", ' . static::$flashMessageDurationInSeconds .');';
+        }
+
+        return '
+                if (top && top.TYPO3.Notification) {
+                    ' . implode(LF, $messages) . '
+                }
+            ';
+
+    }
+
+    protected function addModuleButtons(ButtonBar $buttonBar): void
     {
 
     }

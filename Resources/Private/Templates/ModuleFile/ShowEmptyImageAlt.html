@@ -9,52 +9,60 @@
     <h1>
         <f:translate key="layouts.module.action.showEmptyImageAlt"/>
     </h1>
-
+    <f:flashMessages />
     <f:if condition="{numberOfAllImages}">
-        <div class="form-group">
-            <f:translate key="module.file.count"/>
-            <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-success"
-                     role="progressbar"
-                     aria-valuenow="{percentOfImages}" aria-valuemin="0" aria-valuemax="100" style="width: {percentOfImages}%;">{numberOfImagesWithAlt}&nbsp;/&nbsp;{numberOfAllImages}</div>
-            </div>
-        </div>
-    </f:if>
-
-    <f:if condition="{image}">
         <f:then>
-            <div class="csseo-card">
-                <div class="csseo-card__headline">
-                    <h4>Image without an alternative Text</h4>
+            <div class="form-group">
+                <f:translate key="module.file.count"/>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-{f:if(condition: '{percentOfImages} == 100', then: 'success', else: 'danger')}"
+                         role="progressbar"
+                         aria-valuenow="{percentOfImages}" aria-valuemin="0" aria-valuemax="100" style="width: {percentOfImages}%;">{numberOfImagesWithAlt}&nbsp;/&nbsp;{numberOfAllImages}</div>
                 </div>
-                <div class="csseo-card__image-wrapper">
-                    <f:image image="{image}" maxWidth="800" maxHeight="600" class="csseo-card__image"/>
-                </div>
-                <div class="csseo-card__title">
-                    <p>
-                        <f:translate key="sys_file.name"/>: {image.originalResource.name}
-                    </p>
-                </div>
-
-                <f:form class="csseo-card__form" action="update" id="EditDocumentController">
-                    <div class="row">
-                        <f:for each="{columns}" key="columnName" as="columnLabel">
-                            <div class="form-group col-md-12">
-                                <label for="cs-{columnName}">
-                                    <f:translate key="{columnLabel}"/>
-                                </label>
-                                <f:form.textfield id="cs-{columnName}" class="form-control" name="title" value="{image.originalResource.properties.{columnName}}"/>
-                            </div>
-                        </f:for>
-                    </div>
-                </f:form>
             </div>
+            <f:if condition="{image}">
+                <f:then>
+                    <div class="csseo-card">
+                        <div class="csseo-card__headline">
+                            <h4>Image without an alternative Text</h4>
+                        </div>
+                        <div class="csseo-card__image-wrapper">
+                            <f:image image="{image}" maxWidth="800" maxHeight="600" class="csseo-card__image"/>
+                        </div>
+                        <div class="csseo-card__title">
+                            <p>
+                                <f:translate key="sys_file.name"/>: {image.originalResource.name}
+                            </p>
+                        </div>
+
+                        <f:form class="csseo-card__form" action="update" id="EditDocumentController">
+                            <f:form.hidden name="uid" value="{image.originalResource.uid}"/>
+                            <div class="row">
+                                <f:for each="{columns}" key="columnName" as="columnLabel">
+                                    <div class="form-group col-md-12">
+                                        <label for="cs-{columnName}">
+                                            <f:translate key="{columnLabel}"/>
+                                        </label>
+                                        <f:form.textfield id="cs-{columnName}" class="form-control" name="field[{columnName}]" value="{image.originalResource.properties.{columnName}}"/>
+                                    </div>
+                                </f:for>
+                            </div>
+                        </f:form>
+                    </div>
+                </f:then>
+                <f:else>
+                    <h3>
+                        <f:translate key="module.file.error.no_image_without_alt"/>
+                    </h3>
+                </f:else>
+            </f:if>
         </f:then>
         <f:else>
-
+            <h3>
+                <f:translate key="module.file.error.no_images"/>
+            </h3>
         </f:else>
     </f:if>
-
     <f:form action="" id="ModForm">
     </f:form>
 </f:section>

@@ -8,19 +8,25 @@ use Clickstorm\CsSeo\Utility\FileUtility;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
-use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Messaging\FlashMessage;
+use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\File;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-use TYPO3\CMS\Extensionmanager\Domain\Model\Extension;
 
 class ModuleFileController extends AbstractModuleController
 {
     public static $session_prefix = 'tx_csseo_file_';
     public static $mod_name = 'file_CsSeoModFile';
     public static $uriPrefix = 'tx_csseo_file_csseomodfile';
+
+    /**
+     * @var array
+     */
+    protected $modParams = ['action' => '', 'id' => 0, 'recursive' => 1];
 
     /** @var File */
     protected $image;
@@ -49,12 +55,16 @@ class ModuleFileController extends AbstractModuleController
     public function showEmptyImageAltAction()
     {
         $this->requireJsModules = [
-            'TYPO3/CMS/Backend/ContextMenu'
+            'TYPO3/CMS/Backend/ContextMenu',
+            'TYPO3/CMS/Backend/Notification'
         ];
 
-        $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, true);
+        $includeSubfolders = (bool)$this->modParams['recursive'];
+
+        $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders, true);
         $numberOfImagesWithoutAlt = array_values($result[0])[0];
-        $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, true, true);
+        $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders, true,
+            true);
         $numberOfAllImages = array_values($result[0])[0];
 
         if ($numberOfAllImages) {
@@ -71,7 +81,7 @@ class ModuleFileController extends AbstractModuleController
             'identifier' => $this->identifier
         ]);
 
-        $imageRow = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier);
+        $imageRow = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders);
         $configuredColumns = ['alternative'];
         $additionalColumns = ConfigurationUtility::getEmConfiguration()['modFileColumns'] ?: '';
 
@@ -96,12 +106,55 @@ class ModuleFileController extends AbstractModuleController
         return $this->wrapModuleTemplate();
     }
 
+    public function updateAction()
+    {
+        $uid = $this->request->hasArgument('uid') ? $this->request->getArgument('uid') : 0;
+        $fields = $this->request->hasArgument('field') ? $this->request->getArgument('field') : [];
+
+        if ($uid && $fields) {
+            $resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+            $file = $resourceFactory->getFileObject($uid);
+
+            $file->getMetaData()->add($fields);
+            $file->getMetaData()->save();
+
+            if ($file->getProperty('title')) {
+                $message = GeneralUtility::makeInstance(FlashMessage::class,
+                    $file->getName() . ' ' . GlobalsUtility::getLanguageService()->sL(
+                        'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.message'
+                    ) . ': \n\'' . $file->getProperty('title') . '\'',
+
+                    GlobalsUtility::getLanguageService()->sL(
+                        'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.header'
+                    ),
+                    FlashMessage::OK, // [optional] the severity defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    false // [optional] whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is false)
+                );
+            } else {
+                $message = GeneralUtility::makeInstance(FlashMessage::class,
+                    $file->getName() . ' ' . GlobalsUtility::getLanguageService()->sL(
+                        'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.error.message'
+                    ),
+                    GlobalsUtility::getLanguageService()->sL(
+                        'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.error.header'
+                    ),
+                    FlashMessage::ERROR
+                );
+            }
+
+            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+            $messageQueue = $flashMessageService->getMessageQueueByIdentifier(static::$mod_name);
+            $messageQueue->addMessage($message);
+        }
+
+        $this->forward('showEmptyImageAlt');
+    }
+
     protected function addModuleButtons(ButtonBar $buttonBar): void
     {
+        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         if ($this->image) {
-            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-
-            if($this->image->getOriginalResource()->getProperties()['metadata_uid']) {
+            if ($this->image->getOriginalResource()->getProperties()['metadata_uid']) {
                 $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                 $params = [
                     'edit' => [
@@ -152,28 +205,30 @@ class ModuleFileController extends AbstractModuleController
                 ->setValue('1');
 
             $buttonBar->addButton($saveButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
-
-            $recursiveButton = $buttonBar->makeInputButton()
-                ->setForm('ModForm')
-                ->setIcon($iconFactory->getIcon('apps-pagetree-category-expand-all', Icon::SIZE_SMALL))
-                ->setName('recursive')
-                ->setTitle(GlobalsUtility::getLanguageService()->sL(
-                    'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.recursive'
-                ))
-                ->setValue('1');
-
-            if($this->modParams['recursive']) {
-                $recursiveButton->setClasses('active');
-            }
-
-            $buttonBar->addButton($recursiveButton, ButtonBar::BUTTON_POSITION_RIGHT, 4);
-
-            // CSH
-            $cshButton = $buttonBar->makeHelpButton()
-                ->setModuleName('xMOD_csh_corebe')
-                ->setFieldName('filetree');
-
-            $buttonBar->addButton($cshButton);
         }
+
+        $recursiveButton = $buttonBar->makeInputButton()
+            ->setForm('ModForm')
+            ->setIcon($iconFactory->getIcon('apps-pagetree-category-expand-all', Icon::SIZE_SMALL))
+            ->setName('recursive')
+            ->setTitle(GlobalsUtility::getLanguageService()->sL(
+                'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.recursive'
+            ))
+            ->setValue('1');
+
+        if ($this->modParams['recursive']) {
+            $recursiveButton
+                ->setClasses('active')
+                ->setValue('0');
+        }
+
+        $buttonBar->addButton($recursiveButton, ButtonBar::BUTTON_POSITION_RIGHT, 4);
+
+        // CSH
+        $cshButton = $buttonBar->makeHelpButton()
+            ->setModuleName('_MOD_txcsseo')
+            ->setFieldName('mod_file');
+
+        $buttonBar->addButton($cshButton);
     }
 }

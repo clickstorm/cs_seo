@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2018-02-16T09:04:16Z">
+		<body>
+			<trans-unit id=".alttitle" resname=".alttitle">
+				<source>[clickstorm] SEO</source>
+			</trans-unit>
+			<trans-unit id="mod_file.alttitle" resname=".alttitle">
+				<source>Add alternative text to images</source>
+			</trans-unit>
+			<trans-unit id="mod_file.description" resname=".alttitle">
+				<source>This module provides you the possibility to add an alternative text to images. It shows only images
+					without an alternative text jet.</source>
+			</trans-unit>
+			<trans-unit id="mod_file.details" resname=".alttitle">
+				<source>An alternative describes the content of an image. This text should always be set. Manly because of the following two reasons:
+
+					&lt;b&gt;Search Engines&lt;/b&gt;
+					With an alternative text the image can be indexed by Search Engines like Google.
+
+					&lt;b&gt;People with handicaps&lt;/b&gt;
+					The alternative text can be read by screen readers. So people with handicaps get also an idea what is displayed.
+
+					&lt;i&gt;Module Functions&lt;/i&gt;
+					On top you can directly edit the file metadata of the current image, get more information about it or view it in a new tab.
+
+					Moreover you get information about the current path, enter this help or create a shortcut to this module.
+
+					You can also toggle if you want to see pictures of the current folder or also of subfolders.
+
+					If you entered an alternative text and press save, you see the next image which miss an alternative text, if there is one.
+				</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
+

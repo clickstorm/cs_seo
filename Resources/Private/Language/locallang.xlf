@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-04-08T09:19:32Z" product-name="cs_seo">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-04-08T14:25:17Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -242,6 +242,24 @@
 			</trans-unit>
 			<trans-unit id="module.btn.view" resname="module.btn.view">
 				<source>View</source>
+			</trans-unit>
+			<trans-unit id="module.file.error.no_images" resname="module.file.error.no_images">
+				<source>Please select a folder with images.</source>
+			</trans-unit>
+			<trans-unit id="module.file.error.no_image_without_alt" resname="module.file.error.no_image_without_alt">
+				<source>😊 Good job. All images here have an alternative text.</source>
+			</trans-unit>
+			<trans-unit id="module.file.update.success.header" resname="module.file.update.success.header">
+				<source>You did it 😊</source>
+			</trans-unit>
+			<trans-unit id="module.file.update.success.message" resname="module.file.update.success.message">
+				<source>has the following alternative text</source>
+			</trans-unit>
+			<trans-unit id="module.file.update.error.header" resname="module.file.update.error.header">
+				<source>Oh no 😢</source>
+			</trans-unit>
+			<trans-unit id="module.file.update.error.message" resname="module.file.update.error.message">
+				<source>has still no alternative text.</source>
 			</trans-unit>
 		</body>
 	</file>

@@ -5,7 +5,12 @@ defined('TYPO3_MODE') || die('Access denied.');
 $boot = function () {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
         'tx_csseo_domain_model_meta',
-        'EXT:cs_csseo/Resources/Private/Language/locallang_csh_tx_csseo_domain_model_meta.xlf'
+        'EXT:cs_seo/Resources/Private/Language/locallang_csh_tx_csseo_domain_model_meta.xlf'
+    );
+
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+        '_MOD_txcsseo',
+        'EXT:cs_seo/Resources/Private/Language/locallang_csh_mod.xlf'
     );
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_csseo_domain_model_meta');
@@ -40,7 +45,7 @@ $boot = function () {
             'mod_file',
             'bottom',
             [
-                \Clickstorm\CsSeo\Controller\ModuleFileController::class => 'showEmptyImageAlt'
+                \Clickstorm\CsSeo\Controller\ModuleFileController::class => 'showEmptyImageAlt,update'
             ],
             [
                 'access' => 'user,group',
