@@ -9,40 +9,34 @@
     <h1>
         <f:translate key="layouts.module.action.showEmptyImageAlt"/>
     </h1>
-    <p>
-        <f:translate key="module.file.count"/>
-        : {numberOfImagesWithoutAlt} / {numberOfAllImages}
-    </p>
-    <p>
-        <f:translate key="sys_file.identifier"/>
-        : {identifier}
-    </p>
-    <f:form action="">
-        <f:translate key="module.file.recursive"/>
-        <f:form.checkbox name="recursive" value="1"/>
-    </f:form>
+
+    <f:if condition="{numberOfAllImages}">
+        <div class="form-group">
+            <f:translate key="module.file.count"/>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-success"
+                     role="progressbar"
+                     aria-valuenow="{percentOfImages}" aria-valuemin="0" aria-valuemax="100" style="width: {percentOfImages}%;">{numberOfImagesWithAlt}&nbsp;/&nbsp;{numberOfAllImages}</div>
+            </div>
+        </div>
+    </f:if>
+
     <f:if condition="{image}">
         <f:then>
             <div class="csseo-card">
-                <div class="csseo-card__image">
-                    <f:image image="{image}" maxWidth="800" maxHeight="600"/>
-                    <be:link.editRecord class="btn btn-default" uid="{image.originalResource.properties.metadata_uid}" table="sys_file_metadata">
-                        <core:icon identifier="actions-document-edit"/>
-                        <f:translate key="LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:edit"/>
-                    </be:link.editRecord>
-                    <a class="btn btn-default" href="#" data-dispatch-action="TYPO3.InfoWindow.showItem" data-dispatch-args-list="sys_file,{image.uid}" title="" data-original-title="Display information">
-                        <core:icon identifier="actions-info"/>
-                        <f:translate key="LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:showInfo"/>
-                    </a>
+                <div class="csseo-card__headline">
+                    <h4>Image without an alternative Text</h4>
+                </div>
+                <div class="csseo-card__image-wrapper">
+                    <f:image image="{image}" maxWidth="800" maxHeight="600" class="csseo-card__image"/>
                 </div>
                 <div class="csseo-card__title">
                     <p>
-                        <f:translate key="sys_file.name"/>
-                        : {image.originalResource.name}
+                        <f:translate key="sys_file.name"/>: {image.originalResource.name}
                     </p>
                 </div>
 
-                <f:form class="csseo-card__form" action="update">
+                <f:form class="csseo-card__form" action="update" id="EditDocumentController">
                     <div class="row">
                         <f:for each="{columns}" key="columnName" as="columnLabel">
                             <div class="form-group col-md-12">
@@ -52,13 +46,6 @@
                                 <f:form.textfield id="cs-{columnName}" class="form-control" name="title" value="{image.originalResource.properties.{columnName}}"/>
                             </div>
                         </f:for>
-
-                        <div class="form-group col-md-12">
-                            <f:form.button class="btn btn-default">
-                                <core:icon identifier="actions-save"/>
-                                <f:translate key="module.btn.submit_and_next"/>
-                            </f:form.button>
-                        </div>
                     </div>
                 </f:form>
             </div>
@@ -67,5 +54,8 @@
 
         </f:else>
     </f:if>
+
+    <f:form action="" id="ModForm">
+    </f:form>
 </f:section>
 </html>

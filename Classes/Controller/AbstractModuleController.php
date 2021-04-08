@@ -8,6 +8,7 @@ use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
+use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Context\Context;
@@ -17,6 +18,8 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -133,19 +136,30 @@ abstract class AbstractModuleController extends ActionController
         }
 
         // Shortcut in doc header
+        $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
+
         $shortcutButton = $moduleTemplate->getDocHeaderComponent()->getButtonBar()->makeShortcutButton();
         $shortcutButton->setModuleName(self::$mod_name)
             ->setDisplayName(GlobalsUtility::getLanguageService()->sL(
                 'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:mlang_labels_tablabel'
             ))
             ->setSetVariables(['tree']);
-        $moduleTemplate->getDocHeaderComponent()->getButtonBar()->addButton($shortcutButton);
+        $buttonBar->addButton($shortcutButton);
+
+        $this->addModuleButtons($buttonBar);
 
         // The page will show only if there is a valid page and if this page
         // may be viewed by the user
-        $pageinfo = BackendUtility::readPageAccess($this->id, $this->perms_clause);
-        if ($pageinfo) {
-            $moduleTemplate->getDocHeaderComponent()->setMetaInformation($pageinfo);
+        if(is_numeric($this->modParams['id'])) {
+            $metaInfo = BackendUtility::readPageAccess($this->id, $this->perms_clause);
+        } else {
+            $metaInfo = [
+                'combined_identifier' => $this->modParams['id'],
+            ];
+        }
+
+        if ($metaInfo) {
+            $moduleTemplate->getDocHeaderComponent()->setMetaInformation($metaInfo);
         }
 
         // Main drop down in doc header
@@ -171,5 +185,10 @@ abstract class AbstractModuleController extends ActionController
         $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
 
         return $moduleTemplate->renderContent();
+    }
+
+    protected function addModuleButtons(ButtonBar $buttonBar):void
+    {
+
     }
 }
