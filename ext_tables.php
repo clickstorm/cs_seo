@@ -35,7 +35,7 @@ $boot = function () {
             [
                 'access' => 'user,group',
                 'icon' => 'EXT:cs_seo/Resources/Public/Icons/mod.svg',
-                'labels' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf',
+                'labels' => 'LLL:EXT:cs_seo/Resources/Private/Language/Module/web.xlf',
             ]
         );
 
@@ -49,8 +49,8 @@ $boot = function () {
             ],
             [
                 'access' => 'user,group',
-                'icon' => 'EXT:cs_seo/Resources/Public/Icons/mod.svg',
-                'labels' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf',
+                'icon' => 'EXT:cs_seo/Resources/Public/Icons/modFile.svg',
+                'labels' => 'LLL:EXT:cs_seo/Resources/Private/Language/Module/file.xlf',
             ]
         );
     }
