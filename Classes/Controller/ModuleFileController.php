@@ -62,61 +62,63 @@ class ModuleFileController extends AbstractModuleController
             'TYPO3/CMS/Backend/Notification'
         ];
 
-        $includeSubfolders = (bool)$this->modParams['recursive'];
+        if($this->storageUid) {
+            $includeSubfolders = (bool)$this->modParams['recursive'];
 
-        $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders, true);
-        $numberOfImagesWithoutAlt = array_values($result[0])[0];
-        $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders, true,
-            true);
-        $numberOfAllImages = array_values($result[0])[0];
+            $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders, true);
+            $numberOfImagesWithoutAlt = array_values($result[0])[0];
+            $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders, true,
+                true);
+            $numberOfAllImages = array_values($result[0])[0];
 
-        if ($numberOfAllImages) {
-            $numberOfImagesWithAlt = $numberOfAllImages - $numberOfImagesWithoutAlt;
-            $percentOfImages = $numberOfImagesWithAlt / $numberOfAllImages * 100;
-            $this->view->assignMultiple([
-                'numberOfImagesWithAlt' => $numberOfImagesWithAlt,
-                'percentOfImages' => $percentOfImages
-            ]);
-        }
-
-        $this->view->assignMultiple([
-            'numberOfAllImages' => $numberOfAllImages,
-            'identifier' => $this->identifier
-        ]);
-
-        $imageRow = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders);
-        $configuredColumns = ['alternative'];
-        $additionalColumns = ConfigurationUtility::getEmConfiguration()['modFileColumns'] ?: '';
-
-        $configuredColumns = array_merge($configuredColumns, explode(',', $additionalColumns));
-
-        $columns = [];
-        foreach ($configuredColumns as $col) {
-            if ($GLOBALS['TCA']['sys_file_metadata']['columns'][$col] && $GLOBALS['TCA']['sys_file_metadata']['columns'][$col]['label']) {
-                $columns[$col] = $GLOBALS['TCA']['sys_file_metadata']['columns'][$col]['label'];
+            if ($numberOfAllImages) {
+                $numberOfImagesWithAlt = $numberOfAllImages - $numberOfImagesWithoutAlt;
+                $percentOfImages = $numberOfImagesWithAlt / $numberOfAllImages * 100;
+                $this->view->assignMultiple([
+                    'numberOfImagesWithAlt' => $numberOfImagesWithAlt,
+                    'percentOfImages' => $percentOfImages
+                ]);
             }
-        }
 
-        $this->view->assign('columns', $columns);
+            $this->view->assignMultiple([
+                'numberOfAllImages' => $numberOfAllImages,
+                'identifier' => $this->identifier
+            ]);
 
-        if ($imageRow[0] && $imageRow[0]['uid']) {
-            $dataMapper = $this->objectManager->get(DataMapper::class);
-            $files = $dataMapper->map(File::class, $imageRow);
-            $this->image = $files[0];
-            $formService = GeneralUtility::makeInstance(FormService::class);
-            $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
+            $imageRow = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders);
+            $configuredColumns = ['alternative'];
+            $additionalColumns = ConfigurationUtility::getEmConfiguration()['modFileColumns'] ?: '';
 
-            // if no metadata record is there, create one
-            if($metadataUid === 0) {
-                $this->image->getOriginalResource()->getMetaData()->save();
+            $configuredColumns = array_merge($configuredColumns, explode(',', $additionalColumns));
+
+            $columns = [];
+            foreach ($configuredColumns as $col) {
+                if ($GLOBALS['TCA']['sys_file_metadata']['columns'][$col] && $GLOBALS['TCA']['sys_file_metadata']['columns'][$col]['label']) {
+                    $columns[$col] = $GLOBALS['TCA']['sys_file_metadata']['columns'][$col]['label'];
+                }
+            }
+
+            $this->view->assign('columns', $columns);
+
+            if ($imageRow[0] && $imageRow[0]['uid']) {
+                $dataMapper = $this->objectManager->get(DataMapper::class);
+                $files = $dataMapper->map(File::class, $imageRow);
+                $this->image = $files[0];
+                $formService = GeneralUtility::makeInstance(FormService::class);
                 $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
-            }
 
-            $editForm =$formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',',$configuredColumns));
-            $this->view->assignMultiple([
-                'editForm' => $editForm,
-                'image' => $files[0]
-            ]);
+                // if no metadata record is there, create one
+                if($metadataUid === 0) {
+                    $this->image->getOriginalResource()->getMetaData()->save();
+                    $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
+                }
+
+                $editForm =$formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',',$configuredColumns));
+                $this->view->assignMultiple([
+                    'editForm' => $editForm,
+                    'image' => $files[0]
+                ]);
+            }
         }
 
         return $this->wrapModuleTemplate();

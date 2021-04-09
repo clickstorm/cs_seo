@@ -85,8 +85,10 @@ abstract class AbstractModuleController extends ActionController
      */
     protected function initializeModParams()
     {
+        $sessionParams = GlobalsUtility::getBackendUser()->getSessionData(static::$session_prefix) ?: $this->modParams;
+
         foreach ($this->modParams as $name => $value) {
-            $modParam = GeneralUtility::_GP($name) !== null ? GeneralUtility::_GP($name) : GlobalsUtility::getBackendUser()->getSessionData(static::$session_prefix . $name);
+            $modParam = GeneralUtility::_GP($name) !== null ? GeneralUtility::_GP($name) : $sessionParams[$name];
             if (is_numeric($modParam)) {
                 $modParam = (int)$modParam;
             }
@@ -96,9 +98,9 @@ abstract class AbstractModuleController extends ActionController
                 $arg = $this->request->getArgument($name);
                 $this->modParams[$name] = ($name === 'action' || $name === 'table') ? $arg : (int)$arg;
             }
-            GlobalsUtility::getBackendUser()->setAndSaveSessionData(static::$session_prefix . $name,
-                $this->modParams[$name]);
         }
+        GlobalsUtility::getBackendUser()->setAndSaveSessionData(static::$session_prefix,
+            $this->modParams);
     }
 
     /**
@@ -195,7 +197,7 @@ abstract class AbstractModuleController extends ActionController
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
         $messageQueue = $flashMessageService->getMessageQueueByIdentifier(static::$mod_name);
 
-        if($messageQueue->isEmpty()) {
+        if ($messageQueue->isEmpty()) {
             return '';
         }
 
@@ -212,7 +214,7 @@ abstract class AbstractModuleController extends ActionController
         foreach ($messageQueue->getAllMessages() as $flashMessage) {
             $method = $severityMapping[$flashMessage->getSeverity()] ?: 'info';
             $messages[] =
-                'top.TYPO3.Notification.' . $method . '("' . $flashMessage->getTitle() . '", "' . $flashMessage->getMessage() . '", ' . static::$flashMessageDurationInSeconds .');';
+                'top.TYPO3.Notification.' . $method . '("' . $flashMessage->getTitle() . '", "' . $flashMessage->getMessage() . '", ' . static::$flashMessageDurationInSeconds . ');';
         }
 
         return '
