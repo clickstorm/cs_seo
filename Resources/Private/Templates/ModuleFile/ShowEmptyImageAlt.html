@@ -12,7 +12,7 @@
     <f:flashMessages />
     <f:if condition="{numberOfAllImages}">
         <f:then>
-            <div class="form-group">
+            <div class="csseo-progress form-group">
                 <f:translate key="module.file.count"/>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped progress-bar-{f:if(condition: '{percentOfImages} == 100', then: 'success', else: 'danger')}"
@@ -23,31 +23,23 @@
             <f:if condition="{image}">
                 <f:then>
                     <div class="csseo-card">
-                        <div class="csseo-card__headline">
-                            <h4>Image without an alternative Text</h4>
-                        </div>
-                        <div class="csseo-card__image-wrapper">
-                            <f:image image="{image}" maxWidth="800" maxHeight="600" class="csseo-card__image"/>
-                        </div>
-                        <div class="csseo-card__title">
-                            <p>
-                                <f:translate key="sys_file.name"/>: {image.originalResource.name}
-                            </p>
-                        </div>
-
-                        <f:form class="csseo-card__form" action="update" id="EditDocumentController">
-                            <f:form.hidden name="uid" value="{image.originalResource.uid}"/>
-                            <div class="row">
-                                <f:for each="{columns}" key="columnName" as="columnLabel">
-                                    <div class="form-group col-md-12">
-                                        <label for="cs-{columnName}">
-                                            <f:translate key="{columnLabel}"/>
-                                        </label>
-                                        <f:form.textfield id="cs-{columnName}" class="form-control" name="field[{columnName}]" value="{image.originalResource.properties.{columnName}}"/>
-                                    </div>
-                                </f:for>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="csseo-card__headline">
+                                    <h4>Image without an alternative Text</h4>
+                                </div>
+                                <div class="csseo-card__image-wrapper">
+                                    <f:image image="{image}" maxWidth="600" maxHeight="400" class="csseo-card__image"/>
+                                </div>
                             </div>
-                        </f:form>
+                            <div class="col-sm-6">
+                                <f:form class="csseo-card__form" action="update" name="editform" id="EditDocumentController">
+                                    <f:form.hidden name="uid" value="{image.originalResource.uid}"/>
+                                    <h4>Edit File Metadata "{image.originalResource.name}"</h4>
+                                    {editForm -> f:format.raw()}
+                                </f:form>
+                            </div>
+                        </div>
                     </div>
                 </f:then>
                 <f:else>

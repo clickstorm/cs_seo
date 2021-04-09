@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use Clickstorm\CsSeo\Service\Backend\FormService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\FileUtility;
@@ -100,7 +101,13 @@ class ModuleFileController extends AbstractModuleController
             $dataMapper = $this->objectManager->get(DataMapper::class);
             $files = $dataMapper->map(File::class, $imageRow);
             $this->image = $files[0];
-            $this->view->assign('image', $files[0]);
+            $formService = GeneralUtility::makeInstance(FormService::class);
+            $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
+            $editForm =$formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',',$configuredColumns));
+            $this->view->assignMultiple([
+                'editForm' => $editForm,
+                'image' => $files[0]
+            ]);
         }
 
         return $this->wrapModuleTemplate();
@@ -109,13 +116,13 @@ class ModuleFileController extends AbstractModuleController
     public function updateAction()
     {
         $uid = $this->request->hasArgument('uid') ? $this->request->getArgument('uid') : 0;
-        $fields = $this->request->hasArgument('field') ? $this->request->getArgument('field') : [];
+        $data = GeneralUtility::_GP('data')['sys_file_metadata'];
 
-        if ($uid && $fields) {
+        if ($uid && $data) {
             $resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
             $file = $resourceFactory->getFileObject($uid);
 
-            $file->getMetaData()->add($fields);
+            $file->getMetaData()->add(array_values($data)[0]);
             $file->getMetaData()->save();
 
             if ($file->getProperty('alternative')) {
