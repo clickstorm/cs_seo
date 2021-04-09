@@ -17,17 +17,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class GridService
 {
 
-    protected array $modParams = [];
+    protected $modParams = [];
 
-    protected array $fieldNames = [];
+    protected $fieldNames = [];
 
-    protected array $languages = [];
+    protected $languages = [];
 
-    protected bool $showResults = false;
+    protected $showResults = false;
 
-    protected int $pageUid = 0;
+    protected $pageUid = 0;
 
-    protected array $imageFieldNames = ['tx_csseo_og_image', 'tx_csseo_tw_image'];
+    protected $imageFieldNames = ['tx_csseo_og_image', 'tx_csseo_tw_image'];
 
     /**
      * pageRepository

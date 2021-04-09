@@ -10,7 +10,6 @@ use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
@@ -33,18 +32,18 @@ class ModuleFileController extends AbstractModuleController
     /** @var File */
     protected $image;
 
-    protected array $menuSetup = [
+    protected $menuSetup = [
         'showEmptyImageAlt'
     ];
 
-    protected array $cssFiles = [
+    protected $cssFiles = [
         'Icons.css',
         'Lib/select2.css',
         'ModuleFile.css'
     ];
 
-    protected int $storageUid;
-    protected string $identifier;
+    protected $storageUid;
+    protected $identifier;
 
     public function initializeAction()
     {

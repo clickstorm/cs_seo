@@ -28,7 +28,6 @@ class FormService
      */
     public function makeEditForm(string $table, int $theUid, string $columns): string
     {
-
         // Initialize variables
         $this->elementsData = [];
         $this->errorC = 0;

@@ -24,7 +24,11 @@ abstract class AbstractModuleController extends ActionController
     public static $uriPrefix = 'tx_csseo_web_csseomod1';
     public static $flashMessageDurationInSeconds = 5;
 
-    protected array $menuSetup = [];
+    /**
+     * @var array
+     */
+    protected $menuSetup = [];
+
     /**
      * @var array
      */
@@ -38,14 +42,14 @@ abstract class AbstractModuleController extends ActionController
     /**
      * @var array
      */
-    protected array $cssFiles = [];
+    protected $cssFiles = [];
 
     /**
      * @var array
      */
     protected $jsFiles = [];
 
-    protected string $jsInlineCode = '';
+    protected $jsInlineCode = '';
 
     /**
      * @var array

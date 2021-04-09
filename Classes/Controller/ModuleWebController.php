@@ -47,7 +47,7 @@ class ModuleWebController extends AbstractModuleController
      *
      * @var array
      */
-    protected array $menuSetup = [
+    protected $menuSetup = [
         'pageMeta',
         'pageIndex',
         'pageOpenGraph',
