@@ -37,6 +37,7 @@ Features
 - allow all languages for the x-default attribute
 - Define fallback images for Open Graph and Twitter Cards
 - Backend module in AngularJS to edit the properties directly
+- Another backend module to fill empty alternative text of images
 - Tracking with Google Analytics inc. download tracking
 - Tracking with Matomo (Piwik)
 
@@ -68,3 +69,8 @@ Extend e.g. the news with SEO properties. So in the detail view, they are automa
 Evaluate this records.
 
 |img-6|
+
+Add alternative text to your images.
+
+|img-7|
+

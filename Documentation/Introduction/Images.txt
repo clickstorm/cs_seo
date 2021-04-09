@@ -22,7 +22,7 @@
 .. :align: center
 .. :alt: cs_seo On-page evaluation in TYPO3
 .. :border: 0
-.. :name: Screenshot 2
+.. :name: Screenshot 3
 .. :vspace: 52
 
 .. |img-4|      image:: ../Images/Introduction/cs_seo-backend-module.png
@@ -31,7 +31,7 @@
 .. :align: center
 .. :alt: cs_seo Social media tab
 .. :border: 0
-.. :name: Screenshot 3
+.. :name: Screenshot 4
 .. :vspace: 52
 
 .. |img-5|      image:: ../Images/Introduction/cs_seo-extend-news.png
@@ -40,7 +40,7 @@
 .. :align: center
 .. :alt: cs_seo extend news
 .. :border: 0
-.. :name: Screenshot 4
+.. :name: Screenshot 5
 .. :vspace: 52
 
 .. |img-6|      image:: ../Images/Introduction/cs_seo-record-evaluation.png
@@ -49,5 +49,14 @@
 .. :align: center
 .. :alt: cs_seo record evaluation
 .. :border: 0
-.. :name: Screenshot 5
+.. :name: Screenshot 6
+.. :vspace: 52
+
+.. |img-7|      image:: ../Images/Introduction/cs_seo-mod-image-alternative-text.png
+   :height: 913
+   :width: 1280
+.. :align: center
+.. :alt: cs_seo module to fill alternative texts of images
+.. :border: 0
+.. :name: Screenshot 7
 .. :vspace: 52
