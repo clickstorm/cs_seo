@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-04-08T14:25:17Z" product-name="cs_seo">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-04-09T12:28:52Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -175,7 +175,7 @@
 				<source>Twitter Cards</source>
 			</trans-unit>
 			<trans-unit id="layouts.module.action.showEmptyImageAlt" resname="layouts.module.action.showEmptyImageAlt">
-				<source>Images with empty alternative text</source>
+				<source>Add an alternative text to an image</source>
 			</trans-unit>
 			<trans-unit id="mlang_labels_tabdescr" resname="mlang_labels_tabdescr">
 				<source>Check properties for search engine optimization.</source>
@@ -247,7 +247,7 @@
 				<source>Please select a folder with images.</source>
 			</trans-unit>
 			<trans-unit id="module.file.error.no_image_without_alt" resname="module.file.error.no_image_without_alt">
-				<source>😊 Good job. All images here have an alternative text.</source>
+				<source>👍 Good job. All images here have an alternative text.</source>
 			</trans-unit>
 			<trans-unit id="module.file.update.success.header" resname="module.file.update.success.header">
 				<source>You did it 😊</source>

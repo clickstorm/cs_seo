@@ -23,21 +23,18 @@
             <f:if condition="{image}">
                 <f:then>
                     <div class="csseo-card">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="csseo-card__headline">
-                                    <h4>Image without an alternative Text</h4>
-                                </div>
-                                <div class="csseo-card__image-wrapper">
-                                    <f:image image="{image}" maxWidth="600" maxHeight="400" class="csseo-card__image"/>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
+                        <div class="csseo-card__row">
+                            <div class="csseo-card__col csseo-card__col--form">
                                 <f:form class="csseo-card__form" action="update" name="editform" id="EditDocumentController">
                                     <f:form.hidden name="uid" value="{image.originalResource.uid}"/>
-                                    <h4>Edit File Metadata "{image.originalResource.name}"</h4>
+                                    <h4 class="csseo-card__headline">Edit File Metadata "{image.originalResource.name}"</h4>
                                     {editForm -> f:format.raw()}
                                 </f:form>
+                            </div>
+                            <div class="csseo-card__col">
+                                <div class="csseo-card__image__wrapper">
+                                    <f:image image="{image}" maxWidth="600" maxHeight="380" class="csseo-card__image"/>
+                                </div>
                             </div>
                         </div>
                     </div>

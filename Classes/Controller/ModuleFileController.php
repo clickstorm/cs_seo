@@ -9,6 +9,7 @@ use Clickstorm\CsSeo\Utility\FileUtility;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
@@ -27,7 +28,7 @@ class ModuleFileController extends AbstractModuleController
     /**
      * @var array
      */
-    protected $modParams = ['action' => '', 'id' => 0, 'recursive' => 1];
+    protected $modParams = ['action' => '', 'id' => '', 'recursive' => 1];
 
     /** @var File */
     protected $image;
@@ -55,6 +56,8 @@ class ModuleFileController extends AbstractModuleController
 
     public function showEmptyImageAltAction()
     {
+        BackendUtility::lockRecords();
+
         $this->requireJsModules = [
             'TYPO3/CMS/Backend/ContextMenu',
             'TYPO3/CMS/Backend/Notification'
@@ -103,6 +106,13 @@ class ModuleFileController extends AbstractModuleController
             $this->image = $files[0];
             $formService = GeneralUtility::makeInstance(FormService::class);
             $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
+
+            // if no metadata record is there, create one
+            if($metadataUid === 0) {
+                $this->image->getOriginalResource()->getMetaData()->save();
+                $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
+            }
+
             $editForm =$formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',',$configuredColumns));
             $this->view->assignMultiple([
                 'editForm' => $editForm,
