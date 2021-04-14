@@ -87,7 +87,7 @@ abstract class AbstractUrlService
         // first check if sys_language_uid of record is 0
         $select = implode(',', [$pointerField, $languageField, 'uid']);
         $currentRecord = DatabaseUtility::getRecord($table, $uid, $select);
-        
+
         if($currentRecord[$languageField] > 0) {
             $uid = (int)$currentRecord[$pointerField];
         }

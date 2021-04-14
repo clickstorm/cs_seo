@@ -59,7 +59,8 @@ class ModuleFileController extends AbstractModuleController
 
         $this->requireJsModules = [
             'TYPO3/CMS/Backend/ContextMenu',
-            'TYPO3/CMS/Backend/Notification'
+            'TYPO3/CMS/Backend/Notification',
+            'TYPO3/CMS/Backend/InfoWindow'
         ];
 
         if($this->storageUid) {
@@ -199,7 +200,7 @@ class ModuleFileController extends AbstractModuleController
                 ->setHref('#')
                 ->setDataAttributes([
                     'dispatch-action' => 'TYPO3.InfoWindow.showItem',
-                    'dispatch-args-list' => 'sys_file,' . $this->image->getOriginalResource()->getUid(),
+                    'dispatch-args-list' => '_FILE,' . $this->image->getOriginalResource()->getUid(),
                 ])
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:showInfo'))
                 ->setIcon($iconFactory->getIcon('actions-info', Icon::SIZE_SMALL));
