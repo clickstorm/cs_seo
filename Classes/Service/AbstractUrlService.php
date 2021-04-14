@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Service;
 
+use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -82,6 +83,14 @@ abstract class AbstractUrlService
 
         $pointerField = $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'];
         $languageField = $GLOBALS['TCA'][$table]['ctrl']['languageField'];
+
+        // first check if sys_language_uid of record is 0
+        $select = implode(',', [$pointerField, $languageField, 'uid']);
+        $currentRecord = DatabaseUtility::getRecord($table, $uid, $select);
+        
+        if($currentRecord[$languageField] > 0) {
+            $uid = (int)$currentRecord[$pointerField];
+        }
 
         $allItems = $queryBuilder->select($languageField)
             ->from($table)

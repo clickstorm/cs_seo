@@ -302,4 +302,30 @@ class DatabaseUtility
 
         return $languages;
     }
+
+    /**
+     * Fetch a single record
+     *
+     * @param string $table
+     * @param int $uid
+     * @param string $select
+     *
+     * @return mixed
+     */
+    public static function getRecord($table, $uid, $select = '*')
+    {
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+
+        return $queryBuilder->select(...GeneralUtility::trimExplode(',', $select, true))
+            ->from($table)
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                )
+            )
+            ->execute()
+            ->fetch();
+    }
 }
