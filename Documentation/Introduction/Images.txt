@@ -52,7 +52,7 @@
 .. :name: Screenshot 6
 .. :vspace: 52
 
-.. |img-7|      image:: ../Images/Introduction/cs_seo-typo3-module-image-alternative-text
+.. |img-7|      image:: ../Images/Introduction/cs_seo-typo3-module-image-alternative-text.png
    :height: 571
    :width: 800
 .. :align: center
