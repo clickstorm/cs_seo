@@ -3,7 +3,7 @@
 $EM_CONF[$_EXTKEY] = [
     'title' => '[clickstorm] SEO',
     'description' => 'SEO Extension: Enables important onpage features for search engine optimization (SEO). Expands
-						the page settings and any desired records e.g. with a preview for Google search results (SERP)
+						the page settings and any desired records for example with a preview for Google search results (SERP)
 						and a Focus Keyword. Restrective hreflang and canonical tags. Modules for metadata of records and
 						alternative texts of images. Further features are shown in the extension manual.',
     'category' => 'services',

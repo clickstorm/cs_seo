@@ -52,9 +52,9 @@
 .. :name: Screenshot 6
 .. :vspace: 52
 
-.. |img-7|      image:: ../Images/Introduction/cs_seo-mod-image-alternative-text.png
-   :height: 913
-   :width: 1280
+.. |img-7|      image:: ../Images/Introduction/cs_seo-typo3-module-image-alternative-text
+   :height: 571
+   :width: 800
 .. :align: center
 .. :alt: cs_seo module to fill alternative texts of images
 .. :border: 0
