@@ -89,28 +89,30 @@ class MetaDataService
                 // db fallback
                 if (isset($tableSettings['fallback'])) {
                     foreach ($tableSettings['fallback'] as $seoField => $fallbackField) {
-                        if (empty($metaData[$seoField]) && !empty($record[$fallbackField])) {
-                            $metaData[$seoField] = $record[$fallbackField];
-                            if ($seoField == 'og_image' || $seoField == 'tw_image') {
-                                $metaData[$seoField] = [
-                                    'field' => $fallbackField,
-                                    'table' => $tableSettings['table'],
-                                    'uid_foreign' => $tableSettings['uid']
-                                ];
+                        if (empty($metaData[$seoField])) {
+                            if(!empty($record[$fallbackField])) {
+                                $metaData[$seoField] = $record[$fallbackField];
+                                if ($seoField == 'og_image' || $seoField == 'tw_image') {
+                                    $metaData[$seoField] = [
+                                        'field' => $fallbackField,
+                                        'table' => $tableSettings['table'],
+                                        'uid_foreign' => $tableSettings['uid']
+                                    ];
+                                }
                             }
-                        }
-                        // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
-                        elseif (preg_match('/{([^}]+)}/', $fallbackField)) {
-                            $curlyBracketSeoField = $fallbackField;
-                            $matches = [];
-                            preg_match_all('/{([^}]+)}/', $fallbackField, $matches);
-                            $matchesWithCurlyBrackets = $matches[0];
-                            $matchesWithoutCurlyBrackets = $matches[1];
-                            foreach ($matchesWithCurlyBrackets as $key => $matchWithCurlyBracket) {
-                                $recordField = $matchesWithoutCurlyBrackets[$key];
-                                $curlyBracketSeoField = str_replace($matchWithCurlyBracket, $record[$recordField], $curlyBracketSeoField);
+                            // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
+                            elseif (preg_match('/{([^}]+)}/', $fallbackField)) {
+                                $curlyBracketSeoField = $fallbackField;
+                                $matches = [];
+                                preg_match_all('/{([^}]+)}/', $fallbackField, $matches);
+                                $matchesWithCurlyBrackets = $matches[0];
+                                $matchesWithoutCurlyBrackets = $matches[1];
+                                foreach ($matchesWithCurlyBrackets as $key => $matchWithCurlyBracket) {
+                                    $recordField = $matchesWithoutCurlyBrackets[$key];
+                                    $curlyBracketSeoField = str_replace($matchWithCurlyBracket, $record[$recordField], $curlyBracketSeoField);
+                                }
+                                $metaData[$seoField] = $curlyBracketSeoField;
                             }
-                            $metaData[$seoField] = $curlyBracketSeoField;
                         }
                     }
                 }
