@@ -1,55 +1,59 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2018-02-16T09:04:16Z">
-		<header>
-			<generator>LFEditor</generator>
-		</header>
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang_csh_meta.xlf" date="2021-05-03T15:09:12Z" product-name="cs_seo">
+		<header/>
 		<body>
-		<trans-unit id="_title.seeAlso">
-			<source> www.clickstorm.de/blog | http://www.clickstorm.de/blog/</source>
-		</trans-unit>
-		<trans-unit id="canonical_link.description">
-			<source>Provides from duplicate content. If another page shows mainly the same content, type here the link to this page, if it should be rather indexed then the current. </source>
-		</trans-unit>
-		<trans-unit id="keyword.description">
-			<source>Specify a word or phrase. In the SEO evaluation will be proofed wether this Focus Keyword is set in the browser title, the meta description and in the page content. You can specify multiple, comma-separated alternatives, e.g. for plural or stop words.</source>
-		</trans-unit>
-		<trans-unit id="no_follow.description">
-			<source>If checked, all links on the web page will not be checked from search engines. Thus the links have no influence on a page rank.</source>
-		</trans-unit>
-		<trans-unit id="no_index.description">
-			<source>If checked, this page will not be visible in search engines.</source>
-		</trans-unit>
-		<trans-unit id="og_description.description">
-			<source>This description will be shown, if the user shares this page on facebook, LinkedIn etc.</source>
-		</trans-unit>
-		<trans-unit id="og_image.description">
-			<source>This image will be shown, if the user shares this page on facebook, LinkedIn etc. It will be scaled to 1200 x 628 pixels.</source>
-		</trans-unit>
-		<trans-unit id="og_title.description">
-			<source>This title will be shown, if the user shares this page on facebook, LinkedIn etc.</source>
-		</trans-unit>
-		<trans-unit id="title.description">
-			<source>This title will be shown in the browser tab and in the search engines. Place some keywords here, but not only separated by commas. The user should be animated to click.</source>
-		</trans-unit>
-		<trans-unit id="title_only.description">
-			<source>Show the browser title without the site title in cases the space isn't enough.</source>
-		</trans-unit>
-		<trans-unit id="tw_creator.description">
-			<source>Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be shown as creator.</source>
-		</trans-unit>
-		<trans-unit id="tw_description.description">
-			<source>This description will be shown, if the user shares this page on twitter. Fallback is the open graph description.</source>
-		</trans-unit>
-		<trans-unit id="tw_image.description">
-			<source>This image will be shown, if the user shares this page on twitter. Fallback is the open graph image. It will be scaled to 1024 x 512 pixels.</source>
-		</trans-unit>
-		<trans-unit id="tw_site.description">
-			<source>Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be used in the card footer. The account should belong to your website.</source>
-		</trans-unit>
-		<trans-unit id="tw_title.description">
-			<source>This title will be shown, if the user shares this page on twitter. Fallback is the open graph title. </source>
-		</trans-unit>
+			<trans-unit id="_title.seeAlso" resname="_title.seeAlso">
+				<source> www.clickstorm.de/blog | http://www.clickstorm.de/blog/</source>
+			</trans-unit>
+			<trans-unit id="canonical_link.description" resname="canonical_link.description">
+				<source>Provides from duplicate content. If another page shows mainly the same content, type here the link to this page, if it should be rather indexed then the current. </source>
+			</trans-unit>
+			<trans-unit id="json_ld.description" resname="json_ld.description">
+				<source>Add more information about the content of the current record with JSON-LD.</source>
+			</trans-unit>
+			<trans-unit id="json_ld.seeAlso" resname="json_ld.seeAlso">
+				<source>https://developers.google.com/search/docs/guides/intro-structured-data</source>
+			</trans-unit>
+			<trans-unit id="keyword.description" resname="keyword.description">
+				<source>Specify a word or phrase. In the SEO evaluation will be proofed wether this Focus Keyword is set in the browser title, the meta description and in the page content. You can specify multiple, comma-separated alternatives, e.g. for plural or stop words.</source>
+			</trans-unit>
+			<trans-unit id="no_follow.description" resname="no_follow.description">
+				<source>If checked, all links on the web page will not be checked from search engines. Thus the links have no influence on a page rank.</source>
+			</trans-unit>
+			<trans-unit id="no_index.description" resname="no_index.description">
+				<source>If checked, this page will not be visible in search engines.</source>
+			</trans-unit>
+			<trans-unit id="og_description.description" resname="og_description.description">
+				<source>This description will be shown, if the user shares this page on facebook, LinkedIn etc.</source>
+			</trans-unit>
+			<trans-unit id="og_image.description" resname="og_image.description">
+				<source>This image will be shown, if the user shares this page on facebook, LinkedIn etc. It will be scaled to 1200 x 628 pixels.</source>
+			</trans-unit>
+			<trans-unit id="og_title.description" resname="og_title.description">
+				<source>This title will be shown, if the user shares this page on facebook, LinkedIn etc.</source>
+			</trans-unit>
+			<trans-unit id="title.description" resname="title.description">
+				<source>This title will be shown in the browser tab and in the search engines. Place some keywords here, but not only separated by commas. The user should be animated to click.</source>
+			</trans-unit>
+			<trans-unit id="title_only.description" resname="title_only.description">
+				<source>Show the browser title without the site title in cases the space isn't enough.</source>
+			</trans-unit>
+			<trans-unit id="tw_creator.description" resname="tw_creator.description">
+				<source>Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be shown as creator.</source>
+			</trans-unit>
+			<trans-unit id="tw_description.description" resname="tw_description.description">
+				<source>This description will be shown, if the user shares this page on twitter. Fallback is the open graph description.</source>
+			</trans-unit>
+			<trans-unit id="tw_image.description" resname="tw_image.description">
+				<source>This image will be shown, if the user shares this page on twitter. Fallback is the open graph image. It will be scaled to 1024 x 512 pixels.</source>
+			</trans-unit>
+			<trans-unit id="tw_site.description" resname="tw_site.description">
+				<source>Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be used in the card footer. The account should belong to your website.</source>
+			</trans-unit>
+			<trans-unit id="tw_title.description" resname="tw_title.description">
+				<source>This title will be shown, if the user shares this page on twitter. Fallback is the open graph title. </source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
