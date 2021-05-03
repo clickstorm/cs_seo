@@ -4,7 +4,8 @@
 CREATE TABLE pages (
 	tx_csseo_keyword varchar(255) DEFAULT '' NOT NULL,
 	tx_csseo_tw_creator varchar(255) DEFAULT '' NOT NULL,
-	tx_csseo_tw_site varchar(255) DEFAULT '' NOT NULL
+	tx_csseo_tw_site varchar(255) DEFAULT '' NOT NULL,
+	tx_csseo_json_ld text
 );
 
 #
@@ -25,6 +26,7 @@ CREATE TABLE tx_csseo_domain_model_meta (
 	tw_image int(11) unsigned NOT NULL default '0',
 	tw_creator varchar(255) DEFAULT '' NOT NULL,
 	tw_site varchar(255) DEFAULT '' NOT NULL,
+	json_ld text,
 
 	uid_foreign int(11) DEFAULT '0' NOT NULL,
 	tablenames varchar(255) DEFAULT '' NOT NULL

@@ -24,6 +24,7 @@ class CanonicalService extends AbstractUrlService
 
         $metaDataService = GeneralUtility::makeInstance(MetaDataService::class);
         $metaData = $metaDataService->getMetaData();
+
         $useAdditionalCanonicalizedUrlParametersOnly = ConfigurationUtility::useAdditionalCanonicalizedUrlParametersOnly();
 
         /** @var ContentObjectRenderer $cObj */

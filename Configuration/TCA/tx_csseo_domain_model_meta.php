@@ -35,6 +35,8 @@ return [
 							    --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_facebook;facebook,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_twitter;twitter,
+							    --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.metadata,
+							    json_ld,
 							    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,
 							    --palette--;;language,
 							    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
@@ -357,6 +359,16 @@ return [
                 'type' => 'input',
                 'max' => '40',
                 'eval' => 'trim',
+            ]
+        ],
+        'json_ld' => [
+            'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_json_ld',
+            'exclude' => 1,
+            'config' => [
+                'type' => 'text',
+                'cols' => 40,
+                'rows' => 5,
+                'eval' => 'trim'
             ]
         ],
         'uid_foreign' => [

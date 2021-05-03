@@ -1,94 +1,95 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2018-02-16T08:56:13Z">
-		<header>
-			<generator>LFEditor</generator>
-		</header>
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang_db.xlf" date="2021-05-03T12:58:27Z" product-name="cs_seo">
+		<header/>
 		<body>
-		<trans-unit id="evaluation.tca.robots_txt.robots_disallow_all">
-			<source>Warning! The &quot;Disallow: /&quot; tells the robot that it should not visit any pages on your site.</source>
-		</trans-unit>
-		<trans-unit id="evaluation.tca.robots_txt.robots_exists">
-			<source>Warning! If you want to use this Robots setting, you must remove the robots.txt in your web root.</source>
-		</trans-unit>
-		<trans-unit id="pages.description">
-			<source>Description</source>
-		</trans-unit>
-		<trans-unit id="pages.palette.tx_csseo_facebook">
-			<source>Facebook (Open Graph)</source>
-		</trans-unit>
-		<trans-unit id="pages.palette.tx_csseo_index">
-			<source>Page Indexing</source>
-		</trans-unit>
-		<trans-unit id="pages.palette.tx_csseo_preview">
-			<source>In Search Results</source>
-		</trans-unit>
-		<trans-unit id="pages.palette.tx_csseo_twitter">
-			<source>Twitter Cards</source>
-		</trans-unit>
-		<trans-unit id="pages.tab.seo">
-			<source>SEO</source>
-		</trans-unit>
-		<trans-unit id="pages.tab.social">
-			<source>Social Media</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_canonical">
-			<source>Canonical URL</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_keyword">
-			<source>Focus Keyword</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_no_follow">
-			<source>No Follow</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_no_index">
-			<source>No Index</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_og_description">
-			<source>Facebook Description</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_og_image">
-			<source>Facebook Image</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_og_title">
-			<source>Facebook Title</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_title">
-			<source>Browser Title</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_tw_creator">
-			<source>Twitter Creator</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_tw_description">
-			<source>Twitter Description</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_tw_image">
-			<source>Twitter Image</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_tw_site">
-			<source>Twitter Site</source>
-		</trans-unit>
-		<trans-unit id="pages.tx_csseo_tw_title">
-			<source>Twitter Title</source>
-		</trans-unit>
-		<trans-unit id="sys_domain.tab.robots_txt">
-			<source>Robots.txt</source>
-		</trans-unit>
-		<trans-unit id="sys_domain.tx_csseo_robots_txt">
-			<source>Robots.txt</source>
-		</trans-unit>
-		<trans-unit id="tx_csseo_domain_model_evaluation.results">
-			<source>Results</source>
-		</trans-unit>
-		<trans-unit id="tx_csseo_domain_model_evaluation.url">
-			<source>URL</source>
-		</trans-unit>
-		<trans-unit id="tx_csseo_domain_model_meta">
-			<source>SEO options</source>
-		</trans-unit>
-		<trans-unit id="tx_csseo_domain_model_meta.description">
-			<source>Description</source>
-		</trans-unit>
+			<trans-unit id="evaluation.tca.robots_txt.robots_disallow_all" resname="evaluation.tca.robots_txt.robots_disallow_all">
+				<source>Warning! The &quot;Disallow: /&quot; tells the robot that it should not visit any pages on your site.</source>
+			</trans-unit>
+			<trans-unit id="evaluation.tca.robots_txt.robots_exists" resname="evaluation.tca.robots_txt.robots_exists">
+				<source>Warning! If you want to use this Robots setting, you must remove the robots.txt in your web root.</source>
+			</trans-unit>
+			<trans-unit id="pages.description" resname="pages.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="pages.palette.tx_csseo_facebook" resname="pages.palette.tx_csseo_facebook">
+				<source>Facebook (Open Graph)</source>
+			</trans-unit>
+			<trans-unit id="pages.palette.tx_csseo_index" resname="pages.palette.tx_csseo_index">
+				<source>Page Indexing</source>
+			</trans-unit>
+			<trans-unit id="pages.palette.tx_csseo_preview" resname="pages.palette.tx_csseo_preview">
+				<source>In Search Results</source>
+			</trans-unit>
+			<trans-unit id="pages.palette.tx_csseo_twitter" resname="pages.palette.tx_csseo_twitter">
+				<source>Twitter Cards</source>
+			</trans-unit>
+			<trans-unit id="pages.tab.seo" resname="pages.tab.seo">
+				<source>SEO</source>
+			</trans-unit>
+			<trans-unit id="pages.tab.social" resname="pages.tab.social">
+				<source>Social Media</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_canonical" resname="pages.tx_csseo_canonical">
+				<source>Canonical URL</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_json_ld" resname="pages.tx_csseo_json_ld">
+				<source>Structured Data (JSON-LD)</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_keyword" resname="pages.tx_csseo_keyword">
+				<source>Focus Keyword</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_no_follow" resname="pages.tx_csseo_no_follow">
+				<source>No Follow</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_no_index" resname="pages.tx_csseo_no_index">
+				<source>No Index</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_og_description" resname="pages.tx_csseo_og_description">
+				<source>Facebook Description</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_og_image" resname="pages.tx_csseo_og_image">
+				<source>Facebook Image</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_og_title" resname="pages.tx_csseo_og_title">
+				<source>Facebook Title</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_title" resname="pages.tx_csseo_title">
+				<source>Browser Title</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_tw_creator" resname="pages.tx_csseo_tw_creator">
+				<source>Twitter Creator</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_tw_description" resname="pages.tx_csseo_tw_description">
+				<source>Twitter Description</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_tw_image" resname="pages.tx_csseo_tw_image">
+				<source>Twitter Image</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_tw_site" resname="pages.tx_csseo_tw_site">
+				<source>Twitter Site</source>
+			</trans-unit>
+			<trans-unit id="pages.tx_csseo_tw_title" resname="pages.tx_csseo_tw_title">
+				<source>Twitter Title</source>
+			</trans-unit>
+			<trans-unit id="sys_domain.tab.robots_txt" resname="sys_domain.tab.robots_txt">
+				<source>Robots.txt</source>
+			</trans-unit>
+			<trans-unit id="sys_domain.tx_csseo_robots_txt" resname="sys_domain.tx_csseo_robots_txt">
+				<source>Robots.txt</source>
+			</trans-unit>
+			<trans-unit id="tx_csseo_domain_model_evaluation.results" resname="tx_csseo_domain_model_evaluation.results">
+				<source>Results</source>
+			</trans-unit>
+			<trans-unit id="tx_csseo_domain_model_evaluation.url" resname="tx_csseo_domain_model_evaluation.url">
+				<source>URL</source>
+			</trans-unit>
+			<trans-unit id="tx_csseo_domain_model_meta" resname="tx_csseo_domain_model_meta">
+				<source>SEO options</source>
+			</trans-unit>
+			<trans-unit id="tx_csseo_domain_model_meta.description" resname="tx_csseo_domain_model_meta.description">
+				<source>Description</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

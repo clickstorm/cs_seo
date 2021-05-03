@@ -63,7 +63,7 @@ class MetaDataService
     public function getMetaData(): ?array
     {
         // check if metadata was already set
-        if ($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData']) {
+        if (!isset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'])) {
             return $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'];
         }
 
@@ -85,6 +85,7 @@ class MetaDataService
                 }
                 // db meta
                 $metaData = $this->getMetaProperties($tableSettings);
+                $metaData['__uid'] =  $tableSettings['uid'];
 
                 // db fallback
                 if (isset($tableSettings['fallback'])) {
@@ -92,7 +93,7 @@ class MetaDataService
                         if (empty($metaData[$seoField])) {
                             if(!empty($record[$fallbackField])) {
                                 $metaData[$seoField] = $record[$fallbackField];
-                                if ($seoField == 'og_image' || $seoField == 'tw_image') {
+                                if ($seoField === 'og_image' || $seoField === 'tw_image') {
                                     $metaData[$seoField] = [
                                         'field' => $fallbackField,
                                         'table' => $tableSettings['table'],
@@ -123,6 +124,8 @@ class MetaDataService
                 return $metaData;
             }
         }
+
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'] = false;
 
         return null;
     }

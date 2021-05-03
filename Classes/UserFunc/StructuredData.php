@@ -2,7 +2,9 @@
 
 namespace Clickstorm\CsSeo\UserFunc;
 
+use Clickstorm\CsSeo\Service\MetaDataService;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
+
 /***************************************************************
  *
  *  Copyright notice
@@ -54,6 +56,39 @@ class StructuredData
     }
 
     /**
+     * return the content of field tx_csseo_json_ld from pages or field json_ld from record
+     *
+     * @param string $content
+     * @param array $conf
+     *
+     * @retrun string
+     */
+    public function getJsonLdOfPageOrRecord($content, $conf)
+    {
+        $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
+        $jsonLd = $GLOBALS['TSFE']->page['tx_csseo_json_ld'];
+
+        // overwrite json ld with record metadata
+        if ($metaData) {
+            $jsonLd = $metaData['json_ld'];
+        }
+
+        return $jsonLd ? $this->wrapWithLd($jsonLd) : '';
+    }
+
+    /**
+     * Wraps $content with Json declaration
+     *
+     * @param $content
+     *
+     * @return string
+     */
+    protected function wrapWithLd($content)
+    {
+        return '<script type="application/ld+json">' . $content . '</script>';
+    }
+
+    /**
      * Returns the json for the siteSearch
      *
      * @return bool|string siteSearch
@@ -83,18 +118,6 @@ class StructuredData
         ];
 
         return $this->wrapWithLd(json_encode($siteSearch));
-    }
-
-    /**
-     * Wraps $content with Json declaration
-     *
-     * @param $content
-     *
-     * @return string
-     */
-    protected function wrapWithLd($content)
-    {
-        return '<script type="application/ld+json">' . $content . '</script>';
     }
 
     /**

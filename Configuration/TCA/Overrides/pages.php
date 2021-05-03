@@ -45,6 +45,16 @@ $tempColumns = [
             'eval' => 'trim',
         ]
     ],
+    'tx_csseo_json_ld' => [
+        'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_json_ld',
+        'exclude' => 1,
+        'config' => [
+            'type' => 'text',
+            'cols' => 40,
+            'rows' => 5,
+            'eval' => 'trim'
+        ]
+    ],
 ];
 
 // add new fields
@@ -60,6 +70,13 @@ foreach ($GLOBALS['TCA']['pages']['types'] as $key => $type) {
     $GLOBALS['TCA']['pages']['types'][$key]['showitem'] =
         str_replace('--palette--;;twittercards,', '', $type['showitem']);
 }
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+    'pages',
+    'metatags',
+    'tx_csseo_json_ld',
+    'before:keywords'
+);
 
 // define new palettes
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
