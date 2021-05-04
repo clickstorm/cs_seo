@@ -60,7 +60,7 @@ class MetaDataService
         $this->languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
     }
 
-    public function getMetaData(): ?array
+    public function getMetaData()
     {
         // check if metadata was already set
         if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'])) {
