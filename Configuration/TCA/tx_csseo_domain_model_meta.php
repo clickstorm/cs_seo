@@ -367,6 +367,9 @@ return [
             'config' => [
                 'type' => 'text',
                 'renderType' => 'txCsseoJsonLd',
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true
+                ],
                 'eval' => 'trim,Clickstorm\\CsSeo\\Evaluation\\TCA\\JsonLdEvaluator'
             ]
         ],

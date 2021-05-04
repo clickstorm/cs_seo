@@ -51,8 +51,9 @@ $tempColumns = [
         'config' => [
             'type' => 'text',
             'renderType' => 'txCsseoJsonLd',
-            'cols' => 40,
-            'rows' => 5,
+            'behaviour' => [
+                'allowLanguageSynchronization' => true
+            ],
             'eval' => 'trim,Clickstorm\\CsSeo\\Evaluation\\TCA\\JsonLdEvaluator'
         ]
     ],
