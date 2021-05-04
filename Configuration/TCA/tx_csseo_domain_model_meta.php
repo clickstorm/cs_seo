@@ -366,8 +366,7 @@ return [
             'exclude' => 1,
             'config' => [
                 'type' => 'text',
-                'cols' => 40,
-                'rows' => 5,
+                'renderType' => 'txCsseoJsonLd',
                 'eval' => 'trim'
             ]
         ],

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-04-09T12:28:52Z" product-name="cs_seo">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-05-04T13:40:46Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -251,6 +251,15 @@
 			</trans-unit>
 			<trans-unit id="module.file.update.error.message" resname="module.file.update.error.message">
 				<source>has still no alternative text.</source>
+			</trans-unit>
+			<trans-unit id="templates.element.json_ld_element.link.generator" resname="templates.element.json_ld_element.link.generator">
+				<source>Generate markup</source>
+			</trans-unit>
+			<trans-unit id="templates.element.json_ld_element.link.check_url" resname="templates.element.json_ld_element.link.check_url">
+				<source>Check URL</source>
+			</trans-unit>
+			<trans-unit id="templates.element.json_ld_element.link.check_text" resname="templates.element.json_ld_element.link.check_text">
+				<source>Check field markup</source>
 			</trans-unit>
 		</body>
 	</file>

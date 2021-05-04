@@ -50,6 +50,7 @@ $tempColumns = [
         'exclude' => 1,
         'config' => [
             'type' => 'text',
+            'renderType' => 'txCsseoJsonLd',
             'cols' => 40,
             'rows' => 5,
             'eval' => 'trim'

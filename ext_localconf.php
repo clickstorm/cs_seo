@@ -30,6 +30,12 @@ if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
         'class' => \Clickstorm\CsSeo\Form\Element\SnippetPreview::class,
     ];
 
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1620117622] = [
+        'nodeName' => 'txCsseoJsonLd',
+        'priority' => 30,
+        'class' => \Clickstorm\CsSeo\Form\Element\JsonLdElement::class,
+    ];
+
     // add hook to get current cHash params
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['getData']['cs_seo'] =
         \Clickstorm\CsSeo\Hook\CurrentUrlGetDataHook::class;

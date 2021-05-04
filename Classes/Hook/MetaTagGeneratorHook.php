@@ -51,7 +51,7 @@ class MetaTagGeneratorHook
     public function generate(array $params)
     {
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
-        
+
         if (!$metaData) {
             return;
         }
