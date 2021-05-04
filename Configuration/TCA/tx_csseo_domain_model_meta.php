@@ -367,7 +367,7 @@ return [
             'config' => [
                 'type' => 'text',
                 'renderType' => 'txCsseoJsonLd',
-                'eval' => 'trim'
+                'eval' => 'trim,Clickstorm\\CsSeo\\Evaluation\\TCA\\JsonLdEvaluator'
             ]
         ],
         'uid_foreign' => [

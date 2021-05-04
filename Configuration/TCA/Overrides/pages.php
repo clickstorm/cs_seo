@@ -53,7 +53,7 @@ $tempColumns = [
             'renderType' => 'txCsseoJsonLd',
             'cols' => 40,
             'rows' => 5,
-            'eval' => 'trim'
+            'eval' => 'trim,Clickstorm\\CsSeo\\Evaluation\\TCA\\JsonLdEvaluator'
         ]
     ],
 ];
