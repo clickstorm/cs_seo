@@ -15,7 +15,7 @@ define(['jquery'], function($) {
       let $checkUrlButton = $('.t3js-form-field-json-ld-url');
       let $previewUrlButton = $('.t3js-editform-view');
       let $panel = $checkTextButton.closest('fieldset');
-      let $inputJsonLdHR = $panel.find('[data-formengine-input-name$="[tx_csseo_json_ld]"], textarea[name$="[tx_csseo_json_ld]"]');
+      let $inputJsonLdHR = $panel.find('[data-formengine-input-name$="[tx_csseo_json_ld]"], [data-formengine-input-name$="[json_ld]"], textarea[name$="[tx_csseo_json_ld]"], textarea[name$="[json_ld]"]');
 
       // create and submit a form to Google
       $checkTextButton.off().click(function() {

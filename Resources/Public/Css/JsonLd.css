@@ -1,4 +1,6 @@
 .txcsseo-json-ld .form-control-wrap {
-  margin-top: 0;
   max-width: none !important;
+}
+.txcsseo-json-ld .btn-group-vertical {
+  margin-top: 9px;
 }
