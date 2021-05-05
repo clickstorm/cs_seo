@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-05-04T13:40:46Z" product-name="cs_seo">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-05-05T08:38:23Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -230,6 +230,10 @@
 			<trans-unit id="layouts.module.action.pageTwitterCards" resname="layouts.module.action.pageTwitterCards">
 				<source>Twitter Cards</source>
 				<target>Twitter Cards</target>
+			</trans-unit>
+			<trans-unit id="layouts.module.action.pageStructuredData" resname="layouts.module.action.pageStructuredData">
+				<source>Structured Data</source>
+				<target>Strukturierte Daten</target>
 			</trans-unit>
 			<trans-unit id="layouts.module.action.showEmptyImageAlt" resname="layouts.module.action.showEmptyImageAlt">
 				<source>Add an alternative text to an image</source>

@@ -1,8 +1,8 @@
 <?php
 
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3_MODE') or die();
 
-$boot = function () {
+(function () {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
         'tx_csseo_domain_model_meta',
         'EXT:cs_seo/Resources/Private/Language/locallang_csh_tx_csseo_domain_model_meta.xlf'
@@ -30,7 +30,8 @@ $boot = function () {
             'mod1',
             '',
             [
-                \Clickstorm\CsSeo\Controller\ModuleWebController::class => 'pageMeta, pageIndex, pageOpenGraph, pageTwitterCards, pageResults, pageEvaluation'
+                \Clickstorm\CsSeo\Controller\ModuleWebController::class =>
+                    'pageMeta, pageIndex, pageOpenGraph, pageTwitterCards, pageStructuredData, pageResults, pageEvaluation'
             ],
             [
                 'access' => 'user,group',
@@ -54,7 +55,4 @@ $boot = function () {
             ]
         );
     }
-};
-
-$boot();
-unset($boot);
+})();

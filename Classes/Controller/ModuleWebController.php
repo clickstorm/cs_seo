@@ -52,6 +52,7 @@ class ModuleWebController extends AbstractModuleController
         'pageIndex',
         'pageOpenGraph',
         'pageTwitterCards',
+        'pageStructuredData',
         'pageResults',
         'pageEvaluation'
     ];
@@ -120,6 +121,14 @@ class ModuleWebController extends AbstractModuleController
     public function pageOpenGraphAction()
     {
         return $this->generateGridView(['title', 'og_title', 'og_description', 'og_image']);
+    }
+
+    /**
+     * Show Structure Data properties
+     */
+    public function pageStructuredDataAction()
+    {
+        return $this->generateGridView(['title', 'tx_csseo_json_ld']);
     }
 
     /**
