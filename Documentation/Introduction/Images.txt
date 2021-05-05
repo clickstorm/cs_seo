@@ -61,7 +61,7 @@
 .. :name: Screenshot 7
 .. :vspace: 52
 
-.. |img-7|      image:: ../Images/Introduction/cs_seo-structured-data-json-ld.png
+.. |img-8|      image:: ../Images/Introduction/cs_seo-structured-data-json-ld.png
    :height: 560
    :width: 800
 .. :align: center
