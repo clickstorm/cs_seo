@@ -14,7 +14,7 @@ class JsonLdEvaluator extends AbstractEvaluator
      */
     public function evaluateFieldValue($value, $is_in, &$set)
     {
-        if($value) {
+        if($value && !isset($_REQUEST['tx_csseo_json_ld_eval_done'])) {
             $value = trim(preg_replace('#<script(.*?)>|</script>#is', '', $value));
             if($value && json_decode($value, true) === null) {
                 $this->addFlashMessage(
@@ -22,6 +22,8 @@ class JsonLdEvaluator extends AbstractEvaluator
                 );
             }
         }
+
+        $_REQUEST['tx_csseo_json_ld_eval_done'] = true;
 
         return $value;
     }
