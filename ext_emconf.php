@@ -4,8 +4,8 @@ $EM_CONF[$_EXTKEY] = [
     'title' => '[clickstorm] SEO',
     'description' => 'SEO Extension: Enables important onpage features for search engine optimization (SEO). Expands
 						the page settings and any desired records for example with a preview for Google search results (SERP)
-						and a Focus Keyword. Restrective hreflang and canonical tags. Modules for metadata of records and
-						alternative texts of images. Further features are shown in the extension manual.',
+						Structured Data (JSON-LD) and a Focus Keyword. Restrictive hreflang and canonical tags. Modules for
+						metadata of records and alternative texts of images. Further features are shown in the extension manual.',
     'category' => 'services',
     'author' => 'Pascale Beier, Angela Dudtkowski, Marc Hirdes, Andreas Kirilow, Alexander König - clickstorm GmbH',
     'author_email' => 'hirdes@clickstorm.de',
