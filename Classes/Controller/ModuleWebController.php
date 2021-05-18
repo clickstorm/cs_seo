@@ -91,22 +91,6 @@ class ModuleWebController extends AbstractModuleController
         return $this->generateGridView($fieldNames);
     }
 
-    protected function generateGridView(array $fieldNames, bool $showResults = false): string
-    {
-        $gridService = GeneralUtility::makeInstance(GridService::class);
-
-        $gridService->setModParams($this->modParams);
-        $gridService->setFieldNames($fieldNames);
-        $gridService->setShowResults($showResults);
-
-        $this->cssFiles = $gridService->getCssFiles();
-        $this->jsFiles = $gridService->getJsFiles();
-
-        $this->view->assignMultiple($gridService->processFields());
-
-        return $this->wrapModuleTemplate();
-    }
-
     /**
      * Show Index properties
      */
@@ -170,8 +154,13 @@ class ModuleWebController extends AbstractModuleController
 
         foreach ($tablesToExtend as $tableName => $tableConfig) {
             if ($tableConfig['evaluation'] && $tableConfig['evaluation']['detailPid']) {
-                $tables[$tableName] =
-                    LocalizationUtility::translate($GLOBALS['TCA'][$tableName]['ctrl']['title'], $extKey);
+                $tableTitle = $GLOBALS['TCA'][$tableName]['ctrl']['title'] ?: $tableName;
+
+                if (GeneralUtility::isFirstPartOfStr($tableTitle, 'LLL:')) {
+                    $tableTitle = LocalizationUtility::translate($tableTitle, $extKey);
+                }
+
+                $tables[$tableName] = $tableTitle;
             }
         }
 
@@ -304,5 +293,21 @@ class ModuleWebController extends AbstractModuleController
         }
 
         return $response;
+    }
+
+    protected function generateGridView(array $fieldNames, bool $showResults = false): string
+    {
+        $gridService = GeneralUtility::makeInstance(GridService::class);
+
+        $gridService->setModParams($this->modParams);
+        $gridService->setFieldNames($fieldNames);
+        $gridService->setShowResults($showResults);
+
+        $this->cssFiles = $gridService->getCssFiles();
+        $this->jsFiles = $gridService->getJsFiles();
+
+        $this->view->assignMultiple($gridService->processFields());
+
+        return $this->wrapModuleTemplate();
     }
 }
