@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use Psr\Http\Message\ResponseInterface;
 use Clickstorm\CsSeo\Service\Backend\GridService;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
@@ -80,7 +81,7 @@ class ModuleWebController extends AbstractModuleController
     /**
      * Show SEO fields
      */
-    public function pageMetaAction()
+    public function pageMetaAction(): ResponseInterface
     {
         $fieldNames = ['title', 'seo_title', 'description'];
 
@@ -88,60 +89,60 @@ class ModuleWebController extends AbstractModuleController
         $tsfeUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->id, $this->modParams['lang']);
         $this->view->assign('previewSettings', json_encode($tsfeUtility->getPreviewSettings()));
 
-        return $this->generateGridView($fieldNames);
+        return $this->htmlResponse($this->generateGridView($fieldNames));
     }
 
     /**
      * Show Index properties
      */
-    public function pageIndexAction()
+    public function pageIndexAction(): ResponseInterface
     {
-        return $this->generateGridView(['title', 'canonical_link', 'no_index', 'no_follow', 'no_search']);
+        return $this->htmlResponse($this->generateGridView(['title', 'canonical_link', 'no_index', 'no_follow', 'no_search']));
     }
 
     /**
      * Show Open Graph properties
      */
-    public function pageOpenGraphAction()
+    public function pageOpenGraphAction(): ResponseInterface
     {
-        return $this->generateGridView(['title', 'og_title', 'og_description', 'og_image']);
+        return $this->htmlResponse($this->generateGridView(['title', 'og_title', 'og_description', 'og_image']));
     }
 
     /**
      * Show Structure Data properties
      */
-    public function pageStructuredDataAction()
+    public function pageStructuredDataAction(): ResponseInterface
     {
-        return $this->generateGridView(['title', 'tx_csseo_json_ld']);
+        return $this->htmlResponse($this->generateGridView(['title', 'tx_csseo_json_ld']));
     }
 
     /**
      * Show Twitter Cards properties
      */
-    public function pageTwitterCardsAction()
+    public function pageTwitterCardsAction(): ResponseInterface
     {
-        return $this->generateGridView([
+        return $this->htmlResponse($this->generateGridView([
             'title',
             'twitter_title',
             'twitter_description',
             'tx_csseo_tw_creator',
             'tx_csseo_tw_site',
             'twitter_image'
-        ]);
+        ]));
     }
 
     /**
      * Show page evaluation results
      */
-    public function pageResultsAction()
+    public function pageResultsAction(): ResponseInterface
     {
-        return $this->generateGridView(['title', 'tx_csseo_keyword', 'results'], true);
+        return $this->htmlResponse($this->generateGridView(['title', 'tx_csseo_keyword', 'results'], true));
     }
 
     /**
      * Show page evaluation results
      */
-    public function pageEvaluationAction()
+    public function pageEvaluationAction(): ResponseInterface
     {
         $page = $this->pageRepository->getPage($this->modParams['id']);
 
@@ -254,7 +255,7 @@ class ModuleWebController extends AbstractModuleController
             'Evaluation.css'
         ];
 
-        return $this->wrapModuleTemplate();
+        return $this->htmlResponse($this->wrapModuleTemplate());
     }
 
     /**

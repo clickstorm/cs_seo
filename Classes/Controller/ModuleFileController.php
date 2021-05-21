@@ -2,6 +2,9 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use Clickstorm\CsSeo\Service\Backend\FormService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
@@ -53,7 +56,7 @@ class ModuleFileController extends AbstractModuleController
         $this->identifier = FileUtility::getIdentifierFromCombinedIdentifier($this->modParams['id']);
     }
 
-    public function showEmptyImageAltAction()
+    public function showEmptyImageAltAction(): ResponseInterface
     {
         BackendUtility::lockRecords();
 
@@ -122,16 +125,16 @@ class ModuleFileController extends AbstractModuleController
             }
         }
 
-        return $this->wrapModuleTemplate();
+        return $this->htmlResponse($this->wrapModuleTemplate());
     }
 
-    public function updateAction()
+    public function updateAction(): ResponseInterface
     {
         $uid = $this->request->hasArgument('uid') ? $this->request->getArgument('uid') : 0;
         $data = GeneralUtility::_GP('data')['sys_file_metadata'];
 
         if ($uid && $data) {
-            $resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+            $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
             $file = $resourceFactory->getFileObject($uid);
 
             $file->getMetaData()->add(array_values($data)[0]);
@@ -165,8 +168,8 @@ class ModuleFileController extends AbstractModuleController
             $messageQueue = $flashMessageService->getMessageQueueByIdentifier(static::$mod_name);
             $messageQueue->addMessage($message);
         }
-
-        $this->forward('showEmptyImageAlt');
+        return $this->htmlResponse(new ForwardResponse('showEmptyImageAlt'));
+        return $this->htmlResponse();
     }
 
     protected function addModuleButtons(ButtonBar $buttonBar): void

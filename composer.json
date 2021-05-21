@@ -1,5 +1,5 @@
 {
-	"name": "clickstorm/cs_seo",
+	"name": "clickstorm/cs-seo",
 	"type": "typo3-cms-extension",
 	"description": "[clickstorm] SEO - Extension for TYPO3. Enables important onpage features for search engine optimization (SEO). Expands the page settings and any desired records for example with a preview for Google search results (SERP) Structured Data (JSON-LD) and a Focus Keyword. Restrictive hreflang and canonical tags. Modules for metadata of records and alternative texts of images. Further features are shown in the extension manual.",
 	"keywords": [
@@ -19,11 +19,9 @@
 	"require-dev": {
 		"nimut/testing-framework": "*"
 	},
-	"suggest": {
-		"typo3/scheduler": "^11.2"
-	},
 	"replace": {
-		"typo3-ter/cs_seo": "self.version"
+		"typo3-ter/cs-seo": "self.version",
+		"clickstorm/cs_seo": "self.version"
 	},
 	"autoload": {
 		"psr-4": {

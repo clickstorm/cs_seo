@@ -2,6 +2,8 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -145,7 +147,7 @@ class DatabaseUtility
             $folderExpression = $queryBuilder->expr()->like('file.identifier', $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR));
         } else {
             // get folder hash
-            $resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+            $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
             $folder = $resourceFactory->getFolderObjectFromCombinedIdentifier($storage . ':' . $identifier);
             $folderExpression = $queryBuilder->expr()->eq('file.folder_hash', $queryBuilder->createNamedParameter($folder->getHashedIdentifier(), \PDO::PARAM_STR));
         }
@@ -213,7 +215,7 @@ class DatabaseUtility
             }
         }
 
-        return GeneralUtility::uniqueList($recursiveStoragePids);
+        return StringUtility::uniqueList($recursiveStoragePids);
     }
 
     /**

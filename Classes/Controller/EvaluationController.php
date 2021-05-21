@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use Psr\Http\Message\ResponseInterface;
 /***************************************************************
  *
  *  Copyright notice
@@ -42,12 +43,12 @@ class EvaluationController extends ActionController
      */
     protected $evaluationRepository;
 
-    public function showAction($uidForeign, $tableName = 'pages')
+    public function showAction($uidForeign, $tableName = 'pages'): ResponseInterface
     {
         $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($uidForeign, $tableName);
 
         $this->view->assign('results', $evaluation);
 
-        return $this->view->render();
+        return $this->htmlResponse($this->view->render());
     }
 }
