@@ -26,15 +26,10 @@ namespace Clickstorm\CsSeo\Evaluation\TCA;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Messaging\FlashMessage;
-use TYPO3\CMS\Core\Messaging\FlashMessageService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 /**
  * Class RobotsEvaluator
- *
  */
-class RobotsDisallowAllEvaluator
+class RobotsDisallowAllEvaluator extends AbstractEvaluator
 {
     /**
      * Server-side validation/evaluation on saving the record
@@ -50,20 +45,9 @@ class RobotsDisallowAllEvaluator
     public function evaluateFieldValue($value, $is_in, &$set)
     {
         if ($this->isRobotsDisallowed($value)) {
-            /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
-            $flashMessage = GeneralUtility::makeInstance(
-                FlashMessage::class,
-                $GLOBALS['LANG']->sL(
-                    'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:evaluation.tca.robots_txt.robots_disallow_all'
-                ),
-                '',
-                FlashMessage::WARNING
+            $this->addFlashMessage(
+                'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:evaluation.tca.robots_txt.robots_disallow_all'
             );
-            /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
-            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-            /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
-            $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
-            $defaultFlashMessageQueue->enqueue($flashMessage);
         }
 
         return $value;

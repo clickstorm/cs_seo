@@ -32,7 +32,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class TypoScriptFrontendController
- *
  */
 class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
 {
@@ -46,8 +45,6 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
      *
      * @param string $reason Reason text
      * @param string $header HTTP header to send
-     *
-     * @return void
      */
     public function pageNotFoundAndExit($reason = '', $header = '')
     {
@@ -64,9 +61,6 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
 
     /**
      * Sets sys_page where-clause
-     *
-     * @return void
-     * @access private
      */
     public function setSysPageWhereClause()
     {

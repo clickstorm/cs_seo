@@ -27,7 +27,14 @@ namespace Clickstorm\CsSeo\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
+use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
+use Clickstorm\CsSeo\Evaluation\H1Evaluator;
+use Clickstorm\CsSeo\Evaluation\H2Evaluator;
+use Clickstorm\CsSeo\Evaluation\ImagesEvaluator;
+use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
+use Clickstorm\CsSeo\Evaluation\TitleEvaluator;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -35,7 +42,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * service to evaluate a html page
  *
  * Class EvaluationService
- *
  */
 class EvaluationService
 {
@@ -44,6 +50,23 @@ class EvaluationService
      * @var array
      */
     protected $evaluators;
+
+    /**
+     * evaluationRepository
+     *
+     * @var EvaluationRepository
+     */
+    protected $evaluationRepository = null;
+
+    /**
+     * Inject a evaluationRepository
+     *
+     * @param EvaluationRepository $evaluationRepository
+     */
+    public function injectEvaluationRepository(EvaluationRepository $evaluationRepository)
+    {
+        $this->evaluationRepository = $evaluationRepository;
+    }
 
     /**
      * @return array
@@ -72,7 +95,7 @@ class EvaluationService
 
         $this->initEvaluators();
 
-        $domDocument = new \DOMDocument;
+        $domDocument = new \DOMDocument();
         @$domDocument->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
 
         foreach ($this->evaluators as $evaluatorName => $evaluatorClass) {
@@ -102,12 +125,12 @@ class EvaluationService
 
         // default
         $availableEvaluators = [
-            'H1' => \Clickstorm\CsSeo\Evaluation\H1Evaluator::class,
-            'H2' => \Clickstorm\CsSeo\Evaluation\H2Evaluator::class,
-            'Title' => \Clickstorm\CsSeo\Evaluation\TitleEvaluator::class,
-            'Description' => \Clickstorm\CsSeo\Evaluation\DescriptionEvaluator::class,
-            'Keyword' => \Clickstorm\CsSeo\Evaluation\KeywordEvaluator::class,
-            'Images' => \Clickstorm\CsSeo\Evaluation\ImagesEvaluator::class
+            'H1' => H1Evaluator::class,
+            'H2' => H2Evaluator::class,
+            'Title' => TitleEvaluator::class,
+            'Description' => DescriptionEvaluator::class,
+            'Keyword' => KeywordEvaluator::class,
+            'Images' => ImagesEvaluator::class
         ];
 
         // additional evaluators
@@ -161,5 +184,43 @@ class EvaluationService
             'state' => $state,
             'count' => $count
         ];
+    }
+
+    /**
+     * return evaluation results of a specific page
+     *
+     * @param $record
+     * @param $table
+     *
+     * @return array
+     */
+    public function getResults($record, $table = '')
+    {
+        $results = [];
+        $evaluation = $this->getEvaluation($record, $table);
+        if ($evaluation) {
+            $results = $evaluation->getResults();
+        }
+
+        return $results;
+    }
+
+    public function getEvaluation($record, $table = '')
+    {
+        if ($table) {
+            $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record, $table);
+        } else {
+            if (isset($record['_PAGES_OVERLAY_LANGUAGE'])) {
+                $evaluation =
+                    $this->evaluationRepository->findByUidForeignAndTableName(
+                        $record['_PAGES_OVERLAY_UID'],
+                        'pages'
+                    );
+            } else {
+                $evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$record['uid'], 'pages');
+            }
+        }
+
+        return $evaluation;
     }
 }

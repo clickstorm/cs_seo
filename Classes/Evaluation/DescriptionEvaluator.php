@@ -31,7 +31,6 @@ use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 
 /**
  * Class DescriptionEvaluator
- *
  */
 class DescriptionEvaluator extends AbstractLengthEvaluator
 {

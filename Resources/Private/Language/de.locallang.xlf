@@ -1,302 +1,356 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2017-04-04T11:30:24Z">
-		<header>
-			<generator>LFEditor</generator>
-		</header>
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-05-05T08:38:23Z" product-name="cs_seo">
+		<header/>
 		<body>
-		<trans-unit id="date.format" approved="yes">
-			<source>%m/%d/%Y %I:%M %p</source>
-			<target>%d.%m.%Y %H:%M Uhr</target>
-		</trans-unit>
-		<trans-unit id="error.no_data" approved="yes">
-			<source>Click 'Save' to show the preview.</source>
-			<target>Drücken Sie 'Speichern', um die Vorschau zu sehen.</target>
-		</trans-unit>
-		<trans-unit id="error.no_ts" approved="yes">
-			<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
-			<target>Es konnte kein Seitentyp mit der Nummer 654 gefunden werden. Das TypoScript der Extension 'cs_seo' muss in das Root-Template eingebunden werden.</target>
-		</trans-unit>
-		<trans-unit id="error.no_tsfe" approved="yes">
-			<source>The TypoScript of the current page could not be loaded. Either it is not configured or no site configuration was found.</source>
-			<target>Das TypoScript dieser Seite konnte nicht geladen werden. Entweder ist es nicht konfiguriert oder es wurde keine Seitenkonfiguration gefunden.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.description" approved="yes">
-			<source>Meta Description</source>
-			<target>Seitenbeschreibung</target>
-		</trans-unit>
-		<trans-unit id="evaluation.description.0" approved="yes">
-			<source>is not set</source>
-			<target>wurde nicht gesetzt</target>
-		</trans-unit>
-		<trans-unit id="evaluation.description.1" approved="yes">
-			<source>does not have the optimal length</source>
-			<target>hat nicht die optimale Länge</target>
-		</trans-unit>
-		<trans-unit id="evaluation.description.2" approved="yes">
-			<source>has the optimal length</source>
-			<target>hat die optimale Länge</target>
-		</trans-unit>
-		<trans-unit id="evaluation.description.count" approved="yes">
-			<source>The current description consists of %1$s characters.</source>
-			<target>Die aktuelle Beschreibung besteht aus %1$s Zeichen.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.description.no" approved="yes">
-			<source>No description is given.</source>
-			<target>Es wurde keine Beschreibung angegeben.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.description.settings" approved="yes">
-			<source>The optimal length of the meta description is between %1$s and %2$s characters incl. white spaces.</source>
-			<target>Die optimale Länge der Meta-Beschreibung liegt zwischen %1$s und %2$s Zeichen inkl. Leerzeichen.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.details" approved="yes">
-			<source>Details</source>
-			<target>Details</target>
-		</trans-unit>
-		<trans-unit id="evaluation.frontend" approved="yes">
-			<source>Open page in new window</source>
-			<target>Seite im neuen Fenster öffnen</target>
-		</trans-unit>
-		<trans-unit id="evaluation.h1" approved="yes">
-			<source>H1 headline</source>
-			<target>H1 Überschrift</target>
-		</trans-unit>
-		<trans-unit id="evaluation.h1.0" approved="yes">
-			<source>%1$s headlines were found</source>
-			<target>%1$s Überschriften wurden gefunden</target>
-		</trans-unit>
-		<trans-unit id="evaluation.h1.2" approved="yes">
-			<source>one headline was found</source>
-			<target>eine Überschrift wurde gefunden</target>
-		</trans-unit>
-		<trans-unit id="evaluation.h1.settings" approved="yes">
-			<source>The page should contain one h1 headline.</source>
-			<target>Die Seite sollte eine h1-Überschrift beinhalten.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.h2" approved="yes">
-			<source>H2 headlines</source>
-			<target>H2 Überschriften</target>
-		</trans-unit>
-		<trans-unit id="evaluation.h2.0" approved="yes">
-			<source>No headlines were found</source>
-			<target>Es wurden keine Überschriften gefunden</target>
-		</trans-unit>
-		<trans-unit id="evaluation.h2.1" approved="yes">
-			<source>There are too many headlines (%1$s) on the page</source>
-			<target>Es gibt zu viele Überschriften (%1$s) auf der Seite</target>
-		</trans-unit>
-		<trans-unit id="evaluation.h2.2" approved="yes">
-			<source>The number of headlines is optimal</source>
-			<target>Die Anzahl der Überschriften ist optimal</target>
-		</trans-unit>
-		<trans-unit id="evaluation.h2.settings" approved="yes">
-			<source>The page should contain not more than %1$s h2 headlines.</source>
-			<target>Die Seite sollte nicht mehr als %1$s h2-Überschriften beinhalten.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.header" approved="yes">
-			<source>SEO - Content Analysis</source>
-			<target>SEO - Inhaltsanalyse</target>
-		</trans-unit>
-		<trans-unit id="evaluation.headlines.count" approved="yes">
-			<source>Number of headlines found: %1$s.</source>
-			<target>Anzahl der gefundenen Überschriften: %1$s.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.images" approved="yes">
-			<source>Alt attributes</source>
-			<target>Alt Attribute</target>
-		</trans-unit>
-		<trans-unit id="evaluation.images.0" approved="yes">
-			<source>There is no image with an alternative text</source>
-			<target>Es gibt kein Bild mit einem alternativen Text</target>
-		</trans-unit>
-		<trans-unit id="evaluation.images.1" approved="yes">
-			<source>%1$s image(s) without an alternative text</source>
-			<target>%1$s Bild(er) ohne alternativen Text</target>
-		</trans-unit>
-		<trans-unit id="evaluation.images.2" approved="yes">
-			<source>Every image has an alternative text</source>
-			<target>Jedes Bild hat einen alternativen Text</target>
-		</trans-unit>
-		<trans-unit id="evaluation.images.no" approved="yes">
-			<source>There are no images on the page</source>
-			<target>Es gibt keine Bilder auf der Seite</target>
-		</trans-unit>
-		<trans-unit id="evaluation.images.settings" approved="yes">
-			<source>The content of each image should be described in the &quot;alt&quot; attribute.</source>
-			<target>Der Inhalt jedes Bildes sollte in dem Attribut &quot;alt&quot; beschrieben sein.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.images.withoutAlt" approved="yes">
-			<source>Images without an alt attribut</source>
-			<target>Bilder ohne alt-Attribut</target>
-		</trans-unit>
-		<trans-unit id="evaluation.keyword" approved="yes">
-			<source>Focus Keyword</source>
-			<target>Fokus Schlüsselwort</target>
-		</trans-unit>
-		<trans-unit id="evaluation.keyword.0" approved="yes">
-			<source>The keyword was not found anywhere</source>
-			<target>Das Schlüsselwort wurde nirgendwo gefunden</target>
-		</trans-unit>
-		<trans-unit id="evaluation.keyword.1" approved="yes">
-			<source>The keyword is missing in:</source>
-			<target>Das Schlüsselwort fehlt in:</target>
-		</trans-unit>
-		<trans-unit id="evaluation.keyword.1.body" approved="yes">
-			<source>content</source>
-			<target>Inhalt</target>
-		</trans-unit>
-		<trans-unit id="evaluation.keyword.1.description" approved="yes">
-			<source>description</source>
-			<target>Beschreibung</target>
-		</trans-unit>
-		<trans-unit id="evaluation.keyword.1.title" approved="yes">
-			<source>title</source>
-			<target>Titel</target>
-		</trans-unit>
-		<trans-unit id="evaluation.keyword.2" approved="yes">
-			<source>The keyword was found in title, description and content</source>
-			<target>Das Schlüsselwort wurde in Titel, Beschreibung und Inhalt gefunden</target>
-		</trans-unit>
-		<trans-unit id="evaluation.keyword.no" approved="yes">
-			<source>No keyword was set</source>
-			<target>Es wurde kein Schlüsselwort gesetzt</target>
-		</trans-unit>
-		<trans-unit id="evaluation.keyword.settings" approved="yes">
-			<source>The focus keyword is the word under which the page should be found in external search engines. It should appear in the browser title, the meta description and the content.</source>
-			<target>Das Fokus Keyword ist das Wort, unter dem die Seite in externen Suchmaschinen gefunden werden sollte. Es sollte im Browser-Titel, der Meta-Beschreibung und im Inhalt auftauchen. </target>
-		</trans-unit>
-		<trans-unit id="evaluation.more" approved="yes">
-			<source>More information</source>
-			<target>Weitere Informationen</target>
-		</trans-unit>
-		<trans-unit id="evaluation.no_results" approved="yes">
-			<source>No results. Press update.</source>
-			<target>Keine Ergebnisse. Bitte Aktualisieren.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.title" approved="yes">
-			<source>Browser title</source>
-			<target>Browser Titel</target>
-		</trans-unit>
-		<trans-unit id="evaluation.title.0" approved="yes">
-			<source>is not set.</source>
-			<target>ist nicht gesetzt.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.title.1" approved="yes">
-			<source>does not have the optimal length.</source>
-			<target>hat nicht die optimale Länge.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.title.2" approved="yes">
-			<source>has the optimal length.</source>
-			<target>hat die optimale Länge.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.title.count" approved="yes">
-			<source>The current title consists of %1$s characters.</source>
-			<target>Der aktuelle Titel besteht aus %1$s Zeichen.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.title.no" approved="yes">
-			<source>No title was found.</source>
-			<target>Es wurde kein Titel angegeben.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.title.settings" approved="yes">
-			<source>The optimal length of the browser title is between %1$s and %2$s characters incl. white spaces.</source>
-			<target>Die optimale Länge des Browsertitels liegt zwischen %1$s und %2$s Zeichen inkl. Leerzeichen.</target>
-		</trans-unit>
-		<trans-unit id="evaluation.tstamp" approved="yes">
-			<source>Last update</source>
-			<target>Zuletzt aktualisiert</target>
-		</trans-unit>
-		<trans-unit id="evaluation.update" approved="yes">
-			<source>Update</source>
-			<target>Aktualisieren</target>
-		</trans-unit>
-		<trans-unit id="layouts.module.action.pageEvaluation" approved="yes">
-			<source>Evaluation</source>
-			<target>Evaluierung</target>
-		</trans-unit>
-		<trans-unit id="layouts.module.action.pageIndex" approved="yes">
-			<source>Index</source>
-			<target>Indexierung</target>
-		</trans-unit>
-		<trans-unit id="layouts.module.action.pageMeta" approved="yes">
-			<source>SEO</source>
-			<target>SEO</target>
-		</trans-unit>
-		<trans-unit id="layouts.module.action.pageOpenGraph" approved="yes">
-			<source>Open Graph</source>
-			<target>Open Graph</target>
-		</trans-unit>
-		<trans-unit id="layouts.module.action.pageResults" approved="yes">
-			<source>Results</source>
-			<target>Ergebnisse</target>
-		</trans-unit>
-		<trans-unit id="layouts.module.action.pageTwitterCards" approved="yes">
-			<source>Twitter Cards</source>
-			<target>Twitter Cards</target>
-		</trans-unit>
-		<trans-unit id="mlang_labels_tabdescr" approved="yes">
-			<source>Check properties for search engine optimization.</source>
-			<target>Überprüfe und editiere die Eigenschaften für die Suchmaschinenoptimierung.</target>
-		</trans-unit>
-		<trans-unit id="mlang_labels_tablabel" approved="yes">
-			<source>Info cs_seo </source>
-			<target>Info cs_seo</target>
-		</trans-unit>
-		<trans-unit id="mlang_tabs_tab" approved="yes">
-			<source>SEO</source>
-			<target>SEO</target>
-		</trans-unit>
-		<trans-unit id="partials.module.evaluation.lang" approved="yes">
-			<source>Show results for language:</source>
-			<target>Zeige Ergebnisse für die Sprache:</target>
-		</trans-unit>
-		<trans-unit id="partials.module.grid.error.no_page" approved="yes">
-			<source>Please select a page in the page tree.</source>
-			<target>Bitte wählen Sie eine Seite aus dem Seitenbaum.</target>
-		</trans-unit>
-		<trans-unit id="partials.module.select.depth" approved="yes">
-			<source>Depth</source>
-			<target>Tiefe</target>
-		</trans-unit>
-		<trans-unit id="partials.module.select.lang" approved="yes">
-			<source>Language</source>
-			<target>Sprache</target>
-		</trans-unit>
-		<trans-unit id="partials.module.select.record" approved="yes">
-			<source>Record</source>
-			<target>Datensatz</target>
-		</trans-unit>
-		<trans-unit id="partials.module.select.table" approved="yes">
-			<source>Table</source>
-			<target>Tabelle</target>
-		</trans-unit>
-		<trans-unit id="partials.module.state.error" approved="yes">
-			<source>An error occured! {{ msg.error }}</source>
-			<target>Es ist ein Fehler aufgetreten! {{ msg.error }}</target>
-		</trans-unit>
-		<trans-unit id="partials.module.state.hint" approved="yes">
-			<source>To modify double click on the desired field. The changes are saved automatically. The columns can be moved, enlarged and hidden.</source>
-			<target>Zum Bearbeiten einen Doppelklick auf das gewünschte Feld ausführen. Die Änderungen werden automatisch gespeichert. Die Spalten können verschoben, vergößert, verkleinert und ausgeblendet werden.</target>
-		</trans-unit>
-		<trans-unit id="partials.module.state.no_changes" approved="yes">
-			<source>Nothing has been changed.</source>
-			<target>Es wurde keine Veränderungen vorgenommen.</target>
-		</trans-unit>
-		<trans-unit id="partials.module.state.success" approved="yes">
-			<source>Updated [{{ msg.field }}] {{ msg.value }}</source>
-			<target>Aktualisiert [{{ msg.field }}] {{ msg.value }}</target>
-		</trans-unit>
-		<trans-unit id="partials.module.state.wait" approved="yes">
-			<source>[{{ msg.field }}] wait...</source>
-			<target>[{{ msg.field }}] Bitte warten...</target>
-		</trans-unit>
-		<trans-unit id="select.prepend" approved="yes">
-			<source>Please choose</source>
-			<target>Bitte wählen</target>
-		</trans-unit>
-		<trans-unit id="templates.wizard.description" approved="yes">
-			<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
-			<target>Es wurde keine Seitenbeschreibung angegeben! Daher wird Google den Seiteninhalt hier anteasern.</target>
-		</trans-unit>
+			<trans-unit id="date.format" resname="date.format">
+				<source>%m/%d/%Y %I:%M %p</source>
+				<target>%d.%m.%Y %H:%M Uhr</target>
+			</trans-unit>
+			<trans-unit id="error.no_data" resname="error.no_data">
+				<source>Click 'Save' to show the preview.</source>
+				<target>Drücken Sie 'Speichern', um die Vorschau zu sehen.</target>
+			</trans-unit>
+			<trans-unit id="error.no_ts" resname="error.no_ts">
+				<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
+				<target>Es konnte kein Seitentyp mit der Nummer 654 gefunden werden. Das TypoScript der Extension 'cs_seo' muss in das Root-Template eingebunden werden.</target>
+			</trans-unit>
+			<trans-unit id="error.no_tsfe" resname="error.no_tsfe">
+				<source>The TypoScript of the current page could not be loaded.</source>
+				<target>Das TypoScript dieser Seite konnte nicht geladen werden.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.description" resname="evaluation.description">
+				<source>Meta Description</source>
+				<target>Seitenbeschreibung</target>
+			</trans-unit>
+			<trans-unit id="evaluation.description.0" resname="evaluation.description.0">
+				<source>is not set</source>
+				<target>wurde nicht gesetzt</target>
+			</trans-unit>
+			<trans-unit id="evaluation.description.1" resname="evaluation.description.1">
+				<source>does not have the optimal length</source>
+				<target>hat nicht die optimale Länge</target>
+			</trans-unit>
+			<trans-unit id="evaluation.description.2" resname="evaluation.description.2">
+				<source>has the optimal length</source>
+				<target>hat die optimale Länge</target>
+			</trans-unit>
+			<trans-unit id="evaluation.description.count" resname="evaluation.description.count">
+				<source>The current description consists of %1$s characters.</source>
+				<target>Die aktuelle Beschreibung besteht aus %1$s Zeichen.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.description.no" resname="evaluation.description.no">
+				<source>No description is given.</source>
+				<target>Es wurde keine Beschreibung angegeben.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.description.settings" resname="evaluation.description.settings">
+				<source>The optimal length of the meta description is between %1$s and %2$s characters incl. white spaces.</source>
+				<target>Die optimale Länge der Meta-Beschreibung liegt zwischen %1$s und %2$s Zeichen inkl. Leerzeichen.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.details" resname="evaluation.details">
+				<source>Details</source>
+				<target>Details</target>
+			</trans-unit>
+			<trans-unit id="evaluation.frontend" resname="evaluation.frontend">
+				<source>Open page in new window</source>
+				<target>Seite im neuen Fenster öffnen</target>
+			</trans-unit>
+			<trans-unit id="evaluation.h1" resname="evaluation.h1">
+				<source>H1 headline</source>
+				<target>H1 Überschrift</target>
+			</trans-unit>
+			<trans-unit id="evaluation.h1.0" resname="evaluation.h1.0">
+				<source>%1$s headlines were found</source>
+				<target>%1$s Überschriften wurden gefunden</target>
+			</trans-unit>
+			<trans-unit id="evaluation.h1.2" resname="evaluation.h1.2">
+				<source>one headline was found</source>
+				<target>eine Überschrift wurde gefunden</target>
+			</trans-unit>
+			<trans-unit id="evaluation.h1.settings" resname="evaluation.h1.settings">
+				<source>The page should contain one h1 headline.</source>
+				<target>Die Seite sollte eine h1-Überschrift beinhalten.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.h2" resname="evaluation.h2">
+				<source>H2 headlines</source>
+				<target>H2 Überschriften</target>
+			</trans-unit>
+			<trans-unit id="evaluation.h2.0" resname="evaluation.h2.0">
+				<source>No headlines were found</source>
+				<target>Es wurden keine Überschriften gefunden</target>
+			</trans-unit>
+			<trans-unit id="evaluation.h2.1" resname="evaluation.h2.1">
+				<source>There are too many headlines (%1$s) on the page</source>
+				<target>Es gibt zu viele Überschriften (%1$s) auf der Seite</target>
+			</trans-unit>
+			<trans-unit id="evaluation.h2.2" resname="evaluation.h2.2">
+				<source>The number of headlines is optimal</source>
+				<target>Die Anzahl der Überschriften ist optimal</target>
+			</trans-unit>
+			<trans-unit id="evaluation.h2.settings" resname="evaluation.h2.settings">
+				<source>The page should contain not more than %1$s h2 headlines.</source>
+				<target>Die Seite sollte nicht mehr als %1$s h2-Überschriften beinhalten.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.header" resname="evaluation.header">
+				<source>SEO - Content Analysis</source>
+				<target>SEO - Inhaltsanalyse</target>
+			</trans-unit>
+			<trans-unit id="evaluation.headlines.count" resname="evaluation.headlines.count">
+				<source>Number of headlines found: %1$s.</source>
+				<target>Anzahl der gefundenen Überschriften: %1$s.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.images" resname="evaluation.images">
+				<source>Alt attributes</source>
+				<target>Alt Attribute</target>
+			</trans-unit>
+			<trans-unit id="evaluation.images.0" resname="evaluation.images.0">
+				<source>There is no image with an alternative text</source>
+				<target>Es gibt kein Bild mit einem alternativen Text</target>
+			</trans-unit>
+			<trans-unit id="evaluation.images.1" resname="evaluation.images.1">
+				<source>%1$s image(s) without an alternative text</source>
+				<target>%1$s Bild(er) ohne alternativen Text</target>
+			</trans-unit>
+			<trans-unit id="evaluation.images.2" resname="evaluation.images.2">
+				<source>Every image has an alternative text</source>
+				<target>Jedes Bild hat einen alternativen Text</target>
+			</trans-unit>
+			<trans-unit id="evaluation.images.no" resname="evaluation.images.no">
+				<source>There are no images on the page</source>
+				<target>Es gibt keine Bilder auf der Seite</target>
+			</trans-unit>
+			<trans-unit id="evaluation.images.settings" resname="evaluation.images.settings">
+				<source>The content of each image should be described in the &quot;alt&quot; attribute.</source>
+				<target>Der Inhalt jedes Bildes sollte in dem Attribut &quot;alt&quot; beschrieben sein.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.images.withoutAlt" resname="evaluation.images.withoutAlt">
+				<source>Images without an alt attribut</source>
+				<target>Bilder ohne alt-Attribut</target>
+			</trans-unit>
+			<trans-unit id="evaluation.keyword" resname="evaluation.keyword">
+				<source>Focus Keyword</source>
+				<target>Fokus Schlüsselwort</target>
+			</trans-unit>
+			<trans-unit id="evaluation.keyword.0" resname="evaluation.keyword.0">
+				<source>The keyword was not found anywhere</source>
+				<target>Das Schlüsselwort wurde nirgendwo gefunden</target>
+			</trans-unit>
+			<trans-unit id="evaluation.keyword.1" resname="evaluation.keyword.1">
+				<source>The keyword is missing in:</source>
+				<target>Das Schlüsselwort fehlt in:</target>
+			</trans-unit>
+			<trans-unit id="evaluation.keyword.1.body" resname="evaluation.keyword.1.body">
+				<source>content</source>
+				<target>Inhalt</target>
+			</trans-unit>
+			<trans-unit id="evaluation.keyword.1.description" resname="evaluation.keyword.1.description">
+				<source>description</source>
+				<target>Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="evaluation.keyword.1.title" resname="evaluation.keyword.1.title">
+				<source>title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="evaluation.keyword.2" resname="evaluation.keyword.2">
+				<source>The keyword was found in title, description and content</source>
+				<target>Das Schlüsselwort wurde in Titel, Beschreibung und Inhalt gefunden</target>
+			</trans-unit>
+			<trans-unit id="evaluation.keyword.no" resname="evaluation.keyword.no">
+				<source>No keyword was set</source>
+				<target>Es wurde kein Schlüsselwort gesetzt</target>
+			</trans-unit>
+			<trans-unit id="evaluation.keyword.settings" resname="evaluation.keyword.settings">
+				<source>The focus keyword is the word under which the page should be found in external search engines. It should appear in the browser title, the meta description and the content.</source>
+				<target>Das Fokus Keyword ist das Wort, unter dem die Seite in externen Suchmaschinen gefunden werden sollte. Es sollte im Browser-Titel, der Meta-Beschreibung und im Inhalt auftauchen. </target>
+			</trans-unit>
+			<trans-unit id="evaluation.more" resname="evaluation.more">
+				<source>More information</source>
+				<target>Weitere Informationen</target>
+			</trans-unit>
+			<trans-unit id="evaluation.no_results" resname="evaluation.no_results">
+				<source>No results. Press update.</source>
+				<target>Keine Ergebnisse. Bitte Aktualisieren.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.title" resname="evaluation.title">
+				<source>Browser title</source>
+				<target>Browser Titel</target>
+			</trans-unit>
+			<trans-unit id="evaluation.title.0" resname="evaluation.title.0">
+				<source>is not set.</source>
+				<target>ist nicht gesetzt.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.title.1" resname="evaluation.title.1">
+				<source>does not have the optimal length.</source>
+				<target>hat nicht die optimale Länge.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.title.2" resname="evaluation.title.2">
+				<source>has the optimal length.</source>
+				<target>hat die optimale Länge.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.title.count" resname="evaluation.title.count">
+				<source>The current title consists of %1$s characters.</source>
+				<target>Der aktuelle Titel besteht aus %1$s Zeichen.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.title.no" resname="evaluation.title.no">
+				<source>No title was found.</source>
+				<target>Es wurde kein Titel angegeben.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.title.settings" resname="evaluation.title.settings">
+				<source>The optimal length of the browser title is between %1$s and %2$s characters incl. white spaces.</source>
+				<target>Die optimale Länge des Browsertitels liegt zwischen %1$s und %2$s Zeichen inkl. Leerzeichen.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.tstamp" resname="evaluation.tstamp">
+				<source>Last update</source>
+				<target>Zuletzt aktualisiert</target>
+			</trans-unit>
+			<trans-unit id="evaluation.update" resname="evaluation.update">
+				<source>Update</source>
+				<target>Aktualisieren</target>
+			</trans-unit>
+			<trans-unit id="layouts.module.action.pageEvaluation" resname="layouts.module.action.pageEvaluation">
+				<source>Evaluation</source>
+				<target>Evaluierung</target>
+			</trans-unit>
+			<trans-unit id="layouts.module.action.pageIndex" resname="layouts.module.action.pageIndex">
+				<source>Index</source>
+				<target>Indexierung</target>
+			</trans-unit>
+			<trans-unit id="layouts.module.action.pageMeta" resname="layouts.module.action.pageMeta">
+				<source>SEO</source>
+				<target>SEO</target>
+			</trans-unit>
+			<trans-unit id="layouts.module.action.pageOpenGraph" resname="layouts.module.action.pageOpenGraph">
+				<source>Open Graph</source>
+				<target>Open Graph</target>
+			</trans-unit>
+			<trans-unit id="layouts.module.action.pageResults" resname="layouts.module.action.pageResults">
+				<source>Results</source>
+				<target>Ergebnisse</target>
+			</trans-unit>
+			<trans-unit id="layouts.module.action.pageTwitterCards" resname="layouts.module.action.pageTwitterCards">
+				<source>Twitter Cards</source>
+				<target>Twitter Cards</target>
+			</trans-unit>
+			<trans-unit id="layouts.module.action.pageStructuredData" resname="layouts.module.action.pageStructuredData">
+				<source>Structured Data</source>
+				<target>Strukturierte Daten</target>
+			</trans-unit>
+			<trans-unit id="layouts.module.action.showEmptyImageAlt" resname="layouts.module.action.showEmptyImageAlt">
+				<source>Add an alternative text to an image</source>
+				<target>Einen alternativen Text zum Bild hinzufügen</target>
+			</trans-unit>
+			<trans-unit id="partials.module.evaluation.lang" resname="partials.module.evaluation.lang">
+				<source>Show results for language:</source>
+				<target>Zeige Ergebnisse für die Sprache:</target>
+			</trans-unit>
+			<trans-unit id="partials.module.grid.error.no_page" resname="partials.module.grid.error.no_page">
+				<source>Please select a page in the page tree.</source>
+				<target>Bitte wählen Sie eine Seite aus dem Seitenbaum.</target>
+			</trans-unit>
+			<trans-unit id="partials.module.select.depth" resname="partials.module.select.depth">
+				<source>Depth</source>
+				<target>Tiefe</target>
+			</trans-unit>
+			<trans-unit id="partials.module.select.lang" resname="partials.module.select.lang">
+				<source>Language</source>
+				<target>Sprache</target>
+			</trans-unit>
+			<trans-unit id="partials.module.select.record" resname="partials.module.select.record">
+				<source>Record</source>
+				<target>Datensatz</target>
+			</trans-unit>
+			<trans-unit id="partials.module.select.table" resname="partials.module.select.table">
+				<source>Table</source>
+				<target>Tabelle</target>
+			</trans-unit>
+			<trans-unit id="partials.module.state.error" resname="partials.module.state.error">
+				<source>An error occured! {{ msg.error }}</source>
+				<target>Es ist ein Fehler aufgetreten! {{ msg.error }}</target>
+			</trans-unit>
+			<trans-unit id="partials.module.state.hint" resname="partials.module.state.hint">
+				<source>To modify double click on the desired field. The changes are saved automatically. The columns can be moved, enlarged and hidden.</source>
+				<target>Zum Bearbeiten einen Doppelklick auf das gewünschte Feld ausführen. Die Änderungen werden automatisch gespeichert. Die Spalten können verschoben, vergößert, verkleinert und ausgeblendet werden.</target>
+			</trans-unit>
+			<trans-unit id="partials.module.state.no_changes" resname="partials.module.state.no_changes">
+				<source>Nothing has been changed.</source>
+				<target>Es wurde keine Veränderungen vorgenommen.</target>
+			</trans-unit>
+			<trans-unit id="partials.module.state.success" resname="partials.module.state.success">
+				<source>Updated [{{ msg.field }}] {{ msg.value }}</source>
+				<target>Aktualisiert [{{ msg.field }}] {{ msg.value }}</target>
+			</trans-unit>
+			<trans-unit id="partials.module.state.wait" resname="partials.module.state.wait">
+				<source>[{{ msg.field }}] wait...</source>
+				<target>[{{ msg.field }}] Bitte warten...</target>
+			</trans-unit>
+			<trans-unit id="select.prepend" resname="select.prepend">
+				<source>Please choose</source>
+				<target>Bitte wählen</target>
+			</trans-unit>
+			<trans-unit id="templates.wizard.description" resname="templates.wizard.description">
+				<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
+				<target>Es wurde keine Seitenbeschreibung angegeben! Daher wird Google den Seiteninhalt hier anteasern.</target>
+			</trans-unit>
+			<trans-unit id="module.file.count" resname="module.file.count">
+				<source>Images with an alternative text / images in total</source>
+				<target>Bilder mit alternativen Text / Bilder gesamt</target>
+			</trans-unit>
+			<trans-unit id="sys_file.identifier" resname="sys_file.identifier">
+				<source>Path</source>
+				<target>Pfad</target>
+			</trans-unit>
+			<trans-unit id="module.file.recursive" resname="module.file.recursive">
+				<source>Include subfolders</source>
+				<target>Unterordner mit einbeziehen</target>
+			</trans-unit>
+			<trans-unit id="sys_file.name" resname="sys_file.name">
+				<source>Filename</source>
+				<target>Dateiname</target>
+			</trans-unit>
+			<trans-unit id="module.btn.submit_and_next" resname="module.btn.submit_and_next">
+				<source>Save and go on</source>
+				<target>Speichern und weiter</target>
+			</trans-unit>
+			<trans-unit id="module.btn.view" resname="module.btn.view">
+				<source>View</source>
+				<target>Anzeigen</target>
+			</trans-unit>
+			<trans-unit id="module.file.error.no_images" resname="module.file.error.no_images">
+				<source>Please select a folder with images.</source>
+				<target>Bitte wählen Sie einen Ordner, welcher Bilder enthält.</target>
+			</trans-unit>
+			<trans-unit id="module.file.error.no_image_without_alt" resname="module.file.error.no_image_without_alt">
+				<source>👍 Good job. All images here have an alternative text.</source>
+				<target> 👍 Spitze. Alle Bilder hier haben einen alternativen Text.</target>
+			</trans-unit>
+			<trans-unit id="module.file.update.success.header" resname="module.file.update.success.header">
+				<source>You did it 😊</source>
+				<target>Gut gemacht 😊</target>
+			</trans-unit>
+			<trans-unit id="module.file.update.success.message" resname="module.file.update.success.message">
+				<source>has the following alternative text</source>
+				<target>hat den folgenden alternativen Text</target>
+			</trans-unit>
+			<trans-unit id="module.file.update.error.header" resname="module.file.update.error.header">
+				<source>Oh no 😢</source>
+				<target>Oh nein 😢</target>
+			</trans-unit>
+			<trans-unit id="module.file.update.error.message" resname="module.file.update.error.message">
+				<source>has still no alternative text.</source>
+				<target>hat weiterhin keinen alternativen Text.</target>
+			</trans-unit>
+			<trans-unit id="templates.element.json_ld_element.link.generator" resname="templates.element.json_ld_element.link.generator">
+				<source>Generate markup</source>
+				<target>Code generieren</target>
+			</trans-unit>
+			<trans-unit id="templates.element.json_ld_element.link.check_url" resname="templates.element.json_ld_element.link.check_url">
+				<source>Check URL</source>
+				<target>URL überprüfen</target>
+			</trans-unit>
+			<trans-unit id="templates.element.json_ld_element.link.check_text" resname="templates.element.json_ld_element.link.check_text">
+				<source>Check field markup</source>
+				<target>Feld-Inhalt überprüfen</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -44,7 +44,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  * Google Search Results Preview
  *
  * Class PageTitle
- *
  */
 class SnippetPreview extends AbstractNode
 {
@@ -105,7 +104,7 @@ class SnippetPreview extends AbstractNode
         $cssFiles = [
             'Wizard.css'
         ];
-        $baseUrl = 'EXT:cs_seo/Resources/Public/CSS/';
+        $baseUrl = 'EXT:cs_seo/Resources/Public/Css/';
         // Load the wizards css
         foreach ($cssFiles as $cssFile) {
             $stylesheetFiles[] = $baseUrl . $cssFile;
@@ -276,7 +275,7 @@ class SnippetPreview extends AbstractNode
     /**
      * Returns an instance of LanguageService
      *
-     * @return \TYPO3\CMS\Lang\LanguageService
+     * @return \TYPO3\CMS\Core\Localization\LanguageService
      */
     protected function getLanguageService()
     {

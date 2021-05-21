@@ -28,12 +28,12 @@ namespace Clickstorm\CsSeo\Domain\Repository;
  ***************************************************************/
 
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * Class EvaluationRepository
- *
  */
-class EvaluationRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class EvaluationRepository extends Repository
 {
     protected $respectStoragePage = false;
 

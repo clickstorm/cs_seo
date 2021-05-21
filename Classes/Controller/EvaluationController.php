@@ -32,7 +32,6 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
  * Class EvaluationController
- *
  */
 class EvaluationController extends ActionController
 {

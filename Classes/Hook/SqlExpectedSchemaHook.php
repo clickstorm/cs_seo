@@ -36,7 +36,6 @@ class SqlExpectedSchemaHook
      * tables definition string
      *
      * @param AlterTableDefinitionStatementsEvent $event
-     * @return void
      */
     public function addMetadataDatabaseSchemaToTablesDefinition(AlterTableDefinitionStatementsEvent $event)
     {

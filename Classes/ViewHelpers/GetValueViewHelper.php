@@ -31,7 +31,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class GetValueViewHelper
- *
  */
 class GetValueViewHelper extends AbstractViewHelper
 {
@@ -42,8 +41,17 @@ class GetValueViewHelper extends AbstractViewHelper
      *
      * @return mixed
      */
-    public function render($array, $key)
+    public function render()
     {
+        $array = $this->arguments['array'];
+        $key = $this->arguments['key'];
         return $array[$key];
+    }
+
+    public function initializeArguments(): void
+    {
+        parent::initializeArguments();
+        $this->registerArgument('array', 'array', '', true);
+        $this->registerArgument('key', 'string', '', true);
     }
 }

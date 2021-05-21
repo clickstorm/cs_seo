@@ -1,4 +1,15 @@
 services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Clickstorm\CsSeo\:
+    resource: '../Classes/*'
+
+  Clickstorm\CsSeo\Service\Backend\GridService:
+    public: true
+
   Clickstorm\CsSeo\Hook\SqlExpectedSchemaHook:
     tags:
       - name: event.listener

@@ -43,7 +43,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  * hook to display the evaluation results in the page module
  *
  * Class pageHook
- *
  */
 class PageHook
 {
@@ -150,8 +149,6 @@ class PageHook
      * Load the necessary css
      *
      * This will only be done when the referenced record is available
-     *
-     * @return void
      */
     protected function loadCss()
     {
@@ -162,7 +159,7 @@ class PageHook
             'Evaluation.css'
         ];
 
-        $baseUrl = $this->resourcesPath . 'Public/CSS/';
+        $baseUrl = $this->resourcesPath . 'Public/Css/';
 
         // Load the wizards css
         foreach ($cssFiles as $cssFile) {
@@ -186,8 +183,6 @@ class PageHook
      * Load the necessary javascript
      *
      * This will only be done when the referenced record is available
-     *
-     * @return void
      */
     protected function loadJavascript()
     {

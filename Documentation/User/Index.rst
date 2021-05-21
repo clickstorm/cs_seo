@@ -28,6 +28,7 @@ Page Properties
 	`tx\_csseo\_keyword`_          Focus Keyword                      SEO                     string
 	`tx\_csseo\_tw\_creator`_      Twitter Creator                    Social Media            string
 	`tx\_csseo\_tw\_site`_         Twitter Site                       Social Media            string
+	`tx\_csseo\_json\_ld`_         Structured Data (JSON-LD)          Metadata                string
 	============================== ================================== ======================= ====================
 
 Property details
@@ -77,6 +78,23 @@ Twitter Site
    Description
         Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be used
         in the card footer. The account should belong to your website.
+
+
+.. _tx_csseo_json_ld:
+
+Structured Data (JSON-LD)
+"""""""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         tx_csseo_json_ld
+   Data type
+         string
+   Description
+        Add more information about the content of the current page with JSON-LD.
+        `More information <https://developers.google.com/search/docs/guides/intro-structured-data>`_
+
 
 .. _user-faq:
 

@@ -32,6 +32,7 @@ use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Service\FrontendPageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -52,7 +53,7 @@ class EvaluationCommand extends Command
      *
      * @var EvaluationRepository
      */
-    protected $evaluationRepository = null;
+    protected $evaluationRepository;
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      * @TYPO3\CMS\Extbase\Annotation\Inject
@@ -82,7 +83,7 @@ class EvaluationCommand extends Command
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      */
-    public function ajaxUpdate(\Psr\Http\Message\ServerRequestInterface $request)
+    public function ajaxUpdate(ServerRequestInterface $request)
     {
         // @extensionScannerIgnoreLine
         $this->init();

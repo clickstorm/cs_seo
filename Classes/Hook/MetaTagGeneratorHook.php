@@ -47,12 +47,12 @@ class MetaTagGeneratorHook
 
     /**
      * @param array $params
-     *
      */
     public function generate(array $params)
     {
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
-        if ($metaData === null) {
+
+        if (!$metaData) {
             return;
         }
 
@@ -72,10 +72,10 @@ class MetaTagGeneratorHook
         $twImageUrl = $this->getTwImage($metaData, $pluginSettings);
 
         // Crop meta description if cropDescription is active
-	    $emConfiguration = ConfigurationUtility::getEmConfiguration();
-	    if($emConfiguration['cropDescription']) {
-		    $metaData['description'] = substr($metaData['description'], 0, $emConfiguration['maxDescription']) . '...';
-	    }
+        $emConfiguration = ConfigurationUtility::getEmConfiguration();
+        if ($emConfiguration['cropDescription']) {
+            $metaData['description'] = substr($metaData['description'], 0, $emConfiguration['maxDescription']) . '...';
+        }
 
         $generators = [
             'robots' => ['value' => ''],

@@ -31,7 +31,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class ImagesEvaluator
- *
  */
 class ImagesEvaluator extends AbstractEvaluator
 {

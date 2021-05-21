@@ -1,0 +1,58 @@
+<html xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="Module"/>
+
+<f:section name="Main">
+    <h1>
+        <f:translate key="layouts.module.action.showEmptyImageAlt"/>
+    </h1>
+    <f:flashMessages />
+    <f:if condition="{numberOfAllImages}">
+        <f:then>
+            <div class="csseo-progress form-group">
+                <f:translate key="module.file.count"/>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-{f:if(condition: '{percentOfImages} == 100', then: 'success', else: 'danger')}"
+                         role="progressbar"
+                         aria-valuenow="{percentOfImages}" aria-valuemin="0" aria-valuemax="100" style="width: {percentOfImages}%;">{numberOfImagesWithAlt}&nbsp;/&nbsp;{numberOfAllImages}</div>
+                </div>
+            </div>
+            <f:if condition="{image}">
+                <f:then>
+                    <div class="csseo-card">
+                        <div class="csseo-card__row">
+                            <div class="csseo-card__col csseo-card__col--form">
+                                <f:form class="csseo-card__form" action="update" name="editform" id="EditDocumentController">
+                                    <f:form.hidden name="uid" value="{image.originalResource.uid}"/>
+                                    <h4 class="csseo-card__headline">Edit File Metadata "{image.originalResource.name}"</h4>
+                                    {editForm -> f:format.raw()}
+                                </f:form>
+                            </div>
+                            <div class="csseo-card__col">
+                                <div class="csseo-card__image__wrapper">
+                                    <f:image image="{image}" maxWidth="600" maxHeight="380" class="csseo-card__image"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </f:then>
+                <f:else>
+                    <h3>
+                        <f:translate key="module.file.error.no_image_without_alt"/>
+                    </h3>
+                </f:else>
+            </f:if>
+        </f:then>
+        <f:else>
+            <h3>
+                <f:translate key="module.file.error.no_images"/>
+            </h3>
+        </f:else>
+    </f:if>
+    <f:form action="" id="ModForm">
+    </f:form>
+</f:section>
+</html>

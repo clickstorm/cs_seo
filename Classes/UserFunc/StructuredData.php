@@ -2,6 +2,9 @@
 
 namespace Clickstorm\CsSeo\UserFunc;
 
+use Clickstorm\CsSeo\Service\MetaDataService;
+use Clickstorm\CsSeo\Utility\TSFEUtility;
+
 /***************************************************************
  *
  *  Copyright notice
@@ -49,7 +52,40 @@ class StructuredData
     public function __construct()
     {
         $this->tsfeUtility =
-            GeneralUtility::makeInstance(\Clickstorm\CsSeo\Utility\TSFEUtility::class, $GLOBALS['TSFE']->id);
+            GeneralUtility::makeInstance(TSFEUtility::class, $GLOBALS['TSFE']->id);
+    }
+
+    /**
+     * return the content of field tx_csseo_json_ld from pages or field json_ld from record
+     *
+     * @param string $content
+     * @param array $conf
+     *
+     * @retrun string
+     */
+    public function getJsonLdOfPageOrRecord($content, $conf)
+    {
+        $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
+        $jsonLd = $GLOBALS['TSFE']->page['tx_csseo_json_ld'];
+
+        // overwrite json ld with record metadata
+        if ($metaData) {
+            $jsonLd = $metaData['json_ld'];
+        }
+
+        return $jsonLd ? $this->wrapWithLd($jsonLd) : '';
+    }
+
+    /**
+     * Wraps $content with Json declaration
+     *
+     * @param $content
+     *
+     * @return string
+     */
+    protected function wrapWithLd($content)
+    {
+        return '<script type="application/ld+json">' . $content . '</script>';
     }
 
     /**
@@ -85,18 +121,6 @@ class StructuredData
     }
 
     /**
-     * Wraps $content with Json declaration
-     *
-     * @param $content
-     *
-     * @return string
-     */
-    protected function wrapWithLd($content)
-    {
-        return '<script type="application/ld+json">' . $content . '</script>';
-    }
-
-    /**
      * Returns the json for the serps breadcrumb
      *
      * @param $conf
@@ -114,7 +138,7 @@ class StructuredData
         $id = $GLOBALS['TSFE']->id;
         if (!empty($GLOBALS['TSFE']->MP) && preg_match('/^\\d+\\-(\\d+)$/', $GLOBALS['TSFE']->MP, $match)) {
             // mouting point page - generate breadcrumb for the mounting point reference page instead
-            $id = intval($match[1]);
+            $id = (int)($match[1]);
         }
 
         $rootline = GeneralUtility::makeInstance(RootlineUtility::class, $id)->get();

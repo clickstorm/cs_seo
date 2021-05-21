@@ -46,12 +46,12 @@ class MetaDataService
     /**
      * @var PageRepository
      */
-    protected $pageRepository = null;
+    protected $pageRepository;
 
     /**
      * @var \TYPO3\CMS\Core\Context\AspectInterface|\TYPO3\CMS\Core\Context\LanguageAspect|null
      */
-    protected $languageAspect = null;
+    protected $languageAspect;
 
     public function __construct()
     {
@@ -60,10 +60,10 @@ class MetaDataService
         $this->languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
     }
 
-    public function getMetaData(): ?array
+    public function getMetaData()
     {
         // check if metadata was already set
-        if ($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData']) {
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'])) {
             return $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'];
         }
 
@@ -85,32 +85,35 @@ class MetaDataService
                 }
                 // db meta
                 $metaData = $this->getMetaProperties($tableSettings);
+                $metaData['__uid'] =  $tableSettings['uid'];
 
                 // db fallback
                 if (isset($tableSettings['fallback'])) {
                     foreach ($tableSettings['fallback'] as $seoField => $fallbackField) {
-                        if (empty($metaData[$seoField]) && !empty($record[$fallbackField])) {
-                            $metaData[$seoField] = $record[$fallbackField];
-                            if ($seoField == 'og_image' || $seoField == 'tw_image') {
-                                $metaData[$seoField] = [
-                                    'field' => $fallbackField,
-                                    'table' => $tableSettings['table'],
-                                    'uid_foreign' => $tableSettings['uid']
-                                ];
+                        if (empty($metaData[$seoField])) {
+                            if(!empty($record[$fallbackField])) {
+                                $metaData[$seoField] = $record[$fallbackField];
+                                if ($seoField === 'og_image' || $seoField === 'tw_image') {
+                                    $metaData[$seoField] = [
+                                        'field' => $fallbackField,
+                                        'table' => $tableSettings['table'],
+                                        'uid_foreign' => $tableSettings['uid']
+                                    ];
+                                }
                             }
-                        }
-                        // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
-                        elseif (preg_match('/{([^}]+)}/', $fallbackField)) {
-                        	$curlyBracketSeoField = $fallbackField;
-                        	$matches = [];
-	                        preg_match_all('/{([^}]+)}/', $fallbackField, $matches);
-	                        $matchesWithCurlyBrackets = $matches[0];
-	                        $matchesWithoutCurlyBrackets = $matches[1];
-	                        foreach ($matchesWithCurlyBrackets as $key => $matchWithCurlyBracket) {
-	                        	$recordField = $matchesWithoutCurlyBrackets[$key];
-		                        $curlyBracketSeoField = str_replace($matchWithCurlyBracket, $record[$recordField], $curlyBracketSeoField);
-	                        }
-	                        $metaData[$seoField] = $curlyBracketSeoField;
+                            // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
+                            elseif (preg_match('/{([^}]+)}/', $fallbackField)) {
+                                $curlyBracketSeoField = $fallbackField;
+                                $matches = [];
+                                preg_match_all('/{([^}]+)}/', $fallbackField, $matches);
+                                $matchesWithCurlyBrackets = $matches[0];
+                                $matchesWithoutCurlyBrackets = $matches[1];
+                                foreach ($matchesWithCurlyBrackets as $key => $matchWithCurlyBracket) {
+                                    $recordField = $matchesWithoutCurlyBrackets[$key];
+                                    $curlyBracketSeoField = str_replace($matchWithCurlyBracket, $record[$recordField], $curlyBracketSeoField);
+                                }
+                                $metaData[$seoField] = $curlyBracketSeoField;
+                            }
                         }
                     }
                 }
@@ -121,6 +124,8 @@ class MetaDataService
                 return $metaData;
             }
         }
+
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'] = false;
 
         return null;
     }
@@ -138,7 +143,7 @@ class MetaDataService
     {
         foreach ($tables as $tableName => $tableSettings) {
             if (isset($tableSettings['enable'])) {
-                $uid = intval($cObj->getData($tableSettings['enable']));
+                $uid = (int)($cObj->getData($tableSettings['enable']));
 
                 if ($uid) {
                     if ($checkOnly) {

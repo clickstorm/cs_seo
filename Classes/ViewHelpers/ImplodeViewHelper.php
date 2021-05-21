@@ -31,7 +31,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class GetValueViewHelper
- *
  */
 class ImplodeViewHelper extends AbstractViewHelper
 {
@@ -42,8 +41,17 @@ class ImplodeViewHelper extends AbstractViewHelper
      *
      * @return string
      */
-    public function render($glue = ',', $pieces = [])
+    public function render()
     {
+        $glue = $this->arguments['glue'];
+        $pieces = $this->arguments['pieces'];
         return implode($glue, $pieces);
+    }
+
+    public function initializeArguments(): void
+    {
+        parent::initializeArguments();
+        $this->registerArgument('glue', 'string', '', false, ',');
+        $this->registerArgument('pieces', 'array', '', false);
     }
 }

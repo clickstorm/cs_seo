@@ -35,7 +35,6 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * Hook to extend the tca
  *
  * Class TCA
- *
  */
 class TableConfigurationPostProcessingHook implements TableConfigurationPostProcessingHookInterface
 {
@@ -43,19 +42,17 @@ class TableConfigurationPostProcessingHook implements TableConfigurationPostProc
     /**
      * Function which may process data created / registered by extTables
      * scripts (f.e. modifying TCA data of all extensions)
-     *
-     * @return void
      */
     public function processData()
     {
 
         // add new fields to pages
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+        ExtensionManagementUtility::addToAllTCAtypes(
             'pages',
             'tx_csseo_keyword,
             --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
             --palette--;;opengraph,--palette--;;twittercards',
-            implode(',', \Clickstorm\CsSeo\Utility\ConfigurationUtility::getEvaluationDoktypes()),
+            implode(',', ConfigurationUtility::getEvaluationDoktypes()),
             'after:canonical_link'
         );
 

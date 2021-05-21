@@ -31,7 +31,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class KeywordEvaluator
- *
  */
 class KeywordEvaluator extends AbstractEvaluator
 {

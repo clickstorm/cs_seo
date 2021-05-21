@@ -34,6 +34,7 @@ Properties
 	`evaluation.minTitle`_                                  :ref:`t3tsref:data-type-integer`      40
 	`evaluation.minDescription`_                            :ref:`t3tsref:data-type-integer`      140
 	`evaluation.maxH2`_                                     :ref:`t3tsref:data-type-integer`      6
+	`file.modFileColumns`_                                  :ref:`t3tsref:data-type-string`       title,description
 	======================================================= ===================================== ====================
 
 Basic configurations
@@ -212,3 +213,19 @@ Max number of h2 headlines in one page
 
 
 Please take also a look at the next chapter for TypoScript configurations.
+
+
+File configurations
+^^^^^^^^^^^^^^^^^^^
+
+File Columns
+""""""""""""
+
+.. container:: table-row
+
+   Property
+         modFileColumns
+   Data type
+         :ref:`t3tsref:data-type-string`
+   Description
+         Comma separated list of additional sys_file_metadata columns to show in the file module.

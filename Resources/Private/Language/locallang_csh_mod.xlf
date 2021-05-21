@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang_csh_mod.xlf" date="2021-04-09T12:40:46Z" product-name="cs_seo">
+		<header/>
+		<body>
+			<trans-unit id=".alttitle" resname=".alttitle">
+				<source>[clickstorm] SEO</source>
+			</trans-unit>
+			<trans-unit id="mod_file.alttitle" resname="mod_file.alttitle">
+				<source>Add alternative text to an image</source>
+			</trans-unit>
+			<trans-unit id="mod_file.description" resname="mod_file.description">
+				<source>This module provides you the possibility to add an alternative text to images. It shows only images without an alternative text jet.</source>
+			</trans-unit>
+			<trans-unit id="mod_file.details" resname="mod_file.details">
+				<source>An alternative describes the content of an image. This text should always be set. Manly because of the following two reasons:
+
+					&lt;b&gt;Search Engines&lt;/b&gt;
+					With an alternative text the image can be indexed by Search Engines like Google.
+
+					&lt;b&gt;People with handicaps&lt;/b&gt;
+					The alternative text can be read by screen readers. So people with handicaps get also an idea what is displayed.
+
+					&lt;i&gt;Module Functions&lt;/i&gt;
+					On top you can directly edit the file metadata of the current image, get more information about it or view it in a new tab.
+
+					Moreover you get information about the current path, enter this help or create a shortcut to this module.
+
+					You can also toggle if you want to see pictures of the current folder or also of subfolders.
+
+					If you entered an alternative text and press save, you see the next image which misses an alternative text, if there is one.
+				</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

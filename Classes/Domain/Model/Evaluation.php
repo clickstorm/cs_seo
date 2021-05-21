@@ -2,6 +2,8 @@
 
 namespace Clickstorm\CsSeo\Domain\Model;
 
+use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
+
 /***************************************************************
  *
  *  Copyright notice
@@ -26,12 +28,10 @@ namespace Clickstorm\CsSeo\Domain\Model;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 /**
  * Class Evaluation
- *
  */
-class Evaluation extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class Evaluation extends AbstractEntity
 {
     /**
      * @var string

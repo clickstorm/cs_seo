@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickstorm\CsSeo\Tests\Utility;
+namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
@@ -31,8 +31,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-/**
- */
 class KeywordEvaluatorTest extends UnitTestCase
 {
 
@@ -41,9 +39,6 @@ class KeywordEvaluatorTest extends UnitTestCase
      */
     protected $generalEvaluationMock;
 
-    /**
-     * @return void
-     */
     public function setUp()
     {
         $this->generalEvaluationMock = $this->getAccessibleMock(
@@ -53,9 +48,6 @@ class KeywordEvaluatorTest extends UnitTestCase
         );
     }
 
-    /**
-     * @return void
-     */
     public function tearDown()
     {
         unset($this->generalEvaluationMock);
@@ -68,7 +60,6 @@ class KeywordEvaluatorTest extends UnitTestCase
      * @param mixed $expectedResult
      *
      * @dataProvider evaluateTestDataProvider
-     * @return void
      * @test
      */
     public function evaluateTest($html, $keyword, $expectedResult)
@@ -82,7 +73,7 @@ class KeywordEvaluatorTest extends UnitTestCase
         ksort($expectedResult);
         ksort($result);
 
-        $this->assertEquals(json_encode($expectedResult), json_encode($result));
+        self::assertEquals(json_encode($expectedResult), json_encode($result));
     }
 
     /**
@@ -215,10 +206,10 @@ class KeywordEvaluatorTest extends UnitTestCase
 						<meta name="description" content="Test in TYPO3 like Test TYPO3">
 				</head>
 				<body>
-					Sed augue ipsum, egestas nec, vestibulum et, malesuada adipiscing, dui. Praesent venenatis metus at 
+					Sed augue ipsum, egestas nec, vestibulum et, malesuada adipiscing, dui. Praesent venenatis metus at
 					tortor pulvinar varius. Test TYPO3 Vestibulum volutpat pretium libero. Pellentesque posuere.
-					Quisque id odio. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. 
-					Pellentesque egestas, neque sit amet convallis pulvinar, justo nulla eleifend augue, ac auctor 
+					Quisque id odio. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam.
+					Pellentesque egestas, neque sit amet convallis pulvinar, justo nulla eleifend augue, ac auctor
 					orci leo non est. Tests TYPO3 Phasellus tempus.
 				</body>',
                 'Test TYPO3, Test in TYPO3, Tests TYPO3',

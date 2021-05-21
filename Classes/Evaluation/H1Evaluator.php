@@ -29,7 +29,6 @@ namespace Clickstorm\CsSeo\Evaluation;
 
 /**
  * Class H1Evaluator
- *
  */
 class H1Evaluator extends AbstractEvaluator
 {

@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -35,7 +36,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Get Extension Configuration
  *
  * Class ConfigurationUtility
- *
  */
 class ConfigurationUtility
 {
@@ -107,7 +107,7 @@ class ConfigurationUtility
      */
     public static function getEmConfiguration()
     {
-        $conf = $confArray = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)->get('cs_seo');
+        $conf = $confArray = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('cs_seo');
 
         return is_array($conf) ? $conf : [];
     }

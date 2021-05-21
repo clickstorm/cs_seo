@@ -1,5 +1,6 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+
+defined('TYPO3_MODE') or die();
 
 // get extension configurations
 $extConf = \Clickstorm\CsSeo\Utility\ConfigurationUtility::getEmConfiguration();
@@ -44,6 +45,18 @@ $tempColumns = [
             'eval' => 'trim',
         ]
     ],
+    'tx_csseo_json_ld' => [
+        'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_json_ld',
+        'exclude' => 1,
+        'config' => [
+            'type' => 'text',
+            'renderType' => 'txCsseoJsonLd',
+            'behaviour' => [
+                'allowLanguageSynchronization' => true
+            ],
+            'eval' => 'trim,Clickstorm\\CsSeo\\Evaluation\\TCA\\JsonLdEvaluator'
+        ]
+    ],
 ];
 
 // add new fields
@@ -59,6 +72,13 @@ foreach ($GLOBALS['TCA']['pages']['types'] as $key => $type) {
     $GLOBALS['TCA']['pages']['types'][$key]['showitem'] =
         str_replace('--palette--;;twittercards,', '', $type['showitem']);
 }
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+    'pages',
+    'metatags',
+    'tx_csseo_json_ld',
+    'before:keywords'
+);
 
 // define new palettes
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(

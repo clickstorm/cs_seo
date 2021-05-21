@@ -1,6 +1,6 @@
 <?php
 
-namespace Clickstorm\CsSeo\Tests\Utility;
+namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\H1Evaluator;
 use Nimut\TestingFramework\TestCase\UnitTestCase;
@@ -30,8 +30,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-/**
- */
 class H1EvaluatorTest extends UnitTestCase
 {
 
@@ -40,17 +38,11 @@ class H1EvaluatorTest extends UnitTestCase
      */
     protected $generalEvaluationMock;
 
-    /**
-     * @return void
-     */
     public function setUp()
     {
         $this->generalEvaluationMock = $this->getAccessibleMock(H1Evaluator::class, ['dummy'], [new \DOMDocument()]);
     }
 
-    /**
-     * @return void
-     */
     public function tearDown()
     {
         unset($this->generalEvaluationMock);
@@ -63,7 +55,6 @@ class H1EvaluatorTest extends UnitTestCase
      * @param mixed $expectedResult
      *
      * @dataProvider evaluateTestDataProvider
-     * @return void
      * @test
      */
     public function evaluateTest($html, $expectedResult)
@@ -76,7 +67,7 @@ class H1EvaluatorTest extends UnitTestCase
         ksort($expectedResult);
         ksort($result);
 
-        $this->assertEquals($expectedResult, $result);
+        self::assertEquals($expectedResult, $result);
     }
 
     /**
