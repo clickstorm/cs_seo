@@ -33,6 +33,7 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\TypoScriptAspect;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -136,15 +137,19 @@ class TSFEUtility
             $typoScriptAspect = GeneralUtility::makeInstance(TypoScriptAspect::class, true);
             $context->setAspect('typoscript', $typoScriptAspect);
             $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->pageUid);
+            $pageArguments = $GLOBALS['TYPO3_REQUEST']->getAttribute('routing') ?? new PageArguments($this->pageUid, '0', []);
+            $frontedUser = GeneralUtility::makeInstance(FrontendUserAuthentication::class);
+            $frontedUser->start();
 
             $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
                 TypoScriptFrontendController::class,
                 $context,
                 $site,
-                $site->getLanguageById($this->lang)
+                $site->getLanguageById($this->lang),
+                $pageArguments,
+                $frontedUser
             );
 
-            $GLOBALS['TSFE']->fe_user = GeneralUtility::makeInstance(FrontendUserAuthentication::class);
             $GLOBALS['TSFE']->id = $this->pageUid;
 
             $GLOBALS['TSFE']->newCObj();
