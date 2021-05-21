@@ -13,14 +13,14 @@
 		"GPL-2.0-or-later"
 	],
 	"require": {
-		"typo3/cms-core": "^10.0",
-		"typo3/cms-seo": "^10.0"
+		"typo3/cms-core": "^11.2",
+		"typo3/cms-seo": "^11.2"
 	},
 	"require-dev": {
 		"nimut/testing-framework": "*"
 	},
 	"suggest": {
-		"typo3/scheduler": "^10.0"
+		"typo3/scheduler": "^11.2"
 	},
 	"replace": {
 		"typo3-ter/cs_seo": "self.version"
