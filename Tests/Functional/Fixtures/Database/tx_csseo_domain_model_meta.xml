@@ -15,4 +15,12 @@
 		<uid_foreign>3</uid_foreign>
 		<canonical>http://canonical-of-record.org/3</canonical>
 	</tx_csseo_domain_model_meta>
+	<tx_csseo_domain_model_meta>
+		<uid>3</uid>
+		<pid>0</pid>
+		<tablenames>sys_category</tablenames>
+		<uid_foreign>4</uid_foreign>
+		<canonical>http://canonical-of-record.org/4</canonical>
+		<no_index>1</no_index>
+	</tx_csseo_domain_model_meta>
 </dataset>

@@ -44,6 +44,10 @@ class CanonicalDetailTest extends AbstractCanonicalTest
                 'http://localhost/dummy-1-2-5/category/3',
                 '<link rel="canonical" href="http://canonical-of-record.org/3"/>',
             ],
+            'sys_category: 4 no_index from metada' => [
+                'http://localhost/dummy-1-2-5/category/4',
+                '',
+            ],
         ];
     }
 }

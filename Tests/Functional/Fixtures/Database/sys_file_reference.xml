@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <sys_file_reference>
+        <uid>1</uid>
+        <pid>2</pid>
+        <uid_local>1</uid_local>
+        <uid_foreign>2</uid_foreign>
+        <tablenames>pages</tablenames>
+        <fieldname>og_image</fieldname>
+        <table_local>sys_file</table_local>
+    </sys_file_reference>
+    <sys_file_reference>
+        <uid>2</uid>
+        <pid>3</pid>
+        <uid_local>2</uid_local>
+        <uid_foreign>3</uid_foreign>
+        <tablenames>pages</tablenames>
+        <fieldname>twitter_image</fieldname>
+        <table_local>sys_file</table_local>
+    </sys_file_reference>
+</dataset>
