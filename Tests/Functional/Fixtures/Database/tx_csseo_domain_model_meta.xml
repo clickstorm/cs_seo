@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+	<tx_csseo_domain_model_meta>
+		<uid>1</uid>
+		<pid>0</pid>
+		<tablenames>sys_category</tablenames>
+		<uid_foreign>2</uid_foreign>
+		<hidden>1</hidden>
+		<canonical>http://canonical-of-record.org/2</canonical>
+	</tx_csseo_domain_model_meta>
+	<tx_csseo_domain_model_meta>
+		<uid>2</uid>
+		<pid>0</pid>
+		<tablenames>sys_category</tablenames>
+		<uid_foreign>3</uid_foreign>
+		<canonical>http://canonical-of-record.org/3</canonical>
+	</tx_csseo_domain_model_meta>
+</dataset>

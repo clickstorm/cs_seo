@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+	<sys_category>
+		<uid>1</uid>
+		<pid>0</pid>
+		<title>Title of category 1</title>
+		<description>No metadata record</description>
+	</sys_category>
+	<sys_category>
+		<uid>2</uid>
+		<pid>0</pid>
+		<title>Title of category 2</title>
+		<description>Has a hidden metadata record</description>
+	</sys_category>
+	<sys_category>
+		<uid>3</uid>
+		<pid>0</pid>
+		<title>Title of category 3</title>
+		<description>Has a metadata record</description>
+	</sys_category>
+</dataset>
