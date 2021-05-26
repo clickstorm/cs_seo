@@ -14,6 +14,16 @@
 		<tablenames>sys_category</tablenames>
 		<uid_foreign>3</uid_foreign>
 		<canonical>http://canonical-of-record.org/3</canonical>
+		<title>SEO title category 3</title>
+		<description>Description category 3</description>
+		<og_title>OG title category 3</og_title>
+		<og_description>OG description category 3</og_description>
+		<og_image>1</og_image>
+		<tw_title>TW title category 3</tw_title>
+		<tw_description>TW description category 3</tw_description>
+		<tw_image>1</tw_image>
+		<tw_creator>TW creator category 3</tw_creator>
+		<tw_site>TW site category 3</tw_site>
 	</tx_csseo_domain_model_meta>
 	<tx_csseo_domain_model_meta>
 		<uid>3</uid>
@@ -21,6 +31,23 @@
 		<tablenames>sys_category</tablenames>
 		<uid_foreign>4</uid_foreign>
 		<canonical>http://canonical-of-record.org/4</canonical>
+		<no_index>1</no_index>
+	</tx_csseo_domain_model_meta>
+	<tx_csseo_domain_model_meta>
+		<uid>4</uid>
+		<pid>0</pid>
+		<tablenames>sys_category</tablenames>
+		<uid_foreign>5</uid_foreign>
+		<canonical>http://canonical-of-record.org/5</canonical>
+		<no_follow>1</no_follow>
+	</tx_csseo_domain_model_meta>
+	<tx_csseo_domain_model_meta>
+		<uid>5</uid>
+		<pid>0</pid>
+		<tablenames>sys_category</tablenames>
+		<uid_foreign>6</uid_foreign>
+		<canonical>http://canonical-of-record.org/6</canonical>
+		<no_follow>1</no_follow>
 		<no_index>1</no_index>
 	</tx_csseo_domain_model_meta>
 </dataset>
