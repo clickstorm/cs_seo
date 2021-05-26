@@ -18,4 +18,22 @@
         <fieldname>twitter_image</fieldname>
         <table_local>sys_file</table_local>
     </sys_file_reference>
+    <sys_file_reference>
+        <uid>3</uid>
+        <pid>0</pid>
+        <uid_local>1</uid_local>
+        <uid_foreign>2</uid_foreign>
+        <tablenames>tx_csseo_domain_model_meta</tablenames>
+        <fieldname>tx_csseo_og_image</fieldname>
+        <table_local>sys_file</table_local>
+    </sys_file_reference>
+    <sys_file_reference>
+        <uid>4</uid>
+        <pid>0</pid>
+        <uid_local>2</uid_local>
+        <uid_foreign>2</uid_foreign>
+        <tablenames>tx_csseo_domain_model_meta</tablenames>
+        <fieldname>tx_csseo_tw_image</fieldname>
+        <table_local>sys_file</table_local>
+    </sys_file_reference>
 </dataset>

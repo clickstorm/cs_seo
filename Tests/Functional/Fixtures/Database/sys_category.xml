@@ -24,4 +24,16 @@
 		<title>Title of category 4</title>
 		<description>Has a metadata record with no_index</description>
 	</sys_category>
+	<sys_category>
+		<uid>5</uid>
+		<pid>0</pid>
+		<title>Title of category 5</title>
+		<description>Has a metadata record with no_follow</description>
+	</sys_category>
+	<sys_category>
+		<uid>6</uid>
+		<pid>0</pid>
+		<title>Title of category 6</title>
+		<description>Has a metadata record with no_index,no_follow</description>
+	</sys_category>
 </dataset>

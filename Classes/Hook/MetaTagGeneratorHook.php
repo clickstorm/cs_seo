@@ -89,8 +89,8 @@ class MetaTagGeneratorHook
             'twitter:description' => ['value' => $metaData['tw_description']],
             'twitter:image' => ['value' => $twImageUrl],
             'twitter:card' => ['value' => ($ogImageUrl || $twImageUrl) ? 'summary_large_image' : 'summary'],
-            'twitter:creator' => ['value' => $metaData['tw_creator'] ?: $pluginSettings['social.']['twitter.']['creator']],
-            'twitter:site' => ['value' => $metaData['tw_site'] ?: $pluginSettings['social.']['twitter.']['site']],
+            'twitter:creator' => ['value' => $metaData['tw_creator'] ? '@' . $metaData['tw_creator'] : ''],
+            'twitter:site' => ['value' => $metaData['tw_site'] ? '@' . $metaData['tw_site'] : ''],
         ];
 
         $noIndex = ((bool)$metaData['no_index']) ? 'noindex' : 'index';

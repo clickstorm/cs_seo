@@ -30,6 +30,8 @@ abstract class AbstractFrontendTest extends FunctionalTestCase
     ];
 
     protected $pathsToLinkInTestInstance = [
+        'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/Files/1920-1080.png' => 'fileadmin/1920-1080.png',
+        'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/Files/1080-1080.png' => 'fileadmin/1080-1080.png',
         'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/AdditionalConfiguration.php' => 'typo3conf/AdditionalConfiguration.php'
     ];
 
