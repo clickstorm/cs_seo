@@ -34,5 +34,14 @@ languages:
         hreflang: de-DE
         direction: ltr
         flag: de
+routeEnhancers:
+    CategoryListing:
+        type: Simple
+        limitToPages: [5]
+        routePath: '/category/{category_id}'
+        requirements:
+            category_id: '[0-9]{1,3}'
+        _arguments:
+            category_id: 'category'
 errorHandling: {  }
 routes: {  }

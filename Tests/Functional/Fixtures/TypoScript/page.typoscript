@@ -2,6 +2,8 @@ page = PAGE
 page.10 = TEXT
 page.10.value = Hello World!
 
+config.no_cache = 1
+
 [page["uid"] == 14]
 	config.disableCanonical = 1
 [end]

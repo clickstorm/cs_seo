@@ -15,8 +15,10 @@ use Nimut\TestingFramework\TestCase\FunctionalTestCase;
  *
  * Moutnpoints point here to there original URL to avoid duplicated content
  */
-class CanonicalGeneratorTest extends FunctionalTestCase
+abstract class AbstractCanonicalTest extends FunctionalTestCase
 {
+    protected $failOnFailure = false;
+
     protected $coreExtensionsToLoad = [
         'core',
         'frontend',
@@ -27,72 +29,21 @@ class CanonicalGeneratorTest extends FunctionalTestCase
         'typo3conf/ext/cs_seo'
     ];
 
+    protected $pathsToLinkInTestInstance = [
+        'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/AdditionalConfiguration.php' => 'typo3conf/AdditionalConfiguration.php'
+    ];
+
     protected $configurationToUseInTestInstance = [
         'EXTENSIONS' => [
             'cs_seo' => [
-                'useAdditionalCanonicalizedUrlParametersOnly' => '1',
+                'useAdditionalCanonicalizedUrlParametersOnly' => true,
             ],
         ]
     ];
 
     public function generateDataProvider(): array
     {
-        return [
-            // core tests
-            'uid: 1 with canonical_link' => [
-                'http://localhost/',
-                '<link rel="canonical" href="http://localhost/"/>' . chr(10),
-            ],
-            'uid: 2 with canonical_link' => [
-                'http://localhost/dummy-1-2',
-                '<link rel="canonical" href="http://localhost/dummy-1-2"/>' . chr(10),
-            ],
-            'uid: 3 with canonical_link AND content_from_pid = 2' => [
-                'http://localhost/dummy-1-3',
-                '<link rel="canonical" href="http://localhost/dummy-1-2"/>' . chr(10),
-            ],
-            'uid: 4 without canonical_link AND content_from_pid = 2' => [
-                'http://localhost/dummy-1-4',
-                '<link rel="canonical" href="http://localhost/dummy-1-2"/>' . chr(10),
-            ],
-            'uid: 5 without canonical_link AND without content_from_pid set' => [
-                'http://localhost/dummy-1-2-5',
-                '<link rel="canonical" href="http://localhost/dummy-1-2-5"/>' . chr(10),
-            ],
-            'uid: 8 without canonical_link AND content_from_pid = 9 (but target page is hidden) results in no canonical' => [
-                'http://localhost/dummy-1-2-8',
-                '',
-            ],
-            'uid: 10 no index' => [
-                'http://localhost/dummy-1-2-10',
-                ''
-            ],
-            'uid: 11 with mount_pid_ol = 0' => [
-                'http://localhost/dummy-1-2-11',
-                '<link rel="canonical" href="http://localhost/dummy-1-2-11"/>' . chr(10),
-            ],
-            'uid: 12 with mount_pid_ol = 1' => [
-                'http://localhost/dummy-1-2-12',
-                '<link rel="canonical" href="http://localhost/dummy-1-2-12"/>' . chr(10),
-            ],
-            'subpage of page with mount_pid_ol = 0' => [
-                'http://localhost/dummy-1-2-11/subpage-of-new-root',
-                '<link rel="canonical" href="http://localhost/dummy-1-2-11/subpage-of-new-root"/>' . chr(10),
-            ],
-            'subpage of page with mount_pid_ol = 1' => [
-                'http://localhost/dummy-1-2-12/subpage-of-new-root',
-                '<link rel="canonical" href="http://localhost/dummy-1-2-12/subpage-of-new-root"/>' . chr(10),
-            ],
-            'uid: 14 typoscript setting config.disableCanonical' => [
-                'http://localhost/no-canonical',
-                ''
-            ],
-            // cs_seo tests
-            'uid: 5 without canonical_link AND without content_from_pid set and invalid param' => [
-                'http://localhost/dummy-1-2-5?foo=bar',
-                '<link rel="canonical" href="http://localhost/dummy-1-2-5"/>' . chr(10),
-            ],
-        ];
+        return [];
     }
 
     /**
@@ -107,7 +58,7 @@ class CanonicalGeneratorTest extends FunctionalTestCase
         /** @var \Nimut\TestingFramework\Http\Response $response */
         $response = $this->getFrontendResponseFromUrl(
             $url,
-            false
+            $this->failOnFailure
         );
 
         if ($expectedCanonicalUrl) {
@@ -165,7 +116,9 @@ class CanonicalGeneratorTest extends FunctionalTestCase
         $fixtureRootPath = ORIGINAL_ROOT . 'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/';
 
         $xmlFiles = [
-            'pages-canonical'
+            'pages-canonical',
+            'sys_category',
+            'tx_csseo_domain_model_meta'
         ];
 
         foreach ($xmlFiles as $xmlFile) {

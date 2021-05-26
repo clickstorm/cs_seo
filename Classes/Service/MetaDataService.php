@@ -69,6 +69,7 @@ class MetaDataService
 
         // get table settings
         $tables = ConfigurationUtility::getTablesToExtend();
+
         if ($tables) {
             // get active table name und settings
             $tableSettings = $this->getCurrentTableConfiguration($tables, $this->cObj);

@@ -1,0 +1,6 @@
+records:
+  sys_category:
+    enable: 'GP:category_id // GP:category'
+    fallback:
+      title: title
+      description: description
