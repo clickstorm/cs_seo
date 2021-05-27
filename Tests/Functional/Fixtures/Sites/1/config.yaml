@@ -41,20 +41,6 @@ languages:
     fallbacks: '1'
     flag: ch
     languageId: 2
-  - title: Dutch
-    enabled: true
-    base: /nl/
-    typo3Language: nl
-    locale: nl_NL.UTF8
-    iso-639-1: nl
-    websiteTitle: ''
-    navigationTitle: Dutch
-    hreflang: ''
-    direction: ltr
-    fallbackType: strict
-    fallbacks: ''
-    flag: nl
-    languageId: 3
   - title: French
     enabled: true
     base: /fr/
@@ -69,6 +55,20 @@ languages:
     fallbacks: ''
     flag: fr
     languageId: 4
+  - title: Dutch
+    enabled: true
+    base: /nl/
+    typo3Language: nl
+    locale: nl_NL.UTF8
+    iso-639-1: nl
+    websiteTitle: ''
+    navigationTitle: Dutch
+    hreflang: ''
+    direction: ltr
+    fallbackType: strict
+    fallbacks: ''
+    flag: nl
+    languageId: 3
 
 routeEnhancers:
   CategoryListing:
