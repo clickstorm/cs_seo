@@ -37,6 +37,18 @@
 		<description>Has a metadata record with no_index,no_follow</description>
 	</sys_category>
 	<sys_category>
+		<uid>7</uid>
+		<pid>0</pid>
+		<title>Title of category 7</title>
+		<description>Has a translated metadata record with canonical</description>
+	</sys_category>
+	<sys_category>
+		<uid>8</uid>
+		<pid>0</pid>
+		<title>Title of category 8</title>
+		<description>Has a translated metadata record with no_index</description>
+	</sys_category>
+	<sys_category>
 		<uid>11</uid>
 		<pid>0</pid>
 		<sys_language_uid>1</sys_language_uid>
@@ -49,5 +61,47 @@
 		<sys_language_uid>1</sys_language_uid>
 		<l10n_parent>3</l10n_parent>
 		<title>DE: Titel der Kategorie 3</title>
+	</sys_category>
+	<sys_category>
+		<uid>71</uid>
+		<pid>0</pid>
+		<sys_language_uid>1</sys_language_uid>
+		<l10n_parent>7</l10n_parent>
+		<title>DE: Titel der Kategorie 7</title>
+	</sys_category>
+	<sys_category>
+		<uid>72</uid>
+		<pid>0</pid>
+		<sys_language_uid>2</sys_language_uid>
+		<l10n_parent>7</l10n_parent>
+		<title>DE-CH: Titel der Kategorie 7</title>
+	</sys_category>
+	<sys_category>
+		<uid>73</uid>
+		<pid>0</pid>
+		<sys_language_uid>3</sys_language_uid>
+		<l10n_parent>7</l10n_parent>
+		<title>NL: Categorie titel 7</title>
+	</sys_category>
+	<sys_category>
+		<uid>74</uid>
+		<pid>0</pid>
+		<sys_language_uid>4</sys_language_uid>
+		<l10n_parent>7</l10n_parent>
+		<title>FR: Titre de la catégorie 7</title>
+	</sys_category>
+	<sys_category>
+		<uid>81</uid>
+		<pid>0</pid>
+		<sys_language_uid>1</sys_language_uid>
+		<l10n_parent>8</l10n_parent>
+		<title>DE: Titel der Kategorie 8</title>
+	</sys_category>
+	<sys_category>
+		<uid>84</uid>
+		<pid>0</pid>
+		<sys_language_uid>4</sys_language_uid>
+		<l10n_parent>8</l10n_parent>
+		<title>FR: Titre de la catégorie 8</title>
 	</sys_category>
 </dataset>

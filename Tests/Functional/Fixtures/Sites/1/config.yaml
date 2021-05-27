@@ -73,7 +73,7 @@ languages:
 routeEnhancers:
   CategoryListing:
     type: Simple
-    limitToPages: [ 1,2,5 ]
+    limitToPages: [ 1,2,5,7 ]
     routePath: '/category/{category_id}'
     requirements:
       category_id: '[0-9]{1,3}'

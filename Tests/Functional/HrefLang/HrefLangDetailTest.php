@@ -110,6 +110,29 @@ class HrefLangDetailTest extends AbstractHrefLangTest
                     '<link rel="alternate" hreflang="',
                 ]
             ],
+            'sys_category: 7 where language 1 has a canonical URL' => [
+                'http://localhost/all/category/7',
+                [
+                    '<link rel="alternate" hreflang="en-US" href="http://localhost/all/category/7"/>',
+                    '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/alle/category/7"/>',
+                    '<link rel="alternate" hreflang="fr-FR" href="http://localhost/fr/tout/category/7"/>',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/all/category/7"/>'
+                ],
+                [
+                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/alle/category/7"/>',
+                ]
+            ],
+            'sys_category: 8 where language 1 is set to no_index, also fallback is not translated' => [
+                'http://localhost/all/category/8',
+                [
+                    '<link rel="alternate" hreflang="en-US" href="http://localhost/all/category/8"/>',
+                    '<link rel="alternate" hreflang="fr-FR" href="http://localhost/fr/tout/category/8"/>',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/all/category/8"/>'
+                ],
+                [
+                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/alle/category/8"/>',
+                ]
+            ],
         ];
     }
 }

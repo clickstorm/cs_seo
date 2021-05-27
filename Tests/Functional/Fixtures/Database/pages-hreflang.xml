@@ -124,4 +124,43 @@
 		<title>DE-CH: Kein hreflang</title>
 		<slug>/kein-hreflang</slug>
 	</pages>
+
+	<pages>
+		<uid>7</uid>
+		<pid>1</pid>
+		<title>EN: All Languages</title>
+		<slug>/all</slug>
+	</pages>
+	<pages>
+		<uid>71</uid>
+		<pid>1</pid>
+		<sys_language_uid>1</sys_language_uid>
+		<l10n_parent>7</l10n_parent>
+		<title>DE: Alle Sprachen</title>
+		<slug>/alle</slug>
+	</pages>
+	<pages>
+		<uid>72</uid>
+		<pid>1</pid>
+		<sys_language_uid>2</sys_language_uid>
+		<l10n_parent>7</l10n_parent>
+		<title>DE-CH: Alle Sprachen</title>
+		<slug>/alle</slug>
+	</pages>
+	<pages>
+		<uid>73</uid>
+		<pid>1</pid>
+		<sys_language_uid>3</sys_language_uid>
+		<l10n_parent>7</l10n_parent>
+		<title>NL: Alle talen</title>
+		<slug>/all</slug>
+	</pages>
+	<pages>
+		<uid>74</uid>
+		<pid>1</pid>
+		<sys_language_uid>4</sys_language_uid>
+		<l10n_parent>7</l10n_parent>
+		<title>FR: Toutes les langues</title>
+		<slug>/tout</slug>
+	</pages>
 </dataset>
