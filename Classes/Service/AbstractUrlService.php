@@ -104,6 +104,7 @@ abstract class AbstractUrlService
             $uid = $l10nParentOfCurrentRecord;
         }
 
+        // first get all items
         $allItems = $queryBuilder->select($languageField)
             ->from($table)
             ->where(
@@ -121,8 +122,55 @@ abstract class AbstractUrlService
             ->execute()
             ->fetchAll();
 
+        // second get all items with canonical or no_index, to remove them
+        // until https://forge.typo3.org/issues/86385 is not fixed, this has to be done in two queries
+
+        // first get all items
+        $invalidItemsRes = $queryBuilder->select('t.' . $languageField, 't.uid')
+            ->from($table, 't')
+            ->leftJoin(
+                't',
+                'tx_csseo_domain_model_meta',
+                'm'
+            )
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'm.uid_foreign',
+                    $queryBuilder->quoteIdentifier('t.uid')
+                ),
+                $queryBuilder->expr()->eq('m.tablenames',
+                    $queryBuilder->createNamedParameter($table)),
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->eq('m.no_index', 1),
+                    $queryBuilder->expr()->neq(
+                        'm.canonical',
+                        $queryBuilder->createNamedParameter('')
+                    )
+                ),
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->eq(
+                        't.' . $pointerField,
+                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    ),
+                    $queryBuilder->expr()->eq(
+                        't.uid',
+                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    )
+                )
+            )
+            ->groupBy('m.uid')
+            ->execute()
+            ->fetchAll();
+
+        $invalidItems = [];
+        foreach ($invalidItemsRes as $item) {
+            $invalidItems[$item[$languageField]] = $item['uid'];
+        }
+
         foreach ($allItems as $item) {
-            $languageIds[$item[$languageField]] = $item[$languageField];
+            if(!isset($invalidItems[$item[$languageField]])) {
+                $languageIds[$item[$languageField]] = $item[$languageField];
+            }
         }
 
         // if not already defined, get the site languages

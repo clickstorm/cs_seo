@@ -50,4 +50,18 @@
 		<no_follow>1</no_follow>
 		<no_index>1</no_index>
 	</tx_csseo_domain_model_meta>
+	<tx_csseo_domain_model_meta>
+		<uid>6</uid>
+		<pid>0</pid>
+		<tablenames>sys_category</tablenames>
+		<uid_foreign>71</uid_foreign>
+		<canonical>http://canonical-of-record.org/71</canonical>
+	</tx_csseo_domain_model_meta>
+	<tx_csseo_domain_model_meta>
+		<uid>7</uid>
+		<pid>0</pid>
+		<tablenames>sys_category</tablenames>
+		<uid_foreign>81</uid_foreign>
+		<no_index>1</no_index>
+	</tx_csseo_domain_model_meta>
 </dataset>

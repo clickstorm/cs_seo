@@ -17,7 +17,7 @@ use Nimut\TestingFramework\TestCase\FunctionalTestCase;
  */
 abstract class AbstractFrontendTest extends FunctionalTestCase
 {
-    protected $failOnFailure = false;
+    protected $failOnFailure = true;
 
     protected $coreExtensionsToLoad = [
         'core',
