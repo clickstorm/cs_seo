@@ -36,4 +36,18 @@
 		<title>Title of category 6</title>
 		<description>Has a metadata record with no_index,no_follow</description>
 	</sys_category>
+	<sys_category>
+		<uid>11</uid>
+		<pid>0</pid>
+		<sys_language_uid>1</sys_language_uid>
+		<l10n_parent>1</l10n_parent>
+		<title>DE: Titel der Kategorie 1</title>
+	</sys_category>
+	<sys_category>
+		<uid>31</uid>
+		<pid>0</pid>
+		<sys_language_uid>1</sys_language_uid>
+		<l10n_parent>3</l10n_parent>
+		<title>DE: Titel der Kategorie 3</title>
+	</sys_category>
 </dataset>

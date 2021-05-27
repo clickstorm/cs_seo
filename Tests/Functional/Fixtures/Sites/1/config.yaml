@@ -73,11 +73,19 @@ languages:
 routeEnhancers:
   CategoryListing:
     type: Simple
-    limitToPages: [ 1,5 ]
+    limitToPages: [ 1,2,5 ]
     routePath: '/category/{category_id}'
     requirements:
       category_id: '[0-9]{1,3}'
     _arguments:
       category_id: 'category'
+  KeepParam:
+    type: Simple
+    limitToPages: [ 2 ]
+    routePath: '/keep-param/{param}'
+    requirements:
+      param: '[0-9]{1,3}'
+    _arguments:
+      param: 'param_to_keep'
 errorHandling: { }
 routes: { }
