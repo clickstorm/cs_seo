@@ -5,6 +5,7 @@ namespace Clickstorm\CsSeo\Service;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Site\Entity\Site;
+use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\DataProcessing\LanguageMenuProcessor;
@@ -14,6 +15,8 @@ use TYPO3\CMS\Frontend\DataProcessing\LanguageMenuProcessor;
  */
 class HrefLangService extends AbstractUrlService
 {
+    protected $siteLanguages = [];
+
     /**
      * @param array $hreflangs
      *
@@ -64,7 +67,8 @@ class HrefLangService extends AbstractUrlService
                 foreach ($languages['languagemenu'] as $language) {
                     // set hreflang only for languages of the TS setup and if the language is also localized for the item
                     // if the language doesn't exist for the item and a fallback language is shown, the hreflang is not set and the canonical points to the fallback url
-                    if ($language['available'] === 1 && in_array($language['languageId'], $l10nItems)) {
+                    if ($this->checkHrefLangForLanguageCanBeSet($language,
+                            $languages['languagemenu']) && in_array($language['languageId'], $l10nItems)) {
                         $hreflangTypoLinkConf['language'] = $language['languageId'];
                         $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
                         $hrefLangArray[$language['languageId']] = [
@@ -88,6 +92,9 @@ class HrefLangService extends AbstractUrlService
                     $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
                     $languages = $languageMenu->process($cObj, [], [], []);
 
+                    /** @var Site $site */
+                    $siteLanguages = $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getLanguages();
+
                     // prepare typolink conf for dynamic hreflang
                     $hreflangTypoLinkConf = $typoLinkConf;
                     unset($hreflangTypoLinkConf['additionalParams.']['append.']['data']);
@@ -101,7 +108,8 @@ class HrefLangService extends AbstractUrlService
                     $canonicalsByLanguages = $this->getCanonicalFromAllLanguagesOfPage($GLOBALS['TSFE']->id);
 
                     foreach ($languages['languagemenu'] as $language) {
-                        if ($language['available'] === 1 && !empty($language['hreflang']) && !empty($language['link'])) {
+                        if ($this->checkHrefLangForLanguageCanBeSet($language, $languages['languagemenu'])) {
+
                             // check canonicals from all languages
                             if (empty($canonicalsByLanguages[$language['languageId']])) {
                                 $hreflangTypoLinkConf['language'] = $language['languageId'];
@@ -124,6 +132,45 @@ class HrefLangService extends AbstractUrlService
         $GLOBALS['TSFE']->linkVars = $tempLinkVars;
 
         return $hreflangs;
+    }
+
+    /**
+     * check if a hreflang for the given language of the languageMenu can be set
+     *
+     * @param array $language
+     * @param array $languageMenu
+     *
+     * @return bool
+     */
+    protected function checkHrefLangForLanguageCanBeSet($language, $languageMenu)
+    {
+        if (!empty($language['hreflang']) && !empty($language['link'])) {
+            if ($language['available']) {
+                return true;
+            }
+
+            // if not already defined, get the site languages
+            if (empty($this->siteLanguages) && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site) {
+                $this->siteLanguages = $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getLanguages();
+            }
+
+            // if language not available, so no translation given, check for fallback
+            // needed until https://forge.typo3.org/issues/94207 is solved
+            /** @var SiteLanguage $currentSiteLanguage */
+            $currentSiteLanguage = $this->siteLanguages[$language['languageId']];
+
+            if ($currentSiteLanguage instanceof SiteLanguage && $currentSiteLanguage->getFallbackType() === 'fallback' && $currentSiteLanguage->getFallbackLanguageIds()) {
+                foreach ($currentSiteLanguage->getFallbackLanguageIds() as $fallbackLanguageId) {
+                    foreach ($languageMenu as $languageMenuLanguage) {
+                        if ($languageMenuLanguage['languageId'] === $fallbackLanguageId) {
+                            return $this->checkHrefLangForLanguageCanBeSet($languageMenuLanguage, $languageMenu);
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
