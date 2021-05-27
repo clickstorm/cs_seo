@@ -1,47 +1,83 @@
 rootPageId: 1
 base: http://localhost/
 languages:
-    -   title: English
-        enabled: true
-        languageId: '0'
-        base: /
-        typo3Language: default
-        locale: en_US.UTF-8
-        iso-639-1: en
-        navigationTitle: English
-        hreflang: en-US
-        direction: ltr
-        flag: en-us-gb
-    -   title: Dansk
-        enabled: true
-        languageId: '1'
-        base: /da/
-        typo3Language: da
-        locale: da_DK.UTF-8
-        iso-639-1: da
-        navigationTitle: Dansk
-        hreflang: da-DK
-        direction: ltr
-        flag: dk
-    -   title: Deutsch
-        enabled: true
-        languageId: '2'
-        base: /de/
-        typo3Language: de
-        locale: de_DE.UTF-8
-        iso-639-1: de
-        navigationTitle: Deutsch
-        hreflang: de-DE
-        direction: ltr
-        flag: de
+  - title: English
+    enabled: true
+    languageId: 0
+    base: /
+    typo3Language: default
+    locale: en_US.UTF8
+    iso-639-1: en
+    navigationTitle: English
+    hreflang: en-US
+    direction: ltr
+    flag: en-us-gb
+    websiteTitle: ''
+  - title: German
+    enabled: true
+    base: /de/
+    typo3Language: de
+    locale: de_DE.UTF8
+    iso-639-1: de
+    websiteTitle: ''
+    navigationTitle: Deutsch
+    hreflang: de-DE
+    direction: ltr
+    fallbackType: strict
+    fallbacks: ''
+    flag: de
+    languageId: 1
+  - title: 'Swiss German'
+    enabled: true
+    base: /de-ch/
+    typo3Language: de
+    locale: de_CH.UTF8
+    iso-639-1: de
+    websiteTitle: ''
+    navigationTitle: Schweiz
+    hreflang: de-CH
+    direction: ltr
+    fallbackType: fallback
+    fallbacks: '1'
+    flag: ch
+    languageId: 2
+  - title: Dutch
+    enabled: true
+    base: /nl/
+    typo3Language: nl
+    locale: nl_NL.UTF8
+    iso-639-1: nl
+    websiteTitle: ''
+    navigationTitle: Dutch
+    hreflang: ''
+    direction: ltr
+    fallbackType: strict
+    fallbacks: ''
+    flag: nl
+    languageId: 3
+  - title: French
+    enabled: true
+    base: /fr/
+    typo3Language: fr
+    locale: fr_FR.UTF8
+    iso-639-1: fr
+    websiteTitle: ''
+    navigationTitle: Français
+    hreflang: fr-FR
+    direction: ''
+    fallbackType: strict
+    fallbacks: ''
+    flag: fr
+    languageId: 4
+
 routeEnhancers:
-    CategoryListing:
-        type: Simple
-        limitToPages: [1,5]
-        routePath: '/category/{category_id}'
-        requirements:
-            category_id: '[0-9]{1,3}'
-        _arguments:
-            category_id: 'category'
-errorHandling: {  }
-routes: {  }
+  CategoryListing:
+    type: Simple
+    limitToPages: [ 1,5 ]
+    routePath: '/category/{category_id}'
+    requirements:
+      category_id: '[0-9]{1,3}'
+    _arguments:
+      category_id: 'category'
+errorHandling: { }
+routes: { }

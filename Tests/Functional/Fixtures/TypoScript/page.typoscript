@@ -4,6 +4,12 @@ page.10.value = Hello World!
 
 config.no_cache = 1
 
+## disabled canonical
 [page["uid"] == 14]
 	config.disableCanonical = 1
+[end]
+
+## disabled hreflang
+[page["uid"] == 6]
+	config.disableHrefLang = 1
 [end]

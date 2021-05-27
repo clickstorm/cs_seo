@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+	<pages>
+		<uid>1</uid>
+		<pid>0</pid>
+		<title>EN: Root</title>
+		<is_siteroot>1</is_siteroot>
+		<slug>/</slug>
+	</pages>
+
+	<pages>
+		<uid>2</uid>
+		<pid>1</pid>
+		<title>EN: Welcome</title>
+		<slug>/hello</slug>
+	</pages>
+	<pages>
+		<uid>21</uid>
+		<pid>1</pid>
+		<sys_language_uid>1</sys_language_uid>
+		<l10n_parent>2</l10n_parent>
+		<title>DE: Willkommen</title>
+		<slug>/willkommen</slug>
+	</pages>
+	<pages>
+		<uid>23</uid>
+		<pid>1</pid>
+		<sys_language_uid>3</sys_language_uid>
+		<l10n_parent>2</l10n_parent>
+		<title>NL: Welkom</title>
+		<slug>/welkom</slug>
+	</pages>
+
+	<pages>
+		<uid>3</uid>
+		<pid>1</pid>
+		<title>EN: Contact</title>
+		<slug>/contact</slug>
+		<canonical_link>https://www.typo3.org</canonical_link>
+	</pages>
+	<pages>
+		<uid>31</uid>
+		<pid>1</pid>
+		<sys_language_uid>1</sys_language_uid>
+		<l10n_parent>3</l10n_parent>
+		<title>DE: Kontakt</title>
+		<slug>/kontakt</slug>
+	</pages>
+	<pages>
+		<uid>32</uid>
+		<pid>1</pid>
+		<sys_language_uid>2</sys_language_uid>
+		<l10n_parent>3</l10n_parent>
+		<title>DE-CH: Kontakt</title>
+		<slug>/kontakt</slug>
+	</pages>
+
+	<pages>
+		<uid>4</uid>
+		<pid>1</pid>
+		<title>EN: About</title>
+		<slug>/about</slug>
+	</pages>
+	<pages>
+		<uid>41</uid>
+		<pid>1</pid>
+		<sys_language_uid>1</sys_language_uid>
+		<l10n_parent>4</l10n_parent>
+		<title>DE: Uber</title>
+		<slug>/uber</slug>
+	</pages>
+	<pages>
+		<uid>42</uid>
+		<pid>1</pid>
+		<sys_language_uid>2</sys_language_uid>
+		<l10n_parent>4</l10n_parent>
+		<title>DE-CH: Uber</title>
+		<slug>/uber</slug>
+		<canonical_link>https://localhost/uber</canonical_link>
+	</pages>
+
+	<pages>
+		<uid>5</uid>
+		<pid>1</pid>
+		<title>EN: Products</title>
+		<slug>/products</slug>
+	</pages>
+	<pages>
+		<uid>51</uid>
+		<pid>1</pid>
+		<sys_language_uid>1</sys_language_uid>
+		<l10n_parent>5</l10n_parent>
+		<title>DE: Produkte</title>
+		<slug>/produkte</slug>
+	</pages>
+	<pages>
+		<uid>52</uid>
+		<pid>1</pid>
+		<sys_language_uid>2</sys_language_uid>
+		<l10n_parent>5</l10n_parent>
+		<title>DE-CH: Produkte</title>
+		<slug>/produkte</slug>
+	</pages>
+
+	<pages>
+		<uid>6</uid>
+		<pid>1</pid>
+		<title>EN: No hreflang</title>
+		<slug>/no-hreflang</slug>
+	</pages>
+	<pages>
+		<uid>61</uid>
+		<pid>1</pid>
+		<sys_language_uid>1</sys_language_uid>
+		<l10n_parent>6</l10n_parent>
+		<title>DE: Kein hreflang</title>
+		<slug>/kein-hreflang</slug>
+	</pages>
+	<pages>
+		<uid>62</uid>
+		<pid>1</pid>
+		<sys_language_uid>2</sys_language_uid>
+		<l10n_parent>6</l10n_parent>
+		<title>DE-CH: Kein hreflang</title>
+		<slug>/kein-hreflang</slug>
+	</pages>
+</dataset>
