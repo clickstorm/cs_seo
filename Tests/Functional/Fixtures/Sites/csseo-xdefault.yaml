@@ -1,0 +1,3 @@
+imports:
+  - resource: 'EXT:cs_seo/Tests/Functional/Fixtures/Sites/1/config.yaml'
+txCsseoXdefault: 1

@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\HrefLang;
 
-class HrefLangCoreTest extends AbstractHrefLangTest
+/**
+ * different behaviour then core with another x-default and fix from https://forge.typo3.org/issues/94207
+ *
+ * Class HrefLangDifferentXDefault
+ * @package Clickstorm\CsSeo\Tests\Functional\HrefLang
+ */
+class HrefLangDifferentXDefaultTest extends AbstractHrefLangTest
 {
     protected function setUp(): void
     {
@@ -13,9 +19,7 @@ class HrefLangCoreTest extends AbstractHrefLangTest
         $fixtureRootPath = ORIGINAL_ROOT . 'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/';
 
         $xmlFiles = [
-            'pages-hreflang',
-            'sys_category',
-            'tx_csseo_domain_model_meta'
+            'pages-hreflang'
         ];
 
         foreach ($xmlFiles as $xmlFile) {
@@ -27,13 +31,9 @@ class HrefLangCoreTest extends AbstractHrefLangTest
             'EXT:cs_seo/Configuration/TypoScript/setup.typoscript'
         ];
 
-        $sitesNumbers = [1];
-
-        foreach ($sitesNumbers as $siteNumber) {
-            $sites = [];
-            $sites[$siteNumber] = $fixtureRootPath . 'Sites/' . $siteNumber . '/config.yaml';
-            $this->setUpFrontendRootPage($siteNumber, $typoScriptFiles, $sites);
-        }
+        $sites = [];
+        $sites[1] = $fixtureRootPath . 'Sites/csseo-xdefault.yaml';
+        $this->setUpFrontendRootPage(1, $typoScriptFiles, $sites);
     }
 
     /**
@@ -45,11 +45,9 @@ class HrefLangCoreTest extends AbstractHrefLangTest
             'No translation available, so only hreflang tags expected for default language and fallback languages' => [
                 'http://localhost/',
                 [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/"/>',
-                    '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/"/>',
                 ],
                 [
-                    '<link rel="alternate" hreflang="de-DE"'
+                    '<link rel="alternate" hreflang="'
                 ]
             ],
             'English page, with German translation' => [
@@ -57,7 +55,7 @@ class HrefLangCoreTest extends AbstractHrefLangTest
                 [
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"/>',
                     '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello"/>',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/willkommen"/>',
                 ],
                 []
             ],
@@ -66,7 +64,7 @@ class HrefLangCoreTest extends AbstractHrefLangTest
                 [
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"/>',
                     '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello"/>',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/willkommen"/>',
                 ],
                 []
             ],
@@ -75,7 +73,7 @@ class HrefLangCoreTest extends AbstractHrefLangTest
                 [
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"/>',
                     '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello"/>',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/willkommen"/>',
                 ],
                 [
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/nl/welkom"/>',
@@ -88,7 +86,7 @@ class HrefLangCoreTest extends AbstractHrefLangTest
                 [
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"/>',
                     '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello"/>',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/willkommen"/>',
                 ],
                 [
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/nl/welkom"/>',
@@ -111,7 +109,7 @@ class HrefLangCoreTest extends AbstractHrefLangTest
                 'http://localhost/de-ch/uber',
                 [
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/about"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/about"/>',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/uber"/>',
                     '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/uber"/>',
                 ],
                 [
@@ -122,7 +120,7 @@ class HrefLangCoreTest extends AbstractHrefLangTest
                 'http://localhost/de-ch/produkte',
                 [
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/products"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/products"/>',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/produkte"/>',
                     '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/produkte"/>',
                     '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/produkte"/>',
                 ],
