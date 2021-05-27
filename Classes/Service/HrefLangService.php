@@ -101,7 +101,7 @@ class HrefLangService extends AbstractUrlService
                     $canonicalsByLanguages = $this->getCanonicalFromAllLanguagesOfPage($GLOBALS['TSFE']->id);
 
                     foreach ($languages['languagemenu'] as $language) {
-                        if ($language['available'] === 1 && !empty($language['link'])) {
+                        if ($language['available'] === 1 && !empty($language['hreflang']) && !empty($language['link'])) {
                             // check canonicals from all languages
                             if (empty($canonicalsByLanguages[$language['languageId']])) {
                                 $hreflangTypoLinkConf['language'] = $language['languageId'];
