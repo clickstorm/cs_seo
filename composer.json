@@ -1,10 +1,11 @@
 {
-  "name": "clickstorm/cs_seo",
+  "name": "clickstorm/cs-seo",
   "type": "typo3-cms-extension",
   "description": "[clickstorm] SEO",
-  "homepage": "http://www.clickstorm.de",
+  "homepage": "https://www.clickstorm.de",
+  "homepage": "https://www.clickstorm.de",
   "license": [
-	"GPL-2.0+"
+     "GPL-2.0-or-later"
   ],
   "keywords": [
 	"typo3",
@@ -12,10 +13,6 @@
 	"clickstorm",
 	"SEO"
   ],
-  "version": "1.8.7-dev",
-  "replace": {
-	"cs_seo": "*"
-  },
   "require": {
 	"typo3/cms-core": ">=6.2.0"
   },
