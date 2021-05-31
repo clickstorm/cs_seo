@@ -27,7 +27,9 @@ namespace Clickstorm\CsSeo\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Clickstorm\CsSeo\Event\ModifyEvaluationPidEvent;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
@@ -41,70 +43,64 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class FrontendPageService
 {
-
-    /**
-     * @var array
-     */
-    protected $pageInfo;
-
-    /**
-     * @var string
-     */
-    protected $tableName;
-
     /**
      * @var int
      */
     protected $lang;
 
     /**
-     * TSFEUtility constructor.
-     *
-     * @param array $pageInfo
-     * @param string $tableName
+     * @var EventDispatcherInterface
      */
-    public function __construct($pageInfo, $tableName = 'pages')
+    protected $eventDispatcher;
+
+    public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void
     {
-        $this->pageInfo = $pageInfo;
-        $this->tableName = $tableName;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
+     * @param array $pageInfo
+     * @param string $tableName
      * @return array
      * @throws \TYPO3\CMS\Core\Exception
+     * @throws \TYPO3\CMS\Core\Routing\UnableToLinkToPageException
      */
-    public function getFrontendPage()
+    public function getFrontendPage(array $pageInfo, string $tableName = 'pages')
     {
         $result = [];
 
-        if ($this->tableName == 'pages') {
+        if ($tableName === 'pages') {
             $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
-            if (!in_array($this->pageInfo['doktype'], $allowedDoktypes) || $this->pageInfo['tx_csseo_no_index']) {
-                return '';
+            if ($pageInfo['tx_csseo_no_index'] || !in_array($pageInfo['doktype'], $allowedDoktypes)) {
+                return [];
             }
         }
 
         $params = '';
-        $paramId = $this->pageInfo['l10n_parent'] != 0 ? $this->pageInfo['l10n_parent'] : $this->pageInfo['uid'];
+        $paramId = $pageInfo['l10n_parent'] !== 0 ? $pageInfo['l10n_parent'] : $pageInfo['uid'];
 
-        if ($this->tableName && $this->tableName != 'pages') {
+        if ($tableName && $tableName !== 'pages') {
             // record
-            $tableSettings = ConfigurationUtility::getTableSettings($this->tableName);
+            $tableSettings = ConfigurationUtility::getTableSettings($tableName);
             if ($tableSettings['evaluation']) {
-                $params = str_replace('|', $this->pageInfo['uid'], $tableSettings['evaluation']['getParams']);
+                $params = str_replace('|', $pageInfo['uid'], $tableSettings['evaluation']['getParams']);
                 $paramId = $tableSettings['evaluation']['detailPid'];
-                if ($this->pageInfo['sys_language_uid'] > 0) {
-                    $params .= '&L=' . $this->pageInfo['sys_language_uid'];
+                if ($pageInfo['sys_language_uid'] > 0) {
+                    $params .= '&L=' . $pageInfo['sys_language_uid'];
                 }
             }
         } else {
             // translated page
-            if ($this->pageInfo['sys_language_uid'] > 0) {
-                $params = '&L=' . $this->pageInfo['sys_language_uid'];
+            if ($pageInfo['sys_language_uid'] > 0) {
+                $params = '&L=' . $pageInfo['sys_language_uid'];
             } else {
                 $params = '&L=0';
             }
         }
+
+        // modify page id PSR-14 event
+        $paramId = $this->eventDispatcher->dispatch(new ModifyEvaluationPidEvent($paramId, $params, $tableName,
+            $pageInfo))->getPid();
 
         // build url
         $result['url'] = BackendUtility::getPreviewUrl($paramId, '', null, '', '', $params);
@@ -126,6 +122,7 @@ class FrontendPageService
                 '',
                 FlashMessage::ERROR
             );
+
             /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
             $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
             /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
