@@ -59,6 +59,7 @@ Add the following yaml content to a file EXT:myext/Configuration/CsSeo/config.ya
 
 
 You have the possibility to merge multiple config files via `imports <https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ApiOverview/Yaml/Index.html>`__.
+If you need another detail pid, for example for different storage pids, you can use the PSR-14 event \Clickstorm\CsSeo\Event\ModifyEvaluationPidEvent.
 
 
 2. Register the config file

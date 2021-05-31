@@ -54,9 +54,12 @@ class EvaluationCommand extends Command
      * @var EvaluationRepository
      */
     protected $evaluationRepository;
+
+    /** @var FrontendPageService */
+    protected $frontendPageService;
+
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $persistenceManager;
     /**
@@ -72,6 +75,11 @@ class EvaluationCommand extends Command
     public function injectEvaluationRepository(EvaluationRepository $evaluationRepository)
     {
         $this->evaluationRepository = $evaluationRepository;
+    }
+
+    public function injectFrontendPageService(FrontendPageService $frontendPageService)
+    {
+        $this->frontendPageService = $frontendPageService;
     }
 
     /**
@@ -116,6 +124,7 @@ class EvaluationCommand extends Command
         $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
         $this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
         $this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
+        $this->frontendPageService = $this->objectManager->get(FrontendPageService::class);
     }
 
     /**
@@ -196,9 +205,7 @@ class EvaluationCommand extends Command
     protected function updateResults($items)
     {
         foreach ($items as $item) {
-            /** @var FrontendPageService $frontendPageService */
-            $frontendPageService = GeneralUtility::makeInstance(FrontendPageService::class, $item, $this->tableName);
-            $frontendPage = $frontendPageService->getFrontendPage();
+            $frontendPage = $this->frontendPageService->getFrontendPage($item, $this->tableName);
 
             if (isset($frontendPage['content'])) {
                 /** @var EvaluationService $evaluationUtility */

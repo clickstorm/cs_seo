@@ -4,3 +4,7 @@ records:
     fallback:
       title: title
       description: description
+    evaluation:
+      getParams: >-
+        &category_id=|
+      detailPid: 1
