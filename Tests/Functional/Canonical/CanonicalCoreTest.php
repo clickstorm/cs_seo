@@ -4,12 +4,6 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\Canonical;
 
-use Nimut\TestingFramework\Http\Response;
-use PHPUnit\Util\PHP\DefaultPhpProcess;
-use TYPO3\CMS\Core\Tests\Functional\SiteHandling\SiteBasedTestTrait;
-use TYPO3\CMS\Core\TypoScript\TemplateService;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
-
 /**
  * Test case, inspired by typo3/cms-seo extension
  *

@@ -14,7 +14,6 @@ class GlobalsUtility
         return $GLOBALS['LANG'];
     }
 
-
     /**
      * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
      */

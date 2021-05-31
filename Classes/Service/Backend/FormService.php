@@ -3,7 +3,6 @@
 namespace Clickstorm\CsSeo\Service\Backend;
 
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
-use TYPO3\CMS\Backend\Controller\EditDocumentController;
 use TYPO3\CMS\Backend\Form\Exception\AccessDeniedException;
 use TYPO3\CMS\Backend\Form\Exception\DatabaseRecordException;
 use TYPO3\CMS\Backend\Form\Exception\DatabaseRecordWorkspaceDeletePlaceholderException;
@@ -11,11 +10,9 @@ use TYPO3\CMS\Backend\Form\FormDataCompiler;
 use TYPO3\CMS\Backend\Form\FormDataGroup\TcaDatabaseRecord;
 use TYPO3\CMS\Backend\Form\FormResultCompiler;
 use TYPO3\CMS\Backend\Form\NodeFactory;
-use TYPO3\CMS\Backend\Form\Utility\FormEngineUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
-use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FormService
@@ -98,8 +95,11 @@ class FormService
             ];
 
             if ($command !== 'new') {
-                BackendUtility::lockRecords($table, $formData['databaseRow']['uid'],
-                    $table === 'tt_content' ? $formData['databaseRow']['pid'] : 0);
+                BackendUtility::lockRecords(
+                    $table,
+                    $formData['databaseRow']['uid'],
+                    $table === 'tt_content' ? $formData['databaseRow']['pid'] : 0
+                );
             }
 
             $formData['fieldListToRender'] = $columns;
@@ -119,7 +119,6 @@ class FormService
             $editForm = $formResultCompiler->addCssFiles();
             $editForm .= $html;
             $editForm .= $formResultCompiler->printNeededJSFunctions();
-
         } catch (AccessDeniedException $e) {
             $this->errorC++;
             // Try to fetch error message from "recordInternals" be user object

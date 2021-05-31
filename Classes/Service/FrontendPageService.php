@@ -99,8 +99,12 @@ class FrontendPageService
         }
 
         // modify page id PSR-14 event
-        $paramId = $this->eventDispatcher->dispatch(new ModifyEvaluationPidEvent($paramId, $params, $tableName,
-            $pageInfo))->getPid();
+        $paramId = $this->eventDispatcher->dispatch(new ModifyEvaluationPidEvent(
+            $paramId,
+            $params,
+            $tableName,
+            $pageInfo
+        ))->getPid();
 
         // build url
         $result['url'] = BackendUtility::getPreviewUrl($paramId, '', null, '', '', $params);

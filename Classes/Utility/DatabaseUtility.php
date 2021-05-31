@@ -2,15 +2,15 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
-use TYPO3\CMS\Core\Resource\ResourceFactory;
-use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\QueryGenerator;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 
 /***************************************************************
  *
@@ -143,7 +143,7 @@ class DatabaseUtility
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable($tableName);
 
-        if($includeSubfolders) {
+        if ($includeSubfolders) {
             $folderExpression = $queryBuilder->expr()->like('file.identifier', $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR));
         } else {
             // get folder hash
@@ -160,7 +160,8 @@ class DatabaseUtility
                 $joinTableName,
                 'meta',
                 $queryBuilder->expr()->eq(
-                    'meta.file', $queryBuilder->quoteIdentifier('file.uid')
+                    'meta.file',
+                    $queryBuilder->quoteIdentifier('file.uid')
                 )
             )
             ->where(
@@ -169,9 +170,7 @@ class DatabaseUtility
                 $folderExpression
             );
 
-
-
-        if(!$includeImagesWithAlt) {
+        if (!$includeImagesWithAlt) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->orX(
                     $queryBuilder->expr()->eq('meta.alternative', $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)),
@@ -180,7 +179,7 @@ class DatabaseUtility
             );
         }
 
-        if($countAll) {
+        if ($countAll) {
             $queryBuilder->count('file.uid');
         } else {
             $queryBuilder->setMaxResults(1);

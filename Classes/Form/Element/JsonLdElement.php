@@ -30,7 +30,6 @@ namespace Clickstorm\CsSeo\Form\Element;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Form\AbstractNode;
-use TYPO3\CMS\Backend\Form\Element\InputTextElement;
 use TYPO3\CMS\Backend\Form\Element\TextElement;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;

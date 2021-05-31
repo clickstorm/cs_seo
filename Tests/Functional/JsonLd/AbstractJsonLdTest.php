@@ -10,7 +10,6 @@ use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTest;
  * Abstract Test Class
  *
  * Class AbstractMetaTagTest
- * @package Clickstorm\CsSeo\Tests\Functional\MetaTag
  */
 abstract class AbstractJsonLdTest extends AbstractFrontendTest
 {
@@ -38,7 +37,7 @@ abstract class AbstractJsonLdTest extends AbstractFrontendTest
 
         $content = (string)$response->getContent();
 
-        if($expectedJsonLd) {
+        if ($expectedJsonLd) {
             self::assertStringContainsString(self::STRING_IN_JSON_LD_TEST, $content);
             self::assertStringContainsString('<script type="application/ld+json">' . $expectedJsonLd . '</script>', $content);
         } else {

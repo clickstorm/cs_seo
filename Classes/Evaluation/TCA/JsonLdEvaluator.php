@@ -14,9 +14,9 @@ class JsonLdEvaluator extends AbstractEvaluator
      */
     public function evaluateFieldValue($value, $is_in, &$set)
     {
-        if($value && !isset($_REQUEST['tx_csseo_json_ld_eval_done'])) {
+        if ($value && !isset($_REQUEST['tx_csseo_json_ld_eval_done'])) {
             $value = trim(preg_replace('#<script(.*?)>|</script>#is', '', $value));
-            if($value && json_decode($value, true) === null) {
+            if ($value && json_decode($value, true) === null) {
                 $this->addFlashMessage(
                     'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:evaluation.tca.json_ld.invalid_json'
                 );

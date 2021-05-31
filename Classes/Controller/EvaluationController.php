@@ -2,7 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
-use Psr\Http\Message\ResponseInterface;
+use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 /***************************************************************
  *
  *  Copyright notice
@@ -28,7 +28,7 @@ use Psr\Http\Message\ResponseInterface;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
+use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**

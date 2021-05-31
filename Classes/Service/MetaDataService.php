@@ -92,7 +92,7 @@ class MetaDataService
                 if (isset($tableSettings['fallback'])) {
                     foreach ($tableSettings['fallback'] as $seoField => $fallbackField) {
                         if (empty($metaData[$seoField])) {
-                            if(!empty($record[$fallbackField])) {
+                            if (!empty($record[$fallbackField])) {
                                 $metaData[$seoField] = $record[$fallbackField];
                                 if ($seoField === 'og_image' || $seoField === 'tw_image') {
                                     $metaData[$seoField] = [

@@ -2,12 +2,12 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
-use Psr\Http\Message\ResponseInterface;
 use Clickstorm\CsSeo\Service\Backend\GridService;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\HtmlResponse;

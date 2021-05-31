@@ -138,8 +138,10 @@ abstract class AbstractUrlService
                     'm.uid_foreign',
                     $queryBuilder->quoteIdentifier('t.uid')
                 ),
-                $queryBuilder->expr()->eq('m.tablenames',
-                    $queryBuilder->createNamedParameter($table)),
+                $queryBuilder->expr()->eq(
+                    'm.tablenames',
+                    $queryBuilder->createNamedParameter($table)
+                ),
                 $queryBuilder->expr()->orX(
                     $queryBuilder->expr()->eq('m.no_index', 1),
                     $queryBuilder->expr()->neq(
@@ -168,7 +170,7 @@ abstract class AbstractUrlService
         }
 
         foreach ($allItems as $item) {
-            if(!isset($invalidItems[$item[$languageField]])) {
+            if (!isset($invalidItems[$item[$languageField]])) {
                 $languageIds[$item[$languageField]] = $item[$languageField];
             }
         }

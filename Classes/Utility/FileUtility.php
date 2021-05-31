@@ -2,7 +2,6 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
-use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FileUtility
@@ -26,6 +25,4 @@ class FileUtility
     {
         return substr($combinedIdentifier, strpos($combinedIdentifier, ':') + 1);
     }
-
-
 }

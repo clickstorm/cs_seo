@@ -8,7 +8,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractEvaluator
 {
-    protected function addFlashMessage($message) {
+    protected function addFlashMessage($message)
+    {
         /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
         $flashMessage = GeneralUtility::makeInstance(
             FlashMessage::class,

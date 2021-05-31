@@ -8,7 +8,6 @@ namespace Clickstorm\CsSeo\Tests\Functional\HrefLang;
  * different behaviour then core with another x-default and fix from https://forge.typo3.org/issues/94207
  *
  * Class HrefLangDifferentXDefault
- * @package Clickstorm\CsSeo\Tests\Functional\HrefLang
  */
 class HrefLangDifferentXDefaultTest extends AbstractHrefLangTest
 {

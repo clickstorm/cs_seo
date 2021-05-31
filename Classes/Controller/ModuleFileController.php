@@ -2,14 +2,12 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
-use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Core\Resource\ResourceFactory;
-use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use Clickstorm\CsSeo\Service\Backend\FormService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\FileUtility;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
+use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -17,8 +15,10 @@ use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\File;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 class ModuleFileController extends AbstractModuleController
@@ -66,13 +66,18 @@ class ModuleFileController extends AbstractModuleController
             'TYPO3/CMS/Backend/InfoWindow'
         ];
 
-        if($this->storageUid) {
+        if ($this->storageUid) {
             $includeSubfolders = (bool)$this->modParams['recursive'];
 
             $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders, true);
             $numberOfImagesWithoutAlt = array_values($result[0])[0];
-            $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders, true,
-                true);
+            $result = DatabaseUtility::getImageWithEmptyAlt(
+                $this->storageUid,
+                $this->identifier,
+                $includeSubfolders,
+                true,
+                true
+            );
             $numberOfAllImages = array_values($result[0])[0];
 
             if ($numberOfAllImages) {
@@ -112,12 +117,12 @@ class ModuleFileController extends AbstractModuleController
                 $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
 
                 // if no metadata record is there, create one
-                if($metadataUid === 0) {
+                if ($metadataUid === 0) {
                     $this->image->getOriginalResource()->getMetaData()->save();
                     $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
                 }
 
-                $editForm =$formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',',$configuredColumns));
+                $editForm =$formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',', $configuredColumns));
                 $this->view->assignMultiple([
                     'editForm' => $editForm,
                     'image' => $files[0]
@@ -141,11 +146,11 @@ class ModuleFileController extends AbstractModuleController
             $file->getMetaData()->save();
 
             if ($file->getProperty('alternative')) {
-                $message = GeneralUtility::makeInstance(FlashMessage::class,
+                $message = GeneralUtility::makeInstance(
+                    FlashMessage::class,
                     $file->getName() . ' ' . GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.message'
                     ) . ': \n\'' . $file->getProperty('alternative') . '\'',
-
                     GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.header'
                     ),
@@ -153,7 +158,8 @@ class ModuleFileController extends AbstractModuleController
                     false // [optional] whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is false)
                 );
             } else {
-                $message = GeneralUtility::makeInstance(FlashMessage::class,
+                $message = GeneralUtility::makeInstance(
+                    FlashMessage::class,
                     $file->getName() . ' ' . GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.error.message'
                     ),

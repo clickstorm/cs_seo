@@ -10,7 +10,6 @@ use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTest;
  * Abstract Test Class
  *
  * Class AbstractMetaTagTest
- * @package Clickstorm\CsSeo\Tests\Functional\MetaTag
  */
 abstract class AbstractMetaTagTest extends AbstractFrontendTest
 {
@@ -47,11 +46,15 @@ abstract class AbstractMetaTagTest extends AbstractFrontendTest
             if ($value) {
                 if ($expectedMetaTag === 'og:image' || $expectedMetaTag === 'twitter:image') {
                     $regex = '<meta ' . $metaTagType . '="' . $expectedMetaTag . '" content=".*' . $value . '.*\.png" \/>';
-                    self::assertRegExp("/{$regex}/",
-                        $content);
+                    self::assertRegExp(
+                        "/{$regex}/",
+                        $content
+                    );
                 } else {
-                    self::assertStringContainsString('<meta ' . $metaTagType . '="' . $expectedMetaTag . '" content="' . $value . '" />',
-                        $content);
+                    self::assertStringContainsString(
+                        '<meta ' . $metaTagType . '="' . $expectedMetaTag . '" content="' . $value . '" />',
+                        $content
+                    );
                 }
             } else {
                 self::assertStringNotContainsString('<meta ' . $metaTagType . '="' . $expectedMetaTag . '"', $content);

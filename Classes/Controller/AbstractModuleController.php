@@ -9,7 +9,6 @@ use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
-use TYPO3\CMS\Core\Messaging\FlashMessageRendererResolver;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -99,8 +98,10 @@ abstract class AbstractModuleController extends ActionController
                 $this->modParams[$name] = ($name === 'action' || $name === 'table') ? $arg : (int)$arg;
             }
         }
-        GlobalsUtility::getBackendUser()->setAndSaveSessionData(static::$session_prefix,
-            $this->modParams);
+        GlobalsUtility::getBackendUser()->setAndSaveSessionData(
+            static::$session_prefix,
+            $this->modParams
+        );
     }
 
     /**
@@ -222,11 +223,9 @@ abstract class AbstractModuleController extends ActionController
                     ' . implode(LF, $messages) . '
                 }
             ';
-
     }
 
     protected function addModuleButtons(ButtonBar $buttonBar): void
     {
-
     }
 }
