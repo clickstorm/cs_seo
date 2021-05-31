@@ -144,7 +144,7 @@ class ModuleFileController extends AbstractModuleController
                 $message = GeneralUtility::makeInstance(FlashMessage::class,
                     $file->getName() . ' ' . GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.message'
-                    ) . ': \n\'' . $file->getProperty('title') . '\'',
+                    ) . ': \n\'' . $file->getProperty('alternative') . '\'',
 
                     GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.header'
@@ -168,8 +168,8 @@ class ModuleFileController extends AbstractModuleController
             $messageQueue = $flashMessageService->getMessageQueueByIdentifier(static::$mod_name);
             $messageQueue->addMessage($message);
         }
-        return $this->htmlResponse(new ForwardResponse('showEmptyImageAlt'));
-        return $this->htmlResponse();
+
+        return new ForwardResponse('showEmptyImageAlt');
     }
 
     protected function addModuleButtons(ButtonBar $buttonBar): void
