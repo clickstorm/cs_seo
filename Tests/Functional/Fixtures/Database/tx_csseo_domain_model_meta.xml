@@ -24,6 +24,7 @@
 		<tw_image>1</tw_image>
 		<tw_creator>TW creator category 3</tw_creator>
 		<tw_site>TW site category 3</tw_site>
+		<json_ld>{"@context": "https://schema.org","@type": "Organization","url": "https://www.json-ld-test.com"}</json_ld>
 	</tx_csseo_domain_model_meta>
 	<tx_csseo_domain_model_meta>
 		<uid>3</uid>
