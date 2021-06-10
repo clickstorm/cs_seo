@@ -32,15 +32,17 @@
                                 />
                     </f:then>
                     <f:else>
-                        <label for="lang"><f:translate key="partials.module.select.lang" /></label>
-                        <f:form.select
+                        <f:if condition="{evaluationUid}">
+                            <label for="lang"><f:translate key="partials.module.select.lang" /></label>
+                            <f:form.select
                                 id="lang"
                                 options="{languages}"
                                 class="form-control"
                                 name="lang"
                                 additionalAttributes="{onchange:'this.form.submit();'}"
                                 value="{lang}"
-                                />
+                            />
+                        </f:if>
                     </f:else>
                 </f:if>
 

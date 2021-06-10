@@ -1,34 +1,39 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en"
-     xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
-     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
-     data-namespace-typo3-fluid="true">
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <f:layout name="Module"/>
 
 <f:section name="Main">
-    <h1><f:translate key="layouts.module.action.pageEvaluation"/></h1>
+    <h1>
+        <f:translate key="layouts.module.action.pageEvaluation"/>
+    </h1>
     <p></p>
     <!-- From -->
-    <f:render partial="Module/FormEvaluation" arguments="{_all}" section="Main" />
-    <f:if condition="{page} || {table} != 'pages'">
+    <f:render partial="Module/FormEvaluation" arguments="{_all}" section="Main"/>
+    <f:if condition="{evaluationUid}">
         <f:then>
             <div class="cs-seo-results">
                 <f:if condition="{results}">
                     <f:then>
                         <div class="header clearfix">
                             <f:render partial="Results/Percentage" arguments="{result:score}" section="Main"/>
-                            <span class="text"><f:translate key="evaluation.header" /></span>
-                            <f:render section="Button" arguments="{_all}" />
+                            <span class="text"><f:translate key="evaluation.header"/></span>
+                            <f:render section="Button" arguments="{_all}"/>
                             <f:render partial="Results/Bar" arguments="{result:score}" section="Main"/>
                             <div class="right last-update">
-                                <f:translate key="evaluation.tstamp"/>:
+                                <f:translate key="evaluation.tstamp"/>
+                                :
                                 <f:format.date date="{evaluation.tstamp}" format="{f:translate(key:'date.format')}"/>
                                 <f:if condition="{evaluation.url}">
                                     <a href="{evaluation.url}"
                                        class="actions-window-open"
                                        title="{f:translate(key:'evaluation.frontend')}"
                                        target="blank"
-                                    ><core:icon identifier="actions-window-open" size="small" /></a>
+                                    >
+                                        <core:icon identifier="actions-window-open" size="small"/>
+                                    </a>
                                 </f:if>
                             </div>
                         </div>
@@ -43,9 +48,9 @@
                                                title="{f:translate(key:'evaluation.more')}"
                                             ></a>
                                         </div>
-                                        <f:render partial="Results/{key}" arguments="{result:result}" />
+                                        <f:render partial="Results/{key}" arguments="{result:result}"/>
                                         <div class="detail evaluation-{key -> f:format.case(mode:'lower')}">
-                                            <f:render partial="Results/Detail/{key}" arguments="{_all}" />
+                                            <f:render partial="Results/Detail/{key}" arguments="{_all}"/>
                                         </div>
                                     </li>
                                 </f:for>
@@ -55,22 +60,26 @@
                     <f:else>
                         <div class="header">
                             <span class="score csseo-state-0"><f:translate key="evaluation.no_results"></f:translate></span>
-                            <span class="text"><f:translate key="evaluation.header" /></span>
-                            <f:render section="Button" arguments="{_all}" />
+                            <span class="text"><f:translate key="evaluation.header"/></span>
+                            <f:render section="Button" arguments="{_all}"/>
                         </div>
                     </f:else>
                 </f:if>
             </div>
         </f:then>
+        <f:else>
+            <h2><f:translate key="evaluation.no_records.header"/></h2>
+            <p><f:translate key="evaluation.no_records.text"/>: {tables.{table}}.</p>
+        </f:else>
     </f:if>
 </f:section>
 
 <f:section name="Button">
     <button id="cs-seo-evaluate"
-            data-uid="{record -> f:or(alternative: '{page._PAGES_OVERLAY_UID}') -> f:or(alternative: '{page.uid}')}"
+            data-uid="{evaluationUid}"
             data-table="{table}"
             class="btn btn-default btn-sm csseo-icon-arrows-cw">
-        <f:translate key="evaluation.update" />
+        <f:translate key="evaluation.update"/>
     </button>
 </f:section>
 </html>

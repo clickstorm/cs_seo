@@ -91,6 +91,22 @@ class ModuleWebController extends AbstractModuleController
         return $this->generateGridView($fieldNames);
     }
 
+    protected function generateGridView(array $fieldNames, bool $showResults = false): string
+    {
+        $gridService = GeneralUtility::makeInstance(GridService::class);
+
+        $gridService->setModParams($this->modParams);
+        $gridService->setFieldNames($fieldNames);
+        $gridService->setShowResults($showResults);
+
+        $this->cssFiles = $gridService->getCssFiles();
+        $this->jsFiles = $gridService->getJsFiles();
+
+        $this->view->assignMultiple($gridService->processFields());
+
+        return $this->wrapModuleTemplate();
+    }
+
     /**
      * Show Index properties
      */
@@ -144,7 +160,7 @@ class ModuleWebController extends AbstractModuleController
     public function pageEvaluationAction()
     {
         $page = $this->pageRepository->getPage($this->modParams['id']);
-
+        $evaluationUid = 0;
         $extKey = 'cs_seo';
         $tables = [
             'pages' => LocalizationUtility::translate($GLOBALS['TCA']['pages']['ctrl']['title'], $extKey)
@@ -166,16 +182,16 @@ class ModuleWebController extends AbstractModuleController
 
         $table = $this->modParams['table'];
         if ($table && $table !== 'pages') {
-            $records = DatabaseUtility::getRecords($table);
-            $record = $this->modParams['record'];
-            if ($record) {
-                $evaluation = $this->evaluationService->getEvaluation($record, $table);
+            $records = DatabaseUtility::getRecords($table, $this->id, true);
+            $evaluationUid = $records ? $this->modParams['record'] : 0;
+            if ($evaluationUid) {
+                $evaluation = $this->evaluationService->getEvaluation($evaluationUid, $table);
             }
 
             $this->view->assignMultiple(
                 [
-                    'record' => $record,
-                    'records' => $records
+                    'records' => $records,
+                    'showRecords' => true
                 ]
             );
         } else {
@@ -204,7 +220,7 @@ class ModuleWebController extends AbstractModuleController
                 $page = $this->pageRepository->getPageOverlay($page, $languageParam);
             }
             $evaluation = $this->evaluationService->getEvaluation($page);
-
+            $evaluationUid = $page['_PAGES_OVERLAY_UID'] ?: $page['uid'];
             $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?: 0;
             $this->view->assignMultiple(
                 [
@@ -232,6 +248,7 @@ class ModuleWebController extends AbstractModuleController
 
         $this->view->assignMultiple(
             [
+                'evaluationUid' => $evaluationUid,
                 'emConf' => $emConf,
                 'page' => $page,
                 'tables' => $tables,
@@ -293,21 +310,5 @@ class ModuleWebController extends AbstractModuleController
         }
 
         return $response;
-    }
-
-    protected function generateGridView(array $fieldNames, bool $showResults = false): string
-    {
-        $gridService = GeneralUtility::makeInstance(GridService::class);
-
-        $gridService->setModParams($this->modParams);
-        $gridService->setFieldNames($fieldNames);
-        $gridService->setShowResults($showResults);
-
-        $this->cssFiles = $gridService->getCssFiles();
-        $this->jsFiles = $gridService->getJsFiles();
-
-        $this->view->assignMultiple($gridService->processFields());
-
-        return $this->wrapModuleTemplate();
     }
 }

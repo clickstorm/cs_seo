@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang_db.xlf" date="2021-05-04T15:05:42Z" product-name="cs_seo">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang_db.xlf" date="2021-06-10T11:44:27Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="evaluation.tca.robots_txt.robots_disallow_all" resname="evaluation.tca.robots_txt.robots_disallow_all">
@@ -14,6 +14,14 @@
 			<trans-unit id="evaluation.tca.json_ld.invalid_json" resname="evaluation.tca.json_ld.invalid_json">
 				<source>The JSON-LD markup is anvalid. </source>
 				<target>Die Struktur vom JSON-LD ist nicht valide.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.no_records.header" resname="evaluation.no_records.header">
+				<source>No records found</source>
+				<target>Keine Datensätze gefunden</target>
+			</trans-unit>
+			<trans-unit id="evaluation.no_records.text" resname="evaluation.no_records.text">
+				<source>Please select a page or folder with records of the type</source>
+				<target>Bitte wählen Sie eine Seite oder einen Ordner mit Datensätzen vom Typ</target>
 			</trans-unit>
 			<trans-unit id="pages.description" resname="pages.description">
 				<source>Description</source>
