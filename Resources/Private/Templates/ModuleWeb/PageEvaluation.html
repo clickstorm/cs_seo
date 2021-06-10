@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en"
      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
-     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers" 
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
      data-namespace-typo3-fluid="true">
 
 <f:layout name="Module"/>
@@ -67,7 +67,7 @@
 
 <f:section name="Button">
     <button id="cs-seo-evaluate"
-            data-uid="{f:if(condition:record,then:record,else:page.uid)}"
+            data-uid="{record -> f:or(alternative: '{page._PAGES_OVERLAY_UID}') -> f:or(alternative: '{page.uid}')}"
             data-table="{table}"
             class="btn btn-default btn-sm csseo-icon-arrows-cw">
         <f:translate key="evaluation.update" />

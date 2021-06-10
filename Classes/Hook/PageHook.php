@@ -2,31 +2,6 @@
 
 namespace Clickstorm\CsSeo\Hook;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Controller\PageLayoutController;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -57,6 +32,21 @@ class PageHook
      */
     protected $resourcesPath;
 
+    /**
+     * @var int
+     */
+    protected $currentPageUid = 0;
+
+    /**
+     * @var array
+     */
+    protected $pageInfo = [];
+
+    /**
+     * @var int
+     */
+    protected $currentSysLanguageUid = 0;
+
     public function __construct()
     {
         $this->resourcesPath = 'EXT:cs_seo/Resources/';
@@ -78,8 +68,8 @@ class PageHook
         if ($parentObject->MOD_SETTINGS['function'] == 1
             && !$tsConfig['mod.']['web_layout.']['tx_csseo.']['disable']
         ) {
-            $pageInfo = $parentObject->pageinfo;
-            if ($this->pageCanBeIndexed($pageInfo)) {
+            $this->initPage($parentObject);
+            if ($this->pageCanBeIndexed()) {
                 // template
                 $this->loadCss();
                 $this->loadJavascript();
@@ -113,7 +103,7 @@ class PageHook
                 );
 
                 // @extensionScannerIgnoreLine
-                $results = $this->getResults($pageInfo, $parentObject->MOD_SETTINGS['language']);
+                $results = $this->getResultsOfPage($this->currentPageUid);
                 $score = $results['Percentage'];
                 unset($results['Percentage']);
 
@@ -121,11 +111,28 @@ class PageHook
                     [
                         'score' => $score,
                         'results' => $results,
-                        'page' => BackendUtility::readPageAccess($parentObject->id, $GLOBALS['BE_USER']->getPagePermsClause(Permission::PAGE_SHOW))
+                        'page' => BackendUtility::readPageAccess($this->currentPageUid,
+                            $GLOBALS['BE_USER']->getPagePermsClause(Permission::PAGE_SHOW))
                     ]
                 );
 
                 return $this->view->render();
+            }
+        }
+    }
+
+    protected function initPage(PageLayoutController $pageLayoutController)
+    {
+        $this->currentSysLanguageUid = $pageLayoutController->MOD_SETTINGS['language'];
+        $this->pageInfo = $pageLayoutController->pageinfo;
+        $this->currentPageUid = $pageLayoutController->id;
+
+        if ($this->currentSysLanguageUid) {
+            $localizedPageInfo = BackendUtility::getRecordLocalization('pages', $this->currentPageUid,
+                $this->currentSysLanguageUid);
+            if ($localizedPageInfo[0]) {
+                $this->currentPageUid = $localizedPageInfo[0]['uid'];
+                $this->pageInfo = $localizedPageInfo[0];
             }
         }
     }
@@ -135,10 +142,10 @@ class PageHook
      *
      * @return bool
      */
-    public function pageCanBeIndexed($page)
+    public function pageCanBeIndexed()
     {
         $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
-        if (in_array($page['doktype'], $allowedDoktypes) && $page['hidden'] == 0) {
+        if (in_array($this->pageInfo['doktype'], $allowedDoktypes) && $this->pageInfo['hidden'] == 0) {
             return true;
         }
 
@@ -195,30 +202,19 @@ class PageHook
      *
      * @return array
      */
-    protected function getResults($pageInfo, $lang)
+    protected function getResultsOfPage($pageUid)
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_csseo_domain_model_evaluation');
         $results = [];
         $tableName = 'pages';
 
-        if ($lang) {
-            $localizedPageInfo = BackendUtility::getRecordLocalization('pages', $pageInfo['uid'], $lang);
-            if ($localizedPageInfo[0]) {
-                $uidForeign = $localizedPageInfo[0]['uid'];
-            } else {
-                return [];
-            }
-        } else {
-            $uidForeign = $pageInfo['uid'];
-        }
-
         $res = $queryBuilder->select('results')
             ->from('tx_csseo_domain_model_evaluation')
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid_foreign',
-                    $queryBuilder->createNamedParameter($uidForeign, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($pageUid, \PDO::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableName))
             )
