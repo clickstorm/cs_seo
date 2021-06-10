@@ -51,7 +51,7 @@ class DatabaseUtility
      *
      * @return array
      */
-    public static function getRecords($table)
+    public static function getRecords($table, $pid = 0, $sortByLabel = false)
     {
         $items = [];
 
@@ -62,7 +62,14 @@ class DatabaseUtility
             ->select('*')
             ->from($table);
 
-        if ($GLOBALS['TCA'][$table]['ctrl']['tstamp']) {
+        if ($pid) {
+            $queryBuilder->where($queryBuilder->expr()->eq('pid',
+                $queryBuilder->createNamedParameter($pid, \PDO::PARAM_INT)));
+        }
+
+        if ($sortByLabel && $GLOBALS['TCA'][$table]['ctrl']['label']) {
+            $queryBuilder->orderBy($GLOBALS['TCA'][$table]['ctrl']['label'], 'ASC');
+        } elseif ($GLOBALS['TCA'][$table]['ctrl']['tstamp']) {
             $queryBuilder->orderBy($GLOBALS['TCA'][$table]['ctrl']['tstamp'], 'DESC');
         }
 
@@ -135,8 +142,13 @@ class DatabaseUtility
         }
     }
 
-    public static function getImageWithEmptyAlt(int $storage, string $identifier, $includeSubfolders = true, $countAll = false, $includeImagesWithAlt = false)
-    {
+    public static function getImageWithEmptyAlt(
+        int $storage,
+        string $identifier,
+        $includeSubfolders = true,
+        $countAll = false,
+        $includeImagesWithAlt = false
+    ) {
         $tableName = 'sys_file';
         $joinTableName = 'sys_file_metadata';
 
@@ -144,12 +156,14 @@ class DatabaseUtility
             ->getQueryBuilderForTable($tableName);
 
         if ($includeSubfolders) {
-            $folderExpression = $queryBuilder->expr()->like('file.identifier', $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR));
-        } else {
+            $folderExpression = $queryBuilder->expr()->like('file.identifier',
+                $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR));
+
             // get folder hash
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
             $folder = $resourceFactory->getFolderObjectFromCombinedIdentifier($storage . ':' . $identifier);
-            $folderExpression = $queryBuilder->expr()->eq('file.folder_hash', $queryBuilder->createNamedParameter($folder->getHashedIdentifier(), \PDO::PARAM_STR));
+            $folderExpression = $queryBuilder->expr()->eq('file.folder_hash',
+                $queryBuilder->createNamedParameter($folder->getHashedIdentifier(), \PDO::PARAM_STR));
         }
 
         $queryBuilder
@@ -165,15 +179,18 @@ class DatabaseUtility
                 )
             )
             ->where(
-                $queryBuilder->expr()->eq('file.type', $queryBuilder->createNamedParameter(File::FILETYPE_IMAGE, \PDO::PARAM_INT)),
-                $queryBuilder->expr()->eq('file.storage', $queryBuilder->createNamedParameter($storage, \PDO::PARAM_INT)),
+                $queryBuilder->expr()->eq('file.type',
+                    $queryBuilder->createNamedParameter(File::FILETYPE_IMAGE, \PDO::PARAM_INT)),
+                $queryBuilder->expr()->eq('file.storage',
+                    $queryBuilder->createNamedParameter($storage, \PDO::PARAM_INT)),
                 $folderExpression
             );
 
         if (!$includeImagesWithAlt) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->eq('meta.alternative', $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)),
+                    $queryBuilder->expr()->eq('meta.alternative',
+                        $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)),
                     $queryBuilder->expr()->isNull('meta.alternative')
                 )
             );
