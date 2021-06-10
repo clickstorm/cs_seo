@@ -63,10 +63,6 @@ class CanonicalCoreTest extends AbstractCanonicalTest
             'subpage of page with mount_pid_ol = 1' => [
                 'http://localhost/dummy-1-2-12/subpage-of-new-root',
                 '<link rel="canonical" href="http://localhost/dummy-1-2-12/subpage-of-new-root"/>' . chr(10),
-            ],
-            'uid: 14 typoscript setting config.disableCanonical' => [
-                'http://localhost/no-canonical',
-                ''
             ]
         ];
     }
