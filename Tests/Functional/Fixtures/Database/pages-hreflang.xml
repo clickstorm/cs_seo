@@ -163,4 +163,38 @@
 		<title>FR: Toutes les langues</title>
 		<slug>/tout</slug>
 	</pages>
+
+	<pages>
+		<uid>8</uid>
+		<pid>1</pid>
+		<title>EN: No-index</title>
+		<slug>/no-index</slug>
+		<no_index>1</no_index>
+	</pages>
+	<pages>
+		<uid>81</uid>
+		<pid>1</pid>
+		<sys_language_uid>1</sys_language_uid>
+		<l10n_parent>8</l10n_parent>
+		<title>DE: Kein Index</title>
+		<slug>/kein-index</slug>
+		<no_index>1</no_index>
+	</pages>
+
+	<pages>
+		<uid>9</uid>
+		<pid>1</pid>
+		<title>EN: Content From Pid</title>
+		<slug>/content-from-pid</slug>
+		<content_from_pid>1</content_from_pid>
+	</pages>
+	<pages>
+		<uid>91</uid>
+		<pid>1</pid>
+		<sys_language_uid>1</sys_language_uid>
+		<l10n_parent>9</l10n_parent>
+		<title>DE: Inhalt anderer Seite</title>
+		<slug>/inhalt-anderer-seite</slug>
+		<content_from_pid>1</content_from_pid>
+	</pages>
 </dataset>

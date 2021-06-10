@@ -87,9 +87,12 @@ class HrefLangService extends AbstractUrlService
             // use own implementation for canonicals and hreflangs by config or if x-default equals not the default language
             // @TODO: own implementation can be removed, when https://forge.typo3.org/issues/90936 is fixed
             if ($useAdditionalCanonicalizedUrlParametersOnly || ConfigurationUtility::getXdefault() > 0) {
+                // remove hreflangs
+                $hreflangs = [];
                 $hrefLangArray = [];
-                if (empty($GLOBALS['TSFE']->typoScriptFrontendController->page['no_index'])
-                    && empty($GLOBALS['TSFE']->typoScriptFrontendController->page['content_from_pid'])
+                if (empty($GLOBALS['TSFE']->page['no_index'])
+                    && empty($GLOBALS['TSFE']->page['canonical_link'])
+                    && empty($GLOBALS['TSFE']->page['content_from_pid'])
                     && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site) {
                     $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
                     $languages = $languageMenu->process($cObj, [], [], []);
@@ -110,16 +113,12 @@ class HrefLangService extends AbstractUrlService
                     $canonicalsByLanguages = $this->getCanonicalFromAllLanguagesOfPage($GLOBALS['TSFE']->id);
 
                     foreach ($languages['languagemenu'] as $language) {
-                        if ($this->checkHrefLangForLanguageCanBeSet($language, $languages['languagemenu'])) {
+                        if ($this->checkHrefLangForLanguageCanBeSet($language, $languages['languagemenu'])
+                            && empty($canonicalsByLanguages[$language['languageId']])) {
 
-                            // check canonicals from all languages
-                            if (empty($canonicalsByLanguages[$language['languageId']])) {
-                                $hreflangTypoLinkConf['language'] = $language['languageId'];
-                                $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
-                            } else {
-                                $hreflangTypoLinkConfForCanonical['parameter'] = $canonicalsByLanguages[$language['languageId']];
-                                $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConfForCanonical);
-                            }
+                            $hreflangTypoLinkConf['language'] = $language['languageId'];
+                            $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
+
                             $hrefLangArray[$language['languageId']] = [
                                 'hreflang' => $language['hreflang'],
                                 'href' => $hreflangUrl

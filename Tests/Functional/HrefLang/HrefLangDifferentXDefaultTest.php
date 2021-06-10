@@ -96,23 +96,28 @@ class HrefLangDifferentXDefaultTest extends AbstractHrefLangTest
             'English page with canonical' => [
                 'http://localhost/contact',
                 [
-                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/kontakt"/>',
-                    '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/kontakt"/>',
                 ],
                 [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/contact"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/contact"/>',
+                    '<link rel="alternate" hreflang="',
                 ]
             ],
-            'Swiss german page with canonical' => [
-                'http://localhost/de-ch/uber',
+            'Translated record (de-CH) with canonical call default language' => [
+                'http://localhost/about',
                 [
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/about"/>',
                     '<link rel="alternate" hreflang="x-default" href="http://localhost/de/uber"/>',
                     '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/uber"/>',
                 ],
                 [
-                    '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/uber"/>',
+                    '<link rel="alternate" hreflang="de-CH"',
+                ]
+            ],
+            'Translated record de-CH) with canonical call language with canonical' => [
+                'http://localhost/de-ch/uber',
+                [
+                ],
+                [
+                    '<link rel="alternate" hreflang="',
                 ]
             ],
             'Swiss german page with fallback to German, without content' => [
@@ -143,6 +148,20 @@ class HrefLangDifferentXDefaultTest extends AbstractHrefLangTest
             ],
             'Translated pages with disabled hreflang generation in original language should not render any hreflang tag' => [
                 'http://localhost/de/kein-hreflang',
+                [],
+                [
+                    '<link rel="alternate" hreflang="',
+                ]
+            ],
+            'Page with no_index' => [
+                'http://localhost/no-index',
+                [],
+                [
+                    '<link rel="alternate" hreflang="',
+                ]
+            ],
+            'Page with content_from_pid' => [
+                'http://localhost/content-from-pid',
                 [],
                 [
                     '<link rel="alternate" hreflang="',
