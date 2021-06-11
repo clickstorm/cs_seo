@@ -167,6 +167,14 @@
 				<source>More information</source>
 				<target>Weitere Informationen</target>
 			</trans-unit>
+			<trans-unit id="evaluation.no_records.header" resname="evaluation.no_records.header">
+				<source>No records found</source>
+				<target>Keine Datensätze gefunden</target>
+			</trans-unit>
+			<trans-unit id="evaluation.no_records.text" resname="evaluation.no_records.text">
+				<source>Please select a page or folder with records of the type</source>
+				<target>Bitte wählen Sie eine Seite oder einen Ordner mit Datensätzen vom Typ</target>
+			</trans-unit>
 			<trans-unit id="evaluation.no_results" resname="evaluation.no_results">
 				<source>No results. Press update.</source>
 				<target>Keine Ergebnisse. Bitte Aktualisieren.</target>
