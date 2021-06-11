@@ -70,32 +70,6 @@ class HrefLangCoreTest extends AbstractHrefLangTest
                 ],
                 []
             ],
-            'English page, with German and Dutch translation, without Dutch hreflang config' => [
-                'http://localhost/hello',
-                [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"/>',
-                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello"/>',
-                ],
-                [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/nl/welkom"/>',
-                    '<link rel="alternate" hreflang="" href="http://localhost/nl/welkom"/>',
-                    '<link rel="alternate" href="http://localhost/nl/welkom"/>'
-                ]
-            ],
-            'Dutch page, with German and English translation, without Dutch hreflang config' => [
-                'http://localhost/hello',
-                [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"/>',
-                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello"/>',
-                ],
-                [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/nl/welkom"/>',
-                    '<link rel="alternate" hreflang="" href="http://localhost/nl/welkom"/>',
-                    '<link rel="alternate" href="http://localhost/nl/welkom"/>'
-                ]
-            ],
             'English page with canonical' => [
                 'http://localhost/contact',
                 [
@@ -136,21 +110,7 @@ class HrefLangCoreTest extends AbstractHrefLangTest
                 [
                     '<link rel="alternate" hreflang="fr-FR"',
                 ]
-            ],
-            'Pages with disabled hreflang generation should not render any hreflang tag' => [
-                'http://localhost/no-hreflang',
-                [],
-                [
-                    '<link rel="alternate" hreflang="',
-                ]
-            ],
-            'Translated pages with disabled hreflang generation in original language should not render any hreflang tag' => [
-                'http://localhost/de/kein-hreflang',
-                [],
-                [
-                    '<link rel="alternate" hreflang="',
-                ]
-            ],
+            ]
         ];
     }
 }

@@ -126,42 +126,41 @@ abstract class AbstractUrlService
         // until https://forge.typo3.org/issues/86385 is not fixed, this has to be done in two queries
 
         // first get all items
-//        $invalidItemsRes = $queryBuilder->select('t.' . $languageField, 't.uid')
-//            ->from($table, 't')
-//            ->leftJoin(
-//                't',
-//                'tx_csseo_domain_model_meta',
-//                'm'
-//            )
-//            ->where(
-//                $queryBuilder->expr()->eq(
-//                    'm.uid_foreign',
-//                    $queryBuilder->quoteIdentifier('t.uid')
-//                ),
-//                $queryBuilder->expr()->eq('m.tablenames',
-//                    $queryBuilder->createNamedParameter($table)),
-//                $queryBuilder->expr()->orX(
-//                    $queryBuilder->expr()->eq('m.no_index', 1),
-//                    $queryBuilder->expr()->neq(
-//                        'm.canonical',
-//                        $queryBuilder->createNamedParameter('')
-//                    )
-//                ),
-//                $queryBuilder->expr()->orX(
-//                    $queryBuilder->expr()->eq(
-//                        't.' . $pointerField,
-//                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-//                    ),
-//                    $queryBuilder->expr()->eq(
-//                        't.uid',
-//                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-//                    )
-//                )
-//            )
-//            ->groupBy('m.uid')
-//            ->execute()
-//            ->fetchAll();
-        $invalidItemsRes = [];
+        $invalidItemsRes = $queryBuilder->select('t.' . $languageField, 't.uid')
+            ->from($table, 't')
+            ->leftJoin(
+                't',
+                'tx_csseo_domain_model_meta',
+                'm'
+            )
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'm.uid_foreign',
+                    $queryBuilder->quoteIdentifier('t.uid')
+                ),
+                $queryBuilder->expr()->eq('m.tablenames',
+                    $queryBuilder->createNamedParameter($table)),
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->eq('m.no_index', 1),
+                    $queryBuilder->expr()->neq(
+                        'm.canonical',
+                        $queryBuilder->createNamedParameter('')
+                    )
+                ),
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->eq(
+                        't.' . $pointerField,
+                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    ),
+                    $queryBuilder->expr()->eq(
+                        't.uid',
+                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    )
+                )
+            )
+            ->groupBy('m.uid')
+            ->execute()
+            ->fetchAll();
 
         $invalidItems = [];
         foreach ($invalidItemsRes as $item) {

@@ -63,7 +63,7 @@ languages:
     iso-639-1: nl
     websiteTitle: ''
     navigationTitle: Dutch
-    hreflang: ''
+    hreflang: nl-Nl
     direction: ltr
     fallbackType: strict
     fallbacks: ''

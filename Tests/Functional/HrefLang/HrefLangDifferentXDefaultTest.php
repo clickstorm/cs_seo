@@ -140,20 +140,6 @@ class HrefLangDifferentXDefaultTest extends AbstractHrefLangTest
                     '<link rel="alternate" hreflang="fr-FR"',
                 ]
             ],
-            'Pages with disabled hreflang generation should not render any hreflang tag' => [
-                'http://localhost/no-hreflang',
-                [],
-                [
-                    '<link rel="alternate" hreflang="',
-                ]
-            ],
-            'Translated pages with disabled hreflang generation in original language should not render any hreflang tag' => [
-                'http://localhost/de/kein-hreflang',
-                [],
-                [
-                    '<link rel="alternate" hreflang="',
-                ]
-            ],
             'Page with no_index' => [
                 'http://localhost/no-index',
                 [],
