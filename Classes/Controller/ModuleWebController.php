@@ -190,6 +190,7 @@ class ModuleWebController extends AbstractModuleController
 
             $this->view->assignMultiple(
                 [
+                    'record' => $this->modParams['record'],
                     'records' => $records,
                     'showRecords' => true
                 ]

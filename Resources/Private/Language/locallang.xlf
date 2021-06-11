@@ -126,6 +126,12 @@
 			<trans-unit id="evaluation.more" resname="evaluation.more">
 				<source>More information</source>
 			</trans-unit>
+			<trans-unit id="evaluation.no_records.header" resname="evaluation.no_records.header">
+				<source>No records found</source>
+			</trans-unit>
+			<trans-unit id="evaluation.no_records.text" resname="evaluation.no_records.text">
+				<source>Please select a page or folder with records of the type</source>
+			</trans-unit>
 			<trans-unit id="evaluation.no_results" resname="evaluation.no_results">
 				<source>No results. Press update.</source>
 			</trans-unit>

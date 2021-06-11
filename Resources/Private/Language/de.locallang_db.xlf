@@ -15,14 +15,6 @@
 				<source>The JSON-LD markup is anvalid. </source>
 				<target>Die Struktur vom JSON-LD ist nicht valide.</target>
 			</trans-unit>
-			<trans-unit id="evaluation.no_records.header" resname="evaluation.no_records.header">
-				<source>No records found</source>
-				<target>Keine Datensätze gefunden</target>
-			</trans-unit>
-			<trans-unit id="evaluation.no_records.text" resname="evaluation.no_records.text">
-				<source>Please select a page or folder with records of the type</source>
-				<target>Bitte wählen Sie eine Seite oder einen Ordner mit Datensätzen vom Typ</target>
-			</trans-unit>
 			<trans-unit id="pages.description" resname="pages.description">
 				<source>Description</source>
 				<target>Beschreibung</target>
