@@ -183,7 +183,10 @@ class ModuleWebController extends AbstractModuleController
         $table = $this->modParams['table'];
         if ($table && $table !== 'pages') {
             $records = DatabaseUtility::getRecords($table, $this->id, true);
-            $evaluationUid = $records ? $this->modParams['record'] : 0;
+            if($records && $this->modParams['record'] && isset($records[$this->modParams['record']])) {
+                $evaluationUid = $this->modParams['record'];
+            }
+
             if ($evaluationUid) {
                 $evaluation = $this->evaluationService->getEvaluation($evaluationUid, $table);
             }

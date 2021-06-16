@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-05-05T08:38:23Z" product-name="cs_seo">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-06-16T12:22:17Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -166,6 +166,14 @@
 			<trans-unit id="evaluation.more" resname="evaluation.more">
 				<source>More information</source>
 				<target>Weitere Informationen</target>
+			</trans-unit>
+			<trans-unit id="evaluation.no_record.header" resname="evaluation.no_record.header">
+				<source>No record selected</source>
+				<target>Kein Datensatz ausgewählt</target>
+			</trans-unit>
+			<trans-unit id="evaluation.no_record.text" resname="evaluation.no_record.text">
+				<source>Please select a record in the dropdown from type </source>
+				<target>Bitte wählen Sie einen Datensatz aus der Liste vom Typ</target>
 			</trans-unit>
 			<trans-unit id="evaluation.no_records.header" resname="evaluation.no_records.header">
 				<source>No records found</source>

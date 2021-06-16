@@ -67,15 +67,21 @@ abstract class AbstractModuleController extends ActionController
     {
         // initialize page/be_user TSconfig settings
         $this->id = (int)GeneralUtility::_GP('id');
-        $this->modTSconfig = BackendUtility::getPagesTSconfig($this->id)['mod.']['SHARED.'] ?? [];
 
         // initialize settings of the module
         $this->initializeModParams();
+
+        if($this->id === 0) {
+            $this->id = $this->modParams['id'];
+        }
+
         if (!$this->request->hasArgument('action') && $this->modParams['action']) {
             $this->request->setArgument('action', $this->modParams['action']);
             // @extensionScannerIgnoreLine
             $this->forward($this->modParams['action']);
         }
+
+        $this->modTSconfig = BackendUtility::getPagesTSconfig($this->id)['mod.']['SHARED.'] ?? [];
     }
 
     /**
