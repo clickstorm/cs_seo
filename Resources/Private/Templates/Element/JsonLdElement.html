@@ -3,29 +3,38 @@
       data-namespace-typo3-fluid="true">
 
 <div class="form-wizards-wrap form-wizards-aside txcsseo-json-ld">
-    <div class="form-wizards-element">
-        {textElement -> f:format.raw()}
-    </div>
-    <div class="form-wizards-items-aside">
-        <div class="btn-group-vertical">
-            <a href="https://technicalseo.com/tools/schema-markup-generator/"
-               target="_blank"
-               title="{f:translate(key:'templates.element.json_ld_element.link.generator', extensionName: 'cs_seo')}"
-               class="btn btn-default">
-                <core:icon identifier="actions-cog-alt"/>
-            </a>
-            <a href="https://search.google.com/test/rich-results"
-               target="_blank"
-               title="{f:translate(key:'templates.element.json_ld_element.link.check_url', extensionName: 'cs_seo')}"
-               class="btn btn-default t3js-form-field-json-ld-url">
-                <core:icon identifier="actions-eye-link"/>
-            </a>
-            <a href="javascript:;"
-               title="{f:translate(key:'templates.element.json_ld_element.link.check_text', extensionName: 'cs_seo')}"
-               class="btn btn-default t3js-form-field-json-ld-check">
-                <core:icon identifier="actions-document-view"/>
-            </a>
-        </div>
-    </div>
+    <f:if condition="{error}">
+        <f:then>
+            <div class="alert alert-warning">
+                <f:translate key="error.{error}" extensionName="cs_seo" />
+            </div>
+        </f:then>
+        <f:else>
+            <div class="form-wizards-element">
+                {textElement -> f:format.raw()}
+            </div>
+            <div class="form-wizards-items-aside">
+                <div class="btn-group-vertical">
+                    <a href="https://technicalseo.com/tools/schema-markup-generator/"
+                       target="_blank"
+                       title="{f:translate(key:'templates.element.json_ld_element.link.generator', extensionName: 'cs_seo')}"
+                       class="btn btn-default">
+                        <core:icon identifier="actions-cog-alt"/>
+                    </a>
+                    <a href="https://search.google.com/test/rich-results"
+                       target="_blank"
+                       title="{f:translate(key:'templates.element.json_ld_element.link.check_url', extensionName: 'cs_seo')}"
+                       class="btn btn-default t3js-form-field-json-ld-url">
+                        <core:icon identifier="actions-eye-link"/>
+                    </a>
+                    <a href="javascript:;"
+                       title="{f:translate(key:'templates.element.json_ld_element.link.check_text', extensionName: 'cs_seo')}"
+                       class="btn btn-default t3js-form-field-json-ld-check">
+                        <core:icon identifier="actions-document-view"/>
+                    </a>
+                </div>
+            </div>
+        </f:else>
+    </f:if>
 </div>
 </html>
