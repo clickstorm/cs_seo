@@ -109,7 +109,10 @@ class FrontendPageService
         $response = GeneralUtility::makeInstance(RequestFactory::class)->request(
             $result['url'],
             'GET',
-            ['headers' => ['X-CS-SEO' => '1']]
+            [
+                'headers' => ['X-CS-SEO' => '1'],
+                'http_errors' => false
+            ]
         );
 
         if (in_array($response->getStatusCode(), [0, 200])) {
