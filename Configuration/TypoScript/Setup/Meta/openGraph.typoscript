@@ -3,9 +3,10 @@ page.meta {
 	og:type < plugin.tx_csseo.social.openGraph.type
 
 	### og:site_name ###
-	og:site_name.data = TSFE:tmpl|sitetitle
+	og:site_name.data = site:websiteTitle
 
 	### default og:image ###
+	og:image.stdWrap.if.isTrue.data = {$plugin.tx_csseo.social.defaultImage} // {field:og_image}
 	og:image.stdWrap.typolink {
 		parameter.stdWrap {
 			cObject = IMG_RESOURCE
@@ -14,6 +15,7 @@ page.meta {
 					data = path:{$plugin.tx_csseo.social.defaultImage}
 					if.isFalse.field = og_image
 				}
+
 				height = {$plugin.tx_csseo.social.openGraph.image.height}
 				width = {$plugin.tx_csseo.social.openGraph.image.width}
 			}

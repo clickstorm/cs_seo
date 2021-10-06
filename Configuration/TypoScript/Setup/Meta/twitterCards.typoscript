@@ -25,12 +25,13 @@ page.meta {
 	}
 
 	### twitter:image default ###
+	twitter:image.stdWrap.if.isTrue.data = {$plugin.tx_csseo.social.twitter.defaultImage} // {field:twitter_image}
 	twitter:image.stdWrap.typolink {
 		parameter.stdWrap {
 			cObject = IMG_RESOURCE
 			cObject.file {
 				import {
-					data = path:{$plugin.tx_csseo.social.twitter.defaultImage} // path:{$plugin.tx_csseo.social.defaultImage}
+					data = path:{$plugin.tx_csseo.social.twitter.defaultImage}
 					if.isFalse.field = twitter_image
 				}
 				height < plugin.tx_csseo.social.twitter.image.height
