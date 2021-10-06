@@ -1,8 +1,8 @@
 <?php
-defined('TYPO3') or die();
+defined('TYPO3') || die();
 
 (function () {
-    if (!(TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL)) {
+    if ((TYPO3_REQUESTTYPE & TYPO3_REQUESTTYPE_INSTALL) === 0) {
         $confArray = \Clickstorm\CsSeo\Utility\ConfigurationUtility::getEmConfiguration();
 
         if (TYPO3_MODE === 'BE') {

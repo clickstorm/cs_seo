@@ -17,6 +17,25 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FormService
 {
+    public array $elementsData;
+    /**
+     * @var int|mixed
+     */
+    public $errorC;
+    public int $newC;
+    /**
+     * @var int|mixed
+     */
+    public $viewId;
+    public string $viewId_addParams;
+    /**
+     * @var mixed|array<string, mixed>|array<string, mixed[]>
+     */
+    public $overrideVals;
+    /**
+     * @var mixed|mixed[]
+     */
+    public $defVals;
     /**
      * Render an editform for specific table, see
      * @return string HTML form elements wrapped in tables
@@ -123,7 +142,7 @@ class FormService
             $this->errorC++;
             // Try to fetch error message from "recordInternals" be user object
             // @todo: This construct should be logged and localized and de-uglified
-            $message = (!empty($beUser->errorMsg)) ? $beUser->errorMsg : $message = $e->getMessage() . ' ' . $e->getCode();
+            $message = (empty($beUser->errorMsg)) ? $message = $e->getMessage() . ' ' . $e->getCode() : $beUser->errorMsg;
             $title = GlobalsUtility::getLanguageService()
                 ->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.noEditPermission');
             $editForm .= $this->getInfobox($message, $title);

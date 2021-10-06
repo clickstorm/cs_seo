@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3') or die();
+defined('TYPO3') || die();
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('cs_seo', 'Configuration/TypoScript', 'SEO');
 

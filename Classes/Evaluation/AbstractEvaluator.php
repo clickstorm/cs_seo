@@ -108,7 +108,7 @@ abstract class AbstractEvaluator implements EvaluationInterface
     protected function getSingleDomElementContentByTagName($tagName)
     {
         $elements = $this->domDocument->getElementsByTagName($tagName);
-        if ($elements->item(0)) {
+        if ($elements->item(0) !== null) {
             return $elements->item(0)->textContent;
         }
         return '';

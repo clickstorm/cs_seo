@@ -71,7 +71,8 @@ class FrontendPageService
 
         if ($tableName === 'pages') {
             $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
-            if ($pageInfo['tx_csseo_no_index'] || !in_array($pageInfo['doktype'], $allowedDoktypes)) {
+            $noIndex = $pageInfo['tx_csseo_no_index'] ?? 0;
+            if ($noIndex || !in_array($pageInfo['doktype'], $allowedDoktypes)) {
                 return [];
             }
         }
@@ -89,13 +90,10 @@ class FrontendPageService
                     $params .= '&L=' . $pageInfo['sys_language_uid'];
                 }
             }
+        } elseif ($pageInfo['sys_language_uid'] > 0) {
+            $params = '&L=' . $pageInfo['sys_language_uid'];
         } else {
-            // translated page
-            if ($pageInfo['sys_language_uid'] > 0) {
-                $params = '&L=' . $pageInfo['sys_language_uid'];
-            } else {
-                $params = '&L=0';
-            }
+            $params = '&L=0';
         }
 
         // modify page id PSR-14 event

@@ -121,7 +121,7 @@ class MetaTagGeneratorHook
         $ogImageURL = $pluginSettings['social.']['defaultImage'];
         if ($metaData['og_image']) {
             $ogImageURLFromRecord = $this->getImageOrFallback('og_image', $metaData);
-            if ($ogImageURLFromRecord) {
+            if ($ogImageURLFromRecord !== '' && $ogImageURLFromRecord !== '0') {
                 $ogImageURL = $ogImageURLFromRecord;
             }
         }
@@ -156,7 +156,7 @@ class MetaTagGeneratorHook
         }
 
         $image = DatabaseUtility::getFile($params['table'], $params['field'], $params['uid']);
-        if ($image) {
+        if ($image !== null) {
             return $image->getPublicUrl();
         }
     }
@@ -197,7 +197,7 @@ class MetaTagGeneratorHook
         $twImageURL = $pluginSettings['social.']['twitter.']['defaultImage'];
         if ($metaData['tw_image']) {
             $twImageURLFromRecord = $this->getImageOrFallback('tw_image', $metaData);
-            if ($twImageURLFromRecord) {
+            if ($twImageURLFromRecord !== '' && $twImageURLFromRecord !== '0') {
                 $twImageURL = $twImageURLFromRecord;
             }
         }

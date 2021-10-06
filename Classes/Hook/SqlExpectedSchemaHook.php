@@ -41,8 +41,8 @@ class SqlExpectedSchemaHook
     {
         $config = ConfigurationUtility::getTablesToExtend();
 
-        if ($config) {
-            foreach ($config as $tableName => $tableSettings) {
+        if ($config !== []) {
+            foreach (array_keys($config) as $tableName) {
                 $sqlString = str_repeat(PHP_EOL, 3) . 'CREATE TABLE ' . $tableName . ' (' . PHP_EOL
                     . ' tx_csseo int(11) DEFAULT \'0\' NOT NULL' . PHP_EOL . ');' . str_repeat(PHP_EOL, 3);
                 $event->addSqlData($sqlString);

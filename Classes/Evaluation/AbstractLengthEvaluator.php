@@ -47,10 +47,8 @@ abstract class AbstractLengthEvaluator extends AbstractEvaluator
 
         if ($count >= $min && $count <= $max) {
             $state = self::STATE_GREEN;
-        } else {
-            if ($count > 0) {
-                $state = self::STATE_YELLOW;
-            }
+        } elseif ($count > 0) {
+            $state = self::STATE_YELLOW;
         }
 
         return [

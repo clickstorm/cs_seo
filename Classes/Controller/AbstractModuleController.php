@@ -7,9 +7,11 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -18,6 +20,11 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  */
 abstract class AbstractModuleController extends ActionController
 {
+    public $modTSconfig;
+    /**
+     * @var mixed|object
+     */
+    public $dataHandler;
     public static $session_prefix = 'tx_csseo_';
     public static $mod_name = 'web_CsSeoMod1';
     public static $uriPrefix = 'tx_csseo_web_csseomod1';
@@ -92,7 +99,7 @@ abstract class AbstractModuleController extends ActionController
     {
         $sessionParams = GlobalsUtility::getBackendUser()->getSessionData(static::$session_prefix) ?: $this->modParams;
 
-        foreach ($this->modParams as $name => $value) {
+        foreach (array_keys($this->modParams) as $name) {
             $modParam = GeneralUtility::_GP($name) !== null ? GeneralUtility::_GP($name) : $sessionParams[$name];
             if (is_numeric($modParam)) {
                 $modParam = (int)$modParam;
@@ -115,7 +122,7 @@ abstract class AbstractModuleController extends ActionController
      */
     protected function getDataHandler()
     {
-        if (!isset($this->dataHandler)) {
+        if (!(property_exists($this, 'dataHandler') && $this->dataHandler !== null)) {
             $this->dataHandler = GeneralUtility::makeInstance(DataHandler::class);
             $this->dataHandler->start(null, null);
         }
@@ -143,7 +150,7 @@ abstract class AbstractModuleController extends ActionController
 
         $this->jsInlineCode .= $this->renderFlashMessages();
 
-        if ($this->jsInlineCode) {
+        if ($this->jsInlineCode !== '' && $this->jsInlineCode !== '0') {
             $moduleTemplate->getPageRenderer()->addJsInlineCode('csseo-inline', $this->jsInlineCode);
         }
 
@@ -163,7 +170,8 @@ abstract class AbstractModuleController extends ActionController
         // The page will show only if there is a valid page and if this page
         // may be viewed by the user
         if (is_numeric($this->modParams['id'])) {
-            $metaInfo = BackendUtility::readPageAccess($this->id, $this->perms_clause);
+            $permsClause = $this->getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW);
+            $metaInfo = BackendUtility::readPageAccess($this->id, $permsClause);
         } else {
             $metaInfo = [
                 'combined_identifier' => $this->modParams['id'],
@@ -233,5 +241,13 @@ abstract class AbstractModuleController extends ActionController
 
     protected function addModuleButtons(ButtonBar $buttonBar): void
     {
+    }
+
+    /**
+     * @return BackendUserAuthentication
+     */
+    protected function getBackendUser(): BackendUserAuthentication
+    {
+        return $GLOBALS['BE_USER'];
     }
 }

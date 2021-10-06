@@ -219,7 +219,7 @@ class SnippetPreview extends AbstractNode
                             $fallback['table'] = $data['tablenames'];
                         }
 
-                        $pageTitle = $TSFEUtility->getFinalTitle($data['title'], $data['title_only']);
+                        $pageTitle = $TSFEUtility->getFinalTitle($data['title']);
                         $path = '';
                     }
 
@@ -253,7 +253,7 @@ class SnippetPreview extends AbstractNode
      */
     protected function getPageRenderer()
     {
-        if (!isset($this->pageRenderer)) {
+        if ($this->pageRenderer === null) {
             $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         }
 

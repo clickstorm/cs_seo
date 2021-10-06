@@ -109,7 +109,7 @@ class ModuleFileController extends AbstractModuleController
 
             $this->view->assign('columns', $columns);
 
-            if ($imageRow[0] && $imageRow[0]['uid']) {
+            if (isset($imageRow[0]) && isset($imageRow[0]['uid'])) {
                 $dataMapper = $this->objectManager->get(DataMapper::class);
                 $files = $dataMapper->map(File::class, $imageRow);
                 $this->image = $files[0];
@@ -123,6 +123,7 @@ class ModuleFileController extends AbstractModuleController
                 }
 
                 $editForm =$formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',', $configuredColumns));
+
                 $this->view->assignMultiple([
                     'editForm' => $editForm,
                     'image' => $files[0]
@@ -136,14 +137,14 @@ class ModuleFileController extends AbstractModuleController
     public function updateAction(): ResponseInterface
     {
         $uid = $this->request->hasArgument('uid') ? $this->request->getArgument('uid') : 0;
-        $data = GeneralUtility::_GP('data')['sys_file_metadata'];
+        $data = GeneralUtility::_GP('data')['sys_file_metadata'] ?? '';
 
         if ($uid && $data) {
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+            /** @var \TYPO3\CMS\Core\Utility\GeneralUtility\File $file */
             $file = $resourceFactory->getFileObject($uid);
 
-            $file->getMetaData()->add(array_values($data)[0]);
-            $file->getMetaData()->save();
+            $file->getMetaData()->add(array_values($data)[0])->save();
 
             if ($file->getProperty('alternative')) {
                 $message = GeneralUtility::makeInstance(

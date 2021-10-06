@@ -53,10 +53,8 @@ class ImagesEvaluator extends AbstractEvaluator
             $alt = $element->getAttribute('alt');
             if (empty($alt)) {
                 $url = $element->getAttribute('src');
-                if (!GeneralUtility::isValidUrl($url)) {
-                    if ($baseUrl) {
-                        $url = $baseUrl . $url;
-                    }
+                if (!GeneralUtility::isValidUrl($url) && $baseUrl) {
+                    $url = $baseUrl . $url;
                 }
                 $imagesWithoutAlt[] = $url;
             } else {
@@ -64,12 +62,10 @@ class ImagesEvaluator extends AbstractEvaluator
             }
         }
 
-        if ($count == $altCount) {
+        if ($count === $altCount) {
             $state = self::STATE_GREEN;
-        } else {
-            if ($altCount > 0) {
-                $state = self::STATE_YELLOW;
-            }
+        } elseif ($altCount > 0) {
+            $state = self::STATE_YELLOW;
         }
 
         return [

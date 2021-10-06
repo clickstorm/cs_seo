@@ -26,7 +26,7 @@
                         <div class="csseo-card__row">
                             <div class="csseo-card__col csseo-card__col--form">
                                 <f:form class="csseo-card__form" action="update" name="editform" id="EditDocumentController">
-                                    <f:form.hidden name="uid" value="{image.originalResource.uid}"/>
+                                    <f:form.hidden respectSubmittedDataValue="0" name="uid" value="{image.originalResource.uid}"/>
                                     <h4 class="csseo-card__headline">Edit File Metadata "{image.originalResource.name}"</h4>
                                     {editForm -> f:format.raw()}
                                 </f:form>

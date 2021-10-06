@@ -209,16 +209,14 @@ class EvaluationService
     {
         if ($table) {
             $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record, $table);
+        } elseif (isset($record['_PAGES_OVERLAY_LANGUAGE'])) {
+            $evaluation =
+                $this->evaluationRepository->findByUidForeignAndTableName(
+                    $record['_PAGES_OVERLAY_UID'],
+                    'pages'
+                );
         } else {
-            if (isset($record['_PAGES_OVERLAY_LANGUAGE'])) {
-                $evaluation =
-                    $this->evaluationRepository->findByUidForeignAndTableName(
-                        $record['_PAGES_OVERLAY_UID'],
-                        'pages'
-                    );
-            } else {
-                $evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$record['uid'], 'pages');
-            }
+            $evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$record['uid'], 'pages');
         }
 
         return $evaluation;

@@ -49,6 +49,10 @@ class EvaluationCommand extends Command
 {
 
     /**
+     * @var object|mixed
+     */
+    public $objectManager;
+    /**
      * evaluationRepository
      *
      * @var EvaluationRepository
@@ -104,9 +108,9 @@ class EvaluationCommand extends Command
             $table = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['table'];
         } else {
             $uid = $params['uid'];
-            $table = $params['table'];
+            $table = $params['table'] ?? '';
         }
-        if ($table != '') {
+        if ($table !== '') {
             $this->tableName = $table;
         }
         $this->processResults($uid);
@@ -157,19 +161,17 @@ class EvaluationCommand extends Command
         $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
 
         // only with doktype page
-        if ($this->tableName == 'pages') {
+        if ($this->tableName === 'pages') {
             $queryBuilder->andWhere($queryBuilder->expr()->in('doktype', $allowedDoktypes));
         }
 
         // check localization
         if ($localized) {
-            if ($tcaCtrl['transForeignTable']) {
+            if (isset($tcaCtrl['transForeignTable']) && !empty($tcaCtrl['transForeignTable'])) {
                 $this->tableName = $tcaCtrl['transForeignTable'];
                 $tcaCtrl = $GLOBALS['TCA'][$this->tableName]['ctrl'];
-            } else {
-                if ($tcaCtrl['languageField']) {
-                    $queryBuilder->andWhere($queryBuilder->expr()->gt($tcaCtrl['languageField'], 0));
-                }
+            } elseif (isset($tcaCtrl['languageField']) && !empty($tcaCtrl['languageField'])) {
+                $queryBuilder->andWhere($queryBuilder->expr()->gt($tcaCtrl['languageField'], 0));
             }
         }
 
@@ -188,12 +190,10 @@ class EvaluationCommand extends Command
             }
         }
 
-        $items = $queryBuilder->select('*')
+        return $queryBuilder->select('*')
             ->from($this->tableName)
             ->execute()
             ->fetchAll();
-
-        return $items;
     }
 
     /**

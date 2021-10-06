@@ -56,7 +56,8 @@ class MetaDataService
     public function __construct()
     {
         $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class, $this->context);
+        $context = clone GeneralUtility::makeInstance(Context::class);
+        $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class, $context);
         $this->languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
     }
 
@@ -70,7 +71,7 @@ class MetaDataService
         // get table settings
         $tables = ConfigurationUtility::getTablesToExtend();
 
-        if ($tables) {
+        if ($tables !== []) {
             // get active table name und settings
             $tableSettings = $this->getCurrentTableConfiguration($tables, $this->cObj);
 
@@ -146,7 +147,7 @@ class MetaDataService
             if (isset($tableSettings['enable'])) {
                 $uid = (int)($cObj->getData($tableSettings['enable']));
 
-                if ($uid) {
+                if ($uid !== 0) {
                     if ($checkOnly) {
                         return true;
                     }

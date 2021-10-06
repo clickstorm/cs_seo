@@ -41,15 +41,11 @@ class CanonicalService extends AbstractUrlService
         // check if the current page is a detail page of a record
         if ($metaData) {
             $currentLanguageUid = $context->getAspect('language')->getId();
-
             $tables = ConfigurationUtility::getTablesToExtend();
             $currentItemConf = $metaDataService::getCurrentTableConfiguration($tables, $cObj);
-
             $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], $currentItemConf['uid']);
-
             unset($typoLinkConf['parameter.']);
             $typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
-
             if ($metaData['no_index']) {
                 $this->typoScriptFrontendController->page['no_index'] = 1;
             } else {
@@ -73,15 +69,11 @@ class CanonicalService extends AbstractUrlService
                 $canonicalUrl = $cObj->typoLink_URL($canonicalTypoLinkConf);
             }
             // pages record
-        } else {
-            // use own implementation for canonicals and hreflangs by config
-            // @TODO: remove when https://forge.typo3.org/issues/90936 is fixed
-            if ($useAdditionalCanonicalizedUrlParametersOnly &&
-                empty($this->typoScriptFrontendController->page['no_index']) &&
-                empty($this->typoScriptFrontendController->page['canonical_link']) &&
-                empty($this->typoScriptFrontendController->page['content_from_pid'])) {
-                $canonicalUrl = $cObj->typoLink_URL($typoLinkConf);
-            }
+        } elseif ($useAdditionalCanonicalizedUrlParametersOnly &&
+            empty($this->typoScriptFrontendController->page['no_index']) &&
+            empty($this->typoScriptFrontendController->page['canonical_link']) &&
+            empty($this->typoScriptFrontendController->page['content_from_pid'])) {
+            $canonicalUrl = $cObj->typoLink_URL($typoLinkConf);
         }
 
         $GLOBALS['TSFE']->linkVars = $tempLinkVars;

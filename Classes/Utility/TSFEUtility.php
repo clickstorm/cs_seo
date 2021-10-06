@@ -157,7 +157,6 @@ class TSFEUtility
 
             $GLOBALS['TSFE']->getConfigArray();
             $GLOBALS['TSFE']->config['config']['sys_language_uid'] = $this->lang;
-            $GLOBALS['TSFE']->settingLanguage();
 
             $GLOBALS['TSFE']->preparePageContentGeneration($GLOBALS['TYPO3_REQUEST']);
         } catch (\Exception $e) {
@@ -198,11 +197,11 @@ class TSFEUtility
     }
 
     /**
-     * @return array
+     * @return bool
      */
-    public function getPageTitleFirst()
+    public function getPageTitleFirst(): bool
     {
-        return $this->config['pageTitleFirst'];
+        return isset($this->config['pageTitleFirst']) ? (bool)$this->config['pageTitleFirst'] : false;
     }
 
     /**
@@ -231,7 +230,7 @@ class TSFEUtility
      */
     public function getSiteTitle()
     {
-        if (!is_object($GLOBALS['TSFE'])) {
+        if (!isset($GLOBALS['TSFE']) || !is_object($GLOBALS['TSFE'])) {
             return '';
         }
         if ($GLOBALS['TSFE']->getLanguage() instanceof SiteLanguage
@@ -259,7 +258,7 @@ class TSFEUtility
      */
     public function getPageTitleSeparator()
     {
-        if (!is_object($GLOBALS['TSFE'])) {
+        if (!isset($GLOBALS['TSFE']) || !is_object($GLOBALS['TSFE'])) {
             return '';
         }
 

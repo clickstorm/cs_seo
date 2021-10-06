@@ -36,7 +36,7 @@ class ModuleWebController extends AbstractModuleController
     /**
      * @var \TYPO3\CMS\Core\DataHandling\DataHandler
      */
-    protected $dataHandler;
+    public $dataHandler;
 
     /**
      * @var GridService
@@ -210,7 +210,7 @@ class ModuleWebController extends AbstractModuleController
 
             $languages[0] = $allLanguages[0];
 
-            if ($pageOverlays) {
+            if ($pageOverlays !== []) {
                 $languagesUids = array_keys($pageOverlays);
                 foreach ($allLanguages as $langUid => $languageLabel) {
                     if ($langUid > 0 && in_array($langUid, $languagesUids)) {

@@ -254,7 +254,7 @@ class GridService
                 $image = '';
                 if ($page[$imageFieldName]) {
                     $imageFile = DatabaseUtility::getFile($table, $imageFieldName, $uid);
-                    if ($imageFile) {
+                    if ($imageFile !== null) {
                         $image = $imageFile->getPublicUrl();
                     }
                 }
@@ -275,7 +275,7 @@ class GridService
         // fetch subpages and set the treelevel
         if ($depth > 0) {
             $subPages = $this->pageRepository->getMenu($page['uid'], $fields, $sortField);
-            if (count($subPages) > 0) {
+            if ($subPages !== []) {
                 $page['$$treeLevel'] = $level;
                 $level++;
                 foreach ($subPages as &$subPage) {

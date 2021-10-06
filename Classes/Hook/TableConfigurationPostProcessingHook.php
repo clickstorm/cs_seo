@@ -83,8 +83,8 @@ class TableConfigurationPostProcessingHook implements TableConfigurationPostProc
 
         $tables = ConfigurationUtility::getTablesToExtend();
 
-        if ($tables) {
-            foreach ($tables as $tableName => $tableConfig) {
+        if ($tables !== []) {
+            foreach (array_keys($tables) as $tableName) {
                 ExtensionManagementUtility::addTCAcolumns($tableName, $tempColumns);
                 ExtensionManagementUtility::addToAllTCAtypes(
                     $tableName,

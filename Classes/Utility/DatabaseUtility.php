@@ -323,9 +323,9 @@ class DatabaseUtility
         }
 
         // Setting alternative default label:
-        if ($pageId) {
+        if ($pageId !== 0) {
             $modTSconfig = BackendUtility::getPagesTSconfig($pageId)['mod.']['SHARED.'] ?? [];
-            if ($modTSconfig['properties']['defaultLanguageLabel']) {
+            if (isset($modTSconfig['properties']['defaultLanguageLabel']) && $modTSconfig['properties']['defaultLanguageLabel']) {
                 $languages[0] = $modTSconfig['properties']['defaultLanguageLabel'];
             }
         }

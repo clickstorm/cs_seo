@@ -23,6 +23,10 @@ class PageHook
 {
 
     /**
+     * @var mixed|object
+     */
+    public $pageRenderer;
+    /**
      * @var StandaloneView
      */
     protected $view;
@@ -64,10 +68,12 @@ class PageHook
     public function render(array $params, PageLayoutController $parentObject)
     {
         $tsConfig = BackendUtility::getPagesTSconfig($parentObject->id);
+        $disableViaTsConfig = isset($tsConfig['mod.']['web_layout.']['tx_csseo.']['disable']) ?
+            (bool)$tsConfig['mod.']['web_layout.']['tx_csseo.']['disable'] : false;
+
         // @extensionScannerIgnoreLine
-        if ($parentObject->MOD_SETTINGS['function'] == 1
-            && !$tsConfig['mod.']['web_layout.']['tx_csseo.']['disable']
-        ) {
+        if ((int)$parentObject->MOD_SETTINGS['function'] === 1 && !$disableViaTsConfig)
+         {
             $this->initPage($parentObject);
             if ($this->pageCanBeIndexed()) {
                 // template
@@ -92,8 +98,8 @@ class PageHook
                         ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
                     );
 
-                $layoutPaths = $tsSetup['module.']['tx_csseo.']['view.']['layoutRootPaths.'] ?: $layoutPaths;
-                $partialPaths = $tsSetup['module.']['tx_csseo.']['view.']['partialRootPaths.'] ?: $partialPaths;
+                $layoutPaths = $tsSetup['module.']['tx_csseo.']['view.']['layoutRootPaths.'] ?? $layoutPaths;
+                $partialPaths = $tsSetup['module.']['tx_csseo.']['view.']['partialRootPaths.'] ?? $partialPaths;
 
                 $this->view->setLayoutRootPaths($layoutPaths);
                 $this->view->setPartialRootPaths($partialPaths);
@@ -104,7 +110,7 @@ class PageHook
 
                 // @extensionScannerIgnoreLine
                 $results = $this->getResultsOfPage($this->currentPageUid);
-                $score = $results['Percentage'];
+                $score = $results['Percentage'] ?? 0;
                 unset($results['Percentage']);
 
                 $this->view->assignMultiple(
@@ -145,11 +151,7 @@ class PageHook
     public function pageCanBeIndexed()
     {
         $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
-        if (in_array($this->pageInfo['doktype'], $allowedDoktypes) && $this->pageInfo['hidden'] == 0) {
-            return true;
-        }
-
-        return false;
+        return in_array($this->pageInfo['doktype'], $allowedDoktypes) && $this->pageInfo['hidden'] == 0;
     }
 
     /**
@@ -179,7 +181,7 @@ class PageHook
      */
     protected function getPageRenderer()
     {
-        if (!isset($this->pageRenderer)) {
+        if (!(property_exists($this, 'pageRenderer') && $this->pageRenderer !== null)) {
             $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         }
 
