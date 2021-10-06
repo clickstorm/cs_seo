@@ -64,9 +64,11 @@ class PageHook
     public function render(array $params, PageLayoutController $parentObject)
     {
         $tsConfig = BackendUtility::getPagesTSconfig($parentObject->id);
+        
+        $enabled = isset($tsConfig['mod.']['web_layout.']['tx_csseo.']['disable']) ? !$tsConfig['mod.']['web_layout.']['tx_csseo.']['disable'] : true;
         // @extensionScannerIgnoreLine
         if ($parentObject->MOD_SETTINGS['function'] == 1
-            && !$tsConfig['mod.']['web_layout.']['tx_csseo.']['disable']
+            && $enabled
         ) {
             $this->initPage($parentObject);
             if ($this->pageCanBeIndexed()) {
@@ -104,7 +106,7 @@ class PageHook
 
                 // @extensionScannerIgnoreLine
                 $results = $this->getResultsOfPage($this->currentPageUid);
-                $score = $results['Percentage'];
+                $score = $results['Percentage'] ?? 0;
                 unset($results['Percentage']);
 
                 $this->view->assignMultiple(
