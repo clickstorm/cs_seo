@@ -264,7 +264,7 @@ class GridService
 
         if ($this->showResults) {
             $results = $this->evaluationService->getResults($page);
-            $page['results'] = $results['Percentage']['count'];
+            $page['results'] = $results['Percentage']['count'] ?? 0;
         }
 
         $page['level'] = $level;

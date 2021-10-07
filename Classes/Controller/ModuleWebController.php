@@ -225,8 +225,8 @@ class ModuleWebController extends AbstractModuleController
                 $page = $this->pageRepository->getPageOverlay($page, $languageParam);
             }
             $evaluation = $this->evaluationService->getEvaluation($page);
-            $evaluationUid = $page['_PAGES_OVERLAY_UID'] ?: $page['uid'];
-            $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?: 0;
+            $evaluationUid = $page['_PAGES_OVERLAY_UID'] ?? $page['uid'];
+            $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?? 0;
             $this->view->assignMultiple(
                 [
                     'lang' => $languageParam,
