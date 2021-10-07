@@ -143,7 +143,7 @@ class SnippetPreview extends AbstractNode
             $pageUid = $data['pid'];
 
             // use page uid or t3ver_oid is set
-            if ($table == 'pages') {
+            if ($table === 'pages') {
                 $pageUid = $data['t3ver_oid'] ?: $data['uid'];
             }
 

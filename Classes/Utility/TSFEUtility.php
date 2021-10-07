@@ -128,7 +128,7 @@ class TSFEUtility
     protected function initTSFE()
     {
         try {
-            if (!is_object($GLOBALS['TT'])) {
+            if (!isset($GLOBALS['TT']) || !is_object($GLOBALS['TT'])) {
                 $GLOBALS['TT'] = GeneralUtility::makeInstance(TimeTracker::class, false);
                 GeneralUtility::makeInstance(TimeTracker::class)->start();
             }
