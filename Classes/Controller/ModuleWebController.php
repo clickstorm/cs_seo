@@ -298,7 +298,7 @@ class ModuleWebController extends AbstractModuleController
         $field = $attr['field'];
 
         // check for language overlay
-        if ($attr['entry']['_PAGES_OVERLAY'] && isset($GLOBALS['TCA']['pages']['columns'][$field])) {
+        if (isset($attr['entry']['_PAGES_OVERLAY']) && isset($GLOBALS['TCA']['pages']['columns'][$field])) {
             $uid = $attr['entry']['_PAGES_OVERLAY_UID'];
         }
 

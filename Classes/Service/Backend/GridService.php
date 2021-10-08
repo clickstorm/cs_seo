@@ -160,7 +160,7 @@ class GridService
                     $columnDef['type'] = 'boolean';
                     $columnDef['width'] = 100;
                     $columnDef['cellTemplate'] =
-                        '<div class="ui-grid-cell-contents ng-binding ng-scope text-center"><span class="glyphicon glyphicon-{{row.entity[col.field] == true ? \'ok\' : \'remove\'}}"></span></div>';
+                        '<div class="ui-grid-cell-contents ng-binding ng-scope text-center"><span class="fa fa-{{row.entity[col.field] == true ? \'check\' : \'remove\'}}"></span></div>';
                     $columnDef['editableCellTemplate'] =
                         '<div><form name="inputForm" class="text-center"><input type="checkbox" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-click="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
                     $columnDef['enableFiltering'] = false;
@@ -169,14 +169,14 @@ class GridService
                     $columnDef['type'] = 'object';
                     break;
                 case 'text':
-                    $columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'];
+                    $columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'] ?? '';
                     $columnDef['editableCellTemplate'] =
                         '<div><form name="inputForm"><textarea class="form-control" ng-maxlength="'
                         . $columnDef['max']
                         . '" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-keyup="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
                     break;
                 default:
-                    $columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'];
+                    $columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'] ?? '';
                     $columnDef['editableCellTemplate'] =
                         '<div><form name="inputForm" ng-model="form"><input type="INPUT_TYPE" class="form-control" ng-maxlength="'
                         . $columnDef['max']
