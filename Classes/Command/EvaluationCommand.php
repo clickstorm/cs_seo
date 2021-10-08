@@ -227,7 +227,7 @@ class EvaluationCommand extends Command
     protected function getFocusKeyword($record)
     {
         $keyword = '';
-        if ($record['tx_csseo']) {
+        if (isset($record['tx_csseo'])) {
             $metaTableName = 'tx_csseo_domain_model_meta';
 
             /** @var QueryBuilder $queryBuilder */

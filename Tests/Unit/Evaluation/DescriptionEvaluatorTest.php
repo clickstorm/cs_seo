@@ -3,7 +3,7 @@
 namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /***************************************************************
  *
@@ -29,7 +29,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 class DescriptionEvaluatorTest extends UnitTestCase
 {
 
@@ -48,7 +47,7 @@ class DescriptionEvaluatorTest extends UnitTestCase
      */
     protected $max = 160;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->generalEvaluationMock =
             $this->getAccessibleMock(DescriptionEvaluator::class, ['dummy'], [new \DOMDocument()]);
@@ -60,7 +59,7 @@ class DescriptionEvaluatorTest extends UnitTestCase
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils'] = '';
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->generalEvaluationMock);
         unset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']);
@@ -98,7 +97,7 @@ class DescriptionEvaluatorTest extends UnitTestCase
     {
         return [
             'zero description' => [
-                '',
+                '<html>',
                 [
                     'count' => 0,
                     'state' => DescriptionEvaluator::STATE_RED

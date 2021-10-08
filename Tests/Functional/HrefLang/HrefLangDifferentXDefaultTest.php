@@ -25,14 +25,17 @@ class HrefLangDifferentXDefaultTest extends AbstractHrefLangTest
             $this->importDataSet($fixtureRootPath . 'Database/' . $xmlFile . '.xml');
         }
 
+        $tsIncludePath = 'EXT:cs_seo/';
+
         $typoScriptFiles = [
-            $fixtureRootPath . '/TypoScript/page.typoscript',
-            'EXT:cs_seo/Configuration/TypoScript/setup.typoscript'
+            $tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
+            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript'
         ];
 
         $sites = [];
         $sites[1] = $fixtureRootPath . 'Sites/csseo-xdefault.yaml';
-        $this->setUpFrontendRootPage(1, $typoScriptFiles, $sites);
+        $this->setUpSites(1, $sites);
+        $this->setUpFrontendRootPage(1, $typoScriptFiles);
     }
 
     /**

@@ -99,7 +99,7 @@ class TSFEUtility
     public function __construct($pageUid, $lang = 0, $typeNum = 654)
     {
         $this->pageUid = $pageUid;
-        $this->workspaceUid = $GLOBALS['BE_USER']->workspace ?: 0;
+        $this->workspaceUid = $GLOBALS['BE_USER']->workspace ?? 0;
         $this->lang = (int)(is_array($lang) ? array_shift($lang) : $lang);
         $this->typeNum = $typeNum;
 

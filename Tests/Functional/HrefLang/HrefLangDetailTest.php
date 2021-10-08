@@ -25,16 +25,19 @@ class HrefLangDetailTest extends AbstractHrefLangTest
             $this->importDataSet($fixtureRootPath . 'Database/' . $xmlFile . '.xml');
         }
 
+        $tsIncludePath = 'EXT:cs_seo/';
+
         $typoScriptFiles = [
-            $fixtureRootPath . '/TypoScript/page.typoscript',
-            'EXT:cs_seo/Configuration/TypoScript/setup.typoscript'
+            $tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
+            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript'
         ];
 
         $sitesNumbers = [1];
         foreach ($sitesNumbers as $siteNumber) {
             $sites = [];
             $sites[$siteNumber] = $fixtureRootPath . 'Sites/' . $siteNumber . '/config.yaml';
-            $this->setUpFrontendRootPage($siteNumber, $typoScriptFiles, $sites);
+            $this->setUpSites($siteNumber, $sites);
+            $this->setUpFrontendRootPage($siteNumber, $typoScriptFiles);
         }
     }
 

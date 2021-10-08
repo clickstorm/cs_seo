@@ -23,13 +23,13 @@ abstract class AbstractHrefLangTest extends AbstractFrontendTest
      */
     public function checkHrefLangOutput($url, $expectedTags, $notExpectedTags): void
     {
-        /** @var \Nimut\TestingFramework\Http\Response $response */
+        /** @var \TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalResponse $response */
         $response = $this->getFrontendResponseFromUrl(
             $url,
             $this->failOnFailure
         );
 
-        $content = (string)$response->getContent();
+        $content = (string)$response->getBody();
 
         foreach ($expectedTags as $expectedTag) {
             self::assertStringContainsString($expectedTag, $content);

@@ -3,6 +3,8 @@ page.10 = TEXT
 page.10.value = Hello World!
 
 config.no_cache = 1
+config.debug = 1
+config.contentObjectExceptionHandler = 0
 
 ## disabled canonical
 [page["uid"] == 14]

@@ -3,7 +3,7 @@
 namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\H1Evaluator;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /***************************************************************
  *
@@ -29,7 +29,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 class H1EvaluatorTest extends UnitTestCase
 {
 
@@ -38,12 +37,12 @@ class H1EvaluatorTest extends UnitTestCase
      */
     protected $generalEvaluationMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->generalEvaluationMock = $this->getAccessibleMock(H1Evaluator::class, ['dummy'], [new \DOMDocument()]);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->generalEvaluationMock);
     }
@@ -79,7 +78,7 @@ class H1EvaluatorTest extends UnitTestCase
     {
         return [
             'zero h1' => [
-                '',
+                '<html>',
                 [
                     'count' => 0,
                     'state' => H1Evaluator::STATE_RED

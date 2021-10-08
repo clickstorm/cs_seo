@@ -3,7 +3,7 @@
 namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\H2Evaluator;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /***************************************************************
  *
@@ -29,7 +29,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 class H2EvaluatorTest extends UnitTestCase
 {
 
@@ -43,7 +42,7 @@ class H2EvaluatorTest extends UnitTestCase
      */
     protected $max = 6;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->generalEvaluationMock = $this->getAccessibleMock(H2Evaluator::class, ['dummy'], [new \DOMDocument()]);
         $extConf = [
@@ -52,7 +51,7 @@ class H2EvaluatorTest extends UnitTestCase
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo'] = $extConf;
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->generalEvaluationMock);
         unset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']);
@@ -89,7 +88,7 @@ class H2EvaluatorTest extends UnitTestCase
     {
         return [
             'zero h2' => [
-                '',
+                '<html>',
                 [
                     'count' => 0,
                     'state' => H2Evaluator::STATE_RED

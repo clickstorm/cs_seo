@@ -83,10 +83,10 @@ class FrontendPageService
         if ($tableName && $tableName !== 'pages') {
             // record
             $tableSettings = ConfigurationUtility::getTableSettings($tableName);
-            if ($tableSettings['evaluation']) {
+            if (isset($tableSettings['evaluation']) && !empty($tableSettings['evaluation'])) {
                 $params = str_replace('|', $pageInfo['uid'], $tableSettings['evaluation']['getParams']);
                 $paramId = $tableSettings['evaluation']['detailPid'];
-                if ($pageInfo['sys_language_uid'] > 0) {
+                if (isset($pageInfo['sys_language_uid']) && (int)$pageInfo['sys_language_uid'] > 0) {
                     $params .= '&L=' . $pageInfo['sys_language_uid'];
                 }
             }

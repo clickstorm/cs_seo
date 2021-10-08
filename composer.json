@@ -17,7 +17,7 @@
 		"typo3/cms-seo": "^11.2"
 	},
 	"require-dev": {
-		"nimut/testing-framework": "*"
+		"typo3/testing-framework": "*"
 	},
 	"replace": {
 		"typo3-ter/cs-seo": "self.version",

@@ -134,7 +134,7 @@ class EvaluationService
         ];
 
         // additional evaluators
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cs_seo']['evaluators'])) {
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cs_seo']['evaluators']) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cs_seo']['evaluators'])) {
             $availableEvaluators =
                 array_merge($availableEvaluators, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cs_seo']['evaluators']);
         }
@@ -174,7 +174,7 @@ class EvaluationService
             $count = round($score / $total * 100);
         }
 
-        if ($count == 100) {
+        if ($count === 100) {
             $state = AbstractEvaluator::STATE_GREEN;
         } elseif ($count > 40) {
             $state = AbstractEvaluator::STATE_YELLOW;

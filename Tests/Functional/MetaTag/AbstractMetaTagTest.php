@@ -27,13 +27,13 @@ abstract class AbstractMetaTagTest extends AbstractFrontendTest
      */
     public function ensureMetaDataAreCorrect(string $url, array $expectedMetaTags): void
     {
-        /** @var \Nimut\TestingFramework\Http\Response $response */
+        /** @var \TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalResponse $response */
         $response = $this->getFrontendResponseFromUrl(
             $url,
             $this->failOnFailure
         );
 
-        $content = (string)$response->getContent();
+        $content = (string)$response->getBody();
 
         foreach ($expectedMetaTags as $expectedMetaTag => $value) {
             if ($expectedMetaTag === 'title') {
@@ -81,9 +81,11 @@ abstract class AbstractMetaTagTest extends AbstractFrontendTest
             $this->importDataSet($fixtureRootPath . 'Database/' . $xmlFile . '.xml');
         }
 
+        $tsIncludePath = 'EXT:cs_seo/';
+
         $typoScriptFiles = [
-            $fixtureRootPath . '/TypoScript/page.typoscript',
-            'EXT:cs_seo/Configuration/TypoScript/setup.typoscript'
+            $tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
+            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript'
         ];
 
         $sitesNumbers = [1];
@@ -91,7 +93,8 @@ abstract class AbstractMetaTagTest extends AbstractFrontendTest
         foreach ($sitesNumbers as $siteNumber) {
             $sites = [];
             $sites[$siteNumber] = $fixtureRootPath . 'Sites/' . $siteNumber . '/config.yaml';
-            $this->setUpFrontendRootPage($siteNumber, $typoScriptFiles, $sites);
+            $this->setUpSites($siteNumber, $sites);
+            $this->setUpFrontendRootPage($siteNumber, $typoScriptFiles);
         }
     }
 }

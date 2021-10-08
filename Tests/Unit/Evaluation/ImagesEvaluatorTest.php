@@ -4,7 +4,7 @@ namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\ImagesEvaluator;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /***************************************************************
  *
@@ -30,7 +30,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 class ImagesEvaluatorTest extends UnitTestCase
 {
 
@@ -39,7 +38,7 @@ class ImagesEvaluatorTest extends UnitTestCase
      */
     protected $generalEvaluationMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->generalEvaluationMock = $this->getAccessibleMock(
             ImagesEvaluator::class,
@@ -48,7 +47,7 @@ class ImagesEvaluatorTest extends UnitTestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->generalEvaluationMock);
     }
@@ -84,7 +83,7 @@ class ImagesEvaluatorTest extends UnitTestCase
     {
         return [
             'zero images' => [
-                '',
+                '<html>',
                 [
                     'count' => 0,
                     'altCount' => 0,

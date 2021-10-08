@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Clickstorm\CsSeo\Tests\Functional\JsonLd;
 
 use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTest;
+use TYPO3\TestingFramework\Core\Functional\Framework\Frontend\ResponseContent;
 
 /**
  * Abstract Test Class
@@ -29,13 +30,13 @@ abstract class AbstractJsonLdTest extends AbstractFrontendTest
      */
     public function ensureMetaDataAreCorrect(string $url, string $expectedJsonLd): void
     {
-        /** @var \Nimut\TestingFramework\Http\Response $response */
+        /** @var \TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalResponse $response */
         $response = $this->getFrontendResponseFromUrl(
             $url,
             $this->failOnFailure
         );
 
-        $content = (string)$response->getContent();
+        $content = (string)$response->getBody();
 
         if ($expectedJsonLd) {
             self::assertStringContainsString(self::STRING_IN_JSON_LD_TEST, $content);
@@ -61,9 +62,11 @@ abstract class AbstractJsonLdTest extends AbstractFrontendTest
             $this->importDataSet($fixtureRootPath . 'Database/' . $xmlFile . '.xml');
         }
 
+        $tsIncludePath = 'EXT:cs_seo/';
+
         $typoScriptFiles = [
-            $fixtureRootPath . '/TypoScript/page.typoscript',
-            'EXT:cs_seo/Configuration/TypoScript/setup.typoscript'
+            $tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
+            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript'
         ];
 
         $sitesNumbers = [1];
@@ -71,7 +74,8 @@ abstract class AbstractJsonLdTest extends AbstractFrontendTest
         foreach ($sitesNumbers as $siteNumber) {
             $sites = [];
             $sites[$siteNumber] = $fixtureRootPath . 'Sites/' . $siteNumber . '/config.yaml';
-            $this->setUpFrontendRootPage($siteNumber, $typoScriptFiles, $sites);
+            $this->setUpSites($siteNumber, $sites);
+            $this->setUpFrontendRootPage($siteNumber, $typoScriptFiles);
         }
     }
 }

@@ -4,8 +4,14 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional;
 
-use Nimut\TestingFramework\Http\Response;
-use Nimut\TestingFramework\TestCase\FunctionalTestCase;
+use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Http\RequestFactory;
+use TYPO3\CMS\Core\Http\Uri;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalRequest;
+use TYPO3\TestingFramework\Core\Functional\Framework\Frontend\Response;
+use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 use PHPUnit\Util\PHP\DefaultPhpProcess;
 
 /**
@@ -43,34 +49,35 @@ abstract class AbstractFrontendTest extends FunctionalTestCase
      */
     protected function getFrontendResponseFromUrl($url, $failOnFailure = true, $frontendUserId = 0)
     {
-        $arguments = [
-            'documentRoot' => $this->getInstancePath(),
-            'requestUrl' => $url,
-        ];
 
-        $template = new \Text_Template('ntf://Frontend/Request.tpl');
-        $template->setVar(
-            [
-                'arguments' => var_export($arguments, true),
-                'originalRoot' => ORIGINAL_ROOT,
-                'ntfRoot' => ORIGINAL_ROOT . '../vendor/nimut/testing-framework/',
-            ]
-        );
+        $request = (new InternalRequest())->withUri(new Uri($url));
 
-        $php = DefaultPhpProcess::factory();
-        $response = $php->runJob($template->render());
-        $result = json_decode($response['stdout'], true);
-
-        if ($result === null) {
-            $this->fail('Frontend Response is empty.' . LF . 'Error: ' . LF . $response['stderr']);
+        if(isset($_SERVER['XDG_SESSION_ID'])) {
+            $request->withHeader('XDEBUG_SESSION_START', 'PHPSTORM');
         }
 
-        if ($failOnFailure && $result['status'] === Response::STATUS_Failure) {
-            $this->fail('Frontend Response has failure:' . LF . $result['error']);
+        return $this->executeFrontendSubRequest($request);
+    }
+
+    protected function setUpSites($pageId, array $sites)
+    {
+        foreach ($sites as $identifier => $file) {
+            $path = Environment::getConfigPath() . '/sites/' . $identifier . '/';
+            $target = $path . 'config.yaml';
+            if (!file_exists($target)) {
+                GeneralUtility::mkdir_deep($path);
+                if (!file_exists($file)) {
+                    $file = GeneralUtility::getFileAbsFileName($file);
+                }
+                $fileContent = file_get_contents($file);
+                $fileContent = str_replace('\'{rootPageId}\'', (string)$pageId, $fileContent);
+                GeneralUtility::writeFile($target, $fileContent);
+            }
         }
-
-        $response = new Response($result['status'], $result['content'], $result['error']);
-
-        return $response;
+        // Ensure that no other site configuration was cached before
+        $cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('core');
+        if ($cache->has('sites-configuration')) {
+            $cache->remove('sites-configuration');
+        }
     }
 }

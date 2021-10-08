@@ -3,7 +3,7 @@
 namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\TitleEvaluator;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /***************************************************************
  *
@@ -48,7 +48,7 @@ class TitleEvaluatorTest extends UnitTestCase
      */
     protected $max = 57;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->generalEvaluationMock = $this->getAccessibleMock(TitleEvaluator::class, ['dummy'], [new \DOMDocument()]);
         $extConf = [
@@ -59,7 +59,7 @@ class TitleEvaluatorTest extends UnitTestCase
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils'] = '';
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->generalEvaluationMock);
         unset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']);
@@ -97,7 +97,7 @@ class TitleEvaluatorTest extends UnitTestCase
     {
         return [
             'zero title' => [
-                '',
+                '<html>',
                 [
                     'count' => 0,
                     'state' => TitleEvaluator::STATE_RED

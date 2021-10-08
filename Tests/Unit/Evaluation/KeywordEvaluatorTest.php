@@ -4,7 +4,7 @@ namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
-use Nimut\TestingFramework\TestCase\UnitTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /***************************************************************
  *
@@ -30,7 +30,6 @@ use Nimut\TestingFramework\TestCase\UnitTestCase;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 class KeywordEvaluatorTest extends UnitTestCase
 {
 
@@ -39,7 +38,7 @@ class KeywordEvaluatorTest extends UnitTestCase
      */
     protected $generalEvaluationMock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->generalEvaluationMock = $this->getAccessibleMock(
             KeywordEvaluator::class,
@@ -48,7 +47,7 @@ class KeywordEvaluatorTest extends UnitTestCase
         );
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->generalEvaluationMock);
     }
@@ -85,7 +84,7 @@ class KeywordEvaluatorTest extends UnitTestCase
     {
         return [
             'no keyword' => [
-                '',
+                '<html>',
                 '',
                 [
                     'notSet' => 1,
@@ -105,7 +104,7 @@ class KeywordEvaluatorTest extends UnitTestCase
                 ]
             ],
             'keyword set, not found' => [
-                '',
+                '<html>',
                 'Test',
                 [
                     'contains' => [

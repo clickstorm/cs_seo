@@ -35,16 +35,18 @@ abstract class AbstractCanonicalTest extends AbstractFrontendTest
      */
     public function generate(string $url, string $expectedCanonicalUrl): void
     {
-        /** @var \Nimut\TestingFramework\Http\Response $response */
+        /** @var \TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalResponse $response */
         $response = $this->getFrontendResponseFromUrl(
             $url,
             $this->failOnFailure
         );
 
+        $content = (string)$response->getBody();
+
         if ($expectedCanonicalUrl) {
-            self::assertStringContainsString($expectedCanonicalUrl, (string)$response->getContent());
+            self::assertStringContainsString($expectedCanonicalUrl, $content);
         } else {
-            self::assertStringNotContainsString('<link rel="canonical"', (string)$response->getContent());
+            self::assertStringNotContainsString('<link rel="canonical"', $content);
         }
     }
 
@@ -64,9 +66,11 @@ abstract class AbstractCanonicalTest extends AbstractFrontendTest
             $this->importDataSet($fixtureRootPath . 'Database/' . $xmlFile . '.xml');
         }
 
+        $tsIncludePath = 'EXT:cs_seo/';
+
         $typoScriptFiles = [
-            $fixtureRootPath . '/TypoScript/page.typoscript',
-            'EXT:cs_seo/Configuration/TypoScript/setup.typoscript'
+            $tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
+            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript'
         ];
 
         $sitesNumbers = [1, 100, 200];
@@ -74,7 +78,8 @@ abstract class AbstractCanonicalTest extends AbstractFrontendTest
         foreach ($sitesNumbers as $siteNumber) {
             $sites = [];
             $sites[$siteNumber] = $fixtureRootPath . 'Sites/' . $siteNumber . '/config.yaml';
-            $this->setUpFrontendRootPage($siteNumber, $typoScriptFiles, $sites);
+            $this->setUpSites($siteNumber, $sites);
+            $this->setUpFrontendRootPage($siteNumber, $typoScriptFiles);
         }
     }
 }
