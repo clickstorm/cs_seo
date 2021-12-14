@@ -71,7 +71,7 @@ for different pids in different environments like staging or production.
 
 
 You may take also a look at the
-`dotenv-connector <https://docs.typo3.org/m/typo3/reference-coreapi/main/en-us/ApiOverview/SiteHandling/UsingEnvVars.html>`__.
+`dotenv-connector <https://github.com/helhum/dotenv-connector>`__.
 
 
 2. Register the config file
