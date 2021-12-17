@@ -149,7 +149,8 @@ class DatabaseUtility
         string $identifier,
         $includeSubfolders = true,
         $countAll = false,
-        $includeImagesWithAlt = false
+        $includeImagesWithAlt = false,
+        $offset = 0
     ) {
         $tableName = 'sys_file';
         $joinTableName = 'sys_file_metadata';
@@ -208,9 +209,13 @@ class DatabaseUtility
             );
         }
 
+
         if ($countAll) {
             $queryBuilder->count('file.uid');
         } else {
+            if($offset > 0) {
+                $queryBuilder->setFirstResult($offset);
+            }
             $queryBuilder->setMaxResults(1);
         }
 

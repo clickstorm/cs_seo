@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-06-16T12:22:17Z" product-name="cs_seo">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-12-17T12:37:17Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -322,6 +322,14 @@
 			<trans-unit id="sys_file.name" resname="sys_file.name">
 				<source>Filename</source>
 				<target>Dateiname</target>
+			</trans-unit>
+			<trans-unit id="module.btn.next" resname="module.btn.next">
+				<source>Next Image</source>
+				<target>Nächstes Bild</target>
+			</trans-unit>
+			<trans-unit id="module.btn.prev" resname="module.btn.prev">
+				<source>Previous Image</source>
+				<target>Vorheriges Bild</target>
 			</trans-unit>
 			<trans-unit id="module.btn.submit_and_next" resname="module.btn.submit_and_next">
 				<source>Save and go on</source>
