@@ -20,8 +20,10 @@
                          aria-valuenow="{percentOfImages}" aria-valuemin="0" aria-valuemax="100" style="width: {percentOfImages}%;">{numberOfImagesWithAlt}&nbsp;/&nbsp;{numberOfAllImages}</div>
                 </div>
             </div>
+
             <f:if condition="{image}">
                 <f:then>
+                    <p><f:translate key="module.file.countWithoutAlt" arguments="{0:indexOfCurrentImage,1:numberOfImagesWithoutAlt}"/></p>
                     <div class="csseo-card">
                         <div class="csseo-card__row">
                             <div class="csseo-card__col csseo-card__col--form">
