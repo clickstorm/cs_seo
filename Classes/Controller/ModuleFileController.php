@@ -44,6 +44,8 @@ class ModuleFileController extends AbstractModuleController
 
     protected $storageUid;
     protected $identifier;
+    protected $offset = 0;
+    protected $numberOfImagesWithoutAlt = 0;
 
     public function initializeAction()
     {
@@ -57,23 +59,35 @@ class ModuleFileController extends AbstractModuleController
     {
         BackendUtility::lockRecords();
 
+        if ($this->request->hasArgument('offset')) {
+            $this->offset = (int)$this->request->getArgument('offset');
+        }
+
         $this->requireJsModules = [
             'TYPO3/CMS/Backend/ContextMenu',
             'TYPO3/CMS/Backend/Notification',
             'TYPO3/CMS/Backend/InfoWindow'
         ];
 
-        if($this->storageUid) {
+        if ($this->storageUid) {
             $includeSubfolders = (bool)$this->modParams['recursive'];
 
-            $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders, true);
-            $numberOfImagesWithoutAlt = array_values($result[0])[0];
-            $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders, true,
+            $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders,
+                true);
+            $this->numberOfImagesWithoutAlt = array_values($result[0])[0];
+
+            // force offset to be smaller than number of all images without alt text
+            if ($this->offset > 0 && $this->offset >= $this->numberOfImagesWithoutAlt) {
+                $this->offset = $this->numberOfImagesWithoutAlt - 1;
+            }
+
+            $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders,
+                true,
                 true);
             $numberOfAllImages = array_values($result[0])[0];
 
             if ($numberOfAllImages) {
-                $numberOfImagesWithAlt = $numberOfAllImages - $numberOfImagesWithoutAlt;
+                $numberOfImagesWithAlt = $numberOfAllImages - $this->numberOfImagesWithoutAlt;
                 $percentOfImages = $numberOfImagesWithAlt / $numberOfAllImages * 100;
                 $this->view->assignMultiple([
                     'numberOfImagesWithAlt' => $numberOfImagesWithAlt,
@@ -86,7 +100,9 @@ class ModuleFileController extends AbstractModuleController
                 'identifier' => $this->identifier
             ]);
 
-            $imageRow = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders);
+            $imageRow = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders,
+                false, false, $this->offset);
+
             $configuredColumns = ['alternative'];
             $additionalColumns = ConfigurationUtility::getEmConfiguration()['modFileColumns'] ?: '';
 
@@ -109,13 +125,15 @@ class ModuleFileController extends AbstractModuleController
                 $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
 
                 // if no metadata record is there, create one
-                if($metadataUid === 0) {
+                if ($metadataUid === 0) {
                     $this->image->getOriginalResource()->getMetaData()->save();
                     $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
                 }
 
-                $editForm =$formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',',$configuredColumns));
+                $editForm = $formService->makeEditForm('sys_file_metadata', $metadataUid,
+                    implode(',', $configuredColumns));
                 $this->view->assignMultiple([
+                    'offset' => $this->offset,
                     'editForm' => $editForm,
                     'image' => $files[0]
                 ]);
@@ -166,7 +184,7 @@ class ModuleFileController extends AbstractModuleController
             $messageQueue->addMessage($message);
         }
 
-        $this->forward('showEmptyImageAlt');
+        $this->forward('showEmptyImageAlt', null, null, $this->request->getArguments());
     }
 
     protected function addModuleButtons(ButtonBar $buttonBar): void
@@ -213,6 +231,23 @@ class ModuleFileController extends AbstractModuleController
                 ->setIcon($iconFactory->getIcon('actions-eye', Icon::SIZE_SMALL));
             $buttonBar->addButton($viewButton, ButtonBar::BUTTON_POSITION_LEFT, 3);
 
+            $prevButton = $buttonBar->makeLinkButton()
+                ->setDisabled($this->offset <= 0)
+                ->setHref((string)$this->uriBuilder->uriFor(null, ['offset' => $this->offset - 1]))
+                ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.next'))
+                ->setIcon($iconFactory->getIcon('actions-chevron-left', Icon::SIZE_SMALL));
+
+            $buttonBar->addButton($prevButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
+
+            $nextOffset = $this->offset + 1;
+            $nextButton = $buttonBar->makeLinkButton()
+                ->setDisabled($nextOffset >= $this->numberOfImagesWithoutAlt)
+                ->setHref((string)$this->uriBuilder->uriFor(null, ['offset' => $nextOffset]))
+                ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.next'))
+                ->setIcon($iconFactory->getIcon('actions-chevron-right', Icon::SIZE_SMALL));
+
+            $buttonBar->addButton($nextButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
+
             $saveButton = $buttonBar->makeInputButton()
                 ->setForm('EditDocumentController')
                 ->setIcon($iconFactory->getIcon('actions-document-save', Icon::SIZE_SMALL))
@@ -223,7 +258,7 @@ class ModuleFileController extends AbstractModuleController
                 ))
                 ->setValue('1');
 
-            $buttonBar->addButton($saveButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
+            $buttonBar->addButton($saveButton, ButtonBar::BUTTON_POSITION_LEFT, 5);
         }
 
         $recursiveButton = $buttonBar->makeInputButton()
