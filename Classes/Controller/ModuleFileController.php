@@ -234,7 +234,7 @@ class ModuleFileController extends AbstractModuleController
             $prevButton = $buttonBar->makeLinkButton()
                 ->setDisabled($this->offset <= 0)
                 ->setHref((string)$this->uriBuilder->uriFor(null, ['offset' => $this->offset - 1]))
-                ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.next'))
+                ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.prev'))
                 ->setIcon($iconFactory->getIcon('actions-chevron-left', Icon::SIZE_SMALL));
 
             $buttonBar->addButton($prevButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
