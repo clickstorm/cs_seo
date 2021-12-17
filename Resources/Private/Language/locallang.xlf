@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-12-17T12:37:17Z" product-name="cs_seo">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-12-17T14:53:26Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -233,6 +233,9 @@
 			</trans-unit>
 			<trans-unit id="module.file.count" resname="module.file.count">
 				<source>Images with an alternative text / images in total</source>
+			</trans-unit>
+			<trans-unit id="module.file.countWithoutAlt" resname="module.file.countWithoutAlt">
+				<source>Current image without an alternative text: %1$s from %2$s</source>
 			</trans-unit>
 			<trans-unit id="sys_file.identifier" resname="sys_file.identifier">
 				<source>Path</source>

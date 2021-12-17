@@ -87,6 +87,8 @@ class ModuleFileController extends AbstractModuleController
                 $numberOfImagesWithAlt = $numberOfAllImages - $this->numberOfImagesWithoutAlt;
                 $percentOfImages = $numberOfImagesWithAlt / $numberOfAllImages * 100;
                 $this->view->assignMultiple([
+                    'numberOfImagesWithoutAlt' => $this->numberOfImagesWithoutAlt,
+                    'indexOfCurrentImage' => $this->offset + 1,
                     'numberOfImagesWithAlt' => $numberOfImagesWithAlt,
                     'percentOfImages' => $percentOfImages
                 ]);
