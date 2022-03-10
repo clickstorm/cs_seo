@@ -239,6 +239,7 @@ class TSFEUtility
             return trim($GLOBALS['TSFE']->getLanguage()->getWebsiteTitle());
         }
         if ($GLOBALS['TSFE']->getSite() instanceof SiteInterface
+            && isset($GLOBALS['TSFE']->getSite()->getConfiguration()['websiteTitle'])
             && trim($GLOBALS['TSFE']->getSite()->getConfiguration()['websiteTitle']) !== ''
         ) {
             return trim($GLOBALS['TSFE']->getSite()->getConfiguration()['websiteTitle']);
