@@ -70,7 +70,7 @@ class StructuredData
 
         // overwrite json ld with record metadata
         if ($metaData) {
-            $jsonLd = $metaData['json_ld'];
+            $jsonLd = $metaData['json_ld'] ?? null;
         }
 
         return $jsonLd ? $this->wrapWithLd($jsonLd) : '';

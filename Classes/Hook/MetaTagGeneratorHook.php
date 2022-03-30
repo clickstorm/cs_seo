@@ -79,22 +79,25 @@ class MetaTagGeneratorHook
 
         $generators = [
             'robots' => ['value' => ''],
-            'description' => ['value' => strip_tags($metaData['description'], '<sup><sub>')],
-            'og:title' => ['value' => $metaData['og_title']],
-            'og:description' => ['value' => $metaData['og_description']],
+            'description' => ['value' => strip_tags($metaData['description'] ?? null, '<sup><sub>')],
+            'og:title' => ['value' => $metaData['og_title'] ?? null],
+            'og:description' => ['value' => $metaData['og_description'] ?? null],
             'og:image' => ['value' => $ogImageUrl],
             'og:type' => ['value' => $pluginSettings['social.']['openGraph.']['type']],
-            'og:locale' => ['value' => strstr($GLOBALS['TSFE']->config['config']['locale_all'], '.', true)],
-            'twitter:title' => ['value' => $metaData['tw_title']],
-            'twitter:description' => ['value' => $metaData['tw_description']],
+            'og:locale' => [
+                'value' => !empty($GLOBALS['TSFE']->config['config']['locale_all']) ? strstr($GLOBALS['TSFE']->config['config']['locale_all'],
+                    '.', true) : null
+            ],
+            'twitter:title' => ['value' => $metaData['tw_title'] ?? null],
+            'twitter:description' => ['value' => $metaData['tw_description'] ?? null],
             'twitter:image' => ['value' => $twImageUrl],
             'twitter:card' => ['value' => ($ogImageUrl || $twImageUrl) ? 'summary_large_image' : 'summary'],
-            'twitter:creator' => ['value' => $metaData['tw_creator'] ? '@' . $metaData['tw_creator'] : ''],
-            'twitter:site' => ['value' => $metaData['tw_site'] ? '@' . $metaData['tw_site'] : ''],
+            'twitter:creator' => ['value' => !empty($metaData['tw_creator']) ? '@' . $metaData['tw_creator'] : ''],
+            'twitter:site' => ['value' => !empty($metaData['tw_site']) ? '@' . $metaData['tw_site'] : ''],
         ];
 
-        $noIndex = ((bool)$metaData['no_index']) ? 'noindex' : 'index';
-        $noFollow = ((bool)$metaData['no_follow']) ? 'nofollow' : 'follow';
+        $noIndex = !empty($metaData['no_index']) ? 'noindex' : 'index';
+        $noFollow = !empty($metaData['no_follow']) ? 'nofollow' : 'follow';
 
         if ($noIndex === 'noindex' || $noFollow === 'nofollow') {
             $generators['robots'] = ['value' => implode(',', [$noIndex, $noFollow])];
@@ -119,7 +122,7 @@ class MetaTagGeneratorHook
     {
         // og:image
         $ogImageURL = $pluginSettings['social.']['defaultImage'];
-        if ($metaData['og_image']) {
+        if (!empty($metaData['og_image'])) {
             $ogImageURLFromRecord = $this->getImageOrFallback('og_image', $metaData);
             if ($ogImageURLFromRecord !== '' && $ogImageURLFromRecord !== '0') {
                 $ogImageURL = $ogImageURLFromRecord;
@@ -195,7 +198,7 @@ class MetaTagGeneratorHook
     protected function getTwImage(array $metaData, array $pluginSettings): string
     {
         $twImageURL = $pluginSettings['social.']['twitter.']['defaultImage'];
-        if ($metaData['tw_image']) {
+        if (!empty($metaData['tw_image'])) {
             $twImageURLFromRecord = $this->getImageOrFallback('tw_image', $metaData);
             if ($twImageURLFromRecord !== '' && $twImageURLFromRecord !== '0') {
                 $twImageURL = $twImageURLFromRecord;

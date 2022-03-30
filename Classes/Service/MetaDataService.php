@@ -82,7 +82,7 @@ class MetaDataService
                     return null;
                 }
 
-                if ($record['_LOCALIZED_UID']) {
+                if (!empty($record['_LOCALIZED_UID'])) {
                     $tableSettings['uid'] = $record['_LOCALIZED_UID'];
                 }
                 // db meta

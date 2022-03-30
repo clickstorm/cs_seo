@@ -46,12 +46,12 @@ class CanonicalService extends AbstractUrlService
             $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], $currentItemConf['uid']);
             unset($typoLinkConf['parameter.']);
             $typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
-            if ($metaData['no_index']) {
+            if (!empty($metaData['no_index'])) {
                 $this->typoScriptFrontendController->page['no_index'] = 1;
             } else {
                 // canonical
                 $canonicalTypoLinkConf = ['forceAbsoluteUrl' => 1];
-                if ($metaData['canonical']) {
+                if (!empty($metaData['canonical'])) {
                     $canonicalTypoLinkConf['parameter'] = $metaData['canonical'];
                 } else {
                     $canonicalTypoLinkConf = $typoLinkConf;
