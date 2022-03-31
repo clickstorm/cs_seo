@@ -30,3 +30,9 @@ services:
         identifier: 'cs_seo/CsSeoHrefLang'
         after: 'typo3-seo/hreflangGenerator'
         event: TYPO3\CMS\Frontend\Event\ModifyHrefLangTagsEvent
+
+  Clickstorm\CsSeo\Command\EvaluationCommand:
+    tags:
+      - name: 'console.command'
+        command: 'cs_seo:evaluate'
+        description: 'Evaluate SEO aspects for multiple pages or records.'
