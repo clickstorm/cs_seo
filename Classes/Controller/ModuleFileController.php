@@ -47,6 +47,8 @@ class ModuleFileController extends AbstractModuleController
 
     protected $storageUid;
     protected $identifier;
+    protected $offset = 0;
+    protected $numberOfImagesWithoutAlt = 0;
 
     public function initializeAction()
     {
@@ -59,6 +61,10 @@ class ModuleFileController extends AbstractModuleController
     public function showEmptyImageAltAction()
     {
         BackendUtility::lockRecords();
+
+        if ($this->request->hasArgument('offset')) {
+            $this->offset = (int)$this->request->getArgument('offset');
+        }
 
         $this->requireJsModules = [
             'TYPO3/CMS/Backend/ContextMenu',
