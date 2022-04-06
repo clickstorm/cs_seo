@@ -158,11 +158,10 @@ abstract class AbstractModuleController extends ActionController
         $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
         $shortcutButton = $moduleTemplate->getDocHeaderComponent()->getButtonBar()->makeShortcutButton();
-        $shortcutButton->setModuleName(self::$mod_name)
+        $shortcutButton->setRouteIdentifier(static::$mod_name)
             ->setDisplayName(GlobalsUtility::getLanguageService()->sL(
                 'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:mlang_labels_tablabel'
-            ))
-            ->setSetVariables(['tree']);
+            ));
         $buttonBar->addButton($shortcutButton);
 
         $this->addModuleButtons($buttonBar);

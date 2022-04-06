@@ -231,8 +231,11 @@ class ModuleFileController extends AbstractModuleController
             $buttonBar->addButton($infoButton, ButtonBar::BUTTON_POSITION_LEFT, 2);
 
             $viewButton = $buttonBar->makeLinkButton()
+                ->setDataAttributes(  [
+                    'dispatch-action' => 'TYPO3.WindowManager.localOpen',
+                    'dispatch-args-list' => $this->image->getOriginalResource()->getPublicUrl()
+                ])
                 ->setHref('#')
-                ->setOnClick('window.open(\'/' . $this->image->getOriginalResource()->getPublicUrl() . '\')')
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.view'))
                 ->setIcon($iconFactory->getIcon('actions-eye', Icon::SIZE_SMALL));
             $buttonBar->addButton($viewButton, ButtonBar::BUTTON_POSITION_LEFT, 3);
