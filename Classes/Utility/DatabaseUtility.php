@@ -158,7 +158,10 @@ class DatabaseUtility
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable($tableName);
 
-        if ($includeSubfolders) {
+        if (!empty($includeSubfolders)) {
+            $folderExpression = $queryBuilder->expr()->like('file.identifier',
+                $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR));
+        } else {
             $folderExpression = $queryBuilder->expr()->like(
                 'file.identifier',
                 $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR)
