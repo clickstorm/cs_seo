@@ -142,9 +142,21 @@ class SnippetPreview extends AbstractNode
             // set pageID for TSSetup check
             $pageUid = $data['pid'];
 
-            // use page uid or t3ver_oid is set
+            // use page uid, l10n_parent or t3ver_oid if set
             if ($table === 'pages') {
-                $pageUid = $data['t3ver_oid'] ?: $data['uid'];
+                $pageUid = (int)$data['uid'];
+                if (!empty($data['l10n_parent'])) {
+                    if (is_array($data['l10n_parent'])) {
+                        if(!empty($data['l10n_parent'][0])) {
+                            $pageUid = (int)$data['l10n_parent'][0];
+                        }
+                    } elseif ((int)$data['l10n_parent'] > 0) {
+                        $pageUid = (int)$data['l10n_parent'];
+                    }
+                }
+                if (!empty($data['t3ver_oid'])) {
+                    $pageUid = (int)$data['t3ver_oid'];
+                }
             }
 
             $_GET['id'] = $pageUid;
