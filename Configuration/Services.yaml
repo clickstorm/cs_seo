@@ -31,6 +31,12 @@ services:
         after: 'typo3-seo/hreflangGenerator'
         event: TYPO3\CMS\Frontend\Event\ModifyHrefLangTagsEvent
 
+  Clickstorm\CsSeo\EventListener\AfterTcaCompilationEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'csSeoAfterTcaCompilationEventListener'
+        event: TYPO3\CMS\Core\Configuration\Event\AfterTcaCompilationEvent
+
   Clickstorm\CsSeo\Command\EvaluationCommand:
     tags:
       - name: 'console.command'

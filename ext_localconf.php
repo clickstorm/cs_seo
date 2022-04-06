@@ -19,10 +19,6 @@ defined('TYPO3') || die();
             $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['Clickstorm\\CsSeo\\Evaluation\\TCA\\RobotsExistsEvaluator'] = '';
         }
 
-        // extend records
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['extTablesInclusion-PostProcessing']['cs_seo'] =
-            \Clickstorm\CsSeo\Hook\TableConfigurationPostProcessingHook::class;
-
         // new field types
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1524490067] = [
             'nodeName' => 'snippetPreview',
