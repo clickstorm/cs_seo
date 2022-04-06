@@ -49,9 +49,7 @@ class TableConfigurationPostProcessingHook implements TableConfigurationPostProc
         // add new fields to pages
         ExtensionManagementUtility::addToAllTCAtypes(
             'pages',
-            'tx_csseo_keyword,
-            --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
-            --palette--;;opengraph,--palette--;;twittercards',
+            'tx_csseo_keyword',
             implode(',', ConfigurationUtility::getEvaluationDoktypes()),
             'after:canonical_link'
         );
