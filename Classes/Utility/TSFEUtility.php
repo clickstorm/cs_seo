@@ -31,6 +31,7 @@ use Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
 
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\TypoScriptAspect;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Routing\PageArguments;
@@ -41,7 +42,7 @@ use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Extbase\Service\EnvironmentService;
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
@@ -103,10 +104,8 @@ class TSFEUtility
         $this->lang = (int)(is_array($lang) ? array_shift($lang) : $lang);
         $this->typeNum = $typeNum;
 
-        $environmentService = GeneralUtility::makeInstance(EnvironmentService::class);
-
         if (!isset($GLOBALS['TSFE'])
-            || ($environmentService->isEnvironmentInBackendMode()
+            || ($this->isEnvironmentInBackendMode()
                 && !($GLOBALS['TSFE']
                     instanceof
                     TypoScriptFrontendController))
@@ -284,5 +283,11 @@ class TSFEUtility
         }
 
         return $previewSettings;
+    }
+
+    public function isEnvironmentInBackendMode(): bool
+    {
+        return ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface
+            && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend();
     }
 }
