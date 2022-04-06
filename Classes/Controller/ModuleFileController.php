@@ -190,7 +190,7 @@ class ModuleFileController extends AbstractModuleController
             $messageQueue->addMessage($message);
         }
 
-        $this->forward('showEmptyImageAlt', null, null, $this->request->getArguments());
+        return new ForwardResponse('showEmptyImageAlt');
     }
 
     protected function addModuleButtons(ButtonBar $buttonBar): void

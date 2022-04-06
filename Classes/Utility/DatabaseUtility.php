@@ -5,12 +5,10 @@ namespace Clickstorm\CsSeo\Utility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Database\QueryGenerator;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\StringUtility;
 
 /***************************************************************
  *
@@ -223,93 +221,6 @@ class DatabaseUtility
         }
 
         return $queryBuilder->execute()->fetchAll();
-    }
-
-    /**
-     * Find all ids from given ids and level, copied from the news extension by Georg Ringer
-     *
-     * @param string $pidList comma separated list of ids
-     * @param int $recursive recursive levels
-     * @return string comma separated list of ids
-     */
-    public static function extendPidListByChildren($pidList = '', $recursive = 0)
-    {
-        $recursive = (int)$recursive;
-        if ($recursive <= 0) {
-            return $pidList;
-        }
-
-        $queryGenerator = GeneralUtility::makeInstance(QueryGenerator::class);
-        $recursiveStoragePids = $pidList;
-        $storagePids = GeneralUtility::intExplode(',', $pidList);
-        foreach ($storagePids as $startPid) {
-            if ($startPid >= 0) {
-                $pids = $queryGenerator->getTreeList($startPid, $recursive, 0, 1);
-                if (strlen($pids) > 0) {
-                    $recursiveStoragePids .= ',' . $pids;
-                }
-            }
-        }
-
-        return StringUtility::uniqueList($recursiveStoragePids);
-    }
-
-    /**
-     * Migrate fields from one column to another of a table
-     *
-     * @param array $columnNamesToMigrate
-     * @param string $table
-     */
-    public static function migrateColumnNames($columnNamesToMigrate, $table)
-    {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable($table);
-
-        foreach ($columnNamesToMigrate as $oldCol => $newCol) {
-            $queryBuilder
-                ->update($table, 'u')
-                ->where(
-                    $queryBuilder->expr()->orX(
-                        $queryBuilder->expr()->eq($newCol, $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)),
-                        $queryBuilder->expr()->isNull($newCol)
-                    )
-                )
-                ->set('u.' . $newCol, $queryBuilder->quoteIdentifier('u.' . $oldCol), false)
-                ->execute();
-
-            $queryBuilder->resetQueryParts();
-        }
-    }
-
-    /**
-     * Migrate fields from one column to another of a table
-     *
-     * @param array $content
-     * @param string $column
-     * @param string $table
-     * @param string $tableRelated
-     */
-    public static function migrateRelatedColumnContent($content, $column, $table, $tableRelated)
-    {
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getQueryBuilderForTable($table);
-
-        foreach ($content as $oldContent => $newContent) {
-            $queryBuilder
-                ->update($table, 'u')
-                ->where(
-                    $queryBuilder->expr()->andX(
-                        $queryBuilder->expr()->eq($column, $queryBuilder->createNamedParameter($oldContent)),
-                        $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableRelated))
-                    )
-                )
-                ->set('u.' . $column, $queryBuilder->createNamedParameter($newContent), false)
-                ->execute();
-
-            $queryBuilder->resetQueryParts();
-        }
     }
 
     public static function getLanguagesInBackend(int $pageId = 0): array
