@@ -66,13 +66,6 @@ $tempColumns = [
 $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
     preg_replace('/description(.*,|.*$)/', '', $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem']);
 
-foreach ($GLOBALS['TCA']['pages']['types'] as $key => $type) {
-    $type['showitem'] =
-        str_replace('--palette--;;opengraph,', '', $type['showitem']);
-    $GLOBALS['TCA']['pages']['types'][$key]['showitem'] =
-        str_replace('--palette--;;twittercards,', '', $type['showitem']);
-}
-
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
     'pages',
     'metatags',
