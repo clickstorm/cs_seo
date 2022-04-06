@@ -27,16 +27,10 @@ namespace Clickstorm\CsSeo\Form\Element;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Clickstorm\CsSeo\Utility\ConfigurationUtility;
-use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Form\AbstractNode;
 use TYPO3\CMS\Backend\Form\Element\TextElement;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -138,136 +132,13 @@ class JsonLdElement extends AbstractNode
             'EXT:cs_seo/Resources/Private/Templates/Element/JsonLdElement.html'
         );
 
-        if (strpos($data['uid'], 'NEW') === false) {
-            // set pageID for TSSetup check
-            $pageUid = $data['pid'];
-
-            // use page uid or t3ver_oid is set
-            if ($table == 'pages') {
-                $pageUid = $data['t3ver_oid'] ?: $data['uid'];
-            }
-
-            $_GET['id'] = $pageUid;
-
-            // check if TS page type exists
-            /** @var BackendConfigurationManager $configurationManager */
-            $backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
-            $fullTS = $backendConfigurationManager->getTypoScriptSetup();
-
-            if (isset($fullTS['types.'][$this->typeNum]) || $GLOBALS['BE_USER']->workspace > 0) {
-                // render page title
-                $rootline = BackendUtility::BEgetRootLine($pageUid);
-                $sysLanguageUid = is_array($data['sys_language_uid']) ? (int)current($data['sys_language_uid']) : (int)$data['sys_language_uid'];
-
-                /** @var TSFEUtility $TSFEUtility */
-                $TSFEUtility = GeneralUtility::makeInstance(
-                    TSFEUtility::class,
-                    $pageUid,
-                    $sysLanguageUid
-                );
-                $fallback = [];
-                if (isset($GLOBALS['TSFE'])) {
-                    $siteTitle = $TSFEUtility->getSiteTitle();
-                    $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();
-                    $config = $TSFEUtility->getConfig();
-
-                    if ($table == 'pages') {
-                        $GLOBALS['TSFE']->config['config']['noPageTitle'] = 0;
-
-                        $GLOBALS['TSFE']->generatePageTitle();
-
-                        $pageTitle = static::getPageRenderer()->getTitle();
-
-                        // get page path
-                        $path = $TSFEUtility->getPagePath();
-
-                        $fallback['title'] = 'title';
-                        $fallback['uid'] = $data['uid'];
-                        $fallback['table'] = $table;
-                    } else {
-                        $tableSettings = ConfigurationUtility::getTableSettings($data['tablenames']);
-
-                        if ($tableSettings && is_array($tableSettings['fallback']) && !empty($tableSettings['fallback'])) {
-                            $fallback = $tableSettings['fallback'];
-
-                            /** @var QueryBuilder $queryBuilder */
-                            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($data['tablenames']);
-
-                            $queryBuilder
-                                ->getRestrictions()
-                                ->removeAll();
-
-                            $res = $queryBuilder->select('*')
-                                ->from($data['tablenames'])
-                                ->where(
-                                    $queryBuilder->expr()->eq(
-                                        'uid',
-                                        $queryBuilder->createNamedParameter($data['uid_foreign'], \PDO::PARAM_INT)
-                                    )
-                                )
-                                ->execute()->fetchAll();
-
-                            $row = $res[0];
-
-                            foreach ($fallback as $seoField => $fallbackField) {
-                                if (empty($data[$seoField])) {
-                                    $data[$seoField] = $row[$fallbackField];
-                                }
-                            }
-
-                            $fallback['uid'] = $data['uid_foreign'];
-                            $fallback['table'] = $data['tablenames'];
-                        }
-
-                        $pageTitle = $TSFEUtility->getFinalTitle($data['title']);
-                        $path = '';
-                    }
-
-                    $wizardView->assignMultiple(
-                        [
-                            'config' => $config,
-                            'extConf' => ConfigurationUtility::getEmConfiguration(),
-                            'data' => $data,
-                            'fallback' => $fallback,
-                            'pageTitle' => $pageTitle,
-                            'pageTitleSeparator' => $pageTitleSeparator,
-                            'path' => $path,
-                            'siteTitle' => $siteTitle,
-                            'textElement' => $textElement
-                        ]
-                    );
-                } else {
-                    $wizardView->assign('error', 'no_tsfe');
-                }
-            } else {
-                $wizardView->assign('error', 'no_ts');
-            }
-        } else {
-            $wizardView->assign('error', 'no_data');
-        }
+        $wizardView->assignMultiple(
+            [
+                'data' => $data,
+                'textElement' => $textElement
+            ]
+        );
 
         return $wizardView->render();
-    }
-
-    /**
-     * @return PageRenderer
-     */
-    protected function getPageRenderer()
-    {
-        if ($this->pageRenderer === null) {
-            $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        }
-
-        return $this->pageRenderer;
-    }
-
-    /**
-     * Returns an instance of LanguageService
-     *
-     * @return \TYPO3\CMS\Core\Localization\LanguageService
-     */
-    protected function getLanguageService()
-    {
-        return $GLOBALS['LANG'];
     }
 }
