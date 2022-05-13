@@ -42,6 +42,6 @@ page.headerData.657.10 {
 
 ### Downloads with Google Analytics ###
 page.includeJSFooter {
-	654 = EXT:cs_seo/Resources/Public/JavaScript/jquery.cs_seo.ga.js
+	654 = EXT:cs_seo/Resources/Public/JavaScript/cs_seo.ga.js
 	654.if.isTrue < plugin.tx_csseo.tracking.googleAnalytics
 }
