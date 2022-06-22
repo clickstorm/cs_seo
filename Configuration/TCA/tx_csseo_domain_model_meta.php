@@ -49,7 +49,7 @@ return [
         ],
 
         'preview' => [
-            'showitem' => 'title,--linebreak--,description'
+            'showitem' => 'title,title_only,--linebreak--,description'
         ],
 
         'index' => ['showitem' => 'canonical,no_index,no_follow'],
@@ -157,6 +157,14 @@ return [
                 'rows' => 5,
                 'eval' => 'trim',
                 'max' => $extConf['maxDescription'],
+            ]
+        ],
+        'title_only' => [
+            'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_title_only',
+            'exclude' => 1,
+            'config' => [
+                'type' => 'check',
+                'renderType' => 'checkboxToggle'
             ]
         ],
         'keyword' => [

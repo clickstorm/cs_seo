@@ -21,14 +21,24 @@ define(['jquery'], function($) {
 				$inputFallbackDescriptionHR = findInputFallback('description'),
 				$inputSeoDescriptionHR = $panel.find('[data-formengine-input-name$="[description]"], textarea[name$="[description]"]');
 			if(fallbackTable == 'pages') {
-				var $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[seo_title]"], input[name$="[seo_title]_hr"]');
+				var $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[seo_title]"], input[name$="[seo_title]_hr"]'),
+          $checkboxTitleOnlyHR = $panel.find('input[data-formengine-input-name$="[tx_csseo_title_only]"], input[name$="[tx_csseo_title_only]_0"]');
 			} else {
-				var $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[title]"], input[name$="[title]_hr"]');
+				var $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[title]"], input[name$="[title]_hr"]'),
+          $checkboxTitleOnlyHR = $panel.find('input[data-formengine-input-name$="[title_only]"], input[name$="[title_only]_0"]');
 			}
+
+      var titleOnly = $checkboxTitleOnlyHR.is(":checked");
 
 			$inputSeoTitleHR.on('keyup.csseotitle', function() {
 				updateTitle();
 			});
+
+      // title only changes
+      $checkboxTitleOnlyHR.change(function() {
+        titleOnly = $checkboxTitleOnlyHR.is(":checked");
+        updateTitle();
+      });
 
 			// description changes
 			$inputSeoDescriptionHR.on('keyup.csseodesc', function() {
@@ -82,10 +92,12 @@ define(['jquery'], function($) {
 					title = $inputFallbackTitleHR.val();
 				}
 
-        if($title.data('first')) {
-          title += separator + siteTitle;
-        } else {
-          title = siteTitle + separator + title;
+        if(!titleOnly) {
+          if($title.data('first')) {
+            title += separator + siteTitle;
+          } else {
+            title = siteTitle + separator + title;
+          }
         }
 
 				return title;

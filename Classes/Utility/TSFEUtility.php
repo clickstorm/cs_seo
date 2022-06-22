@@ -209,8 +209,12 @@ class TSFEUtility
      *
      * @var string $title
      */
-    public function getFinalTitle($title)
+    public function getFinalTitle($title, $titleOnly = false)
     {
+        if ($titleOnly) {
+            return $title;
+        }
+
         $siteTitle = $this->getSiteTitle();
         $pageTitleFirst = $this->getConfig()['pageTitleFirst'];
         $pageTitleSeparator = $this->getPageTitleSeparator();

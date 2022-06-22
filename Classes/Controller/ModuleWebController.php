@@ -83,7 +83,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageMetaAction(): ResponseInterface
     {
-        $fieldNames = ['title', 'seo_title', 'description'];
+        $fieldNames = ['title', 'seo_title', 'tx_csseo_title_only', 'description'];
 
         // get title and settings from TypoScript
         $tsfeUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->id, $this->modParams['lang']);
