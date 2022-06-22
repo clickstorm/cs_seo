@@ -7,31 +7,31 @@
 		<div ng-switch on="msg.state">
 			<div ng-switch-when="error">
 				<p class="text-danger">
-					<span class="glyphicon glyphicon-remove-sign"></span>
+                    &#9888;
 					<f:translate key="partials.module.state.error" />
 				</p>
 			</div>
 			<div ng-switch-when="success">
 				<p class="text-success">
-					<span class="glyphicon glyphicon-ok-sign"></span>
+                    &#10004;
 					<f:translate key="partials.module.state.success" />
 				</p>
 			</div>
 			<div ng-switch-when="no-changes">
 				<p class="text-info">
-					<span class="glyphicon glyphicon-info-sign"></span>
+                    <span class="tx-cs_seo__icon--small">&#128712;</span>
 					<f:translate key="partials.module.state.no_changes" />
 				</p>
 			</div>
 			<div ng-switch-when="wait">
 				<p class="text-warning">
-					<span class="glyphicon glyphicon-forward"></span>
+                    &raquo;
 					<f:translate key="partials.module.state.wait" />
 				</p>
 			</div>
 			<div ng-switch-default>
 				<p class="text-info">
-					<span class="glyphicon glyphicon-info-sign"></span>
+                    <span class="tx-cs_seo__icon--small">&#128712;</span>
 					<f:translate key="partials.module.state.hint" />
 				</p>
 			</div>
