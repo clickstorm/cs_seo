@@ -36,6 +36,9 @@
 			<trans-unit id="seo_title.description" resname="seo_title.description">
 				<source>This title will be shown in the browser tab and in the search engines. Place some keywords here, but not only separated by commas. The user should be animated to click.</source>
 			</trans-unit>
+			<trans-unit id="tx_csseo_title_only.description">
+				<source>Show the browser title without the site title in cases the space isn't enough.</source>
+			</trans-unit>
 			<trans-unit id="tx_csseo_tw_creator.description" resname="tx_csseo_tw_creator.description">
 				<source>Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be shown as creator.</source>
 			</trans-unit>

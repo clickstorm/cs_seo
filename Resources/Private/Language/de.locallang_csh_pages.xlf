@@ -47,6 +47,10 @@
 				<source>This title will be shown in the browser tab and in the search engines. Place some keywords here, but not only separated by commas. The user should be animated to click.</source>
 				<target>Dieser Titel wird im Browser-Tab und den Suchmaschinen angezeigt. Bringen Sie hier wichtige Keywoards unter, aber nicht nur durch Kommas getrennt. Der Nutzer soll zum Klicken animiert werden.</target>
 			</trans-unit>
+			<trans-unit id="tx_csseo_title_only.description" approved="yes">
+				<source>Show the browser title without the site title in cases the space isn't enough.</source>
+				<target>Zeigt den Browsertitel ohne den Webseitentitel, falls der Platz mal nicht ausreicht.</target>
+			</trans-unit>
 			<trans-unit id="tx_csseo_tw_creator.description" resname="tx_csseo_tw_creator.description">
 				<source>Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be shown as creator.</source>
 				<target>Geben Sie einen Twitter-Benutzernamen an, ohne dem @-Zeichen. Wenn ein Nutzer die Seite bei Twitter teilt, wird dieser Benutzer als Ersteller angezeigt.</target>

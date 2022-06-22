@@ -3,6 +3,9 @@ config {
 	pageTitleFirst = 1
 	pageTitleSeparator = |
 	pageTitleSeparator.noTrimWrap = | | |
+  pageTitle {
+    postUserFunc = Clickstorm\CsSeo\UserFunc\PageTitle->resetWebsiteTitle
+  }
 }
 
 <INCLUDE_TYPOSCRIPT: source="DIR:EXT:cs_seo/Configuration/TypoScript/Setup/Meta/" extensions="typoscript">
