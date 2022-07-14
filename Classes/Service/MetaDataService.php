@@ -86,7 +86,7 @@ class MetaDataService
                 }
                 // db meta
                 $metaData = $this->getMetaProperties($tableSettings);
-                $metaData['__uid'] =  $tableSettings['uid'];
+                $metaData['__uid'] = $tableSettings['uid'];
 
                 // db fallback
                 if (isset($tableSettings['fallback'])) {
@@ -101,8 +101,14 @@ class MetaDataService
                                         'uid_foreign' => $tableSettings['uid']
                                     ];
                                 }
-                            }
-                            // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
+                            } // check for double slash, if so multiple fallback fields are defined, the first with content will be used
+                            elseif (strpos($fallbackField, '//') !== false) {
+                                foreach (GeneralUtility::trimExplode('//', $fallbackField) as $possibleFallbackField) {
+                                    if (!empty($record[$possibleFallbackField])) {
+                                        $metaData[$seoField] = $record[$possibleFallbackField];
+                                    }
+                                }
+                            } // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
                             elseif (preg_match('/{([^}]+)}/', $fallbackField)) {
                                 $curlyBracketSeoField = $fallbackField;
                                 $matches = [];
@@ -111,7 +117,8 @@ class MetaDataService
                                 $matchesWithoutCurlyBrackets = $matches[1];
                                 foreach ($matchesWithCurlyBrackets as $key => $matchWithCurlyBracket) {
                                     $recordField = $matchesWithoutCurlyBrackets[$key];
-                                    $curlyBracketSeoField = str_replace($matchWithCurlyBracket, $record[$recordField], $curlyBracketSeoField);
+                                    $curlyBracketSeoField = str_replace($matchWithCurlyBracket, $record[$recordField],
+                                        $curlyBracketSeoField);
                                 }
                                 $metaData[$seoField] = $curlyBracketSeoField;
                             }
