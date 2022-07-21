@@ -14,6 +14,7 @@ use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Core\Page\PageRenderer;
 
 /**
  * Class ModuleController
@@ -88,6 +89,9 @@ abstract class AbstractModuleController extends ActionController
         }
 
         $this->modTSconfig = BackendUtility::getPagesTSconfig($this->id)['mod.']['SHARED.'] ?? [];
+
+        // reset JavaScript and CSS files
+        GeneralUtility::makeInstance(PageRenderer::class)->__construct();
     }
 
     /**
