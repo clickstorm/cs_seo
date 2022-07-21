@@ -125,7 +125,7 @@ class GridService
         if ($this->modParams['lang'] > 0) {
             /** @var LanguageAspect $languageAspect */
             $languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $this->modParams['lang']);
-            $context->setAspect('Language', $languageAspect);
+            $context->setAspect('language', $languageAspect);
             $columnDefs[] = $this->getColumnDefinition('sys_language_uid');
         }
 
