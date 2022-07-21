@@ -30,7 +30,7 @@ page.meta {
 			cObject = IMG_RESOURCE
 			cObject.file {
 				import {
-					data = path:{$plugin.tx_csseo.social.twitter.defaultImage} // path:{$plugin.tx_csseo.social.defaultImage}
+					data = path:{$plugin.tx_csseo.social.twitter.defaultImage}
 					if.isFalse.field = twitter_image
 				}
 				height < plugin.tx_csseo.social.twitter.image.height
