@@ -6,6 +6,7 @@ page.meta {
 	og:site_name.data = TSFE:tmpl|sitetitle
 
 	### default og:image ###
+  og:image.stdWrap.if.directReturn = {$plugin.tx_csseo.social.defaultImage}
 	og:image.stdWrap.typolink {
 		parameter.stdWrap {
 			cObject = IMG_RESOURCE
