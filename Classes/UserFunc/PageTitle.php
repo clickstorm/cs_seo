@@ -37,7 +37,7 @@ final class PageTitle
         // first check if record is shown
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
 
-        if ($metaData && $metaData['title_only']) {
+        if (is_array($metaData) && !empty($metaData['title_only'])) {
             return true;
         }
 
