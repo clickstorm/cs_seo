@@ -65,15 +65,14 @@ class PageHook
      * @return string
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidExtensionNameException
      */
-    public function render(array $params, PageLayoutController $parentObject)
+    public function render(array $params, PageLayoutController $parentObject): string
     {
         $tsConfig = BackendUtility::getPagesTSconfig($parentObject->id);
         $disableViaTsConfig = isset($tsConfig['mod.']['web_layout.']['tx_csseo.']['disable']) ?
             (bool)$tsConfig['mod.']['web_layout.']['tx_csseo.']['disable'] : false;
 
         // @extensionScannerIgnoreLine
-        if ((int)$parentObject->MOD_SETTINGS['function'] === 1 && !$disableViaTsConfig)
-         {
+        if ((int)$parentObject->MOD_SETTINGS['function'] === 1 && !$disableViaTsConfig) {
             $this->initPage($parentObject);
             if ($this->pageCanBeIndexed()) {
                 // template
@@ -125,9 +124,11 @@ class PageHook
                 return $this->view->render();
             }
         }
+
+        return '';
     }
 
-    protected function initPage(PageLayoutController $pageLayoutController)
+    protected function initPage(PageLayoutController $pageLayoutController): void
     {
         $this->currentSysLanguageUid = $pageLayoutController->MOD_SETTINGS['language'];
         $this->pageInfo = $pageLayoutController->pageinfo;
@@ -151,6 +152,7 @@ class PageHook
     public function pageCanBeIndexed()
     {
         $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
+
         return in_array($this->pageInfo['doktype'], $allowedDoktypes) && $this->pageInfo['hidden'] == 0;
     }
 

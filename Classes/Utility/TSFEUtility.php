@@ -228,10 +228,7 @@ class TSFEUtility
         return $title;
     }
 
-    /**
-     * @return string
-     */
-    public function getSiteTitle()
+    public function getSiteTitle(): string
     {
         if (!isset($GLOBALS['TSFE']) || !is_object($GLOBALS['TSFE'])) {
             return '';
@@ -247,6 +244,7 @@ class TSFEUtility
         ) {
             return trim($GLOBALS['TSFE']->getSite()->getConfiguration()['websiteTitle']);
         }
+        return '';
     }
 
     /**

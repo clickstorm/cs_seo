@@ -139,13 +139,7 @@ class MetaTagGeneratorHook
         );
     }
 
-    /**
-     * @param string $field
-     * @param array $meta
-     *
-     * @return string the image path
-     */
-    protected function getImageOrFallback($field, $meta)
+    protected function getImageOrFallback(string $field, array $meta = []): string
     {
         $params = [];
         if (is_array($meta[$field])) {
@@ -159,9 +153,8 @@ class MetaTagGeneratorHook
         }
 
         $image = DatabaseUtility::getFile($params['table'], $params['field'], $params['uid']);
-        if ($image !== null) {
-            return $image->getPublicUrl();
-        }
+
+        return is_null($image) ? '' : $image->getPublicUrl();
     }
 
     /**
