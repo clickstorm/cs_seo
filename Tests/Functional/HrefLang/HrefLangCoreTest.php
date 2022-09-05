@@ -48,11 +48,9 @@ class HrefLangCoreTest extends AbstractHrefLangTest
             'No translation available, so only hreflang tags expected for default language and fallback languages' => [
                 'http://localhost/',
                 [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/"/>',
-                    '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/"/>',
                 ],
                 [
-                    '<link rel="alternate" hreflang="de-DE"'
+                    '<link rel="alternate" hreflang="'
                 ]
             ],
             'English page, with German translation' => [
