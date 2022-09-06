@@ -28,112 +28,71 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 /**
  * Class Evaluation
  */
 class Evaluation extends AbstractEntity
 {
-    /**
-     * @var string
-     */
-    protected $results;
 
-    /**
-     * @var string
-     */
-    protected $url;
+    protected string $results = '';
 
-    /**
-     * @var int
-     */
-    protected $uidForeign;
+    protected string $url = '';
 
-    /**
-     * @var string
-     */
-    protected $tablenames;
+    protected int $uidForeign = 0;
 
-    /**
-     * @var int
-     */
-    protected $tstamp;
+    protected string $tablenames = '';
 
-    /**
-     * @return array
-     */
-    public function getResults()
+    protected int $tstamp = 0;
+
+    public function getResults(): array
     {
-        return unserialize($this->results);
+        $results = unserialize($this->results);
+
+        return is_array($results) ? $results : [];
     }
 
-    /**
-     * @param array $results
-     */
-    public function setResults($results)
+    public function setResults(array $results): void
     {
         $this->results = serialize($results);
     }
 
-    /**
-     * @return string
-     */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
 
-    /**
-     * @param string $url
-     */
-    public function setUrl($url)
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }
 
-    /**
-     * @return int
-     */
-    public function getUidForeign()
+    public function getUidForeign(): int
     {
         return $this->uidForeign;
     }
 
-    /**
-     * @param int $uidForeign
-     */
-    public function setUidForeign($uidForeign)
+    public function setUidForeign(int $uidForeign): void
     {
         $this->uidForeign = $uidForeign;
     }
 
-    /**
-     * @return string
-     */
-    public function getTablenames()
+    public function getTablenames(): string
     {
         return $this->tablenames;
     }
 
-    /**
-     * @param string $tablenames
-     */
-    public function setTablenames($tablenames)
+    public function setTablenames(string $tablenames): void
     {
         $this->tablenames = $tablenames;
     }
 
-    /**
-     * @return int
-     */
-    public function getTstamp()
+    public function getTstamp(): int
     {
         return $this->tstamp;
     }
 
-    /**
-     * @param int $tstamp
-     */
-    public function setTstamp($tstamp)
+    public function setTstamp(int $tstamp): void
     {
         $this->tstamp = $tstamp;
     }
