@@ -120,7 +120,7 @@ class DatabaseUtility
      *
      * @param string $table
      * @param string $field
-     * @param string $uid
+     * @param int $uid
      *
      * @return File|null
      */

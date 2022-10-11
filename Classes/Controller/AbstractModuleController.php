@@ -230,7 +230,7 @@ abstract class AbstractModuleController extends ActionController
         ];
 
         foreach ($messageQueue->getAllMessages() as $flashMessage) {
-            $method = $severityMapping[$flashMessage->getSeverity()] ?: 'info';
+            $method = $severityMapping[$flashMessage->getSeverity()] ?? 'info';
             $messages[] =
                 'top.TYPO3.Notification.' . $method . '("' . $flashMessage->getTitle() . '", "' . $flashMessage->getMessage() . '", ' . static::$flashMessageDurationInSeconds . ');';
         }

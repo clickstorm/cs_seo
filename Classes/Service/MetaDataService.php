@@ -180,7 +180,7 @@ class MetaDataService
      *
      * @param $tableSettings
      *
-     * @return bool
+     * @return array|null
      */
     protected function getRecord($tableSettings)
     {

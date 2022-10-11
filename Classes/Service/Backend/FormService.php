@@ -147,7 +147,6 @@ class FormService
                 ->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.noEditPermission');
             $editForm .= $this->getInfobox($message, $title);
         } catch (DatabaseRecordException | DatabaseRecordWorkspaceDeletePlaceholderException $e) {
-            $e->getMessage();
             $editForm .= $this->getInfobox($e->getMessage());
         }
 

@@ -161,8 +161,6 @@ class EvaluationService
     protected function getFinalPercentage($results)
     {
         $score = 0;
-        $count = 0;
-
         $state = AbstractEvaluator::STATE_RED;
         foreach ($results as $result) {
             $score += $result['state'];
@@ -170,9 +168,7 @@ class EvaluationService
 
         $total = (count($results) * 2);
 
-        if ($total > 0) {
-            $count = round($score / $total * 100);
-        }
+        $count = $total > 0 ? (int)round($score / $total * 100) : 0;
 
         if ($count === 100) {
             $state = AbstractEvaluator::STATE_GREEN;

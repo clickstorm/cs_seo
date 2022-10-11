@@ -34,7 +34,7 @@ class ModuleFileController extends AbstractModuleController
      */
     protected $modParams = ['action' => '', 'id' => '', 'recursive' => 1];
 
-    /** @var File */
+    /** @var File|null */
     protected $image;
 
     protected $menuSetup = [
@@ -156,7 +156,7 @@ class ModuleFileController extends AbstractModuleController
      */
     public function updateAction(): ResponseInterface
     {
-        $uid = $this->request->hasArgument('uid') ? $this->request->getArgument('uid') : 0;
+        $uid = $this->request->hasArgument('uid') ? (int)$this->request->getArgument('uid') : 0;
         $data = GeneralUtility::_GP('data')['sys_file_metadata'] ?? '';
 
         if ($uid && $data) {

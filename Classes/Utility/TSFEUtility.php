@@ -93,7 +93,7 @@ class TSFEUtility
      * TSFEUtility constructor.
      *
      * @param int $pageUid
-     * @param int $lang
+     * @param array|int $lang
      * @param int $typeNum
      * @throws \TYPO3\CMS\Core\Exception
      */

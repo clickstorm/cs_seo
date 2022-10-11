@@ -48,7 +48,7 @@ abstract class AbstractUrlService
 
     /**
      * @param string $table
-     * @param string $uid
+     * @param int $uid
      *
      * @return int
      */
@@ -76,7 +76,7 @@ abstract class AbstractUrlService
 
     /**
      * @param string $table
-     * @param string $uid
+     * @param int $uid
      *
      * @return array
      */
@@ -201,7 +201,7 @@ abstract class AbstractUrlService
     /**
      * @param string $uid
      *
-     * @return int
+     * @return array
      */
     protected function getCanonicalFromAllLanguagesOfPage($uid)
     {

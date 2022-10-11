@@ -145,11 +145,11 @@ class MetaTagGeneratorHook
         if (is_array($meta[$field])) {
             $params['table'] = $meta[$field]['table'];
             $params['field'] = $meta[$field]['field'];
-            $params['uid'] = $meta[$field]['uid_foreign'];
+            $params['uid'] = (int)$meta[$field]['uid_foreign'];
         } else {
             $params['table'] = MetaDataService::TABLE_NAME_META;
             $params['field'] = 'tx_csseo_' . $field;
-            $params['uid'] = $meta['uid'];
+            $params['uid'] = (int)$meta['uid'];
         }
 
         $image = DatabaseUtility::getFile($params['table'], $params['field'], $params['uid']);

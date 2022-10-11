@@ -45,7 +45,7 @@ class HrefLangService extends AbstractUrlService
             $currentLanguageUid = $context->getAspect('language')->getId();
             $tables = ConfigurationUtility::getTablesToExtend();
             $currentItemConf = $metaDataService::getCurrentTableConfiguration($tables, $cObj);
-            $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], $currentItemConf['uid']);
+            $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], (int)$currentItemConf['uid']);
             unset($typoLinkConf['parameter.']);
             $typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
             if (empty($metaData['no_index']) &&

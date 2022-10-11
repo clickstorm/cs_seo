@@ -271,11 +271,11 @@ class EvaluationCommand extends Command
     protected function saveChanges($results, $uidForeign, $url)
     {
         /**
-         * @var Evaluation $evaluation
+         * @var Evaluation|null $evaluation
          */
         $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($uidForeign, $this->tableName);
 
-        if (!$evaluation) {
+        if (is_null($evaluation)) {
             $evaluation = GeneralUtility::makeInstance(Evaluation::class);
             $evaluation->setUidForeign($uidForeign);
             $evaluation->setTablenames($this->tableName);
