@@ -38,13 +38,13 @@ class ModuleFileController extends AbstractModuleController
     protected $image;
 
     protected $menuSetup = [
-        'showEmptyImageAlt'
+        'showEmptyImageAlt',
     ];
 
     protected $cssFiles = [
         'Icons.css',
         'Lib/select2.css',
-        'ModuleFile.css'
+        'ModuleFile.css',
     ];
 
     protected $storageUid;
@@ -71,14 +71,18 @@ class ModuleFileController extends AbstractModuleController
         $this->requireJsModules = [
             'TYPO3/CMS/Backend/ContextMenu',
             'TYPO3/CMS/Backend/Notification',
-            'TYPO3/CMS/Backend/InfoWindow'
+            'TYPO3/CMS/Backend/InfoWindow',
         ];
 
         if ($this->storageUid) {
             $includeSubfolders = (bool)$this->modParams['recursive'];
 
-            $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders,
-                true);
+            $result = DatabaseUtility::getImageWithEmptyAlt(
+                $this->storageUid,
+                $this->identifier,
+                $includeSubfolders,
+                true
+            );
             $this->numberOfImagesWithoutAlt = array_values($result[0])[0];
 
             // force offset to be smaller than number of all images without alt text
@@ -86,9 +90,13 @@ class ModuleFileController extends AbstractModuleController
                 $this->offset = $this->numberOfImagesWithoutAlt - 1;
             }
 
-            $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders,
+            $result = DatabaseUtility::getImageWithEmptyAlt(
+                $this->storageUid,
+                $this->identifier,
+                $includeSubfolders,
                 true,
-                true);
+                true
+            );
             $numberOfAllImages = array_values($result[0])[0];
 
             if ($numberOfAllImages) {
@@ -98,17 +106,23 @@ class ModuleFileController extends AbstractModuleController
                     'numberOfImagesWithoutAlt' => $this->numberOfImagesWithoutAlt,
                     'indexOfCurrentImage' => $this->offset + 1,
                     'numberOfImagesWithAlt' => $numberOfImagesWithAlt,
-                    'percentOfImages' => $percentOfImages
+                    'percentOfImages' => $percentOfImages,
                 ]);
             }
 
             $this->view->assignMultiple([
                 'numberOfAllImages' => $numberOfAllImages,
-                'identifier' => $this->identifier
+                'identifier' => $this->identifier,
             ]);
 
-            $imageRow = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders,
-                false, false, $this->offset);
+            $imageRow = DatabaseUtility::getImageWithEmptyAlt(
+                $this->storageUid,
+                $this->identifier,
+                $includeSubfolders,
+                false,
+                false,
+                $this->offset
+            );
 
             $configuredColumns = ['alternative'];
             $additionalColumns = ConfigurationUtility::getEmConfiguration()['modFileColumns'] ?: '';
@@ -142,7 +156,7 @@ class ModuleFileController extends AbstractModuleController
                 $this->view->assignMultiple([
                     'offset' => $this->offset,
                     'editForm' => $editForm,
-                    'image' => $files[0]
+                    'image' => $files[0],
                 ]);
             }
         }
@@ -208,10 +222,10 @@ class ModuleFileController extends AbstractModuleController
                 $params = [
                     'edit' => [
                         'sys_file_metadata' => [
-                            $this->image->getOriginalResource()->getProperties()['metadata_uid'] => 'edit'
-                        ]
+                            $this->image->getOriginalResource()->getProperties()['metadata_uid'] => 'edit',
+                        ],
                     ],
-                    'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                    'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                 ];
 
                 $editButton = $buttonBar->makeLinkButton()
@@ -237,9 +251,9 @@ class ModuleFileController extends AbstractModuleController
             $buttonBar->addButton($infoButton, ButtonBar::BUTTON_POSITION_LEFT, 2);
 
             $viewButton = $buttonBar->makeLinkButton()
-                ->setDataAttributes(  [
+                ->setDataAttributes([
                     'dispatch-action' => 'TYPO3.WindowManager.localOpen',
-                    'dispatch-args-list' => $this->image->getOriginalResource()->getPublicUrl()
+                    'dispatch-args-list' => $this->image->getOriginalResource()->getPublicUrl(),
                 ])
                 ->setHref('#')
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.view'))

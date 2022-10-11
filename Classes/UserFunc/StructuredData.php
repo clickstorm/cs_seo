@@ -43,7 +43,6 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class StructuredData
 {
-
     /**
      * @var \Clickstorm\CsSeo\Utility\TSFEUtility $tsfeUtility
      */
@@ -101,7 +100,7 @@ class StructuredData
         $typoLinkConf = [
             'parameter' => $conf['userFunc.']['pid'],
             'forceAbsoluteUrl' => 1,
-            'additionalParams' => '&' . $conf['userFunc.']['searchterm'] . '='
+            'additionalParams' => '&' . $conf['userFunc.']['searchterm'] . '=',
         ];
 
         $siteSearchUrl = $cObject->typoLink_URL($typoLinkConf);
@@ -160,7 +159,7 @@ class StructuredData
         foreach (array_reverse($rootline) as $index => $page) {
             $typoLinkConf = [
                 'parameter' => $page['uid'],
-                'forceAbsoluteUrl' => 1
+                'forceAbsoluteUrl' => 1,
             ];
 
             if ($languageAspect->getId() > 0) {
@@ -193,7 +192,7 @@ class StructuredData
         $structuredBreadcrumb = [
             '@context' => 'http://schema.org',
             '@type' => 'BreadcrumbList',
-            'itemListElement' => $breadcrumbItems
+            'itemListElement' => $breadcrumbItems,
         ];
 
         return $this->wrapWithLd(json_encode($structuredBreadcrumb));

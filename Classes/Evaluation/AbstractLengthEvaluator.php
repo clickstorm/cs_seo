@@ -53,7 +53,7 @@ abstract class AbstractLengthEvaluator extends AbstractEvaluator
 
         return [
             'state' => $state,
-            'count' => $count
+            'count' => $count,
         ];
     }
 }

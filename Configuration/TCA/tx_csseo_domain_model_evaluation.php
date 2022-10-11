@@ -18,7 +18,7 @@ return [
             'endtime' => 'endtime',
         ],
         'searchFields' => 'title,description,',
-        'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/mod.png'
+        'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/mod.png',
     ],
     'types' => [
         '1' => ['showitem' => 'results'],
@@ -49,8 +49,8 @@ return [
                 'checkbox' => 0,
                 'default' => 0,
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'endtime' => [
@@ -64,8 +64,8 @@ return [
                 'checkbox' => 0,
                 'default' => 0,
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'results' => [
@@ -82,13 +82,13 @@ return [
         ],
         'uid_foreign' => [
             'config' => [
-                'type' => 'passthrough'
+                'type' => 'passthrough',
             ],
         ],
         'tablenames' => [
             'config' => [
-                'type' => 'passthrough'
+                'type' => 'passthrough',
             ],
-        ]
+        ],
     ],
 ];

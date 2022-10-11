@@ -31,7 +31,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  ***************************************************************/
 class DescriptionEvaluatorTest extends UnitTestCase
 {
-
     /**
      * @var DescriptionEvaluator
      */
@@ -53,7 +52,7 @@ class DescriptionEvaluatorTest extends UnitTestCase
             $this->getAccessibleMock(DescriptionEvaluator::class, ['dummy'], [new \DOMDocument()]);
         $extConf = [
             'minDescription' => $this->min,
-            'maxDescription' => $this->max
+            'maxDescription' => $this->max,
         ];
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo'] = $extConf;
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils'] = '';
@@ -100,37 +99,37 @@ class DescriptionEvaluatorTest extends UnitTestCase
                 '<html>',
                 [
                     'count' => 0,
-                    'state' => DescriptionEvaluator::STATE_RED
-                ]
+                    'state' => DescriptionEvaluator::STATE_RED,
+                ],
             ],
             'short decription' => [
                 '<meta name="description" content="' . str_repeat('.', $this->min - 1) . '" />',
                 [
                     'count' => $this->min - 1,
                     'state' => DescriptionEvaluator::STATE_YELLOW,
-                ]
+                ],
             ],
             'min good decription' => [
                 '<meta name="description" content="' . str_repeat('.', $this->min) . '" />',
                 [
                     'count' => $this->min,
                     'state' => DescriptionEvaluator::STATE_GREEN,
-                ]
+                ],
             ],
             'max good decription' => [
                 '<meta name="description" content="' . str_repeat('.', $this->max) . '" />',
                 [
                     'count' => $this->max,
                     'state' => DescriptionEvaluator::STATE_GREEN,
-                ]
+                ],
             ],
             'long decription' => [
                 '<meta name="description" content="' . str_repeat('.', $this->max + 1) . '" />',
                 [
                     'count' => $this->max + 1,
                     'state' => DescriptionEvaluator::STATE_YELLOW,
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

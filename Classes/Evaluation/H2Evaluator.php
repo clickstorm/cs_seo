@@ -50,7 +50,7 @@ class H2Evaluator extends AbstractEvaluator
 
         return [
             'count' => $count,
-            'state' => $state
+            'state' => $state,
         ];
     }
 }

@@ -33,13 +33,13 @@ class GridService
      *
      * @var PageRepository
      */
-    protected $pageRepository = null;
+    protected $pageRepository;
     /**
      * evaluationService
      *
      * @var EvaluationService
      */
-    protected $evaluationService = null;
+    protected $evaluationService;
 
     /**
      * Inject a pageRepository
@@ -89,7 +89,7 @@ class GridService
             'Module/app.js',
             'Module/app.js',
             'Module/controllers/CsSeoController.js',
-            'Module/services/previewTitleFactory.js'
+            'Module/services/previewTitleFactory.js',
         ];
     }
 
@@ -98,7 +98,7 @@ class GridService
         return [
             'Lib/ui-grid/ui-grid.min.css',
             'Wizard.css',
-            'Module.css'
+            'Module.css',
         ];
     }
 
@@ -138,7 +138,7 @@ class GridService
             'depth' => $this->modParams['depth'],
             'lang' => $this->modParams['lang'],
             'languages' => $this->languages,
-            'action' => $this->modParams['action']
+            'action' => $this->modParams['action'],
         ];
     }
 

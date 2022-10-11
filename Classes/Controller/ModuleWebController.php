@@ -31,7 +31,7 @@ class ModuleWebController extends AbstractModuleController
      *
      * @var EvaluationService
      */
-    protected $evaluationService = null;
+    protected $evaluationService;
 
     /**
      * @var \TYPO3\CMS\Core\DataHandling\DataHandler
@@ -55,7 +55,7 @@ class ModuleWebController extends AbstractModuleController
         'pageTwitterCards',
         'pageStructuredData',
         'pageResults',
-        'pageEvaluation'
+        'pageEvaluation',
     ];
 
     /**
@@ -143,7 +143,7 @@ class ModuleWebController extends AbstractModuleController
             'twitter_description',
             'tx_csseo_tw_creator',
             'tx_csseo_tw_site',
-            'twitter_image'
+            'twitter_image',
         ]));
     }
 
@@ -164,7 +164,7 @@ class ModuleWebController extends AbstractModuleController
         $evaluationUid = 0;
         $extKey = 'cs_seo';
         $tables = [
-            'pages' => LocalizationUtility::translate($GLOBALS['TCA']['pages']['ctrl']['title'], $extKey)
+            'pages' => LocalizationUtility::translate($GLOBALS['TCA']['pages']['ctrl']['title'], $extKey),
         ];
 
         $tablesToExtend = ConfigurationUtility::getTablesToExtend();
@@ -184,7 +184,7 @@ class ModuleWebController extends AbstractModuleController
         $table = $this->modParams['table'];
         if ($table && $table !== 'pages') {
             $records = DatabaseUtility::getRecords($table, $this->id, true);
-            if($records && $this->modParams['record'] && isset($records[$this->modParams['record']])) {
+            if ($records && $this->modParams['record'] && isset($records[$this->modParams['record']])) {
                 $evaluationUid = $this->modParams['record'];
             }
 
@@ -196,7 +196,7 @@ class ModuleWebController extends AbstractModuleController
                 [
                     'record' => $this->modParams['record'],
                     'records' => $records,
-                    'showRecords' => true
+                    'showRecords' => true,
                 ]
             );
         } else {
@@ -231,7 +231,7 @@ class ModuleWebController extends AbstractModuleController
                 [
                     'lang' => $languageParam,
                     'languages' => $languages,
-                    'langDisplay' => $allLanguages[$langResult]
+                    'langDisplay' => $allLanguages[$langResult],
                 ]
             );
         }
@@ -244,7 +244,7 @@ class ModuleWebController extends AbstractModuleController
                 [
                     'evaluation' => $evaluation,
                     'score' => $score,
-                    'results' => $results
+                    'results' => $results,
                 ]
             );
         }
@@ -257,23 +257,23 @@ class ModuleWebController extends AbstractModuleController
                 'emConf' => $emConf,
                 'page' => $page,
                 'tables' => $tables,
-                'table' => $table
+                'table' => $table,
             ]
         );
 
         $this->requireJsModules = [
-            'TYPO3/CMS/CsSeo/Evaluation'
+            'TYPO3/CMS/CsSeo/Evaluation',
         ];
 
         $this->jsFiles = [
             'jquery.min.js',
-            'select2.js'
+            'select2.js',
         ];
 
         $this->cssFiles = [
             'Icons.css',
             'Lib/select2.css',
-            'Evaluation.css'
+            'Evaluation.css',
         ];
 
         return $this->htmlResponse($this->wrapModuleTemplate());

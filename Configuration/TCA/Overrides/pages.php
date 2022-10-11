@@ -22,8 +22,8 @@ $tempColumns = [
         'exclude' => 1,
         'config' => [
             'type' => 'check',
-            'renderType' => 'checkboxToggle'
-        ]
+            'renderType' => 'checkboxToggle',
+        ],
     ],
     'tx_csseo_keyword' => [
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_keyword',
@@ -42,7 +42,7 @@ $tempColumns = [
             'type' => 'input',
             'max' => '40',
             'eval' => 'trim',
-        ]
+        ],
     ],
     'tx_csseo_tw_site' => [
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_site',
@@ -51,7 +51,7 @@ $tempColumns = [
             'type' => 'input',
             'max' => '40',
             'eval' => 'trim',
-        ]
+        ],
     ],
     'tx_csseo_json_ld' => [
         'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_json_ld',
@@ -60,10 +60,10 @@ $tempColumns = [
             'type' => 'text',
             'renderType' => 'txCsseoJsonLd',
             'behaviour' => [
-                'allowLanguageSynchronization' => true
+                'allowLanguageSynchronization' => true,
             ],
-            'eval' => 'trim,Clickstorm\\CsSeo\\Evaluation\\TCA\\JsonLdEvaluator'
-        ]
+            'eval' => 'trim,Clickstorm\\CsSeo\\Evaluation\\TCA\\JsonLdEvaluator',
+        ],
     ],
 ];
 

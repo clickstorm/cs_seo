@@ -32,7 +32,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  ***************************************************************/
 class ImagesEvaluatorTest extends UnitTestCase
 {
-
     /**
      * @var ImagesEvaluator
      */
@@ -89,8 +88,8 @@ class ImagesEvaluatorTest extends UnitTestCase
                     'altCount' => 0,
                     'countWithoutAlt' => 0,
                     'images' => [],
-                    'state' => AbstractEvaluator::STATE_GREEN
-                ]
+                    'state' => AbstractEvaluator::STATE_GREEN,
+                ],
             ],
             'one image no alt' => [
                 '<img alt="" />',
@@ -99,8 +98,8 @@ class ImagesEvaluatorTest extends UnitTestCase
                     'altCount' => 0,
                     'countWithoutAlt' => 1,
                     'images' => [''],
-                    'state' => AbstractEvaluator::STATE_RED
-                ]
+                    'state' => AbstractEvaluator::STATE_RED,
+                ],
             ],
             'one image with alt' => [
                 '<img alt="Hallo" />',
@@ -109,8 +108,8 @@ class ImagesEvaluatorTest extends UnitTestCase
                     'altCount' => 1,
                     'countWithoutAlt' => 0,
                     'images' => [],
-                    'state' => AbstractEvaluator::STATE_GREEN
-                ]
+                    'state' => AbstractEvaluator::STATE_GREEN,
+                ],
             ],
             'one alt missing' => [
                 '<img alt="" src="myImage.png" /><img alt="Test" />',
@@ -119,8 +118,8 @@ class ImagesEvaluatorTest extends UnitTestCase
                     'altCount' => 1,
                     'countWithoutAlt' => 1,
                     'images' => ['myImage.png'],
-                    'state' => AbstractEvaluator::STATE_YELLOW
-                ]
+                    'state' => AbstractEvaluator::STATE_YELLOW,
+                ],
             ],
             '3 images with alt' => [
                 str_repeat('<img alt="Test" />', 3),
@@ -129,9 +128,9 @@ class ImagesEvaluatorTest extends UnitTestCase
                     'altCount' => 3,
                     'countWithoutAlt' => 0,
                     'images' => [],
-                    'state' => AbstractEvaluator::STATE_GREEN
-                ]
-            ]
+                    'state' => AbstractEvaluator::STATE_GREEN,
+                ],
+            ],
         ];
     }
 }

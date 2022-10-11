@@ -14,7 +14,7 @@ class HrefLangInvalidParamOnTest extends AbstractHrefLangTest
             'cs_seo' => [
                 'useAdditionalCanonicalizedUrlParametersOnly' => false,
             ],
-        ]
+        ],
     ];
 
     protected function setUp(): void
@@ -35,7 +35,7 @@ class HrefLangInvalidParamOnTest extends AbstractHrefLangTest
 
         $typoScriptFiles = [
             $tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
-            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript'
+            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript',
         ];
 
         $sitesNumbers = [1];
@@ -59,15 +59,15 @@ class HrefLangInvalidParamOnTest extends AbstractHrefLangTest
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/hello?foo=bar',
                     '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen?foo=bar',
                     '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/willkommen?foo=bar',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello?foo=bar'
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello?foo=bar',
                 ],
                 [
                     '<link rel="alternate" hreflang="fr-FR"',
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/nl/welkom?foo=bar',
                     '<link rel="alternate" hreflang="" href="http://localhost/nl/welkom?foo=bar',
-                    '<link rel="alternate" href="http://localhost/nl/welkom?foo=bar'
-                ]
-            ]
+                    '<link rel="alternate" href="http://localhost/nl/welkom?foo=bar',
+                ],
+            ],
         ];
     }
 }

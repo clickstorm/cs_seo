@@ -69,7 +69,7 @@ class HrefLangService extends AbstractUrlService
                         $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
                         $hrefLangArray[$language['languageId']] = [
                             'hreflang' => $language['hreflang'],
-                            'href' => $hreflangUrl
+                            'href' => $hreflangUrl,
                         ];
                     }
                 }
@@ -78,7 +78,7 @@ class HrefLangService extends AbstractUrlService
                 // remove hreflangs, if item is set to no_index or has a different canonical
                 $hreflangs = [];
             }
-            // pages record
+        // pages record
         } elseif ($useAdditionalCanonicalizedUrlParametersOnly || ConfigurationUtility::getXdefault() > 0) {
             // remove hreflangs
             $hreflangs = [];
@@ -107,13 +107,12 @@ class HrefLangService extends AbstractUrlService
                 foreach ($languages['languagemenu'] as $language) {
                     if ($this->checkHrefLangForLanguageCanBeSet($language, $languages['languagemenu'])
                         && empty($canonicalsByLanguages[$language['languageId']])) {
-
                         $hreflangTypoLinkConf['language'] = $language['languageId'];
                         $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
 
                         $hrefLangArray[$language['languageId']] = [
                             'hreflang' => $language['hreflang'],
-                            'href' => $hreflangUrl
+                            'href' => $hreflangUrl,
                         ];
                         $hreflangs = $this->finalizeHrefLangs($hrefLangArray);
                     }

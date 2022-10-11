@@ -64,8 +64,8 @@ class CurrentUrlGetDataHook implements ContentObjectGetDataHookInterface
         unset($cHash_array['encryptionKey']);
 
         if (ConfigurationUtility::useAdditionalCanonicalizedUrlParametersOnly()) {
-            if(!is_array($GLOBALS['TYPO3_CONF_VARS']['FE']['additionalCanonicalizedUrlParameters'])){
-                $GLOBALS['TYPO3_CONF_VARS']['FE']['additionalCanonicalizedUrlParameters'] = explode(',',$GLOBALS['TYPO3_CONF_VARS']['FE']['additionalCanonicalizedUrlParameters']);
+            if (!is_array($GLOBALS['TYPO3_CONF_VARS']['FE']['additionalCanonicalizedUrlParameters'])) {
+                $GLOBALS['TYPO3_CONF_VARS']['FE']['additionalCanonicalizedUrlParameters'] = explode(',', $GLOBALS['TYPO3_CONF_VARS']['FE']['additionalCanonicalizedUrlParameters']);
             }
             $canonicalParams = array_flip($GLOBALS['TYPO3_CONF_VARS']['FE']['additionalCanonicalizedUrlParameters']);
             $canonicalParams['id'] = $GET['id'];

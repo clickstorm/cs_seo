@@ -32,7 +32,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TitleEvaluatorTest extends UnitTestCase
 {
-
     /**
      * @var TitleEvaluator
      */
@@ -53,7 +52,7 @@ class TitleEvaluatorTest extends UnitTestCase
         $this->generalEvaluationMock = $this->getAccessibleMock(TitleEvaluator::class, ['dummy'], [new \DOMDocument()]);
         $extConf = [
             'minTitle' => $this->min,
-            'maxTitle' => $this->max
+            'maxTitle' => $this->max,
         ];
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo'] = $extConf;
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils'] = '';
@@ -100,44 +99,44 @@ class TitleEvaluatorTest extends UnitTestCase
                 '<html>',
                 [
                     'count' => 0,
-                    'state' => TitleEvaluator::STATE_RED
-                ]
+                    'state' => TitleEvaluator::STATE_RED,
+                ],
             ],
             'count special chars' => [
                 '<title>ÄÖÜß</title>',
                 [
                     'count' => 4,
                     'state' => TitleEvaluator::STATE_YELLOW,
-                ]
+                ],
             ],
             'short title' => [
                 '<title>' . str_repeat('.', $this->min - 1) . '</title>',
                 [
                     'count' => $this->min - 1,
                     'state' => TitleEvaluator::STATE_YELLOW,
-                ]
+                ],
             ],
             'min good title' => [
                 '<title>' . str_repeat('.', $this->min) . '</title>',
                 [
                     'count' => $this->min,
                     'state' => TitleEvaluator::STATE_GREEN,
-                ]
+                ],
             ],
             'max good title' => [
                 '<title>' . str_repeat('.', $this->max) . '</title>',
                 [
                     'count' => $this->max,
                     'state' => TitleEvaluator::STATE_GREEN,
-                ]
+                ],
             ],
             'long title' => [
                 '<title>' . str_repeat('.', $this->max + 1) . '</title>',
                 [
                     'count' => $this->max + 1,
                     'state' => TitleEvaluator::STATE_YELLOW,
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

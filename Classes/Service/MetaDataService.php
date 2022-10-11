@@ -99,7 +99,7 @@ class MetaDataService
                                     $metaData[$seoField] = [
                                         'field' => $fallbackField,
                                         'table' => $tableSettings['table'],
-                                        'uid_foreign' => $tableSettings['uid']
+                                        'uid_foreign' => $tableSettings['uid'],
                                     ];
                                 }
                             } // check for double slash, if so multiple fallback fields are defined, the first with content will be used
@@ -118,8 +118,11 @@ class MetaDataService
                                 $matchesWithoutCurlyBrackets = $matches[1];
                                 foreach ($matchesWithCurlyBrackets as $key => $matchWithCurlyBracket) {
                                     $recordField = $matchesWithoutCurlyBrackets[$key];
-                                    $curlyBracketSeoField = str_replace($matchWithCurlyBracket, $record[$recordField],
-                                        $curlyBracketSeoField);
+                                    $curlyBracketSeoField = str_replace(
+                                        $matchWithCurlyBracket,
+                                        $record[$recordField],
+                                        $curlyBracketSeoField
+                                    );
                                 }
                                 $metaData[$seoField] = $curlyBracketSeoField;
                             }

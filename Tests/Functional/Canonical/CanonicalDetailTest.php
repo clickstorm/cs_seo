@@ -18,8 +18,8 @@ class CanonicalDetailTest extends AbstractCanonicalTest
             ],
         ],
         'FE' => [
-            'additionalCanonicalizedUrlParameters' => 'category'
-        ]
+            'additionalCanonicalizedUrlParameters' => 'category',
+        ],
     ];
 
     public function generateDataProvider(): array

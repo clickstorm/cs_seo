@@ -47,7 +47,7 @@ class H1Evaluator extends AbstractEvaluator
 
         return [
             'count' => $count,
-            'state' => $state
+            'state' => $state,
         ];
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\EventListener;
 
@@ -46,7 +48,7 @@ class AfterTcaCompilationEventListener
                         'showSynchronizationLink' => true,
                     ],
                 ],
-            ]
+            ],
         ];
 
         $tables = ConfigurationUtility::getTablesToExtend();

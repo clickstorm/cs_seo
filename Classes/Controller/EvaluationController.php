@@ -36,7 +36,6 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  */
 class EvaluationController extends ActionController
 {
-
     /**
      * @var EvaluationRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject

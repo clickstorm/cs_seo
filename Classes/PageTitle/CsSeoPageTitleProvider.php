@@ -39,7 +39,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class CsSeoPageTitleProvider extends AbstractPageTitleProvider
 {
-
     /**
      * @var TSFEUtility
      */

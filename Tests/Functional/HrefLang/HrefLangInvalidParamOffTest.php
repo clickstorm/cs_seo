@@ -14,7 +14,7 @@ class HrefLangInvalidParamOffTest extends AbstractHrefLangTest
             'cs_seo' => [
                 'useAdditionalCanonicalizedUrlParametersOnly' => true,
             ],
-        ]
+        ],
     ];
 
     protected function setUp(): void
@@ -35,7 +35,7 @@ class HrefLangInvalidParamOffTest extends AbstractHrefLangTest
 
         $typoScriptFiles = [
             $tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
-            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript'
+            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript',
         ];
 
         $sitesNumbers = [1];
@@ -59,14 +59,14 @@ class HrefLangInvalidParamOffTest extends AbstractHrefLangTest
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"/>',
                     '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"/>',
                     '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/willkommen"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello"/>'
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello"/>',
                 ],
                 [
                     '<link rel="alternate" hreflang="fr-FR"',
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/nl/welkom?foo=bar"/>',
                     '<link rel="alternate" hreflang="" href="http://localhost/nl/welkom?foo=bar"/>',
-                    '<link rel="alternate" href="http://localhost/nl/welkom?foo=bar"/>'
-                ]
+                    '<link rel="alternate" href="http://localhost/nl/welkom?foo=bar"/>',
+                ],
             ],
             'Keep valid speaking parameter' => [
                 'http://localhost/hello/keep-param/1',
@@ -74,14 +74,14 @@ class HrefLangInvalidParamOffTest extends AbstractHrefLangTest
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/hello/keep-param/1"/>',
                     '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen/keep-param/1"/>',
                     '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/willkommen/keep-param/1"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello/keep-param/1"/>'
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello/keep-param/1"/>',
                 ],
                 [
                     '<link rel="alternate" hreflang="fr-FR"',
                     '<link rel="alternate" hreflang="en-US" href="http://localhost/nl/welkom/keep-param/1"/>',
                     '<link rel="alternate" hreflang="" href="http://localhost/nl/welkom/keep-param/1"/>',
-                    '<link rel="alternate" href="http://localhost/nl/welkom/keep-param/1"/>'
-                ]
+                    '<link rel="alternate" href="http://localhost/nl/welkom/keep-param/1"/>',
+                ],
             ],
         ];
     }

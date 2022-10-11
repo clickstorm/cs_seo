@@ -31,7 +31,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  ***************************************************************/
 class H1EvaluatorTest extends UnitTestCase
 {
-
     /**
      * @var H1Evaluator
      */
@@ -81,22 +80,22 @@ class H1EvaluatorTest extends UnitTestCase
                 '<html>',
                 [
                     'count' => 0,
-                    'state' => H1Evaluator::STATE_RED
-                ]
+                    'state' => H1Evaluator::STATE_RED,
+                ],
             ],
             'one h1' => [
                 '<html><body><h1>Headline One</h1></body></html>',
                 [
                     'count' => 1,
                     'state' => H1Evaluator::STATE_GREEN,
-                ]
+                ],
             ],
             'two h1' => [
                 '<h1>Headline One</h1><h1>Headline Two</h1>',
                 [
                     'state' => H1Evaluator::STATE_RED,
-                    'count' => 2
-                ]
+                    'count' => 2,
+                ],
             ],
         ];
     }

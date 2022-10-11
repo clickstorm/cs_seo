@@ -84,8 +84,8 @@ class JsonLdElement extends AbstractNode
     {
         return [
             'jsonLdElement' => [
-                'TYPO3/CMS/CsSeo/FormEngine/Element/JsonLdElement' => 'function(jsonLdElement){jsonLdElement.initialize()}'
-            ]
+                'TYPO3/CMS/CsSeo/FormEngine/Element/JsonLdElement' => 'function(jsonLdElement){jsonLdElement.initialize()}',
+            ],
         ];
     }
 
@@ -100,7 +100,7 @@ class JsonLdElement extends AbstractNode
     {
         $stylesheetFiles = [];
         $cssFiles = [
-            'JsonLd.css'
+            'JsonLd.css',
         ];
         $baseUrl = 'EXT:cs_seo/Resources/Public/Css/';
         // Load the wizards css
@@ -135,7 +135,7 @@ class JsonLdElement extends AbstractNode
         $wizardView->assignMultiple(
             [
                 'data' => $data,
-                'textElement' => $textElement
+                'textElement' => $textElement,
             ]
         );
 

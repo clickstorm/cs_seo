@@ -115,7 +115,7 @@ class FrontendPageService
             'GET',
             [
                 'headers' => ['X-CS-SEO' => '1'],
-                'http_errors' => false
+                'http_errors' => false,
             ]
         );
 

@@ -14,11 +14,11 @@ $GLOBALS['SiteConfiguration']['site']['columns']['txCsseoXdefault'] = [
         'items' => [
             [
                 0 => 'Default Language',
-                1 => 0
-            ]
+                1 => 0,
+            ],
         ],
         'min' => 1,
-        'max' => 1
+        'max' => 1,
     ],
 ];
 

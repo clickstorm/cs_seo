@@ -90,8 +90,8 @@ class SnippetPreview extends AbstractNode
     {
         return [
             'snippetPreview' => [
-                'TYPO3/CMS/CsSeo/FormEngine/Element/SnippetPreview' => 'function(SnippetPreview){SnippetPreview.initialize()}'
-            ]
+                'TYPO3/CMS/CsSeo/FormEngine/Element/SnippetPreview' => 'function(SnippetPreview){SnippetPreview.initialize()}',
+            ],
         ];
     }
 
@@ -106,7 +106,7 @@ class SnippetPreview extends AbstractNode
     {
         $stylesheetFiles = [];
         $cssFiles = [
-            'Wizard.css'
+            'Wizard.css',
         ];
         $baseUrl = 'EXT:cs_seo/Resources/Public/Css/';
         // Load the wizards css
@@ -147,7 +147,7 @@ class SnippetPreview extends AbstractNode
                 $pageUid = (int)$data['uid'];
                 if (!empty($data['l10n_parent'])) {
                     if (is_array($data['l10n_parent'])) {
-                        if(!empty($data['l10n_parent'][0])) {
+                        if (!empty($data['l10n_parent'][0])) {
                             $pageUid = (int)$data['l10n_parent'][0];
                         }
                     } elseif ((int)$data['l10n_parent'] > 0) {
@@ -244,7 +244,7 @@ class SnippetPreview extends AbstractNode
                             'pageTitle' => $pageTitle,
                             'pageTitleSeparator' => $pageTitleSeparator,
                             'path' => $path,
-                            'siteTitle' => $siteTitle
+                            'siteTitle' => $siteTitle,
                         ]
                     );
                 } else {

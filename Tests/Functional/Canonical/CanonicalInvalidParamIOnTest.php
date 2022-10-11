@@ -16,7 +16,7 @@ class CanonicalInvalidParamIOnTest extends AbstractCanonicalTest
             'cs_seo' => [
                 'useAdditionalCanonicalizedUrlParametersOnly' => false,
             ],
-        ]
+        ],
     ];
 
     public function generateDataProvider(): array

@@ -18,7 +18,7 @@ class CanonicalInvalidParamIOffTest extends AbstractCanonicalTest
             'cs_seo' => [
                 'useAdditionalCanonicalizedUrlParametersOnly' => true,
             ],
-        ]
+        ],
     ];
 
     public function generateDataProvider(): array
@@ -32,7 +32,7 @@ class CanonicalInvalidParamIOffTest extends AbstractCanonicalTest
             'keep valid speaking param' => [
                 'http://localhost/dummy-1-2-5/category/1',
                 '<link rel="canonical" href="http://localhost/dummy-1-2-5/category/1"/>' . chr(10),
-            ]
+            ],
         ];
     }
 }

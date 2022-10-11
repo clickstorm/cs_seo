@@ -45,7 +45,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class EvaluationService
 {
-
     /**
      * @var array
      */
@@ -56,7 +55,7 @@ class EvaluationService
      *
      * @var EvaluationRepository
      */
-    protected $evaluationRepository = null;
+    protected $evaluationRepository;
 
     /**
      * Inject a evaluationRepository
@@ -130,7 +129,7 @@ class EvaluationService
             'Title' => TitleEvaluator::class,
             'Description' => DescriptionEvaluator::class,
             'Keyword' => KeywordEvaluator::class,
-            'Images' => ImagesEvaluator::class
+            'Images' => ImagesEvaluator::class,
         ];
 
         // additional evaluators
@@ -178,7 +177,7 @@ class EvaluationService
 
         return [
             'state' => $state,
-            'count' => $count
+            'count' => $count,
         ];
     }
 

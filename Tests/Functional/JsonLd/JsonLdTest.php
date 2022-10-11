@@ -11,11 +11,11 @@ class JsonLdTest extends AbstractJsonLdTest
         return [
             'page 1: with JSON-LD' => [
                 'http://localhost/',
-                '{"@context": "https://schema.org","@type": "Organization","url": "https://www.json-ld-test.com"}'
+                '{"@context": "https://schema.org","@type": "Organization","url": "https://www.json-ld-test.com"}',
             ],
             'page 2: without JSON-LD' => [
                 'http://localhost/page-without-json-ld',
-                ''
+                '',
             ],
         ];
     }

@@ -34,7 +34,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ImplodeViewHelper extends AbstractViewHelper
 {
-
     /**
      * @return string
      */

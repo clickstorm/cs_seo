@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Clickstorm\CsSeo\Tests\Functional\JsonLd;
 
 use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTest;
-use TYPO3\TestingFramework\Core\Functional\Framework\Frontend\ResponseContent;
 
 /**
  * Abstract Test Class
@@ -55,7 +54,7 @@ abstract class AbstractJsonLdTest extends AbstractFrontendTest
         $xmlFiles = [
             'pages-json-ld',
             'sys_category',
-            'tx_csseo_domain_model_meta'
+            'tx_csseo_domain_model_meta',
         ];
 
         foreach ($xmlFiles as $xmlFile) {
@@ -66,7 +65,7 @@ abstract class AbstractJsonLdTest extends AbstractFrontendTest
 
         $typoScriptFiles = [
             $tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
-            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript'
+            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript',
         ];
 
         $sitesNumbers = [1];

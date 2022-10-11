@@ -32,7 +32,6 @@ namespace Clickstorm\CsSeo\Evaluation;
  */
 interface EvaluationInterface
 {
-
     /**
      * Evaluate the html to a specific function
      *

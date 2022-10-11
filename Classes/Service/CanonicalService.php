@@ -12,7 +12,6 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class CanonicalService extends AbstractUrlService
 {
-
     /**
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
@@ -68,7 +67,7 @@ class CanonicalService extends AbstractUrlService
                 }
                 $canonicalUrl = $cObj->typoLink_URL($canonicalTypoLinkConf);
             }
-            // pages record
+        // pages record
         } elseif ($useAdditionalCanonicalizedUrlParametersOnly &&
             empty($this->typoScriptFrontendController->page['no_index']) &&
             empty($this->typoScriptFrontendController->page['canonical_link']) &&

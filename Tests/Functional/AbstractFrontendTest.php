@@ -6,13 +6,11 @@ namespace Clickstorm\CsSeo\Tests\Functional;
 
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalRequest;
 use TYPO3\TestingFramework\Core\Functional\Framework\Frontend\Response;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
-use PHPUnit\Util\PHP\DefaultPhpProcess;
 
 /**
  * Test case, inspired by typo3/cms-seo extension
@@ -26,17 +24,17 @@ abstract class AbstractFrontendTest extends FunctionalTestCase
     protected $coreExtensionsToLoad = [
         'core',
         'frontend',
-        'seo'
+        'seo',
     ];
 
     protected $testExtensionsToLoad = [
-        'typo3conf/ext/cs_seo'
+        'typo3conf/ext/cs_seo',
     ];
 
     protected $pathsToLinkInTestInstance = [
         'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/Files/1920-1080.png' => 'fileadmin/1920-1080.png',
         'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/Files/1080-1080.png' => 'fileadmin/1080-1080.png',
-        'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/AdditionalConfiguration.php' => 'typo3conf/AdditionalConfiguration.php'
+        'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/AdditionalConfiguration.php' => 'typo3conf/AdditionalConfiguration.php',
     ];
 
     /**
@@ -49,10 +47,9 @@ abstract class AbstractFrontendTest extends FunctionalTestCase
      */
     protected function getFrontendResponseFromUrl($url, $failOnFailure = true, $frontendUserId = 0)
     {
-
         $request = (new InternalRequest())->withUri(new Uri($url));
 
-        if(isset($_SERVER['XDG_SESSION_ID'])) {
+        if (isset($_SERVER['XDG_SESSION_ID'])) {
             $request->withHeader('XDEBUG_SESSION_START', 'PHPSTORM');
         }
 

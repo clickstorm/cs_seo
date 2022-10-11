@@ -65,8 +65,6 @@ final class PageTitle
 
     /**
      * Set the TSFE
-     *
-     * @return void
      */
     protected function initialize(): void
     {

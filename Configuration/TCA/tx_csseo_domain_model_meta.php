@@ -24,7 +24,7 @@ return [
             'endtime' => 'endtime',
         ],
         'searchFields' => 'title,description,',
-        'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/mod.png'
+        'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/mod.png',
     ],
     'types' => [
         '1' => [
@@ -39,17 +39,17 @@ return [
 							    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,
 							    --palette--;;language,
 							    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
-							    hidden,--palette--;;access'
+							    hidden,--palette--;;access',
         ],
     ],
     'palettes' => [
         'access' => [
             'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:starttime_formlabel,
-                            endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:endtime_formlabel'
+                            endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:endtime_formlabel',
         ],
 
         'preview' => [
-            'showitem' => 'title,title_only,--linebreak--,description'
+            'showitem' => 'title,title_only,--linebreak--,description',
         ],
 
         'index' => ['showitem' => 'canonical,no_index,no_follow'],
@@ -57,19 +57,19 @@ return [
         'facebook' => [
             'showitem' => 'og_title, --linebreak--,
 									    og_description, --linebreak--,
-									    og_image'
+									    og_image',
         ],
 
         'language' => [
-            'showitem' => 'sys_language_uid;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:sys_language_uid_formlabel,l18n_parent'
+            'showitem' => 'sys_language_uid;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:sys_language_uid_formlabel,l18n_parent',
         ],
 
         'twitter' => [
             'showitem' => 'tw_title, --linebreak--,
 								    tw_description, --linebreak--,
 								    tw_image, --linebreak--,
-								    tw_creator, tw_site'
-        ]
+								    tw_creator, tw_site',
+        ],
     ],
     'columns' => [
 
@@ -104,7 +104,7 @@ return [
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.hidden',
             'config' => [
                 'type' => 'check',
-                'renderType' => 'checkboxToggle'
+                'renderType' => 'checkboxToggle',
             ],
         ],
         'starttime' => [
@@ -118,8 +118,8 @@ return [
                 'checkbox' => 0,
                 'default' => 0,
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
         'endtime' => [
@@ -133,8 +133,8 @@ return [
                 'checkbox' => 0,
                 'default' => 0,
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
-                ]
+                    'allowLanguageSynchronization' => true,
+                ],
             ],
         ],
 
@@ -145,8 +145,8 @@ return [
                 'type' => 'input',
                 'renderType' => 'snippetPreview',
                 'max' => $extConf['maxTitle'],
-                'eval' => 'trim'
-            ]
+                'eval' => 'trim',
+            ],
         ],
         'description' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:tx_csseo_domain_model_meta.description',
@@ -157,15 +157,15 @@ return [
                 'rows' => 5,
                 'eval' => 'trim',
                 'max' => $extConf['maxDescription'],
-            ]
+            ],
         ],
         'title_only' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_title_only',
             'exclude' => 1,
             'config' => [
                 'type' => 'check',
-                'renderType' => 'checkboxToggle'
-            ]
+                'renderType' => 'checkboxToggle',
+            ],
         ],
         'keyword' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_keyword',
@@ -174,7 +174,7 @@ return [
                 'type' => 'input',
                 'max' => '256',
                 'eval' => 'trim',
-            ]
+            ],
         ],
         'canonical' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_canonical',
@@ -185,24 +185,24 @@ return [
                 'renderType' => 'inputLink',
                 'max' => '256',
                 'eval' => 'trim',
-                'softref' => 'typolink'
-            ]
+                'softref' => 'typolink',
+            ],
         ],
         'no_index' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_no_index',
             'exclude' => 1,
             'config' => [
                 'type' => 'check',
-                'renderType' => 'checkboxToggle'
-            ]
+                'renderType' => 'checkboxToggle',
+            ],
         ],
         'no_follow' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_no_follow',
             'exclude' => 1,
             'config' => [
                 'type' => 'check',
-                'renderType' => 'checkboxToggle'
-            ]
+                'renderType' => 'checkboxToggle',
+            ],
         ],
         'og_title' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_og_title',
@@ -211,7 +211,7 @@ return [
                 'type' => 'input',
                 'max' => '95',
                 'eval' => 'trim',
-            ]
+            ],
         ],
         'og_description' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_og_description',
@@ -222,7 +222,7 @@ return [
                 'rows' => 5,
                 'eval' => 'trim',
                 'max' => '300',
-            ]
+            ],
         ],
         'og_image' => [
             'exclude' => 1,
@@ -231,43 +231,43 @@ return [
                 'tx_csseo_og_image',
                 [
                     'appearance' => [
-                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
+                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                     ],
                     'overrideChildTca' => [
                         'types' => [
                             '0' => [
                                 'showitem' => '
                                 --palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                             ],
                             \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => [
                                 'showitem' => '
                                 --palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                             ],
                             \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
                                 'showitem' => '
                                 --palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                             ],
                             \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => [
                                 'showitem' => '
                                 --palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.audioOverlayPalette;audioOverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                             ],
                             \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => [
                                 'showitem' => '
                                 --palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.videoOverlayPalette;videoOverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                             ],
                             \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
                                 'showitem' => '
                                 --palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette'
-                            ]
+                                --palette--;;filePalette',
+                            ],
                         ],
                     ],
-                    'maxitems' => 1
+                    'maxitems' => 1,
                 ],
                 $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
             ),
@@ -279,7 +279,7 @@ return [
                 'type' => 'input',
                 'max' => '70',
                 'eval' => 'trim',
-            ]
+            ],
         ],
         'tw_description' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_description',
@@ -290,7 +290,7 @@ return [
                 'rows' => 5,
                 'eval' => 'trim',
                 'max' => '200',
-            ]
+            ],
         ],
         'tw_image' => [
             'exclude' => 1,
@@ -299,43 +299,43 @@ return [
                 'tx_csseo_tw_image',
                 [
                     'appearance' => [
-                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference'
+                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                     ],
                     'overrideChildTca' => [
                         'types' => [
                             '0' => [
                                 'showitem' => '
                                 --palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                             ],
                             \TYPO3\CMS\Core\Resource\File::FILETYPE_TEXT => [
                                 'showitem' => '
                                 --palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                             ],
                             \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
                                 'showitem' => '
                                 --palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                             ],
                             \TYPO3\CMS\Core\Resource\File::FILETYPE_AUDIO => [
                                 'showitem' => '
                                 --palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.audioOverlayPalette;audioOverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                             ],
                             \TYPO3\CMS\Core\Resource\File::FILETYPE_VIDEO => [
                                 'showitem' => '
                                 --palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.videoOverlayPalette;videoOverlayPalette,
-                                --palette--;;filePalette'
+                                --palette--;;filePalette',
                             ],
                             \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
                                 'showitem' => '
                                 --palette--;LLL:EXT:core/Resources/Private/Language/locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette'
-                            ]
+                                --palette--;;filePalette',
+                            ],
                         ],
                     ],
-                    'maxitems' => 1
+                    'maxitems' => 1,
                 ],
                 $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
             ),
@@ -347,7 +347,7 @@ return [
                 'type' => 'input',
                 'max' => '40',
                 'eval' => 'trim',
-            ]
+            ],
         ],
         'tw_site' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_site',
@@ -356,7 +356,7 @@ return [
                 'type' => 'input',
                 'max' => '40',
                 'eval' => 'trim',
-            ]
+            ],
         ],
         'json_ld' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_json_ld',
@@ -365,20 +365,20 @@ return [
                 'type' => 'text',
                 'renderType' => 'txCsseoJsonLd',
                 'behaviour' => [
-                    'allowLanguageSynchronization' => true
+                    'allowLanguageSynchronization' => true,
                 ],
-                'eval' => 'trim,Clickstorm\\CsSeo\\Evaluation\\TCA\\JsonLdEvaluator'
-            ]
+                'eval' => 'trim,Clickstorm\\CsSeo\\Evaluation\\TCA\\JsonLdEvaluator',
+            ],
         ],
         'uid_foreign' => [
             'config' => [
-                'type' => 'passthrough'
+                'type' => 'passthrough',
             ],
         ],
         'tablenames' => [
             'config' => [
-                'type' => 'passthrough'
+                'type' => 'passthrough',
             ],
-        ]
+        ],
     ],
 ];

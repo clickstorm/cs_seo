@@ -73,7 +73,7 @@ class ImagesEvaluator extends AbstractEvaluator
             'altCount' => $altCount,
             'countWithoutAlt' => $count - $altCount,
             'state' => $state,
-            'images' => $imagesWithoutAlt
+            'images' => $imagesWithoutAlt,
         ];
     }
 }

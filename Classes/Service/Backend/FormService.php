@@ -40,7 +40,6 @@ class FormService
      * Render an editform for specific table, see
      * @return string HTML form elements wrapped in tables
      * @see \TYPO3\CMS\Backend\Controller\EditDocumentController
-     *
      */
     public function makeEditForm(string $table, int $theUid, string $columns): string
     {
@@ -110,7 +109,7 @@ class FormService
                 'uid' => $formData['databaseRow']['uid'],
                 'pid' => $formData['databaseRow']['pid'],
                 'cmd' => $command,
-                'deleteAccess' => $deleteAccess
+                'deleteAccess' => $deleteAccess,
             ];
 
             if ($command !== 'new') {

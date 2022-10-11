@@ -11,10 +11,10 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Core\Page\PageRenderer;
 
 /**
  * Class ModuleController
@@ -78,7 +78,7 @@ abstract class AbstractModuleController extends ActionController
         // initialize settings of the module
         $this->initializeModParams();
 
-        if($this->id === 0) {
+        if ($this->id === 0) {
             $this->id = $this->modParams['id'];
         }
 
@@ -226,7 +226,7 @@ abstract class AbstractModuleController extends ActionController
             AbstractMessage::ERROR => 'error',
             AbstractMessage::INFO => 'info',
             AbstractMessage::NOTICE => 'notice',
-            AbstractMessage::WARNING => 'waring'
+            AbstractMessage::WARNING => 'waring',
         ];
 
         foreach ($messageQueue->getAllMessages() as $flashMessage) {

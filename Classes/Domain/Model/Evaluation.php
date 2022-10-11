@@ -34,7 +34,6 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 class Evaluation extends AbstractEntity
 {
-
     protected string $results = '';
 
     protected string $url = '';

@@ -21,7 +21,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class PageHook
 {
-
     /**
      * @var mixed|object
      */
@@ -116,8 +115,10 @@ class PageHook
                     [
                         'score' => $score,
                         'results' => $results,
-                        'page' => BackendUtility::readPageAccess($this->currentPageUid,
-                            $GLOBALS['BE_USER']->getPagePermsClause(Permission::PAGE_SHOW))
+                        'page' => BackendUtility::readPageAccess(
+                            $this->currentPageUid,
+                            $GLOBALS['BE_USER']->getPagePermsClause(Permission::PAGE_SHOW)
+                        ),
                     ]
                 );
 
@@ -135,8 +136,11 @@ class PageHook
         $this->currentPageUid = $pageLayoutController->id;
 
         if ($this->currentSysLanguageUid) {
-            $localizedPageInfo = BackendUtility::getRecordLocalization('pages', $this->currentPageUid,
-                $this->currentSysLanguageUid);
+            $localizedPageInfo = BackendUtility::getRecordLocalization(
+                'pages',
+                $this->currentPageUid,
+                $this->currentSysLanguageUid
+            );
             if ($localizedPageInfo[0]) {
                 $this->currentPageUid = $localizedPageInfo[0]['uid'];
                 $this->pageInfo = $localizedPageInfo[0];
@@ -165,7 +169,7 @@ class PageHook
         $compress = false;
         $cssFiles = [
             'Icons.css',
-            'Evaluation.css'
+            'Evaluation.css',
         ];
 
         $baseUrl = $this->resourcesPath . 'Public/Css/';

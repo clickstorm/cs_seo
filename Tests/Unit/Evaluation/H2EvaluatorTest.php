@@ -31,7 +31,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  ***************************************************************/
 class H2EvaluatorTest extends UnitTestCase
 {
-
     /**
      * @var H2Evaluator
      */
@@ -46,7 +45,7 @@ class H2EvaluatorTest extends UnitTestCase
     {
         $this->generalEvaluationMock = $this->getAccessibleMock(H2Evaluator::class, ['dummy'], [new \DOMDocument()]);
         $extConf = [
-            'maxH2' => $this->max
+            'maxH2' => $this->max,
         ];
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo'] = $extConf;
     }
@@ -91,36 +90,36 @@ class H2EvaluatorTest extends UnitTestCase
                 '<html>',
                 [
                     'count' => 0,
-                    'state' => H2Evaluator::STATE_RED
-                ]
+                    'state' => H2Evaluator::STATE_RED,
+                ],
             ],
             'one h2' => [
                 '<html><body><h2>Headline One</h2></body></html>',
                 [
                     'count' => 1,
                     'state' => H2Evaluator::STATE_GREEN,
-                ]
+                ],
             ],
             'two h2' => [
                 '<h2>Headline One</h2><h2>Headline Two</h2>',
                 [
                     'state' => H2Evaluator::STATE_GREEN,
-                    'count' => 2
-                ]
+                    'count' => 2,
+                ],
             ],
             'six h2' => [
                 str_repeat('<h2>Headline</h2>', $this->max),
                 [
                     'state' => H2Evaluator::STATE_GREEN,
-                    'count' => $this->max
-                ]
+                    'count' => $this->max,
+                ],
             ],
             'seven h2' => [
                 str_repeat('<h2>Headline</h2>', $this->max + 1),
                 [
                     'state' => H2Evaluator::STATE_YELLOW,
-                    'count' => $this->max + 1
-                ]
+                    'count' => $this->max + 1,
+                ],
             ],
         ];
     }

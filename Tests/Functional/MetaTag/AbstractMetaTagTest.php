@@ -74,7 +74,7 @@ abstract class AbstractMetaTagTest extends AbstractFrontendTest
             'tx_csseo_domain_model_meta',
             'sys_file',
             'sys_file_metadata',
-            'sys_file_reference'
+            'sys_file_reference',
         ];
 
         foreach ($xmlFiles as $xmlFile) {
@@ -85,7 +85,7 @@ abstract class AbstractMetaTagTest extends AbstractFrontendTest
 
         $typoScriptFiles = [
             $tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
-            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript'
+            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript',
         ];
 
         $sitesNumbers = [1];

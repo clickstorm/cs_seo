@@ -18,7 +18,7 @@ abstract class AbstractCanonicalTest extends AbstractFrontendTest
             'cs_seo' => [
                 'useAdditionalCanonicalizedUrlParametersOnly' => true,
             ],
-        ]
+        ],
     ];
 
     public function generateDataProvider(): array
@@ -59,7 +59,7 @@ abstract class AbstractCanonicalTest extends AbstractFrontendTest
         $xmlFiles = [
             'pages-canonical',
             'sys_category',
-            'tx_csseo_domain_model_meta'
+            'tx_csseo_domain_model_meta',
         ];
 
         foreach ($xmlFiles as $xmlFile) {
@@ -70,7 +70,7 @@ abstract class AbstractCanonicalTest extends AbstractFrontendTest
 
         $typoScriptFiles = [
             $tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
-            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript'
+            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript',
         ];
 
         $sitesNumbers = [1, 100, 200];

@@ -16,12 +16,12 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'typo3' => '11.2.0-11.5.99',
-            'seo' => '11.2.0-11.5.99'
-        ]
+            'seo' => '11.2.0-11.5.99',
+        ],
     ],
     'autoload' => [
         'psr-4' => [
-            'Clickstorm\\CsSeo\\' => 'Classes'
-        ]
+            'Clickstorm\\CsSeo\\' => 'Classes',
+        ],
     ],
 ];

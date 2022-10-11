@@ -17,7 +17,9 @@
 		"typo3/cms-seo": "^11.2"
 	},
 	"require-dev": {
-		"typo3/testing-framework": "*"
+		"typo3/testing-framework": "*",
+		"phpstan/phpstan": "*",
+		"typo3/coding-standards": "*"
 	},
 	"replace": {
 		"typo3-ter/cs-seo": "self.version",

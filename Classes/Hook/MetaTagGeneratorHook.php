@@ -85,8 +85,11 @@ class MetaTagGeneratorHook
             'og:image' => ['value' => $ogImageUrl],
             'og:type' => ['value' => $pluginSettings['social.']['openGraph.']['type']],
             'og:locale' => [
-                'value' => !empty($GLOBALS['TSFE']->config['config']['locale_all']) ? strstr($GLOBALS['TSFE']->config['config']['locale_all'],
-                    '.', true) : null
+                'value' => !empty($GLOBALS['TSFE']->config['config']['locale_all']) ? strstr(
+                    $GLOBALS['TSFE']->config['config']['locale_all'],
+                    '.',
+                    true
+                ) : null,
             ],
             'twitter:title' => ['value' => $metaData['tw_title'] ?? null],
             'twitter:description' => ['value' => $metaData['tw_description'] ?? null],
@@ -171,13 +174,13 @@ class MetaTagGeneratorHook
             'file' => $originalFile,
             'file.' => [
                 'height' => $imageSize['height'],
-                'width' => $imageSize['width']
-            ]
+                'width' => $imageSize['width'],
+            ],
         ];
         $imgUri = $this->cObj->cObjGetSingle('IMG_RESOURCE', $conf);
         $conf = [
             'parameter' => $imgUri,
-            'forceAbsoluteUrl' => 1
+            'forceAbsoluteUrl' => 1,
         ];
 
         return $this->cObj->typoLink_URL($conf);

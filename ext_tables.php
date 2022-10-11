@@ -30,7 +30,7 @@ defined('TYPO3') || die();
         '',
         [
             \Clickstorm\CsSeo\Controller\ModuleWebController::class =>
-                'pageMeta, pageIndex, pageOpenGraph, pageTwitterCards, pageStructuredData, pageResults, pageEvaluation'
+                'pageMeta, pageIndex, pageOpenGraph, pageTwitterCards, pageStructuredData, pageResults, pageEvaluation',
         ],
         [
             'access' => 'user,group',
@@ -45,7 +45,7 @@ defined('TYPO3') || die();
         'mod_file',
         'bottom',
         [
-            \Clickstorm\CsSeo\Controller\ModuleFileController::class => 'showEmptyImageAlt,update'
+            \Clickstorm\CsSeo\Controller\ModuleFileController::class => 'showEmptyImageAlt,update',
         ],
         [
             'access' => 'user,group',

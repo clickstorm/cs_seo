@@ -39,7 +39,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ConfigurationUtility
 {
-
     /**
      * return the table names to extend
      *

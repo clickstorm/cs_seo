@@ -43,7 +43,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DatabaseUtility
 {
-
     /**
      * @param $table
      *
@@ -155,8 +154,10 @@ class DatabaseUtility
             ->getQueryBuilderForTable($tableName);
 
         if (!empty($includeSubfolders)) {
-            $folderExpression = $queryBuilder->expr()->like('file.identifier',
-                $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR));
+            $folderExpression = $queryBuilder->expr()->like(
+                'file.identifier',
+                $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR)
+            );
         } else {
             $folderExpression = $queryBuilder->expr()->like(
                 'file.identifier',
@@ -208,11 +209,10 @@ class DatabaseUtility
             );
         }
 
-
         if ($countAll) {
             $queryBuilder->count('file.uid');
         } else {
-            if($offset > 0) {
+            if ($offset > 0) {
                 $queryBuilder->setFirstResult($offset);
             }
             $queryBuilder->setMaxResults(1);

@@ -29,6 +29,7 @@ use Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\TypoScriptAspect;
 use TYPO3\CMS\Core\Http\ApplicationType;
@@ -42,7 +43,6 @@ use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 
@@ -53,7 +53,6 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
  */
 class TSFEUtility
 {
-
     /**
      * @var int
      */
@@ -181,7 +180,7 @@ class TSFEUtility
         $parameter = [
             'parameter' => $this->pageUid,
             'additionalParams' => '&L=' . (int)$this->lang,
-            'forceAbsoluteUrl' => 1
+            'forceAbsoluteUrl' => 1,
         ];
 
         return $GLOBALS['TSFE']->cObj->typoLink_URL($parameter);

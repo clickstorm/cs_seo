@@ -40,7 +40,7 @@ class CanonicalCoreTest extends AbstractCanonicalTest
             ],
             'uid: 10 no index' => [
                 'http://localhost/dummy-1-2-10',
-                ''
+                '',
             ],
             'uid: 11 with mount_pid_ol = 0' => [
                 'http://localhost/dummy-1-2-11',
@@ -60,8 +60,8 @@ class CanonicalCoreTest extends AbstractCanonicalTest
             ],
             'uid: 14 typoscript setting config.disableCanonical' => [
                 'http://localhost/no-canonical',
-                ''
-            ]
+                '',
+            ],
         ];
     }
 }
