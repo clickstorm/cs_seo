@@ -204,10 +204,9 @@ class TSFEUtility
     }
 
     /**
+     * @param string $title
+     * @param bool $titleOnly
      * @return string
-     * @var bool $title
-     *
-     * @var string $title
      */
     public function getFinalTitle($title, $titleOnly = false)
     {

@@ -20,7 +20,7 @@ abstract class AbstractMetaTagTest extends AbstractFrontendTest
 
     /**
      * @param string $url
-     * @param string $expectedCanonicalUrl
+     * @param array $expectedMetaTags
      *
      * @test
      * @dataProvider ensureMetaDataAreCorrectDataProvider

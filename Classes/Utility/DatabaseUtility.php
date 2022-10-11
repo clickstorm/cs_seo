@@ -137,9 +137,7 @@ class DatabaseUtility
             $uid
         );
 
-        if ($fileObjects[0]) {
-            return $fileObjects[0]->getOriginalFile();
-        }
+        return isset($fileObjects[0]) ? $fileObjects[0]->getOriginalFile() : null;
     }
 
     public static function getImageWithEmptyAlt(

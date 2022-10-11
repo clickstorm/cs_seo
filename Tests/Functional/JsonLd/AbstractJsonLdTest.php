@@ -23,7 +23,7 @@ abstract class AbstractJsonLdTest extends AbstractFrontendTest
 
     /**
      * @param string $url
-     * @param string $expectedCanonicalUrl
+     * @param string $expectedJsonLd
      *
      * @test
      * @dataProvider ensureMetaDataAreCorrectDataProvider

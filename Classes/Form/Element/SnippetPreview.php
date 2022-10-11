@@ -162,7 +162,7 @@ class SnippetPreview extends AbstractNode
             $_GET['id'] = $pageUid;
 
             // check if TS page type exists
-            /** @var BackendConfigurationManager $configurationManager */
+            /** @var BackendConfigurationManager $backendConfigurationManager */
             $backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
             $fullTS = $backendConfigurationManager->getTypoScriptSetup();
 

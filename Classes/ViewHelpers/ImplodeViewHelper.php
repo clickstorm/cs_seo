@@ -36,9 +36,6 @@ class ImplodeViewHelper extends AbstractViewHelper
 {
 
     /**
-     * @param string $glue
-     * @param array $pieces
-     *
      * @return string
      */
     public function render()

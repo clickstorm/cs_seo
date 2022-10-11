@@ -90,7 +90,6 @@ class HrefLangService extends AbstractUrlService
                 $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
                 $languages = $languageMenu->process($cObj, [], [], []);
 
-                /** @var Site $site */
                 $siteLanguages = $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getLanguages();
 
                 // prepare typolink conf for dynamic hreflang

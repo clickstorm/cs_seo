@@ -32,6 +32,8 @@ use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Service\FrontendPageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use PDO;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,10 +41,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Messaging\FlashMessageQueue;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 class EvaluationCommand extends Command
@@ -63,7 +69,7 @@ class EvaluationCommand extends Command
     protected $frontendPageService;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+     * @var PersistenceManager
      */
     protected $persistenceManager;
     /**
@@ -89,11 +95,11 @@ class EvaluationCommand extends Command
     /**
      * make the ajax update
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param ServerRequestInterface $request
      *
-     * @return \Psr\Http\Message\ResponseInterface
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     * @return ResponseInterface
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     public function ajaxUpdate(ServerRequestInterface $request)
     {
@@ -115,9 +121,8 @@ class EvaluationCommand extends Command
         }
         $this->processResults($uid);
 
-        /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+        /** @var FlashMessageService $flashMessageService  */
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-        /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
         $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
 
         return new HtmlResponse($flashMessageQueue->renderFlashMessages());
@@ -134,8 +139,8 @@ class EvaluationCommand extends Command
     /**
      * @param int $uid
      * @param bool $localized
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     protected function processResults($uid = 0, $localized = false)
     {
@@ -180,12 +185,12 @@ class EvaluationCommand extends Command
             if ($localized && $tcaCtrl['transOrigPointerField']) {
                 $queryBuilder->andWhere($queryBuilder->expr()->eq(
                     $tcaCtrl['transOrigPointerField'],
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, PDO::PARAM_INT)
                 ));
             } else {
                 $queryBuilder->andWhere($queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, PDO::PARAM_INT)
                 ));
             }
         }
@@ -198,9 +203,9 @@ class EvaluationCommand extends Command
 
     /**
      * @param $items
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
-     * @throws \TYPO3\CMS\Core\Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     * @throws Exception
      */
     protected function updateResults($items)
     {
@@ -238,7 +243,7 @@ class EvaluationCommand extends Command
                 ->where(
                     $queryBuilder->expr()->eq(
                         'uid_foreign',
-                        $queryBuilder->createNamedParameter($record['uid'], \PDO::PARAM_INT)
+                        $queryBuilder->createNamedParameter($record['uid'], PDO::PARAM_INT)
                     ),
                     $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($this->tableName))
                 )
@@ -260,8 +265,8 @@ class EvaluationCommand extends Command
      * @param array $results
      * @param int $uidForeign
      * @param string $url
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     protected function saveChanges($results, $uidForeign, $url)
     {
@@ -314,10 +319,11 @@ class EvaluationCommand extends Command
     }
 
     /**
-     * @param int $uid
-     * @param string $tableName
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

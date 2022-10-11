@@ -19,9 +19,8 @@ abstract class AbstractEvaluator
             '',
             FlashMessage::WARNING
         );
-        /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+        /** @var FlashMessageService $flashMessageService  */
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-        /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
         $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
         $defaultFlashMessageQueue->enqueue($flashMessage);
     }

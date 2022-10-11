@@ -31,9 +31,11 @@ use Clickstorm\CsSeo\Event\ModifyEvaluationPidEvent;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Routing\UnableToLinkToPageException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -62,8 +64,8 @@ class FrontendPageService
      * @param array $pageInfo
      * @param string $tableName
      * @return array
-     * @throws \TYPO3\CMS\Core\Exception
-     * @throws \TYPO3\CMS\Core\Routing\UnableToLinkToPageException
+     * @throws Exception
+     * @throws UnableToLinkToPageException
      */
     public function getFrontendPage(array $pageInfo, string $tableName = 'pages')
     {
@@ -120,7 +122,7 @@ class FrontendPageService
         if (in_array($response->getStatusCode(), [0, 200])) {
             $result['content'] = $response->getBody()->getContents();
         } else {
-            /** @var \TYPO3\CMS\Core\Messaging\FlashMessage $flashMessage */
+            /** @var FlashMessage $flashMessage */
             $flashMessage = GeneralUtility::makeInstance(
                 FlashMessage::class,
                 $response->getReasonPhrase(),
@@ -128,9 +130,8 @@ class FrontendPageService
                 FlashMessage::ERROR
             );
 
-            /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+            /** @var FlashMessageService $flashMessageService */
             $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-            /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
             $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
             $flashMessageQueue->enqueue($flashMessage);
         }

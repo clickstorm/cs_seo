@@ -45,12 +45,6 @@ class CsSeoPageTitleProvider extends AbstractPageTitleProvider
      */
     protected $TSFE;
 
-    /**
-     * @param string $oldTitle
-     * @param array $content
-     *
-     * @return string
-     */
     public function __construct()
     {
         // initalize TSFE

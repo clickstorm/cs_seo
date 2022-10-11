@@ -145,8 +145,6 @@ class PageHook
     }
 
     /**
-     * @param array $page
-     *
      * @return bool
      */
     public function pageCanBeIndexed()

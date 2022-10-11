@@ -36,9 +36,6 @@ class GetValueViewHelper extends AbstractViewHelper
 {
 
     /**
-     * @param array $array
-     * @param string $key
-     *
      * @return mixed
      */
     public function render()

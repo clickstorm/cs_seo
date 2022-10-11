@@ -15,10 +15,12 @@ use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\File;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 class ModuleFileController extends AbstractModuleController
@@ -148,14 +150,18 @@ class ModuleFileController extends AbstractModuleController
         return $this->htmlResponse($this->wrapModuleTemplate());
     }
 
+    /**
+     * @throws FileDoesNotExistException
+     * @throws NoSuchArgumentException
+     */
     public function updateAction(): ResponseInterface
     {
         $uid = $this->request->hasArgument('uid') ? $this->request->getArgument('uid') : 0;
         $data = GeneralUtility::_GP('data')['sys_file_metadata'] ?? '';
 
         if ($uid && $data) {
+            /** @var ResourceFactory $resourceFactory */
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-            /** @var \TYPO3\CMS\Core\Utility\GeneralUtility\File $file */
             $file = $resourceFactory->getFileObject($uid);
 
             $file->getMetaData()->add(array_values($data)[0])->save();
