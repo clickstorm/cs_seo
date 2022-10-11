@@ -16,7 +16,7 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 	});
 
 	// lang
-	if(csSEO.gridOptions.i18n.length > 0 && csSEO.gridOptions.i18n != 'default') {
+	if(csSEO.gridOptions.i18n.length > 0 && csSEO.gridOptions.i18n !== 'default') {
 		i18nService.setCurrentLang(csSEO.gridOptions.i18n);
 	}
 

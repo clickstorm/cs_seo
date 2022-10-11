@@ -309,7 +309,7 @@ class GridService
 				expandAll: true,
 				enableFiltering: true,
 				doktypes: ' . $doktypes . ',
-				i18n: \'' . $this->modParams['lang'] . '\',
+				i18n: \'' . GlobalsUtility::getBackendUser()->uc['lang'] . '\',
 				cellEditableCondition: function($scope) {
 					return (' . $doktypes . '.indexOf(parseInt($scope.row.entity.doktype)) > -1)
 				}
