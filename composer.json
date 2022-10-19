@@ -13,8 +13,8 @@
 		"GPL-2.0-or-later"
 	],
 	"require": {
-		"typo3/cms-core": "^11.2",
-		"typo3/cms-seo": "^11.2"
+		"typo3/cms-core": "^11.2 || ^12",
+		"typo3/cms-seo": "^11.2 || ^12"
 	},
 	"require-dev": {
 		"typo3/testing-framework": "*",
