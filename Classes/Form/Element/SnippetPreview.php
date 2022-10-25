@@ -26,7 +26,7 @@ namespace Clickstorm\CsSeo\Form\Element;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+use TYPO3\CMS\Core\Localization\LanguageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Form\AbstractNode;
@@ -211,14 +211,10 @@ class SnippetPreview extends AbstractNode
                                 ->removeAll();
 
                             $res = $queryBuilder->select('*')
-                                ->from($data['tablenames'])
-                                ->where(
-                                    $queryBuilder->expr()->eq(
-                                        'uid',
-                                        $queryBuilder->createNamedParameter($data['uid_foreign'], \PDO::PARAM_INT)
-                                    )
-                                )
-                                ->execute()->fetchAll();
+                                ->from($data['tablenames'])->where($queryBuilder->expr()->eq(
+                                'uid',
+                                $queryBuilder->createNamedParameter($data['uid_foreign'], \PDO::PARAM_INT)
+                            ))->executeQuery()->fetchAll();
 
                             $row = $res[0];
 
@@ -276,7 +272,7 @@ class SnippetPreview extends AbstractNode
     /**
      * Returns an instance of LanguageService
      *
-     * @return \TYPO3\CMS\Core\Localization\LanguageService
+     * @return LanguageService
      */
     protected function getLanguageService()
     {

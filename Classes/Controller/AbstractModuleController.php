@@ -2,6 +2,8 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
@@ -62,12 +64,17 @@ abstract class AbstractModuleController extends ActionController
      * @var array
      */
     protected $requireJsModules = [];
+    private PageRenderer $pageRenderer;
+    public function __construct(PageRenderer $pageRenderer)
+    {
+        $this->pageRenderer = $pageRenderer;
+    }
 
     /**
      * Initialize action
      *
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws InvalidArgumentNameException
+     * @throws NoSuchArgumentException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
     protected function initializeAction()
@@ -97,7 +104,7 @@ abstract class AbstractModuleController extends ActionController
     /**
      * initialize the settings for the current view
      *
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     * @throws NoSuchArgumentException
      */
     protected function initializeModParams()
     {
@@ -122,7 +129,7 @@ abstract class AbstractModuleController extends ActionController
     }
 
     /**
-     * @return \TYPO3\CMS\Core\DataHandling\DataHandler
+     * @return DataHandler
      */
     protected function getDataHandler()
     {
@@ -141,21 +148,21 @@ abstract class AbstractModuleController extends ActionController
         $moduleTemplate->setContent($this->view->render());
 
         foreach ($this->jsFiles as $jsFile) {
-            $moduleTemplate->getPageRenderer()->addJsFile('EXT:cs_seo/Resources/Public/JavaScript/' . $jsFile);
+            $this->pageRenderer->addJsFile('EXT:cs_seo/Resources/Public/JavaScript/' . $jsFile);
         }
 
         foreach ($this->requireJsModules as $requireJsModule) {
-            $moduleTemplate->getPageRenderer()->loadRequireJsModule($requireJsModule);
+            $this->pageRenderer->loadRequireJsModule($requireJsModule);
         }
 
         foreach ($this->cssFiles as $cssFile) {
-            $moduleTemplate->getPageRenderer()->addCssFile('EXT:cs_seo/Resources/Public/Css/' . $cssFile);
+            $this->pageRenderer->addCssFile('EXT:cs_seo/Resources/Public/Css/' . $cssFile);
         }
 
         $this->jsInlineCode .= $this->renderFlashMessages();
 
         if ($this->jsInlineCode !== '' && $this->jsInlineCode !== '0') {
-            $moduleTemplate->getPageRenderer()->addJsInlineCode('csseo-inline', $this->jsInlineCode);
+            $this->pageRenderer->addJsInlineCode('csseo-inline', $this->jsInlineCode);
         }
 
         // Shortcut in doc header
@@ -190,7 +197,7 @@ abstract class AbstractModuleController extends ActionController
         $menu->setIdentifier('action');
         foreach ($this->menuSetup as $menuKey) {
             $menuItem = $menu->makeMenuItem();
-            /** @var \TYPO3\CMS\Backend\Routing\UriBuilder $uriBuilder */
+            /** @var UriBuilder $uriBuilder */
             $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
             $menuItem->setHref((string)$uriBuilder->buildUriFromRoute(
                 static::$mod_name,

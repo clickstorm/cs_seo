@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use Clickstorm\CsSeo\Service\Backend\FormService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
@@ -189,7 +190,7 @@ class ModuleFileController extends AbstractModuleController
                     GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.header'
                     ),
-                    FlashMessage::OK, // [optional] the severity defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    AbstractMessage::OK, // [optional] the severity defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                     false // [optional] whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is false)
                 );
             } else {
@@ -201,7 +202,7 @@ class ModuleFileController extends AbstractModuleController
                     GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.error.header'
                     ),
-                    FlashMessage::ERROR
+                    AbstractMessage::ERROR
                 );
             }
 

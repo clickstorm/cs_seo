@@ -58,14 +58,10 @@ abstract class AbstractUrlService
             /** @var QueryBuilder $queryBuilder */
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
             $items = $queryBuilder->select($GLOBALS['TCA'][$table]['ctrl']['languageField'])
-                ->from($table)
-                ->where(
-                    $queryBuilder->expr()->eq(
-                        'uid',
-                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-                    )
-                )
-                ->execute()
+                ->from($table)->where($queryBuilder->expr()->eq(
+                'uid',
+                $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+            ))->executeQuery()
                 ->fetchAll();
 
             return $items[0]['sys_language_uid'];
@@ -112,14 +108,10 @@ abstract class AbstractUrlService
                     $pointerField,
                     $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
                 )
-            )
-            ->orWhere(
-                $queryBuilder->expr()->eq(
-                    'uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-                )
-            )
-            ->execute()
+            )->orWhere($queryBuilder->expr()->eq(
+            'uid',
+            $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+        ))->executeQuery()
             ->fetchAll();
 
         // second get all items with canonical or no_index, to remove them
@@ -142,26 +134,18 @@ abstract class AbstractUrlService
                     'm.tablenames',
                     $queryBuilder->createNamedParameter($table)
                 ),
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->eq('m.no_index', 1),
-                    $queryBuilder->expr()->neq(
-                        'm.canonical',
-                        $queryBuilder->createNamedParameter('')
-                    )
-                ),
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->eq(
-                        't.' . $pointerField,
-                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        't.uid',
-                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-                    )
-                )
-            )
-            ->groupBy('m.uid')
-            ->execute()
+                $queryBuilder->expr()->or($queryBuilder->expr()->eq('m.no_index', 1), $queryBuilder->expr()->neq(
+                    'm.canonical',
+                    $queryBuilder->createNamedParameter('')
+                )),
+                $queryBuilder->expr()->or($queryBuilder->expr()->eq(
+                    't.' . $pointerField,
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->eq(
+                    't.uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                ))
+            )->groupBy('m.uid')->executeQuery()
             ->fetchAll();
 
         $invalidItems = [];
@@ -217,14 +201,10 @@ abstract class AbstractUrlService
                     'uid',
                     $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
                 )
-            )
-            ->orWhere(
-                $queryBuilder->expr()->eq(
-                    $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'],
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-                )
-            )
-            ->execute()
+            )->orWhere($queryBuilder->expr()->eq(
+            $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'],
+            $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+        ))->executeQuery()
             ->fetchAll();
 
         foreach ($items as $item) {

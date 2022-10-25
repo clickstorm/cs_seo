@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Service;
 
+use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -15,7 +16,7 @@ class CanonicalService extends AbstractUrlService
     /**
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
-     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
+     * @throws AspectNotFoundException
      */
     public function getUrl(): string
     {

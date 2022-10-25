@@ -38,7 +38,6 @@ class EvaluationController extends ActionController
 {
     /**
      * @var EvaluationRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected $evaluationRepository;
 
@@ -49,5 +48,10 @@ class EvaluationController extends ActionController
         $this->view->assign('results', $evaluation);
 
         return $this->htmlResponse($this->view->render());
+    }
+
+    public function injectEvaluationRepository(EvaluationRepository $evaluationRepository): void
+    {
+        $this->evaluationRepository = $evaluationRepository;
     }
 }

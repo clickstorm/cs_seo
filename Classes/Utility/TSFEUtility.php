@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
 
 /***************************************************************
@@ -162,7 +163,7 @@ class TSFEUtility
                 FlashMessage::class,
                 $e->getMessage(),
                 LocalizationUtility::translate('error.no_ts', 'cs_seo'),
-                FlashMessage::ERROR
+                AbstractMessage::ERROR
             );
             /** @var FlashMessageService $flashMessageService */
             $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);

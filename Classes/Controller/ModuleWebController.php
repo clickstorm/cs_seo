@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Clickstorm\CsSeo\Service\Backend\GridService;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
@@ -22,7 +23,7 @@ class ModuleWebController extends AbstractModuleController
     /**
      * pageRepository
      *
-     * @var \TYPO3\CMS\Core\Domain\Repository\PageRepository
+     * @var PageRepository
      */
     protected $pageRepository;
 
@@ -34,7 +35,7 @@ class ModuleWebController extends AbstractModuleController
     protected $evaluationService;
 
     /**
-     * @var \TYPO3\CMS\Core\DataHandling\DataHandler
+     * @var DataHandler
      */
     public $dataHandler;
 
@@ -71,7 +72,7 @@ class ModuleWebController extends AbstractModuleController
     /**
      * Inject a pageRepository
      *
-     * @param \TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository
+     * @param PageRepository $pageRepository
      */
     public function injectPageRepository(PageRepository $pageRepository)
     {
@@ -173,7 +174,7 @@ class ModuleWebController extends AbstractModuleController
             if ($tableConfig['evaluation'] && $tableConfig['evaluation']['detailPid']) {
                 $tableTitle = $GLOBALS['TCA'][$tableName]['ctrl']['title'] ?: $tableName;
 
-                if (GeneralUtility::isFirstPartOfStr($tableTitle, 'LLL:')) {
+                if (\str_starts_with($tableTitle, 'LLL:')) {
                     $tableTitle = LocalizationUtility::translate($tableTitle, $extKey);
                 }
 
@@ -282,9 +283,9 @@ class ModuleWebController extends AbstractModuleController
     /**
      * Renders the menu so that it can be returned as response to an AJAX call
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param ServerRequestInterface $request
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
     public function update(ServerRequestInterface $request)
     {

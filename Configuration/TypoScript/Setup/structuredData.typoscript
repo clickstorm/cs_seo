@@ -1,27 +1,24 @@
 ### JSON-LD
 page.footerData {
-  ### SiteSearch ###
-  655 = USER
-  655 {
-    userFunc = Clickstorm\CsSeo\UserFunc\StructuredData->getSiteSearch
-    userFunc {
-      pid < plugin.tx_csseo.structureddata.search.pid
-      searchterm < plugin.tx_csseo.structureddata.search.searchtermkey
+    ### SiteSearch ###
+    655 = USER
+    655 {
+        userFunc = Clickstorm\CsSeo\UserFunc\StructuredData->getSiteSearch
+        userFunc {
+            pid < plugin.tx_csseo.structureddata.search.pid
+            searchterm < plugin.tx_csseo.structureddata.search.searchtermkey
+        }
+        stdWrap.if.isTrue = {$plugin.tx_csseo.structureddata.search.enable}
     }
-
-    stdWrap.if.isTrue = {$plugin.tx_csseo.structureddata.search.enable}
-  }
-
-  ### Breadcrumb ###
-  656 = USER
-  656 {
-    userFunc = Clickstorm\CsSeo\UserFunc\StructuredData->getBreadcrumb
-    stdWrap.if.isTrue = {$plugin.tx_csseo.structureddata.breadcrumb.enable}
-  }
-
-  ### Field json_ld of page or record###
-  657 = USER
-  657 {
-    userFunc = Clickstorm\CsSeo\UserFunc\StructuredData->getJsonLdOfPageOrRecord
-  }
+    ### Breadcrumb ###
+    656 = USER
+    656 {
+        userFunc = Clickstorm\CsSeo\UserFunc\StructuredData->getBreadcrumb
+        stdWrap.if.isTrue = {$plugin.tx_csseo.structureddata.breadcrumb.enable}
+    }
+    ### Field json_ld of page or record###
+    657 = USER
+    657 {
+        userFunc = Clickstorm\CsSeo\UserFunc\StructuredData->getJsonLdOfPageOrRecord
+    }
 }

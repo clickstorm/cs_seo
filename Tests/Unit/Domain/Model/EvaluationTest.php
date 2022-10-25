@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Unit\Domain\Model;
 
+use Clickstorm\CsSeo\Domain\Model\Evaluation;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
@@ -14,7 +15,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class EvaluationTest extends UnitTestCase
 {
     /**
-     * @var \Clickstorm\CsSeo\Domain\Model\Evaluation|MockObject|AccessibleObjectInterface
+     * @var Evaluation|MockObject|AccessibleObjectInterface
      */
     protected $subject;
 
@@ -23,7 +24,7 @@ class EvaluationTest extends UnitTestCase
         parent::setUp();
 
         $this->subject = $this->getAccessibleMock(
-            \Clickstorm\CsSeo\Domain\Model\Evaluation::class,
+            Evaluation::class,
             ['dummy']
         );
     }

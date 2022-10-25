@@ -26,7 +26,8 @@ namespace Clickstorm\CsSeo\Service;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+use TYPO3\CMS\Backend\Routing\PreviewUriBuilder;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use Clickstorm\CsSeo\Event\ModifyEvaluationPidEvent;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -107,7 +108,7 @@ class FrontendPageService
         ))->getPid();
 
         // build url
-        $result['url'] = BackendUtility::getPreviewUrl($paramId, '', null, '', '', $params);
+        $result['url'] = (string) PreviewUriBuilder::create($paramId)->withRootLine(null)->withSection('')->withAdditionalQueryParameters($params)->buildUri();
 
         // fetch url
         $response = GeneralUtility::makeInstance(RequestFactory::class)->request(
@@ -127,7 +128,7 @@ class FrontendPageService
                 FlashMessage::class,
                 $response->getReasonPhrase(),
                 '',
-                FlashMessage::ERROR
+                AbstractMessage::ERROR
             );
 
             /** @var FlashMessageService $flashMessageService */

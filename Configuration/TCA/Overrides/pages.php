@@ -1,9 +1,11 @@
 <?php
 
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 defined('TYPO3') || die();
 
 // get extension configurations
-$extConf = \Clickstorm\CsSeo\Utility\ConfigurationUtility::getEmConfiguration();
+$extConf = ConfigurationUtility::getEmConfiguration();
 
 // SEO Settings
 $GLOBALS['TCA']['pages']['columns']['title']['config']['max'] = $extConf['maxTitle'];
@@ -68,13 +70,13 @@ $tempColumns = [
 ];
 
 // add new fields
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $tempColumns);
+ExtensionManagementUtility::addTCAcolumns('pages', $tempColumns);
 
 // replace description
 $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
     preg_replace('/description(.*,|.*$)/', '', $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem']);
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+ExtensionManagementUtility::addFieldsToPalette(
     'pages',
     'metatags',
     'tx_csseo_json_ld',
@@ -82,7 +84,7 @@ $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
 );
 
 // define new palettes
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+ExtensionManagementUtility::addFieldsToPalette(
     'pages',
     'seo',
     'tx_csseo_title_only,--linebreak--,
@@ -90,7 +92,7 @@ $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
     'after:seo_title'
 );
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+ExtensionManagementUtility::addFieldsToPalette(
     'pages',
     'twittercards',
     '--linebreak--,

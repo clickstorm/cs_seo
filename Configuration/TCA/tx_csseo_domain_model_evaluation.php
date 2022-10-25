@@ -6,7 +6,6 @@ return [
         'label' => 'results',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
 
         'hideTable' => true,
 

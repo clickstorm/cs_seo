@@ -25,7 +25,7 @@ namespace Clickstorm\CsSeo\Evaluation\TCA;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Core\Environment;
 
 /**
@@ -42,7 +42,7 @@ class RobotsExistsEvaluator extends AbstractEvaluator
      *     and changed if needed.
      *
      * @return string Evaluated field value
-     * @throws \TYPO3\CMS\Core\Exception
+     * @throws Exception
      */
     public function evaluateFieldValue($value, $is_in, &$set)
     {

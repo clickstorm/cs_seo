@@ -193,9 +193,7 @@ class EvaluationCommand extends Command
             }
         }
 
-        return $queryBuilder->select('*')
-            ->from($this->tableName)
-            ->execute()
+        return $queryBuilder->select('*')->from($this->tableName)->executeQuery()
             ->fetchAll();
     }
 
@@ -237,15 +235,10 @@ class EvaluationCommand extends Command
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($metaTableName);
 
             $res = $queryBuilder->select('keyword')
-                ->from($metaTableName)
-                ->where(
-                    $queryBuilder->expr()->eq(
-                        'uid_foreign',
-                        $queryBuilder->createNamedParameter($record['uid'], PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($this->tableName))
-                )
-                ->execute();
+                ->from($metaTableName)->where($queryBuilder->expr()->eq(
+                'uid_foreign',
+                $queryBuilder->createNamedParameter($record['uid'], PDO::PARAM_INT)
+            ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($this->tableName)))->executeQuery();
 
             while ($row = $res->fetch()) {
                 $keyword = $row['keyword'];

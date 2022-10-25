@@ -103,9 +103,7 @@ class DatabaseUtility
                     $tcaCtrl['transOrigPointerField'],
                     $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
                 )
-            )
-            ->orderBy($tcaCtrl['languageField'])
-            ->execute();
+            )->orderBy($tcaCtrl['languageField'])->executeQuery();
 
         while ($row = $res->fetch()) {
             $items[$row[$tcaCtrl['languageField']]] = $row;
@@ -125,7 +123,7 @@ class DatabaseUtility
      */
     public static function getFile($table, $field, $uid)
     {
-        /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
+        /** @var FileRepository $fileRepository */
         $fileRepository = GeneralUtility::makeInstance(
             FileRepository::class
         );
@@ -199,13 +197,10 @@ class DatabaseUtility
 
         if (!$includeImagesWithAlt) {
             $queryBuilder->andWhere(
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->eq(
-                        'meta.alternative',
-                        $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
-                    ),
-                    $queryBuilder->expr()->isNull('meta.alternative')
-                )
+                $queryBuilder->expr()->or($queryBuilder->expr()->eq(
+                    'meta.alternative',
+                    $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
+                ), $queryBuilder->expr()->isNull('meta.alternative'))
             );
         }
 
@@ -229,9 +224,7 @@ class DatabaseUtility
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_language');
 
         $res = $queryBuilder->select('*')
-            ->from('sys_language')
-            ->orderBy('title')
-            ->execute();
+            ->from('sys_language')->orderBy('title')->executeQuery();
 
         while ($lRow = $res->fetch()) {
             if (GlobalsUtility::getBackendUser()->checkLanguageAccess($lRow['uid'])) {
@@ -265,14 +258,10 @@ class DatabaseUtility
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
 
         return $queryBuilder->select(...GeneralUtility::trimExplode(',', $select, true))
-            ->from($table)
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-                )
-            )
-            ->execute()
+            ->from($table)->where($queryBuilder->expr()->eq(
+            'uid',
+            $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+        ))->executeQuery()
             ->fetch();
     }
 }

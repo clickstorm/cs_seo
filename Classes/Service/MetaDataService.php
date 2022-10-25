@@ -2,6 +2,8 @@
 
 namespace Clickstorm\CsSeo\Service;
 
+use TYPO3\CMS\Core\Context\AspectInterface;
+use TYPO3\CMS\Core\Context\LanguageAspect;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -39,9 +41,9 @@ class MetaDataService
     const TABLE_NAME_META = 'tx_csseo_domain_model_meta';
 
     /**
-     * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
+     * @var ContentObjectRenderer
      */
-    public $cObj;
+    protected $cObj;
 
     /**
      * @var PageRepository
@@ -49,7 +51,7 @@ class MetaDataService
     protected $pageRepository;
 
     /**
-     * @var \TYPO3\CMS\Core\Context\AspectInterface|\TYPO3\CMS\Core\Context\LanguageAspect|null
+     * @var AspectInterface|LanguageAspect|null
      */
     protected $languageAspect;
 
@@ -146,7 +148,7 @@ class MetaDataService
      * Check if extension detail view or page properties should be used
      *
      * @param $tables
-     * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj
+     * @param ContentObjectRenderer $cObj
      * @param bool $checkOnly
      *
      * @return array|bool
@@ -191,12 +193,10 @@ class MetaDataService
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableSettings['table']);
 
         $row = $queryBuilder->select('*')
-            ->from($tableSettings['table'])
-            ->where($queryBuilder->expr()->eq(
-                'uid',
-                $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)
-            ))
-            ->execute()
+            ->from($tableSettings['table'])->where($queryBuilder->expr()->eq(
+            'uid',
+            $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)
+        ))->executeQuery()
             ->fetch();
 
         if (is_array($row)) {
@@ -225,16 +225,16 @@ class MetaDataService
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(self::TABLE_NAME_META);
 
         $res = $queryBuilder->select('*')
-            ->from(self::TABLE_NAME_META)
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'uid_foreign',
-                    $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)
-                ),
-                $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableSettings['table']))
-            )
-            ->execute()->fetchAll();
+            ->from(self::TABLE_NAME_META)->where($queryBuilder->expr()->eq(
+            'uid_foreign',
+            $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)
+        ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableSettings['table'])))->executeQuery()->fetchAll();
 
         return isset($res[0]) ? $res[0] : [];
+    }
+
+    public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
+    {
+        $this->cObj = $cObj;
     }
 }

@@ -1,10 +1,11 @@
 <?php
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 defined('TYPO3') || die();
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('cs_seo', 'Configuration/TypoScript', 'SEO');
+ExtensionManagementUtility::addStaticFile('cs_seo', 'Configuration/TypoScript', 'SEO');
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
+ExtensionManagementUtility::addStaticFile(
     'cs_seo',
     'Configuration/TypoScript/Additional/Tracking/GoogleTagManager/',
     'SEO - Google Tag Manager !bodyTagCObject'

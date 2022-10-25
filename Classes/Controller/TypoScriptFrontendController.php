@@ -26,7 +26,7 @@ namespace Clickstorm\CsSeo\Controller;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
+use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -52,7 +52,7 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
     }
 
     /**
-     * @return \TYPO3\CMS\Core\TimeTracker\TimeTracker
+     * @return TimeTracker
      */
     protected function getTimeTracker()
     {

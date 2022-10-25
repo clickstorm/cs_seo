@@ -2,12 +2,14 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
+use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 class GlobalsUtility
 {
     /**
      * Returns the language service
      *
-     * @return \TYPO3\CMS\Core\Localization\LanguageService
+     * @return LanguageService
      */
     public static function getLanguageService()
     {
@@ -15,7 +17,7 @@ class GlobalsUtility
     }
 
     /**
-     * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
+     * @return BackendUserAuthentication
      */
     public static function getBackendUser()
     {

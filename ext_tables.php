@@ -1,21 +1,25 @@
 <?php
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+use Clickstorm\CsSeo\Controller\ModuleWebController;
+use Clickstorm\CsSeo\Controller\ModuleFileController;
 defined('TYPO3') || die();
 
 (function () {
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+    ExtensionManagementUtility::addLLrefForTCAdescr(
         'tx_csseo_domain_model_meta',
         'EXT:cs_seo/Resources/Private/Language/locallang_csh_tx_csseo_domain_model_meta.xlf'
     );
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+    ExtensionManagementUtility::addLLrefForTCAdescr(
         '_MOD_txcsseo',
         'EXT:cs_seo/Resources/Private/Language/locallang_csh_mod.xlf'
     );
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_csseo_domain_model_meta');
+    ExtensionManagementUtility::allowTableOnStandardPages('tx_csseo_domain_model_meta');
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+    ExtensionManagementUtility::addLLrefForTCAdescr(
         'pages',
         'EXT:cs_seo/Resources/Private/Language/locallang_csh_pages.xlf'
     );
@@ -23,13 +27,13 @@ defined('TYPO3') || die();
     /**
      * Include Backend Module
      */
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+    ExtensionUtility::registerModule(
         'cs_seo',
         'web',
         'mod1',
         '',
         [
-            \Clickstorm\CsSeo\Controller\ModuleWebController::class =>
+            ModuleWebController::class =>
                 'pageMeta, pageIndex, pageOpenGraph, pageTwitterCards, pageStructuredData, pageResults, pageEvaluation',
         ],
         [
@@ -39,13 +43,13 @@ defined('TYPO3') || die();
         ]
     );
 
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+    ExtensionUtility::registerModule(
         'cs_seo',
         'file',
         'mod_file',
         'bottom',
         [
-            \Clickstorm\CsSeo\Controller\ModuleFileController::class => 'showEmptyImageAlt,update',
+            ModuleFileController::class => 'showEmptyImageAlt,update',
         ],
         [
             'access' => 'user,group',

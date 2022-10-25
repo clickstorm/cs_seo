@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\UserFunc;
 
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Clickstorm\CsSeo\Service\MetaDataService;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 
@@ -44,7 +45,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class StructuredData
 {
     /**
-     * @var \Clickstorm\CsSeo\Utility\TSFEUtility $tsfeUtility
+     * @var TSFEUtility $tsfeUtility
      */
     public $tsfeUtility;
 
@@ -133,7 +134,7 @@ class StructuredData
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
 
-        /** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController[] $GLOBALS */
+        /** @var TypoScriptFrontendController[] $GLOBALS */
         $id = $GLOBALS['TSFE']->id;
         if (!empty($GLOBALS['TSFE']->MP) && preg_match('/^\\d+\\-(\\d+)$/', $GLOBALS['TSFE']->MP, $match)) {
             // mouting point page - generate breadcrumb for the mounting point reference page instead

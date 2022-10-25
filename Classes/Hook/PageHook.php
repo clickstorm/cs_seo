@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Hook;
 
+use TYPO3\CMS\Extbase\Mvc\Exception\InvalidExtensionNameException;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Controller\PageLayoutController;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -62,7 +63,7 @@ class PageHook
      * @param PageLayoutController $parentObject
      *
      * @return string
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\InvalidExtensionNameException
+     * @throws InvalidExtensionNameException
      */
     public function render(array $params, PageLayoutController $parentObject): string
     {
@@ -216,15 +217,10 @@ class PageHook
         $tableName = 'pages';
 
         $res = $queryBuilder->select('results')
-            ->from('tx_csseo_domain_model_evaluation')
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'uid_foreign',
-                    $queryBuilder->createNamedParameter($pageUid, \PDO::PARAM_INT)
-                ),
-                $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableName))
-            )
-            ->execute();
+            ->from('tx_csseo_domain_model_evaluation')->where($queryBuilder->expr()->eq(
+            'uid_foreign',
+            $queryBuilder->createNamedParameter($pageUid, \PDO::PARAM_INT)
+        ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableName)))->executeQuery();
 
         while ($row = $res->fetch()) {
             $results = unserialize($row['results']);

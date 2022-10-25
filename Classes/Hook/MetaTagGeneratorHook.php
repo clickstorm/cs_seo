@@ -36,9 +36,9 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class MetaTagGeneratorHook
 {
     /**
-     * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
+     * @var ContentObjectRenderer
      */
-    public $cObj;
+    protected $cObj;
 
     public function __construct()
     {
@@ -219,5 +219,10 @@ class MetaTagGeneratorHook
     protected function escapeContent($content)
     {
         return preg_replace('/\s\s+/', ' ', preg_replace('#<[^>]+>#', ' ', $content));
+    }
+
+    public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
+    {
+        $this->cObj = $cObj;
     }
 }
