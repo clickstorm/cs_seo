@@ -29,9 +29,11 @@ namespace Clickstorm\CsSeo\Form\Element;
 
 use TYPO3\CMS\Backend\Form\AbstractNode;
 use TYPO3\CMS\Backend\Form\Element\TextElement;
+use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Form\Domain\Model\FormElements\Page;
 
 /**
  * Advanced helpers for JSON LD ELement
@@ -57,12 +59,13 @@ class JsonLdElement extends AbstractNode
      */
     public function render()
     {
+        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         // first get input element
         $inputField = GeneralUtility::makeInstance(TextElement::class, $this->nodeFactory, $this->data);
         $resultArray = $inputField->render();
 
         // Load necessary JavaScript
-        $resultArray['requireJsModules'] = $this->loadJavascript();
+        $this->loadJavascript();
 
         // Load necessary CSS
         $resultArray['stylesheetFiles'] = $this->loadCss();
@@ -77,16 +80,10 @@ class JsonLdElement extends AbstractNode
      * Load the necessary javascript
      *
      * This will only be done when the referenced record is available
-     *
-     * @return array
      */
     protected function loadJavascript()
     {
-        return [
-            'jsonLdElement' => [
-                'TYPO3/CMS/CsSeo/FormEngine/Element/JsonLdElement' => 'function(jsonLdElement){jsonLdElement.initialize()}',
-            ],
-        ];
+        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/JsonLdElement.js');
     }
 
     /**

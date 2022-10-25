@@ -34,6 +34,7 @@ use TYPO3\CMS\Backend\Form\Element\InputTextElement;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
@@ -89,9 +90,9 @@ class SnippetPreview extends AbstractNode
     protected function loadJavascript()
     {
         return [
-            'snippetPreview' => [
-                'TYPO3/CMS/CsSeo/FormEngine/Element/SnippetPreview' => 'function(SnippetPreview){SnippetPreview.initialize()}',
-            ],
+            'snippetPreview' => JavaScriptModuleInstruction::forRequireJS(
+                'TYPO3/CMS/CsSeo/SnippetPreview'
+            )
         ];
     }
 

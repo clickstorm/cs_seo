@@ -137,7 +137,7 @@ class TSFEUtility
             $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->pageUid);
             $pageArguments = $GLOBALS['TYPO3_REQUEST']->getAttribute('routing') ?? new PageArguments($this->pageUid, '0', []);
             $frontedUser = GeneralUtility::makeInstance(FrontendUserAuthentication::class);
-            $frontedUser->start();
+            $frontedUser->start($GLOBALS['TYPO3_REQUEST']);
 
             $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
                 TypoScriptFrontendController::class,
@@ -151,9 +151,8 @@ class TSFEUtility
             $GLOBALS['TSFE']->id = $this->pageUid;
 
             $GLOBALS['TSFE']->newCObj();
-            $GLOBALS['TSFE']->determineId();
+            $GLOBALS['TSFE']->determineId($GLOBALS['TYPO3_REQUEST']);
 
-            $GLOBALS['TSFE']->getConfigArray();
             $GLOBALS['TSFE']->config['config']['sys_language_uid'] = $this->lang;
 
             $GLOBALS['TSFE']->preparePageContentGeneration($GLOBALS['TYPO3_REQUEST']);
