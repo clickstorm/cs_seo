@@ -15,7 +15,7 @@ final class PageTitle
     /**
      * @var TSFEUtility
      */
-    protected TSFEUtility $TSFEUtility;
+    protected $TSFEUtility;
 
     /**
      * check the settings and may remove the suffix or prefix from the page title
