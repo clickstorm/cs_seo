@@ -64,6 +64,8 @@ class SnippetPreview extends AbstractNode
      */
     public function render()
     {
+        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+
         // first get input element
         $inputField = GeneralUtility::makeInstance(InputTextElement::class, $this->nodeFactory, $this->data);
         $resultArray = $inputField->render();
@@ -89,11 +91,7 @@ class SnippetPreview extends AbstractNode
      */
     protected function loadJavascript()
     {
-        return [
-            'snippetPreview' => JavaScriptModuleInstruction::forRequireJS(
-                'TYPO3/CMS/CsSeo/SnippetPreview'
-            )
-        ];
+        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/SnippetPreview.js');
     }
 
     /**
