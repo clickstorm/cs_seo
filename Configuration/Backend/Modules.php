@@ -4,7 +4,7 @@ use Clickstorm\CsSeo\Controller\ModuleWebController;
 use Clickstorm\CsSeo\Controller\ModuleFileController;
 
 return [
-    'web_CsSeo' => [
+    'web_CsSeoMod1' => [
         'parent' => 'web',
         'position' => ['after' => '*'],
         'access' => 'user',
@@ -18,7 +18,7 @@ return [
                 'pageMeta, pageIndex, pageOpenGraph, pageTwitterCards, pageStructuredData, pageResults, pageEvaluation',
         ],
     ],
-    'file_CsSeo' => [
+    'file_CsSeoModFile' => [
         'parent' => 'file',
         'position' => ['after' => '*'],
         'access' => 'user',

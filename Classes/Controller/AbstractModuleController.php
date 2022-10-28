@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
@@ -98,7 +99,7 @@ abstract class AbstractModuleController extends ActionController
         $this->modTSconfig = BackendUtility::getPagesTSconfig($this->id)['mod.']['SHARED.'] ?? [];
 
         // reset JavaScript and CSS files
-        GeneralUtility::makeInstance(PageRenderer::class)->__construct();
+        GeneralUtility::makeInstance(PageRenderer::class);
     }
 
     /**
@@ -144,7 +145,8 @@ abstract class AbstractModuleController extends ActionController
     protected function wrapModuleTemplate()
     {
         // Prepare module setup
-        $moduleTemplate = GeneralUtility::makeInstance(ModuleTemplate::class);
+        $moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
+        $moduleTemplate = $moduleTemplateFactory->create(GlobalsUtility::getTYPO3Request());
         $moduleTemplate->setContent($this->view->render());
 
         foreach ($this->jsFiles as $jsFile) {

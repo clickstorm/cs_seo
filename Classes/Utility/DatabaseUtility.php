@@ -5,9 +5,11 @@ namespace Clickstorm\CsSeo\Utility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
@@ -220,24 +222,19 @@ class DatabaseUtility
     {
         $languages[0] = 'Default';
 
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_language');
-
-        $res = $queryBuilder->select('*')
-            ->from('sys_language')->orderBy('title')->executeQuery();
-
-        while ($lRow = $res->fetch()) {
-            if (GlobalsUtility::getBackendUser()->checkLanguageAccess($lRow['uid'])) {
-                $languages[$lRow['uid']] = $lRow['hidden'] ? '(' . $lRow['title'] . ')' : $lRow['title'];
-            }
+        if($pageId === 0) {
+            return $languages;
         }
 
-        // Setting alternative default label:
-        if ($pageId !== 0) {
-            $modTSconfig = BackendUtility::getPagesTSconfig($pageId)['mod.']['SHARED.'] ?? [];
-            if (isset($modTSconfig['properties']['defaultLanguageLabel']) && $modTSconfig['properties']['defaultLanguageLabel']) {
-                $languages[0] = $modTSconfig['properties']['defaultLanguageLabel'];
-            }
+        try {
+            $site = GeneralUtility::makeInstance(SiteFinder::class)
+                ->getSiteByRootPageId($pageId);
+        } catch (SiteNotFoundException $exception) {
+            return $languages;
+        }
+
+        foreach ($site->getAvailableLanguages(GlobalsUtility::getBackendUser()) as $language) {
+            $languages[$language->getLanguageId()] = $language->getTitle();
         }
 
         return $languages;
