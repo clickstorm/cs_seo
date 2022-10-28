@@ -39,6 +39,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Google Search Results Preview
@@ -183,9 +184,9 @@ class SnippetPreview extends AbstractNode
                     $config = $TSFEUtility->getConfig();
 
                     if ($table == 'pages') {
-                        $GLOBALS['TSFE']->config['config']['noPageTitle'] = 0;
+                        $this->getTypoScriptFrontendController()->config['config']['noPageTitle'] = 0;
 
-                        $GLOBALS['TSFE']->generatePageTitle();
+                        $this->getTypoScriptFrontendController()->generatePageTitle();
 
                         $pageTitle = static::getPageRenderer()->getTitle();
 
@@ -275,5 +276,10 @@ class SnippetPreview extends AbstractNode
     protected function getLanguageService()
     {
         return $GLOBALS['LANG'];
+    }
+
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

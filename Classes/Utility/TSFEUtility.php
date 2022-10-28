@@ -46,6 +46,9 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
+use TYPO3\CMS\Core\TypoScript\TemplateService;
 
 /**
  * own TSFE to render TSFE in the backend
@@ -89,6 +92,8 @@ class TSFEUtility
      */
     protected $config;
 
+    protected $cObj;
+
     /**
      * TSFEUtility constructor.
      *
@@ -115,7 +120,7 @@ class TSFEUtility
 
         $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         $fullTS = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-
+        $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $this->config = $fullTS['config.'];
     }
 
@@ -132,6 +137,7 @@ class TSFEUtility
                 GeneralUtility::makeInstance(TimeTracker::class)->start();
             }
 
+            // generate needed parameters
             $context = GeneralUtility::makeInstance(Context::class);
             $typoScriptAspect = GeneralUtility::makeInstance(TypoScriptAspect::class, true);
             $context->setAspect('typoscript', $typoScriptAspect);
@@ -140,6 +146,7 @@ class TSFEUtility
             $frontedUser = GeneralUtility::makeInstance(FrontendUserAuthentication::class);
             $frontedUser->start($GLOBALS['TYPO3_REQUEST']);
 
+            // new TSFE instance
             $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
                 TypoScriptFrontendController::class,
                 $context,
@@ -151,12 +158,21 @@ class TSFEUtility
 
             $GLOBALS['TSFE']->id = $this->pageUid;
 
-            $GLOBALS['TSFE']->newCObj();
+            $GLOBALS['TSFE']->newCObj($GLOBALS['TYPO3_REQUEST']);
             $GLOBALS['TSFE']->determineId($GLOBALS['TYPO3_REQUEST']);
 
-            $GLOBALS['TSFE']->config['config']['sys_language_uid'] = $this->lang;
+            // get TypoScript - see https://www.in2code.de/aktuelles/php-typoscript-im-backend-oder-command-kontext-nutzen/
+            $rootlineUtil = GeneralUtility::makeInstance(RootlineUtility::class, $this->pageUid);
+            $templateService = GeneralUtility::makeInstance(TemplateService::class);
 
-            $GLOBALS['TSFE']->preparePageContentGeneration($GLOBALS['TYPO3_REQUEST']);
+            $rootLine = $rootlineUtil->get();
+
+            $templateService->runThroughTemplates($rootLine);
+            $templateService->generateConfig();
+
+            // set TypoScript
+            $GLOBALS['TSFE']->config['config'] = $templateService->setup['config.'] ?? [];
+            $GLOBALS['TSFE']->config['config']['sys_language_uid'] = $this->lang;
         } catch (\Exception $e) {
             /** @var FlashMessage $message */
             $message = GeneralUtility::makeInstance(
@@ -183,7 +199,7 @@ class TSFEUtility
             'forceAbsoluteUrl' => 1,
         ];
 
-        return $GLOBALS['TSFE']->cObj->typoLink_URL($parameter);
+        return $this->cObj->typoLink_URL($parameter);
     }
 
     /**
@@ -262,7 +278,7 @@ class TSFEUtility
             return '';
         }
 
-        return $GLOBALS['TSFE']->cObj->stdWrap(
+        return $this->cObj->stdWrap(
             $this->config['pageTitleSeparator'],
             $this->config['pageTitleSeparator.']
         );

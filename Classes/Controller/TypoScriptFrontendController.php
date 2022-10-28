@@ -67,15 +67,4 @@ class TypoScriptFrontendController extends \TYPO3\CMS\Frontend\Controller\TypoSc
         $this->sys_page->where_hid_del = '';
         $this->sys_page->where_groupAccess = '';
     }
-
-    /**
-     * @override
-     */
-    protected function initPageRenderer()
-    {
-        if ($this->pageRenderer !== null) {
-            return;
-        }
-        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-    }
 }
