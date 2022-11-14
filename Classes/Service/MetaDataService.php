@@ -90,38 +90,40 @@ class MetaDataService
 
                 // db fallback
                 if (isset($tableSettings['fallback'])) {
+                    $metaData['__fallback'] = [];
                     foreach ($tableSettings['fallback'] as $seoField => $fallbackField) {
-                        if (empty($metaData[$seoField])) {
-                            if(!empty($record[$fallbackField])) {
-                                $metaData[$seoField] = $record[$fallbackField];
-                                if ($seoField === 'og_image' || $seoField === 'tw_image') {
-                                    $metaData[$seoField] = [
-                                        'field' => $fallbackField,
-                                        'table' => $tableSettings['table'],
-                                        'uid_foreign' => $tableSettings['uid']
-                                    ];
-                                }
-                            } // check for double slash, if so multiple fallback fields are defined, the first with content will be used
-                            elseif (strpos($fallbackField, '//') !== false) {
-                                foreach (GeneralUtility::trimExplode('//', $fallbackField) as $possibleFallbackField) {
-                                    if (!empty($record[$possibleFallbackField])) {
-                                        $metaData[$seoField] = $record[$possibleFallbackField];
-                                    }
-                                }
-                            } // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
-                            elseif (preg_match('/{([^}]+)}/', $fallbackField)) {
-                                $curlyBracketSeoField = $fallbackField;
-                                $matches = [];
-                                preg_match_all('/{([^}]+)}/', $fallbackField, $matches);
-                                $matchesWithCurlyBrackets = $matches[0];
-                                $matchesWithoutCurlyBrackets = $matches[1];
-                                foreach ($matchesWithCurlyBrackets as $key => $matchWithCurlyBracket) {
-                                    $recordField = $matchesWithoutCurlyBrackets[$key];
-                                    $curlyBracketSeoField = str_replace($matchWithCurlyBracket, $record[$recordField],
-                                        $curlyBracketSeoField);
-                                }
-                                $metaData[$seoField] = $curlyBracketSeoField;
+                        if(!empty($record[$fallbackField])) {
+                            $metaData['__fallback'][$seoField] = $record[$fallbackField];
+                            if ($seoField === 'og_image' || $seoField === 'tw_image') {
+                                $metaData['__fallback'][$seoField] = [
+                                    'field' => $fallbackField,
+                                    'table' => $tableSettings['table'],
+                                    'uid_foreign' => $tableSettings['uid']
+                                ];
                             }
+                        } // check for double slash, if so multiple fallback fields are defined, the first with content will be used
+                        elseif (strpos($fallbackField, '//') !== false) {
+                            foreach (GeneralUtility::trimExplode('//', $fallbackField) as $possibleFallbackField) {
+                                if (!empty($record[$possibleFallbackField])) {
+                                    $metaData['__fallback'][$seoField] = $record[$possibleFallbackField];
+                                }
+                            }
+                        } // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
+                        elseif (preg_match('/{([^}]+)}/', $fallbackField)) {
+                            $curlyBracketSeoField = $fallbackField;
+                            $matches = [];
+                            preg_match_all('/{([^}]+)}/', $fallbackField, $matches);
+                            $matchesWithCurlyBrackets = $matches[0];
+                            $matchesWithoutCurlyBrackets = $matches[1];
+                            foreach ($matchesWithCurlyBrackets as $key => $matchWithCurlyBracket) {
+                                $recordField = $matchesWithoutCurlyBrackets[$key];
+                                $curlyBracketSeoField = str_replace($matchWithCurlyBracket, $record[$recordField],
+                                    $curlyBracketSeoField);
+                            }
+                            $metaData['__fallback'][$seoField] = $curlyBracketSeoField;
+                        }
+                        if (empty($metaData[$seoField])) {
+                            $metaData[$seoField] = $metaData['__fallback'][$seoField];
                         }
                     }
                 }
