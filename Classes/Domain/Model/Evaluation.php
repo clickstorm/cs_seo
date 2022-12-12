@@ -44,14 +44,24 @@ class Evaluation extends AbstractEntity
 
     protected int $tstamp = 0;
 
-    public function getResults(): array
+    public function getResults(): string
+    {
+        return $this->results;
+    }
+
+    public function setResults(string $results): void
+    {
+        $this->results = $results;
+    }
+
+    public function getResultsAsArray(): array
     {
         $results = unserialize($this->results);
 
         return is_array($results) ? $results : [];
     }
 
-    public function setResults(array $results): void
+    public function setResultsFromArray(array $results): void
     {
         $this->results = serialize($results);
     }

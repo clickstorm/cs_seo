@@ -237,13 +237,14 @@ class ModuleWebController extends AbstractModuleController
         }
 
         if (isset($evaluation)) {
-            $results = $evaluation->getResults();
-            $score = $results['Percentage'];
-            unset($results['Percentage']);
+            $results = $evaluation->getResultsAsArray();
+            if(is_array($results) && isset($results['Percentage'])) {
+                $this->view->assign('score', $results['Percentage']);
+                unset($results['Percentage']);
+            }
             $this->view->assignMultiple(
                 [
                     'evaluation' => $evaluation,
-                    'score' => $score,
                     'results' => $results,
                 ]
             );

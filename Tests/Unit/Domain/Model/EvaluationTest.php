@@ -49,7 +49,7 @@ class EvaluationTest extends UnitTestCase
      */
     public function setResultsForStringSetsResults(): void
     {
-        $this->subject->setResults([1 => 'test']);
+        $this->subject->setResultsFromArray([1 => 'test']);
 
         self::assertEquals('a:1:{i:1;s:4:"test";}', $this->subject->_get('results'));
     }

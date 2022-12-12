@@ -280,7 +280,7 @@ class EvaluationCommand extends Command
         }
 
         $evaluation->setUrl($url);
-        $evaluation->setResults($results);
+        $evaluation->setResultsFromArray($results);
 
         if ($evaluation->_isNew()) {
             $this->evaluationRepository->add($evaluation);
