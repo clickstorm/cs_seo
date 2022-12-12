@@ -24,12 +24,12 @@
 				<target>Geben Sie ein Wort oder eine Phrase an. Bei der SEO Evaluation wird dann überprüft, ob das Fokus Schlüsselwort im Browsertitel, der Seitenbeschreibung und im Inhalt gesetzt ist. Sie können mehrere, mit Komma separtierte Alternativen angeben, zum Beispiel für Plural oder enthaltene Stopwörter.</target>
 			</trans-unit>
 			<trans-unit id="no_follow.description" resname="no_follow.description">
-				<source>If checked, all links on the web page will not be checked from search engines. Thus the links have no influence on a page rank.</source>
-				<target>Falls ja, werden die Verlinkungen auf der Seite nicht weiter von Suchmaschinen überprüft. Somit haben sie keinen Einfluss auf das Ranking.</target>
+				<source>If checked, all links on the web page will be checked from search engines. Thus the links have influence on a page rank.</source>
+				<target>Falls ja, werden die Verlinkungen auf der Seite von Suchmaschinen überprüft. Somit haben sie Einfluss auf das Ranking.</target>
 			</trans-unit>
 			<trans-unit id="no_index.description" resname="no_index.description">
-				<source>If checked, this page will not be visible in search engines.</source>
-				<target>Falls ja, wird diese Seite nicht bei den Suchmaschinen angezeigt.</target>
+				<source>If checked, this page will be visible in search engines.</source>
+				<target>Falls ja, wird diese Seite in den Suchmaschinen angezeigt.</target>
 			</trans-unit>
 			<trans-unit id="og_description.description" resname="og_description.description">
 				<source>This description will be shown, if the user shares this page on facebook, LinkedIn etc.</source>

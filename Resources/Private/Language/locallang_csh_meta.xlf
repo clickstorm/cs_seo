@@ -19,10 +19,10 @@
 				<source>Specify a word or phrase. In the SEO evaluation will be proofed wether this Focus Keyword is set in the browser title, the meta description and in the page content. You can specify multiple, comma-separated alternatives, e.g. for plural or stop words.</source>
 			</trans-unit>
 			<trans-unit id="no_follow.description" resname="no_follow.description">
-				<source>If checked, all links on the web page will not be checked from search engines. Thus the links have no influence on a page rank.</source>
+				<source>If checked, all links on the web page will be checked from search engines. Thus the links have influence on a page rank.</source>
 			</trans-unit>
 			<trans-unit id="no_index.description" resname="no_index.description">
-				<source>If checked, this page will not be visible in search engines.</source>
+				<source>If checked, this page will be visible in search engines.</source>
 			</trans-unit>
 			<trans-unit id="og_description.description" resname="og_description.description">
 				<source>This description will be shown, if the user shares this page on facebook, LinkedIn etc.</source>

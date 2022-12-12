@@ -160,7 +160,7 @@ class GridService
                     $columnDef['type'] = 'boolean';
                     $columnDef['width'] = 100;
                     $columnDef['cellTemplate'] =
-                        '<div class="ui-grid-cell-contents ng-binding ng-scope text-center"><span class="fa fa-{{row.entity[col.field] == true ? \'check\' : \'remove\'}}"></span></div>';
+                        '<div class="ui-grid-cell-contents ng-binding ng-scope text-center"><span class="fa fa-{{row.entity[col.field] == true ? \'remove\' : \'check\'}}"></span></div>';
                     $columnDef['editableCellTemplate'] =
                         '<div><form name="inputForm" class="text-center"><input type="checkbox" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-click="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
                     $columnDef['enableFiltering'] = false;
