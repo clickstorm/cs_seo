@@ -142,7 +142,7 @@ class TSFEUtility
             $typoScriptAspect = GeneralUtility::makeInstance(TypoScriptAspect::class, true);
             $context->setAspect('typoscript', $typoScriptAspect);
             $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->pageUid);
-            $pageArguments = $GLOBALS['TYPO3_REQUEST']->getAttribute('routing') ?? new PageArguments($this->pageUid, '0', []);
+            $pageArguments = new PageArguments($this->pageUid, '0', []);
             $frontedUser = GeneralUtility::makeInstance(FrontendUserAuthentication::class);
             $frontedUser->start($GLOBALS['TYPO3_REQUEST']);
 

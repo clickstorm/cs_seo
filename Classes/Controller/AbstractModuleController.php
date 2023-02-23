@@ -32,6 +32,7 @@ abstract class AbstractModuleController extends ActionController
     public static $session_prefix = 'tx_csseo_';
     public static $mod_name = 'web_CsSeoMod1';
     public static $uriPrefix = 'tx_csseo_web_csseomod1';
+    public static $l10nFileName = 'web';
     public static $flashMessageDurationInSeconds = 5;
 
     /**
@@ -66,6 +67,7 @@ abstract class AbstractModuleController extends ActionController
      */
     protected $requireJsModules = [];
     private PageRenderer $pageRenderer;
+
     public function __construct(PageRenderer $pageRenderer)
     {
         $this->pageRenderer = $pageRenderer;
@@ -171,9 +173,10 @@ abstract class AbstractModuleController extends ActionController
         $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
         $shortcutButton = $moduleTemplate->getDocHeaderComponent()->getButtonBar()->makeShortcutButton();
+        $type = $shortcutButton->getType();
         $shortcutButton->setRouteIdentifier(static::$mod_name)
             ->setDisplayName(GlobalsUtility::getLanguageService()->sL(
-                'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:mlang_labels_tablabel'
+                'LLL:EXT:cs_seo/Resources/Private/Language/Module/' . static::$l10nFileName . '.xlf:mlang_labels_tablabel'
             ));
         $buttonBar->addButton($shortcutButton);
 
