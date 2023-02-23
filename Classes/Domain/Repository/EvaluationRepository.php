@@ -59,12 +59,12 @@ class EvaluationRepository extends Repository
     {
         $query = $this->createQuery();
 
-        $constraints = [];
-
-        $constraints[] = $query->equals('uid_foreign', $uidForeign);
-        $constraints[] = $query->equals('tablenames', $tableName);
-
-        $query->matching($query->logicalAnd($constraints));
+        $query->matching(
+            $query->logicalAnd(
+                $query->equals('uid_foreign', $uidForeign),
+                $query->equals('tablenames', $tableName)
+            )
+        );
 
         return $query->execute()->getFirst();
     }

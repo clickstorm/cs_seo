@@ -39,7 +39,7 @@ class ModuleFileController extends AbstractModuleController
     /** @var File|null */
     protected $image;
 
-    protected $menuSetup = [
+    public static $menuActions = [
         'showEmptyImageAlt',
     ];
 

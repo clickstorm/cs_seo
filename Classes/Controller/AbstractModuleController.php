@@ -39,7 +39,7 @@ abstract class AbstractModuleController extends ActionController
     /**
      * @var array
      */
-    protected $menuSetup = [];
+    public static $menuActions = [];
 
     /**
      * @var array
@@ -93,16 +93,19 @@ abstract class AbstractModuleController extends ActionController
             $this->id = $this->modParams['id'];
         }
 
+        if (is_numeric($this->id)) {
+            $this->id = (int)$this->id;
+        }
+
         if (!$this->request->hasArgument('action') && $this->modParams['action']) {
             $this->request->setArgument('action', $this->modParams['action']);
             // @extensionScannerIgnoreLine
             $this->forward($this->modParams['action']);
         }
 
-        if (is_numeric($this->id)) {
-            $this->modTSconfig = BackendUtility::getPagesTSconfig()['mod.']['SHARED.'] ?? [];
+        if (is_int($this->id)) {
+            $this->modTSconfig = BackendUtility::getPagesTSconfig($this->id)['mod.']['SHARED.'] ?? [];
         }
-
 
         // reset JavaScript and CSS files
         GeneralUtility::makeInstance(PageRenderer::class);
@@ -201,27 +204,28 @@ abstract class AbstractModuleController extends ActionController
             $moduleTemplate->getDocHeaderComponent()->setMetaInformation($metaInfo);
         }
 
-        // Main drop down in doc header
-        $menu = $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->makeMenu();
-        $menu->setIdentifier('action');
-        foreach ($this->menuSetup as $menuKey) {
-            $menuItem = $menu->makeMenuItem();
-            /** @var UriBuilder $uriBuilder */
-            $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-            $menuItem->setHref((string)$uriBuilder->buildUriFromRoute(
-                static::$mod_name,
-                [static::$uriPrefix => ['action' => $menuKey, 'Controller' => 'Module']]
-            ))
-                ->setTitle(GlobalsUtility::getLanguageService()->sL(
-                    'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:layouts.module.action.' . $menuKey
-                ));
+        if(count(static::$menuActions) > 1) {
+            // Main drop down in doc header
+            $menu = $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->makeMenu();
+            $menu->setIdentifier('action');
+            foreach (static::$menuActions as $menuKey) {
+                $menuItem = $menu->makeMenuItem();
+                /** @var UriBuilder $uriBuilder */
+                $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+                $menuItem->setHref((string)$uriBuilder->buildUriFromRoute(
+                    static::$mod_name . '_' . $menuKey
+                ))
+                    ->setTitle(GlobalsUtility::getLanguageService()->sL(
+                        'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:layouts.module.action.' . $menuKey
+                    ));
 
-            if ($this->actionMethodName === $menuKey . 'Action') {
-                $menuItem->setActive(true);
+                if ($this->actionMethodName === $menuKey . 'Action') {
+                    $menuItem->setActive(true);
+                }
+                $menu->addMenuItem($menuItem);
             }
-            $menu->addMenuItem($menuItem);
+            $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
         }
-        $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
 
         return $moduleTemplate->renderContent();
     }

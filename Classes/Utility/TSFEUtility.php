@@ -121,7 +121,7 @@ class TSFEUtility
         $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         $fullTS = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
         $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $this->config = $fullTS['config.'];
+        $this->config = $GLOBALS['TSFE']->config['config'];
     }
 
     /**
@@ -168,6 +168,7 @@ class TSFEUtility
             $rootLine = $rootlineUtil->get();
 
             $templateService->runThroughTemplates($rootLine);
+
             $templateService->generateConfig();
 
             // set TypoScript
