@@ -141,7 +141,7 @@ class ModuleFileController extends AbstractModuleController
             $this->view->assign('columns', $columns);
 
             if (isset($imageRow[0]) && isset($imageRow[0]['uid'])) {
-                $dataMapper = $this->objectManager->get(DataMapper::class);
+                $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
                 $files = $dataMapper->map(File::class, $imageRow);
                 $this->image = $files[0];
                 $formService = GeneralUtility::makeInstance(FormService::class);

@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
@@ -83,12 +84,12 @@ abstract class AbstractModuleController extends ActionController
     protected function initializeAction()
     {
         // initialize page/be_user TSconfig settings
-        $this->id = (int)GeneralUtility::_GP('id');
+        $this->id = GeneralUtility::_GP('id');
 
         // initialize settings of the module
         $this->initializeModParams();
 
-        if ($this->id === 0) {
+        if (empty($this->id)) {
             $this->id = $this->modParams['id'];
         }
 
@@ -98,7 +99,10 @@ abstract class AbstractModuleController extends ActionController
             $this->forward($this->modParams['action']);
         }
 
-        $this->modTSconfig = BackendUtility::getPagesTSconfig($this->id)['mod.']['SHARED.'] ?? [];
+        if (is_numeric($this->id)) {
+            $this->modTSconfig = BackendUtility::getPagesTSconfig()['mod.']['SHARED.'] ?? [];
+        }
+
 
         // reset JavaScript and CSS files
         GeneralUtility::makeInstance(PageRenderer::class);
@@ -122,7 +126,7 @@ abstract class AbstractModuleController extends ActionController
 
             if ($this->request->hasArgument($name)) {
                 $arg = $this->request->getArgument($name);
-                $this->modParams[$name] = ($name === 'action' || $name === 'table') ? $arg : (int)$arg;
+                $this->modParams[$name] = is_numeric($arg) ? (int)$arg : $arg;
             }
         }
         GlobalsUtility::getBackendUser()->setAndSaveSessionData(
@@ -242,7 +246,7 @@ abstract class AbstractModuleController extends ActionController
         ];
 
         foreach ($messageQueue->getAllMessages() as $flashMessage) {
-            $method = $severityMapping[$flashMessage->getSeverity()] ?? 'info';
+            $method = $severityMapping[$flashMessage->getSeverity()->value] ?? 'info';
             $messages[] =
                 'top.TYPO3.Notification.' . $method . '("' . $flashMessage->getTitle() . '", "' . $flashMessage->getMessage() . '", ' . static::$flashMessageDurationInSeconds . ');';
         }
