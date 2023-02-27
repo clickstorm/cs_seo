@@ -10,6 +10,9 @@ services:
   Clickstorm\CsSeo\Service\Backend\GridService:
     public: true
 
+  Clickstorm\CsSeo\Service\FrontendPageService:
+    public: true
+
   Clickstorm\CsSeo\Hook\SqlExpectedSchemaHook:
     tags:
       - name: event.listener
