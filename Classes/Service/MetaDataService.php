@@ -2,7 +2,6 @@
 
 namespace Clickstorm\CsSeo\Service;
 
-use TYPO3\CMS\Core\Context\AspectInterface;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Context\Context;
@@ -12,48 +11,15 @@ use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
 class MetaDataService
 {
-    const TABLE_NAME_META = 'tx_csseo_domain_model_meta';
+    public const TABLE_NAME_META = 'tx_csseo_domain_model_meta';
 
-    /**
-     * @var ContentObjectRenderer
-     */
-    protected $cObj;
+    protected ?ContentObjectRenderer $cObj = null;
 
-    /**
-     * @var PageRepository
-     */
-    protected $pageRepository;
+    protected ?PageRepository $pageRepository = null;
 
-    /**
-     * @var AspectInterface|LanguageAspect|null
-     */
-    protected $languageAspect;
+    protected ?LanguageAspect $languageAspect = null;
 
     public function __construct()
     {
@@ -63,7 +29,7 @@ class MetaDataService
         $this->languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
     }
 
-    public function getMetaData()
+    public function getMetaData(): ?array
     {
         // check if metadata was already set
         if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'])) {
@@ -146,14 +112,8 @@ class MetaDataService
 
     /**
      * Check if extension detail view or page properties should be used
-     *
-     * @param $tables
-     * @param ContentObjectRenderer $cObj
-     * @param bool $checkOnly
-     *
-     * @return array|bool
      */
-    public static function getCurrentTableConfiguration($tables, $cObj, $checkOnly = false)
+    public static function getCurrentTableConfiguration(array $tables, ContentObjectRenderer $cObj, bool $checkOnly = false): array|bool
     {
         foreach ($tables as $tableName => $tableSettings) {
             if (isset($tableSettings['enable'])) {
@@ -182,12 +142,8 @@ class MetaDataService
 
     /**
      * DB query to get the fallback properties
-     *
-     * @param $tableSettings
-     *
-     * @return array|null
      */
-    protected function getRecord($tableSettings)
+    protected function getRecord(array $tableSettings): ?array
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableSettings['table']);
@@ -214,12 +170,8 @@ class MetaDataService
 
     /**
      * DB query to get the current meta properties
-     *
-     * @param $tableSettings
-     *
-     * @return array
      */
-    protected function getMetaProperties($tableSettings)
+    protected function getMetaProperties(array $tableSettings): array
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(self::TABLE_NAME_META);

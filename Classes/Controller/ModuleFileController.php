@@ -31,30 +31,26 @@ class ModuleFileController extends AbstractModuleController
     public static string $uriPrefix = 'tx_csseo_file_csseomodfile';
     public static string $l10nFileName = 'file';
 
-    /**
-     * @var array
-     */
-    protected $modParams = ['action' => '', 'id' => '', 'recursive' => 1];
+    protected array $modParams = ['action' => '', 'id' => '', 'recursive' => 1];
 
-    /** @var File|null */
-    protected $image;
+    protected ?File $image = null;
 
     public static array $menuActions = [
         'showEmptyImageAlt',
     ];
 
-    protected $cssFiles = [
+    protected array $cssFiles = [
         'Icons.css',
         'Lib/select2.css',
         'ModuleFile.css',
     ];
 
-    protected $storageUid;
-    protected $identifier;
-    protected $offset = 0;
-    protected $numberOfImagesWithoutAlt = 0;
+    protected int $storageUid = 0;
+    protected string $identifier = '';
+    protected int $offset = 0;
+    protected int $numberOfImagesWithoutAlt = 0;
 
-    public function initializeAction()
+    public function initializeAction(): void
     {
         parent::initializeAction();
 
@@ -62,7 +58,7 @@ class ModuleFileController extends AbstractModuleController
         $this->identifier = FileUtility::getIdentifierFromCombinedIdentifier($this->modParams['id']);
     }
 
-    public function showEmptyImageAltAction()
+    public function showEmptyImageAltAction(): ResponseInterface
     {
         BackendUtility::lockRecords();
 
@@ -308,12 +304,5 @@ class ModuleFileController extends AbstractModuleController
         }
 
         $buttonBar->addButton($recursiveButton, ButtonBar::BUTTON_POSITION_RIGHT, 4);
-
-        // CSH
-        $cshButton = $buttonBar->makeHelpButton()
-            ->setModuleName('_MOD_txcsseo')
-            ->setFieldName('mod_file');
-
-        $buttonBar->addButton($cshButton);
     }
 }

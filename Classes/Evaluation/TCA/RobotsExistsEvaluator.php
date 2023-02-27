@@ -44,7 +44,7 @@ class RobotsExistsEvaluator extends AbstractEvaluator
      * @return string Evaluated field value
      * @throws Exception
      */
-    public function evaluateFieldValue($value, $is_in, &$set)
+    public function evaluateFieldValue(string $value, string $is_in, bool &$set): string
     {
         if (file_exists(Environment::getPublicPath() . '/robots.txt') && strlen($value) > 0) {
             $this->addFlashMessage(

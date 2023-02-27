@@ -2,10 +2,8 @@
 
 namespace Clickstorm\CsSeo\EventListener;
 
-use Clickstorm\CsSeo\Service\CanonicalService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
-use TYPO3\CMS\Backend\Controller\PageLayoutController;
 use TYPO3\CMS\Backend\Module\ModuleData;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -17,13 +15,13 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
- * Listen To the ModifyUrlForCanonicalTagEvent and modify the canonical if necessary
+ * Listen To the ModifyPageLayoutContentEvent and add the evaluation results to the page
  */
 class ModifyPageLayoutContentEventListener
 {
-    const EVALUATION_IN_PAGE_MODULE_HEADER = 0;
-    const EVALUATION_IN_PAGE_MODULE_FOOTER = 1;
-    const EVALUATION_IN_PAGE_MODULE_DISABLED = 2;
+    public const EVALUATION_IN_PAGE_MODULE_HEADER = 0;
+    public const EVALUATION_IN_PAGE_MODULE_FOOTER = 1;
+    public const EVALUATION_IN_PAGE_MODULE_DISABLED = 2;
 
     /**
      * @var PageRenderer|null

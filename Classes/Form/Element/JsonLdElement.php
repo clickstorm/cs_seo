@@ -29,11 +29,9 @@ namespace Clickstorm\CsSeo\Form\Element;
 
 use TYPO3\CMS\Backend\Form\AbstractNode;
 use TYPO3\CMS\Backend\Form\Element\TextElement;
-use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
-use TYPO3\CMS\Form\Domain\Model\FormElements\Page;
 
 /**
  * Advanced helpers for JSON LD ELement
@@ -42,15 +40,7 @@ use TYPO3\CMS\Form\Domain\Model\FormElements\Page;
  */
 class JsonLdElement extends AbstractNode
 {
-    /**
-     * @var PageRenderer
-     */
-    protected $pageRenderer;
-
-    /**
-     * @var int
-     */
-    protected $typeNum = 654;
+    protected ?PageRenderer $pageRenderer = null;
 
     /**
      * Render the input field with additional snippet preview
@@ -81,7 +71,7 @@ class JsonLdElement extends AbstractNode
      *
      * This will only be done when the referenced record is available
      */
-    protected function loadJavascript()
+    protected function loadJavascript(): void
     {
         $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/JsonLdElement.js');
     }
@@ -90,10 +80,8 @@ class JsonLdElement extends AbstractNode
      * Load the necessary css
      *
      * This will only be done when the referenced record is available
-     *
-     * @return array
      */
-    protected function loadCss()
+    protected function loadCss(): array
     {
         $stylesheetFiles = [];
         $cssFiles = [
@@ -116,7 +104,7 @@ class JsonLdElement extends AbstractNode
      *
      * @return string The body content
      */
-    protected function getBodyContent($data, $table, $textElement)
+    protected function getBodyContent(array $data, string $table, string $textElement): string
     {
         // template1
         /** @var StandaloneView $wizardView */

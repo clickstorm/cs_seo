@@ -8,76 +8,44 @@ abstract class AbstractEvaluator implements EvaluationInterface
     const STATE_YELLOW = 1;
     const STATE_RED = 0;
 
-    /**
-     * @var \DOMDocument
-     */
-    protected $domDocument;
+    protected ?\DOMDocument $domDocument = null;
 
-    /**
-     * @var string
-     */
-    protected $keyword;
+    protected string $keyword = '';
 
-    /**
-     * @var string
-     */
-    protected $bodyContent = '';
+    protected string $bodyContent = '';
 
-    /**
-     * TSFEUtility constructor.
-     *
-     * @param \DOMDocument $domDocument
-     * @param string $keyword
-     */
-    public function __construct($domDocument, $keyword = '')
+    public function __construct(\DOMDocument $domDocument, string $keyword = '')
     {
         $this->domDocument = $domDocument;
         $this->setKeyword($keyword);
     }
 
-    /**
-     * @return \DOMDocument
-     */
-    public function getDomDocument()
+    public function getDomDocument(): \DOMDocument
     {
         return $this->domDocument;
     }
 
-    /**
-     * @param \DOMDocument $domDocument
-     */
-    public function setDomDocument($domDocument)
+    public function setDomDocument(\DOMDocument $domDocument)
     {
         $this->domDocument = $domDocument;
     }
 
-    /**
-     * @return string
-     */
-    public function getKeyword()
+    public function getKeyword(): string
     {
         return $this->keyword;
     }
 
-    /**
-     * @param string $keyword
-     */
-    public function setKeyword($keyword)
+    public function setKeyword(string $keyword)
     {
         $this->keyword = strtolower($keyword);
     }
 
-    public function validate()
+    public function validate(): array
     {
         return [];
     }
 
-    /**
-     * @param string $tagName
-     *
-     * @return string
-     */
-    protected function getSingleDomElementContentByTagName($tagName)
+    protected function getSingleDomElementContentByTagName(string $tagName): string
     {
         $elements = $this->domDocument->getElementsByTagName($tagName);
         if ($elements->item(0) !== null) {
@@ -86,19 +54,14 @@ abstract class AbstractEvaluator implements EvaluationInterface
         return '';
     }
 
-    /**
-     * @param $metaName
-     *
-     * @return int
-     */
-    protected function getNumberOfMetaTags($metaName)
+    protected function getNumberOfMetaTags(string $metaName): int
     {
         $counter = 0;
         $metaTags = $this->domDocument->getElementsByTagName('meta');
 
         /** @var \DOMElement $metaTag */
         foreach ($metaTags as $metaTag) {
-            if ($metaTag->getAttribute('name') == $metaName) {
+            if ($metaTag->getAttribute('name') === $metaName) {
                 $counter++;
             }
         }
@@ -106,14 +69,14 @@ abstract class AbstractEvaluator implements EvaluationInterface
         return $counter;
     }
 
-    protected function getMetaTagContent($metaName)
+    protected function getMetaTagContent(string $metaName): string
     {
         $content = '';
         $metaTags = $this->domDocument->getElementsByTagName('meta');
 
         /** @var \DOMElement $metaTag */
         foreach ($metaTags as $metaTag) {
-            if ($metaTag->getAttribute('name') == $metaName) {
+            if ($metaTag->getAttribute('name') === $metaName) {
                 $content = $metaTag->getAttribute('content');
                 break;
             }

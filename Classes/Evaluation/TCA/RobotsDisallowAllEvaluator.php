@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Evaluation\TCA;
 
 use TYPO3\CMS\Core\Exception;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -26,6 +27,7 @@ use TYPO3\CMS\Core\Exception;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 /**
  * Class RobotsEvaluator
  */
@@ -42,7 +44,7 @@ class RobotsDisallowAllEvaluator extends AbstractEvaluator
      * @return string Evaluated field value
      * @throws Exception
      */
-    public function evaluateFieldValue($value, $is_in, &$set)
+    public function evaluateFieldValue(string $value, string $is_in, bool &$set): string
     {
         if ($this->isRobotsDisallowed($value)) {
             $this->addFlashMessage(

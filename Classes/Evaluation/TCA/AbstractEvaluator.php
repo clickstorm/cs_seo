@@ -2,14 +2,14 @@
 
 namespace Clickstorm\CsSeo\Evaluation\TCA;
 
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractEvaluator
 {
-    protected function addFlashMessage($message)
+    protected function addFlashMessage($message): void
     {
         /** @var FlashMessage $flashMessage */
         $flashMessage = GeneralUtility::makeInstance(
@@ -18,7 +18,7 @@ abstract class AbstractEvaluator
                 $message
             ),
             '',
-            AbstractMessage::WARNING
+            ContextualFeedbackSeverity::WARNING
         );
         /** @var FlashMessageService $flashMessageService  */
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);

@@ -24,7 +24,7 @@ class Evaluation extends AbstractEntity
         return $this->results;
     }
 
-    public function setResults(): void
+    public function setResults(string $results): void
     {
         $this->results = $results;
     }

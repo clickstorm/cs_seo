@@ -51,8 +51,6 @@ class SnippetPreview extends AbstractNode
      * Load the necessary javascript
      *
      * This will only be done when the referenced record is available
-     *
-     * @return array
      */
     protected function loadJavascript(): void
     {

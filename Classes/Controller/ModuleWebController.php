@@ -36,21 +36,11 @@ class ModuleWebController extends AbstractModuleController
         'pageEvaluation',
     ];
 
-    /**
-     * Inject a evaluationService
-     *
-     * @param EvaluationService $evaluationService
-     */
     public function injectEvaluationService(EvaluationService $evaluationService): void
     {
         $this->evaluationService = $evaluationService;
     }
 
-    /**
-     * Inject a pageRepository
-     *
-     * @param PageRepository $pageRepository
-     */
     public function injectPageRepository(PageRepository $pageRepository): void
     {
         $this->pageRepository = $pageRepository;
