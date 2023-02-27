@@ -20,36 +20,13 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class ModuleWebController extends AbstractModuleController
 {
-    /**
-     * pageRepository
-     *
-     * @var PageRepository
-     */
-    protected $pageRepository;
+    protected ?PageRepository $pageRepository = null;
 
-    /**
-     * evaluationService
-     *
-     * @var EvaluationService
-     */
-    protected $evaluationService;
+    protected ?EvaluationService $evaluationService = null;
 
-    /**
-     * @var DataHandler
-     */
-    public $dataHandler;
+    protected ?GridService $gridService;
 
-    /**
-     * @var GridService
-     */
-    protected $gridService;
-
-    /**
-     * available Actions in Menu
-     *
-     * @var array
-     */
-    public static $menuActions = [
+    public static array $menuActions = [
         'pageMeta',
         'pageIndex',
         'pageOpenGraph',
@@ -64,7 +41,7 @@ class ModuleWebController extends AbstractModuleController
      *
      * @param EvaluationService $evaluationService
      */
-    public function injectEvaluationService(EvaluationService $evaluationService)
+    public function injectEvaluationService(EvaluationService $evaluationService): void
     {
         $this->evaluationService = $evaluationService;
     }
@@ -74,7 +51,7 @@ class ModuleWebController extends AbstractModuleController
      *
      * @param PageRepository $pageRepository
      */
-    public function injectPageRepository(PageRepository $pageRepository)
+    public function injectPageRepository(PageRepository $pageRepository): void
     {
         $this->pageRepository = $pageRepository;
     }
@@ -238,7 +215,7 @@ class ModuleWebController extends AbstractModuleController
         }
 
         if (isset($evaluation)) {
-            $results = $evaluation->getResults();
+            $results = $evaluation->getResultsAsArray();
             $score = $results['Percentage'];
             unset($results['Percentage']);
             $this->view->assignMultiple(

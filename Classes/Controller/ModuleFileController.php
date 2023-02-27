@@ -26,10 +26,10 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 class ModuleFileController extends AbstractModuleController
 {
-    public static $session_prefix = 'tx_csseo_file_';
-    public static $mod_name = 'file_CsSeoModFile';
-    public static $uriPrefix = 'tx_csseo_file_csseomodfile';
-    public static $l10nFileName = 'file';
+    public static string $session_prefix = 'tx_csseo_file_';
+    public static string $mod_name = 'file_CsSeoModFile';
+    public static string $uriPrefix = 'tx_csseo_file_csseomodfile';
+    public static string $l10nFileName = 'file';
 
     /**
      * @var array
@@ -39,7 +39,7 @@ class ModuleFileController extends AbstractModuleController
     /** @var File|null */
     protected $image;
 
-    public static $menuActions = [
+    public static array $menuActions = [
         'showEmptyImageAlt',
     ];
 

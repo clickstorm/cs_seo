@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Controller;
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use Symfony\Component\VarDumper\Cloner\Data;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
@@ -26,48 +27,29 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 abstract class AbstractModuleController extends ActionController
 {
     public $modTSconfig;
-    /**
-     * @var mixed|object
-     */
-    public $dataHandler;
-    public static $session_prefix = 'tx_csseo_';
-    public static $mod_name = 'web_CsSeoMod1';
-    public static $uriPrefix = 'tx_csseo_web_csseomod1';
-    public static $l10nFileName = 'web';
-    public static $flashMessageDurationInSeconds = 5;
 
-    /**
-     * @var array
-     */
-    public static $menuActions = [];
+    public ?DataHandler $dataHandler = null;
+    public static string $session_prefix = 'tx_csseo_';
+    public static string $mod_name = 'web_CsSeoMod1';
+    public static string $uriPrefix = 'tx_csseo_web_csseomod1';
+    public static string $l10nFileName = 'web';
+    public static int $flashMessageDurationInSeconds = 5;
 
-    /**
-     * @var array
-     */
-    protected $modParams = ['action' => '', 'id' => 0, 'lang' => 0, 'depth' => 1, 'table' => 'pages', 'record' => 0];
+    public static array $menuActions = [];
 
-    /**
-     * @var int
-     */
-    protected $id;
+    protected array $modParams = ['action' => '', 'id' => 0, 'lang' => 0, 'depth' => 1, 'table' => 'pages', 'record' => 0];
 
-    /**
-     * @var array
-     */
-    protected $cssFiles = [];
+    protected int $id = 0;
 
-    /**
-     * @var array
-     */
-    protected $jsFiles = [];
+    protected array $cssFiles = [];
 
-    protected $jsInlineCode = '';
+    protected array $jsFiles = [];
 
-    /**
-     * @var array
-     */
-    protected $requireJsModules = [];
-    private PageRenderer $pageRenderer;
+    protected string $jsInlineCode = '';
+
+    protected array $requireJsModules = [];
+
+    private ?PageRenderer $pageRenderer = null;
 
     public function __construct(PageRenderer $pageRenderer)
     {
@@ -81,10 +63,10 @@ abstract class AbstractModuleController extends ActionController
      * @throws NoSuchArgumentException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
-    protected function initializeAction()
+    protected function initializeAction(): void
     {
         // initialize page/be_user TSconfig settings
-        $this->id = GeneralUtility::_GP('id');
+        $this->id = (int)GeneralUtility::_GP('id');
 
         // initialize settings of the module
         $this->initializeModParams();
@@ -116,7 +98,7 @@ abstract class AbstractModuleController extends ActionController
      *
      * @throws NoSuchArgumentException
      */
-    protected function initializeModParams()
+    protected function initializeModParams(): void
     {
         $sessionParams = GlobalsUtility::getBackendUser()->getSessionData(static::$session_prefix) ?: $this->modParams;
 
@@ -141,7 +123,7 @@ abstract class AbstractModuleController extends ActionController
     /**
      * @return DataHandler
      */
-    protected function getDataHandler()
+    protected function getDataHandler(): DataHandler
     {
         if (!(property_exists($this, 'dataHandler') && $this->dataHandler !== null)) {
             $this->dataHandler = GeneralUtility::makeInstance(DataHandler::class);
@@ -151,7 +133,7 @@ abstract class AbstractModuleController extends ActionController
         return $this->dataHandler;
     }
 
-    protected function wrapModuleTemplate()
+    protected function wrapModuleTemplate(): string
     {
         // Prepare module setup
         $moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
@@ -204,7 +186,7 @@ abstract class AbstractModuleController extends ActionController
             $moduleTemplate->getDocHeaderComponent()->setMetaInformation($metaInfo);
         }
 
-        if(count(static::$menuActions) > 1) {
+        if (count(static::$menuActions) > 1) {
             // Main drop down in doc header
             $menu = $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->makeMenu();
             $menu->setIdentifier('action');

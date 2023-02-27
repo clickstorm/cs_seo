@@ -27,6 +27,7 @@ namespace Clickstorm\CsSeo\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Clickstorm\CsSeo\Domain\Model\Evaluation;
 use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
@@ -189,18 +190,18 @@ class EvaluationService
      *
      * @return array
      */
-    public function getResults($record, $table = '')
+    public function getResults($record, $table = ''): array
     {
         $results = [];
         $evaluation = $this->getEvaluation($record, $table);
         if ($evaluation) {
-            $results = $evaluation->getResults();
+            $results = $evaluation->getResultsAsArray();
         }
 
         return $results;
     }
 
-    public function getEvaluation($record, $table = '')
+    public function getEvaluation($record, $table = ''): ?Evaluation
     {
         if ($table) {
             $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record, $table);
