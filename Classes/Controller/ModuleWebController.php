@@ -54,7 +54,7 @@ class ModuleWebController extends AbstractModuleController
         $fieldNames = ['title', 'seo_title', 'tx_csseo_title_only', 'description'];
 
         // get title and settings from TypoScript
-        $tsfeUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->id, $this->modParams['lang']);
+        $tsfeUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->recordId, $this->modParams['lang']);
         $this->view->assign('previewSettings', json_encode($tsfeUtility->getPreviewSettings()));
 
         return $this->htmlResponse($this->generateGridView($fieldNames));
@@ -151,7 +151,8 @@ class ModuleWebController extends AbstractModuleController
 
         $table = $this->modParams['table'];
         if ($table && $table !== 'pages') {
-            $records = DatabaseUtility::getRecords($table, $this->id, true);
+            // @extensionScannerIgnoreLine
+            $records = DatabaseUtility::getRecords($table, $this->recordId, true);
             if ($records && $this->modParams['record'] && isset($records[$this->modParams['record']])) {
                 $evaluationUid = $this->modParams['record'];
             }

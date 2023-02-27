@@ -45,6 +45,7 @@ class CanonicalService extends AbstractUrlService
             $currentItemConf = $metaDataService::getCurrentTableConfiguration($tables, $cObj);
             $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], (int)$currentItemConf['uid']);
             unset($typoLinkConf['parameter.']);
+            // @extensionScannerIgnoreLine
             $typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
             if (!empty($metaData['no_index'])) {
                 $this->typoScriptFrontendController->page['no_index'] = 1;

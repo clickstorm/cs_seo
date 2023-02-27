@@ -166,6 +166,7 @@ abstract class AbstractUrlService
 
         /** @var SiteLanguage $siteLanguage */
         foreach ($this->siteLanguages as $siteLanguage) {
+            // @extensionScannerIgnoreLine
             if (isset($languageIds[$siteLanguage->getLanguageId()])) {
                 continue;
             }
@@ -173,6 +174,7 @@ abstract class AbstractUrlService
             if ($siteLanguage instanceof SiteLanguage && $siteLanguage->getFallbackType() === 'fallback' && $siteLanguage->getFallbackLanguageIds()) {
                 foreach ($siteLanguage->getFallbackLanguageIds() as $fallbackLanguageId) {
                     if (isset($languageIds[$fallbackLanguageId])) {
+                        // @extensionScannerIgnoreLine
                         $languageIds[$siteLanguage->getLanguageId()] = $fallbackLanguageId;
                     }
                 }

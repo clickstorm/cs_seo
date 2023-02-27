@@ -52,6 +52,7 @@ class StructuredData
     public function __construct()
     {
         $this->tsfeUtility =
+            // @extensionScannerIgnoreLine
             GeneralUtility::makeInstance(TSFEUtility::class, $GLOBALS['TSFE']->id);
     }
 
@@ -135,6 +136,7 @@ class StructuredData
         $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
 
         /** @var TypoScriptFrontendController[] $GLOBALS */
+        // @extensionScannerIgnoreLine
         $id = $GLOBALS['TSFE']->id;
         if (!empty($GLOBALS['TSFE']->MP) && preg_match('/^\\d+\\-(\\d+)$/', $GLOBALS['TSFE']->MP, $match)) {
             // mouting point page - generate breadcrumb for the mounting point reference page instead

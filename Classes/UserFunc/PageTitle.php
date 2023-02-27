@@ -68,6 +68,7 @@ final class PageTitle
      */
     protected function initialize(): void
     {
+        // @extensionScannerIgnoreLine
         $this->TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $GLOBALS['TSFE']->id);
     }
 

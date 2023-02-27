@@ -234,6 +234,7 @@ class DatabaseUtility
         }
 
         foreach ($site->getAvailableLanguages(GlobalsUtility::getBackendUser()) as $language) {
+            // @extensionScannerIgnoreLine
             $languages[$language->getLanguageId()] = $language->getTitle();
         }
 

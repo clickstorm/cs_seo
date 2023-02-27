@@ -2,19 +2,17 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
-use Clickstorm\CsSeo\Utility\ConfigurationUtility;
-use Symfony\Component\VarDumper\Cloner\Data;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
-use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
@@ -39,7 +37,7 @@ abstract class AbstractModuleController extends ActionController
 
     protected array $modParams = ['action' => '', 'id' => 0, 'lang' => 0, 'depth' => 1, 'table' => 'pages', 'record' => 0];
 
-    protected int $id = 0;
+    protected int $recordId = 0;
 
     protected array $cssFiles = [];
 
@@ -63,34 +61,35 @@ abstract class AbstractModuleController extends ActionController
      * @throws NoSuchArgumentException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
-    protected function initializeAction(): void
+    protected function initializeAction(): ?ForwardResponse
     {
         // initialize page/be_user TSconfig settings
-        $this->id = (int)GeneralUtility::_GP('id');
+        $this->recordId = (int)GeneralUtility::_GP('id');
 
         // initialize settings of the module
         $this->initializeModParams();
 
-        if (empty($this->id)) {
-            $this->id = $this->modParams['id'];
+        if (empty($this->recordId)) {
+            $this->recordId = $this->modParams['id'];
         }
 
-        if (is_numeric($this->id)) {
-            $this->id = (int)$this->id;
+        if (is_numeric($this->recordId)) {
+            $this->recordId = (int)$this->recordId;
         }
 
         if (!$this->request->hasArgument('action') && $this->modParams['action']) {
             $this->request->setArgument('action', $this->modParams['action']);
-            // @extensionScannerIgnoreLine
-            $this->forward($this->modParams['action']);
+            return new ForwardResponse($this->modParams['action']);
         }
 
-        if (is_int($this->id)) {
-            $this->modTSconfig = BackendUtility::getPagesTSconfig($this->id)['mod.']['SHARED.'] ?? [];
+        if (is_int($this->recordId)) {
+            $this->modTSconfig = BackendUtility::getPagesTSconfig($this->recordId)['mod.']['SHARED.'] ?? [];
         }
 
         // reset JavaScript and CSS files
         GeneralUtility::makeInstance(PageRenderer::class);
+
+        return null;
     }
 
     /**
@@ -175,7 +174,8 @@ abstract class AbstractModuleController extends ActionController
         // may be viewed by the user
         if (is_numeric($this->modParams['id'])) {
             $permsClause = $this->getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW);
-            $metaInfo = BackendUtility::readPageAccess($this->id, $permsClause);
+            // @extensionScannerIgnoreLine
+            $metaInfo = BackendUtility::readPageAccess($this->recordId, $permsClause);
         } else {
             $metaInfo = [
                 'combined_identifier' => $this->modParams['id'],
@@ -224,11 +224,11 @@ abstract class AbstractModuleController extends ActionController
         $messages = [];
 
         $severityMapping = [
-            AbstractMessage::OK => 'success',
-            AbstractMessage::ERROR => 'error',
-            AbstractMessage::INFO => 'info',
-            AbstractMessage::NOTICE => 'notice',
-            AbstractMessage::WARNING => 'waring',
+            ContextualFeedbackSeverity::OK => 'success',
+            ContextualFeedbackSeverity::ERROR => 'error',
+            ContextualFeedbackSeverity::INFO => 'info',
+            ContextualFeedbackSeverity::NOTICE => 'notice',
+            ContextualFeedbackSeverity::WARNING => 'waring',
         ];
 
         foreach ($messageQueue->getAllMessages() as $flashMessage) {

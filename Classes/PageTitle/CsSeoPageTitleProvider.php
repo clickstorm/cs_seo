@@ -32,6 +32,7 @@ class CsSeoPageTitleProvider extends AbstractPageTitleProvider
 
     protected function initialize(): void
     {
+        // @extensionScannerIgnoreLine
         $this->TSFE = GeneralUtility::makeInstance(TSFEUtility::class, $GLOBALS['TSFE']->id);
     }
 

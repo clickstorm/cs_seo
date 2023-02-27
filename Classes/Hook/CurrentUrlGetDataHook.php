@@ -58,6 +58,7 @@ class CurrentUrlGetDataHook implements ContentObjectGetDataHookInterface
         }
 
         $GET = GeneralUtility::_GET();
+        // @extensionScannerIgnoreLine
         $GET['id'] = $GLOBALS['TSFE']->id;
         $cacheHash = GeneralUtility::makeInstance(CacheHashCalculator::class);
         $cHash_array = $cacheHash->getRelevantParameters(GeneralUtility::implodeArrayForUrl('', $GET));

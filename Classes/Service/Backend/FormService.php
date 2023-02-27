@@ -2,7 +2,6 @@
 
 namespace Clickstorm\CsSeo\Service\Backend;
 
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Backend\Form\Exception\AccessDeniedException;
 use TYPO3\CMS\Backend\Form\Exception\DatabaseRecordException;
@@ -14,6 +13,7 @@ use TYPO3\CMS\Backend\Form\NodeFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FormService
@@ -98,7 +98,7 @@ class FormService
                     FlashMessage::class,
                     $lockInfo['msg'],
                     '',
-                    AbstractMessage::WARNING
+                    ContextualFeedbackSeverity::WARNING
                 );
                 $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
                 $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();

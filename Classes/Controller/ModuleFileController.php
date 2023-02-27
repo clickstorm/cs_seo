@@ -2,7 +2,6 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use Clickstorm\CsSeo\Service\Backend\FormService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
@@ -18,6 +17,7 @@ use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\File;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -50,12 +50,14 @@ class ModuleFileController extends AbstractModuleController
     protected int $offset = 0;
     protected int $numberOfImagesWithoutAlt = 0;
 
-    public function initializeAction(): void
+    public function initializeAction(): ?ForwardResponse
     {
         parent::initializeAction();
 
         $this->storageUid = FileUtility::getStorageUidFromCombinedIdentifier($this->modParams['id']);
         $this->identifier = FileUtility::getIdentifierFromCombinedIdentifier($this->modParams['id']);
+
+        return null;
     }
 
     public function showEmptyImageAltAction(): ResponseInterface
@@ -187,7 +189,7 @@ class ModuleFileController extends AbstractModuleController
                     GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.header'
                     ),
-                    AbstractMessage::OK, // [optional] the severity defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    ContextualFeedbackSeverity::OK, // [optional] the severity defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                     false // [optional] whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is false)
                 );
             } else {
@@ -199,7 +201,7 @@ class ModuleFileController extends AbstractModuleController
                     GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.error.header'
                     ),
-                    AbstractMessage::ERROR
+                    ContextualFeedbackSeverity::ERROR
                 );
             }
 

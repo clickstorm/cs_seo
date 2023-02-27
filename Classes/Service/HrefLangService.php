@@ -48,6 +48,7 @@ class HrefLangService extends AbstractUrlService
             $currentItemConf = $metaDataService::getCurrentTableConfiguration($tables, $cObj);
             $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], (int)$currentItemConf['uid']);
             unset($typoLinkConf['parameter.']);
+            // @extensionScannerIgnoreLine
             $typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
             if (empty($metaData['no_index']) &&
                 empty($metaData['canonical']) &&
@@ -97,12 +98,14 @@ class HrefLangService extends AbstractUrlService
                 $hreflangTypoLinkConf = $typoLinkConf;
                 unset($hreflangTypoLinkConf['additionalParams.']['append.']['data']);
                 unset($hreflangTypoLinkConf['parameter.']);
+                // @extensionScannerIgnoreLine
                 $hreflangTypoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
 
                 // prepare typolink conf for hreflang with canonical link
                 $hreflangTypoLinkConfForCanonical = $hreflangTypoLinkConf;
                 unset($hreflangTypoLinkConfForCanonical['additionalParams.']);
 
+                // @extensionScannerIgnoreLine
                 $canonicalsByLanguages = $this->getCanonicalFromAllLanguagesOfPage($GLOBALS['TSFE']->id);
 
                 foreach ($languages['languagemenu'] as $language) {

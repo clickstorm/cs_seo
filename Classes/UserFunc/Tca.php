@@ -30,6 +30,7 @@ final class Tca
             $configuration['items'] = [];
 
             foreach ($site->getAllLanguages() as $language) {
+                // @extensionScannerIgnoreLine
                 $configuration['items'][] = [$language->getTitle(), $language->getLanguageId()];
             }
         }
