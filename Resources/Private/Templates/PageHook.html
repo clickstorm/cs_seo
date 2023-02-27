@@ -13,14 +13,14 @@
 								<div class="right">
 									<a href="javascript:;"
 									   class="csseo-icon-up-open js-csseo-toggle"
-									   title="{f:translate(key:'evaluation.more')}"
+									   title="{f:translate(key:'evaluation.more', extensionName: 'cs_seo')}"
 									   data-content=".cs-seo-results .results"
 									   data-cookie="1"></a>
 								</div>
 								<f:render partial="Results/Percentage" arguments="{result:score}" section="Main"/>
-								<span class="text"><f:translate key="evaluation.header"/></span>
+								<span class="text"><f:translate key="evaluation.header" extensionName="cs_seo"/></span>
 								<button id="cs-seo-evaluate" data-uid="{page.uid}" class="btn btn-default btn-sm csseo-icon-arrows-cw">
-									<f:translate key="evaluation.update"/>
+									<f:translate key="evaluation.update" extensionName="cs_seo"/>
 								</button>
 								<f:render partial="Results/Bar" arguments="{result:score}" section="Main"/>
 							</div>
@@ -36,10 +36,10 @@
 						</f:then>
 						<f:else>
 							<div class="header">
-								<span class="score csseo-state-0"><f:translate key="evaluation.no_results"></f:translate></span>
-								<span class="text"><f:translate key="evaluation.header"/></span>
+								<span class="score csseo-state-0"><f:translate key="evaluation.no_results" extensionName="cs_seo"/></span>
+								<span class="text"><f:translate key="evaluation.header" extensionName="cs_seo"/></span>
 								<button id="cs-seo-evaluate" data-uid="{page.uid}" class="btn btn-default btn-sm csseo-icon-arrows-cw">
-									<f:translate key="evaluation.update"/>
+									<f:translate key="evaluation.update" extensionName="cs_seo"/>
 								</button>
 							</div>
 						</f:else>

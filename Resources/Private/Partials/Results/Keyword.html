@@ -3,18 +3,18 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<b><f:translate key="evaluation.keyword" /></b>
+<b><f:translate key="evaluation.keyword" extensionName="cs_seo"/></b>
 <f:if condition="{result.notSet}">
 	<f:then>
-		<f:translate key="evaluation.keyword.no" />.
+		<f:translate key="evaluation.keyword.no" extensionName="cs_seo"/>.
 	</f:then>
 	<f:else>
 		<f:if condition="{result.state} == 1">
 			<f:then>
-				<f:translate key="evaluation.keyword.1" />
+				<f:translate key="evaluation.keyword.1" extensionName="cs_seo"/>
 				<f:if condition="{result.contains.title}">
 					<f:else>
-						<f:translate key="evaluation.keyword.1.title" />
+						<f:translate key="evaluation.keyword.1.title" extensionName="cs_seo"/>
 						<f:if condition="{result.contains.description} == 0">
 							<f:then>
 								/
@@ -29,7 +29,7 @@
 				</f:if>
 				<f:if condition="{result.contains.description}">
 					<f:else>
-						<f:translate key="evaluation.keyword.1.description" />
+						<f:translate key="evaluation.keyword.1.description" extensionName="cs_seo"/>
 						<f:if condition="{result.contains.body} == 0">
 							/
 						</f:if>
@@ -37,12 +37,12 @@
 				</f:if>
 				<f:if condition="{result.contains.body}">
 					<f:else>
-						<f:translate key="evaluation.keyword.1.body" />
+						<f:translate key="evaluation.keyword.1.body" extensionName="cs_seo"/>
 					</f:else>
 				</f:if>
 			</f:then>
 			<f:else>
-				<f:translate key="evaluation.keyword.{result.state}" />.
+				<f:translate key="evaluation.keyword.{result.state}" extensionName="cs_seo"/>.
 			</f:else>
 		</f:if>
 	</f:else>

@@ -37,8 +37,15 @@ services:
         identifier: 'csSeoAfterTcaCompilationEventListener'
         event: TYPO3\CMS\Core\Configuration\Event\AfterTcaCompilationEvent
 
+  Clickstorm\CsSeo\EventListener\ModifyPageLayoutContentEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'cs-seo/backend/modify-page-module-content'
+        event: TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent
+
   Clickstorm\CsSeo\Command\EvaluationCommand:
     tags:
       - name: 'console.command'
         command: 'cs_seo:evaluate'
         description: 'Evaluate SEO aspects for multiple pages or records.'
+
