@@ -47,6 +47,7 @@ services:
         event: TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent
 
   Clickstorm\CsSeo\Command\EvaluationCommand:
+    public: true
     tags:
       - name: 'console.command'
         command: 'cs_seo:evaluate'
