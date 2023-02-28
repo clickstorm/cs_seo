@@ -31,9 +31,6 @@ abstract class AbstractUrlService
         $this->typoScriptFrontendController = $typoScriptFrontendController;
     }
 
-    /**
-     * @return TypoScriptFrontendController
-     */
     protected function getTypoScriptFrontendController(): TypoScriptFrontendController
     {
         return $GLOBALS['TSFE'];

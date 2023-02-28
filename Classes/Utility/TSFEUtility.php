@@ -2,8 +2,6 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
-use Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
-
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\TypoScriptAspect;
@@ -24,6 +22,7 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Core\TypoScript\TemplateService;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * own TSFE to render TSFE in the backend

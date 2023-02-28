@@ -207,6 +207,7 @@ class ModuleFileController extends AbstractModuleController
 
             $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
             $messageQueue = $flashMessageService->getMessageQueueByIdentifier(static::$mod_name);
+            // @extensionScannerIgnoreLine
             $messageQueue->addMessage($message);
         }
 

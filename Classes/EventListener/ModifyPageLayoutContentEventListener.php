@@ -23,10 +23,7 @@ class ModifyPageLayoutContentEventListener
     public const EVALUATION_IN_PAGE_MODULE_FOOTER = 1;
     public const EVALUATION_IN_PAGE_MODULE_DISABLED = 2;
 
-    /**
-     * @var PageRenderer|null
-     */
-    public $pageRenderer;
+    public ?PageRenderer $pageRenderer = null;
 
     protected StandaloneView $view;
 
@@ -49,7 +46,7 @@ class ModifyPageLayoutContentEventListener
         $this->csSeoConf = ConfigurationUtility::getEmConfiguration();
 
         if ($this->showEvaluationInPageModule()) {
-            $this->initPage();
+            $this->initPageInfo();
             if ($this->pageCanBeIndexed()) {
                 // template
                 $this->loadCss();
@@ -119,7 +116,7 @@ class ModifyPageLayoutContentEventListener
         return $allowedViaExtConf && $allowedViaPageTsConfig && $allowedViaModuleMode;
     }
 
-    protected function initPage(): void
+    protected function initPageInfo(): void
     {
         $this->pageInfo = BackendUtility::readPageAccess($this->currentPageUid, $GLOBALS['BE_USER']->getPagePermsClause(Permission::PAGE_SHOW));
         $this->currentSysLanguageUid = (int)$this->moduleData->get('language');
