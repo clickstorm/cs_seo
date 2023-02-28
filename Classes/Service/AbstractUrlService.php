@@ -12,22 +12,15 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 abstract class AbstractUrlService
 {
-    /**
-     * @var TypoScriptFrontendController
-     */
-    protected $typoScriptFrontendController;
+    protected ?TypoScriptFrontendController $typoScriptFrontendController = null;
 
     /**
      * languages defined in site config
-     *
-     * @var array
      */
-    protected $siteLanguages = [];
+    protected array $siteLanguages = [];
 
     /**
      * constructor
-     *
-     * @param TypoScriptFrontendController $typoScriptFrontendController
      */
     public function __construct(
         TypoScriptFrontendController $typoScriptFrontendController = null
@@ -46,13 +39,7 @@ abstract class AbstractUrlService
         return $GLOBALS['TSFE'];
     }
 
-    /**
-     * @param string $table
-     * @param int $uid
-     *
-     * @return int
-     */
-    protected function getLanguageFromItem($table, $uid)
+    protected function getLanguageFromItem(string $table, int $uid): int
     {
         if ($GLOBALS['TCA'][$table]['ctrl']['languageField']) {
             /** @var QueryBuilder $queryBuilder */
@@ -70,13 +57,7 @@ abstract class AbstractUrlService
         return 0;
     }
 
-    /**
-     * @param string $table
-     * @param int $uid
-     *
-     * @return array
-     */
-    protected function getAllLanguagesFromItem($table, $uid)
+    protected function getAllLanguagesFromItem(string $table, int $uid): array
     {
         $languageIds = [];
         if (!isset($GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField']) || !isset($GLOBALS['TCA'][$table]['ctrl']['languageField'])) {
@@ -184,12 +165,7 @@ abstract class AbstractUrlService
         return $languageIds;
     }
 
-    /**
-     * @param string $uid
-     *
-     * @return array
-     */
-    protected function getCanonicalFromAllLanguagesOfPage($uid)
+    protected function getCanonicalFromAllLanguagesOfPage(int $uid): array
     {
         $res = [];
 

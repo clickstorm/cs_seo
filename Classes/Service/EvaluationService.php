@@ -2,31 +2,6 @@
 
 namespace Clickstorm\CsSeo\Service;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 use Clickstorm\CsSeo\Domain\Model\Evaluation;
 use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
@@ -46,50 +21,26 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class EvaluationService
 {
-    /**
-     * @var array
-     */
-    protected $evaluators;
+    protected array $evaluators = [];
 
-    /**
-     * evaluationRepository
-     *
-     * @var EvaluationRepository
-     */
-    protected $evaluationRepository;
+    protected ?EvaluationRepository $evaluationRepository = null;
 
-    /**
-     * Inject a evaluationRepository
-     *
-     * @param EvaluationRepository $evaluationRepository
-     */
-    public function injectEvaluationRepository(EvaluationRepository $evaluationRepository)
+    public function injectEvaluationRepository(EvaluationRepository $evaluationRepository): void
     {
         $this->evaluationRepository = $evaluationRepository;
     }
 
-    /**
-     * @return array
-     */
-    public function getEvaluators()
+    public function getEvaluators(): array
     {
         return $this->evaluators;
     }
 
-    /**
-     * @param array $evaluators
-     */
-    public function setEvaluators($evaluators)
+    public function setEvaluators(array $evaluators): void
     {
         $this->evaluators = $evaluators;
     }
 
-    /**
-     * @param string $html
-     * @param string $keyword
-     * @return array
-     */
-    public function evaluate($html, $keyword)
+    public function evaluate(string $html, string $keyword): array
     {
         $results = [];
 
@@ -118,7 +69,7 @@ class EvaluationService
     /**
      * @TODO find a better solution for defaults
      */
-    public function initEvaluators()
+    public function initEvaluators(): void
     {
         $evaluators = [];
         $extConf = ConfigurationUtility::getEmConfiguration();
@@ -153,12 +104,7 @@ class EvaluationService
         $this->evaluators = $evaluators;
     }
 
-    /**
-     * @param $results
-     *
-     * @return array
-     */
-    protected function getFinalPercentage($results)
+    protected function getFinalPercentage(array $results): array
     {
         $score = 0;
         $state = AbstractEvaluator::STATE_RED;
@@ -184,13 +130,8 @@ class EvaluationService
 
     /**
      * return evaluation results of a specific page
-     *
-     * @param $record
-     * @param $table
-     *
-     * @return array
      */
-    public function getResults($record, $table = ''): array
+    public function getResults(array $record, string $table = ''): array
     {
         $results = [];
         $evaluation = $this->getEvaluation($record, $table);
@@ -201,7 +142,7 @@ class EvaluationService
         return $results;
     }
 
-    public function getEvaluation($record, $table = ''): ?Evaluation
+    public function getEvaluation(array $record, string $table = ''): ?Evaluation
     {
         if ($table) {
             $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record, $table);

@@ -10,10 +10,8 @@ class SqlExpectedSchemaHook
     /**
      * A slot method to inject the required tx_csseo database fields to the
      * tables definition string
-     *
-     * @param AlterTableDefinitionStatementsEvent $event
      */
-    public function addMetadataDatabaseSchemaToTablesDefinition(AlterTableDefinitionStatementsEvent $event)
+    public function addMetadataDatabaseSchemaToTablesDefinition(AlterTableDefinitionStatementsEvent $event): void
     {
         $config = ConfigurationUtility::getTablesToExtend();
 

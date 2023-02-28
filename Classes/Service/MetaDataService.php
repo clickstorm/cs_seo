@@ -29,7 +29,7 @@ class MetaDataService
         $this->languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
     }
 
-    public function getMetaData(): ?array
+    public function getMetaData(): array|bool
     {
         // check if metadata was already set
         if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'])) {
@@ -47,7 +47,7 @@ class MetaDataService
                 // get record
                 $record = $this->getRecord($tableSettings);
                 if (!is_array($record)) {
-                    return null;
+                    return false;
                 }
 
                 if (!empty($record['_LOCALIZED_UID'])) {
@@ -107,7 +107,7 @@ class MetaDataService
 
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']['storage']['metaData'] = false;
 
-        return null;
+        return false;
     }
 
     /**

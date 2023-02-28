@@ -18,28 +18,16 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FormService
 {
-    public array $elementsData;
-    /**
-     * @var int|mixed
-     */
-    public $errorC;
-    public int $newC;
-    /**
-     * @var int|mixed
-     */
-    public $viewId;
-    public string $viewId_addParams;
-    /**
-     * @var mixed|array<string, mixed>|array<string, mixed[]>
-     */
-    public $overrideVals;
-    /**
-     * @var mixed|mixed[]
-     */
-    public $defVals;
+    public array $elementsData = [];
+    public int $errorC = 0;
+    public int $newC = 0;
+    public int $viewId = 0;
+    public string $viewId_addParams = '';
+    public ?array $overrideVals = [];
+    public ?array $defVals = [];
+
     /**
      * Render an editform for specific table, see
-     * @return string HTML form elements wrapped in tables
      * @see \TYPO3\CMS\Backend\Controller\EditDocumentController
      */
     public function makeEditForm(string $table, int $theUid, string $columns): string

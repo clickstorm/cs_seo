@@ -4,7 +4,6 @@ namespace Clickstorm\CsSeo\UserFunc;
 
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Clickstorm\CsSeo\Service\MetaDataService;
-use Clickstorm\CsSeo\Utility\TSFEUtility;
 
 /***************************************************************
  *
@@ -45,26 +44,9 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class StructuredData
 {
     /**
-     * @var TSFEUtility $tsfeUtility
-     */
-    public $tsfeUtility;
-
-    public function __construct()
-    {
-        $this->tsfeUtility =
-            // @extensionScannerIgnoreLine
-            GeneralUtility::makeInstance(TSFEUtility::class, $GLOBALS['TSFE']->id);
-    }
-
-    /**
      * return the content of field tx_csseo_json_ld from pages or field json_ld from record
-     *
-     * @param string $content
-     * @param array $conf
-     *
-     * @retrun string
      */
-    public function getJsonLdOfPageOrRecord($content, $conf)
+    public function getJsonLdOfPageOrRecord(string $content, array $conf): string
     {
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
         $jsonLd = $GLOBALS['TSFE']->page['tx_csseo_json_ld'];
@@ -79,22 +61,13 @@ class StructuredData
 
     /**
      * Wraps $content with Json declaration
-     *
-     * @param $content
-     *
-     * @return string
      */
-    protected function wrapWithLd($content)
+    protected function wrapWithLd(string $content): string
     {
         return '<script type="application/ld+json">' . $content . '</script>';
     }
 
-    /**
-     * Returns the json for the siteSearch
-     *
-     * @return bool|string siteSearch
-     */
-    public function getSiteSearch($content, $conf)
+    public function getSiteSearch(string $content, array $conf): string
     {
         $homepage = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
 
@@ -124,13 +97,9 @@ class StructuredData
     /**
      * Returns the json for the serps breadcrumb
      *
-     * @param $conf
-     * @param $content
-     *
-     * @return string
      * @throws \Exception
      */
-    public function getBreadcrumb($conf, $content)
+    public function getBreadcrumb(string $conf, array $content): string
     {
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');

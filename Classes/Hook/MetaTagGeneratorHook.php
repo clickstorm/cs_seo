@@ -21,7 +21,7 @@ class MetaTagGeneratorHook
         $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
     }
 
-    public function generate(array $params)
+    public function generate(array $params): void
     {
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
 

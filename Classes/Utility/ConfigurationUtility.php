@@ -7,31 +7,6 @@ use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 /**
  * Get Extension Configuration
  *
@@ -41,10 +16,8 @@ class ConfigurationUtility
 {
     /**
      * return the table names to extend
-     *
-     * @return array
      */
-    public static function getTablesToExtend()
+    public static function getTablesToExtend(): array
     {
         $config = self::getYamlConfig();
 
@@ -54,10 +27,8 @@ class ConfigurationUtility
 
     /**
      * return the settings to extend records
-     *
-     * @return array
      */
-    public static function getYamlConfig()
+    public static function getYamlConfig(): array
     {
         $fileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
         $config = [];
@@ -72,10 +43,8 @@ class ConfigurationUtility
 
     /**
      * return the settings for a table
-     *
-     * @return array
      */
-    public static function getTableSettings($tableName)
+    public static function getTableSettings($tableName): array
     {
         $config = self::getYamlConfig();
 
@@ -85,10 +54,8 @@ class ConfigurationUtility
 
     /**
      * return the allowed doktypes of pages for evaluation
-     *
-     * @return array
      */
-    public static function getEvaluationDoktypes()
+    public static function getEvaluationDoktypes(): array
     {
         $allowedDoktypes = [1];
         $extConf = self::getEmConfiguration();
@@ -101,20 +68,15 @@ class ConfigurationUtility
 
     /**
      * Get the configuration from the extension manager
-     *
-     * @return array
      */
-    public static function getEmConfiguration()
+    public static function getEmConfiguration(): array
     {
         $conf = $confArray = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('cs_seo');
 
         return is_array($conf) ? $conf : [];
     }
 
-    /**
-     * @return bool
-     */
-    public static function useAdditionalCanonicalizedUrlParametersOnly()
+    public static function useAdditionalCanonicalizedUrlParametersOnly(): bool
     {
         $extConf = self::getEmConfiguration();
 
@@ -123,10 +85,8 @@ class ConfigurationUtility
 
     /**
      * returns the x-default from site config
-     *
-     * @return int
      */
-    public static function getXdefault()
+    public static function getXdefault(): int
     {
         $xDefault = 0;
 

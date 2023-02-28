@@ -2,12 +2,9 @@
 
 namespace Clickstorm\CsSeo\UserFunc;
 
-use Clickstorm\CsSeo\Service\MetaDataService;
-use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * UserFunc to provide items

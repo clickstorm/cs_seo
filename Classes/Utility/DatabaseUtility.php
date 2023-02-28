@@ -45,12 +45,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DatabaseUtility
 {
-    /**
-     * @param $table
-     *
-     * @return array
-     */
-    public static function getRecords($table, $pid = 0, $sortByLabel = false)
+    public static function getRecords(string $table, int $pid = 0, bool $sortByLabel = false): array
     {
         $items = [];
 
@@ -83,12 +78,7 @@ class DatabaseUtility
         return $items;
     }
 
-    /**
-     * @param $table
-     *
-     * @return array
-     */
-    public static function getPageLanguageOverlays($uid)
+    public static function getPageLanguageOverlays(int $uid): array
     {
         $items = [];
         $table = 'pages';
@@ -114,16 +104,7 @@ class DatabaseUtility
         return $items;
     }
 
-    /**
-     * Returns an image file for the given field and uid
-     *
-     * @param string $table
-     * @param string $field
-     * @param int $uid
-     *
-     * @return File|null
-     */
-    public static function getFile($table, $field, $uid)
+    public static function getFile(string $table, string $field, int $uid): ?File
     {
         /** @var FileRepository $fileRepository */
         $fileRepository = GeneralUtility::makeInstance(
@@ -140,13 +121,14 @@ class DatabaseUtility
     }
 
     public static function getImageWithEmptyAlt(
-        int $storage,
+        int    $storage,
         string $identifier,
-        $includeSubfolders = true,
-        $countAll = false,
-        $includeImagesWithAlt = false,
-        $offset = 0
-    ) {
+        bool   $includeSubfolders = true,
+        bool   $countAll = false,
+        bool   $includeImagesWithAlt = false,
+        int    $offset = 0
+    ): ?array
+    {
         $tableName = 'sys_file';
         $joinTableName = 'sys_file_metadata';
 
@@ -222,7 +204,7 @@ class DatabaseUtility
     {
         $languages[0] = 'Default';
 
-        if($pageId === 0) {
+        if ($pageId === 0) {
             return $languages;
         }
 
@@ -241,25 +223,16 @@ class DatabaseUtility
         return $languages;
     }
 
-    /**
-     * Fetch a single record
-     *
-     * @param string $table
-     * @param int $uid
-     * @param string $select
-     *
-     * @return mixed
-     */
-    public static function getRecord($table, $uid, $select = '*')
+    public static function getRecord(string $table, int $uid, string $select = '*'): ?array
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
 
         return $queryBuilder->select(...GeneralUtility::trimExplode(',', $select, true))
             ->from($table)->where($queryBuilder->expr()->eq(
-            'uid',
-            $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-        ))->executeQuery()
+                'uid',
+                $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+            ))->executeQuery()
             ->fetch();
     }
 }

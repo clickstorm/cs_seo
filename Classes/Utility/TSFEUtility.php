@@ -32,52 +32,24 @@ use TYPO3\CMS\Core\TypoScript\TemplateService;
  */
 class TSFEUtility
 {
-    /**
-     * @var int
-     */
-    protected $pageUid;
+    protected int $pageUid = 0;
+
+    protected int $workspaceUid = 0;
+
+    protected int $parentUid = 0;
+
+    protected int $typeNum = 0;
+
+    protected int $lang = 0;
+
+    protected array $config = [];
+
+    protected ?ContentObjectRenderer $cObj = null;
 
     /**
-     * @var int
-     */
-    protected $workspaceUid;
-
-    /**
-     * @var int
-     */
-    protected $parentUid;
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Service\EnvironmentService
-     */
-    protected $environmentService;
-
-    /**
-     * @var int
-     */
-    protected $typeNum;
-
-    /**
-     * @var int
-     */
-    protected $lang;
-
-    /**
-     * @var array
-     */
-    protected $config;
-
-    protected $cObj;
-
-    /**
-     * TSFEUtility constructor.
-     *
-     * @param int $pageUid
-     * @param array|int $lang
-     * @param int $typeNum
      * @throws \TYPO3\CMS\Core\Exception
      */
-    public function __construct($pageUid, $lang = 0, $typeNum = 654)
+    public function __construct(int $pageUid, int $lang = 0, int $typeNum = 654)
     {
         $this->pageUid = $pageUid;
         $this->workspaceUid = $GLOBALS['BE_USER']->workspace ?? 0;
@@ -104,7 +76,7 @@ class TSFEUtility
      *
      * @throws \TYPO3\CMS\Core\Exception
      */
-    protected function initTSFE()
+    protected function initTSFE(): void
     {
         try {
             if (!isset($GLOBALS['TT']) || !is_object($GLOBALS['TT'])) {
@@ -165,10 +137,7 @@ class TSFEUtility
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getPagePath()
+    public function getPagePath(): string
     {
         $parameter = [
             'parameter' => $this->pageUid,
@@ -179,28 +148,17 @@ class TSFEUtility
         return $this->cObj->typoLink_URL($parameter);
     }
 
-    /**
-     * @return array
-     */
-    public function getPage()
+    public function getPage(): array
     {
         return $GLOBALS['TSFE']->page;
     }
 
-    /**
-     * @return bool
-     */
     public function getPageTitleFirst(): bool
     {
         return isset($this->config['pageTitleFirst']) ? (bool)$this->config['pageTitleFirst'] : false;
     }
 
-    /**
-     * @param string $title
-     * @param bool $titleOnly
-     * @return string
-     */
-    public function getFinalTitle($title, $titleOnly = false)
+    public function getFinalTitle(string $title, bool $titleOnly = false): string
     {
         if ($titleOnly) {
             return $title;
@@ -238,18 +196,12 @@ class TSFEUtility
         return '';
     }
 
-    /**
-     * @return array
-     */
-    public function getConfig()
+    public function getConfig(): array
     {
         return $this->config;
     }
 
-    /**
-     * @return string
-     */
-    public function getPageTitleSeparator()
+    public function getPageTitleSeparator(): string
     {
         if (!isset($GLOBALS['TSFE']) || !is_object($GLOBALS['TSFE'])) {
             return '';

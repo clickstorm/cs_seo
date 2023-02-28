@@ -17,13 +17,11 @@ use TYPO3\CMS\Frontend\DataProcessing\LanguageMenuProcessor;
 class HrefLangService extends AbstractUrlService
 {
     /**
-     * @param array $hreflangs
-     *
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      * @throws AspectNotFoundException
      */
-    public function getHrefLangs($hreflangs): array
+    public function getHrefLangs(array $hreflangs): array
     {
         $metaDataService = GeneralUtility::makeInstance(MetaDataService::class);
         $metaData = $metaDataService->getMetaData();
@@ -64,9 +62,9 @@ class HrefLangService extends AbstractUrlService
                     // set hreflang only for languages of the TS setup and if the language is also localized for the item
                     // if the language doesn't exist for the item and a fallback language is shown, the hreflang is not set and the canonical points to the fallback url
                     if ($this->checkHrefLangForLanguageCanBeSet(
-                        $language,
-                        $languages['languagemenu']
-                    ) && isset($l10nItems[$language['languageId']])) {
+                            $language,
+                            $languages['languagemenu']
+                        ) && isset($l10nItems[$language['languageId']])) {
                         $hreflangTypoLinkConf['language'] = $language['languageId'];
                         $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
                         $hrefLangArray[$language['languageId']] = [
@@ -80,7 +78,7 @@ class HrefLangService extends AbstractUrlService
                 // remove hreflangs, if item is set to no_index or has a different canonical
                 $hreflangs = [];
             }
-        // pages record
+            // pages record
         } elseif ($useAdditionalCanonicalizedUrlParametersOnly || ConfigurationUtility::getXdefault() > 0) {
             // remove hreflangs
             $hreflangs = [];
@@ -131,13 +129,8 @@ class HrefLangService extends AbstractUrlService
 
     /**
      * check if a hreflang for the given language of the languageMenu can be set
-     *
-     * @param array $language
-     * @param array $languageMenu
-     *
-     * @return bool
      */
-    protected function checkHrefLangForLanguageCanBeSet($language, $languageMenu)
+    protected function checkHrefLangForLanguageCanBeSet(array $language, array $languageMenu): bool
     {
         if (!empty($language['hreflang']) && !empty($language['link'])) {
             if ($language['available']) {
@@ -170,13 +163,9 @@ class HrefLangService extends AbstractUrlService
 
     /**
      * add the x-default parameter and convert to final hrefLang
-     *
-     * @param array $hrefLangArray
-     * @return array
      */
-    protected function finalizeHrefLangs(
-        $hrefLangArray
-    ) {
+    protected function finalizeHrefLangs(array $hrefLangArray): array
+    {
         $hreflangs = [];
         // add the x-default
         if (count($hrefLangArray) > 1) {
