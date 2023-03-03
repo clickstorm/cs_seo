@@ -13,6 +13,9 @@ cropDescription = 0
 # cat=page/030; type=integer; label= Max characters of nav title
 maxNavTitle = 50
 
+# cat=page/040; type=boolean; label= Display the cs_seo descriptions for SEO fields in pages TCA
+showDescriptionsInTCA = 1
+
 # cat=evaluation/010; type=options[Header=0,Footer=1,None=2]; label= Show the results in the page module
 inPageModule = 0
 

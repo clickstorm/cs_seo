@@ -2,6 +2,7 @@
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 defined('TYPO3') || die();
 
 // get extension configurations
@@ -98,3 +99,33 @@ ExtensionManagementUtility::addFieldsToPalette(
     '--linebreak--,
     tx_csseo_tw_creator, tx_csseo_tw_site'
 );
+
+
+if (!empty($extConf['showDescriptionsInTCA'])) {
+    // add descriptions
+    $colsWithDescription = [
+        'canonical_link',
+        'description',
+        'no_follow',
+        'no_index',
+        'og_description',
+        'og_image',
+        'og_title',
+        'seo_title',
+        'twitter_card',
+        'twitter_description',
+        'twitter_image',
+        'twitter_title',
+        'tx_csseo_json_ld',
+        'tx_csseo_keyword',
+        'tx_csseo_title_only',
+        'tx_csseo_tw_creator',
+        'tx_csseo_tw_site',
+    ];
+
+    foreach ($colsWithDescription as $col) {
+        $GLOBALS['TCA']['pages']['columns'][$col]['description'] =
+            'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:' . $col . '.description';
+    }
+}
+

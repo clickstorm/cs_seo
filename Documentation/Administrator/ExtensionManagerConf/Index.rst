@@ -28,6 +28,7 @@ Properties
 	`page.maxDescription`_                                  :ref:`t3tsref:data-type-integer`      156
 	`page.cropDescription`_                                 :ref:`t3tsref:data-type-boolean`      false
 	`page.maxNavTitle`_                                     :ref:`t3tsref:data-type-integer`      50
+    `page.showDescriptionsInTCA`_                           :ref:`t3tsref:data-type-boolean`      true
 	`evaluation.inPageModule`_                              :ref:`t3tsref:data-type-integer`      0
 	`evaluation.evaluationDoktypes`_                        :ref:`t3tsref:data-type-string`       1
 	`evaluation.evaluators`_                                :ref:`t3tsref:data-type-string`       Title,Description,H1,H2,Images,Keyword
@@ -120,6 +121,21 @@ Max characters of nav title
          :ref:`t3tsref:data-type-integer`
    Description
          The recommended maximum number of characters for the nav title and URL.
+
+.. _page.showDescriptionsInTCA:
+
+Show Descriptions in TCA
+""""""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         maxNavTitle
+   Data type
+         :ref:`t3tsref:data-type-boolean`
+   Description
+         Display the cs_seo descriptions for SEO fields in pages TCA. The descriptions will be shown below the labels
+         in the TYPO3 backend. They help editors to understand the several fields.
 
 
 Evaluation
@@ -217,6 +233,8 @@ Please take also a look at the next chapter for TypoScript configurations.
 
 File configurations
 ^^^^^^^^^^^^^^^^^^^
+
+.. _file.modFileColumns:
 
 File Columns
 """"""""""""

@@ -105,7 +105,6 @@ return [
         ],
     ],
     'columns' => [
-
         'sys_language_uid' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
@@ -168,6 +167,7 @@ return [
 
         'title' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_title',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:seo_title.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'input',
@@ -178,6 +178,7 @@ return [
         ],
         'description' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:tx_csseo_domain_model_meta.description',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:description.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'text',
@@ -189,6 +190,7 @@ return [
         ],
         'title_only' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_title_only',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:tx_csseo_title_only.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'check',
@@ -197,6 +199,7 @@ return [
         ],
         'keyword' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_keyword',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:tx_csseo_keyword.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'input',
@@ -206,6 +209,7 @@ return [
         ],
         'canonical' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_canonical',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:canonical_link.description',
             'exclude' => 1,
             'displayCond' => 'FIELD:tx_csseo_no_index:REQ:FALSE',
             'config' => [
@@ -220,6 +224,7 @@ return [
         ],
         'no_index' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_no_index',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:no_index.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'check',
@@ -228,6 +233,7 @@ return [
         ],
         'no_follow' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_no_follow',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:no_follow.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'check',
@@ -236,6 +242,7 @@ return [
         ],
         'og_title' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_og_title',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:og_title.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'input',
@@ -245,6 +252,7 @@ return [
         ],
         'og_description' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_og_description',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:og_description.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'text',
@@ -257,6 +265,7 @@ return [
         'og_image' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_og_image',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:og_image.description',
             'config' => [
                 'type' => 'file',
                 'allowed' => 'common-image-types',
@@ -288,6 +297,7 @@ return [
         ],
         'tw_title' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_title',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:twitter_title.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'input',
@@ -297,6 +307,7 @@ return [
         ],
         'tw_description' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_description',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:twitter_description.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'text',
@@ -309,6 +320,7 @@ return [
         'tw_image' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_image',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:twitter_image.description',
             'config' => [
                 'type' => 'file',
                 'allowed' => 'common-image-types',
@@ -340,6 +352,7 @@ return [
         ],
         'tw_creator' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_creator',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:tx_csseo_tw_creator.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'input',
@@ -349,6 +362,7 @@ return [
         ],
         'tw_site' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_site',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:tx_csseo_tw_site.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'input',
@@ -358,6 +372,7 @@ return [
         ],
         'json_ld' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_json_ld',
+            'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:tx_csseo_json_ld.description',
             'exclude' => 1,
             'config' => [
                 'type' => 'text',
