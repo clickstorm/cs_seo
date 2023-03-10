@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Service;
 
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Site\Entity\Site;
@@ -54,6 +55,9 @@ abstract class AbstractUrlService
         return 0;
     }
 
+    /**
+     * @throws Exception
+     */
     protected function getAllLanguagesFromItem(string $table, int $uid): array
     {
         $languageIds = [];
@@ -123,8 +127,8 @@ abstract class AbstractUrlService
                     't.uid',
                     $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
                 ))
-            )->groupBy('m.uid')->executeQuery()
-            ->fetchAll();
+            )->executeQuery()
+            ->fetchAllAssociative();
 
         $invalidItems = [];
         foreach ($invalidItemsRes as $item) {

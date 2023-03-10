@@ -43,7 +43,7 @@ class MetaTagGeneratorHook
 
         // Crop meta description if cropDescription is active
         $emConfiguration = ConfigurationUtility::getEmConfiguration();
-        if ($emConfiguration['cropDescription']) {
+        if (!empty($emConfiguration['cropDescription'])) {
             $metaData['description'] = substr($metaData['description'], 0, $emConfiguration['maxDescription']) . '...';
         }
 
