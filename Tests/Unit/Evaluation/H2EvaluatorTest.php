@@ -2,44 +2,15 @@
 
 namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
+use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\H2Evaluator;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
 class H2EvaluatorTest extends UnitTestCase
 {
-    /**
-     * @var H2Evaluator
-     */
-    protected $generalEvaluationMock;
+    protected ?H2Evaluator $generalEvaluationMock = null;
 
-    /**
-     * @var int
-     */
-    protected $max = 6;
+    protected int $max = 6;
 
     public function setUp(): void
     {
@@ -52,20 +23,17 @@ class H2EvaluatorTest extends UnitTestCase
 
     public function tearDown(): void
     {
-        unset($this->generalEvaluationMock);
-        unset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']);
+        unset($this->generalEvaluationMock, $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']);
     }
 
     /**
      * htmlspecialcharsOnArray Test
      *
-     * @param string $html
-     * @param mixed $expectedResult
-     *
      * @dataProvider evaluateTestDataProvider
      * @test
+     * @throws \JsonException
      */
-    public function evaluateTest($html, $expectedResult)
+    public function evaluateTest(string $html, array $expectedResult): void
     {
         $domDocument = new \DOMDocument();
         @$domDocument->loadHTML($html);
@@ -75,7 +43,7 @@ class H2EvaluatorTest extends UnitTestCase
         ksort($expectedResult);
         ksort($result);
 
-        self::assertEquals(json_encode($expectedResult), json_encode($result));
+        self::assertEquals(json_encode($expectedResult, JSON_THROW_ON_ERROR), json_encode($result, JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -90,34 +58,34 @@ class H2EvaluatorTest extends UnitTestCase
                 '<html>',
                 [
                     'count' => 0,
-                    'state' => H2Evaluator::STATE_RED,
+                    'state' => AbstractEvaluator::STATE_RED,
                 ],
             ],
             'one h2' => [
                 '<html><body><h2>Headline One</h2></body></html>',
                 [
                     'count' => 1,
-                    'state' => H2Evaluator::STATE_GREEN,
+                    'state' => AbstractEvaluator::STATE_GREEN,
                 ],
             ],
             'two h2' => [
                 '<h2>Headline One</h2><h2>Headline Two</h2>',
                 [
-                    'state' => H2Evaluator::STATE_GREEN,
+                    'state' => AbstractEvaluator::STATE_GREEN,
                     'count' => 2,
                 ],
             ],
             'six h2' => [
                 str_repeat('<h2>Headline</h2>', $this->max),
                 [
-                    'state' => H2Evaluator::STATE_GREEN,
+                    'state' => AbstractEvaluator::STATE_GREEN,
                     'count' => $this->max,
                 ],
             ],
             'seven h2' => [
                 str_repeat('<h2>Headline</h2>', $this->max + 1),
                 [
-                    'state' => H2Evaluator::STATE_YELLOW,
+                    'state' => AbstractEvaluator::STATE_YELLOW,
                     'count' => $this->max + 1,
                 ],
             ],

@@ -172,7 +172,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'renderType' => 'snippetPreview',
-                'max' => $extConf['maxTitle'],
+                'max' => $extConf['maxTitle'] ?? '',
                 'eval' => 'trim',
             ],
         ],
@@ -185,7 +185,7 @@ return [
                 'cols' => 40,
                 'rows' => 5,
                 'eval' => 'trim',
-                'max' => $extConf['maxDescription'],
+                'max' => $extConf['maxDescription'] ?? '',
             ],
         ],
         'title_only' => [

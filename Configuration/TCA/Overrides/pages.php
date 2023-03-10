@@ -9,15 +9,15 @@ defined('TYPO3') || die();
 $extConf = ConfigurationUtility::getEmConfiguration();
 
 // SEO Settings
-$GLOBALS['TCA']['pages']['columns']['title']['config']['max'] = $extConf['maxTitle'];
-$GLOBALS['TCA']['pages']['columns']['nav_title']['config']['max'] = $extConf['maxNavTitle'];
-$GLOBALS['TCA']['pages']['columns']['description']['config']['max'] = $extConf['maxDescription'];
+$GLOBALS['TCA']['pages']['columns']['title']['config']['max'] = $extConf['maxTitle'] ?? '';
+$GLOBALS['TCA']['pages']['columns']['nav_title']['config']['max'] = $extConf['maxNavTitle'] ?? '';
+$GLOBALS['TCA']['pages']['columns']['description']['config']['max'] = $extConf['maxDescription'] ?? '';
 
 if (!empty($extConf['forceMinDescription'])) {
-    $GLOBALS['TCA']['pages']['columns']['description']['config']['min'] = $extConf['minDescription'];
+    $GLOBALS['TCA']['pages']['columns']['description']['config']['min'] = $extConf['minDescription'] ?? '';
 }
 
-$GLOBALS['TCA']['pages']['columns']['seo_title']['config']['max'] = $extConf['maxTitle'];
+$GLOBALS['TCA']['pages']['columns']['seo_title']['config']['max'] = $extConf['maxTitle'] ?? '';
 $GLOBALS['TCA']['pages']['columns']['seo_title']['config']['renderType'] = 'snippetPreview';
 
 $GLOBALS['TCA']['pages']['columns']['no_index']['onChange'] = 'reload';

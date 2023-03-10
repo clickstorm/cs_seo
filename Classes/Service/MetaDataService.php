@@ -157,11 +157,10 @@ class MetaDataService
 
         if (is_array($row)) {
             $this->pageRepository->versionOL($tableSettings['table'], $row);
-            $row = $this->pageRepository->getRecordOverlay(
+            $row = $this->pageRepository->getLanguageOverlay(
                 $tableSettings['table'],
                 $row,
-                $this->languageAspect->getContentId(),
-                $this->languageAspect->getLegacyLanguageMode()
+                $this->languageAspect
             );
         }
 

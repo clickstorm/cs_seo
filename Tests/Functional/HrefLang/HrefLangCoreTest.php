@@ -10,33 +10,20 @@ class HrefLangCoreTest extends AbstractHrefLangTest
     {
         parent::setUp();
 
-        $fixtureRootPath = ORIGINAL_ROOT . 'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/';
-
-        $xmlFiles = [
+        $this->importDataSets([
             'pages-hreflang',
             'sys_category',
             'tx_csseo_domain_model_meta',
-        ];
-
-        foreach ($xmlFiles as $xmlFile) {
-            $this->importDataSet($fixtureRootPath . 'Database/' . $xmlFile . '.xml');
-        }
-
-        $tsIncludePath = 'EXT:cs_seo/';
+        ]);
 
         $typoScriptFiles = [
-            $tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
-            $tsIncludePath . 'Configuration/TypoScript/setup.typoscript',
+            $this->tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
+            $this->tsIncludePath . 'Configuration/TypoScript/setup.typoscript',
         ];
 
         $sitesNumbers = [1];
 
-        foreach ($sitesNumbers as $siteNumber) {
-            $sites = [];
-            $sites[$siteNumber] = $fixtureRootPath . 'Sites/' . $siteNumber . '/config.yaml';
-            $this->setUpSites($siteNumber, $sites);
-            $this->setUpFrontendRootPage($siteNumber, $typoScriptFiles);
-        }
+        $this->importTypoScript($typoScriptFiles, $sitesNumbers);
     }
 
     /**

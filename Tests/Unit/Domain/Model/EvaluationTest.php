@@ -17,7 +17,7 @@ class EvaluationTest extends UnitTestCase
     /**
      * @var Evaluation|MockObject|AccessibleObjectInterface
      */
-    protected $subject;
+    protected mixed $subject;
 
     protected function setUp(): void
     {
@@ -27,11 +27,6 @@ class EvaluationTest extends UnitTestCase
             Evaluation::class,
             ['dummy']
         );
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
     }
 
     /**

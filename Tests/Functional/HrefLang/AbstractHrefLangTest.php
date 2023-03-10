@@ -8,20 +8,11 @@ use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTest;
 
 abstract class AbstractHrefLangTest extends AbstractFrontendTest
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
-
     /**
-     * @param string $url
-     * @param array $expectedTags
-     * @param array $notExpectedTags
-     *
      * @test
      * @dataProvider checkHrefLangOutputDataProvider
      */
-    public function checkHrefLangOutput($url, $expectedTags, $notExpectedTags): void
+    public function checkHrefLangOutput(string $url, array $expectedTags, array $notExpectedTags): void
     {
         /** @var \TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalResponse $response */
         $response = $this->getFrontendResponseFromUrl(

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional;
 
+use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Http\Uri;
@@ -19,33 +20,32 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
  */
 abstract class AbstractFrontendTest extends FunctionalTestCase
 {
-    protected $failOnFailure = true;
+    protected string $fixtureRootPath = __DIR__ . '/Fixtures/';
+    protected string $tsIncludePath = 'EXT:cs_seo/';
 
-    protected $coreExtensionsToLoad = [
+    protected bool $failOnFailure = true;
+
+    protected array $coreExtensionsToLoad = [
         'core',
         'frontend',
         'seo',
     ];
 
-    protected $testExtensionsToLoad = [
+    protected array $testExtensionsToLoad = [
         'typo3conf/ext/cs_seo',
     ];
 
-    protected $pathsToLinkInTestInstance = [
+    protected array $pathsToLinkInTestInstance = [
         'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/Files/1920-1080.png' => 'fileadmin/1920-1080.png',
         'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/Files/1080-1080.png' => 'fileadmin/1080-1080.png',
         'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/AdditionalConfiguration.php' => 'typo3conf/AdditionalConfiguration.php',
     ];
 
     /**
-     * copied and modified from testing frame work, to force an URL
-     *
-     * @param string $url
-     * @param bool $failOnFailure
-     * @param int $frontendUserId
-     * @return Response
+     * copied and modified from testing framework, to force an URL
+
      */
-    protected function getFrontendResponseFromUrl($url, $failOnFailure = true, $frontendUserId = 0)
+    protected function getFrontendResponseFromUrl(string $url, bool $failOnFailure = true, int $frontendUserId = 0): ResponseInterface
     {
         $request = (new InternalRequest())->withUri(new Uri($url));
 
@@ -56,10 +56,10 @@ abstract class AbstractFrontendTest extends FunctionalTestCase
         return $this->executeFrontendSubRequest($request);
     }
 
-    protected function setUpSites($pageId, array $sites)
+    protected function setUpSites(int $pageId, array $sites): void
     {
         foreach ($sites as $identifier => $file) {
-            $path = Environment::getConfigPath() . '/sites/' . $identifier . '/';
+            $path = Environment::getConfigPath() . '/sites/page' . $identifier . '/';
             $target = $path . 'config.yaml';
             if (!file_exists($target)) {
                 GeneralUtility::mkdir_deep($path);
@@ -75,6 +75,23 @@ abstract class AbstractFrontendTest extends FunctionalTestCase
         $cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('core');
         if ($cache->has('sites-configuration')) {
             $cache->remove('sites-configuration');
+        }
+    }
+
+    protected function importDataSets(array $csvFiles): void
+    {
+        foreach ($csvFiles as $csvFile) {
+            $this->importCSVDataSet($this->fixtureRootPath . 'Database/' . $csvFile . '.csv');
+        }
+    }
+
+    protected function importTypoScript(array $typoScriptFiles, array $siteNumbers): void
+    {
+        foreach ($siteNumbers as $siteNumber) {
+            $sites = [];
+            $sites[$siteNumber] = $this->fixtureRootPath . 'Sites/page' . $siteNumber . '/config.yaml';
+            $this->setUpSites((int)$siteNumber, $sites);
+            $this->setUpFrontendRootPage((int)$siteNumber, $typoScriptFiles);
         }
     }
 }

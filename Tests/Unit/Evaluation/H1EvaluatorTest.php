@@ -2,39 +2,13 @@
 
 namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
+use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\H1Evaluator;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
 class H1EvaluatorTest extends UnitTestCase
 {
-    /**
-     * @var H1Evaluator
-     */
-    protected $generalEvaluationMock;
+    protected ?H1Evaluator $generalEvaluationMock = null;
 
     public function setUp(): void
     {
@@ -47,15 +21,10 @@ class H1EvaluatorTest extends UnitTestCase
     }
 
     /**
-     * htmlspecialcharsOnArray Test
-     *
-     * @param string $html
-     * @param mixed $expectedResult
-     *
      * @dataProvider evaluateTestDataProvider
      * @test
      */
-    public function evaluateTest($html, $expectedResult)
+    public function evaluateTest(string $html, array $expectedResult): void
     {
         $domDocument = new \DOMDocument();
         @$domDocument->loadHTML($html);
@@ -70,30 +39,28 @@ class H1EvaluatorTest extends UnitTestCase
 
     /**
      * Dataprovider evaluateTest()
-     *
-     * @return array
      */
-    public function evaluateTestDataProvider()
+    public function evaluateTestDataProvider(): array
     {
         return [
             'zero h1' => [
                 '<html>',
                 [
                     'count' => 0,
-                    'state' => H1Evaluator::STATE_RED,
+                    'state' => AbstractEvaluator::STATE_RED,
                 ],
             ],
             'one h1' => [
                 '<html><body><h1>Headline One</h1></body></html>',
                 [
                     'count' => 1,
-                    'state' => H1Evaluator::STATE_GREEN,
+                    'state' => AbstractEvaluator::STATE_GREEN,
                 ],
             ],
             'two h1' => [
                 '<h1>Headline One</h1><h1>Headline Two</h1>',
                 [
-                    'state' => H1Evaluator::STATE_RED,
+                    'state' => AbstractEvaluator::STATE_RED,
                     'count' => 2,
                 ],
             ],

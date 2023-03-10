@@ -59,7 +59,7 @@ class ConfigurationUtility
     {
         $allowedDoktypes = [1];
         $extConf = self::getEmConfiguration();
-        if ($extConf['evaluationDoktypes']) {
+        if (!empty($extConf['evaluationDoktypes'])) {
             $allowedDoktypes = GeneralUtility::trimExplode(',', $extConf['evaluationDoktypes']);
         }
 
