@@ -10,6 +10,11 @@ namespace Clickstorm\CsSeo\Tests\Functional\HrefLang;
 class HrefLangInvalidParamOnTest extends AbstractHrefLangTest
 {
     protected array $configurationToUseInTestInstance = [
+        'FE' => [
+            'cacheHash' => [
+                'enforceValidation' => false
+            ]
+        ],
         'EXTENSIONS' => [
             'cs_seo' => [
                 'useAdditionalCanonicalizedUrlParametersOnly' => false,
@@ -44,10 +49,10 @@ class HrefLangInvalidParamOnTest extends AbstractHrefLangTest
             'Remove invalid parameter foo=bar' => [
                 'http://localhost/hello?foo=bar',
                 [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/hello?foo=bar',
-                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen?foo=bar',
-                    '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/willkommen?foo=bar',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello?foo=bar',
+                    '<link rel="alternate" hreflang="en-US" href="http://localhost/hello',
+                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen',
+                    '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/willkommen',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/hello',
                 ],
                 [
                     '<link rel="alternate" hreflang="fr-FR"',

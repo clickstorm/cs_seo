@@ -7,6 +7,11 @@ namespace Clickstorm\CsSeo\Tests\Functional\Canonical;
 class CanonicalInvalidParamIOnTest extends AbstractCanonicalTest
 {
     protected array $configurationToUseInTestInstance = [
+        'FE' => [
+            'cacheHash' => [
+                'enforceValidation' => false
+            ]
+        ],
         'EXTENSIONS' => [
             'cs_seo' => [
                 'useAdditionalCanonicalizedUrlParametersOnly' => false,

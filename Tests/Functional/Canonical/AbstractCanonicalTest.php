@@ -14,6 +14,11 @@ use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTest;
 abstract class AbstractCanonicalTest extends AbstractFrontendTest
 {
     protected array $configurationToUseInTestInstance = [
+        'FE' => [
+            'cacheHash' => [
+                'enforceValidation' => false
+            ]
+        ],
         'EXTENSIONS' => [
             'cs_seo' => [
                 'useAdditionalCanonicalizedUrlParametersOnly' => true,
