@@ -43,7 +43,7 @@ abstract class AbstractMetaTagTest extends AbstractFrontendTest
             if ($value) {
                 if ($expectedMetaTag === 'og:image' || $expectedMetaTag === 'twitter:image') {
                     $regex = '<meta ' . $metaTagType . '="' . $expectedMetaTag . '" content=".*' . $value . '.*\.png" \/>';
-                    self::assertRegExp(
+                    self::assertMatchesRegularExpression(
                         "/{$regex}/",
                         $content
                     );
