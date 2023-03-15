@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\JsonLd;
 
-class JsonLdRecordTest extends AbstractJsonLdTest
+class JsonLdRecordTest extends AbstractJsonLdTestCase
 {
     public function ensureMetaDataAreCorrectDataProvider(): array
     {

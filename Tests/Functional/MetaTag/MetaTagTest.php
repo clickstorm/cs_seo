@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\MetaTag;
 
-class MetaTagTest extends AbstractMetaTagTest
+class MetaTagTest extends AbstractMetaTagTestCase
 {
     public function ensureMetaDataAreCorrectDataProvider(): array
     {

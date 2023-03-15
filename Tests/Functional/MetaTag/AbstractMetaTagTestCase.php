@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\MetaTag;
 
-use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTest;
+use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTestCase;
 
 /**
  * Abstract Test Class
  *
  * Class AbstractMetaTagTest
  */
-abstract class AbstractMetaTagTest extends AbstractFrontendTest
+abstract class AbstractMetaTagTestCase extends AbstractFrontendTestCase
 {
     public function ensureMetaDataAreCorrectDataProvider(): array
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\Canonical;
 
-class CanonicalInvalidParamIOffTest extends AbstractCanonicalTest
+class CanonicalInvalidParamIOffTest extends AbstractCanonicalTestCase
 {
     protected bool $failOnFailure = true;
 

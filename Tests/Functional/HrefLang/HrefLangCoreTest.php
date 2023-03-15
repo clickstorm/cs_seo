@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\HrefLang;
 
-class HrefLangCoreTest extends AbstractHrefLangTest
+class HrefLangCoreTest extends AbstractHrefLangTestCase
 {
     protected function setUp(): void
     {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\HrefLang;
 
-use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTest;
+use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTestCase;
 
-abstract class AbstractHrefLangTest extends AbstractFrontendTest
+abstract class AbstractHrefLangTestCase extends AbstractFrontendTestCase
 {
     /**
      * @test

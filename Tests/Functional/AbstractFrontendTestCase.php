@@ -16,9 +16,9 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 /**
  * Test case, inspired by typo3/cms-seo extension
  *
- * Moutnpoints point here to there original URL to avoid duplicated content
+ * Moutnpoints point here to their original URL to avoid duplicated content
  */
-abstract class AbstractFrontendTest extends FunctionalTestCase
+abstract class AbstractFrontendTestCase extends FunctionalTestCase
 {
     protected string $fixtureRootPath = __DIR__ . '/Fixtures/';
     protected string $tsIncludePath = 'EXT:cs_seo/';

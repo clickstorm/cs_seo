@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\JsonLd;
 
-use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTest;
+use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTestCase;
 
 /**
  * Abstract Test Class
  *
  * Class AbstractMetaTagTest
  */
-abstract class AbstractJsonLdTest extends AbstractFrontendTest
+abstract class AbstractJsonLdTestCase extends AbstractFrontendTestCase
 {
     public const STRING_IN_JSON_LD_TEST = 'https://www.json-ld-test.com';
 

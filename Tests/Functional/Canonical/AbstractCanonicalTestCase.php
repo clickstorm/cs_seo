@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\Canonical;
 
-use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTest;
+use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTestCase;
 
 /**
  * Test case, inspired by typo3/cms-seo extension
  *
  * Mountpoints point here to the original URL to avoid duplicated content
  */
-abstract class AbstractCanonicalTest extends AbstractFrontendTest
+abstract class AbstractCanonicalTestCase extends AbstractFrontendTestCase
 {
     public function generateDataProvider(): array
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\Canonical;
 
-class CanonicalDetailTest extends AbstractCanonicalTest
+class CanonicalDetailTest extends AbstractCanonicalTestCase
 {
     public function generateDataProvider(): array
     {

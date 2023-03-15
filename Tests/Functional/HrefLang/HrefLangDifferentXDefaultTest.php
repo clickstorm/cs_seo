@@ -9,7 +9,7 @@ namespace Clickstorm\CsSeo\Tests\Functional\HrefLang;
  *
  * Class HrefLangDifferentXDefault
  */
-class HrefLangDifferentXDefaultTest extends AbstractHrefLangTest
+class HrefLangDifferentXDefaultTest extends AbstractHrefLangTestCase
 {
     protected function setUp(): void
     {

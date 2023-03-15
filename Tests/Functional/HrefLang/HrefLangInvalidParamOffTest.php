@@ -7,7 +7,7 @@ namespace Clickstorm\CsSeo\Tests\Functional\HrefLang;
 /**
  * remove invalid parameter from url
  */
-class HrefLangInvalidParamOffTest extends AbstractHrefLangTest
+class HrefLangInvalidParamOffTest extends AbstractHrefLangTestCase
 {
     protected function setUp(): void
     {

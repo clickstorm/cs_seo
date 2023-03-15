@@ -7,7 +7,7 @@ namespace Clickstorm\CsSeo\Tests\Functional\HrefLang;
 /**
  * check if record of detail page also exists in the current language
  */
-class HrefLangDetailTest extends AbstractHrefLangTest
+class HrefLangDetailTest extends AbstractHrefLangTestCase
 {
     protected function setUp(): void
     {
