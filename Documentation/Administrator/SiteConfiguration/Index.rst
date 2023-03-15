@@ -43,5 +43,3 @@ x-default
 		 If you want to have another language as the default you can change this here.
          **Important**! If the x-default is not the default language, cs_seo will generate
          the canonicals and hreflang for pages and adds only specified parameters.
-         Take a look here:
-	     :ref:`basic.useAdditionalCanonicalizedUrlParametersOnly`.

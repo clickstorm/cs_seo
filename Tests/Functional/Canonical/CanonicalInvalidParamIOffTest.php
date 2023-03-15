@@ -8,19 +8,6 @@ class CanonicalInvalidParamIOffTest extends AbstractCanonicalTest
 {
     protected bool $failOnFailure = true;
 
-    protected array $configurationToUseInTestInstance = [
-        'FE' => [
-            'cacheHash' => [
-                'enforceValidation' => false
-            ]
-        ],
-        'EXTENSIONS' => [
-            'cs_seo' => [
-                'useAdditionalCanonicalizedUrlParametersOnly' => true,
-            ],
-        ],
-    ];
-
     public function generateDataProvider(): array
     {
         return [

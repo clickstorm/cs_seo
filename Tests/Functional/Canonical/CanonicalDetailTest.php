@@ -6,17 +6,6 @@ namespace Clickstorm\CsSeo\Tests\Functional\Canonical;
 
 class CanonicalDetailTest extends AbstractCanonicalTest
 {
-    protected array $configurationToUseInTestInstance = [
-        'EXTENSIONS' => [
-            'cs_seo' => [
-                'useAdditionalCanonicalizedUrlParametersOnly' => true,
-            ],
-        ],
-        'FE' => [
-            'additionalCanonicalizedUrlParameters' => 'category',
-        ],
-    ];
-
     public function generateDataProvider(): array
     {
         return [

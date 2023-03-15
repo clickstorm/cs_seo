@@ -9,19 +9,6 @@ namespace Clickstorm\CsSeo\Tests\Functional\HrefLang;
  */
 class HrefLangInvalidParamOffTest extends AbstractHrefLangTest
 {
-    protected array $configurationToUseInTestInstance = [
-        'FE' => [
-            'cacheHash' => [
-                'enforceValidation' => false
-            ]
-        ],
-        'EXTENSIONS' => [
-            'cs_seo' => [
-                'useAdditionalCanonicalizedUrlParametersOnly' => true,
-            ],
-        ],
-    ];
-
     protected function setUp(): void
     {
         parent::setUp();

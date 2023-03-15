@@ -1,6 +1,3 @@
-# cat=basic/enable/040; type=boolean; label= Use [FE][additionalCanonicalizedUrlParameters] only for canonical and hreflang
-useAdditionalCanonicalizedUrlParametersOnly = 0
-
 # cat=page/010; type=integer; label= Max characters of title
 maxTitle = 57
 

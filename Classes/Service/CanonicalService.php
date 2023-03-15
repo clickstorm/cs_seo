@@ -25,8 +25,6 @@ class CanonicalService extends AbstractUrlService
         $metaDataService = GeneralUtility::makeInstance(MetaDataService::class);
         $metaData = $metaDataService->getMetaData();
 
-        $useAdditionalCanonicalizedUrlParametersOnly = ConfigurationUtility::useAdditionalCanonicalizedUrlParametersOnly();
-
         /** @var ContentObjectRenderer $cObj */
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $context = GeneralUtility::makeInstance(Context::class);
@@ -34,9 +32,7 @@ class CanonicalService extends AbstractUrlService
         $tempLinkVars = $this->typoScriptFrontendController->linkVars;
 
         // remove config.linkVars temporary
-        if ($useAdditionalCanonicalizedUrlParametersOnly) {
-            $GLOBALS['TSFE']->linkVars = '';
-        }
+        $GLOBALS['TSFE']->linkVars = '';
 
         // check if the current page is a detail page of a record
         if ($metaData) {
@@ -71,8 +67,7 @@ class CanonicalService extends AbstractUrlService
                 $canonicalUrl = $cObj->typoLink_URL($canonicalTypoLinkConf);
             }
         // pages record
-        } elseif ($useAdditionalCanonicalizedUrlParametersOnly &&
-            empty($this->typoScriptFrontendController->page['no_index']) &&
+        } elseif (empty($this->typoScriptFrontendController->page['no_index']) &&
             empty($this->typoScriptFrontendController->page['canonical_link']) &&
             empty($this->typoScriptFrontendController->page['content_from_pid'])) {
             $canonicalUrl = $cObj->typoLink_URL($typoLinkConf);

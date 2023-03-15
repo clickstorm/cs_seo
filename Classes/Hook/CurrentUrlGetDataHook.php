@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Hook;
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectGetDataHookInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -52,27 +53,24 @@ class CurrentUrlGetDataHook implements ContentObjectGetDataHookInterface
         $sectionValue,
         $returnValue,
         ContentObjectRenderer &$parentObject
-    ) {
+    )
+    {
         if ($getDataString !== 'tx_csseo_url_parameters') {
             return $returnValue;
         }
 
-        $GET = GeneralUtility::_GET();
-        // @extensionScannerIgnoreLine
-        $GET['id'] = $GLOBALS['TSFE']->id;
-        $cacheHash = GeneralUtility::makeInstance(CacheHashCalculator::class);
-        $cHash_array = $cacheHash->getRelevantParameters(GeneralUtility::implodeArrayForUrl('', $GET));
-        unset($cHash_array['encryptionKey']);
-
-        if (ConfigurationUtility::useAdditionalCanonicalizedUrlParametersOnly()) {
-            if (!is_array($GLOBALS['TYPO3_CONF_VARS']['FE']['additionalCanonicalizedUrlParameters'])) {
-                $GLOBALS['TYPO3_CONF_VARS']['FE']['additionalCanonicalizedUrlParameters'] = explode(',', $GLOBALS['TYPO3_CONF_VARS']['FE']['additionalCanonicalizedUrlParameters']);
-            }
-            $canonicalParams = array_flip($GLOBALS['TYPO3_CONF_VARS']['FE']['additionalCanonicalizedUrlParameters']);
-            $canonicalParams['id'] = $GET['id'];
-            $cHash_array = array_intersect_key($cHash_array, $canonicalParams);
+        $request = $parentObject->getRequest();
+        $pageArguments = $request->getAttribute('routing');
+        if (!$pageArguments instanceof PageArguments) {
+            return '';
         }
+        $currentQueryArray = $pageArguments->getRouteArguments();
 
-        return GeneralUtility::implodeArrayForUrl('', $cHash_array);
+        return GeneralUtility::implodeArrayForUrl('', $currentQueryArray);
+    }
+
+    protected function getRequest()
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 }

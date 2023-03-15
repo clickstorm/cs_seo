@@ -41,6 +41,14 @@ abstract class AbstractFrontendTest extends FunctionalTestCase
         'typo3conf/ext/cs_seo/Tests/Functional/Fixtures/AdditionalConfiguration.php' => 'typo3conf/AdditionalConfiguration.php',
     ];
 
+    protected array $configurationToUseInTestInstance = [
+        'FE' => [
+            'cacheHash' => [
+                'enforceValidation' => false
+            ]
+        ],
+    ];
+
     /**
      * copied and modified from testing framework, to force an URL
 

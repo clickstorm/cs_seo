@@ -23,7 +23,6 @@ Properties
 	======================================================= ===================================== ====================
 	Property                                                Data type                             Default
 	======================================================= ===================================== ====================
-	`basic.useAdditionalCanonicalizedUrlParametersOnly`_    :ref:`t3tsref:data-type-boolean`      false
 	`page.maxTitle`_                                        :ref:`t3tsref:data-type-integer`      57
 	`page.maxDescription`_                                  :ref:`t3tsref:data-type-integer`      156
 	`page.cropDescription`_                                 :ref:`t3tsref:data-type-boolean`      false
@@ -39,23 +38,6 @@ Properties
 	`file.modFileColumns`_                                  :ref:`t3tsref:data-type-string`       title,description
 	======================================================= ===================================== ====================
 
-Basic configurations
-^^^^^^^^^^^^^^^^^^^^
-
-.. _basic.useAdditionalCanonicalizedUrlParametersOnly:
-
-use AdditionalCanonicalizedUrlParameters only
-"""""""""""""""""""""""""""""""""""""""""""""
-
-.. container:: table-row
-
-   Property
-         useAdditionalCanonicalizedUrlParametersOnly
-   Data type
-         :ref:`t3tsref:data-type-boolean`
-   Description
-         Only the [FE][additionalCanonicalizedUrlParameters] are considered for canonical and hreflang. All other
-		 parameters are ignored, also config.linkVars.
 
 
 Page configurations

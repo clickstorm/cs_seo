@@ -8,14 +8,6 @@ use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTest;
 
 abstract class AbstractHrefLangTest extends AbstractFrontendTest
 {
-    protected array $configurationToUseInTestInstance = [
-        'FE' => [
-            'cacheHash' => [
-                'enforceValidation' => false
-            ]
-        ],
-    ];
-
     /**
      * @test
      * @dataProvider checkHrefLangOutputDataProvider

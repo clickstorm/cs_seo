@@ -76,13 +76,6 @@ class ConfigurationUtility
         return is_array($conf) ? $conf : [];
     }
 
-    public static function useAdditionalCanonicalizedUrlParametersOnly(): bool
-    {
-        $extConf = self::getEmConfiguration();
-
-        return (bool)$extConf['useAdditionalCanonicalizedUrlParametersOnly'];
-    }
-
     /**
      * returns the x-default from site config
      */

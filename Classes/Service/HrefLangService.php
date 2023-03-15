@@ -25,7 +25,6 @@ class HrefLangService extends AbstractUrlService
     {
         $metaDataService = GeneralUtility::makeInstance(MetaDataService::class);
         $metaData = $metaDataService->getMetaData();
-        $useAdditionalCanonicalizedUrlParametersOnly = ConfigurationUtility::useAdditionalCanonicalizedUrlParametersOnly();
 
         /** @var ContentObjectRenderer $cObj */
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
@@ -34,9 +33,7 @@ class HrefLangService extends AbstractUrlService
         $tempLinkVars = $GLOBALS['TSFE']->linkVars;
 
         // remove config.linkVars temporary
-        if ($useAdditionalCanonicalizedUrlParametersOnly) {
-            $GLOBALS['TSFE']->linkVars = '';
-        }
+        $GLOBALS['TSFE']->linkVars = '';
 
         // check if the current page is a detail page of a record
         if ($metaData) {
@@ -79,7 +76,7 @@ class HrefLangService extends AbstractUrlService
                 $hreflangs = [];
             }
             // pages record
-        } elseif ($useAdditionalCanonicalizedUrlParametersOnly || ConfigurationUtility::getXdefault() > 0) {
+        } elseif (ConfigurationUtility::getXdefault() > 0) {
             // remove hreflangs
             $hreflangs = [];
             $hrefLangArray = [];
