@@ -5,47 +5,13 @@ namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 use Clickstorm\CsSeo\Evaluation\TitleEvaluator;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 class TitleEvaluatorTest extends UnitTestCase
 {
-    /**
-     * @var TitleEvaluator
-     */
-    protected $generalEvaluationMock;
+    protected ?TitleEvaluator $generalEvaluationMock = null;
 
-    /**
-     * @var int
-     */
-    protected $min = 40;
+    protected int $min = 40;
 
-    /**
-     * @var int
-     */
-    protected $max = 57;
+    protected int $max = 57;
 
     public function setUp(): void
     {
@@ -60,21 +26,16 @@ class TitleEvaluatorTest extends UnitTestCase
 
     public function tearDown(): void
     {
-        unset($this->generalEvaluationMock);
-        unset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo']);
-        unset($GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils']);
+        unset($this->generalEvaluationMock, $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo'], $GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils']);
     }
 
     /**
      * htmlspecialcharsOnArray Test
      *
-     * @param string $html
-     * @param mixed $expectedResult
-     *
      * @dataProvider evaluateTestDataProvider
      * @test
      */
-    public function evaluateTest($html, $expectedResult)
+    public function evaluateTest(string $html, mixed $expectedResult): void
     {
         $domDocument = new \DOMDocument();
         @$domDocument->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
@@ -89,10 +50,8 @@ class TitleEvaluatorTest extends UnitTestCase
 
     /**
      * Dataprovider evaluateTest()
-     *
-     * @return array
      */
-    public function evaluateTestDataProvider()
+    public function evaluateTestDataProvider(): array
     {
         return [
             'zero title' => [

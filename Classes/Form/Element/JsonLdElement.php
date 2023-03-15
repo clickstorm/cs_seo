@@ -40,15 +40,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class JsonLdElement extends AbstractNode
 {
-    /**
-     * @var PageRenderer
-     */
-    protected $pageRenderer;
-
-    /**
-     * @var int
-     */
-    protected $typeNum = 654;
+    protected ?PageRenderer $pageRenderer = null;
 
     /**
      * Render the input field with additional snippet preview
@@ -57,12 +49,13 @@ class JsonLdElement extends AbstractNode
      */
     public function render()
     {
+        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         // first get input element
         $inputField = GeneralUtility::makeInstance(TextElement::class, $this->nodeFactory, $this->data);
         $resultArray = $inputField->render();
 
         // Load necessary JavaScript
-        $resultArray['requireJsModules'] = $this->loadJavascript();
+        $this->loadJavascript();
 
         // Load necessary CSS
         $resultArray['stylesheetFiles'] = $this->loadCss();
@@ -77,26 +70,18 @@ class JsonLdElement extends AbstractNode
      * Load the necessary javascript
      *
      * This will only be done when the referenced record is available
-     *
-     * @return array
      */
-    protected function loadJavascript()
+    protected function loadJavascript(): void
     {
-        return [
-            'jsonLdElement' => [
-                'TYPO3/CMS/CsSeo/FormEngine/Element/JsonLdElement' => 'function(jsonLdElement){jsonLdElement.initialize()}',
-            ],
-        ];
+        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/JsonLdElement.js');
     }
 
     /**
      * Load the necessary css
      *
      * This will only be done when the referenced record is available
-     *
-     * @return array
      */
-    protected function loadCss()
+    protected function loadCss(): array
     {
         $stylesheetFiles = [];
         $cssFiles = [
@@ -119,7 +104,7 @@ class JsonLdElement extends AbstractNode
      *
      * @return string The body content
      */
-    protected function getBodyContent($data, $table, $textElement)
+    protected function getBodyContent(array $data, string $table, string $textElement): string
     {
         // template1
         /** @var StandaloneView $wizardView */

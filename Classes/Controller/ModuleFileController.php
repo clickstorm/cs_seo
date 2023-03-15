@@ -17,6 +17,7 @@ use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\File;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -25,42 +26,41 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 class ModuleFileController extends AbstractModuleController
 {
-    public static $session_prefix = 'tx_csseo_file_';
-    public static $mod_name = 'file_CsSeoModFile';
-    public static $uriPrefix = 'tx_csseo_file_csseomodfile';
+    public static string $session_prefix = 'tx_csseo_file_';
+    public static string $mod_name = 'file_CsSeoModFile';
+    public static string $uriPrefix = 'tx_csseo_file_csseomodfile';
+    public static string $l10nFileName = 'file';
 
-    /**
-     * @var array
-     */
-    protected $modParams = ['action' => '', 'id' => '', 'recursive' => 1];
+    protected array $modParams = ['action' => '', 'id' => '', 'recursive' => 1];
 
-    /** @var File|null */
-    protected $image;
+    protected ?File $image = null;
 
-    protected $menuSetup = [
+    public static array $menuActions = [
         'showEmptyImageAlt',
     ];
 
-    protected $cssFiles = [
+    protected array $cssFiles = [
         'Icons.css',
         'Lib/select2.css',
         'ModuleFile.css',
     ];
 
-    protected $storageUid;
-    protected $identifier;
-    protected $offset = 0;
-    protected $numberOfImagesWithoutAlt = 0;
+    protected int $storageUid = 0;
+    protected string $identifier = '';
+    protected int $offset = 0;
+    protected int $numberOfImagesWithoutAlt = 0;
 
-    public function initializeAction()
+    public function initializeAction(): ?ForwardResponse
     {
         parent::initializeAction();
 
         $this->storageUid = FileUtility::getStorageUidFromCombinedIdentifier($this->modParams['id']);
         $this->identifier = FileUtility::getIdentifierFromCombinedIdentifier($this->modParams['id']);
+
+        return null;
     }
 
-    public function showEmptyImageAltAction()
+    public function showEmptyImageAltAction(): ResponseInterface
     {
         BackendUtility::lockRecords();
 
@@ -139,7 +139,7 @@ class ModuleFileController extends AbstractModuleController
             $this->view->assign('columns', $columns);
 
             if (isset($imageRow[0]) && isset($imageRow[0]['uid'])) {
-                $dataMapper = $this->objectManager->get(DataMapper::class);
+                $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
                 $files = $dataMapper->map(File::class, $imageRow);
                 $this->image = $files[0];
                 $formService = GeneralUtility::makeInstance(FormService::class);
@@ -189,7 +189,7 @@ class ModuleFileController extends AbstractModuleController
                     GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.header'
                     ),
-                    FlashMessage::OK, // [optional] the severity defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    ContextualFeedbackSeverity::OK, // [optional] the severity defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                     false // [optional] whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is false)
                 );
             } else {
@@ -201,12 +201,13 @@ class ModuleFileController extends AbstractModuleController
                     GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.error.header'
                     ),
-                    FlashMessage::ERROR
+                    ContextualFeedbackSeverity::ERROR
                 );
             }
 
             $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
             $messageQueue = $flashMessageService->getMessageQueueByIdentifier(static::$mod_name);
+            // @extensionScannerIgnoreLine
             $messageQueue->addMessage($message);
         }
 
@@ -306,12 +307,5 @@ class ModuleFileController extends AbstractModuleController
         }
 
         $buttonBar->addButton($recursiveButton, ButtonBar::BUTTON_POSITION_RIGHT, 4);
-
-        // CSH
-        $cshButton = $buttonBar->makeHelpButton()
-            ->setModuleName('_MOD_txcsseo')
-            ->setFieldName('mod_file');
-
-        $buttonBar->addButton($cshButton);
     }
 }

@@ -5,9 +5,11 @@ namespace Clickstorm\CsSeo\Utility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
@@ -43,12 +45,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DatabaseUtility
 {
-    /**
-     * @param $table
-     *
-     * @return array
-     */
-    public static function getRecords($table, $pid = 0, $sortByLabel = false)
+    public static function getRecords(string $table, int $pid = 0, bool $sortByLabel = false): array
     {
         $items = [];
 
@@ -81,12 +78,7 @@ class DatabaseUtility
         return $items;
     }
 
-    /**
-     * @param $table
-     *
-     * @return array
-     */
-    public static function getPageLanguageOverlays($uid)
+    public static function getPageLanguageOverlays(int $uid): array
     {
         $items = [];
         $table = 'pages';
@@ -103,9 +95,7 @@ class DatabaseUtility
                     $tcaCtrl['transOrigPointerField'],
                     $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
                 )
-            )
-            ->orderBy($tcaCtrl['languageField'])
-            ->execute();
+            )->orderBy($tcaCtrl['languageField'])->executeQuery();
 
         while ($row = $res->fetch()) {
             $items[$row[$tcaCtrl['languageField']]] = $row;
@@ -114,18 +104,9 @@ class DatabaseUtility
         return $items;
     }
 
-    /**
-     * Returns an image file for the given field and uid
-     *
-     * @param string $table
-     * @param string $field
-     * @param int $uid
-     *
-     * @return File|null
-     */
-    public static function getFile($table, $field, $uid)
+    public static function getFile(string $table, string $field, int $uid): ?File
     {
-        /** @var \TYPO3\CMS\Core\Resource\FileRepository $fileRepository */
+        /** @var FileRepository $fileRepository */
         $fileRepository = GeneralUtility::makeInstance(
             FileRepository::class
         );
@@ -140,13 +121,14 @@ class DatabaseUtility
     }
 
     public static function getImageWithEmptyAlt(
-        int $storage,
+        int    $storage,
         string $identifier,
-        $includeSubfolders = true,
-        $countAll = false,
-        $includeImagesWithAlt = false,
-        $offset = 0
-    ) {
+        bool   $includeSubfolders = true,
+        bool   $countAll = false,
+        bool   $includeImagesWithAlt = false,
+        int    $offset = 0
+    ): ?array
+    {
         $tableName = 'sys_file';
         $joinTableName = 'sys_file_metadata';
 
@@ -199,13 +181,10 @@ class DatabaseUtility
 
         if (!$includeImagesWithAlt) {
             $queryBuilder->andWhere(
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->eq(
-                        'meta.alternative',
-                        $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
-                    ),
-                    $queryBuilder->expr()->isNull('meta.alternative')
-                )
+                $queryBuilder->expr()->or($queryBuilder->expr()->eq(
+                    'meta.alternative',
+                    $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
+                ), $queryBuilder->expr()->isNull('meta.alternative'))
             );
         }
 
@@ -225,54 +204,35 @@ class DatabaseUtility
     {
         $languages[0] = 'Default';
 
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_language');
-
-        $res = $queryBuilder->select('*')
-            ->from('sys_language')
-            ->orderBy('title')
-            ->execute();
-
-        while ($lRow = $res->fetch()) {
-            if (GlobalsUtility::getBackendUser()->checkLanguageAccess($lRow['uid'])) {
-                $languages[$lRow['uid']] = $lRow['hidden'] ? '(' . $lRow['title'] . ')' : $lRow['title'];
-            }
+        if ($pageId === 0) {
+            return $languages;
         }
 
-        // Setting alternative default label:
-        if ($pageId !== 0) {
-            $modTSconfig = BackendUtility::getPagesTSconfig($pageId)['mod.']['SHARED.'] ?? [];
-            if (isset($modTSconfig['properties']['defaultLanguageLabel']) && $modTSconfig['properties']['defaultLanguageLabel']) {
-                $languages[0] = $modTSconfig['properties']['defaultLanguageLabel'];
-            }
+        try {
+            $site = GeneralUtility::makeInstance(SiteFinder::class)
+                ->getSiteByRootPageId($pageId);
+        } catch (SiteNotFoundException $exception) {
+            return $languages;
+        }
+
+        foreach ($site->getAvailableLanguages(GlobalsUtility::getBackendUser()) as $language) {
+            // @extensionScannerIgnoreLine
+            $languages[$language->getLanguageId()] = $language->getTitle();
         }
 
         return $languages;
     }
 
-    /**
-     * Fetch a single record
-     *
-     * @param string $table
-     * @param int $uid
-     * @param string $select
-     *
-     * @return mixed
-     */
-    public static function getRecord($table, $uid, $select = '*')
+    public static function getRecord(string $table, int $uid, string $select = '*'): ?array
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
 
         return $queryBuilder->select(...GeneralUtility::trimExplode(',', $select, true))
-            ->from($table)
-            ->where(
-                $queryBuilder->expr()->eq(
-                    'uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-                )
-            )
-            ->execute()
+            ->from($table)->where($queryBuilder->expr()->eq(
+                'uid',
+                $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+            ))->executeQuery()
             ->fetch();
     }
 }

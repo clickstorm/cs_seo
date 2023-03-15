@@ -9,8 +9,7 @@ $GLOBALS['SiteConfiguration']['site']['columns']['txCsseoXdefault'] = [
     'config' => [
         'type' => 'select',
         'renderType' => 'selectSingle',
-        'foreign_table' => 'sys_language',
-        'default' => 0,
+        'itemsProcFunc' => 'Clickstorm\CsSeo\UserFunc\Tca->getLanguagesForXDefaultOnSiteConfig',
         'items' => [
             [
                 0 => 'Default Language',

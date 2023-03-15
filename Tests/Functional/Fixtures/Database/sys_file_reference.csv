@@ -1,0 +1,6 @@
+sys_file_reference,,,,,,
+,uid,pid,uid_local,uid_foreign,tablenames,fieldname
+,1,2,1,2,pages,og_image
+,2,3,2,3,pages,twitter_image
+,3,0,1,2,tx_csseo_domain_model_meta,tx_csseo_og_image
+,4,0,2,2,tx_csseo_domain_model_meta,tx_csseo_tw_image

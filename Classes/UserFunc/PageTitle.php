@@ -12,17 +12,10 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  */
 final class PageTitle
 {
-    /**
-     * @var TSFEUtility
-     */
-    protected $TSFEUtility;
+    protected ?TSFEUtility $TSFEUtility = null;
 
     /**
      * check the settings and may remove the suffix or prefix from the page title
-     *
-     * @param string $content When custom methods are used for data processing (like in stdWrap functions), the $content variable will hold the value to be processed. When methods are meant to just return some generated content (like in USER and USER_INT objects), this variable is empty.
-     * @param array $conf TypoScript properties passed to this method.
-     * @return string The input string reversed. If the TypoScript property "uppercase" was set, it will also be in uppercase. May also be linked.
      */
     public function resetWebsiteTitle(string $content, array $conf): string
     {
@@ -49,9 +42,6 @@ final class PageTitle
 
     /**
      * page without website title is stored in cache, see TSFE
-     *
-     * @param string $oldTitle
-     * @return string
      */
     protected function getCachedTitleWithoutWebsiteTitle(string $oldTitle = ''): string
     {
@@ -68,6 +58,7 @@ final class PageTitle
      */
     protected function initialize(): void
     {
+        // @extensionScannerIgnoreLine
         $this->TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $GLOBALS['TSFE']->id);
     }
 
@@ -79,9 +70,6 @@ final class PageTitle
         return $this->TSFEUtility->getPage();
     }
 
-    /**
-     * @return TypoScriptFrontendController
-     */
     protected function getTypoScriptFrontendController(): TypoScriptFrontendController
     {
         return $GLOBALS['TSFE'];

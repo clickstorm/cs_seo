@@ -1,6 +1,3 @@
-# cat=basic/enable/040; type=boolean; label= Use [FE][additionalCanonicalizedUrlParameters] only for canonical and hreflang
-useAdditionalCanonicalizedUrlParametersOnly = 0
-
 # cat=page/010; type=integer; label= Max characters of title
 maxTitle = 57
 
@@ -12,6 +9,9 @@ cropDescription = 0
 
 # cat=page/030; type=integer; label= Max characters of nav title
 maxNavTitle = 50
+
+# cat=page/040; type=boolean; label= Display the cs_seo descriptions for SEO fields in pages TCA
+showDescriptionsInTCA = 1
 
 # cat=evaluation/010; type=options[Header=0,Footer=1,None=2]; label= Show the results in the page module
 inPageModule = 0
@@ -27,6 +27,9 @@ minTitle = 40
 
 # cat=evaluation/050; type=integer; label= Min characters of an optimal description
 minDescription = 140
+
+# cat=evaluation/055; type=boolean; label= Force the min length in TCA
+forceMinDescription = 140
 
 # cat=evaluation/060; type=integer; label= Max number of h2 headlines in one page
 maxH2 = 6

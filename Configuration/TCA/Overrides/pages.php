@@ -1,16 +1,23 @@
 <?php
 
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 defined('TYPO3') || die();
 
 // get extension configurations
-$extConf = \Clickstorm\CsSeo\Utility\ConfigurationUtility::getEmConfiguration();
+$extConf = ConfigurationUtility::getEmConfiguration();
 
 // SEO Settings
-$GLOBALS['TCA']['pages']['columns']['title']['config']['max'] = $extConf['maxTitle'];
-$GLOBALS['TCA']['pages']['columns']['nav_title']['config']['max'] = $extConf['maxNavTitle'];
-$GLOBALS['TCA']['pages']['columns']['description']['config']['max'] = $extConf['maxDescription'];
+$GLOBALS['TCA']['pages']['columns']['title']['config']['max'] = $extConf['maxTitle'] ?? '';
+$GLOBALS['TCA']['pages']['columns']['nav_title']['config']['max'] = $extConf['maxNavTitle'] ?? '';
+$GLOBALS['TCA']['pages']['columns']['description']['config']['max'] = $extConf['maxDescription'] ?? '';
 
-$GLOBALS['TCA']['pages']['columns']['seo_title']['config']['max'] = $extConf['maxTitle'];
+if (!empty($extConf['forceMinDescription'])) {
+    $GLOBALS['TCA']['pages']['columns']['description']['config']['min'] = $extConf['minDescription'] ?? '';
+}
+
+$GLOBALS['TCA']['pages']['columns']['seo_title']['config']['max'] = $extConf['maxTitle'] ?? '';
 $GLOBALS['TCA']['pages']['columns']['seo_title']['config']['renderType'] = 'snippetPreview';
 
 $GLOBALS['TCA']['pages']['columns']['no_index']['onChange'] = 'reload';
@@ -68,13 +75,13 @@ $tempColumns = [
 ];
 
 // add new fields
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $tempColumns);
+ExtensionManagementUtility::addTCAcolumns('pages', $tempColumns);
 
 // replace description
 $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
     preg_replace('/description(.*,|.*$)/', '', $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem']);
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+ExtensionManagementUtility::addFieldsToPalette(
     'pages',
     'metatags',
     'tx_csseo_json_ld',
@@ -82,7 +89,7 @@ $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
 );
 
 // define new palettes
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+ExtensionManagementUtility::addFieldsToPalette(
     'pages',
     'seo',
     'tx_csseo_title_only,--linebreak--,
@@ -90,9 +97,39 @@ $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
     'after:seo_title'
 );
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+ExtensionManagementUtility::addFieldsToPalette(
     'pages',
     'twittercards',
     '--linebreak--,
     tx_csseo_tw_creator, tx_csseo_tw_site'
 );
+
+
+if (!empty($extConf['showDescriptionsInTCA'])) {
+    // add descriptions
+    $colsWithDescription = [
+        'canonical_link',
+        'description',
+        'no_follow',
+        'no_index',
+        'og_description',
+        'og_image',
+        'og_title',
+        'seo_title',
+        'twitter_card',
+        'twitter_description',
+        'twitter_image',
+        'twitter_title',
+        'tx_csseo_json_ld',
+        'tx_csseo_keyword',
+        'tx_csseo_title_only',
+        'tx_csseo_tw_creator',
+        'tx_csseo_tw_site',
+    ];
+
+    foreach ($colsWithDescription as $col) {
+        $GLOBALS['TCA']['pages']['columns'][$col]['description'] =
+            'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:' . $col . '.description';
+    }
+}
+

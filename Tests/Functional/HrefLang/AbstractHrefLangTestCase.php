@@ -4,24 +4,15 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\HrefLang;
 
-use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTest;
+use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTestCase;
 
-abstract class AbstractHrefLangTest extends AbstractFrontendTest
+abstract class AbstractHrefLangTestCase extends AbstractFrontendTestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
-
     /**
-     * @param string $url
-     * @param array $expectedTags
-     * @param array $notExpectedTags
-     *
      * @test
      * @dataProvider checkHrefLangOutputDataProvider
      */
-    public function checkHrefLangOutput($url, $expectedTags, $notExpectedTags): void
+    public function checkHrefLangOutput(string $url, array $expectedTags, array $notExpectedTags): void
     {
         /** @var \TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalResponse $response */
         $response = $this->getFrontendResponseFromUrl(

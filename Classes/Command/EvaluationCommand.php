@@ -2,31 +2,6 @@
 
 namespace Clickstorm\CsSeo\Command;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 use Clickstorm\CsSeo\Domain\Model\Evaluation;
 use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Service\EvaluationService;
@@ -45,41 +20,20 @@ use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 class EvaluationCommand extends Command
 {
-    /**
-     * @var object|mixed
-     */
-    public $objectManager;
-    /**
-     * evaluationRepository
-     *
-     * @var EvaluationRepository
-     */
-    protected $evaluationRepository;
+    protected ?EvaluationRepository $evaluationRepository = null;
 
-    /** @var FrontendPageService */
-    protected $frontendPageService;
+    protected ?FrontendPageService $frontendPageService = null;
 
-    /**
-     * @var PersistenceManager
-     */
-    protected $persistenceManager;
-    /**
-     * @var string
-     */
-    protected $tableName = 'pages';
+    protected ?PersistenceManager $persistenceManager = null;
 
-    /**
-     * Inject a evaluationRepository
-     *
-     * @param EvaluationRepository $evaluationRepository
-     */
+    protected string $tableName = 'pages';
+
     public function injectEvaluationRepository(EvaluationRepository $evaluationRepository)
     {
         $this->evaluationRepository = $evaluationRepository;
@@ -90,20 +44,19 @@ class EvaluationCommand extends Command
         $this->frontendPageService = $frontendPageService;
     }
 
+    public function injectPersistenceManager(PersistenceManager $persistenceManager)
+    {
+        $this->persistenceManager = $persistenceManager;
+    }
+
     /**
      * make the ajax update
      *
-     * @param ServerRequestInterface $request
-     *
-     * @return ResponseInterface
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    public function ajaxUpdate(ServerRequestInterface $request)
+    public function ajaxUpdate(ServerRequestInterface $request): ResponseInterface
     {
-        // @extensionScannerIgnoreLine
-        $this->init();
-
         // get parameter
         $table = '';
         $params = $request->getParsedBody();
@@ -126,21 +79,11 @@ class EvaluationCommand extends Command
         return new HtmlResponse($flashMessageQueue->renderFlashMessages());
     }
 
-    protected function init()
-    {
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
-        $this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
-        $this->frontendPageService = $this->objectManager->get(FrontendPageService::class);
-    }
-
     /**
-     * @param int $uid
-     * @param bool $localized
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    protected function processResults($uid = 0, $localized = false)
+    protected function processResults(int $uid = 0, bool $localized = false): void
     {
         $items = $this->getAllItems($uid, $localized);
         $this->updateResults($items);
@@ -150,12 +93,7 @@ class EvaluationCommand extends Command
         }
     }
 
-    /**
-     * @param int $uid
-     * @param bool $localized
-     * @return array
-     */
-    protected function getAllItems($uid, $localized = false)
+    protected function getAllItems(int $uid, bool $localized = false): array
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->tableName);
@@ -193,19 +131,16 @@ class EvaluationCommand extends Command
             }
         }
 
-        return $queryBuilder->select('*')
-            ->from($this->tableName)
-            ->execute()
+        return $queryBuilder->select('*')->from($this->tableName)->executeQuery()
             ->fetchAll();
     }
 
     /**
-     * @param $items
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      * @throws Exception
      */
-    protected function updateResults($items)
+    protected function updateResults(array $items): void
     {
         foreach ($items as $item) {
             $frontendPage = $this->frontendPageService->getFrontendPage($item, $this->tableName);
@@ -221,13 +156,7 @@ class EvaluationCommand extends Command
         }
     }
 
-    /**
-     * Get Keyword from record or page
-     *
-     * @param $record
-     * @return string
-     */
-    protected function getFocusKeyword($record)
+    protected function getFocusKeyword(array $record): string
     {
         $keyword = '';
         if (isset($record['tx_csseo'])) {
@@ -237,15 +166,10 @@ class EvaluationCommand extends Command
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($metaTableName);
 
             $res = $queryBuilder->select('keyword')
-                ->from($metaTableName)
-                ->where(
-                    $queryBuilder->expr()->eq(
-                        'uid_foreign',
-                        $queryBuilder->createNamedParameter($record['uid'], PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($this->tableName))
-                )
-                ->execute();
+                ->from($metaTableName)->where($queryBuilder->expr()->eq(
+                'uid_foreign',
+                $queryBuilder->createNamedParameter($record['uid'], PDO::PARAM_INT)
+            ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($this->tableName)))->executeQuery();
 
             while ($row = $res->fetch()) {
                 $keyword = $row['keyword'];
@@ -257,16 +181,11 @@ class EvaluationCommand extends Command
         return $keyword;
     }
 
-    /**
-     * store the results in the db
-     *
-     * @param array $results
-     * @param int $uidForeign
-     * @param string $url
+     /**
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    protected function saveChanges($results, $uidForeign, $url)
+    protected function saveChanges(array $results, int $uidForeign, string $url): void
     {
         /**
          * @var Evaluation|null $evaluation
@@ -290,18 +209,12 @@ class EvaluationCommand extends Command
         $this->persistenceManager->persistAll();
     }
 
-    /**
-     * @return string
-     */
-    public function getTableName()
+    public function getTableName(): string
     {
         return $this->tableName;
     }
 
-    /**
-     * @param string $tableName
-     */
-    public function setTableName($tableName)
+    public function setTableName(string $tableName): void
     {
         $this->tableName = $tableName;
     }
@@ -309,7 +222,7 @@ class EvaluationCommand extends Command
     /**
      * Configure the command by defining the name, options and arguments
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('SEO evaluation of a single entry or the whole site')
             ->addArgument('tableName', InputArgument::OPTIONAL)
@@ -317,13 +230,10 @@ class EvaluationCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
      * @throws IllegalObjectTypeException
      * @throws UnknownObjectException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // @extensionScannerIgnoreLine
         $this->init();

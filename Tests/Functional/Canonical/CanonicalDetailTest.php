@@ -4,24 +4,8 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\Canonical;
 
-/**
- * Test case, inspired by typo3/cms-seo extension
- *
- * Moutnpoints point here to there original URL to avoid duplicated content
- */
-class CanonicalDetailTest extends AbstractCanonicalTest
+class CanonicalDetailTest extends AbstractCanonicalTestCase
 {
-    protected $configurationToUseInTestInstance = [
-        'EXTENSIONS' => [
-            'cs_seo' => [
-                'useAdditionalCanonicalizedUrlParametersOnly' => true,
-            ],
-        ],
-        'FE' => [
-            'additionalCanonicalizedUrlParameters' => 'category',
-        ],
-    ];
-
     public function generateDataProvider(): array
     {
         return [

@@ -16,47 +16,28 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class GridService
 {
-    protected $modParams = [];
+    protected array $modParams = [];
 
-    protected $fieldNames = [];
+    protected array $fieldNames = [];
 
-    protected $languages = [];
+    protected array $languages = [];
 
-    protected $showResults = false;
+    protected bool $showResults = false;
 
-    protected $pageUid = 0;
+    protected int $pageUid = 0;
 
-    protected $imageFieldNames = ['tx_csseo_og_image', 'tx_csseo_tw_image'];
+    protected array $imageFieldNames = ['tx_csseo_og_image', 'tx_csseo_tw_image'];
 
-    /**
-     * pageRepository
-     *
-     * @var PageRepository
-     */
-    protected $pageRepository;
-    /**
-     * evaluationService
-     *
-     * @var EvaluationService
-     */
-    protected $evaluationService;
+    protected ?PageRepository $pageRepository = null;
 
-    /**
-     * Inject a pageRepository
-     *
-     * @param PageRepository $pageRepository
-     */
-    public function injectPageRepository(PageRepository $pageRepository)
+    protected ?EvaluationService $evaluationService = null;
+
+    public function injectPageRepository(PageRepository $pageRepository): void
     {
         $this->pageRepository = $pageRepository;
     }
 
-    /**
-     * Inject a evaluationService
-     *
-     * @param EvaluationService $evaluationService
-     */
-    public function injectEvaluationService(EvaluationService $evaluationService)
+    public function injectEvaluationService(EvaluationService $evaluationService): void
     {
         $this->evaluationService = $evaluationService;
     }
@@ -78,7 +59,7 @@ class GridService
         $this->languages = DatabaseUtility::getLanguagesInBackend($this->pageUid); // get languages
     }
 
-    public function getJsFiles()
+    public function getJsFiles(): array
     {
         return [
             'Module/lib/angular.js',
@@ -93,7 +74,7 @@ class GridService
         ];
     }
 
-    public function getCssFiles()
+    public function getCssFiles(): array
     {
         return [
             'Lib/ui-grid/ui-grid.min.css',
@@ -144,12 +125,9 @@ class GridService
 
     /**
      * get the UI grid column definition for the current field
-     *
-     * @param $fieldName
-     *
-     * @return mixed
+     * @throws \JsonException
      */
-    public function getColumnDefinition($fieldName)
+    public function getColumnDefinition(string $fieldName): string
     {
         $columnDef = ['field' => $fieldName];
         if ($fieldName !== 'sys_language_uid' && $fieldName !== 'results') {
@@ -215,7 +193,7 @@ class GridService
                 $columnDef['type'] = 'object';
         }
 
-        return json_encode($columnDef);
+        return json_encode($columnDef, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -225,10 +203,8 @@ class GridService
      * @param int $depth the current depth
      * @param array $pages contains all pages so far
      * @param int $level the tree level required for the UI grid
-     *
-     * @return array
      */
-    protected function getPageTree(array $page, int $depth, $pages = [], $level = 0): array
+    protected function getPageTree(array $page, int $depth, array $pages = [], int $level = 0): array
     {
         // default query settings
         $fields = '*';
@@ -289,13 +265,8 @@ class GridService
 
     /**
      * returns the final JSON incl. settings for the UI Grid
-     *
-     * @param $rowEntries
-     * @param $columnDefs
-     *
-     * @return string
      */
-    protected function buildGridJSON($rowEntries, $columnDefs)
+    protected function buildGridJSON(array $rowEntries, array $columnDefs): string
     {
         $doktypes = '[' . implode(',', ConfigurationUtility::getEvaluationDoktypes()) . ']';
 
@@ -309,7 +280,7 @@ class GridService
 				expandAll: true,
 				enableFiltering: true,
 				doktypes: ' . $doktypes . ',
-				i18n: \'' . GlobalsUtility::getBackendUser()->uc['lang'] . '\',
+				i18n: \'' . GlobalsUtility::getBackendUser()->user['lang'] . '\',
 				cellEditableCondition: function($scope) {
 					return (' . $doktypes . '.indexOf(parseInt($scope.row.entity.doktype)) > -1)
 				}

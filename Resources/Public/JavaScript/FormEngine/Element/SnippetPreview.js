@@ -1,109 +1,126 @@
-/**
- * Module: TYPO3/CMS/CsSeo/FormEngine/Element/SnippetPreview
- * Logic for Google SERP
- *
- * @author Marc Hirdes
- * @version 3.0
- * @license clickstorm GmbH
- */
-define(['jquery'], function($) {
-    var SnippetPreview = {};
+class SnippetPreview {
+  constructor() {
+    let previewTitleEl = document.querySelector('.js-cs-seo-title');
+    let previewDescriptionEl = document.querySelector('.js-cs-seo-desc');
+    let fieldsetEl = previewTitleEl.closest('fieldset');
+    let separator = previewTitleEl.dataset.separator ?
+        previewTitleEl.dataset.separator :
+        '';
+    let siteTitle = previewTitleEl.dataset.sitetitle ?
+        previewTitleEl.dataset.sitetitle :
+        '';
+    let fallbackTable = previewTitleEl.dataset.fallbackTable;
+    let inputFallbackTitleEl = SnippetPreview.findInputFallback('title',
+        previewTitleEl);
+    let inputFallbackDescriptionEl = SnippetPreview.findInputFallback(
+        'description', previewTitleEl);
+    let inputSeoDescriptionEl = fieldsetEl.querySelector(
+        '[data-formengine-input-name$="[description]"]');
+    let inputSeoTitleEl;
+    let checkboxTitleOnlyEl;
 
-	SnippetPreview.initialize = function() {
-		$(document).ready(function() {
-			var $title = $('.js-cs-seo-title'),
-				$desc = $('.js-cs-seo-desc'),
-				$panel = $title.closest('fieldset'),
-				separator = $title.data('separator') ? $title.data('separator') : '',
-				siteTitle = $title.data('sitetitle') ? $title.data('sitetitle') : '',
-				fallbackTable = $title.data('fallback-table'),
-				$inputFallbackTitleHR = findInputFallback('title'),
-				$inputFallbackDescriptionHR = findInputFallback('description'),
-				$inputSeoDescriptionHR = $panel.find('[data-formengine-input-name$="[description]"], textarea[name$="[description]"]');
-			if(fallbackTable == 'pages') {
-				var $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[seo_title]"], input[name$="[seo_title]_hr"]'),
-          $checkboxTitleOnlyHR = $panel.find('input[data-formengine-input-name$="[tx_csseo_title_only]"], input[name$="[tx_csseo_title_only]_0"]');
-			} else {
-				var $inputSeoTitleHR = $panel.find('input[data-formengine-input-name$="[title]"], input[name$="[title]_hr"]'),
-          $checkboxTitleOnlyHR = $panel.find('input[data-formengine-input-name$="[title_only]"], input[name$="[title_only]_0"]');
-			}
+    if (fallbackTable === 'pages') {
+      inputSeoTitleEl = fieldsetEl.querySelector(
+          'input[data-formengine-input-name$="[seo_title]"]');
+      checkboxTitleOnlyEl = fieldsetEl.querySelector(
+          'input[data-formengine-input-name$="[tx_csseo_title_only]"]');
+    } else {
+      inputSeoTitleEl = fieldsetEl.querySelector(
+          'input[data-formengine-input-name$="[title]"]');
+      checkboxTitleOnlyEl = fieldsetEl.querySelector(
+          'input[data-formengine-input-name$="[title_only]"]');
+    }
 
-      var titleOnly = $checkboxTitleOnlyHR.is(":checked");
+    let titleOnly = checkboxTitleOnlyEl.checked; // return boolean
 
-			$inputSeoTitleHR.on('keyup.csseotitle', function() {
-				updateTitle();
-			});
+    inputSeoTitleEl.addEventListener('keyup', () => {
+      SnippetPreview.updateTitle(inputSeoTitleEl, inputFallbackTitleEl,
+          titleOnly, previewTitleEl, separator, siteTitle);
+    });
 
-      // title only changes
-      $checkboxTitleOnlyHR.change(function() {
-        titleOnly = $checkboxTitleOnlyHR.is(":checked");
-        updateTitle();
+    // title only changes
+    checkboxTitleOnlyEl.addEventListener('change', () => {
+      titleOnly = checkboxTitleOnlyEl.checked;
+      SnippetPreview.updateTitle(inputSeoTitleEl, inputFallbackTitleEl,
+          titleOnly, previewTitleEl, separator, siteTitle);
+    });
+
+    // description changes
+    inputSeoDescriptionEl.addEventListener('keyup', () => {
+      SnippetPreview.updateDescription(inputSeoDescriptionEl,
+          inputFallbackDescriptionEl, previewDescriptionEl);
+    });
+
+    // title fallback change
+    if (inputFallbackTitleEl !== null) {
+      inputFallbackTitleEl.addEventListener('change', () => {
+        SnippetPreview.updateTitle(inputSeoTitleEl, inputFallbackTitleEl,
+            titleOnly, previewTitleEl, separator, siteTitle);
       });
+    }
 
-			// description changes
-			$inputSeoDescriptionHR.on('keyup.csseodesc', function() {
-				updateDescription();
-			});
+    // fallback description changes
+    if (inputFallbackDescriptionEl !== null) {
+      inputFallbackDescriptionEl.addEventListener('change', () => {
+        SnippetPreview.updateDescription(inputSeoDescriptionEl,
+            inputFallbackDescriptionEl, previewDescriptionEl);
+      });
+    }
+  }
 
-			// title change
-			$inputFallbackTitleHR.change(function() {
-				updateTitle();
-			});
+  static findInputFallback(fieldname, title) {
+    let name = '[' + title.dataset.fallbackTable + '][' +
+        title.dataset.fallbackUid + '][' +
+        title.getAttribute('data-fallback-' + fieldname) + ']';
+    return document.querySelector(
+        'input[data-formengine-input-name$="' + name + '"],' +
+        'textarea[data-formengine-input-name$="' + name + '"]');
 
-			// fallback description changes
-			$inputFallbackDescriptionHR.change(function() {
-				updateDescription();
-			});
+  }
 
-			function findInputFallback(fieldname) {
-				var name = '[' + $title.data('fallback-table') + '][' + $title.data('fallback-uid') + '][' + $title.data('fallback-' + fieldname) + ']';
-				return $('input[data-formengine-input-name$="' + name + '"],' +
-					'input[name$="' + name + '_hr"],' +
-					'textarea[data-formengine-input-name$="' + name + '"],' +
-					'textarea[name$="' + name + '"]');
-			}
+  static updateTitle(
+      inputSeoTitleEL, inputFallbackTitleEl, titleOnly, titleEl, separator,
+      siteTitle) {
+    return document.querySelector(
+        '.js-cs-seo-title').innerHTML = SnippetPreview.getSeoTitle(
+        inputSeoTitleEL, inputFallbackTitleEl, titleOnly, titleEl, separator,
+        siteTitle);
+  }
 
-			/**
-			 * Update the title in the preview
-			 */
-			function updateTitle() {
-				$title.text(getSeoTitle());
-			}
+  static updateDescription(
+      inputSeoDescriptionEl, inputFallbackDescriptionEl, desc) {
+    let metaDesc = inputSeoDescriptionEl.value;
+    if (metaDesc === '' && inputFallbackDescriptionEl !== null) {
+      metaDesc = inputFallbackDescriptionEl.value;
+    }
+    desc.innerHTML = metaDesc;
 
-			/**
-			 * Update the title in the preview
-			 */
-			function updateDescription() {
-				var metaDesc = $inputSeoDescriptionHR.val();
-				if(metaDesc == '' && $inputFallbackDescriptionHR.length > 0) {
-					metaDesc = $inputFallbackDescriptionHR.val();
-				}
-				$desc.text(metaDesc);
-				$('.js-cs-seo-hidden').toggle(!metaDesc);
-			}
+    document.querySelector('.js-cs-seo-hidden').style.display = metaDesc ?
+        'none' :
+        '';
+    return desc;
+  }
 
-			/**
-			 *
-			 * @returns {string}
-			 */
-			function getSeoTitle() {
-				var title = $inputSeoTitleHR.val();
-				if(title == '' && $inputFallbackTitleHR.length > 0) {
-					title = $inputFallbackTitleHR.val();
-				}
+  static getSeoTitle(
+      inputSeoTitleEl, inputFallbackTitleEl, titleOnly, titleEl, separator,
+      siteTitle) {
 
-        if(!titleOnly) {
-          if($title.data('first')) {
-            title += separator + siteTitle;
-          } else {
-            title = siteTitle + separator + title;
-          }
-        }
+    let title = inputSeoTitleEl.value;
 
-				return title;
-			}
-		});
-	}
+    if (title === '' && inputFallbackTitleEl !== null) {
+      title = inputFallbackTitleEl.value;
+    }
 
-	return SnippetPreview;
-});
+    if (!titleOnly) {
+      if (titleEl.dataset.first) {
+        title += separator + siteTitle;
+      } else {
+        title = siteTitle + separator + title;
+      }
+    }
+
+    return title;
+  }
+}
+
+export default new SnippetPreview;

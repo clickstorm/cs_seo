@@ -2,33 +2,6 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
-use Clickstorm\CsSeo\Controller\TypoScriptFrontendController;
-
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\TypoScriptAspect;
@@ -40,11 +13,16 @@ use TYPO3\CMS\Core\Site\Entity\SiteInterface;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
+use TYPO3\CMS\Core\TypoScript\TemplateService;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * own TSFE to render TSFE in the backend
@@ -53,50 +31,24 @@ use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
  */
 class TSFEUtility
 {
-    /**
-     * @var int
-     */
-    protected $pageUid;
+    protected int $pageUid = 0;
+
+    protected int $workspaceUid = 0;
+
+    protected int $parentUid = 0;
+
+    protected int $typeNum = 0;
+
+    protected int $lang = 0;
+
+    protected array $config = [];
+
+    protected ?ContentObjectRenderer $cObj = null;
 
     /**
-     * @var int
-     */
-    protected $workspaceUid;
-
-    /**
-     * @var int
-     */
-    protected $parentUid;
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Service\EnvironmentService
-     */
-    protected $environmentService;
-
-    /**
-     * @var int
-     */
-    protected $typeNum;
-
-    /**
-     * @var int
-     */
-    protected $lang;
-
-    /**
-     * @var array
-     */
-    protected $config;
-
-    /**
-     * TSFEUtility constructor.
-     *
-     * @param int $pageUid
-     * @param array|int $lang
-     * @param int $typeNum
      * @throws \TYPO3\CMS\Core\Exception
      */
-    public function __construct($pageUid, $lang = 0, $typeNum = 654)
+    public function __construct(int $pageUid, int $lang = 0, int $typeNum = 654)
     {
         $this->pageUid = $pageUid;
         $this->workspaceUid = $GLOBALS['BE_USER']->workspace ?? 0;
@@ -114,8 +66,8 @@ class TSFEUtility
 
         $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         $fullTS = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
-
-        $this->config = $fullTS['config.'];
+        $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $this->config = $GLOBALS['TSFE']->config['config'];
     }
 
     /**
@@ -123,7 +75,7 @@ class TSFEUtility
      *
      * @throws \TYPO3\CMS\Core\Exception
      */
-    protected function initTSFE()
+    protected function initTSFE(): void
     {
         try {
             if (!isset($GLOBALS['TT']) || !is_object($GLOBALS['TT'])) {
@@ -131,14 +83,16 @@ class TSFEUtility
                 GeneralUtility::makeInstance(TimeTracker::class)->start();
             }
 
+            // generate needed parameters
             $context = GeneralUtility::makeInstance(Context::class);
             $typoScriptAspect = GeneralUtility::makeInstance(TypoScriptAspect::class, true);
             $context->setAspect('typoscript', $typoScriptAspect);
             $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->pageUid);
-            $pageArguments = $GLOBALS['TYPO3_REQUEST']->getAttribute('routing') ?? new PageArguments($this->pageUid, '0', []);
+            $pageArguments = new PageArguments($this->pageUid, '0', []);
             $frontedUser = GeneralUtility::makeInstance(FrontendUserAuthentication::class);
-            $frontedUser->start();
+            $frontedUser->start($GLOBALS['TYPO3_REQUEST']);
 
+            // new TSFE instance
             $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
                 TypoScriptFrontendController::class,
                 $context,
@@ -148,22 +102,32 @@ class TSFEUtility
                 $frontedUser
             );
 
+            // @extensionScannerIgnoreLine
             $GLOBALS['TSFE']->id = $this->pageUid;
 
-            $GLOBALS['TSFE']->newCObj();
-            $GLOBALS['TSFE']->determineId();
+            $GLOBALS['TSFE']->newCObj($GLOBALS['TYPO3_REQUEST']);
+            $GLOBALS['TSFE']->determineId($GLOBALS['TYPO3_REQUEST']);
 
-            $GLOBALS['TSFE']->getConfigArray();
+            // get TypoScript - see https://www.in2code.de/aktuelles/php-typoscript-im-backend-oder-command-kontext-nutzen/
+            $rootlineUtil = GeneralUtility::makeInstance(RootlineUtility::class, $this->pageUid);
+            $templateService = GeneralUtility::makeInstance(TemplateService::class);
+
+            $rootLine = $rootlineUtil->get();
+
+            $templateService->runThroughTemplates($rootLine);
+
+            $templateService->generateConfig();
+
+            // set TypoScript
+            $GLOBALS['TSFE']->config['config'] = $templateService->setup['config.'] ?? [];
             $GLOBALS['TSFE']->config['config']['sys_language_uid'] = $this->lang;
-
-            $GLOBALS['TSFE']->preparePageContentGeneration($GLOBALS['TYPO3_REQUEST']);
         } catch (\Exception $e) {
             /** @var FlashMessage $message */
             $message = GeneralUtility::makeInstance(
                 FlashMessage::class,
                 $e->getMessage(),
                 LocalizationUtility::translate('error.no_ts', 'cs_seo'),
-                FlashMessage::ERROR
+                ContextualFeedbackSeverity::ERROR
             );
             /** @var FlashMessageService $flashMessageService */
             $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
@@ -172,10 +136,7 @@ class TSFEUtility
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getPagePath()
+    public function getPagePath(): string
     {
         $parameter = [
             'parameter' => $this->pageUid,
@@ -183,31 +144,20 @@ class TSFEUtility
             'forceAbsoluteUrl' => 1,
         ];
 
-        return $GLOBALS['TSFE']->cObj->typoLink_URL($parameter);
+        return $this->cObj->typoLink_URL($parameter);
     }
 
-    /**
-     * @return array
-     */
-    public function getPage()
+    public function getPage(): array
     {
         return $GLOBALS['TSFE']->page;
     }
 
-    /**
-     * @return bool
-     */
     public function getPageTitleFirst(): bool
     {
         return isset($this->config['pageTitleFirst']) ? (bool)$this->config['pageTitleFirst'] : false;
     }
 
-    /**
-     * @param string $title
-     * @param bool $titleOnly
-     * @return string
-     */
-    public function getFinalTitle($title, $titleOnly = false)
+    public function getFinalTitle(string $title, bool $titleOnly = false): string
     {
         if ($titleOnly) {
             return $title;
@@ -245,24 +195,18 @@ class TSFEUtility
         return '';
     }
 
-    /**
-     * @return array
-     */
-    public function getConfig()
+    public function getConfig(): array
     {
         return $this->config;
     }
 
-    /**
-     * @return string
-     */
-    public function getPageTitleSeparator()
+    public function getPageTitleSeparator(): string
     {
         if (!isset($GLOBALS['TSFE']) || !is_object($GLOBALS['TSFE'])) {
             return '';
         }
 
-        return $GLOBALS['TSFE']->cObj->stdWrap(
+        return $this->cObj->stdWrap(
             $this->config['pageTitleSeparator'],
             $this->config['pageTitleSeparator.']
         );

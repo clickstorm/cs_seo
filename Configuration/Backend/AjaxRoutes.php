@@ -1,12 +1,14 @@
 <?php
 
+use Clickstorm\CsSeo\Controller\ModuleWebController;
+use Clickstorm\CsSeo\Command\EvaluationCommand;
 return [
     'tx_csseo_update' => [
         'path' => '/cs_seo/update',
-        'target' => \Clickstorm\CsSeo\Controller\ModuleWebController::class . '::update',
+        'target' => ModuleWebController::class . '::update',
     ],
     'tx_csseo_evaluate' => [
         'path' => '/cs_seo/evaluate',
-        'target' => \Clickstorm\CsSeo\Command\EvaluationCommand::class . '::ajaxUpdate',
+        'target' => EvaluationCommand::class . '::ajaxUpdate',
     ],
 ];

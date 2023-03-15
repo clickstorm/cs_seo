@@ -13,32 +13,21 @@ use TYPO3\CMS\Backend\Form\NodeFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FormService
 {
-    public array $elementsData;
-    /**
-     * @var int|mixed
-     */
-    public $errorC;
-    public int $newC;
-    /**
-     * @var int|mixed
-     */
-    public $viewId;
-    public string $viewId_addParams;
-    /**
-     * @var mixed|array<string, mixed>|array<string, mixed[]>
-     */
-    public $overrideVals;
-    /**
-     * @var mixed|mixed[]
-     */
-    public $defVals;
+    public array $elementsData = [];
+    public int $errorC = 0;
+    public int $newC = 0;
+    public int $viewId = 0;
+    public string $viewId_addParams = '';
+    public ?array $overrideVals = [];
+    public ?array $defVals = [];
+
     /**
      * Render an editform for specific table, see
-     * @return string HTML form elements wrapped in tables
      * @see \TYPO3\CMS\Backend\Controller\EditDocumentController
      */
     public function makeEditForm(string $table, int $theUid, string $columns): string
@@ -97,7 +86,7 @@ class FormService
                     FlashMessage::class,
                     $lockInfo['msg'],
                     '',
-                    FlashMessage::WARNING
+                    ContextualFeedbackSeverity::WARNING
                 );
                 $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
                 $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
