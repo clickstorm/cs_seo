@@ -29,7 +29,7 @@ class HrefLangService extends AbstractUrlService
         /** @var ContentObjectRenderer $cObj */
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $context = GeneralUtility::makeInstance(Context::class);
-        $typoLinkConf = $GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.'];
+        $typoLinkConf = isset($GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.']);
         $tempLinkVars = $GLOBALS['TSFE']->linkVars;
 
         // remove config.linkVars temporary
