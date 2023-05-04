@@ -171,7 +171,7 @@ class ModuleFileController extends AbstractModuleController
     public function updateAction(): ResponseInterface
     {
         $uid = $this->request->hasArgument('uid') ? (int)$this->request->getArgument('uid') : 0;
-        $data = GeneralUtility::_GP('data')['sys_file_metadata'] ?? '';
+        $data = $this->request->getParsedBody()['data']['sys_file_metadata'] ??  $this->request->getQueryParams()['data']['sys_file_metadata'] ?? '';
 
         if ($uid && $data) {
             /** @var ResourceFactory $resourceFactory */

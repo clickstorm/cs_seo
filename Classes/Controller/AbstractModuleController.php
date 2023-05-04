@@ -64,7 +64,7 @@ abstract class AbstractModuleController extends ActionController
     protected function initializeAction(): ?ForwardResponse
     {
         // initialize page/be_user TSconfig settings
-        $this->recordId = (int)GeneralUtility::_GP('id');
+        $this->recordId = (int)($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? 0);
 
         // initialize settings of the module
         $this->initializeModParams();
@@ -102,7 +102,7 @@ abstract class AbstractModuleController extends ActionController
         $sessionParams = GlobalsUtility::getBackendUser()->getSessionData(static::$session_prefix) ?: $this->modParams;
 
         foreach (array_keys($this->modParams) as $name) {
-            $modParam = GeneralUtility::_GP($name) !== null ? GeneralUtility::_GP($name) : $sessionParams[$name];
+            $modParam = $this->request->getParsedBody()[$name] ?? $this->request->getQueryParams()[$name] ?? $sessionParams[$name];
             if (is_numeric($modParam)) {
                 $modParam = (int)$modParam;
             }
