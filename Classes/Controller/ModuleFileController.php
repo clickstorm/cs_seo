@@ -131,7 +131,7 @@ class ModuleFileController extends AbstractModuleController
 
             $columns = [];
             foreach ($configuredColumns as $col) {
-                if ($GLOBALS['TCA']['sys_file_metadata']['columns'][$col] && $GLOBALS['TCA']['sys_file_metadata']['columns'][$col]['label']) {
+                if (isset($GLOBALS['TCA']['sys_file_metadata']['columns'][$col]['label'])) {
                     $columns[$col] = $GLOBALS['TCA']['sys_file_metadata']['columns'][$col]['label'];
                 }
             }
