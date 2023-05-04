@@ -58,7 +58,7 @@ class FormService
                 'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
             ];
 
-            if (is_array($this->overrideVals) && is_array($this->overrideVals[$table])) {
+            if (isset($this->overrideVals[$table]) && is_array($this->overrideVals[$table])) {
                 $formDataCompilerInput['overrideValues'] = $this->overrideVals[$table];
             }
             if (!empty($this->defVals) && is_array($this->defVals)) {
