@@ -119,10 +119,11 @@ return [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', 0],
+                    ['label' => '', 'value' => 0],
                 ],
                 'foreign_table' => 'tx_csseo_domain_model_meta',
-                'foreign_table_where' => 'AND tx_csseo_domain_model_meta.pid=###CURRENT_PID### AND tx_csseo_domain_model_meta.sys_language_uid IN (-1,0)',
+                'foreign_table_where' => 'AND {#tx_csseo_domain_model_meta}.{#pid}=###CURRENT_PID### AND {#tx_csseo_domain_model_meta}.{#sys_language_uid} IN (-1,0)',
+                'default' => 0,
             ],
         ],
         'l10n_diffsource' => [
