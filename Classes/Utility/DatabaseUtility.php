@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Utility;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Resource\File;
@@ -194,20 +195,34 @@ class DatabaseUtility
                     'file.storage',
                     $queryBuilder->createNamedParameter($storage, \PDO::PARAM_INT)
                 ),
-                $folderExpression
+                $folderExpression,
             );
 
+        // always check the default language of sys_file_metadata or if it is null
+        $languageExpressions = [
+            $queryBuilder->expr()->in(
+                'meta.sys_language_uid',
+                $queryBuilder->createNamedParameter($queryBuilder->createNamedParameter(0, \PDO::PARAM_INT))
+            )
+        ];
+
+        // add the check for empty alt text
         if (!$includeImagesWithAlt) {
-            $queryBuilder->andWhere(
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->eq(
-                        'meta.alternative',
-                        $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
-                    ),
-                    $queryBuilder->expr()->isNull('meta.alternative')
-                )
+            $languageExpressions[] = $queryBuilder->expr()->eq(
+                'meta.alternative',
+                $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
             );
         }
+
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->andX(
+                    ...$languageExpressions
+                ),
+                $queryBuilder->expr()->isNull('meta.alternative')
+            )
+        );
+
 
         if ($countAll) {
             $queryBuilder->count('file.uid');
@@ -218,7 +233,7 @@ class DatabaseUtility
             $queryBuilder->setMaxResults(1);
         }
 
-        return $queryBuilder->execute()->fetchAll();
+        return $queryBuilder->execute()->fetchAllAssociative();
     }
 
     public static function getLanguagesInBackend(int $pageId = 0): array
