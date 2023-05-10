@@ -70,11 +70,7 @@ abstract class AbstractModuleController extends ActionController
         $this->initializeModParams();
 
         if (empty($this->recordId)) {
-            $this->recordId = $this->modParams['id'];
-        }
-
-        if (is_numeric($this->recordId)) {
-            $this->recordId = (int)$this->recordId;
+            $this->recordId = (int)$this->modParams['id'];
         }
 
         if (!$this->request->hasArgument('action') && $this->modParams['action']) {
