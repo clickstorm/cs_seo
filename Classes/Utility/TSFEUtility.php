@@ -4,7 +4,9 @@ namespace Clickstorm\CsSeo\Utility;
 
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\LanguageAspectFactory;
 use TYPO3\CMS\Core\Context\TypoScriptAspect;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
@@ -21,7 +23,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
-use TYPO3\CMS\Core\TypoScript\TemplateService;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -110,17 +111,21 @@ class TSFEUtility
 
             // get TypoScript - see https://www.in2code.de/aktuelles/php-typoscript-im-backend-oder-command-kontext-nutzen/
             $rootlineUtil = GeneralUtility::makeInstance(RootlineUtility::class, $this->pageUid);
-            $templateService = GeneralUtility::makeInstance(TemplateService::class);
 
             $rootLine = $rootlineUtil->get();
+            $GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance(PageRepository::class, $GLOBALS['TSFE']->getContext());
 
-            $templateService->runThroughTemplates($rootLine);
+            $GLOBALS['TSFE']->page = $GLOBALS['TSFE']->sys_page->getPage($this->pageUid);
 
-            $templateService->generateConfig();
+            // Get values from site language
+            $languageAspect = LanguageAspectFactory::createFromSiteLanguage($GLOBALS['TSFE']->getLanguage());
+            if ($languageAspect->getId() > 0) {
+                $GLOBALS['TSFE']->page = $GLOBALS['TSFE']->sys_page->getPageOverlay($GLOBALS['TSFE']->page, $languageAspect);
+            }
 
-            // set TypoScript
-            $GLOBALS['TSFE']->config['config'] = $templateService->setup['config.'] ?? [];
-            $GLOBALS['TSFE']->config['config']['sys_language_uid'] = $this->lang;
+            $GLOBALS['TSFE']->rootLine = $rootLine;
+
+            $GLOBALS['TSFE']->getFromCache($GLOBALS['TYPO3_REQUEST']);
         } catch (\Exception $e) {
             /** @var FlashMessage $message */
             $message = GeneralUtility::makeInstance(
