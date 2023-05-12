@@ -195,34 +195,26 @@ class DatabaseUtility
                     $queryBuilder->createNamedParameter($storage, \PDO::PARAM_INT)
                 ),
                 $folderExpression,
+                // always check the default language of sys_file_metadata
+                $queryBuilder->expr()->in(
+                    'meta.sys_language_uid',
+                    $queryBuilder->createNamedParameter($queryBuilder->createNamedParameter(0, \PDO::PARAM_INT))
+                )
             );
-
-        // always check the default language of sys_file_metadata or if it is null
-        $languageExpressions = [
-            $queryBuilder->expr()->in(
-                'meta.sys_language_uid',
-                $queryBuilder->createNamedParameter($queryBuilder->createNamedParameter(0, \PDO::PARAM_INT))
-            )
-        ];
 
         // add the check for empty alt text
         if (!$includeImagesWithAlt) {
-            $languageExpressions[] = $queryBuilder->expr()->eq(
-                'meta.alternative',
-                $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->eq(
+                        'meta.alternative',
+                        $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
+                    ),
+                    $queryBuilder->expr()->isNull('meta.alternative')
+                )
             );
         }
-
-        $queryBuilder->andWhere(
-            $queryBuilder->expr()->orX(
-                $queryBuilder->expr()->andX(
-                    ...$languageExpressions
-                ),
-                $queryBuilder->expr()->isNull('meta.alternative')
-            )
-        );
-
-
+        
         if ($countAll) {
             $queryBuilder->count('file.uid');
         } else {
