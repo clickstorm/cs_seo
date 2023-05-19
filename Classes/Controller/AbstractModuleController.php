@@ -219,16 +219,8 @@ abstract class AbstractModuleController extends ActionController
 
         $messages = [];
 
-        $severityMapping = [
-            ContextualFeedbackSeverity::OK => 'success',
-            ContextualFeedbackSeverity::ERROR => 'error',
-            ContextualFeedbackSeverity::INFO => 'info',
-            ContextualFeedbackSeverity::NOTICE => 'notice',
-            ContextualFeedbackSeverity::WARNING => 'waring',
-        ];
-
         foreach ($messageQueue->getAllMessages() as $flashMessage) {
-            $method = $severityMapping[$flashMessage->getSeverity()->value] ?? 'info';
+            $method = $flashMessage->getSeverity()->getCssClass();
             $messages[] =
                 'top.TYPO3.Notification.' . $method . '("' . $flashMessage->getTitle() . '", "' . $flashMessage->getMessage() . '", ' . static::$flashMessageDurationInSeconds . ');';
         }
