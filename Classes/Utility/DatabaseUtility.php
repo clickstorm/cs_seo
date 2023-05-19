@@ -176,7 +176,12 @@ class DatabaseUtility
                     'file.storage',
                     $queryBuilder->createNamedParameter($storage, \PDO::PARAM_INT)
                 ),
-                $folderExpression
+                $folderExpression,
+                // always check the default language of sys_file_metadata
+                $queryBuilder->expr()->in(
+                    'meta.sys_language_uid',
+                    $queryBuilder->createNamedParameter($queryBuilder->createNamedParameter(0, \PDO::PARAM_INT))
+                )
             );
 
         if (!$includeImagesWithAlt) {
