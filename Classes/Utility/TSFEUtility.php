@@ -68,7 +68,7 @@ class TSFEUtility
         $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         $fullTS = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
         $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $this->config = $GLOBALS['TSFE']->config['config'];
+        $this->config = $GLOBALS['TSFE']->config['config'] ?? [];
     }
 
     /**
