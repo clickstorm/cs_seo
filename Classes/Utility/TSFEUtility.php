@@ -20,6 +20,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Frontend\Aspect\PreviewAspect;
 use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
@@ -88,6 +89,8 @@ class TSFEUtility
             $context = GeneralUtility::makeInstance(Context::class);
             $typoScriptAspect = GeneralUtility::makeInstance(TypoScriptAspect::class, true);
             $context->setAspect('typoscript', $typoScriptAspect);
+            $frontendPreviewAspect = GeneralUtility::makeInstance(PreviewAspect::class, true);
+            $context->setAspect('frontend.preview', $frontendPreviewAspect);
             $site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->pageUid);
             $pageArguments = new PageArguments($this->pageUid, '0', []);
             $frontedUser = GeneralUtility::makeInstance(FrontendUserAuthentication::class);
@@ -115,7 +118,7 @@ class TSFEUtility
             $rootLine = $rootlineUtil->get();
             $GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance(PageRepository::class, $GLOBALS['TSFE']->getContext());
 
-            $GLOBALS['TSFE']->page = $GLOBALS['TSFE']->sys_page->getPage($this->pageUid);
+            $GLOBALS['TSFE']->page = $GLOBALS['TSFE']->sys_page->getPage($this->pageUid, true);
 
             // Get values from site language
             $languageAspect = LanguageAspectFactory::createFromSiteLanguage($GLOBALS['TSFE']->getLanguage());
