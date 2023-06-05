@@ -215,8 +215,8 @@ class TSFEUtility
         }
 
         return $this->cObj->stdWrap(
-            $this->config['pageTitleSeparator'],
-            $this->config['pageTitleSeparator.']
+            $this->config['pageTitleSeparator'] ?? '',
+            $this->config['pageTitleSeparator.'] ?? []
         );
     }
 
