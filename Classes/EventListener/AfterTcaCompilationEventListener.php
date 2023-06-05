@@ -12,10 +12,16 @@ class AfterTcaCompilationEventListener
 {
     public function __invoke(AfterTcaCompilationEvent $event): void
     {
+        $tcaBackup = $GLOBALS['TCA'];
+        // ExtensionManagementUtility::addToAllTCAtypes() directly manipulates
+        // $GLOBALS['TCA'] so we need to temporarily expose the compiled TCA this way
+        $GLOBALS['TCA'] = $event->getTca();
+        
         $this->addCsSeoFieldsToDoktypes();
         $this->addCsSeoMetadataFieldsToRecords();
 
         $event->setTca($GLOBALS['TCA']);
+        $GLOBALS['TCA'] = $tcaBackup;
     }
 
     protected function addCsSeoFieldsToDoktypes(): void
