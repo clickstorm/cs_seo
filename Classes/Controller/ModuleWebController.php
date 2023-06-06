@@ -128,7 +128,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageEvaluationAction(): ResponseInterface
     {
-        $page = $this->pageRepository->getPage($this->modParams['id']);
+        $page = $this->pageRepository->getPage($this->modParams['id'], true);
         $evaluationUid = 0;
         $extKey = 'cs_seo';
         $tables = [
@@ -173,7 +173,7 @@ class ModuleWebController extends AbstractModuleController
             $languages = [];
 
             // get available languages
-            $pageOverlays = DatabaseUtility::getPageLanguageOverlays($page['uid']);
+            $pageOverlays = DatabaseUtility::getPageLanguageOverlays((int)$page['uid']);
             // get languages
             $allLanguages = DatabaseUtility::getLanguagesInBackend((int)$page['uid']);
 

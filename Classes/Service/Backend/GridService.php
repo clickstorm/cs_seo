@@ -111,7 +111,7 @@ class GridService
 
         $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class, $context);
 
-        $page = $this->pageRepository->getPage($this->pageUid);
+        $page = $this->pageRepository->getPage($this->pageUid, true);
         $rowEntries = $this->getPageTree($page, (int)$this->modParams['depth']);
 
         return [
