@@ -90,12 +90,13 @@ class ModifyPageLayoutContentEventListener
                             $this->currentPageUid,
                             $GLOBALS['BE_USER']->getPagePermsClause(Permission::PAGE_SHOW)
                         ),
+                        'userHasAccessToPageEvaluationModule' => $GLOBALS['BE_USER']->check('modules', 'web_CsSeoMod1_pageEvaluation'),
                     ]
                 );
 
                 $content = $this->view->render();
 
-                if((int)$this->csSeoConf['inPageModule'] === static::EVALUATION_IN_PAGE_MODULE_FOOTER) {
+                if ((int)$this->csSeoConf['inPageModule'] === static::EVALUATION_IN_PAGE_MODULE_FOOTER) {
                     $event->addFooterContent($content);
                 } else {
                     $event->addHeaderContent($content);

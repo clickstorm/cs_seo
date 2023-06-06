@@ -1,5 +1,6 @@
 <div xmlns="http://www.w3.org/1999/xhtml" lang="en"
-     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+	 xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers">
 
 	<f:layout name="NoWrap"/>
 
@@ -11,6 +12,12 @@
 						<f:then>
 							<div class="header">
 								<div class="right">
+									<f:if condition="{userHasAccessToPageEvaluationModule}">
+										<a href="{be:moduleLink(route:'web_CsSeoMod1_pageEvaluation', arguments:'{id:page.uid}')}"
+										   class="csseo-icon-help"
+										   title="{f:translate(key:'evaluation.more', extensionName: 'cs_seo')}">
+										</a>
+									</f:if>
 									<a href="javascript:;"
 									   class="csseo-icon-up-open js-csseo-toggle"
 									   title="{f:translate(key:'evaluation.more', extensionName: 'cs_seo')}"
