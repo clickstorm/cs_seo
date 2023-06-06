@@ -8,6 +8,7 @@ use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
 use Clickstorm\CsSeo\Evaluation\H1Evaluator;
 use Clickstorm\CsSeo\Evaluation\H2Evaluator;
+use Clickstorm\CsSeo\Evaluation\HeadingOrderEvaluator;
 use Clickstorm\CsSeo\Evaluation\ImagesEvaluator;
 use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
 use Clickstorm\CsSeo\Evaluation\TitleEvaluator;
@@ -76,12 +77,13 @@ class EvaluationService
 
         // default
         $availableEvaluators = [
+            'Description' => DescriptionEvaluator::class,
             'H1' => H1Evaluator::class,
             'H2' => H2Evaluator::class,
-            'Title' => TitleEvaluator::class,
-            'Description' => DescriptionEvaluator::class,
-            'Keyword' => KeywordEvaluator::class,
+            'HeadingOrder' => HeadingOrderEvaluator::class,
             'Images' => ImagesEvaluator::class,
+            'Keyword' => KeywordEvaluator::class,
+            'Title' => TitleEvaluator::class,
         ];
 
         // additional evaluators

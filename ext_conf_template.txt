@@ -19,8 +19,8 @@ inPageModule = 0
 # cat=evaluation/020; type=string; label= Doktypes: Comma separated list. This doktypes must be callable in the frontend!
 evaluationDoktypes = 1
 
-# cat=evaluation/030; type=string; label= Evaluators : Comma separated list. Available are Title,Description,H1,H2,Images,Keyword
-evaluators = Title,Description,H1,H2,Images,Keyword
+# cat=evaluation/030; type=string; label= Evaluators : Comma separated list. Available are Title,Description,HeadingOrder,H1,H2,Images,Keyword
+evaluators = Title,Description,H1,H2,HeadingOrder,Images,Keyword
 
 # cat=evaluation/040; type=integer; label= Min characters of an optimal title
 minTitle = 40

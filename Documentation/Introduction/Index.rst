@@ -32,7 +32,7 @@ Features
    - Structured Data (JSON-LD)
 
 - Easily **extend any database record** you like with this SEO properties (news, events etc.)
-- **On-page evaluation** of different SEO aspects (focus keyword, alt attributes etc.) and records (pages, news etc.)
+- **On-page evaluation** of different SEO aspects (focus keyword, alt attributes, heading order etc.) and records (pages, news etc.)
 - **href="lang"** support for extensions
 - add only specific parameters to canonical and hreflang
 - allow all languages for the x-default attribute

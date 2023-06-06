@@ -69,6 +69,21 @@
 			<trans-unit id="evaluation.h2.settings" resname="evaluation.h2.settings">
 				<source>The page should contain not more than %1$s h2 headlines.</source>
 			</trans-unit>
+			<trans-unit id="evaluation.headingOrder" resname="evaluation.h2">
+				<source>Heading order</source>
+			</trans-unit>
+			<trans-unit id="evaluation.headingOrder.0" resname="evaluation.h2">
+				<source>Number of incorrect headlines: %1$s</source>
+			</trans-unit>
+			<trans-unit id="evaluation.headingOrder.1" resname="evaluation.h2">
+				<source>No headlines were found</source>
+			</trans-unit>
+			<trans-unit id="evaluation.headingOrder.2" resname="evaluation.h2">
+				<source>The hierarchical order of the headings is correct</source>
+			</trans-unit>
+			<trans-unit id="evaluation.headingOrder.settings" resname="evaluation.h2.settings">
+				<source>The hierarchical order of headings (h1-h6) should be correct, e.g. an h2 heading should always be below an h1 heading.</source>
+			</trans-unit>
 			<trans-unit id="evaluation.header" resname="evaluation.header">
 				<source>SEO - Content Analysis</source>
 			</trans-unit>
