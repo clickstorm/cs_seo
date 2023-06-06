@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-12-17T14:53:26Z" product-name="cs_seo">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2023-06-06T08:25:12Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
 				<source>%m/%d/%Y %I:%M %p</source>
 			</trans-unit>
 			<trans-unit id="error.no_data" resname="error.no_data">
-				<source>Click 'Save' to show the preview.</source>
+				<source>Click &#039;Save&#039; to show the preview.</source>
 			</trans-unit>
 			<trans-unit id="error.no_ts" resname="error.no_ts">
-				<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
+				<source>No page with typeNum 654 found. Please include the TypoScript from the &#039;cs_seo&#039; Extension in your root TypoScript.</source>
 			</trans-unit>
 			<trans-unit id="error.no_tsfe" resname="error.no_tsfe">
 				<source>The TypoScript of the current page could not be loaded.</source>
@@ -122,6 +122,9 @@
 			</trans-unit>
 			<trans-unit id="evaluation.keyword.settings" resname="evaluation.keyword.settings">
 				<source>The focus keyword is the word under which the page should be found in external search engines. It should appear in the browser title, the meta description and the content.</source>
+			</trans-unit>
+			<trans-unit id="evaluation.link.results" resname="evaluation.link.results">
+				<source>Toggle results</source>
 			</trans-unit>
 			<trans-unit id="evaluation.more" resname="evaluation.more">
 				<source>More information</source>
