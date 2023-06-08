@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-12-17T14:53:26Z" product-name="cs_seo">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2023-06-08T08:29:21Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
 				<source>%m/%d/%Y %I:%M %p</source>
 			</trans-unit>
 			<trans-unit id="error.no_data" resname="error.no_data">
-				<source>Click 'Save' to show the preview.</source>
+				<source>Click &#039;Save&#039; to show the preview.</source>
 			</trans-unit>
 			<trans-unit id="error.no_ts" resname="error.no_ts">
-				<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
+				<source>No page with typeNum 654 found. Please include the TypoScript from the &#039;cs_seo&#039; Extension in your root TypoScript.</source>
 			</trans-unit>
 			<trans-unit id="error.no_tsfe" resname="error.no_tsfe">
 				<source>The TypoScript of the current page could not be loaded.</source>
@@ -69,20 +69,23 @@
 			<trans-unit id="evaluation.h2.settings" resname="evaluation.h2.settings">
 				<source>The page should contain not more than %1$s h2 headlines.</source>
 			</trans-unit>
-			<trans-unit id="evaluation.headingOrder" resname="evaluation.h2">
+			<trans-unit id="evaluation.headingOrder" resname="evaluation.headingOrder">
 				<source>Heading order</source>
 			</trans-unit>
-			<trans-unit id="evaluation.headingOrder.0" resname="evaluation.h2">
+			<trans-unit id="evaluation.headingOrder.0" resname="evaluation.headingOrder.0">
 				<source>Number of incorrect headlines: %1$s</source>
 			</trans-unit>
-			<trans-unit id="evaluation.headingOrder.1" resname="evaluation.h2">
+			<trans-unit id="evaluation.headingOrder.1" resname="evaluation.headingOrder.1">
 				<source>No headlines were found</source>
 			</trans-unit>
-			<trans-unit id="evaluation.headingOrder.2" resname="evaluation.h2">
+			<trans-unit id="evaluation.headingOrder.2" resname="evaluation.headingOrder.2">
 				<source>The hierarchical order of the headings is correct</source>
 			</trans-unit>
-			<trans-unit id="evaluation.headingOrder.settings" resname="evaluation.h2.settings">
-				<source>The hierarchical order of headings (h1-h6) should be correct, e.g. an h2 heading should always be below an h1 heading.</source>
+			<trans-unit id="evaluation.headingOrder.incorrectItem" resname="evaluation.headingOrder.incorrectItem">
+				<source>Incorrect</source>
+			</trans-unit>
+			<trans-unit id="evaluation.headingOrder.settings" resname="evaluation.headingOrder.settings">
+				<source>The hierarchical order of headings (h1-h6) should be correct, e.g. an h2 heading should always be below an h1 heading. If your page has headings, you can see the current order here.</source>
 			</trans-unit>
 			<trans-unit id="evaluation.header" resname="evaluation.header">
 				<source>SEO - Content Analysis</source>

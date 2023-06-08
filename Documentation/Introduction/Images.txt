@@ -7,47 +7,47 @@
 .. :name: Screenshot 1
 .. :vspace: 52
 
-.. |img-2|      image:: ../Images/Introduction/cs_seo-social-meta-tags.png
-   :height: 710
-   :width: 800
-.. :align: center
-.. :alt: cs_seo Social media tab
-.. :border: 0
-.. :name: Screenshot 2
-.. :vspace: 52
-
-.. |img-3|      image:: ../Images/Introduction/cs_seo_onpage_analysis_typo3.png
+.. |img-2|      image:: ../Images/Introduction/cs_seo_onpage_analysis_typo3.png
    :height: 382
    :width: 800
 .. :align: center
 .. :alt: cs_seo On-page evaluation in TYPO3
 .. :border: 0
-.. :name: Screenshot 3
+.. :name: Screenshot 2
 .. :vspace: 52
 
-.. |img-4|      image:: ../Images/Introduction/cs_seo-backend-module.png
+.. |img-3|      image:: ../Images/Introduction/cs_seo-backend-module.png
    :height: 573
    :width: 800
 .. :align: center
-.. :alt: cs_seo Social media tab
+.. :alt: cs_seo backend module
 .. :border: 0
-.. :name: Screenshot 4
+.. :name: Screenshot 3
 .. :vspace: 52
 
-.. |img-5|      image:: ../Images/Introduction/cs_seo-extend-news.png
+.. |img-4|      image:: ../Images/Introduction/cs_seo-extend-news.png
    :height: 599
    :width: 800
 .. :align: center
 .. :alt: cs_seo extend news
 .. :border: 0
-.. :name: Screenshot 5
+.. :name: Screenshot 4
 .. :vspace: 52
 
-.. |img-6|      image:: ../Images/Introduction/cs_seo-record-evaluation.png
+.. |img-5|      image:: ../Images/Introduction/cs_seo-record-evaluation.png
    :height: 501
    :width: 800
 .. :align: center
 .. :alt: cs_seo record evaluation
+.. :border: 0
+.. :name: Screenshot 5
+.. :vspace: 52
+
+.. |img-6|      image:: ../Images/Introduction/cs_seo-evalutaion-heading-order.png
+   :height: 453
+   :width: 800
+.. :align: center
+.. :alt: cs_seo evalutaion heading order
 .. :border: 0
 .. :name: Screenshot 6
 .. :vspace: 52

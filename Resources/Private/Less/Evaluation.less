@@ -102,30 +102,48 @@
     }
 
     &__item {
+      align-items: baseline;
+      display: flex;
+      gap: 10px;
+      font-size: 1.4rem;
+      line-height: 140%;
       margin: 0;
       padding: 0;
       &--level {
         &-2 {
+          font-size: 1.2rem;
           padding-left: 20px;
         }
         &-3 {
+          font-size: 1rem;
           padding-left: 40px;
         }
         &-4 {
+          font-size: .9rem;
           padding-left: 60px;
         }
         &-5 {
+          font-size: .8rem;
           padding-left: 80px;
         }
         &-6 {
+          font-size: .7rem;
           padding-left: 100px;
         }
       }
     }
     &__level {
+      display: block;
+      font-weight: bold;
       &--error {
-        color: @color-failure;
+        background-color: @color-failure;
+        color: #fff;
       }
+    }
+    &__text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 

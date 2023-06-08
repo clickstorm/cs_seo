@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2021-12-17T14:53:26Z" product-name="cs_seo">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2023-06-08T08:29:21Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -8,12 +8,12 @@
 				<target>%d.%m.%Y %H:%M Uhr</target>
 			</trans-unit>
 			<trans-unit id="error.no_data" resname="error.no_data">
-				<source>Click 'Save' to show the preview.</source>
-				<target>Drücken Sie 'Speichern', um die Vorschau zu sehen.</target>
+				<source>Click &#039;Save&#039; to show the preview.</source>
+				<target>Drücken Sie &#039;Speichern&#039;, um die Vorschau zu sehen.</target>
 			</trans-unit>
 			<trans-unit id="error.no_ts" resname="error.no_ts">
-				<source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
-				<target>Es konnte kein Seitentyp mit der Nummer 654 gefunden werden. Das TypoScript der Extension 'cs_seo' muss in das Root-Template eingebunden werden.</target>
+				<source>No page with typeNum 654 found. Please include the TypoScript from the &#039;cs_seo&#039; Extension in your root TypoScript.</source>
+				<target>Es konnte kein Seitentyp mit der Nummer 654 gefunden werden. Das TypoScript der Extension &#039;cs_seo&#039; muss in das Root-Template eingebunden werden.</target>
 			</trans-unit>
 			<trans-unit id="error.no_tsfe" resname="error.no_tsfe">
 				<source>The TypoScript of the current page could not be loaded.</source>
@@ -90,6 +90,30 @@
 			<trans-unit id="evaluation.h2.settings" resname="evaluation.h2.settings">
 				<source>The page should contain not more than %1$s h2 headlines.</source>
 				<target>Die Seite sollte nicht mehr als %1$s h2-Überschriften beinhalten.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.headingOrder" resname="evaluation.headingOrder">
+				<source>Heading order</source>
+				<target>Reihenfolge der Überschriften</target>
+			</trans-unit>
+			<trans-unit id="evaluation.headingOrder.0" resname="evaluation.headingOrder.0">
+				<source>Number of incorrect headlines: %1$s</source>
+				<target>Anzahl der inkorrekten Überschriften: %1$s</target>
+			</trans-unit>
+			<trans-unit id="evaluation.headingOrder.1" resname="evaluation.headingOrder.1">
+				<source>No headlines were found</source>
+				<target>Es wurden keine Überschriften gefunden</target>
+			</trans-unit>
+			<trans-unit id="evaluation.headingOrder.2" resname="evaluation.headingOrder.2">
+				<source>The hierarchical order of the headings is correct</source>
+				<target>Die hierarchische Ordnung der Überschriften ist korrekt</target>
+			</trans-unit>
+			<trans-unit id="evaluation.headingOrder.incorrectItem" resname="evaluation.headingOrder.incorrectItem">
+				<source>Incorrect</source>
+				<target>Inkorrekt</target>
+			</trans-unit>
+			<trans-unit id="evaluation.headingOrder.settings" resname="evaluation.headingOrder.settings">
+				<source>The hierarchical order of headings (h1-h6) should be correct, e.g. an h2 heading should always be below an h1 heading. If your page has headings, you can see the current order here.</source>
+				<target>Die hierarchische Reihenfolge der Überschriften (h1-h6) sollte korrekt sein, z.B. eine H2-Überschrift muss immer unter einer H1-Überschrift stehen. Wenn die aktuelle Seite Überschriften hat, können Sie hier die Reihenfolge sehen.</target>
 			</trans-unit>
 			<trans-unit id="evaluation.header" resname="evaluation.header">
 				<source>SEO - Content Analysis</source>
