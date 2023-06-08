@@ -59,7 +59,7 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
           break;
 			}
 
-			if($scope.currentField != 'description') {
+			if($scope.currentField === 'seo_title' || $scope.currentField === 'title' || $scope.currentField === 'tx_csseo_title_only') {
 				$scope.previewTitle = previewTitleFactory.getTitle($scope.pageTitle, $scope.pageCsSeoTitle, $scope.pageTitleOnly);
 			}
 		}
