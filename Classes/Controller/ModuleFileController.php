@@ -41,7 +41,6 @@ class ModuleFileController extends AbstractModuleController
 
     protected array $cssFiles = [
         'Icons.css',
-        'Lib/select2.css',
         'ModuleFile.css',
     ];
 

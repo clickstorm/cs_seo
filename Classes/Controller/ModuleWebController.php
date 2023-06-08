@@ -239,12 +239,10 @@ class ModuleWebController extends AbstractModuleController
 
         $this->jsFiles = [
             'jquery.min.js',
-            'select2.js',
         ];
 
         $this->cssFiles = [
             'Icons.css',
-            'Lib/select2.css',
             'Evaluation.css',
         ];
 
