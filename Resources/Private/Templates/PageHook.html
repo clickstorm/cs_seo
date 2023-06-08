@@ -21,7 +21,7 @@
 									<a href="javascript:;"
 									   class="csseo-icon-up-open js-csseo-toggle"
 									   title="{f:translate(key:'evaluation.link.results', extensionName: 'cs_seo')}"
-									   data-content=".cs-seo-results .results"
+									   data-content=".cs-seo-results .cs-seo-results__wrapper"
 									   data-cookie="1"></a>
 								</div>
 								<f:render partial="Results/Percentage" arguments="{result:score}" section="Main"/>
@@ -31,10 +31,10 @@
 								</button>
 								<f:render partial="Results/Bar" arguments="{result:score}" section="Main"/>
 							</div>
-							<div class="results">
-								<ul>
+							<div class="cs-seo-results__wrapper">
+								<ul class="cs-seo-results__list">
 									<f:for each="{results}" as="result" key="key">
-										<li class="cs-icon csseo-icon-state-{result.state}">
+										<li class="cs-seo-results__item cs-icon csseo-icon-state-{result.state}">
 											<f:render partial="Results/{key}" arguments="{result:result}"/>
 										</li>
 									</f:for>

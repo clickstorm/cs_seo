@@ -9,9 +9,11 @@
   .csseo-state-0 {
     background-color: @color-failure;
   }
+
   .csseo-state-1 {
     background-color: @color-ok;
   }
+
   .csseo-state-2 {
     background-color: @color-good;
   }
@@ -20,10 +22,12 @@
     background: #d0d0d0;
     padding: 10px;
     position: relative;
+
     .text {
       margin-right: 50px;
       white-space: nowrap;
     }
+
     .last-update {
       padding-top: 3px;
       margin-left: 20px;
@@ -37,20 +41,20 @@
     margin-right: 10px;
   }
 
-  .results {
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      li {
-        background: #eaeaea;
-        clear: both;
-        margin: 0;
-        padding: 10px;
-        &:nth-child(odd) {
-          background: #fafafa;
-        }
-      }
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    background: #eaeaea;
+    clear: both;
+    margin: 0;
+    padding: 10px;
+
+    &:nth-child(odd) {
+      background: #fafafa;
     }
   }
 
@@ -67,6 +71,7 @@
     left: 0;
     height: 3px;
     width: 100%;
+
     div {
       height: 100%;
     }
@@ -74,16 +79,71 @@
 
   .right {
     float: right;
+
     a {
       text-decoration: none;
     }
   }
+
   .evaluation-images {
     img {
       height: auto;
       max-height: 200px;
       max-width: 200px;
       width: auto;
+    }
+  }
+
+  .cs-headingorder {
+    &__list {
+      list-style: none;
+      margin: 20px 0;
+      padding: 0;
+    }
+
+    &__item {
+      align-items: baseline;
+      display: flex;
+      gap: 10px;
+      font-size: 1.4rem;
+      line-height: 140%;
+      margin: 0;
+      padding: 0;
+      &--level {
+        &-2 {
+          font-size: 1.2rem;
+          padding-left: 20px;
+        }
+        &-3 {
+          font-size: 1rem;
+          padding-left: 40px;
+        }
+        &-4 {
+          font-size: .9rem;
+          padding-left: 60px;
+        }
+        &-5 {
+          font-size: .8rem;
+          padding-left: 80px;
+        }
+        &-6 {
+          font-size: .7rem;
+          padding-left: 100px;
+        }
+      }
+    }
+    &__level {
+      display: block;
+      font-weight: bold;
+      &--error {
+        background-color: @color-failure;
+        color: #fff;
+      }
+    }
+    &__text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
@@ -99,15 +159,18 @@
 .cs-icon {
   position: relative;
   padding-left: 1.5em;
+
   &:before {
     color: @color-failure;
     font-size: 1.2em;
   }
+
   &.csseo-icon-state-1 {
     &:before {
       color: @color-ok;
     }
   }
+
   &.csseo-icon-state-2 {
     &:before {
       color: @color-good;
@@ -151,6 +214,7 @@
     .select2-selection__arrow {
       height: 32px;
       width: 26px;
+
       b {
         border-color: #000 transparent transparent;
       }

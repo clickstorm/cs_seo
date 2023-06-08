@@ -32,9 +32,8 @@ Features
    - Structured Data (JSON-LD)
 
 - Easily **extend any database record** you like with this SEO properties (news, events etc.)
-- **On-page evaluation** of different SEO aspects (focus keyword, alt attributes etc.) and records (pages, news etc.)
+- **On-page evaluation** of different SEO aspects (focus keyword, alt attributes, heading order etc.) and records (pages, news etc.)
 - **href="lang"** support for extensions
-- add only specific parameters to canonical and hreflang
 - allow all languages for the x-default attribute
 - Define fallback images for Open Graph and Twitter Cards
 - Backend module in AngularJS to edit the properties directly
@@ -51,23 +50,23 @@ Here you can take a look at the advanced page configurations.
 
 |img-1|
 
-In the second new tab called *Social Media* you can set some open graph or twitter properties.
+Evaluate the On-page SEO of the current page you see in the backend. Try to reach 100/100.
 
 |img-2|
 
-Evaluate the On-page SEO of the current page you see in the backend. Try to reach 100/100.
+The backend module gives you an overview and the option to change page properties directly.
 
 |img-3|
 
-The backend module gives you an overview and the option to change page properties directly.
+Extend e.g. the news with SEO properties. So in the detail view, they are automatically shown.
 
 |img-4|
 
-Extend e.g. the news with SEO properties. So in the detail view, they are automatically shown.
+Evaluate this records.
 
 |img-5|
 
-Evaluate this records.
+For example, check that the hierarchical order of headings is correct.
 
 |img-6|
 

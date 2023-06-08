@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<p class="no-margin">
+	<f:translate key="evaluation.headingOrder.settings"/>
+</p>
+
+<f:if condition="{result.headings}">
+	<f:then>
+		<ul class="cs-headingorder__list">
+			<f:for each="{result.headings}" as="heading">
+				<li class="cs-headingorder__item cs-headingorder__item--level-{heading.level}">
+					<span class="cs-headingorder__level{f:if(condition: heading.correctOrder,else: ' cs-headingorder__level--error')}">
+						<f:if condition="!{heading.correctOrder}">
+							<span class="visually-hidden">
+								<f:translate key="evaluation.headingOrder.incorrectItem"/>
+							</span>
+						</f:if>
+						H{heading.level}:</span>
+					<span class="cs-headingorder__text">{heading.text}</span>
+				</li>
+			</f:for>
+		</ul>
+	</f:then>
+</f:if>
+
