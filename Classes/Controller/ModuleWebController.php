@@ -171,11 +171,12 @@ class ModuleWebController extends AbstractModuleController
         } else {
             $table = 'pages';
             $languages = [];
+            $pageUid = (int)($page['uid'] ?? 0);
 
             // get available languages
-            $pageOverlays = DatabaseUtility::getPageLanguageOverlays((int)$page['uid']);
+            $pageOverlays = DatabaseUtility::getPageLanguageOverlays($pageUid);
             // get languages
-            $allLanguages = DatabaseUtility::getLanguagesInBackend((int)$page['uid']);
+            $allLanguages = DatabaseUtility::getLanguagesInBackend($pageUid);
 
             $languages[0] = $allLanguages[0];
 
@@ -194,7 +195,7 @@ class ModuleWebController extends AbstractModuleController
                 $page = $this->pageRepository->getPageOverlay($page, $languageParam);
             }
             $evaluation = $this->evaluationService->getEvaluation($page);
-            $evaluationUid = $page['_PAGES_OVERLAY_UID'] ?? $page['uid'];
+            $evaluationUid = $page['_PAGES_OVERLAY_UID'] ?? $pageUid;
             $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?? 0;
             $this->view->assignMultiple(
                 [

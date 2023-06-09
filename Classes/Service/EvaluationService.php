@@ -155,7 +155,8 @@ class EvaluationService
                     'pages'
                 );
         } else {
-            $evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$record['uid'], 'pages');
+            $recordId = (int)($record['uid'] ?? 0);
+            $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($recordId, 'pages');
         }
 
         return $evaluation;
