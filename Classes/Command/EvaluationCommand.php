@@ -235,9 +235,6 @@ class EvaluationCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // @extensionScannerIgnoreLine
-        $this->init();
-
         if ($input->hasArgument('tableName') && !empty($input->getArgument('tableName'))) {
             $this->tableName = $input->getArgument('tableName');
         }
