@@ -57,11 +57,13 @@ class CsSeoPageTitleProvider extends AbstractPageTitleProvider
         $this->initialize();
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
 
-        if ($metaData && $metaData['title']) {
-            // update title for indexed search
-            $GLOBALS['TSFE']->indexedDocTitle = $metaData['title'];
+        if (is_array($metaData) && isset($metaData['title'])) {
+            $newTitle = strip_tags($metaData['title']);
 
-            $this->title = $metaData['title'];
+            // update title for indexed search
+            $GLOBALS['TSFE']->indexedDocTitle = $newTitle;
+
+            $this->title = $newTitle;
         }
     }
 
