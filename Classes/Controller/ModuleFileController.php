@@ -217,6 +217,8 @@ class ModuleFileController extends AbstractModuleController
     {
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         if ($this->image) {
+            $actionName = preg_replace('/Action$/', '', $this->request->getControllerActionName());
+
             if ($this->image->getOriginalResource()->getProperties()['metadata_uid']) {
                 $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                 $params = [
@@ -262,7 +264,7 @@ class ModuleFileController extends AbstractModuleController
 
             $prevButton = $buttonBar->makeLinkButton()
                 ->setDisabled($this->offset <= 0)
-                ->setHref((string)$this->uriBuilder->uriFor(null, ['offset' => $this->offset - 1]))
+                ->setHref((string)$this->uriBuilder->uriFor($actionName, ['offset' => $this->offset - 1]))
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.prev'))
                 ->setIcon($iconFactory->getIcon('actions-chevron-left', Icon::SIZE_SMALL));
 
@@ -271,7 +273,7 @@ class ModuleFileController extends AbstractModuleController
             $nextOffset = $this->offset + 1;
             $nextButton = $buttonBar->makeLinkButton()
                 ->setDisabled($nextOffset >= $this->numberOfImagesWithoutAlt)
-                ->setHref((string)$this->uriBuilder->uriFor(null, ['offset' => $nextOffset]))
+                ->setHref((string)$this->uriBuilder->uriFor($actionName, ['offset' => $nextOffset]))
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.next'))
                 ->setIcon($iconFactory->getIcon('actions-chevron-right', Icon::SIZE_SMALL));
 
