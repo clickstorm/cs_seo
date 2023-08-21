@@ -12,30 +12,12 @@ class AfterTcaCompilationEventListener
 {
     public function __invoke(AfterTcaCompilationEvent $event): void
     {
-        $tcaBackup = $GLOBALS['TCA'];
-        // ExtensionManagementUtility::addToAllTCAtypes() directly manipulates
-        // $GLOBALS['TCA'] so we need to temporarily expose the compiled TCA this way
-        $GLOBALS['TCA'] = $event->getTca();
-        
-        $this->addCsSeoFieldsToDoktypes();
-        $this->addCsSeoMetadataFieldsToRecords();
-
-        $event->setTca($GLOBALS['TCA']);
-        $GLOBALS['TCA'] = $tcaBackup;
+        $tca = $event->getTca();
+        $this->addCsSeoMetadataFieldsToRecords($tca);
+        $event->setTca($tca);
     }
 
-    protected function addCsSeoFieldsToDoktypes(): void
-    {
-        // add new fields to pages
-        ExtensionManagementUtility::addToAllTCAtypes(
-            'pages',
-            'tx_csseo_keyword',
-            implode(',', ConfigurationUtility::getEvaluationDoktypes()),
-            'after:canonical_link'
-        );
-    }
-
-    protected function addCsSeoMetadataFieldsToRecords(): void
+    protected function addCsSeoMetadataFieldsToRecords(&$tca): void
     {
         // Extend TCA of records like news etc.
         $tempColumns = [
@@ -61,11 +43,14 @@ class AfterTcaCompilationEventListener
 
         if ($tables !== []) {
             foreach (array_keys($tables) as $tableName) {
-                ExtensionManagementUtility::addTCAcolumns($tableName, $tempColumns);
-                ExtensionManagementUtility::addToAllTCAtypes(
-                    $tableName,
-                    '--div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,tx_csseo'
-                );
+                // adds tx_csseo to columns of table
+                if (is_array($tca[$tableName]['columns'] ?? false)) {
+                    $tca[$tableName]['columns'] = array_merge($tca[$tableName]['columns'], $tempColumns);
+                }
+                // adds tab with tx_csseo to showitems for every type of table
+                foreach ($tca[$tableName]['types'] as $type => &$typeDetails) {
+                    $typeDetails['showitem'] = $typeDetails['showitem'] . ', --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.seo,tx_csseo';
+                }
             }
         }
     }

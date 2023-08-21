@@ -77,6 +77,14 @@ $tempColumns = [
 // add new fields
 ExtensionManagementUtility::addTCAcolumns('pages', $tempColumns);
 
+// add field tx_csseo_keyword to pages
+ExtensionManagementUtility::addToAllTCAtypes(
+    'pages',
+    'tx_csseo_keyword',
+    implode(',', ConfigurationUtility::getEvaluationDoktypes()),
+    'after:canonical_link'
+);
+
 // replace description
 $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
     preg_replace('/description(.*,|.*$)/', '', $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem']);
