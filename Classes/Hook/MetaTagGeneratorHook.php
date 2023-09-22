@@ -122,6 +122,12 @@ class MetaTagGeneratorHook
 
         $image = DatabaseUtility::getFile($params['table'], $params['field'], $params['uid']);
 
+        if(null === $image && false === is_array($meta[$field])){
+            // retry get image with another field name
+            $params['field'] = $field;
+            $image = DatabaseUtility::getFile($params['table'], $params['field'], $params['uid']);
+        }
+
         return is_null($image) ? '' : $image->getPublicUrl();
     }
 
