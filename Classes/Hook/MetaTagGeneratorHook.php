@@ -116,7 +116,7 @@ class MetaTagGeneratorHook
             $params['uid'] = (int)$meta[$field]['uid_foreign'];
         } else {
             $params['table'] = MetaDataService::TABLE_NAME_META;
-            $params['field'] = 'tx_csseo_' . $field;
+            $params['field'] = $field;
             $params['uid'] = (int)$meta['uid'];
         }
 
@@ -124,7 +124,7 @@ class MetaTagGeneratorHook
 
         if(null === $image && false === is_array($meta[$field])){
             // retry get image with another field name
-            $params['field'] = $field;
+            $params['field'] = sprintf('tx_csseo_%s', $field);
             $image = DatabaseUtility::getFile($params['table'], $params['field'], $params['uid']);
         }
 
