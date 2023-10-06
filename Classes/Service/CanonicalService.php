@@ -28,7 +28,7 @@ class CanonicalService extends AbstractUrlService
         /** @var ContentObjectRenderer $cObj */
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $context = GeneralUtility::makeInstance(Context::class);
-        $typoLinkConf = $this->typoScriptFrontendController->tmpl->setup['lib.']['currentUrl.']['typolink.'];
+        $typoLinkConf = $this->typoScriptFrontendController->tmpl->setup['lib.']['currentUrl.']['typolink.'] ?? [];
         $tempLinkVars = $this->typoScriptFrontendController->linkVars;
 
         // remove config.linkVars temporary
