@@ -273,9 +273,6 @@ return [
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
                 ],
-                'foreign_match_fields' => [
-                    'fieldname' => 'tx_csseo_og_image'
-                ],
                 // Use the imageoverlayPalette instead of the basicoverlayPalette
                 'overrideChildTca' => [
                     'types' => [
@@ -327,9 +324,6 @@ return [
                 'allowed' => 'common-image-types',
                 'behaviour' => [
                     'allowLanguageSynchronization' => true,
-                ],
-                'foreign_match_fields' => [
-                    'fieldname' => 'tx_csseo_tw_image'
                 ],
                 // Use the imageoverlayPalette instead of the basicoverlayPalette
                 'overrideChildTca' => [

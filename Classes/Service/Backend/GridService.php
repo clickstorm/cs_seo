@@ -26,7 +26,7 @@ class GridService
 
     protected int $pageUid = 0;
 
-    protected array $imageFieldNames = ['tx_csseo_og_image', 'tx_csseo_tw_image'];
+    protected array $imageFieldNames = ['og_image', 'twitter_image', 'tw_image'];
 
     protected ?PageRepository $pageRepository = null;
 
