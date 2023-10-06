@@ -116,7 +116,7 @@ class MetaTagGeneratorHook
             $params['uid'] = (int)$meta[$field]['uid_foreign'];
         } else {
             $params['table'] = MetaDataService::TABLE_NAME_META;
-            $params['field'] = 'tx_csseo_' . $field;
+            $params['field'] = $field;
             $params['uid'] = (int)$meta['uid'];
         }
 
