@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
+use In2code\Powermail\Utility\BackendUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspectFactory;
@@ -56,7 +57,6 @@ class TSFEUtility
         $this->workspaceUid = $GLOBALS['BE_USER']->workspace ?? 0;
         $this->lang = (int)(is_array($lang) ? array_shift($lang) : $lang);
         $this->typeNum = $typeNum;
-
         if (!isset($GLOBALS['TSFE'])
             || ($this->isEnvironmentInBackendMode()
                 && !($GLOBALS['TSFE']
@@ -110,15 +110,18 @@ class TSFEUtility
             $GLOBALS['TSFE']->id = $this->pageUid;
 
             $GLOBALS['TSFE']->newCObj($GLOBALS['TYPO3_REQUEST']);
-            $GLOBALS['TSFE']->determineId($GLOBALS['TYPO3_REQUEST']);
+            $GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance(PageRepository::class, $GLOBALS['TSFE']->getContext());
+            $GLOBALS['TSFE']->page = $GLOBALS['TSFE']->sys_page->getPage($this->pageUid, true);
+
+            if ($GLOBALS['TSFE']->page['doktype'] !== PageRepository::DOKTYPE_SYSFOLDER) {
+                $GLOBALS['TSFE']->determineId($GLOBALS['TYPO3_REQUEST']);
+            }
 
             // get TypoScript - see https://www.in2code.de/aktuelles/php-typoscript-im-backend-oder-command-kontext-nutzen/
             $rootlineUtil = GeneralUtility::makeInstance(RootlineUtility::class, $this->pageUid);
 
             $rootLine = $rootlineUtil->get();
             $GLOBALS['TSFE']->sys_page = GeneralUtility::makeInstance(PageRepository::class, $GLOBALS['TSFE']->getContext());
-
-            $GLOBALS['TSFE']->page = $GLOBALS['TSFE']->sys_page->getPage($this->pageUid, true);
 
             // Get values from site language
             $languageAspect = LanguageAspectFactory::createFromSiteLanguage($GLOBALS['TSFE']->getLanguage());
