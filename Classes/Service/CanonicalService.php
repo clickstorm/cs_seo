@@ -60,8 +60,7 @@ class CanonicalService extends AbstractUrlService
                         if ($lang < 0) {
                             $lang = 0;
                         }
-                        $canonicalTypoLinkConf['additionalParams.']['append'] = 'TEXT';
-                        $canonicalTypoLinkConf['additionalParams.']['append.']['value'] = $lang;
+                        $canonicalTypoLinkConf['language'] = $lang;
                     }
                 }
                 $canonicalUrl = $cObj->typoLink_URL($canonicalTypoLinkConf);
