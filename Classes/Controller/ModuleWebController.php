@@ -138,7 +138,7 @@ class ModuleWebController extends AbstractModuleController
         $tablesToExtend = ConfigurationUtility::getTablesToExtend();
 
         foreach ($tablesToExtend as $tableName => $tableConfig) {
-            if ($tableConfig['evaluation'] && $tableConfig['evaluation']['detailPid']) {
+            if (!empty($tableConfig['evaluation']) && !empty($tableConfig['evaluation']['detailPid'])) {
                 $tableTitle = $GLOBALS['TCA'][$tableName]['ctrl']['title'] ?: $tableName;
 
                 if (\str_starts_with($tableTitle, 'LLL:')) {
