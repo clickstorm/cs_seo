@@ -23,9 +23,6 @@ class CsSeoPageTitleProvider extends AbstractPageTitleProvider
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
 
         if ($metaData && $metaData['title']) {
-            // update title for indexed search
-            $GLOBALS['TSFE']->indexedDocTitle = $metaData['title'];
-
             $this->title = $metaData['title'];
         }
     }
