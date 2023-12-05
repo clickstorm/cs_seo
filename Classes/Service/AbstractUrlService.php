@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Service;
 
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Site\Entity\Site;
@@ -12,22 +13,15 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 abstract class AbstractUrlService
 {
-    /**
-     * @var TypoScriptFrontendController
-     */
-    protected $typoScriptFrontendController;
+    protected ?TypoScriptFrontendController $typoScriptFrontendController = null;
 
     /**
      * languages defined in site config
-     *
-     * @var array
      */
-    protected $siteLanguages = [];
+    protected array $siteLanguages = [];
 
     /**
      * constructor
-     *
-     * @param TypoScriptFrontendController $typoScriptFrontendController
      */
     public function __construct(
         TypoScriptFrontendController $typoScriptFrontendController = null
@@ -38,34 +32,21 @@ abstract class AbstractUrlService
         $this->typoScriptFrontendController = $typoScriptFrontendController;
     }
 
-    /**
-     * @return TypoScriptFrontendController
-     */
     protected function getTypoScriptFrontendController(): TypoScriptFrontendController
     {
         return $GLOBALS['TSFE'];
     }
 
-    /**
-     * @param string $table
-     * @param string $uid
-     *
-     * @return int
-     */
-    protected function getLanguageFromItem($table, $uid)
+    protected function getLanguageFromItem(string $table, int $uid): int
     {
         if ($GLOBALS['TCA'][$table]['ctrl']['languageField']) {
             /** @var QueryBuilder $queryBuilder */
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
             $items = $queryBuilder->select($GLOBALS['TCA'][$table]['ctrl']['languageField'])
-                ->from($table)
-                ->where(
-                    $queryBuilder->expr()->eq(
-                        'uid',
-                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-                    )
-                )
-                ->execute()
+                ->from($table)->where($queryBuilder->expr()->eq(
+                'uid',
+                $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+            ))->executeQuery()
                 ->fetchAll();
 
             return $items[0]['sys_language_uid'];
@@ -75,12 +56,9 @@ abstract class AbstractUrlService
     }
 
     /**
-     * @param string $table
-     * @param string $uid
-     *
-     * @return array
+     * @throws Exception
      */
-    protected function getAllLanguagesFromItem($table, $uid)
+    protected function getAllLanguagesFromItem(string $table, int $uid): array
     {
         $languageIds = [];
         if (!isset($GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField']) || !isset($GLOBALS['TCA'][$table]['ctrl']['languageField'])) {
@@ -112,14 +90,10 @@ abstract class AbstractUrlService
                     $pointerField,
                     $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
                 )
-            )
-            ->orWhere(
-                $queryBuilder->expr()->eq(
-                    'uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-                )
-            )
-            ->execute()
+            )->orWhere($queryBuilder->expr()->eq(
+            'uid',
+            $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+        ))->executeQuery()
             ->fetchAll();
 
         // second get all items with canonical or no_index, to remove them
@@ -142,27 +116,19 @@ abstract class AbstractUrlService
                     'm.tablenames',
                     $queryBuilder->createNamedParameter($table)
                 ),
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->eq('m.no_index', 1),
-                    $queryBuilder->expr()->neq(
-                        'm.canonical',
-                        $queryBuilder->createNamedParameter('')
-                    )
-                ),
-                $queryBuilder->expr()->orX(
-                    $queryBuilder->expr()->eq(
-                        't.' . $pointerField,
-                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        't.uid',
-                        $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-                    )
-                )
-            )
-            ->groupBy('m.uid')
-            ->execute()
-            ->fetchAll();
+                $queryBuilder->expr()->or($queryBuilder->expr()->eq('m.no_index', 1), $queryBuilder->expr()->neq(
+                    'm.canonical',
+                    $queryBuilder->createNamedParameter('')
+                )),
+                $queryBuilder->expr()->or($queryBuilder->expr()->eq(
+                    't.' . $pointerField,
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->eq(
+                    't.uid',
+                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                ))
+            )->executeQuery()
+            ->fetchAllAssociative();
 
         $invalidItems = [];
         foreach ($invalidItemsRes as $item) {
@@ -182,6 +148,7 @@ abstract class AbstractUrlService
 
         /** @var SiteLanguage $siteLanguage */
         foreach ($this->siteLanguages as $siteLanguage) {
+            // @extensionScannerIgnoreLine
             if (isset($languageIds[$siteLanguage->getLanguageId()])) {
                 continue;
             }
@@ -189,6 +156,7 @@ abstract class AbstractUrlService
             if ($siteLanguage instanceof SiteLanguage && $siteLanguage->getFallbackType() === 'fallback' && $siteLanguage->getFallbackLanguageIds()) {
                 foreach ($siteLanguage->getFallbackLanguageIds() as $fallbackLanguageId) {
                     if (isset($languageIds[$fallbackLanguageId])) {
+                        // @extensionScannerIgnoreLine
                         $languageIds[$siteLanguage->getLanguageId()] = $fallbackLanguageId;
                     }
                 }
@@ -198,12 +166,7 @@ abstract class AbstractUrlService
         return $languageIds;
     }
 
-    /**
-     * @param string $uid
-     *
-     * @return int
-     */
-    protected function getCanonicalFromAllLanguagesOfPage($uid)
+    protected function getCanonicalFromAllLanguagesOfPage(int $uid): array
     {
         $res = [];
 
@@ -217,14 +180,10 @@ abstract class AbstractUrlService
                     'uid',
                     $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
                 )
-            )
-            ->orWhere(
-                $queryBuilder->expr()->eq(
-                    $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'],
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
-                )
-            )
-            ->execute()
+            )->orWhere($queryBuilder->expr()->eq(
+            $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'],
+            $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+        ))->executeQuery()
             ->fetchAll();
 
         foreach ($items as $item) {

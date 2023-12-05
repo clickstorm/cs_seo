@@ -6,33 +6,8 @@ use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
 class KeywordEvaluatorTest extends UnitTestCase
 {
-
     /**
      * @var KeywordEvaluator
      */
@@ -88,8 +63,8 @@ class KeywordEvaluatorTest extends UnitTestCase
                 '',
                 [
                     'notSet' => 1,
-                    'state' => AbstractEvaluator::STATE_RED
-                ]
+                    'state' => AbstractEvaluator::STATE_RED,
+                ],
             ],
             'keyword equals , only' => [
                 '<title>Test</title>',
@@ -100,8 +75,8 @@ class KeywordEvaluatorTest extends UnitTestCase
                         'description' => 0,
                         'body' => 0,
                     ],
-                    'state' => AbstractEvaluator::STATE_YELLOW
-                ]
+                    'state' => AbstractEvaluator::STATE_YELLOW,
+                ],
             ],
             'keyword set, not found' => [
                 '<html>',
@@ -112,8 +87,8 @@ class KeywordEvaluatorTest extends UnitTestCase
                         'description' => 0,
                         'body' => 0,
                     ],
-                    'state' => AbstractEvaluator::STATE_YELLOW
-                ]
+                    'state' => AbstractEvaluator::STATE_YELLOW,
+                ],
             ],
             'keyword different case, found in title' => [
                 '<title>Test</title>',
@@ -124,8 +99,8 @@ class KeywordEvaluatorTest extends UnitTestCase
                         'description' => 0,
                         'body' => 0,
                     ],
-                    'state' => AbstractEvaluator::STATE_YELLOW
-                ]
+                    'state' => AbstractEvaluator::STATE_YELLOW,
+                ],
             ],
             'keyword set, found in title' => [
                 '<title>Test</title>',
@@ -136,8 +111,8 @@ class KeywordEvaluatorTest extends UnitTestCase
                         'description' => 0,
                         'body' => 0,
                     ],
-                    'state' => AbstractEvaluator::STATE_YELLOW
-                ]
+                    'state' => AbstractEvaluator::STATE_YELLOW,
+                ],
             ],
             'keyword set, found in description' => [
                 '<meta name="description" content="Test">',
@@ -148,8 +123,8 @@ class KeywordEvaluatorTest extends UnitTestCase
                         'description' => 1,
                         'body' => 0,
                     ],
-                    'state' => AbstractEvaluator::STATE_YELLOW
-                ]
+                    'state' => AbstractEvaluator::STATE_YELLOW,
+                ],
             ],
             'keyword set, found in body' => [
                 '<body>Test</body>',
@@ -160,8 +135,8 @@ class KeywordEvaluatorTest extends UnitTestCase
                         'description' => 0,
                         'body' => 1,
                     ],
-                    'state' => AbstractEvaluator::STATE_YELLOW
-                ]
+                    'state' => AbstractEvaluator::STATE_YELLOW,
+                ],
             ],
             'keyword set, found everywhere UTF-8' => [
                 '<head><title>ÜÄöß</title><meta name="description" content="Test ÜÄöß "></head><body>ÜÄöß Test</body>',
@@ -172,8 +147,8 @@ class KeywordEvaluatorTest extends UnitTestCase
                         'description' => 1,
                         'body' => 1,
                     ],
-                    'state' => AbstractEvaluator::STATE_GREEN
-                ]
+                    'state' => AbstractEvaluator::STATE_GREEN,
+                ],
             ],
             'keyword set, found everywhere' => [
                 '<head><title>Test Test</title><meta name="description" content="Test this Test"></head><body>Here Test</body>',
@@ -184,8 +159,8 @@ class KeywordEvaluatorTest extends UnitTestCase
                         'description' => 2,
                         'body' => 1,
                     ],
-                    'state' => AbstractEvaluator::STATE_GREEN
-                ]
+                    'state' => AbstractEvaluator::STATE_GREEN,
+                ],
             ],
             'keyword with , and empty string' => [
                 '<title>Test</title>',
@@ -196,8 +171,8 @@ class KeywordEvaluatorTest extends UnitTestCase
                         'description' => 0,
                         'body' => 0,
                     ],
-                    'state' => AbstractEvaluator::STATE_YELLOW
-                ]
+                    'state' => AbstractEvaluator::STATE_YELLOW,
+                ],
             ],
             'keyword alternative set, found everywhere' => [
                 '<head>
@@ -218,9 +193,9 @@ class KeywordEvaluatorTest extends UnitTestCase
                         'description' => 2,
                         'body' => 2,
                     ],
-                    'state' => AbstractEvaluator::STATE_GREEN
-                ]
-            ]
+                    'state' => AbstractEvaluator::STATE_GREEN,
+                ],
+            ],
         ];
     }
 }

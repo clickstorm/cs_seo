@@ -3,69 +3,69 @@
 	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang_csh_pages.xlf" date="2021-05-03T15:23:31Z" product-name="cs_seo">
 		<header/>
 		<body>
-			<trans-unit id="_seo_title.seeAlso" resname="_seo_title.seeAlso">
-				<source> www.clickstorm.de/blog | http://www.clickstorm.de/blog/</source>
-				<target></target>
-			</trans-unit>
 			<trans-unit id="canonical_link.description" resname="canonical_link.description">
-				<source>Provides from duplicate content. If another page shows mainly the same content, type here the link to this page, if it should be rather indexed then the current. </source>
-				<target>Verhindert das indexieren doppelter Inhalte. Falls der Inhalt einer anderen Seite ähnlichen oder identischen ist und diese Seite eher indexíert werden soll, dann geben Sie hier den Link zu der Seite an. </target>
+				<source>Prevents indexing of duplicate content. If the content of another page is similar or identical and you prefer to have this page indexed, then enter the link to the page here.</source>
+				<target>Verhindert das indexieren doppelter Inhalte. Falls der Inhalt einer anderen Seite ähnlichen oder identischen ist und diese Seite eher indexíert werden soll, dann geben Sie hier den Link zu der Seite an.</target>
 			</trans-unit>
-			<trans-unit id="tx_csseo_json_ld.description" resname="tx_csseo_json_ld.description">
-				<source>Add more information about the content of the current page with JSON-LD.</source>
-				<target>Fügen Sie weitere Informationen über die aktuelle Seite via JSON-LD hinzu.</target>
-			</trans-unit>
-			<trans-unit id="tx_csseo_json_ld.seeAlso" resname="tx_csseo_json_ld.seeAlso">
-				<source>Google Guides | https://developers.google.com/search/docs/guides/intro-structured-data</source>
-				<target>Google Guides | https://developers.google.com/search/docs/guides/intro-structured-data?hl=de</target>
-			</trans-unit>
-			<trans-unit id="tx_csseo_keyword.description" resname="tx_csseo_keyword.description">
-				<source>Specify a word or phrase. In the SEO evaluation will be proofed wether this Focus Keyword is set in the browser title, the meta description and in the page content. You can specify multiple, comma-separated alternatives, e.g. for plural or stop words.</source>
-				<target>Geben Sie ein Wort oder eine Phrase an. Bei der SEO Evaluation wird dann überprüft, ob das Fokus Schlüsselwort im Browsertitel, der Seitenbeschreibung und im Inhalt gesetzt ist. Sie können mehrere, mit Komma separtierte Alternativen angeben, zum Beispiel für Plural oder enthaltene Stopwörter.</target>
+			<trans-unit id="description.description" resname="canonical_link.description">
+				<source>The page description may appear in search results and on social media plattforms. Arouse the user's interest and place key keywords of the page in natural language.</source>
+				<target>Die Seitenbeschreibung kann in den Suchergebnissen und in den sozialen Medien auftauchen. Wecken Sie das Interesse des Nutzers und platzieren Sie wichtige Stichwörter der Seite in natürlicher Sprache.</target>
 			</trans-unit>
 			<trans-unit id="no_follow.description" resname="no_follow.description">
-				<source>If checked, all links on the web page will not be checked from search engines. Thus the links have no influence on a page rank.</source>
+				<source>If checked, all links on the web page will not be checked by search engines. Thus the links have no influence on a page rank.</source>
 				<target>Falls ja, werden die Verlinkungen auf der Seite nicht weiter von Suchmaschinen überprüft. Somit haben sie keinen Einfluss auf das Ranking.</target>
 			</trans-unit>
 			<trans-unit id="no_index.description" resname="no_index.description">
-				<source>If checked, this page will not be visible in search engines.</source>
-				<target>Falls ja, wird diese Seite nicht bei den Suchmaschinen angezeigt.</target>
+				<source>If checked, this page will be visible in search engines.</source>
+				<target>Falls ja, wird diese Seite in den Suchmaschinen angezeigt.</target>
 			</trans-unit>
 			<trans-unit id="og_description.description" resname="og_description.description">
-				<source>This description will be shown, if the user shares this page on facebook, LinkedIn etc.</source>
-				<target>Diese Beschreibung wird angezeigt, wenn der Nutzer diese Seite bei Facebook, Xing etc. teilen möchte.</target>
+				<source>This description will be shown, if the user shares this page on facebook, LinkedIn etc. Fallback is the page description.</source>
+				<target>Diese Beschreibung wird angezeigt, wenn der Nutzer diese Seite bei Facebook, Xing etc. teilen möchte. Fallback ist die Seitenbeschreibung.</target>
 			</trans-unit>
 			<trans-unit id="og_image.description" resname="og_image.description">
-				<source>This image will be shown, if the user shares this page on facebook, LinkedIn etc. It will be scaled to 1200 x 628 pixels.</source>
-				<target>Dieses Bild wird angezeigt, wenn der Nutzer diese Seite bei Facebook, Xing etc. teilen möchte. Es wird skaliert auf 1200 x 628 Pixel skaliert.</target>
+				<source>This image will be shown, if the user shares this page on facebook, LinkedIn etc. It will be scaled to 1200 x 630 pixels.</source>
+				<target>Dieses Bild wird angezeigt, wenn der Nutzer diese Seite bei Facebook, Xing etc. teilen möchte. Es wird skaliert auf 1200 x 630 Pixel skaliert.</target>
 			</trans-unit>
 			<trans-unit id="og_title.description" resname="og_title.description">
-				<source>This title will be shown, if the user shares this page on facebook, LinkedIn etc.</source>
-				<target>Dieser Titel wird angezeigt, wenn der Nutzer diese Seite bei Facebook, Xing etc. teilen möchte.</target>
+				<source>This title will be shown, if the user shares this page on facebook, LinkedIn etc. Fallback is the title for search engines.</source>
+				<target>Dieser Titel wird angezeigt, wenn der Nutzer diese Seite bei Facebook, Xing etc. teilen möchte. Fallback ist der Titel für Suchmaschinen.</target>
 			</trans-unit>
 			<trans-unit id="seo_title.description" resname="seo_title.description">
 				<source>This title will be shown in the browser tab and in the search engines. Place some keywords here, but not only separated by commas. The user should be animated to click.</source>
 				<target>Dieser Titel wird im Browser-Tab und den Suchmaschinen angezeigt. Bringen Sie hier wichtige Keywoards unter, aber nicht nur durch Kommas getrennt. Der Nutzer soll zum Klicken animiert werden.</target>
 			</trans-unit>
+			<trans-unit id="twitter_description.description" resname="tw_description.description">
+				<source>This description will be shown, if the user shares this page on twitter. Fallback is the open graph description.</source>
+				<target>Diese Beschreibung wird angezeigt, wenn der Nutzer diese Seite bei Twitter teilen möchte. Fallback ist die Open Graph Beschreibung.</target>
+			</trans-unit>
+			<trans-unit id="twitter_image.description" resname="tw_image.description">
+				<source>This image will be shown, if the user shares this page on twitter. Fallback is the open graph image. The recommended size is 1600 x 900 pixels.</source>
+				<target>Dieses Bild wird angezeigt, wenn der Nutzer diese Seite bei Twitter teilen möchte. Fallback ist das Open Graph Bild. Die empfohlene Größe ist derzeit 1600 x 900 Pixel.</target>
+			</trans-unit>
+			<trans-unit id="twitter_title.description" resname="tw_title.description">
+				<source>This title will be shown, if the user shares this page on twitter. Fallback is the open graph title.</source>
+				<target>Dieser Titel wird angezeigt, wenn der Nutzer diese Seite bei Twitter teilen möchte. Fallback ist der Open Graph Titel.</target>
+			</trans-unit>
+			<trans-unit id="tx_csseo_json_ld.description" resname="tx_csseo_json_ld.description">
+				<source>Add more information about the content of the current page with JSON-LD.</source>
+				<target>Fügen Sie weitere Informationen über die aktuelle Seite via JSON-LD hinzu.</target>
+			</trans-unit>
+			<trans-unit id="tx_csseo_keyword.description" resname="tx_csseo_keyword.description">
+				<source>Specify a word or phrase. In the SEO evaluation will be proofed wether this Focus Keyword is set in the browser title, the meta description and in the page content. You can specify multiple, comma-separated alternatives, e.g. for plural or stop words.</source>
+				<target>Geben Sie ein Wort oder eine Phrase an. Bei der SEO Evaluation wird dann überprüft, ob das Fokus Schlüsselwort im Browsertitel, der Seitenbeschreibung und im Inhalt gesetzt ist. Sie können mehrere, mit Komma separtierte Alternativen angeben, zum Beispiel für Plural oder enthaltene Stopwörter.</target>
+			</trans-unit>
+			<trans-unit id="tx_csseo_title_only.description" approved="yes">
+				<source>Show the browser title without the site title in cases the space isn't enough.</source>
+				<target>Zeigt den Browsertitel ohne den Webseitentitel, falls der Platz mal nicht ausreicht.</target>
+			</trans-unit>
 			<trans-unit id="tx_csseo_tw_creator.description" resname="tx_csseo_tw_creator.description">
 				<source>Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be shown as creator.</source>
 				<target>Geben Sie einen Twitter-Benutzernamen an, ohne dem @-Zeichen. Wenn ein Nutzer die Seite bei Twitter teilt, wird dieser Benutzer als Ersteller angezeigt.</target>
 			</trans-unit>
-			<trans-unit id="tw_description.description" resname="tw_description.description">
-				<source>This description will be shown, if the user shares this page on twitter. Fallback is the open graph description.</source>
-				<target>Diese Beschreibung wird angezeigt, wenn der Nutzer diese Seite bei Twitter teilen möchte. Fallback ist die Open Graph Beschreibung.</target>
-			</trans-unit>
-			<trans-unit id="tw_image.description" resname="tw_image.description">
-				<source>This image will be shown, if the user shares this page on twitter. Fallback is the open graph image. It will be scaled to 1024 x 512 pixels.</source>
-				<target>Dieses Bild wird angezeigt, wenn der Nutzer diese Seite bei Twitter teilen möchte. Fallback ist das Open Graph Bild. Es wird skaliert auf 1024 x 512 Pixel skaliert.</target>
-			</trans-unit>
 			<trans-unit id="tx_csseo_tw_site.description" resname="tx_csseo_tw_site.description">
 				<source>Enter a twitter username without the @ sign. If the user shares the page on twitter, this account will be used in the card footer. The account should belong to your website.</source>
 				<target>Geben Sie einen Twitter-Benutzernamen an, ohne dem @-Zeichen. Wenn ein Nutzer die Seite bei Twitter teilt, wird dieser Twitter-Account im Footer der Twitter Card dargsestellt. Es sollte sich hierbei um den zur Webseite gehörigen Twitter-Account handeln.</target>
-			</trans-unit>
-			<trans-unit id="tw_title.description" resname="tw_title.description">
-				<source>This title will be shown, if the user shares this page on twitter. Fallback is the open graph title. </source>
-				<target>Dieser Titel wird angezeigt, wenn der Nutzer diese Seite bei Twitter teilen möchte. Fallback ist der Open Graph Titel.</target>
 			</trans-unit>
 		</body>
 	</file>

@@ -2,8 +2,8 @@
 
 namespace Clickstorm\CsSeo\UserFunc;
 
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Clickstorm\CsSeo\Service\MetaDataService;
-use Clickstorm\CsSeo\Utility\TSFEUtility;
 
 /***************************************************************
  *
@@ -43,34 +43,17 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class StructuredData
 {
-
-    /**
-     * @var \Clickstorm\CsSeo\Utility\TSFEUtility $tsfeUtility
-     */
-    public $tsfeUtility;
-
-    public function __construct()
-    {
-        $this->tsfeUtility =
-            GeneralUtility::makeInstance(TSFEUtility::class, $GLOBALS['TSFE']->id);
-    }
-
     /**
      * return the content of field tx_csseo_json_ld from pages or field json_ld from record
-     *
-     * @param string $content
-     * @param array $conf
-     *
-     * @retrun string
      */
-    public function getJsonLdOfPageOrRecord($content, $conf)
+    public function getJsonLdOfPageOrRecord(string $content, array $conf): string
     {
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
         $jsonLd = $GLOBALS['TSFE']->page['tx_csseo_json_ld'];
 
         // overwrite json ld with record metadata
         if ($metaData) {
-            $jsonLd = $metaData['json_ld'];
+            $jsonLd = $metaData['json_ld'] ?? null;
         }
 
         return $jsonLd ? $this->wrapWithLd($jsonLd) : '';
@@ -78,22 +61,13 @@ class StructuredData
 
     /**
      * Wraps $content with Json declaration
-     *
-     * @param $content
-     *
-     * @return string
      */
-    protected function wrapWithLd($content)
+    protected function wrapWithLd(string $content): string
     {
         return '<script type="application/ld+json">' . $content . '</script>';
     }
 
-    /**
-     * Returns the json for the siteSearch
-     *
-     * @return bool|string siteSearch
-     */
-    public function getSiteSearch($content, $conf)
+    public function getSiteSearch(string $content, array $conf): string
     {
         $homepage = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
 
@@ -101,7 +75,7 @@ class StructuredData
         $typoLinkConf = [
             'parameter' => $conf['userFunc.']['pid'],
             'forceAbsoluteUrl' => 1,
-            'additionalParams' => '&' . $conf['userFunc.']['searchterm'] . '='
+            'additionalParams' => '&' . $conf['userFunc.']['searchterm'] . '=',
         ];
 
         $siteSearchUrl = $cObject->typoLink_URL($typoLinkConf);
@@ -123,18 +97,15 @@ class StructuredData
     /**
      * Returns the json for the serps breadcrumb
      *
-     * @param $conf
-     * @param $content
-     *
-     * @return string
      * @throws \Exception
      */
-    public function getBreadcrumb($conf, $content)
+    public function getBreadcrumb(string $conf, array $content): string
     {
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
 
-        /** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController[] $GLOBALS */
+        /** @var TypoScriptFrontendController[] $GLOBALS */
+        // @extensionScannerIgnoreLine
         $id = $GLOBALS['TSFE']->id;
         if (!empty($GLOBALS['TSFE']->MP) && preg_match('/^\\d+\\-(\\d+)$/', $GLOBALS['TSFE']->MP, $match)) {
             // mouting point page - generate breadcrumb for the mounting point reference page instead
@@ -160,7 +131,7 @@ class StructuredData
         foreach (array_reverse($rootline) as $index => $page) {
             $typoLinkConf = [
                 'parameter' => $page['uid'],
-                'forceAbsoluteUrl' => 1
+                'forceAbsoluteUrl' => 1,
             ];
 
             if ($languageAspect->getId() > 0) {
@@ -193,7 +164,7 @@ class StructuredData
         $structuredBreadcrumb = [
             '@context' => 'http://schema.org',
             '@type' => 'BreadcrumbList',
-            'itemListElement' => $breadcrumbItems
+            'itemListElement' => $breadcrumbItems,
         ];
 
         return $this->wrapWithLd(json_encode($structuredBreadcrumb));

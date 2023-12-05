@@ -23,37 +23,21 @@ Properties
 	======================================================= ===================================== ====================
 	Property                                                Data type                             Default
 	======================================================= ===================================== ====================
-	`basic.useAdditionalCanonicalizedUrlParametersOnly`_    :ref:`t3tsref:data-type-boolean`      false
 	`page.maxTitle`_                                        :ref:`t3tsref:data-type-integer`      57
 	`page.maxDescription`_                                  :ref:`t3tsref:data-type-integer`      156
 	`page.cropDescription`_                                 :ref:`t3tsref:data-type-boolean`      false
 	`page.maxNavTitle`_                                     :ref:`t3tsref:data-type-integer`      50
+    `page.showDescriptionsInTCA`_                           :ref:`t3tsref:data-type-boolean`      true
 	`evaluation.inPageModule`_                              :ref:`t3tsref:data-type-integer`      0
 	`evaluation.evaluationDoktypes`_                        :ref:`t3tsref:data-type-string`       1
 	`evaluation.evaluators`_                                :ref:`t3tsref:data-type-string`       Title,Description,H1,H2,Images,Keyword
 	`evaluation.minTitle`_                                  :ref:`t3tsref:data-type-integer`      40
 	`evaluation.minDescription`_                            :ref:`t3tsref:data-type-integer`      140
+	`evaluation.forceMinDescription`_                       :ref:`t3tsref:data-type-boolean`      true
 	`evaluation.maxH2`_                                     :ref:`t3tsref:data-type-integer`      6
 	`file.modFileColumns`_                                  :ref:`t3tsref:data-type-string`       title,description
 	======================================================= ===================================== ====================
 
-Basic configurations
-^^^^^^^^^^^^^^^^^^^^
-
-.. _basic.useAdditionalCanonicalizedUrlParametersOnly:
-
-use AdditionalCanonicalizedUrlParameters only
-"""""""""""""""""""""""""""""""""""""""""""""
-
-.. container:: table-row
-
-   Property
-         useAdditionalCanonicalizedUrlParametersOnly
-   Data type
-         :ref:`t3tsref:data-type-boolean`
-   Description
-         Only the [FE][additionalCanonicalizedUrlParameters] are considered for canonical and hreflang. All other
-		 parameters are ignored, also config.linkVars.
 
 
 Page configurations
@@ -120,6 +104,21 @@ Max characters of nav title
          :ref:`t3tsref:data-type-integer`
    Description
          The recommended maximum number of characters for the nav title and URL.
+
+.. _page.showDescriptionsInTCA:
+
+Show Descriptions in TCA
+""""""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         showDescriptionsInTCA
+   Data type
+         :ref:`t3tsref:data-type-boolean`
+   Description
+         Display the cs_seo descriptions for SEO fields in pages TCA. The descriptions will be shown below the labels
+         in the TYPO3 backend. They help editors to understand the several fields.
 
 
 Evaluation
@@ -197,6 +196,20 @@ Min characters of an optimal description
    Description
          The recommended minimum number of characters for the meta description tag. Only used for evaluation.
 
+.. _evaluation.forceMinDescription:
+
+Force the min length in TCA
+"""""""""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         forceMinDescription
+   Data type
+         :ref:`t3tsref:data-type-integer`
+   Description
+         If true, the editor can only save the description if the minimum length is reached.
+
 .. _evaluation.maxH2:
 
 Max number of h2 headlines in one page
@@ -217,6 +230,8 @@ Please take also a look at the next chapter for TypoScript configurations.
 
 File configurations
 ^^^^^^^^^^^^^^^^^^^
+
+.. _file.modFileColumns:
 
 File Columns
 """"""""""""

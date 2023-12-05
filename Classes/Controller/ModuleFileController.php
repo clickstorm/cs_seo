@@ -15,62 +15,80 @@ use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\File;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 class ModuleFileController extends AbstractModuleController
 {
-    public static $session_prefix = 'tx_csseo_file_';
-    public static $mod_name = 'file_CsSeoModFile';
-    public static $uriPrefix = 'tx_csseo_file_csseomodfile';
+    public static string $session_prefix = 'tx_csseo_file_';
+    public static string $mod_name = 'file_CsSeoModFile';
+    public static string $uriPrefix = 'tx_csseo_file_csseomodfile';
+    public static string $l10nFileName = 'file';
 
-    /**
-     * @var array
-     */
-    protected $modParams = ['action' => '', 'id' => '', 'recursive' => 1];
+    protected array $modParams = ['action' => '', 'id' => '', 'recursive' => 1];
 
-    /** @var File */
-    protected $image;
+    protected ?File $image = null;
 
-    protected $menuSetup = [
-        'showEmptyImageAlt'
+    public static array $menuActions = [
+        'showEmptyImageAlt',
     ];
 
-    protected $cssFiles = [
+    protected array $cssFiles = [
         'Icons.css',
-        'Lib/select2.css',
-        'ModuleFile.css'
+        'ModuleFile.css',
     ];
 
-    protected $storageUid;
-    protected $identifier;
+    protected int $storageUid = 0;
+    protected string $identifier = '';
+    protected int $offset = 0;
+    protected int $numberOfImagesWithoutAlt = 0;
 
-    public function initializeAction()
+    public function initializeAction(): ?ForwardResponse
     {
         parent::initializeAction();
 
         $this->storageUid = FileUtility::getStorageUidFromCombinedIdentifier($this->modParams['id']);
         $this->identifier = FileUtility::getIdentifierFromCombinedIdentifier($this->modParams['id']);
+
+        return null;
     }
 
     public function showEmptyImageAltAction(): ResponseInterface
     {
         BackendUtility::lockRecords();
 
+        if ($this->request->hasArgument('offset')) {
+            $this->offset = (int)$this->request->getArgument('offset');
+        }
+
         $this->requireJsModules = [
             'TYPO3/CMS/Backend/ContextMenu',
             'TYPO3/CMS/Backend/Notification',
-            'TYPO3/CMS/Backend/InfoWindow'
+            'TYPO3/CMS/Backend/InfoWindow',
         ];
 
         if ($this->storageUid) {
             $includeSubfolders = (bool)$this->modParams['recursive'];
 
-            $result = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders, true);
-            $numberOfImagesWithoutAlt = array_values($result[0])[0];
+            $result = DatabaseUtility::getImageWithEmptyAlt(
+                $this->storageUid,
+                $this->identifier,
+                $includeSubfolders,
+                true
+            );
+            $this->numberOfImagesWithoutAlt = array_values($result[0])[0];
+
+            // force offset to be smaller than number of all images without alt text
+            if ($this->offset > 0 && $this->offset >= $this->numberOfImagesWithoutAlt) {
+                $this->offset = $this->numberOfImagesWithoutAlt - 1;
+            }
+
             $result = DatabaseUtility::getImageWithEmptyAlt(
                 $this->storageUid,
                 $this->identifier,
@@ -81,20 +99,30 @@ class ModuleFileController extends AbstractModuleController
             $numberOfAllImages = array_values($result[0])[0];
 
             if ($numberOfAllImages) {
-                $numberOfImagesWithAlt = $numberOfAllImages - $numberOfImagesWithoutAlt;
+                $numberOfImagesWithAlt = $numberOfAllImages - $this->numberOfImagesWithoutAlt;
                 $percentOfImages = $numberOfImagesWithAlt / $numberOfAllImages * 100;
                 $this->view->assignMultiple([
+                    'numberOfImagesWithoutAlt' => $this->numberOfImagesWithoutAlt,
+                    'indexOfCurrentImage' => $this->offset + 1,
                     'numberOfImagesWithAlt' => $numberOfImagesWithAlt,
-                    'percentOfImages' => $percentOfImages
+                    'percentOfImages' => $percentOfImages,
                 ]);
             }
 
             $this->view->assignMultiple([
                 'numberOfAllImages' => $numberOfAllImages,
-                'identifier' => $this->identifier
+                'identifier' => $this->identifier,
             ]);
 
-            $imageRow = DatabaseUtility::getImageWithEmptyAlt($this->storageUid, $this->identifier, $includeSubfolders);
+            $imageRow = DatabaseUtility::getImageWithEmptyAlt(
+                $this->storageUid,
+                $this->identifier,
+                $includeSubfolders,
+                false,
+                false,
+                $this->offset
+            );
+
             $configuredColumns = ['alternative'];
             $additionalColumns = ConfigurationUtility::getEmConfiguration()['modFileColumns'] ?: '';
 
@@ -102,7 +130,7 @@ class ModuleFileController extends AbstractModuleController
 
             $columns = [];
             foreach ($configuredColumns as $col) {
-                if ($GLOBALS['TCA']['sys_file_metadata']['columns'][$col] && $GLOBALS['TCA']['sys_file_metadata']['columns'][$col]['label']) {
+                if (isset($GLOBALS['TCA']['sys_file_metadata']['columns'][$col]['label'])) {
                     $columns[$col] = $GLOBALS['TCA']['sys_file_metadata']['columns'][$col]['label'];
                 }
             }
@@ -110,7 +138,7 @@ class ModuleFileController extends AbstractModuleController
             $this->view->assign('columns', $columns);
 
             if (isset($imageRow[0]) && isset($imageRow[0]['uid'])) {
-                $dataMapper = $this->objectManager->get(DataMapper::class);
+                $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
                 $files = $dataMapper->map(File::class, $imageRow);
                 $this->image = $files[0];
                 $formService = GeneralUtility::makeInstance(FormService::class);
@@ -125,8 +153,9 @@ class ModuleFileController extends AbstractModuleController
                 $editForm =$formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',', $configuredColumns));
 
                 $this->view->assignMultiple([
+                    'offset' => $this->offset,
                     'editForm' => $editForm,
-                    'image' => $files[0]
+                    'image' => $files[0],
                 ]);
             }
         }
@@ -134,14 +163,18 @@ class ModuleFileController extends AbstractModuleController
         return $this->htmlResponse($this->wrapModuleTemplate());
     }
 
+    /**
+     * @throws FileDoesNotExistException
+     * @throws NoSuchArgumentException
+     */
     public function updateAction(): ResponseInterface
     {
-        $uid = $this->request->hasArgument('uid') ? $this->request->getArgument('uid') : 0;
-        $data = GeneralUtility::_GP('data')['sys_file_metadata'] ?? '';
+        $uid = $this->request->hasArgument('uid') ? (int)$this->request->getArgument('uid') : 0;
+        $data = $this->request->getParsedBody()['data']['sys_file_metadata'] ??  $this->request->getQueryParams()['data']['sys_file_metadata'] ?? '';
 
         if ($uid && $data) {
+            /** @var ResourceFactory $resourceFactory */
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-            /** @var \TYPO3\CMS\Core\Utility\GeneralUtility\File $file */
             $file = $resourceFactory->getFileObject($uid);
 
             $file->getMetaData()->add(array_values($data)[0])->save();
@@ -155,7 +188,7 @@ class ModuleFileController extends AbstractModuleController
                     GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.header'
                     ),
-                    FlashMessage::OK, // [optional] the severity defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
+                    ContextualFeedbackSeverity::OK, // [optional] the severity defaults to \TYPO3\CMS\Core\Messaging\FlashMessage::OK
                     false // [optional] whether the message should be stored in the session or only in the \TYPO3\CMS\Core\Messaging\FlashMessageQueue object (default is false)
                 );
             } else {
@@ -167,12 +200,13 @@ class ModuleFileController extends AbstractModuleController
                     GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.error.header'
                     ),
-                    FlashMessage::ERROR
+                    ContextualFeedbackSeverity::ERROR
                 );
             }
 
             $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
             $messageQueue = $flashMessageService->getMessageQueueByIdentifier(static::$mod_name);
+            // @extensionScannerIgnoreLine
             $messageQueue->addMessage($message);
         }
 
@@ -183,15 +217,17 @@ class ModuleFileController extends AbstractModuleController
     {
         $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
         if ($this->image) {
+            $actionName = preg_replace('/Action$/', '', $this->request->getControllerActionName());
+
             if ($this->image->getOriginalResource()->getProperties()['metadata_uid']) {
                 $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                 $params = [
                     'edit' => [
                         'sys_file_metadata' => [
-                            $this->image->getOriginalResource()->getProperties()['metadata_uid'] => 'edit'
-                        ]
+                            $this->image->getOriginalResource()->getProperties()['metadata_uid'] => 'edit',
+                        ],
                     ],
-                    'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI')
+                    'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                 ];
 
                 $editButton = $buttonBar->makeLinkButton()
@@ -217,11 +253,31 @@ class ModuleFileController extends AbstractModuleController
             $buttonBar->addButton($infoButton, ButtonBar::BUTTON_POSITION_LEFT, 2);
 
             $viewButton = $buttonBar->makeLinkButton()
+                ->setDataAttributes([
+                    'dispatch-action' => 'TYPO3.WindowManager.localOpen',
+                    'dispatch-args-list' => $this->image->getOriginalResource()->getPublicUrl(),
+                ])
                 ->setHref('#')
-                ->setOnClick('window.open(\'/' . $this->image->getOriginalResource()->getPublicUrl() . '\')')
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.view'))
                 ->setIcon($iconFactory->getIcon('actions-eye', Icon::SIZE_SMALL));
             $buttonBar->addButton($viewButton, ButtonBar::BUTTON_POSITION_LEFT, 3);
+
+            $prevButton = $buttonBar->makeLinkButton()
+                ->setDisabled($this->offset <= 0)
+                ->setHref((string)$this->uriBuilder->uriFor($actionName, ['offset' => $this->offset - 1]))
+                ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.prev'))
+                ->setIcon($iconFactory->getIcon('actions-chevron-left', Icon::SIZE_SMALL));
+
+            $buttonBar->addButton($prevButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
+
+            $nextOffset = $this->offset + 1;
+            $nextButton = $buttonBar->makeLinkButton()
+                ->setDisabled($nextOffset >= $this->numberOfImagesWithoutAlt)
+                ->setHref((string)$this->uriBuilder->uriFor($actionName, ['offset' => $nextOffset]))
+                ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.next'))
+                ->setIcon($iconFactory->getIcon('actions-chevron-right', Icon::SIZE_SMALL));
+
+            $buttonBar->addButton($nextButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
 
             $saveButton = $buttonBar->makeInputButton()
                 ->setForm('EditDocumentController')
@@ -233,7 +289,7 @@ class ModuleFileController extends AbstractModuleController
                 ))
                 ->setValue('1');
 
-            $buttonBar->addButton($saveButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
+            $buttonBar->addButton($saveButton, ButtonBar::BUTTON_POSITION_LEFT, 5);
         }
 
         $recursiveButton = $buttonBar->makeInputButton()
@@ -252,12 +308,5 @@ class ModuleFileController extends AbstractModuleController
         }
 
         $buttonBar->addButton($recursiveButton, ButtonBar::BUTTON_POSITION_RIGHT, 4);
-
-        // CSH
-        $cshButton = $buttonBar->makeHelpButton()
-            ->setModuleName('_MOD_txcsseo')
-            ->setFieldName('mod_file');
-
-        $buttonBar->addButton($cshButton);
     }
 }

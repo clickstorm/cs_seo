@@ -3,13 +3,13 @@
       data-namespace-typo3-fluid="true">
 
 <b>
-	<f:translate key="evaluation.images"/>
+	<f:translate key="evaluation.images" extensionName="cs_seo"/>
 </b>
 <f:if condition="{result.count}">
 	<f:then>
-		<f:translate key="evaluation.images.{result.state}" arguments="{0: result.countWithoutAlt}"/>.
+		<f:translate key="evaluation.images.{result.state}" arguments="{0: result.countWithoutAlt}" extensionName="cs_seo"/>.
 	</f:then>
 	<f:else>
-		<f:translate key="evaluation.images.no"/>.
+		<f:translate key="evaluation.images.no" extensionName="cs_seo"/>.
 	</f:else>
 </f:if>

@@ -12,16 +12,16 @@ $EM_CONF[$_EXTKEY] = [
     'author_company' => 'clickstorm GmbH',
     'state' => 'stable',
     'clearCacheOnLoad' => true,
-    'version' => '7.1.1-dev',
+    'version' => '8.1.1-dev',
     'constraints' => [
         'depends' => [
-            'typo3' => '11.2.0-11.5.99',
-            'seo' => '11.2.0-11.5.99'
-        ]
+            'typo3' => '12.2.0-12.4.99',
+            'seo' => '12.2.0-12.4.99',
+        ],
     ],
     'autoload' => [
         'psr-4' => [
-            'Clickstorm\\CsSeo\\' => 'Classes'
-        ]
+            'Clickstorm\\CsSeo\\' => 'Classes',
+        ],
     ],
 ];

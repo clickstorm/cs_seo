@@ -1,0 +1,131 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Command/EvaluationCommand.php
+
+		-
+			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Command/EvaluationCommand.php
+
+		-
+			message: "#^Constant LF not found\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Controller/AbstractModuleController.php
+
+		-
+			message: "#^Call to an undefined method TYPO3\\\\CMS\\\\Backend\\\\Template\\\\Components\\\\Buttons\\\\AbstractButton\\:\\:setHref\\(\\)\\.$#"
+			count: 2
+			path: public/typo3conf/ext/cs_seo/Classes/Controller/ModuleFileController.php
+
+		-
+			message: "#^Constructor of class Clickstorm\\\\CsSeo\\\\Event\\\\ModifyEvaluationPidEvent has an unused parameter \\$pageInfo\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Event/ModifyEvaluationPidEvent.php
+
+		-
+			message: "#^Constructor of class Clickstorm\\\\CsSeo\\\\Event\\\\ModifyEvaluationPidEvent has an unused parameter \\$params\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Event/ModifyEvaluationPidEvent.php
+
+		-
+			message: "#^Constructor of class Clickstorm\\\\CsSeo\\\\Event\\\\ModifyEvaluationPidEvent has an unused parameter \\$tableName\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Event/ModifyEvaluationPidEvent.php
+
+		-
+			message: "#^Offset 'html' does not exist on array\\{requireJsModules\\: array, stylesheetFiles\\: array\\}\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Form/Element/JsonLdElement.php
+
+		-
+			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Form/Element/SnippetPreview.php
+
+		-
+			message: "#^Offset 'html' does not exist on array\\{requireJsModules\\: array, stylesheetFiles\\: array\\}\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Form/Element/SnippetPreview.php
+
+		-
+			message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Hook/PageHook.php
+
+		-
+			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 4
+			path: public/typo3conf/ext/cs_seo/Classes/Service/AbstractUrlService.php
+
+		-
+			message: "#^Call to an undefined method TYPO3\\\\CMS\\\\Core\\\\Context\\\\AspectInterface\\:\\:getContentId\\(\\)\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Service/MetaDataService.php
+
+		-
+			message: "#^Call to an undefined method TYPO3\\\\CMS\\\\Core\\\\Context\\\\AspectInterface\\:\\:getLegacyLanguageMode\\(\\)\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Service/MetaDataService.php
+
+		-
+			message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Service/MetaDataService.php
+
+		-
+			message: "#^Cannot call method fetchAll\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Classes/Service/MetaDataService.php
+
+		-
+			message: "#^Cannot call method fetch\\(\\) on Doctrine\\\\DBAL\\\\Result\\|int\\.$#"
+			count: 4
+			path: public/typo3conf/ext/cs_seo/Classes/Utility/DatabaseUtility.php
+
+		-
+			message: "#^Method Clickstorm\\\\CsSeo\\\\Tests\\\\Functional\\\\AbstractFrontendTest\\:\\:getFrontendResponseFromUrl\\(\\) should return TYPO3\\\\TestingFramework\\\\Core\\\\Functional\\\\Framework\\\\Frontend\\\\Response but returns TYPO3\\\\TestingFramework\\\\Core\\\\Functional\\\\Framework\\\\Frontend\\\\InternalResponse\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Tests/Functional/AbstractFrontendTest.php
+
+		-
+			message: "#^Constant ORIGINAL_ROOT not found\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Tests/Functional/Canonical/AbstractCanonicalTest.php
+
+		-
+			message: "#^Constant ORIGINAL_ROOT not found\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Tests/Functional/HrefLang/HrefLangCoreTest.php
+
+		-
+			message: "#^Constant ORIGINAL_ROOT not found\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Tests/Functional/HrefLang/HrefLangDetailTest.php
+
+		-
+			message: "#^Constant ORIGINAL_ROOT not found\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Tests/Functional/HrefLang/HrefLangDifferentXDefaultTest.php
+
+		-
+			message: "#^Constant ORIGINAL_ROOT not found\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Tests/Functional/HrefLang/HrefLangInvalidParamOffTest.php
+
+		-
+			message: "#^Constant ORIGINAL_ROOT not found\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Tests/Functional/HrefLang/HrefLangInvalidParamOnTest.php
+
+		-
+			message: "#^Constant ORIGINAL_ROOT not found\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Tests/Functional/JsonLd/AbstractJsonLdTest.php
+
+		-
+			message: "#^Constant ORIGINAL_ROOT not found\\.$#"
+			count: 1
+			path: public/typo3conf/ext/cs_seo/Tests/Functional/MetaTag/AbstractMetaTagTest.php

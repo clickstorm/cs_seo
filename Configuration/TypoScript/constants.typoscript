@@ -1,10 +1,10 @@
 plugin.tx_csseo {
     # cat=plugin.tx_csseo/language/1; type=string; label= Override the sitetitle : Translation for the browser title prefix/suffix, e.g. LLL:EXT:myext/Resources/Language/locallang.xlf:sitetitle
-    sitetitle =
+    sitetitle = 
 
     # customsubcategory=social=Social Media
     # cat=plugin.tx_csseo/social/1; type=string; label= Default Social Image : Default image for Open Graph and Twitter Cards (e.g. fileadmin/user_upload/image.jpg)
-    social.defaultImage =
+    social.defaultImage = 
 
     # cat=plugin.tx_csseo/social/2; type=string; label= Open Graph Type, more https://developers.facebook.com/docs/reference/opengraph
     social.openGraph.type = website
@@ -16,7 +16,7 @@ plugin.tx_csseo {
     social.openGraph.image.height = 628c
 
     # cat=plugin.tx_csseo/social/5; type=string; label= Twitter Cards Default Image : Extra default image for Twitter (e.g. fileadmin/user_upload/image.jpg)
-    social.twitter.defaultImage =
+    social.twitter.defaultImage = 
 
     # cat=plugin.tx_csseo/social/6; type=string; label= Twitter Cards Width : Width of the Twitter Cards image
     social.twitter.image.width = 1024
@@ -25,27 +25,27 @@ plugin.tx_csseo {
     social.twitter.image.height = 512c
 
     # cat=plugin.tx_csseo/social/8; type=string; label= Default Twitter Creator : Twitter username (without @)
-    social.twitter.creator =
+    social.twitter.creator = 
 
     # cat=plugin.tx_csseo/social/9; type=string; label= Default Twitter Site : Twitter username (without @)
-    social.twitter.site =
+    social.twitter.site = 
 
     # customsubcategory=tracking=User Tracking
     # cat=plugin.tx_csseo/tracking/1; type=string; label= Google Analytics ID : If set (e.g. UA-XXXXXX-XXX), Google Analytics and the download tracking is enabled.
-    tracking.googleAnalytics =
+    tracking.googleAnalytics = 
 
     # cat=plugin.tx_csseo/tracking/2; type=string; label= Google Tag Manager ID : If set (e.g. 'GTM-XXXXXXXX'), Google Tag Manager is enabled.
-    tracking.googleTagManager =
+    tracking.googleTagManager = 
 
     # cat=plugin.tx_csseo/tracking/3; type=string; label= Piwik URL : Enter a Piwik URL, to enable the tracking via Piwik.
-    tracking.piwik =
+    tracking.piwik = 
 
     # cat=plugin.tx_csseo/tracking/4; type=string; label= Piwik ID : Enter the Piwik ID for site.
     tracking.piwik.id = 1
 
     # customsubcategory=structureddata=Structured Microdata
     # cat=plugin.tx_csseo/structureddata/1; type=boolean; label= Enable SiteSearch : Add microdata for sitesearch.
-    structureddata.search.enable =
+    structureddata.search.enable = 
 
     # cat=plugin.tx_csseo/structureddata/2; type=int; label= Pid of the search page : Pid of the page, where the searchresults will be displayed
     structureddata.search.pid = 0
@@ -54,7 +54,7 @@ plugin.tx_csseo {
     structureddata.search.searchtermkey = searchterm
 
     # cat=plugin.tx_csseo/structureddata/4; type=boolean; label= Enable Breadcrumb : Add microdata for site breadcrumb.
-    structureddata.breadcrumb.enable =
+    structureddata.breadcrumb.enable = 
 
 }
 
@@ -70,6 +70,6 @@ module.tx_csseo_mod1 {
     }
     persistence {
         # cat=module.tx_csseo_mod1//a; type=string; label=Default storage PID
-        storagePid =
+        storagePid = 
     }
 }

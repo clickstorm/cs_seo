@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\MetaTag;
 
-class MetaTagRecordTest extends AbstractMetaTagTest
+class MetaTagRecordTest extends AbstractMetaTagTestCase
 {
     public function ensureMetaDataAreCorrectDataProvider(): array
     {
@@ -18,15 +18,15 @@ class MetaTagRecordTest extends AbstractMetaTagTest
                     'twitter:card' => 'summary',
                     'twitter:creator' => '@{$plugin.tx_csseo.social.twitter.creator}',
                     'twitter:site' => '@{$plugin.tx_csseo.social.twitter.site}',
-                    'robots' => ''
-                ]
+                    'robots' => '',
+                ],
             ],
             'category 2: hidden metadata' => [
                 'http://localhost/page-no-follow/category/2',
                 [
                     'title' => 'Title of category 2',
                     'description' => 'Has a hidden metadata record',
-                ]
+                ],
             ],
             'category 3: full metadata' => [
                 'http://localhost/page-no-follow/category/3',
@@ -40,30 +40,30 @@ class MetaTagRecordTest extends AbstractMetaTagTest
                     'twitter:description' => 'TW description category 3',
                     'twitter:image' => '1080\-1080',
                     'twitter:creator' => '@TW creator category 3',
-                    'twitter:site' => '@TW site category 3'
-                ]
+                    'twitter:site' => '@TW site category 3',
+                ],
             ],
             'category 4: with no index' => [
                 'http://localhost/page-no-follow/category/4',
                 [
                     'title' => 'Title of category 4',
-                    'robots' => 'noindex,follow'
-                ]
+                    'robots' => 'noindex,follow',
+                ],
             ],
             'category 5: with no follow' => [
                 'http://localhost/page-no-follow/category/5',
                 [
                     'title' => 'Title of category 5',
-                    'robots' => 'index,nofollow'
-                ]
+                    'robots' => 'index,nofollow',
+                ],
             ],
             'category 6: with no index and no follow' => [
                 'http://localhost/page-no-follow/category/6',
                 [
                     'title' => 'Title of category 6',
-                    'robots' => 'noindex,nofollow'
-                ]
-            ]
+                    'robots' => 'noindex,nofollow',
+                ],
+            ],
         ];
     }
 }

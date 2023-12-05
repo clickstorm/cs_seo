@@ -2,36 +2,13 @@
 
 namespace Clickstorm\CsSeo\Command;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
 use Clickstorm\CsSeo\Domain\Model\Evaluation;
 use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Service\FrontendPageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use PDO;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,43 +16,24 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
+use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
+use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 class EvaluationCommand extends Command
 {
+    protected ?EvaluationRepository $evaluationRepository = null;
 
-    /**
-     * @var object|mixed
-     */
-    public $objectManager;
-    /**
-     * evaluationRepository
-     *
-     * @var EvaluationRepository
-     */
-    protected $evaluationRepository;
+    protected ?FrontendPageService $frontendPageService = null;
 
-    /** @var FrontendPageService */
-    protected $frontendPageService;
+    protected ?PersistenceManager $persistenceManager = null;
 
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-     */
-    protected $persistenceManager;
-    /**
-     * @var string
-     */
-    protected $tableName = 'pages';
+    protected string $tableName = 'pages';
 
-    /**
-     * Inject a evaluationRepository
-     *
-     * @param EvaluationRepository $evaluationRepository
-     */
     public function injectEvaluationRepository(EvaluationRepository $evaluationRepository)
     {
         $this->evaluationRepository = $evaluationRepository;
@@ -86,20 +44,19 @@ class EvaluationCommand extends Command
         $this->frontendPageService = $frontendPageService;
     }
 
+    public function injectPersistenceManager(PersistenceManager $persistenceManager)
+    {
+        $this->persistenceManager = $persistenceManager;
+    }
+
     /**
      * make the ajax update
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
-    public function ajaxUpdate(ServerRequestInterface $request)
+    public function ajaxUpdate(ServerRequestInterface $request): ResponseInterface
     {
-        // @extensionScannerIgnoreLine
-        $this->init();
-
         // get parameter
         $table = '';
         $params = $request->getParsedBody();
@@ -115,29 +72,18 @@ class EvaluationCommand extends Command
         }
         $this->processResults($uid);
 
-        /** @var $flashMessageService \TYPO3\CMS\Core\Messaging\FlashMessageService */
+        /** @var FlashMessageService $flashMessageService  */
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-        /** @var $defaultFlashMessageQueue \TYPO3\CMS\Core\Messaging\FlashMessageQueue */
         $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
 
         return new HtmlResponse($flashMessageQueue->renderFlashMessages());
     }
 
-    protected function init()
-    {
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        $this->evaluationRepository = $this->objectManager->get(EvaluationRepository::class);
-        $this->persistenceManager = $this->objectManager->get(PersistenceManager::class);
-        $this->frontendPageService = $this->objectManager->get(FrontendPageService::class);
-    }
-
     /**
-     * @param int $uid
-     * @param bool $localized
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
-    protected function processResults($uid = 0, $localized = false)
+    protected function processResults(int $uid = 0, bool $localized = false): void
     {
         $items = $this->getAllItems($uid, $localized);
         $this->updateResults($items);
@@ -147,12 +93,7 @@ class EvaluationCommand extends Command
         }
     }
 
-    /**
-     * @param int $uid
-     * @param bool $localized
-     * @return array
-     */
-    protected function getAllItems($uid, $localized = false)
+    protected function getAllItems(int $uid, bool $localized = false): array
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($this->tableName);
@@ -180,29 +121,26 @@ class EvaluationCommand extends Command
             if ($localized && $tcaCtrl['transOrigPointerField']) {
                 $queryBuilder->andWhere($queryBuilder->expr()->eq(
                     $tcaCtrl['transOrigPointerField'],
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, PDO::PARAM_INT)
                 ));
             } else {
                 $queryBuilder->andWhere($queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, PDO::PARAM_INT)
                 ));
             }
         }
 
-        return $queryBuilder->select('*')
-            ->from($this->tableName)
-            ->execute()
+        return $queryBuilder->select('*')->from($this->tableName)->executeQuery()
             ->fetchAll();
     }
 
     /**
-     * @param $items
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
-     * @throws \TYPO3\CMS\Core\Exception
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
+     * @throws Exception
      */
-    protected function updateResults($items)
+    protected function updateResults(array $items): void
     {
         foreach ($items as $item) {
             $frontendPage = $this->frontendPageService->getFrontendPage($item, $this->tableName);
@@ -218,13 +156,7 @@ class EvaluationCommand extends Command
         }
     }
 
-    /**
-     * Get Keyword from record or page
-     *
-     * @param $record
-     * @return string
-     */
-    protected function getFocusKeyword($record)
+    protected function getFocusKeyword(array $record): string
     {
         $keyword = '';
         if (isset($record['tx_csseo'])) {
@@ -234,15 +166,10 @@ class EvaluationCommand extends Command
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($metaTableName);
 
             $res = $queryBuilder->select('keyword')
-                ->from($metaTableName)
-                ->where(
-                    $queryBuilder->expr()->eq(
-                        'uid_foreign',
-                        $queryBuilder->createNamedParameter($record['uid'], \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($this->tableName))
-                )
-                ->execute();
+                ->from($metaTableName)->where($queryBuilder->expr()->eq(
+                'uid_foreign',
+                $queryBuilder->createNamedParameter($record['uid'], PDO::PARAM_INT)
+            ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($this->tableName)))->executeQuery();
 
             while ($row = $res->fetch()) {
                 $keyword = $row['keyword'];
@@ -254,30 +181,25 @@ class EvaluationCommand extends Command
         return $keyword;
     }
 
-    /**
-     * store the results in the db
-     *
-     * @param array $results
-     * @param int $uidForeign
-     * @param string $url
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     /**
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
-    protected function saveChanges($results, $uidForeign, $url)
+    protected function saveChanges(array $results, int $uidForeign, string $url): void
     {
         /**
-         * @var Evaluation $evaluation
+         * @var Evaluation|null $evaluation
          */
         $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($uidForeign, $this->tableName);
 
-        if (!$evaluation) {
+        if (is_null($evaluation)) {
             $evaluation = GeneralUtility::makeInstance(Evaluation::class);
             $evaluation->setUidForeign($uidForeign);
             $evaluation->setTablenames($this->tableName);
         }
 
         $evaluation->setUrl($url);
-        $evaluation->setResults($results);
+        $evaluation->setResultsFromArray($results);
 
         if ($evaluation->_isNew()) {
             $this->evaluationRepository->add($evaluation);
@@ -287,18 +209,12 @@ class EvaluationCommand extends Command
         $this->persistenceManager->persistAll();
     }
 
-    /**
-     * @return string
-     */
-    public function getTableName()
+    public function getTableName(): string
     {
         return $this->tableName;
     }
 
-    /**
-     * @param string $tableName
-     */
-    public function setTableName($tableName)
+    public function setTableName(string $tableName): void
     {
         $this->tableName = $tableName;
     }
@@ -306,7 +222,7 @@ class EvaluationCommand extends Command
     /**
      * Configure the command by defining the name, options and arguments
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('SEO evaluation of a single entry or the whole site')
             ->addArgument('tableName', InputArgument::OPTIONAL)
@@ -314,16 +230,11 @@ class EvaluationCommand extends Command
     }
 
     /**
-     * @param int $uid
-     * @param string $tableName
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     * @throws IllegalObjectTypeException
+     * @throws UnknownObjectException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        // @extensionScannerIgnoreLine
-        $this->init();
-
         if ($input->hasArgument('tableName') && !empty($input->getArgument('tableName'))) {
             $this->tableName = $input->getArgument('tableName');
         }

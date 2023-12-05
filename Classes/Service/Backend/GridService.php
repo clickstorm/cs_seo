@@ -16,47 +16,28 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class GridService
 {
-    protected $modParams = [];
+    protected array $modParams = [];
 
-    protected $fieldNames = [];
+    protected array $fieldNames = [];
 
-    protected $languages = [];
+    protected array $languages = [];
 
-    protected $showResults = false;
+    protected bool $showResults = false;
 
-    protected $pageUid = 0;
+    protected int $pageUid = 0;
 
-    protected $imageFieldNames = ['tx_csseo_og_image', 'tx_csseo_tw_image'];
+    protected array $imageFieldNames = ['og_image', 'twitter_image', 'tw_image'];
 
-    /**
-     * pageRepository
-     *
-     * @var PageRepository
-     */
-    protected $pageRepository = null;
-    /**
-     * evaluationService
-     *
-     * @var EvaluationService
-     */
-    protected $evaluationService = null;
+    protected ?PageRepository $pageRepository = null;
 
-    /**
-     * Inject a pageRepository
-     *
-     * @param PageRepository $pageRepository
-     */
-    public function injectPageRepository(PageRepository $pageRepository)
+    protected ?EvaluationService $evaluationService = null;
+
+    public function injectPageRepository(PageRepository $pageRepository): void
     {
         $this->pageRepository = $pageRepository;
     }
 
-    /**
-     * Inject a evaluationService
-     *
-     * @param EvaluationService $evaluationService
-     */
-    public function injectEvaluationService(EvaluationService $evaluationService)
+    public function injectEvaluationService(EvaluationService $evaluationService): void
     {
         $this->evaluationService = $evaluationService;
     }
@@ -78,7 +59,7 @@ class GridService
         $this->languages = DatabaseUtility::getLanguagesInBackend($this->pageUid); // get languages
     }
 
-    public function getJsFiles()
+    public function getJsFiles(): array
     {
         return [
             'Module/lib/angular.js',
@@ -89,16 +70,16 @@ class GridService
             'Module/app.js',
             'Module/app.js',
             'Module/controllers/CsSeoController.js',
-            'Module/services/previewTitleFactory.js'
+            'Module/services/previewTitleFactory.js',
         ];
     }
 
-    public function getCssFiles()
+    public function getCssFiles(): array
     {
         return [
             'Lib/ui-grid/ui-grid.min.css',
             'Wizard.css',
-            'Module.css'
+            'Module.css',
         ];
     }
 
@@ -124,13 +105,13 @@ class GridService
         if ($this->modParams['lang'] > 0) {
             /** @var LanguageAspect $languageAspect */
             $languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $this->modParams['lang']);
-            $context->setAspect('Language', $languageAspect);
+            $context->setAspect('language', $languageAspect);
             $columnDefs[] = $this->getColumnDefinition('sys_language_uid');
         }
 
         $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class, $context);
 
-        $page = $this->pageRepository->getPage($this->pageUid);
+        $page = $this->pageRepository->getPage($this->pageUid, true);
         $rowEntries = $this->getPageTree($page, (int)$this->modParams['depth']);
 
         return [
@@ -138,18 +119,15 @@ class GridService
             'depth' => $this->modParams['depth'],
             'lang' => $this->modParams['lang'],
             'languages' => $this->languages,
-            'action' => $this->modParams['action']
+            'action' => $this->modParams['action'],
         ];
     }
 
     /**
      * get the UI grid column definition for the current field
-     *
-     * @param $fieldName
-     *
-     * @return mixed
+     * @throws \JsonException
      */
-    public function getColumnDefinition($fieldName)
+    public function getColumnDefinition(string $fieldName): string
     {
         $columnDef = ['field' => $fieldName];
         if ($fieldName !== 'sys_language_uid' && $fieldName !== 'results') {
@@ -160,7 +138,7 @@ class GridService
                     $columnDef['type'] = 'boolean';
                     $columnDef['width'] = 100;
                     $columnDef['cellTemplate'] =
-                        '<div class="ui-grid-cell-contents ng-binding ng-scope text-center"><span class="fa fa-{{row.entity[col.field] == true ? \'check\' : \'remove\'}}"></span></div>';
+                        '<div class="ui-grid-cell-contents ng-binding ng-scope text-center">{{row.entity[col.field] == true ? \'☑\' : \'☐\'}}</span></div>';
                     $columnDef['editableCellTemplate'] =
                         '<div><form name="inputForm" class="text-center"><input type="checkbox" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-click="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
                     $columnDef['enableFiltering'] = false;
@@ -215,7 +193,7 @@ class GridService
                 $columnDef['type'] = 'object';
         }
 
-        return json_encode($columnDef);
+        return json_encode($columnDef, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -225,10 +203,8 @@ class GridService
      * @param int $depth the current depth
      * @param array $pages contains all pages so far
      * @param int $level the tree level required for the UI grid
-     *
-     * @return array
      */
-    protected function getPageTree(array $page, int $depth, $pages = [], $level = 0): array
+    protected function getPageTree(array $page, int $depth, array $pages = [], int $level = 0): array
     {
         // default query settings
         $fields = '*';
@@ -241,11 +217,11 @@ class GridService
 
         // add the current language value
         if ($this->modParams['lang'] > 0) {
-            if ($page['_PAGES_OVERLAY_UID']) {
+            if (!empty($page['_PAGES_OVERLAY_UID'])) {
                 $uid = $page['_PAGES_OVERLAY_UID'];
             }
 
-            $page['sys_language_uid'] = $this->languages[$page['_PAGES_OVERLAY_LANGUAGE'] ?: 0];
+            $page['sys_language_uid'] = $this->languages[$page['_PAGES_OVERLAY_LANGUAGE'] ?? 0];
         }
 
         // process social media image fields
@@ -289,13 +265,8 @@ class GridService
 
     /**
      * returns the final JSON incl. settings for the UI Grid
-     *
-     * @param $rowEntries
-     * @param $columnDefs
-     *
-     * @return string
      */
-    protected function buildGridJSON($rowEntries, $columnDefs)
+    protected function buildGridJSON(array $rowEntries, array $columnDefs): string
     {
         $doktypes = '[' . implode(',', ConfigurationUtility::getEvaluationDoktypes()) . ']';
 
@@ -309,7 +280,7 @@ class GridService
 				expandAll: true,
 				enableFiltering: true,
 				doktypes: ' . $doktypes . ',
-				i18n: \'' . $this->modParams['lang'] . '\',
+				i18n: \'' . GlobalsUtility::getBackendUser()->user['lang'] . '\',
 				cellEditableCondition: function($scope) {
 					return (' . $doktypes . '.indexOf(parseInt($scope.row.entity.doktype)) > -1)
 				}
