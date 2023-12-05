@@ -4,136 +4,79 @@ namespace Clickstorm\CsSeo\Domain\Model;
 
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
 /**
  * Class Evaluation
  */
 class Evaluation extends AbstractEntity
 {
-    /**
-     * @var string
-     */
-    protected $results;
+    protected string $results = '';
 
-    /**
-     * @var string
-     */
-    protected $url;
+    protected string $url = '';
 
-    /**
-     * @var int
-     */
-    protected $uidForeign;
+    protected int $uidForeign = 0;
 
-    /**
-     * @var string
-     */
-    protected $tablenames;
+    protected string $tablenames = '';
 
-    /**
-     * @var int
-     */
-    protected $tstamp;
+    protected int $tstamp = 0;
 
-    /**
-     * @return array
-     */
-    public function getResults()
+    public function getResults(): string
     {
-        return unserialize($this->results);
+        return $this->results;
     }
 
-    /**
-     * @param array $results
-     */
-    public function setResults($results)
+    public function setResults(string $results): void
+    {
+        $this->results = $results;
+    }
+
+    public function getResultsAsArray(): array
+    {
+        $results = unserialize($this->results);
+
+        return is_array($results) ? $results : [];
+    }
+
+    public function setResultsFromArray(array $results): void
     {
         $this->results = serialize($results);
     }
 
-    /**
-     * @return string
-     */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
 
-    /**
-     * @param string $url
-     */
-    public function setUrl($url)
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }
 
-    /**
-     * @return int
-     */
-    public function getUidForeign()
+    public function getUidForeign(): int
     {
         return $this->uidForeign;
     }
 
-    /**
-     * @param int $uidForeign
-     */
-    public function setUidForeign($uidForeign)
+    public function setUidForeign(int $uidForeign): void
     {
         $this->uidForeign = $uidForeign;
     }
 
-    /**
-     * @return string
-     */
-    public function getTablenames()
+    public function getTablenames(): string
     {
         return $this->tablenames;
     }
 
-    /**
-     * @param string $tablenames
-     */
-    public function setTablenames($tablenames)
+    public function setTablenames(string $tablenames): void
     {
         $this->tablenames = $tablenames;
     }
 
-    /**
-     * @return int
-     */
-    public function getTstamp()
+    public function getTstamp(): int
     {
         return $this->tstamp;
     }
 
-    /**
-     * @param int $tstamp
-     */
-    public function setTstamp($tstamp)
+    public function setTstamp(int $tstamp): void
     {
         $this->tstamp = $tstamp;
     }

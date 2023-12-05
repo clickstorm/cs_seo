@@ -2,31 +2,8 @@
 
 namespace Clickstorm\CsSeo\Form\Element;
 
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *  (c) 2013 Mathias Brodala <mbrodala@pagemachine.de>, PAGEmachine AG
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Form\AbstractNode;
@@ -38,6 +15,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Google Search Results Preview
@@ -46,23 +24,12 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  */
 class SnippetPreview extends AbstractNode
 {
-    /**
-     * @var PageRenderer
-     */
-    protected $pageRenderer;
+    protected ?PageRenderer $pageRenderer = null;
 
-    /**
-     * @var int
-     */
-    protected $typeNum = 654;
-
-    /**
-     * Render the input field with additional snippet preview
-     *
-     * @return array
-     */
-    public function render()
+    public function render(): array
     {
+        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+
         // first get input element
         $inputField = GeneralUtility::makeInstance(InputTextElement::class, $this->nodeFactory, $this->data);
         $resultArray = $inputField->render();
@@ -83,30 +50,17 @@ class SnippetPreview extends AbstractNode
      * Load the necessary javascript
      *
      * This will only be done when the referenced record is available
-     *
-     * @return array
      */
-    protected function loadJavascript()
+    protected function loadJavascript(): void
     {
-        return [
-            'snippetPreview' => [
-                'TYPO3/CMS/CsSeo/FormEngine/Element/SnippetPreview' => 'function(SnippetPreview){SnippetPreview.initialize()}'
-            ]
-        ];
+        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/SnippetPreview.js');
     }
 
-    /**
-     * Load the necessary css
-     *
-     * This will only be done when the referenced record is available
-     *
-     * @return array
-     */
-    protected function loadCss()
+    protected function loadCss(): array
     {
         $stylesheetFiles = [];
         $cssFiles = [
-            'Wizard.css'
+            'Wizard.css',
         ];
         $baseUrl = 'EXT:cs_seo/Resources/Public/Css/';
         // Load the wizards css
@@ -122,10 +76,8 @@ class SnippetPreview extends AbstractNode
      *
      * If there is an error, no reference to a record, a Flash Message will be
      * displayed
-     *
-     * @return string The body content
      */
-    protected function getBodyContent($data, $table)
+    protected function getBodyContent($data, $table): string
     {
         // template1
         /** @var StandaloneView $wizardView */
@@ -142,19 +94,34 @@ class SnippetPreview extends AbstractNode
             // set pageID for TSSetup check
             $pageUid = $data['pid'];
 
-            // use page uid or t3ver_oid is set
+            // use page uid, l10n_parent or t3ver_oid if set
             if ($table === 'pages') {
-                $pageUid = $data['t3ver_oid'] ?: $data['uid'];
+                $pageUid = (int)$data['uid'];
+                if (!empty($data['l10n_parent'])) {
+                    if (is_array($data['l10n_parent'])) {
+                        if (!empty($data['l10n_parent'][0])) {
+                            $pageUid = (int)$data['l10n_parent'][0];
+                        }
+                    } elseif ((int)$data['l10n_parent'] > 0) {
+                        $pageUid = (int)$data['l10n_parent'];
+                    }
+                }
+                if (!empty($data['t3ver_oid'])) {
+                    $pageUid = (int)$data['t3ver_oid'];
+                }
             }
 
-            $_GET['id'] = $pageUid;
+            // add page id to current request, so the backend configuration manager gets the right page
+            $queryParams = $this->getCurrentRequest()->getQueryParams();
+            $queryParams['id'] = $pageUid;
+            $this->setCurrentRequest($this->getCurrentRequest()->withQueryParams($queryParams));
 
             // check if TS page type exists
-            /** @var BackendConfigurationManager $configurationManager */
+            /** @var BackendConfigurationManager $backendConfigurationManager */
             $backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
             $fullTS = $backendConfigurationManager->getTypoScriptSetup();
 
-            if (isset($fullTS['types.'][$this->typeNum]) || $GLOBALS['BE_USER']->workspace > 0) {
+            if (isset($fullTS['pageCsSeo']) || $GLOBALS['BE_USER']->workspace > 0) {
                 // render page title
                 $rootline = BackendUtility::BEgetRootLine($pageUid);
                 $sysLanguageUid = is_array($data['sys_language_uid']) ? (int)current($data['sys_language_uid']) : (int)$data['sys_language_uid'];
@@ -172,9 +139,9 @@ class SnippetPreview extends AbstractNode
                     $config = $TSFEUtility->getConfig();
 
                     if ($table == 'pages') {
-                        $GLOBALS['TSFE']->config['config']['noPageTitle'] = 0;
+                        $this->getTypoScriptFrontendController()->config['config']['noPageTitle'] = 0;
 
-                        $GLOBALS['TSFE']->generatePageTitle();
+                        $this->getTypoScriptFrontendController()->generatePageTitle();
 
                         $pageTitle = static::getPageRenderer()->getTitle();
 
@@ -198,14 +165,10 @@ class SnippetPreview extends AbstractNode
                                 ->removeAll();
 
                             $res = $queryBuilder->select('*')
-                                ->from($data['tablenames'])
-                                ->where(
-                                    $queryBuilder->expr()->eq(
-                                        'uid',
-                                        $queryBuilder->createNamedParameter($data['uid_foreign'], \PDO::PARAM_INT)
-                                    )
-                                )
-                                ->execute()->fetchAll();
+                                ->from($data['tablenames'])->where($queryBuilder->expr()->eq(
+                                'uid',
+                                $queryBuilder->createNamedParameter($data['uid_foreign'], \PDO::PARAM_INT)
+                            ))->executeQuery()->fetchAll();
 
                             $row = $res[0];
 
@@ -232,7 +195,7 @@ class SnippetPreview extends AbstractNode
                             'pageTitle' => $pageTitle,
                             'pageTitleSeparator' => $pageTitleSeparator,
                             'path' => $path,
-                            'siteTitle' => $siteTitle
+                            'siteTitle' => $siteTitle,
                         ]
                     );
                 } else {
@@ -248,10 +211,7 @@ class SnippetPreview extends AbstractNode
         return $wizardView->render();
     }
 
-    /**
-     * @return PageRenderer
-     */
-    protected function getPageRenderer()
+    protected function getPageRenderer(): PageRenderer
     {
         if ($this->pageRenderer === null) {
             $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
@@ -260,13 +220,23 @@ class SnippetPreview extends AbstractNode
         return $this->pageRenderer;
     }
 
-    /**
-     * Returns an instance of LanguageService
-     *
-     * @return \TYPO3\CMS\Core\Localization\LanguageService
-     */
-    protected function getLanguageService()
+    protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
+    }
+
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
+    }
+
+    protected function getCurrentRequest(): ServerRequestInterface|null
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
+    }
+
+    protected function setCurrentRequest(ServerRequestInterface $request): void
+    {
+        $GLOBALS['TYPO3_REQUEST'] = $request;
     }
 }

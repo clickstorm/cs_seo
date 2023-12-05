@@ -2,36 +2,13 @@
 
 namespace Clickstorm\CsSeo\Service;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
+use Clickstorm\CsSeo\Domain\Model\Evaluation;
 use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\DescriptionEvaluator;
 use Clickstorm\CsSeo\Evaluation\H1Evaluator;
 use Clickstorm\CsSeo\Evaluation\H2Evaluator;
+use Clickstorm\CsSeo\Evaluation\HeadingOrderEvaluator;
 use Clickstorm\CsSeo\Evaluation\ImagesEvaluator;
 use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
 use Clickstorm\CsSeo\Evaluation\TitleEvaluator;
@@ -45,51 +22,26 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class EvaluationService
 {
+    protected array $evaluators = [];
 
-    /**
-     * @var array
-     */
-    protected $evaluators;
+    protected ?EvaluationRepository $evaluationRepository = null;
 
-    /**
-     * evaluationRepository
-     *
-     * @var EvaluationRepository
-     */
-    protected $evaluationRepository = null;
-
-    /**
-     * Inject a evaluationRepository
-     *
-     * @param EvaluationRepository $evaluationRepository
-     */
-    public function injectEvaluationRepository(EvaluationRepository $evaluationRepository)
+    public function injectEvaluationRepository(EvaluationRepository $evaluationRepository): void
     {
         $this->evaluationRepository = $evaluationRepository;
     }
 
-    /**
-     * @return array
-     */
-    public function getEvaluators()
+    public function getEvaluators(): array
     {
         return $this->evaluators;
     }
 
-    /**
-     * @param array $evaluators
-     */
-    public function setEvaluators($evaluators)
+    public function setEvaluators(array $evaluators): void
     {
         $this->evaluators = $evaluators;
     }
 
-    /**
-     * @param string $html
-     * @param string $keyword
-     * @return array
-     */
-    public function evaluate($html, $keyword)
+    public function evaluate(string $html, string $keyword): array
     {
         $results = [];
 
@@ -118,19 +70,20 @@ class EvaluationService
     /**
      * @TODO find a better solution for defaults
      */
-    public function initEvaluators()
+    public function initEvaluators(): void
     {
         $evaluators = [];
         $extConf = ConfigurationUtility::getEmConfiguration();
 
         // default
         $availableEvaluators = [
+            'Description' => DescriptionEvaluator::class,
             'H1' => H1Evaluator::class,
             'H2' => H2Evaluator::class,
-            'Title' => TitleEvaluator::class,
-            'Description' => DescriptionEvaluator::class,
+            'HeadingOrder' => HeadingOrderEvaluator::class,
+            'Images' => ImagesEvaluator::class,
             'Keyword' => KeywordEvaluator::class,
-            'Images' => ImagesEvaluator::class
+            'Title' => TitleEvaluator::class,
         ];
 
         // additional evaluators
@@ -153,16 +106,9 @@ class EvaluationService
         $this->evaluators = $evaluators;
     }
 
-    /**
-     * @param $results
-     *
-     * @return array
-     */
-    protected function getFinalPercentage($results)
+    protected function getFinalPercentage(array $results): array
     {
         $score = 0;
-        $count = 0;
-
         $state = AbstractEvaluator::STATE_RED;
         foreach ($results as $result) {
             $score += $result['state'];
@@ -170,9 +116,7 @@ class EvaluationService
 
         $total = (count($results) * 2);
 
-        if ($total > 0) {
-            $count = round($score / $total * 100);
-        }
+        $count = $total > 0 ? (int)round($score / $total * 100) : 0;
 
         if ($count === 100) {
             $state = AbstractEvaluator::STATE_GREEN;
@@ -182,30 +126,25 @@ class EvaluationService
 
         return [
             'state' => $state,
-            'count' => $count
+            'count' => $count,
         ];
     }
 
     /**
      * return evaluation results of a specific page
-     *
-     * @param $record
-     * @param $table
-     *
-     * @return array
      */
-    public function getResults($record, $table = '')
+    public function getResults(array $record, string $table = ''): array
     {
         $results = [];
         $evaluation = $this->getEvaluation($record, $table);
         if ($evaluation) {
-            $results = $evaluation->getResults();
+            $results = $evaluation->getResultsAsArray();
         }
 
         return $results;
     }
 
-    public function getEvaluation($record, $table = '')
+    public function getEvaluation(array $record, string $table = ''): ?Evaluation
     {
         if ($table) {
             $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record, $table);
@@ -216,7 +155,8 @@ class EvaluationService
                     'pages'
                 );
         } else {
-            $evaluation = $this->evaluationRepository->findByUidForeignAndTableName((int)$record['uid'], 'pages');
+            $recordId = (int)($record['uid'] ?? 0);
+            $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($recordId, 'pages');
         }
 
         return $evaluation;

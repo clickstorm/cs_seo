@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\MetaTag;
 
-class MetaTagTest extends AbstractMetaTagTest
+class MetaTagTest extends AbstractMetaTagTestCase
 {
     public function ensureMetaDataAreCorrectDataProvider(): array
     {
@@ -18,8 +18,8 @@ class MetaTagTest extends AbstractMetaTagTest
                     'twitter:card' => 'summary',
                     'twitter:creator' => '@{$plugin.tx_csseo.social.twitter.creator}',
                     'twitter:site' => '@{$plugin.tx_csseo.social.twitter.site}',
-                    'robots' => ''
-                ]
+                    'robots' => '',
+                ],
             ],
             'page 2: with browser title and open graph' => [
                 'http://localhost/page-with-og',
@@ -28,8 +28,8 @@ class MetaTagTest extends AbstractMetaTagTest
                     'description' => 'Description 2',
                     'og:title' => 'OG Title 2',
                     'og:description' => 'OG Description 2',
-                    'og:image' => '1920\-1080'
-                ]
+                    'og:image' => '1920\-1080',
+                ],
             ],
             'page 3: with twitter cards' => [
                 'http://localhost/page-with-twitter-cards',
@@ -40,29 +40,29 @@ class MetaTagTest extends AbstractMetaTagTest
                     'twitter:description' => 'TW Description 3',
                     'twitter:image' => '1080\-1080',
                     'twitter:creator' => '@TW Creator 3',
-                    'twitter:site' => '@TW Site 3'
-                ]
+                    'twitter:site' => '@TW Site 3',
+                ],
             ],
             'page 4: with no index' => [
                 'http://localhost/page-no-index',
                 [
                     'title' => 'Title 4',
-                    'robots' => 'noindex,follow'
-                ]
+                    'robots' => 'noindex,follow',
+                ],
             ],
             'page 5: with no follow' => [
                 'http://localhost/page-no-follow',
                 [
                     'title' => 'Title 5',
-                    'robots' => 'index,nofollow'
-                ]
+                    'robots' => 'index,nofollow',
+                ],
             ],
             'page 6: with no index, no follow' => [
                 'http://localhost/page-no-index-no-follow',
                 [
                     'title' => 'Title 6',
-                    'robots' => 'noindex,nofollow'
-                ]
+                    'robots' => 'noindex,nofollow',
+                ],
             ],
         ];
     }

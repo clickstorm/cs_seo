@@ -1,0 +1,8 @@
+pages,,,,,,,,,,,,,,,,,
+,uid,pid,title,description,is_siteroot,slug,seo_title,og_title,og_description,og_image,twitter_title,twitter_description,twitter_image,tx_csseo_tw_creator,tx_csseo_tw_site,no_index,no_follow
+,1,0,Title 1,Description 1,1,/,,,,,,,,,,,
+,2,1,Title 2,Description 2,,/page-with-og,Browser Title 2,OG Title 2,OG Description 2,1,,,,,,,
+,3,1,Title 3,Description 3,,/page-with-twitter-cards,,,,,TW Title 3,TW Description 3,1,TW Creator 3,TW Site 3,,
+,4,1,Title 4,,,/page-no-index,,,,,,,,,,1,
+,5,1,Title 5,,,/page-no-follow,,,,,,,,,,,1
+,6,1,Title 6,,,/page-no-index-no-follow,,,,,,,,,,1,1

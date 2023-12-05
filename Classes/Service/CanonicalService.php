@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Service;
 
+use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -12,11 +13,10 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class CanonicalService extends AbstractUrlService
 {
-
     /**
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
      * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
-     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
+     * @throws AspectNotFoundException
      */
     public function getUrl(): string
     {
@@ -25,33 +25,30 @@ class CanonicalService extends AbstractUrlService
         $metaDataService = GeneralUtility::makeInstance(MetaDataService::class);
         $metaData = $metaDataService->getMetaData();
 
-        $useAdditionalCanonicalizedUrlParametersOnly = ConfigurationUtility::useAdditionalCanonicalizedUrlParametersOnly();
-
         /** @var ContentObjectRenderer $cObj */
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $context = GeneralUtility::makeInstance(Context::class);
-        $typoLinkConf = $this->typoScriptFrontendController->tmpl->setup['lib.']['currentUrl.']['typolink.'];
+        $typoLinkConf = $this->typoScriptFrontendController->tmpl->setup['lib.']['currentUrl.']['typolink.'] ?? [];
         $tempLinkVars = $this->typoScriptFrontendController->linkVars;
 
         // remove config.linkVars temporary
-        if ($useAdditionalCanonicalizedUrlParametersOnly) {
-            $GLOBALS['TSFE']->linkVars = '';
-        }
+        $GLOBALS['TSFE']->linkVars = '';
 
         // check if the current page is a detail page of a record
         if ($metaData) {
             $currentLanguageUid = $context->getAspect('language')->getId();
             $tables = ConfigurationUtility::getTablesToExtend();
             $currentItemConf = $metaDataService::getCurrentTableConfiguration($tables, $cObj);
-            $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], $currentItemConf['uid']);
+            $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], (int)$currentItemConf['uid']);
             unset($typoLinkConf['parameter.']);
+            // @extensionScannerIgnoreLine
             $typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
-            if ($metaData['no_index']) {
+            if (!empty($metaData['no_index'])) {
                 $this->typoScriptFrontendController->page['no_index'] = 1;
             } else {
                 // canonical
                 $canonicalTypoLinkConf = ['forceAbsoluteUrl' => 1];
-                if ($metaData['canonical']) {
+                if (!empty($metaData['canonical'])) {
                     $canonicalTypoLinkConf['parameter'] = $metaData['canonical'];
                 } else {
                     $canonicalTypoLinkConf = $typoLinkConf;
@@ -63,14 +60,13 @@ class CanonicalService extends AbstractUrlService
                         if ($lang < 0) {
                             $lang = 0;
                         }
-                        $canonicalTypoLinkConf['additionalParams.']['append.']['value'] = $lang;
+                        $canonicalTypoLinkConf['language'] = $lang;
                     }
                 }
                 $canonicalUrl = $cObj->typoLink_URL($canonicalTypoLinkConf);
             }
-            // pages record
-        } elseif ($useAdditionalCanonicalizedUrlParametersOnly &&
-            empty($this->typoScriptFrontendController->page['no_index']) &&
+        // pages record
+        } elseif (empty($this->typoScriptFrontendController->page['no_index']) &&
             empty($this->typoScriptFrontendController->page['canonical_link']) &&
             empty($this->typoScriptFrontendController->page['content_from_pid'])) {
             $canonicalUrl = $cObj->typoLink_URL($typoLinkConf);

@@ -4,12 +4,7 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\Canonical;
 
-/**
- * Test case, inspired by typo3/cms-seo extension
- *
- * Moutnpoints point here to there original URL to avoid duplicated content
- */
-class CanonicalCoreTest extends AbstractCanonicalTest
+class CanonicalCoreTest extends AbstractCanonicalTestCase
 {
     public function generateDataProvider(): array
     {
@@ -40,7 +35,7 @@ class CanonicalCoreTest extends AbstractCanonicalTest
             ],
             'uid: 10 no index' => [
                 'http://localhost/dummy-1-2-10',
-                ''
+                '',
             ],
             'uid: 11 with mount_pid_ol = 0' => [
                 'http://localhost/dummy-1-2-11',
@@ -60,8 +55,8 @@ class CanonicalCoreTest extends AbstractCanonicalTest
             ],
             'uid: 14 typoscript setting config.disableCanonical' => [
                 'http://localhost/no-canonical',
-                ''
-            ]
+                '',
+            ],
         ];
     }
 }

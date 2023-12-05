@@ -1,0 +1,9 @@
+tx_csseo_domain_model_meta,,,,,,,,,,,,,,,,,,,
+,uid,pid,tablenames,uid_foreign,hidden,canonical,title,description,og_title,og_description,og_image,tw_title,tw_description,tw_image,tw_creator,tw_site,json_ld,no_index,no_follow
+,1,0,sys_category,2,1,http://canonical-of-record.org/2,,,,,,,,,,,,,
+,2,0,sys_category,3,,http://canonical-of-record.org/3,SEO title category 3,Description category 3,OG title category 3,OG description category 3,1,TW title category 3,TW description category 3,1,TW creator category 3,TW site category 3,"{""@context"": ""https://schema.org"",""@type"": ""Organization"",""url"": ""https://www.json-ld-test.com""}",,
+,3,0,sys_category,4,,http://canonical-of-record.org/4,,,,,,,,,,,,1,
+,4,0,sys_category,5,,http://canonical-of-record.org/5,,,,,,,,,,,,,1
+,5,0,sys_category,6,,http://canonical-of-record.org/6,,,,,,,,,,,,1,1
+,6,0,sys_category,71,,http://canonical-of-record.org/71,,,,,,,,,,,,,
+,7,0,sys_category,81,,,,,,,,,,,,,,1,

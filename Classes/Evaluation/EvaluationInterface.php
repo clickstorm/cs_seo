@@ -32,12 +32,10 @@ namespace Clickstorm\CsSeo\Evaluation;
  */
 interface EvaluationInterface
 {
-
     /**
      * Evaluate the html to a specific function
      *
-     * @return array
      * @api
      */
-    public function evaluate();
+    public function evaluate(): array;
 }

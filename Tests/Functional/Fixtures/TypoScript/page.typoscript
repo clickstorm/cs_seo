@@ -8,10 +8,9 @@ config.contentObjectExceptionHandler = 0
 
 ## disabled canonical
 [page["uid"] == 14]
-	config.disableCanonical = 1
-[end]
-
+config.disableCanonical = 1
+[global]
 ## disabled hreflang
 [page["uid"] == 6]
-	config.disableHrefLang = 1
-[end]
+config.disableHrefLang = 1
+[global]

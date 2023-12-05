@@ -13,11 +13,14 @@
 		"GPL-2.0-or-later"
 	],
 	"require": {
-		"typo3/cms-core": "^11.2",
-		"typo3/cms-seo": "^11.2"
+		"ext-dom": "*",
+		"typo3/cms-core": "^12.2",
+		"typo3/cms-seo": "^12.2"
 	},
 	"require-dev": {
-		"typo3/testing-framework": "*"
+		"typo3/testing-framework": "*",
+		"phpstan/phpstan": "*",
+		"typo3/coding-standards": "*"
 	},
 	"replace": {
 		"typo3-ter/cs-seo": "self.version",

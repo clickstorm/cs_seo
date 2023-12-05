@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Clickstorm\CsSeo\Service\Backend\GridService;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
@@ -19,61 +20,28 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class ModuleWebController extends AbstractModuleController
 {
-    /**
-     * pageRepository
-     *
-     * @var \TYPO3\CMS\Core\Domain\Repository\PageRepository
-     */
-    protected $pageRepository;
+    protected ?PageRepository $pageRepository = null;
 
-    /**
-     * evaluationService
-     *
-     * @var EvaluationService
-     */
-    protected $evaluationService = null;
+    protected ?EvaluationService $evaluationService = null;
 
-    /**
-     * @var \TYPO3\CMS\Core\DataHandling\DataHandler
-     */
-    public $dataHandler;
+    protected ?GridService $gridService;
 
-    /**
-     * @var GridService
-     */
-    protected $gridService;
-
-    /**
-     * available Actions in Menu
-     *
-     * @var array
-     */
-    protected $menuSetup = [
+    public static array $menuActions = [
         'pageMeta',
         'pageIndex',
         'pageOpenGraph',
         'pageTwitterCards',
         'pageStructuredData',
         'pageResults',
-        'pageEvaluation'
+        'pageEvaluation',
     ];
 
-    /**
-     * Inject a evaluationService
-     *
-     * @param EvaluationService $evaluationService
-     */
-    public function injectEvaluationService(EvaluationService $evaluationService)
+    public function injectEvaluationService(EvaluationService $evaluationService): void
     {
         $this->evaluationService = $evaluationService;
     }
 
-    /**
-     * Inject a pageRepository
-     *
-     * @param \TYPO3\CMS\Core\Domain\Repository\PageRepository $pageRepository
-     */
-    public function injectPageRepository(PageRepository $pageRepository)
+    public function injectPageRepository(PageRepository $pageRepository): void
     {
         $this->pageRepository = $pageRepository;
     }
@@ -83,10 +51,10 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageMetaAction(): ResponseInterface
     {
-        $fieldNames = ['title', 'seo_title', 'description'];
+        $fieldNames = ['title', 'seo_title', 'tx_csseo_title_only', 'description'];
 
         // get title and settings from TypoScript
-        $tsfeUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->id, $this->modParams['lang']);
+        $tsfeUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->recordId, $this->modParams['lang']);
         $this->view->assign('previewSettings', json_encode($tsfeUtility->getPreviewSettings()));
 
         return $this->htmlResponse($this->generateGridView($fieldNames));
@@ -143,7 +111,7 @@ class ModuleWebController extends AbstractModuleController
             'twitter_description',
             'tx_csseo_tw_creator',
             'tx_csseo_tw_site',
-            'twitter_image'
+            'twitter_image',
         ]));
     }
 
@@ -160,20 +128,20 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageEvaluationAction(): ResponseInterface
     {
-        $page = $this->pageRepository->getPage($this->modParams['id']);
+        $page = $this->pageRepository->getPage($this->modParams['id'], true);
         $evaluationUid = 0;
         $extKey = 'cs_seo';
         $tables = [
-            'pages' => LocalizationUtility::translate($GLOBALS['TCA']['pages']['ctrl']['title'], $extKey)
+            'pages' => LocalizationUtility::translate($GLOBALS['TCA']['pages']['ctrl']['title'], $extKey),
         ];
 
         $tablesToExtend = ConfigurationUtility::getTablesToExtend();
 
         foreach ($tablesToExtend as $tableName => $tableConfig) {
-            if ($tableConfig['evaluation'] && $tableConfig['evaluation']['detailPid']) {
+            if (!empty($tableConfig['evaluation']) && !empty($tableConfig['evaluation']['detailPid'])) {
                 $tableTitle = $GLOBALS['TCA'][$tableName]['ctrl']['title'] ?: $tableName;
 
-                if (GeneralUtility::isFirstPartOfStr($tableTitle, 'LLL:')) {
+                if (\str_starts_with($tableTitle, 'LLL:')) {
                     $tableTitle = LocalizationUtility::translate($tableTitle, $extKey);
                 }
 
@@ -183,8 +151,9 @@ class ModuleWebController extends AbstractModuleController
 
         $table = $this->modParams['table'];
         if ($table && $table !== 'pages') {
-            $records = DatabaseUtility::getRecords($table, $this->id, true);
-            if($records && $this->modParams['record'] && isset($records[$this->modParams['record']])) {
+            // @extensionScannerIgnoreLine
+            $records = DatabaseUtility::getRecords($table, $this->recordId, true);
+            if ($records && $this->modParams['record'] && isset($records[$this->modParams['record']])) {
                 $evaluationUid = $this->modParams['record'];
             }
 
@@ -196,17 +165,18 @@ class ModuleWebController extends AbstractModuleController
                 [
                     'record' => $this->modParams['record'],
                     'records' => $records,
-                    'showRecords' => true
+                    'showRecords' => true,
                 ]
             );
         } else {
             $table = 'pages';
             $languages = [];
+            $pageUid = (int)($page['uid'] ?? 0);
 
             // get available languages
-            $pageOverlays = DatabaseUtility::getPageLanguageOverlays($page['uid']);
+            $pageOverlays = DatabaseUtility::getPageLanguageOverlays($pageUid);
             // get languages
-            $allLanguages = DatabaseUtility::getLanguagesInBackend((int)$page['uid']);
+            $allLanguages = DatabaseUtility::getLanguagesInBackend($pageUid);
 
             $languages[0] = $allLanguages[0];
 
@@ -225,26 +195,29 @@ class ModuleWebController extends AbstractModuleController
                 $page = $this->pageRepository->getPageOverlay($page, $languageParam);
             }
             $evaluation = $this->evaluationService->getEvaluation($page);
-            $evaluationUid = $page['_PAGES_OVERLAY_UID'] ?? $page['uid'];
+            $evaluationUid = $page['_PAGES_OVERLAY_UID'] ?? $pageUid;
             $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?? 0;
             $this->view->assignMultiple(
                 [
                     'lang' => $languageParam,
                     'languages' => $languages,
-                    'langDisplay' => $allLanguages[$langResult]
+                    'langDisplay' => $allLanguages[$langResult],
                 ]
             );
         }
 
         if (isset($evaluation)) {
-            $results = $evaluation->getResults();
-            $score = $results['Percentage'];
-            unset($results['Percentage']);
+            $results = $evaluation->getResultsAsArray();
+
+            if(is_array($results) && isset($results['Percentage'])) {
+                $this->view->assign('score', $results['Percentage']);
+                unset($results['Percentage']);
+            }
+
             $this->view->assignMultiple(
                 [
                     'evaluation' => $evaluation,
-                    'score' => $score,
-                    'results' => $results
+                    'results' => $results,
                 ]
             );
         }
@@ -257,23 +230,21 @@ class ModuleWebController extends AbstractModuleController
                 'emConf' => $emConf,
                 'page' => $page,
                 'tables' => $tables,
-                'table' => $table
+                'table' => $table,
             ]
         );
 
         $this->requireJsModules = [
-            'TYPO3/CMS/CsSeo/Evaluation'
+            'TYPO3/CMS/CsSeo/Evaluation',
         ];
 
         $this->jsFiles = [
             'jquery.min.js',
-            'select2.js'
         ];
 
         $this->cssFiles = [
             'Icons.css',
-            'Lib/select2.css',
-            'Evaluation.css'
+            'Evaluation.css',
         ];
 
         return $this->htmlResponse($this->wrapModuleTemplate());
@@ -282,9 +253,9 @@ class ModuleWebController extends AbstractModuleController
     /**
      * Renders the menu so that it can be returned as response to an AJAX call
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param ServerRequestInterface $request
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
      */
     public function update(ServerRequestInterface $request)
     {

@@ -25,7 +25,7 @@ page.meta {
 	}
 
 	### twitter:image default ###
-	twitter:image.stdWrap.if.isTrue.data = {$plugin.tx_csseo.social.twitter.defaultImage} // {field:twitter_image}
+	twitter:image.stdWrap.if.directReturn = {$plugin.tx_csseo.social.twitter.defaultImage}
 	twitter:image.stdWrap.typolink {
 		parameter.stdWrap {
 			cObject = IMG_RESOURCE

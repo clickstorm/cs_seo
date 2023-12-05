@@ -5,8 +5,8 @@ page.headerData.657 = COA
 
 ### Disable Tracking if Backend User detected ###
 [getTSFE() && getTSFE().isBackendUserLoggedIn()]
-	page.jsInline.654 >
-	page.bodyTagCObject.654 >
-	page.includeJSFooter.654 >
-	page.headerData.657 >
-[END]
+page.jsInline.654 >
+page.bodyTagCObject.654 >
+page.includeJSFooter.654 >
+page.headerData.657 >
+[global]

@@ -44,6 +44,8 @@ Add the following yaml content to a file EXT:myext/Configuration/CsSeo/config.ya
             title: title
 
             # cs_seo description field fallback = mymod description field
+            # you can use double slashes for multiple fallback options, e.g. 'teaser // abstract'
+            # in this case the first field with content will be used
             # also more fields possible within curly brackets, e.g. description: {teaser} - {company}
             description: description
 
