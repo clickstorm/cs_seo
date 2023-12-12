@@ -1,5 +1,5 @@
 ### Exclude from search engines ###
-[request.getQueryParams()['tx_form_formframework'] > 0]
+[request && traverse(request.getQueryParams(), 'tx_form_formframework') > 0]
     ### Set no index ###
     page.meta.robots.if >
     page.headerData.654 >
