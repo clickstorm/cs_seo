@@ -153,7 +153,7 @@ class MetaDataService
             'uid',
             $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)
         ))->executeQuery()
-            ->fetch();
+            ->fetchAssociative();
 
         if (is_array($row)) {
             $this->pageRepository->versionOL($tableSettings['table'], $row);
@@ -162,6 +162,8 @@ class MetaDataService
                 $row,
                 $this->languageAspect
             );
+        } else {
+            return null;
         }
 
         return $row;
