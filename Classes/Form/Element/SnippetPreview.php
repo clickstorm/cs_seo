@@ -182,7 +182,7 @@ class SnippetPreview extends AbstractNode
                             $fallback['table'] = $data['tablenames'];
                         }
 
-                        $pageTitle = $TSFEUtility->getFinalTitle($data['title']);
+                        $pageTitle = $TSFEUtility->getFinalTitle($data['title'], !empty($data['title_only']));
                         $path = '';
                     }
 
