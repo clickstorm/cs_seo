@@ -111,6 +111,10 @@ class SnippetPreview {
       title = inputFallbackTitleEl.value;
     }
 
+    if(title === '' && titleEl.dataset.fallbackTitleValue !== null) {
+      title = titleEl.dataset.fallbackTitleValue;
+    }
+
     if (!titleOnly) {
       if (titleEl.dataset.first) {
         title += separator + siteTitle;
