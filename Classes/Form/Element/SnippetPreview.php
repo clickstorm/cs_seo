@@ -168,7 +168,7 @@ class SnippetPreview extends AbstractNode
                                 ->from($data['tablenames'])->where($queryBuilder->expr()->eq(
                                 'uid',
                                 $queryBuilder->createNamedParameter($data['uid_foreign'], \PDO::PARAM_INT)
-                            ))->executeQuery()->fetchAll();
+                            ))->executeQuery()->fetchAllAssociative();
 
                             $row = $res[0];
 

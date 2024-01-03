@@ -132,7 +132,7 @@ class EvaluationCommand extends Command
         }
 
         return $queryBuilder->select('*')->from($this->tableName)->executeQuery()
-            ->fetchAll();
+            ->fetchAllAssociative();
     }
 
     /**

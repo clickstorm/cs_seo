@@ -202,7 +202,7 @@ class DatabaseUtility
             $queryBuilder->setMaxResults(1);
         }
 
-        return $queryBuilder->execute()->fetchAll();
+        return $queryBuilder->executeQuery()->fetchAllAssociative();
     }
 
     public static function getLanguagesInBackend(int $pageId = 0): array

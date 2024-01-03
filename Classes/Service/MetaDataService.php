@@ -181,7 +181,7 @@ class MetaDataService
             ->from(self::TABLE_NAME_META)->where($queryBuilder->expr()->eq(
             'uid_foreign',
             $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)
-        ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableSettings['table'])))->executeQuery()->fetchAll();
+        ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableSettings['table'])))->executeQuery()->fetchAllAssociative();
 
         return isset($res[0]) ? $res[0] : [];
     }

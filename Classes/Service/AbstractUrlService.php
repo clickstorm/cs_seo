@@ -47,7 +47,7 @@ abstract class AbstractUrlService
                 'uid',
                 $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
             ))->executeQuery()
-                ->fetchAll();
+                ->fetchAllAssociative();
 
             return $items[0]['sys_language_uid'];
         }
@@ -94,7 +94,7 @@ abstract class AbstractUrlService
             'uid',
             $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
         ))->executeQuery()
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         // second get all items with canonical or no_index, to remove them
         // until https://forge.typo3.org/issues/86385 is not fixed, this has to be done in two queries
@@ -184,7 +184,7 @@ abstract class AbstractUrlService
             $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'],
             $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
         ))->executeQuery()
-            ->fetchAll();
+            ->fetchAllAssociative();
 
         foreach ($items as $item) {
             $res[$item['sys_language_uid']] = $item['canonical_link'];
