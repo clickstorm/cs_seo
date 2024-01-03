@@ -56,6 +56,12 @@ class TSFEUtility
         $this->pageUid = $pageUid;
         $this->workspaceUid = $GLOBALS['BE_USER']->workspace ?? 0;
         $this->lang = (int)(is_array($lang) ? array_shift($lang) : $lang);
+
+        // fix if lang is -1
+        if ($this->lang < 0) {
+            $this->lang = 0;
+        }
+
         $this->typeNum = $typeNum;
         if (!isset($GLOBALS['TSFE'])
             || ($this->isEnvironmentInBackendMode()
