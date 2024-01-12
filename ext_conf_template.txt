@@ -28,7 +28,7 @@ minTitle = 40
 # cat=evaluation/050; type=integer; label= Min characters of an optimal description
 minDescription = 140
 
-# cat=evaluation/055; type=boolean; label= Force the min length in TCA
+# cat=evaluation/055; type=integer; label= Force this min length in TCA
 forceMinDescription = 140
 
 # cat=evaluation/060; type=integer; label= Max number of h2 headlines in one page
