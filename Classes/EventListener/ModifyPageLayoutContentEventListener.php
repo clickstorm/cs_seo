@@ -139,7 +139,7 @@ class ModifyPageLayoutContentEventListener
     {
         $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
 
-        return in_array($this->pageInfo['doktype'], $allowedDoktypes) && $this->pageInfo['hidden'] == 0;
+        return isset($this->pageInfo['doktype']) && in_array($this->pageInfo['doktype'], $allowedDoktypes) && $this->pageInfo['hidden'] == 0;
     }
 
     /**
