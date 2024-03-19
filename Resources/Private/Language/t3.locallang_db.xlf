@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang_db.xlf" date="2021-06-10T11:44:27Z" product-name="cs_seo" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="evaluation.tca.robots_txt.robots_disallow_all" resname="evaluation.tca.robots_txt.robots_disallow_all">
+        <source>Warning! The &quot;Disallow: /&quot; tells the robot that it should not visit any pages on your site.</source>
+        <target>crwdns313134:0crwdne313134:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.tca.robots_txt.robots_exists" resname="evaluation.tca.robots_txt.robots_exists">
+        <source>Warning! If you want to use this Robots setting, you must remove the robots.txt in your web root.</source>
+        <target>crwdns313136:0crwdne313136:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.tca.json_ld.invalid_json" resname="evaluation.tca.json_ld.invalid_json">
+        <source>The JSON-LD markup is anvalid. </source>
+        <target>crwdns313138:0crwdne313138:0</target>
+      </trans-unit>
+      <trans-unit id="pages.description" resname="pages.description">
+        <source>Description</source>
+        <target>crwdns313140:0crwdne313140:0</target>
+      </trans-unit>
+      <trans-unit id="pages.palette.tx_csseo_facebook" resname="pages.palette.tx_csseo_facebook">
+        <source>Facebook (Open Graph)</source>
+        <target>crwdns313142:0crwdne313142:0</target>
+      </trans-unit>
+      <trans-unit id="pages.palette.tx_csseo_index" resname="pages.palette.tx_csseo_index">
+        <source>Page Indexing</source>
+        <target>crwdns313144:0crwdne313144:0</target>
+      </trans-unit>
+      <trans-unit id="pages.palette.tx_csseo_preview" resname="pages.palette.tx_csseo_preview">
+        <source>In Search Results</source>
+        <target>crwdns313146:0crwdne313146:0</target>
+      </trans-unit>
+      <trans-unit id="pages.palette.tx_csseo_twitter" resname="pages.palette.tx_csseo_twitter">
+        <source>Twitter Cards</source>
+        <target>crwdns313148:0crwdne313148:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tab.seo" resname="pages.tab.seo">
+        <source>SEO</source>
+        <target>crwdns313150:0crwdne313150:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tab.social" resname="pages.tab.social">
+        <source>Social Media</source>
+        <target>crwdns313152:0crwdne313152:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_canonical" resname="pages.tx_csseo_canonical">
+        <source>Canonical URL</source>
+        <target>crwdns313154:0crwdne313154:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_json_ld" resname="pages.tx_csseo_json_ld">
+        <source>Structured Data (JSON-LD)</source>
+        <target>crwdns313156:0crwdne313156:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_keyword" resname="pages.tx_csseo_keyword">
+        <source>Focus Keyword</source>
+        <target>crwdns313158:0crwdne313158:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_no_follow" resname="pages.tx_csseo_no_follow">
+        <source>No Follow</source>
+        <target>crwdns313160:0crwdne313160:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_no_index" resname="pages.tx_csseo_no_index">
+        <source>No Index</source>
+        <target>crwdns313162:0crwdne313162:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_og_description" resname="pages.tx_csseo_og_description">
+        <source>Facebook Description</source>
+        <target>crwdns313164:0crwdne313164:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_og_image" resname="pages.tx_csseo_og_image">
+        <source>Facebook Image</source>
+        <target>crwdns313166:0crwdne313166:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_og_title" resname="pages.tx_csseo_og_title">
+        <source>Facebook Title</source>
+        <target>crwdns313168:0crwdne313168:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_title" resname="pages.tx_csseo_title">
+        <source>Browser Title</source>
+        <target>crwdns313170:0crwdne313170:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_title_only">
+        <source>Title only</source>
+        <target>crwdns313172:0crwdne313172:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_tw_creator" resname="pages.tx_csseo_tw_creator">
+        <source>Twitter Creator</source>
+        <target>crwdns313174:0crwdne313174:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_tw_description" resname="pages.tx_csseo_tw_description">
+        <source>Twitter Description</source>
+        <target>crwdns313176:0crwdne313176:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_tw_image" resname="pages.tx_csseo_tw_image">
+        <source>Twitter Image</source>
+        <target>crwdns313178:0crwdne313178:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_tw_site" resname="pages.tx_csseo_tw_site">
+        <source>Twitter Site</source>
+        <target>crwdns313180:0crwdne313180:0</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_tw_title" resname="pages.tx_csseo_tw_title">
+        <source>Twitter Title</source>
+        <target>crwdns313182:0crwdne313182:0</target>
+      </trans-unit>
+      <trans-unit id="sys_domain.tab.robots_txt" resname="sys_domain.tab.robots_txt">
+        <source>Robots.txt</source>
+        <target>crwdns313184:0crwdne313184:0</target>
+      </trans-unit>
+      <trans-unit id="sys_domain.tx_csseo_robots_txt" resname="sys_domain.tx_csseo_robots_txt">
+        <source>Robots.txt</source>
+        <target>crwdns313186:0crwdne313186:0</target>
+      </trans-unit>
+      <trans-unit id="tx_csseo_domain_model_evaluation.results" resname="tx_csseo_domain_model_evaluation.results">
+        <source>Results</source>
+        <target>crwdns313188:0crwdne313188:0</target>
+      </trans-unit>
+      <trans-unit id="tx_csseo_domain_model_evaluation.url" resname="tx_csseo_domain_model_evaluation.url">
+        <source>URL</source>
+        <target>crwdns313190:0crwdne313190:0</target>
+      </trans-unit>
+      <trans-unit id="tx_csseo_domain_model_meta" resname="tx_csseo_domain_model_meta">
+        <source>SEO options</source>
+        <target>crwdns313192:0crwdne313192:0</target>
+      </trans-unit>
+      <trans-unit id="tx_csseo_domain_model_meta.description" resname="tx_csseo_domain_model_meta.description">
+        <source>Description</source>
+        <target>crwdns313194:0crwdne313194:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
