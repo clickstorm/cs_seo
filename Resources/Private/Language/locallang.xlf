@@ -85,7 +85,7 @@
 				<source>Incorrect</source>
 			</trans-unit>
 			<trans-unit id="evaluation.headingOrder.settings" resname="evaluation.headingOrder.settings">
-				<source>The hierarchical order of headings (h1-h6) should be correct, e.g. an h2 heading should always be below an h1 heading. If your page has headings, you can see the current order here.</source>
+				<source>The hierarchical order of headings (h1-h6) should be correct, e.g. a h2 heading should always be below a h1 heading. If your page has headings, you can see the current order here.</source>
 			</trans-unit>
 			<trans-unit id="evaluation.header" resname="evaluation.header">
 				<source>SEO - Content Analysis</source>
