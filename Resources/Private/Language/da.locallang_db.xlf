@@ -3,37 +3,130 @@
   <file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang_db.xlf" date="2021-06-10T11:44:27Z" product-name="cs_seo" target-language="da">
     <header/>
     <body>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-		</body>
+      <trans-unit id="evaluation.tca.robots_txt.robots_disallow_all" resname="evaluation.tca.robots_txt.robots_disallow_all" approved="yes">
+        <source>Warning! The &quot;Disallow: /&quot; tells the robot that it should not visit any pages on your site.</source>
+        <target state="final">Advarsel! "Disallow: /" fortæller robotten at den ikke bør besøge nogen sider på dit websted.</target>
+      </trans-unit>
+      <trans-unit id="evaluation.tca.robots_txt.robots_exists" resname="evaluation.tca.robots_txt.robots_exists" approved="yes">
+        <source>Warning! If you want to use this Robots setting, you must remove the robots.txt in your web root.</source>
+        <target state="final">Advarsel! Hvis du vil bruge denne robots-indstilling, skal du fjerne robots.txt i din web-rod.</target>
+      </trans-unit>
+      <trans-unit id="evaluation.tca.json_ld.invalid_json" resname="evaluation.tca.json_ld.invalid_json" approved="yes">
+        <source>The JSON-LD markup is anvalid. </source>
+        <target state="final">JSON-LD markup er ugyldig. </target>
+      </trans-unit>
+      <trans-unit id="pages.description" resname="pages.description" approved="yes">
+        <source>Description</source>
+        <target state="final">Beskrivelse</target>
+      </trans-unit>
+      <trans-unit id="pages.palette.tx_csseo_facebook" resname="pages.palette.tx_csseo_facebook" approved="yes">
+        <source>Facebook (Open Graph)</source>
+        <target state="final">Facebook (Open Graph)</target>
+      </trans-unit>
+      <trans-unit id="pages.palette.tx_csseo_index" resname="pages.palette.tx_csseo_index" approved="yes">
+        <source>Page Indexing</source>
+        <target state="final">Side-indeksering</target>
+      </trans-unit>
+      <trans-unit id="pages.palette.tx_csseo_preview" resname="pages.palette.tx_csseo_preview" approved="yes">
+        <source>In Search Results</source>
+        <target state="final">I Søgeresultater</target>
+      </trans-unit>
+      <trans-unit id="pages.palette.tx_csseo_twitter" resname="pages.palette.tx_csseo_twitter" approved="yes">
+        <source>Twitter Cards</source>
+        <target state="final">Twitter Cards</target>
+      </trans-unit>
+      <trans-unit id="pages.tab.seo" resname="pages.tab.seo" approved="yes">
+        <source>SEO</source>
+        <target state="final">SEO</target>
+      </trans-unit>
+      <trans-unit id="pages.tab.social" resname="pages.tab.social" approved="yes">
+        <source>Social Media</source>
+        <target state="final">Sociale medier</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_canonical" resname="pages.tx_csseo_canonical" approved="yes">
+        <source>Canonical URL</source>
+        <target state="final">Canonical URL</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_json_ld" resname="pages.tx_csseo_json_ld" approved="yes">
+        <source>Structured Data (JSON-LD)</source>
+        <target state="final">Strukturerede Data (JSON-LD)</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_keyword" resname="pages.tx_csseo_keyword" approved="yes">
+        <source>Focus Keyword</source>
+        <target state="final">Fokus-nøgleord</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_no_follow" resname="pages.tx_csseo_no_follow" approved="yes">
+        <source>No Follow</source>
+        <target state="final">No Follow</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_no_index" resname="pages.tx_csseo_no_index" approved="yes">
+        <source>No Index</source>
+        <target state="final">No Index</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_og_description" resname="pages.tx_csseo_og_description" approved="yes">
+        <source>Facebook Description</source>
+        <target state="final">Facebook beskrivelse</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_og_image" resname="pages.tx_csseo_og_image" approved="yes">
+        <source>Facebook Image</source>
+        <target state="final">Facebook billede</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_og_title" resname="pages.tx_csseo_og_title" approved="yes">
+        <source>Facebook Title</source>
+        <target state="final">Facebook titel</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_title" resname="pages.tx_csseo_title" approved="yes">
+        <source>Browser Title</source>
+        <target state="final">Browsertitel</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_title_only" approved="yes">
+        <source>Title only</source>
+        <target state="final">Kun titel</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_tw_creator" resname="pages.tx_csseo_tw_creator" approved="yes">
+        <source>Twitter Creator</source>
+        <target state="final">Twitter ophav</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_tw_description" resname="pages.tx_csseo_tw_description" approved="yes">
+        <source>Twitter Description</source>
+        <target state="final">Twitter beskrivelse</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_tw_image" resname="pages.tx_csseo_tw_image" approved="yes">
+        <source>Twitter Image</source>
+        <target state="final">Twitter billede</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_tw_site" resname="pages.tx_csseo_tw_site" approved="yes">
+        <source>Twitter Site</source>
+        <target state="final">Twitter websted</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_tw_title" resname="pages.tx_csseo_tw_title" approved="yes">
+        <source>Twitter Title</source>
+        <target state="final">Twitter titel</target>
+      </trans-unit>
+      <trans-unit id="sys_domain.tab.robots_txt" resname="sys_domain.tab.robots_txt" approved="yes">
+        <source>Robots.txt</source>
+        <target state="final">Robots.txt</target>
+      </trans-unit>
+      <trans-unit id="sys_domain.tx_csseo_robots_txt" resname="sys_domain.tx_csseo_robots_txt" approved="yes">
+        <source>Robots.txt</source>
+        <target state="final">Robots.txt</target>
+      </trans-unit>
+      <trans-unit id="tx_csseo_domain_model_evaluation.results" resname="tx_csseo_domain_model_evaluation.results" approved="yes">
+        <source>Results</source>
+        <target state="final">Resultater</target>
+      </trans-unit>
+      <trans-unit id="tx_csseo_domain_model_evaluation.url" resname="tx_csseo_domain_model_evaluation.url" approved="yes">
+        <source>URL</source>
+        <target state="final">URL</target>
+      </trans-unit>
+      <trans-unit id="tx_csseo_domain_model_meta" resname="tx_csseo_domain_model_meta" approved="yes">
+        <source>SEO options</source>
+        <target state="final">SEO indstillinger</target>
+      </trans-unit>
+      <trans-unit id="tx_csseo_domain_model_meta.description" resname="tx_csseo_domain_model_meta.description" approved="yes">
+        <source>Description</source>
+        <target state="final">Beskrivelse</target>
+      </trans-unit>
+    </body>
   </file>
 </xliff>
