@@ -176,6 +176,10 @@ class DatabaseUtility
                     'file.storage',
                     $queryBuilder->createNamedParameter($storage, \PDO::PARAM_INT)
                 ),
+                $queryBuilder->expr()->eq(
+                    'file.missing',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ),
                 $folderExpression,
                 // always check the default language of sys_file_metadata
                 $queryBuilder->expr()->in(
