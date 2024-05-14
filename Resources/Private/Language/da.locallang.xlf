@@ -111,10 +111,6 @@
         <source>Incorrect</source>
         <target state="final">Ukorrekt</target>
       </trans-unit>
-      <trans-unit id="evaluation.headingOrder.settings" resname="evaluation.headingOrder.settings" approved="yes">
-        <source>The hierarchical order of headings (h1-h6) should be correct, e.g. an h2 heading should always be below an h1 heading. If your page has headings, you can see the current order here.</source>
-        <target state="final">Den hierarkiske rækkefølge af overskrifter (h1-h6) skal være korrekt, f.eks. en h2 overskrift skal altid være under en h1 overskrift. Hvis din side har overskrifter, kan du se den aktuelle rækkefølge her.</target>
-      </trans-unit>
       <trans-unit id="evaluation.header" resname="evaluation.header" approved="yes">
         <source>SEO - Content Analysis</source>
         <target state="final">SEO - Indholdsanalyse</target>
