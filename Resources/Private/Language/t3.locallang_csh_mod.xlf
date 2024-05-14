@@ -16,7 +16,7 @@
         <target>crwdns313098:0crwdne313098:0</target>
       </trans-unit>
       <trans-unit id="mod_file.details" resname="mod_file.details">
-        <source>An alternative describes the content of an image. This text should always be set. Manly because of the following two reasons:
+        <source>An alternative describes the content of an image. This text should always be set. Mainly because of the following two reasons:
 
 					&lt;b&gt;Search Engines&lt;/b&gt;
 					With an alternative text the image can be indexed by Search Engines like Google.
@@ -33,7 +33,7 @@
 
 					If you entered an alternative text and press save, you see the next image which misses an alternative text, if there is one.
 				</source>
-        <target>crwdns313100:0crwdne313100:0</target>
+        <target>crwdns336848:0crwdne336848:0</target>
       </trans-unit>
     </body>
   </file>
