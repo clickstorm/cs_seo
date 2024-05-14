@@ -112,8 +112,8 @@
         <target>crwdns312944:0crwdne312944:0</target>
       </trans-unit>
       <trans-unit id="evaluation.headingOrder.settings" resname="evaluation.headingOrder.settings">
-        <source>The hierarchical order of headings (h1-h6) should be correct, e.g. an h2 heading should always be below an h1 heading. If your page has headings, you can see the current order here.</source>
-        <target>crwdns312946:0crwdne312946:0</target>
+        <source>The hierarchical order of headings (h1-h6) should be correct, e.g. a h2 heading should always be below a h1 heading. If your page has headings, you can see the current order here.</source>
+        <target>crwdns336846:0crwdne336846:0</target>
       </trans-unit>
       <trans-unit id="evaluation.header" resname="evaluation.header">
         <source>SEO - Content Analysis</source>
