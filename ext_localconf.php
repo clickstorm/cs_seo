@@ -14,7 +14,7 @@ defined('TYPO3') || die();
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['Clickstorm\\CsSeo\\Evaluation\\TCA\\RobotsExistsEvaluator'] = '';
 
     // new field types
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1524490067] = [
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1524490066] = [
         'nodeName' => 'snippetPreview',
         'priority' => 30,
         'class' => SnippetPreview::class,
