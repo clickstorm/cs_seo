@@ -12,8 +12,8 @@
         <target>crwdns313136:0crwdne313136:0</target>
       </trans-unit>
       <trans-unit id="evaluation.tca.json_ld.invalid_json" resname="evaluation.tca.json_ld.invalid_json">
-        <source>The JSON-LD markup is anvalid. </source>
-        <target>crwdns313138:0crwdne313138:0</target>
+        <source>The JSON-LD markup is invalid. </source>
+        <target>crwdns336868:0crwdne336868:0</target>
       </trans-unit>
       <trans-unit id="pages.description" resname="pages.description">
         <source>Description</source>
