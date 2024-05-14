@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2023-06-06T08:25:12Z" product-name="cs_seo" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="date.format" resname="date.format">
+        <source>%m/%d/%Y %I:%M %p</source>
+        <target>crwdns312892:0%mcrwdnd312892:0%dcrwdnd312892:0%Y %Icrwdnd312892:0%Mcrwdnd312892:0%pcrwdne312892:0</target>
+      </trans-unit>
+      <trans-unit id="error.no_data" resname="error.no_data">
+        <source>Click 'Save' to show the preview.</source>
+        <target>crwdns312894:0crwdne312894:0</target>
+      </trans-unit>
+      <trans-unit id="error.no_ts" resname="error.no_ts">
+        <source>No page with typeNum 654 found. Please include the TypoScript from the 'cs_seo' Extension in your root TypoScript.</source>
+        <target>crwdns312896:0crwdne312896:0</target>
+      </trans-unit>
+      <trans-unit id="error.no_tsfe" resname="error.no_tsfe">
+        <source>The TypoScript of the current page could not be loaded.</source>
+        <target>crwdns312898:0crwdne312898:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.description" resname="evaluation.description">
+        <source>Meta Description</source>
+        <target>crwdns312900:0crwdne312900:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.description.0" resname="evaluation.description.0">
+        <source>is not set</source>
+        <target>crwdns312902:0crwdne312902:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.description.1" resname="evaluation.description.1">
+        <source>does not have the optimal length</source>
+        <target>crwdns312904:0crwdne312904:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.description.2" resname="evaluation.description.2">
+        <source>has the optimal length</source>
+        <target>crwdns312906:0crwdne312906:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.description.count" resname="evaluation.description.count">
+        <source>The current description consists of %1$s characters.</source>
+        <target>crwdns312908:0%1$scrwdne312908:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.description.no" resname="evaluation.description.no">
+        <source>No description is given.</source>
+        <target>crwdns312910:0crwdne312910:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.description.settings" resname="evaluation.description.settings">
+        <source>The optimal length of the meta description is between %1$s and %2$s characters incl. white spaces.</source>
+        <target>crwdns312912:0%1$scrwdnd312912:0%2$scrwdne312912:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.details" resname="evaluation.details">
+        <source>Details</source>
+        <target>crwdns312914:0crwdne312914:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.frontend" resname="evaluation.frontend">
+        <source>Open page in new window</source>
+        <target>crwdns312916:0crwdne312916:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.h1" resname="evaluation.h1">
+        <source>H1 headline</source>
+        <target>crwdns312918:0crwdne312918:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.h1.0" resname="evaluation.h1.0">
+        <source>%1$s headlines were found</source>
+        <target>crwdns312920:0%1$scrwdne312920:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.h1.2" resname="evaluation.h1.2">
+        <source>one headline was found</source>
+        <target>crwdns312922:0crwdne312922:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.h1.settings" resname="evaluation.h1.settings">
+        <source>The page should contain one h1 headline.</source>
+        <target>crwdns312924:0crwdne312924:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.h2" resname="evaluation.h2">
+        <source>H2 headlines</source>
+        <target>crwdns312926:0crwdne312926:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.h2.0" resname="evaluation.h2.0">
+        <source>No headlines were found</source>
+        <target>crwdns312928:0crwdne312928:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.h2.1" resname="evaluation.h2.1">
+        <source>There are too many headlines (%1$s) on the page</source>
+        <target>crwdns312930:0%1$scrwdne312930:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.h2.2" resname="evaluation.h2.2">
+        <source>The number of headlines is optimal</source>
+        <target>crwdns312932:0crwdne312932:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.h2.settings" resname="evaluation.h2.settings">
+        <source>The page should contain not more than %1$s h2 headlines.</source>
+        <target>crwdns312934:0%1$scrwdne312934:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.headingOrder" resname="evaluation.headingOrder">
+        <source>Heading order</source>
+        <target>crwdns312936:0crwdne312936:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.headingOrder.0" resname="evaluation.headingOrder.0">
+        <source>Number of incorrect headlines: %1$s</source>
+        <target>crwdns312938:0%1$scrwdne312938:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.headingOrder.1" resname="evaluation.headingOrder.1">
+        <source>No headlines were found</source>
+        <target>crwdns312940:0crwdne312940:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.headingOrder.2" resname="evaluation.headingOrder.2">
+        <source>The hierarchical order of the headings is correct</source>
+        <target>crwdns312942:0crwdne312942:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.headingOrder.incorrectItem" resname="evaluation.headingOrder.incorrectItem">
+        <source>Incorrect</source>
+        <target>crwdns312944:0crwdne312944:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.headingOrder.settings" resname="evaluation.headingOrder.settings">
+        <source>The hierarchical order of headings (h1-h6) should be correct, e.g. an h2 heading should always be below an h1 heading. If your page has headings, you can see the current order here.</source>
+        <target>crwdns312946:0crwdne312946:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.header" resname="evaluation.header">
+        <source>SEO - Content Analysis</source>
+        <target>crwdns312948:0crwdne312948:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.headlines.count" resname="evaluation.headlines.count">
+        <source>Number of headlines found: %1$s.</source>
+        <target>crwdns312950:0%1$scrwdne312950:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.images" resname="evaluation.images">
+        <source>Alt attributes</source>
+        <target>crwdns312952:0crwdne312952:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.images.0" resname="evaluation.images.0">
+        <source>There is no image with an alternative text</source>
+        <target>crwdns312954:0crwdne312954:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.images.1" resname="evaluation.images.1">
+        <source>%1$s image(s) without an alternative text</source>
+        <target>crwdns312956:0%1$scrwdne312956:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.images.2" resname="evaluation.images.2">
+        <source>Every image has an alternative text</source>
+        <target>crwdns312958:0crwdne312958:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.images.no" resname="evaluation.images.no">
+        <source>There are no images on the page</source>
+        <target>crwdns312960:0crwdne312960:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.images.settings" resname="evaluation.images.settings">
+        <source>The content of each image should be described in the &quot;alt&quot; attribute.</source>
+        <target>crwdns312962:0crwdne312962:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.images.withoutAlt" resname="evaluation.images.withoutAlt">
+        <source>Images without an alt attribut</source>
+        <target>crwdns312964:0crwdne312964:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.keyword" resname="evaluation.keyword">
+        <source>Focus Keyword</source>
+        <target>crwdns312966:0crwdne312966:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.keyword.0" resname="evaluation.keyword.0">
+        <source>The keyword was not found anywhere</source>
+        <target>crwdns312968:0crwdne312968:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.keyword.1" resname="evaluation.keyword.1">
+        <source>The keyword is missing in:</source>
+        <target>crwdns312970:0crwdne312970:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.keyword.1.body" resname="evaluation.keyword.1.body">
+        <source>content</source>
+        <target>crwdns312972:0crwdne312972:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.keyword.1.description" resname="evaluation.keyword.1.description">
+        <source>description</source>
+        <target>crwdns312974:0crwdne312974:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.keyword.1.title" resname="evaluation.keyword.1.title">
+        <source>title</source>
+        <target>crwdns312976:0crwdne312976:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.keyword.2" resname="evaluation.keyword.2">
+        <source>The keyword was found in title, description and content</source>
+        <target>crwdns312978:0crwdne312978:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.keyword.no" resname="evaluation.keyword.no">
+        <source>No keyword was set</source>
+        <target>crwdns312980:0crwdne312980:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.keyword.settings" resname="evaluation.keyword.settings">
+        <source>The focus keyword is the word under which the page should be found in external search engines. It should appear in the browser title, the meta description and the content.</source>
+        <target>crwdns312982:0crwdne312982:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.link.results" resname="evaluation.link.results">
+        <source>Toggle results</source>
+        <target>crwdns312984:0crwdne312984:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.more" resname="evaluation.more">
+        <source>More information</source>
+        <target>crwdns312986:0crwdne312986:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.no_record.header" resname="evaluation.no_record.header">
+        <source>No record selected</source>
+        <target>crwdns312988:0crwdne312988:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.no_record.text" resname="evaluation.no_record.text">
+        <source>Please select a record in the dropdown from type </source>
+        <target>crwdns312990:0crwdne312990:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.no_records.header" resname="evaluation.no_records.header">
+        <source>No records found</source>
+        <target>crwdns312992:0crwdne312992:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.no_records.text" resname="evaluation.no_records.text">
+        <source>Please select a page or folder with records of the type</source>
+        <target>crwdns312994:0crwdne312994:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.no_results" resname="evaluation.no_results">
+        <source>No results. Press update.</source>
+        <target>crwdns312996:0crwdne312996:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.title" resname="evaluation.title">
+        <source>Browser title</source>
+        <target>crwdns312998:0crwdne312998:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.title.0" resname="evaluation.title.0">
+        <source>is not set.</source>
+        <target>crwdns313000:0crwdne313000:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.title.1" resname="evaluation.title.1">
+        <source>does not have the optimal length.</source>
+        <target>crwdns313002:0crwdne313002:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.title.2" resname="evaluation.title.2">
+        <source>has the optimal length.</source>
+        <target>crwdns313004:0crwdne313004:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.title.count" resname="evaluation.title.count">
+        <source>The current title consists of %1$s characters.</source>
+        <target>crwdns313006:0%1$scrwdne313006:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.title.no" resname="evaluation.title.no">
+        <source>No title was found.</source>
+        <target>crwdns313008:0crwdne313008:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.title.settings" resname="evaluation.title.settings">
+        <source>The optimal length of the browser title is between %1$s and %2$s characters incl. white spaces.</source>
+        <target>crwdns313010:0%1$scrwdnd313010:0%2$scrwdne313010:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.tstamp" resname="evaluation.tstamp">
+        <source>Last update</source>
+        <target>crwdns313012:0crwdne313012:0</target>
+      </trans-unit>
+      <trans-unit id="evaluation.update" resname="evaluation.update">
+        <source>Update</source>
+        <target>crwdns313014:0crwdne313014:0</target>
+      </trans-unit>
+      <trans-unit id="layouts.module.action.pageEvaluation" resname="layouts.module.action.pageEvaluation">
+        <source>Evaluation</source>
+        <target>crwdns313016:0crwdne313016:0</target>
+      </trans-unit>
+      <trans-unit id="layouts.module.action.pageIndex" resname="layouts.module.action.pageIndex">
+        <source>Index</source>
+        <target>crwdns313018:0crwdne313018:0</target>
+      </trans-unit>
+      <trans-unit id="layouts.module.action.pageMeta" resname="layouts.module.action.pageMeta">
+        <source>SEO</source>
+        <target>crwdns313020:0crwdne313020:0</target>
+      </trans-unit>
+      <trans-unit id="layouts.module.action.pageOpenGraph" resname="layouts.module.action.pageOpenGraph">
+        <source>Open Graph</source>
+        <target>crwdns313022:0crwdne313022:0</target>
+      </trans-unit>
+      <trans-unit id="layouts.module.action.pageResults" resname="layouts.module.action.pageResults">
+        <source>Results</source>
+        <target>crwdns313024:0crwdne313024:0</target>
+      </trans-unit>
+      <trans-unit id="layouts.module.action.pageTwitterCards" resname="layouts.module.action.pageTwitterCards">
+        <source>Twitter Cards</source>
+        <target>crwdns313026:0crwdne313026:0</target>
+      </trans-unit>
+      <trans-unit id="layouts.module.action.pageStructuredData" resname="layouts.module.action.pageStructuredData">
+        <source>Structured Data</source>
+        <target>crwdns313028:0crwdne313028:0</target>
+      </trans-unit>
+      <trans-unit id="layouts.module.action.showEmptyImageAlt" resname="layouts.module.action.showEmptyImageAlt">
+        <source>Add an alternative text to an image</source>
+        <target>crwdns313030:0crwdne313030:0</target>
+      </trans-unit>
+      <trans-unit id="partials.module.evaluation.lang" resname="partials.module.evaluation.lang">
+        <source>Show results for language:</source>
+        <target>crwdns313032:0crwdne313032:0</target>
+      </trans-unit>
+      <trans-unit id="partials.module.grid.error.no_page" resname="partials.module.grid.error.no_page">
+        <source>Please select a page in the page tree.</source>
+        <target>crwdns313034:0crwdne313034:0</target>
+      </trans-unit>
+      <trans-unit id="partials.module.select.depth" resname="partials.module.select.depth">
+        <source>Depth</source>
+        <target>crwdns313036:0crwdne313036:0</target>
+      </trans-unit>
+      <trans-unit id="partials.module.select.lang" resname="partials.module.select.lang">
+        <source>Language</source>
+        <target>crwdns313038:0crwdne313038:0</target>
+      </trans-unit>
+      <trans-unit id="partials.module.select.record" resname="partials.module.select.record">
+        <source>Record</source>
+        <target>crwdns313040:0crwdne313040:0</target>
+      </trans-unit>
+      <trans-unit id="partials.module.select.table" resname="partials.module.select.table">
+        <source>Table</source>
+        <target>crwdns313042:0crwdne313042:0</target>
+      </trans-unit>
+      <trans-unit id="partials.module.state.error" resname="partials.module.state.error">
+        <source>An error occured! {{ msg.error }}</source>
+        <target>crwdns313044:0{{ msg.error }}crwdne313044:0</target>
+      </trans-unit>
+      <trans-unit id="partials.module.state.hint" resname="partials.module.state.hint">
+        <source>To modify double click on the desired field. The changes are saved automatically. The columns can be moved, enlarged and hidden.</source>
+        <target>crwdns313046:0crwdne313046:0</target>
+      </trans-unit>
+      <trans-unit id="partials.module.state.no_changes" resname="partials.module.state.no_changes">
+        <source>Nothing has been changed.</source>
+        <target>crwdns313048:0crwdne313048:0</target>
+      </trans-unit>
+      <trans-unit id="partials.module.state.success" resname="partials.module.state.success">
+        <source>Updated [{{ msg.field }}] {{ msg.value }}</source>
+        <target>crwdns313050:0{{ msg.field }}crwdnd313050:0{{ msg.value }}crwdne313050:0</target>
+      </trans-unit>
+      <trans-unit id="partials.module.state.wait" resname="partials.module.state.wait">
+        <source>[{{ msg.field }}] wait...</source>
+        <target>crwdns313052:0{{ msg.field }}crwdne313052:0</target>
+      </trans-unit>
+      <trans-unit id="select.prepend" resname="select.prepend">
+        <source>Please choose</source>
+        <target>crwdns313054:0crwdne313054:0</target>
+      </trans-unit>
+      <trans-unit id="templates.wizard.description" resname="templates.wizard.description">
+        <source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
+        <target>crwdns313056:0crwdne313056:0</target>
+      </trans-unit>
+      <trans-unit id="module.file.count" resname="module.file.count">
+        <source>Images with an alternative text / images in total</source>
+        <target>crwdns313058:0crwdne313058:0</target>
+      </trans-unit>
+      <trans-unit id="module.file.countWithoutAlt" resname="module.file.countWithoutAlt">
+        <source>Current image without an alternative text: %1$s from %2$s</source>
+        <target>crwdns313060:0%1$scrwdnd313060:0%2$scrwdne313060:0</target>
+      </trans-unit>
+      <trans-unit id="sys_file.identifier" resname="sys_file.identifier">
+        <source>Path</source>
+        <target>crwdns313062:0crwdne313062:0</target>
+      </trans-unit>
+      <trans-unit id="module.file.recursive" resname="module.file.recursive">
+        <source>Include subfolders</source>
+        <target>crwdns313064:0crwdne313064:0</target>
+      </trans-unit>
+      <trans-unit id="sys_file.name" resname="sys_file.name">
+        <source>Filename</source>
+        <target>crwdns313066:0crwdne313066:0</target>
+      </trans-unit>
+      <trans-unit id="module.btn.next" resname="module.btn.next">
+        <source>Next Image</source>
+        <target>crwdns313068:0crwdne313068:0</target>
+      </trans-unit>
+      <trans-unit id="module.btn.prev" resname="module.btn.prev">
+        <source>Previous Image</source>
+        <target>crwdns313070:0crwdne313070:0</target>
+      </trans-unit>
+      <trans-unit id="module.btn.submit_and_next" resname="module.btn.submit_and_next">
+        <source>Save and go on</source>
+        <target>crwdns313072:0crwdne313072:0</target>
+      </trans-unit>
+      <trans-unit id="module.btn.view" resname="module.btn.view">
+        <source>View</source>
+        <target>crwdns313074:0crwdne313074:0</target>
+      </trans-unit>
+      <trans-unit id="module.file.error.no_images" resname="module.file.error.no_images">
+        <source>Please select a folder with images.</source>
+        <target>crwdns313076:0crwdne313076:0</target>
+      </trans-unit>
+      <trans-unit id="module.file.error.no_image_without_alt" resname="module.file.error.no_image_without_alt">
+        <source>👍 Good job. All images here have an alternative text.</source>
+        <target>crwdns313078:0crwdne313078:0</target>
+      </trans-unit>
+      <trans-unit id="module.file.update.success.header" resname="module.file.update.success.header">
+        <source>You did it 😊</source>
+        <target>crwdns313080:0crwdne313080:0</target>
+      </trans-unit>
+      <trans-unit id="module.file.update.success.message" resname="module.file.update.success.message">
+        <source>has the following alternative text</source>
+        <target>crwdns313082:0crwdne313082:0</target>
+      </trans-unit>
+      <trans-unit id="module.file.update.error.header" resname="module.file.update.error.header">
+        <source>Oh no 😢</source>
+        <target>crwdns313084:0crwdne313084:0</target>
+      </trans-unit>
+      <trans-unit id="module.file.update.error.message" resname="module.file.update.error.message">
+        <source>has still no alternative text.</source>
+        <target>crwdns313086:0crwdne313086:0</target>
+      </trans-unit>
+      <trans-unit id="templates.element.json_ld_element.link.generator" resname="templates.element.json_ld_element.link.generator">
+        <source>Generate markup</source>
+        <target>crwdns313088:0crwdne313088:0</target>
+      </trans-unit>
+      <trans-unit id="templates.element.json_ld_element.link.check_url" resname="templates.element.json_ld_element.link.check_url">
+        <source>Check URL</source>
+        <target>crwdns313090:0crwdne313090:0</target>
+      </trans-unit>
+      <trans-unit id="templates.element.json_ld_element.link.check_text" resname="templates.element.json_ld_element.link.check_text">
+        <source>Check field markup</source>
+        <target>crwdns313092:0crwdne313092:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
