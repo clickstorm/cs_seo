@@ -15,41 +15,6 @@
         <source>This module provides you the possibility to add an alternative text to images. It shows only images without an alternative text jet.</source>
         <target state="final">Dette modul giver dig mulighed for at tilføje en alternativ tekst til billeder. Det viser kun billeder uden en alternativ tekst.</target>
       </trans-unit>
-      <trans-unit id="mod_file.details" resname="mod_file.details" approved="yes">
-        <source>An alternative describes the content of an image. This text should always be set. Manly because of the following two reasons:
-
-					&lt;b&gt;Search Engines&lt;/b&gt;
-					With an alternative text the image can be indexed by Search Engines like Google.
-
-					&lt;b&gt;People with handicaps&lt;/b&gt;
-					The alternative text can be read by screen readers. So people with handicaps get also an idea what is displayed.
-
-					&lt;i&gt;Module Functions&lt;/i&gt;
-					On top you can directly edit the file metadata of the current image, get more information about it or view it in a new tab.
-
-					Moreover you get information about the current path, enter this help or create a shortcut to this module.
-
-					You can also toggle if you want to see pictures of the current folder or also of subfolders.
-
-					If you entered an alternative text and press save, you see the next image which misses an alternative text, if there is one.
-				</source>
-        <target state="final">Et alternativ beskriver indholdet af et billede. Denne tekst skal altid indstilles. Primært på grund af de følgende to grunde:
-
-					&lt;b&gt;Søgemaskiner&lt;/b&gt;
-					Med en alternativ tekst kan billedet indekseres af søgemaskiner som Google.
-
-					&lt;b&gt;Personer med handicap&lt;/b&gt;
-					Den alternative tekst kan læses af læsere. Så folk med handicap får også en idé om, hvad der vises.
-
-					&lt;i&gt;Modul-funktionalitet&lt;/i&gt;
-					Øverst kan du redigere fil-metadata direkte for det aktuelle billede, få mere information om det eller se det i en ny fane.
-
-					Du får desuden information om den aktuelle sti, adgang til denne hjælp eller mulighed for at oprette en genvej til modulet.
-
-					Du kan også skifte mellem at billeder af den aktuelle mappe eller af undermapper.
-
-					Hvis du indtaster en alternativ tekst og trykker på gem, kan du se det næste billede, der mangler en alternativ tekst, hvis der er en.	</target>
-      </trans-unit>
     </body>
   </file>
 </xliff>
