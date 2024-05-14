@@ -10,7 +10,7 @@
 				<source>Warning! If you want to use this Robots setting, you must remove the robots.txt in your web root.</source>
 			</trans-unit>
 			<trans-unit id="evaluation.tca.json_ld.invalid_json" resname="evaluation.tca.json_ld.invalid_json">
-				<source>The JSON-LD markup is anvalid. </source>
+				<source>The JSON-LD markup is invalid. </source>
 			</trans-unit>
 			<trans-unit id="pages.description" resname="pages.description">
 				<source>Description</source>

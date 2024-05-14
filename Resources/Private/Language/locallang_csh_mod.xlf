@@ -13,7 +13,7 @@
 				<source>This module provides you the possibility to add an alternative text to images. It shows only images without an alternative text jet.</source>
 			</trans-unit>
 			<trans-unit id="mod_file.details" resname="mod_file.details">
-				<source>An alternative describes the content of an image. This text should always be set. Manly because of the following two reasons:
+				<source>An alternative describes the content of an image. This text should always be set. Mainly because of the following two reasons:
 
 					&lt;b&gt;Search Engines&lt;/b&gt;
 					With an alternative text the image can be indexed by Search Engines like Google.
