@@ -35,6 +35,7 @@ Properties
 	`evaluation.minDescription`_                            :ref:`t3tsref:data-type-integer`      140
 	`evaluation.maxH2`_                                     :ref:`t3tsref:data-type-integer`      6
 	`file.modFileColumns`_                                  :ref:`t3tsref:data-type-string`       title,description
+   `file.excludeFileExtensions`_                           :ref:`t3tsref:data-type-string`       webp
 	======================================================= ===================================== ====================
 
 Basic configurations
@@ -229,3 +230,17 @@ File Columns
          :ref:`t3tsref:data-type-string`
    Description
          Comma separated list of additional sys_file_metadata columns to show in the file module.
+
+.. _file.excludeFileExtensions:
+
+Exclude File Extensions
+"""""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         excludeFileExtensions
+   Data type
+         :ref:`t3tsref:data-type-string`
+   Description
+         Comma separated list of file extensions which should not be displayed in the file module.

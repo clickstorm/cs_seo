@@ -140,6 +140,7 @@ class DatabaseUtility
     }
 
     public static function getImageWithEmptyAlt(
+        array $excludedImageExtensions,
         int $storage,
         string $identifier,
         $includeSubfolders = true,
@@ -194,6 +195,10 @@ class DatabaseUtility
                     'file.storage',
                     $queryBuilder->createNamedParameter($storage, \PDO::PARAM_INT)
                 ),
+                $queryBuilder->expr()->eq(
+                    'file.missing',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ),
                 $folderExpression,
                 // always check the default language of sys_file_metadata
                 $queryBuilder->expr()->in(
@@ -201,6 +206,15 @@ class DatabaseUtility
                     $queryBuilder->createNamedParameter($queryBuilder->createNamedParameter(0, \PDO::PARAM_INT))
                 )
             );
+
+        if($excludedImageExtensions) {
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->notIn(
+                    'file.extension',
+                    $queryBuilder->createNamedParameter($excludedImageExtensions, \TYPO3\CMS\Core\Database\Connection::PARAM_STR_ARRAY)
+                )
+            );
+        }
 
         // add the check for empty alt text
         if (!$includeImagesWithAlt) {
@@ -214,7 +228,7 @@ class DatabaseUtility
                 )
             );
         }
-        
+
         if ($countAll) {
             $queryBuilder->count('file.uid');
         } else {

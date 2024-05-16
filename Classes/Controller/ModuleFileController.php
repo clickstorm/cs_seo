@@ -76,8 +76,10 @@ class ModuleFileController extends AbstractModuleController
 
         if ($this->storageUid) {
             $includeSubfolders = (bool)$this->modParams['recursive'];
+            $excludedImageExtensions = GeneralUtility::trimExplode(',', ConfigurationUtility::getEmConfiguration()['excludeFileExtensions'] ?? '');
 
             $result = DatabaseUtility::getImageWithEmptyAlt(
+                $excludedImageExtensions,
                 $this->storageUid,
                 $this->identifier,
                 $includeSubfolders,
@@ -91,6 +93,7 @@ class ModuleFileController extends AbstractModuleController
             }
 
             $result = DatabaseUtility::getImageWithEmptyAlt(
+                $excludedImageExtensions,
                 $this->storageUid,
                 $this->identifier,
                 $includeSubfolders,
@@ -116,6 +119,7 @@ class ModuleFileController extends AbstractModuleController
             ]);
 
             $imageRow = DatabaseUtility::getImageWithEmptyAlt(
+                $excludedImageExtensions,
                 $this->storageUid,
                 $this->identifier,
                 $includeSubfolders,
