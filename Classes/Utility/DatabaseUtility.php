@@ -2,7 +2,10 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
+use Clickstorm\CsSeo\Domain\Model\Dto\FileModuleOptions;
+use Doctrine\DBAL\ArrayParameterType;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
@@ -121,9 +124,7 @@ class DatabaseUtility
     }
 
     public static function getImageWithEmptyAlt(
-        int    $storage,
-        string $identifier,
-        bool   $includeSubfolders = true,
+        FileModuleOptions $fileModuleOptions,
         bool   $countAll = false,
         bool   $includeImagesWithAlt = false,
         int    $offset = 0
@@ -135,23 +136,25 @@ class DatabaseUtility
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getQueryBuilderForTable($tableName);
 
-        if (!empty($includeSubfolders)) {
+        if ($fileModuleOptions->isIncludeSubfolders()) {
             $folderExpression = $queryBuilder->expr()->like(
                 'file.identifier',
-                $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR)
+                $queryBuilder->createNamedParameter($fileModuleOptions->getIdentifier() . '%', Connection::PARAM_STR)
             );
         } else {
             $folderExpression = $queryBuilder->expr()->like(
                 'file.identifier',
-                $queryBuilder->createNamedParameter($identifier . '%', \PDO::PARAM_STR)
+                $queryBuilder->createNamedParameter($fileModuleOptions->getIdentifier() . '%', Connection::PARAM_STR)
             );
 
             // get folder hash
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-            $folder = $resourceFactory->getFolderObjectFromCombinedIdentifier($storage . ':' . $identifier);
+            $folder = $resourceFactory->getFolderObjectFromCombinedIdentifier(
+                $fileModuleOptions->getStorageUid() . ':' . $fileModuleOptions->getIdentifier()
+            );
             $folderExpression = $queryBuilder->expr()->eq(
                 'file.folder_hash',
-                $queryBuilder->createNamedParameter($folder->getHashedIdentifier(), \PDO::PARAM_STR)
+                $queryBuilder->createNamedParameter($folder->getHashedIdentifier(), Connection::PARAM_STR)
             );
         }
 
@@ -170,29 +173,38 @@ class DatabaseUtility
             ->where(
                 $queryBuilder->expr()->eq(
                     'file.type',
-                    $queryBuilder->createNamedParameter(File::FILETYPE_IMAGE, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter(File::FILETYPE_IMAGE, Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     'file.storage',
-                    $queryBuilder->createNamedParameter($storage, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($fileModuleOptions->getStorageUid(), Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     'file.missing',
-                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter(0, Connection::PARAM_INT)
                 ),
                 $folderExpression,
                 // always check the default language of sys_file_metadata
                 $queryBuilder->expr()->in(
                     'meta.sys_language_uid',
-                    $queryBuilder->createNamedParameter($queryBuilder->createNamedParameter(0, \PDO::PARAM_INT))
+                    $queryBuilder->createNamedParameter($queryBuilder->createNamedParameter(0, Connection::PARAM_INT))
                 )
             );
+
+        if(!empty($fileModuleOptions->getExcludedImageExtensions())) {
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->notIn(
+                    'file.extension',
+                    $queryBuilder->createNamedParameter($fileModuleOptions->getExcludedImageExtensions(), ArrayParameterType::STRING)
+                )
+            );
+        }
 
         if (!$includeImagesWithAlt) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->or($queryBuilder->expr()->eq(
                     'meta.alternative',
-                    $queryBuilder->createNamedParameter('', \PDO::PARAM_STR)
+                    $queryBuilder->createNamedParameter('', Connection::PARAM_STR)
                 ), $queryBuilder->expr()->isNull('meta.alternative'))
             );
         }

@@ -36,3 +36,6 @@ maxH2 = 6
 
 # cat=file/010; type=string; label= Additional columns of sys_file_medata to show in file module
 modFileColumns = title,description
+
+# cat=file/020; type=string; label= Comma separated list. Which image file extensions should not be displayed in the file module.
+excludeFileExtensions = webp

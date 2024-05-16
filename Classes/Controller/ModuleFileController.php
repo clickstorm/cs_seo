@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use Clickstorm\CsSeo\Domain\Model\Dto\FileModuleOptions;
 use Clickstorm\CsSeo\Service\Backend\FormService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
@@ -74,12 +75,10 @@ class ModuleFileController extends AbstractModuleController
         ];
 
         if ($this->storageUid) {
-            $includeSubfolders = (bool)$this->modParams['recursive'];
+            $fileModuleOptions = new FileModuleOptions($this->storageUid, $this->identifier, (bool)$this->modParams['recursive']);
 
             $result = DatabaseUtility::getImageWithEmptyAlt(
-                $this->storageUid,
-                $this->identifier,
-                $includeSubfolders,
+                $fileModuleOptions,
                 true
             );
             $this->numberOfImagesWithoutAlt = array_values($result[0])[0];
@@ -90,9 +89,7 @@ class ModuleFileController extends AbstractModuleController
             }
 
             $result = DatabaseUtility::getImageWithEmptyAlt(
-                $this->storageUid,
-                $this->identifier,
-                $includeSubfolders,
+                $fileModuleOptions,
                 true,
                 true
             );
@@ -115,9 +112,7 @@ class ModuleFileController extends AbstractModuleController
             ]);
 
             $imageRow = DatabaseUtility::getImageWithEmptyAlt(
-                $this->storageUid,
-                $this->identifier,
-                $includeSubfolders,
+                $fileModuleOptions,
                 false,
                 false,
                 $this->offset
