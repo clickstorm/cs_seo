@@ -98,7 +98,7 @@ abstract class AbstractModuleController extends ActionController
         $sessionParams = GlobalsUtility::getBackendUser()->getSessionData(static::$session_prefix) ?: $this->modParams;
 
         foreach (array_keys($this->modParams) as $name) {
-            $modParam = $this->request->getParsedBody()[$name] ?? $this->request->getQueryParams()[$name] ?? $sessionParams[$name];
+            $modParam = $this->request->getParsedBody()[$name] ?? $this->request->getQueryParams()[$name] ?? $sessionParams[$name] ?? '';
             if (is_numeric($modParam)) {
                 $modParam = (int)$modParam;
             }

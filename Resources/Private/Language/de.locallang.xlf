@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2023-06-06T08:25:12Z" product-name="cs_seo">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2024-05-17T07:49:36Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -91,6 +91,10 @@
 				<source>The page should contain not more than %1$s h2 headlines.</source>
 				<target>Die Seite sollte nicht mehr als %1$s h2-Überschriften beinhalten.</target>
 			</trans-unit>
+			<trans-unit id="evaluation.header" resname="evaluation.header">
+				<source>SEO - Content Analysis</source>
+				<target>SEO - Inhaltsanalyse</target>
+			</trans-unit>
 			<trans-unit id="evaluation.headingOrder" resname="evaluation.headingOrder">
 				<source>Heading order</source>
 				<target>Reihenfolge der Überschriften</target>
@@ -112,12 +116,8 @@
 				<target>Inkorrekt</target>
 			</trans-unit>
 			<trans-unit id="evaluation.headingOrder.settings" resname="evaluation.headingOrder.settings">
-				<source>The hierarchical order of headings (h1-h6) should be correct, e.g. an h2 heading should always be below an h1 heading. If your page has headings, you can see the current order here.</source>
+				<source>The hierarchical order of headings (h1-h6) should be correct, e.g. a h2 heading should always be below a h1 heading. If your page has headings, you can see the current order here.</source>
 				<target>Die hierarchische Reihenfolge der Überschriften (h1-h6) sollte korrekt sein, z.B. eine H2-Überschrift muss immer unter einer H1-Überschrift stehen. Wenn die aktuelle Seite Überschriften hat, können Sie hier die Reihenfolge sehen.</target>
-			</trans-unit>
-			<trans-unit id="evaluation.header" resname="evaluation.header">
-				<source>SEO - Content Analysis</source>
-				<target>SEO - Inhaltsanalyse</target>
 			</trans-unit>
 			<trans-unit id="evaluation.headlines.count" resname="evaluation.headlines.count">
 				<source>Number of headlines found: %1$s.</source>
@@ -271,17 +271,81 @@
 				<source>Results</source>
 				<target>Ergebnisse</target>
 			</trans-unit>
-			<trans-unit id="layouts.module.action.pageTwitterCards" resname="layouts.module.action.pageTwitterCards">
-				<source>Twitter Cards</source>
-				<target>Twitter Cards</target>
-			</trans-unit>
 			<trans-unit id="layouts.module.action.pageStructuredData" resname="layouts.module.action.pageStructuredData">
 				<source>Structured Data</source>
 				<target>Strukturierte Daten</target>
 			</trans-unit>
+			<trans-unit id="layouts.module.action.pageTwitterCards" resname="layouts.module.action.pageTwitterCards">
+				<source>Twitter Cards</source>
+				<target>Twitter Cards</target>
+			</trans-unit>
 			<trans-unit id="layouts.module.action.showEmptyImageAlt" resname="layouts.module.action.showEmptyImageAlt">
 				<source>Add an alternative text to an image</source>
 				<target>Einen alternativen Text zum Bild hinzufügen</target>
+			</trans-unit>
+			<trans-unit id="module.btn.next" resname="module.btn.next">
+				<source>Next Image</source>
+				<target>Nächstes Bild</target>
+			</trans-unit>
+			<trans-unit id="module.btn.prev" resname="module.btn.prev">
+				<source>Previous Image</source>
+				<target>Vorheriges Bild</target>
+			</trans-unit>
+			<trans-unit id="module.btn.submit_and_next" resname="module.btn.submit_and_next">
+				<source>Save and go on</source>
+				<target>Speichern und weiter</target>
+			</trans-unit>
+			<trans-unit id="module.btn.view" resname="module.btn.view">
+				<source>View</source>
+				<target>Anzeigen</target>
+			</trans-unit>
+			<trans-unit id="module.file.count" resname="module.file.count">
+				<source>Images with an alternative text / images in total</source>
+				<target>Bilder mit alternativen Text / Bilder gesamt</target>
+			</trans-unit>
+			<trans-unit id="module.file.countWithoutAlt" resname="module.file.countWithoutAlt">
+				<source>Current image without an alternative text: %1$s from %2$s</source>
+				<target>Aktuelles Bild ohne alternativen Text: %1$s von %2$s</target>
+			</trans-unit>
+			<trans-unit id="module.file.error.no_image_without_alt" resname="module.file.error.no_image_without_alt">
+				<source>👍 Good job. All images here have an alternative text.</source>
+				<target> 👍 Spitze. Alle Bilder hier haben einen alternativen Text.</target>
+			</trans-unit>
+			<trans-unit id="module.file.error.no_images" resname="module.file.error.no_images">
+				<source>Please select a folder with images.</source>
+				<target>Bitte wählen Sie einen Ordner, welcher Bilder enthält.</target>
+			</trans-unit>
+			<trans-unit id="module.file.error.only_referenced" resname="module.file.error.only_referenced">
+				<source>There are no referenced images in this selection.</source>
+				<target>In dieser Auswahl befinden sich keine referenzierten Bilder.</target>
+			</trans-unit>
+			<trans-unit id="module.file.numberOfReferences" resname="module.file.numberOfReferences">
+				<source>Number of references to this image: %1$s</source>
+				<target>Anzahl der Verweise auf dieses Bild: %1$s</target>
+			</trans-unit>
+			<trans-unit id="module.file.onlyReferenced" resname="module.file.onlyReferenced">
+				<source>Only referenced images</source>
+				<target>Nur referenzierte Bilder</target>
+			</trans-unit>
+			<trans-unit id="module.file.recursive" resname="module.file.recursive">
+				<source>Include subfolders</source>
+				<target>Unterordner mit einbeziehen</target>
+			</trans-unit>
+			<trans-unit id="module.file.update.error.header" resname="module.file.update.error.header">
+				<source>Oh no 😢</source>
+				<target>Oh nein 😢</target>
+			</trans-unit>
+			<trans-unit id="module.file.update.error.message" resname="module.file.update.error.message">
+				<source>has still no alternative text.</source>
+				<target>hat weiterhin keinen alternativen Text.</target>
+			</trans-unit>
+			<trans-unit id="module.file.update.success.header" resname="module.file.update.success.header">
+				<source>You did it 😊</source>
+				<target>Gut gemacht 😊</target>
+			</trans-unit>
+			<trans-unit id="module.file.update.success.message" resname="module.file.update.success.message">
+				<source>has the following alternative text</source>
+				<target>hat den folgenden alternativen Text</target>
 			</trans-unit>
 			<trans-unit id="partials.module.evaluation.lang" resname="partials.module.evaluation.lang">
 				<source>Show results for language:</source>
@@ -331,81 +395,29 @@
 				<source>Please choose</source>
 				<target>Bitte wählen</target>
 			</trans-unit>
-			<trans-unit id="templates.wizard.description" resname="templates.wizard.description">
-				<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
-				<target>Es wurde keine Seitenbeschreibung angegeben! Daher wird Google den Seiteninhalt hier anteasern.</target>
-			</trans-unit>
-			<trans-unit id="module.file.count" resname="module.file.count">
-				<source>Images with an alternative text / images in total</source>
-				<target>Bilder mit alternativen Text / Bilder gesamt</target>
-			</trans-unit>
-			<trans-unit id="module.file.countWithoutAlt" resname="module.file.countWithoutAlt">
-				<source>Current image without an alternative text: %1$s from %2$s</source>
-				<target>Aktuelles Bild ohne alternativen Text: %1$s von %2$s</target>
-			</trans-unit>
 			<trans-unit id="sys_file.identifier" resname="sys_file.identifier">
 				<source>Path</source>
 				<target>Pfad</target>
-			</trans-unit>
-			<trans-unit id="module.file.recursive" resname="module.file.recursive">
-				<source>Include subfolders</source>
-				<target>Unterordner mit einbeziehen</target>
 			</trans-unit>
 			<trans-unit id="sys_file.name" resname="sys_file.name">
 				<source>Filename</source>
 				<target>Dateiname</target>
 			</trans-unit>
-			<trans-unit id="module.btn.next" resname="module.btn.next">
-				<source>Next Image</source>
-				<target>Nächstes Bild</target>
-			</trans-unit>
-			<trans-unit id="module.btn.prev" resname="module.btn.prev">
-				<source>Previous Image</source>
-				<target>Vorheriges Bild</target>
-			</trans-unit>
-			<trans-unit id="module.btn.submit_and_next" resname="module.btn.submit_and_next">
-				<source>Save and go on</source>
-				<target>Speichern und weiter</target>
-			</trans-unit>
-			<trans-unit id="module.btn.view" resname="module.btn.view">
-				<source>View</source>
-				<target>Anzeigen</target>
-			</trans-unit>
-			<trans-unit id="module.file.error.no_images" resname="module.file.error.no_images">
-				<source>Please select a folder with images.</source>
-				<target>Bitte wählen Sie einen Ordner, welcher Bilder enthält.</target>
-			</trans-unit>
-			<trans-unit id="module.file.error.no_image_without_alt" resname="module.file.error.no_image_without_alt">
-				<source>👍 Good job. All images here have an alternative text.</source>
-				<target> 👍 Spitze. Alle Bilder hier haben einen alternativen Text.</target>
-			</trans-unit>
-			<trans-unit id="module.file.update.success.header" resname="module.file.update.success.header">
-				<source>You did it 😊</source>
-				<target>Gut gemacht 😊</target>
-			</trans-unit>
-			<trans-unit id="module.file.update.success.message" resname="module.file.update.success.message">
-				<source>has the following alternative text</source>
-				<target>hat den folgenden alternativen Text</target>
-			</trans-unit>
-			<trans-unit id="module.file.update.error.header" resname="module.file.update.error.header">
-				<source>Oh no 😢</source>
-				<target>Oh nein 😢</target>
-			</trans-unit>
-			<trans-unit id="module.file.update.error.message" resname="module.file.update.error.message">
-				<source>has still no alternative text.</source>
-				<target>hat weiterhin keinen alternativen Text.</target>
-			</trans-unit>
-			<trans-unit id="templates.element.json_ld_element.link.generator" resname="templates.element.json_ld_element.link.generator">
-				<source>Generate markup</source>
-				<target>Code generieren</target>
+			<trans-unit id="templates.element.json_ld_element.link.check_text" resname="templates.element.json_ld_element.link.check_text">
+				<source>Check field markup</source>
+				<target>Feld-Inhalt überprüfen</target>
 			</trans-unit>
 			<trans-unit id="templates.element.json_ld_element.link.check_url" resname="templates.element.json_ld_element.link.check_url">
 				<source>Check URL</source>
 				<target>URL überprüfen</target>
 			</trans-unit>
-			<trans-unit id="templates.element.json_ld_element.link.check_text" resname="templates.element.json_ld_element.link.check_text">
-				<source>Check field markup</source>
-				<target>Feld-Inhalt überprüfen</target>
+			<trans-unit id="templates.element.json_ld_element.link.generator" resname="templates.element.json_ld_element.link.generator">
+				<source>Generate markup</source>
+				<target>Code generieren</target>
+			</trans-unit>
+			<trans-unit id="templates.wizard.description" resname="templates.wizard.description">
+				<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
+				<target>Es wurde keine Seitenbeschreibung angegeben! Daher wird Google den Seiteninhalt hier anteasern.</target>
 			</trans-unit>
 		</body>
 	</file>

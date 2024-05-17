@@ -12,13 +12,16 @@ class FileModuleOptions
     protected string $identifier = '';
 
     protected bool $includeSubfolders = true;
+
+    protected bool $onlyReferenced = true;
     protected array $excludedImageExtensions = [];
 
-    public function __construct(int $storageUid, string $identifier, bool $includeSubfolders)
+    public function __construct(int $storageUid, string $identifier, bool $includeSubfolders, bool $onlyReferenced)
     {
         $this->storageUid = $storageUid;
         $this->identifier = $identifier;
         $this->includeSubfolders = $includeSubfolders;
+        $this->onlyReferenced = $onlyReferenced;
         $this->excludedImageExtensions =
             GeneralUtility::trimExplode(',', ConfigurationUtility::getEmConfiguration()['excludeFileExtensions'] ?? '');
     }
@@ -61,5 +64,15 @@ class FileModuleOptions
     public function setExcludedImageExtensions(array $excludedImageExtensions): void
     {
         $this->excludedImageExtensions = $excludedImageExtensions;
+    }
+
+    public function isOnlyReferenced(): bool
+    {
+        return $this->onlyReferenced;
+    }
+
+    public function setOnlyReferenced(bool $onlyReferenced): void
+    {
+        $this->onlyReferenced = $onlyReferenced;
     }
 }

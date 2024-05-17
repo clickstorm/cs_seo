@@ -125,9 +125,9 @@ class DatabaseUtility
 
     public static function getImageWithEmptyAlt(
         FileModuleOptions $fileModuleOptions,
-        bool   $countAll = false,
-        bool   $includeImagesWithAlt = false,
-        int    $offset = 0
+        bool              $countAll = false,
+        bool              $includeImagesWithAlt = false,
+        int               $offset = 0
     ): ?array
     {
         $tableName = 'sys_file';
@@ -191,13 +191,26 @@ class DatabaseUtility
                 )
             );
 
-        if(!empty($fileModuleOptions->getExcludedImageExtensions())) {
+        if (!empty($fileModuleOptions->getExcludedImageExtensions())) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->notIn(
                     'file.extension',
                     $queryBuilder->createNamedParameter($fileModuleOptions->getExcludedImageExtensions(), ArrayParameterType::STRING)
                 )
             );
+        }
+
+        if ($fileModuleOptions->isOnlyReferenced()) {
+            $queryBuilder->join(
+                'file',
+                'sys_refindex',
+                'refindex',
+                $queryBuilder->expr()->and(
+                    $queryBuilder->expr()->eq('refindex.ref_table', $queryBuilder->createNamedParameter('sys_file')),
+                    $queryBuilder->expr()->eq('refindex.ref_uid', $queryBuilder->quoteIdentifier('file.uid')),
+                    $queryBuilder->expr()->neq('refindex.tablename', $queryBuilder->createNamedParameter('sys_file_metadata'))
+                )
+            )->groupBy('file.uid');
         }
 
         if (!$includeImagesWithAlt) {
@@ -219,6 +232,30 @@ class DatabaseUtility
         }
 
         return $queryBuilder->executeQuery()->fetchAllAssociative();
+    }
+
+    public static function getFileReferenceCount(int $fileUid): int
+    {
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_refindex');
+        return (int)$queryBuilder
+            ->count('*')
+            ->from('sys_refindex')
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'ref_table',
+                    $queryBuilder->createNamedParameter('sys_file')
+                ),
+                $queryBuilder->expr()->eq(
+                    'ref_uid',
+                    $queryBuilder->createNamedParameter($fileUid, Connection::PARAM_INT)
+                ),
+                $queryBuilder->expr()->neq(
+                    'tablename',
+                    $queryBuilder->createNamedParameter('sys_file_metadata')
+                )
+            )
+            ->executeQuery()
+            ->fetchOne();
     }
 
     public static function getLanguagesInBackend(int $pageId = 0): array

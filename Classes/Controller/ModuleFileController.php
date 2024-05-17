@@ -32,7 +32,7 @@ class ModuleFileController extends AbstractModuleController
     public static string $uriPrefix = 'tx_csseo_file_csseomodfile';
     public static string $l10nFileName = 'file';
 
-    protected array $modParams = ['action' => '', 'id' => '', 'recursive' => 1];
+    protected array $modParams = ['action' => '', 'id' => '', 'recursive' => 1, 'onlyReferenced' => 0];
 
     protected ?File $image = null;
 
@@ -75,13 +75,22 @@ class ModuleFileController extends AbstractModuleController
         ];
 
         if ($this->storageUid) {
-            $fileModuleOptions = new FileModuleOptions($this->storageUid, $this->identifier, (bool)$this->modParams['recursive']);
+            $fileModuleOptions = new FileModuleOptions(
+                $this->storageUid,
+                $this->identifier,
+                (bool)$this->modParams['recursive'],
+                (bool)$this->modParams['onlyReferenced']
+            );
 
             $result = DatabaseUtility::getImageWithEmptyAlt(
                 $fileModuleOptions,
                 true
             );
-            $this->numberOfImagesWithoutAlt = array_values($result[0])[0];
+
+            if (isset($result[0])) {
+                $this->numberOfImagesWithoutAlt = array_values($result[0])[0];
+            }
+
 
             // force offset to be smaller than number of all images without alt text
             if ($this->offset > 0 && $this->offset >= $this->numberOfImagesWithoutAlt) {
@@ -93,7 +102,8 @@ class ModuleFileController extends AbstractModuleController
                 true,
                 true
             );
-            $numberOfAllImages = array_values($result[0])[0];
+
+            $numberOfAllImages = isset($result[0]) ?array_values($result[0])[0] : 0;
 
             if ($numberOfAllImages) {
                 $numberOfImagesWithAlt = $numberOfAllImages - $this->numberOfImagesWithoutAlt;
@@ -109,6 +119,7 @@ class ModuleFileController extends AbstractModuleController
             $this->view->assignMultiple([
                 'numberOfAllImages' => $numberOfAllImages,
                 'identifier' => $this->identifier,
+                'modParams' => $this->modParams
             ]);
 
             $imageRow = DatabaseUtility::getImageWithEmptyAlt(
@@ -145,7 +156,11 @@ class ModuleFileController extends AbstractModuleController
                     $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
                 }
 
-                $editForm =$formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',', $configuredColumns));
+                if ($this->modParams['onlyReferenced']) {
+                    $this->view->assign('numberOfReferences', DatabaseUtility::getFileReferenceCount($this->image->getUid()));
+                }
+
+                $editForm = $formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',', $configuredColumns));
 
                 $this->view->assignMultiple([
                     'offset' => $this->offset,
@@ -165,7 +180,7 @@ class ModuleFileController extends AbstractModuleController
     public function updateAction(): ResponseInterface
     {
         $uid = $this->request->hasArgument('uid') ? (int)$this->request->getArgument('uid') : 0;
-        $data = $this->request->getParsedBody()['data']['sys_file_metadata'] ??  $this->request->getQueryParams()['data']['sys_file_metadata'] ?? '';
+        $data = $this->request->getParsedBody()['data']['sys_file_metadata'] ?? $this->request->getQueryParams()['data']['sys_file_metadata'] ?? '';
 
         if ($uid && $data) {
             /** @var ResourceFactory $resourceFactory */
@@ -286,6 +301,23 @@ class ModuleFileController extends AbstractModuleController
 
             $buttonBar->addButton($saveButton, ButtonBar::BUTTON_POSITION_LEFT, 5);
         }
+
+        $onlyReferencedButton = $buttonBar->makeInputButton()
+            ->setForm('ModForm')
+            ->setIcon($iconFactory->getIcon('actions-thumbtack', Icon::SIZE_SMALL))
+            ->setName('onlyReferenced')
+            ->setTitle(GlobalsUtility::getLanguageService()->sL(
+                'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.onlyReferenced'
+            ))
+            ->setValue('1');
+
+        if ($this->modParams['onlyReferenced']) {
+            $onlyReferencedButton
+                ->setClasses('active')
+                ->setValue('0');
+        }
+
+        $buttonBar->addButton($onlyReferencedButton, ButtonBar::BUTTON_POSITION_RIGHT, 4);
 
         $recursiveButton = $buttonBar->makeInputButton()
             ->setForm('ModForm')

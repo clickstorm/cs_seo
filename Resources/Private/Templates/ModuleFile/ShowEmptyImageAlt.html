@@ -23,7 +23,12 @@
 
             <f:if condition="{image}">
                 <f:then>
-                    <p><f:translate key="module.file.countWithoutAlt" arguments="{0:indexOfCurrentImage,1:numberOfImagesWithoutAlt}"/></p>
+                    <p>
+                        <f:translate key="module.file.countWithoutAlt" arguments="{0:indexOfCurrentImage,1:numberOfImagesWithoutAlt}"/>
+                        <f:if condition="{numberOfReferences}">
+                            <br><f:translate key="module.file.numberOfReferences" arguments="{0:numberOfReferences}"/>
+                        </f:if>
+                    </p>
                     <div class="csseo-card">
                         <div class="csseo-card__row">
                             <div class="csseo-card__col csseo-card__col--form">
@@ -52,7 +57,14 @@
         </f:then>
         <f:else>
             <h3>
-                <f:translate key="module.file.error.no_images"/>
+                <f:if condition="{modParams.onlyReferenced}">
+                    <f:then>
+                        <f:translate key="module.file.error.only_referenced"/>
+                    </f:then>
+                    <f:else>
+                        <f:translate key="module.file.error.no_images"/>
+                    </f:else>
+                </f:if>
             </h3>
         </f:else>
     </f:if>

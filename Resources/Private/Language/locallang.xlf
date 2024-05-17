@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2023-06-06T08:25:12Z" product-name="cs_seo">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2024-05-17T07:49:36Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -69,6 +69,9 @@
 			<trans-unit id="evaluation.h2.settings" resname="evaluation.h2.settings">
 				<source>The page should contain not more than %1$s h2 headlines.</source>
 			</trans-unit>
+			<trans-unit id="evaluation.header" resname="evaluation.header">
+				<source>SEO - Content Analysis</source>
+			</trans-unit>
 			<trans-unit id="evaluation.headingOrder" resname="evaluation.headingOrder">
 				<source>Heading order</source>
 			</trans-unit>
@@ -86,9 +89,6 @@
 			</trans-unit>
 			<trans-unit id="evaluation.headingOrder.settings" resname="evaluation.headingOrder.settings">
 				<source>The hierarchical order of headings (h1-h6) should be correct, e.g. a h2 heading should always be below a h1 heading. If your page has headings, you can see the current order here.</source>
-			</trans-unit>
-			<trans-unit id="evaluation.header" resname="evaluation.header">
-				<source>SEO - Content Analysis</source>
 			</trans-unit>
 			<trans-unit id="evaluation.headlines.count" resname="evaluation.headlines.count">
 				<source>Number of headlines found: %1$s.</source>
@@ -204,14 +204,62 @@
 			<trans-unit id="layouts.module.action.pageResults" resname="layouts.module.action.pageResults">
 				<source>Results</source>
 			</trans-unit>
-			<trans-unit id="layouts.module.action.pageTwitterCards" resname="layouts.module.action.pageTwitterCards">
-				<source>Twitter Cards</source>
-			</trans-unit>
 			<trans-unit id="layouts.module.action.pageStructuredData" resname="layouts.module.action.pageStructuredData">
 				<source>Structured Data</source>
 			</trans-unit>
+			<trans-unit id="layouts.module.action.pageTwitterCards" resname="layouts.module.action.pageTwitterCards">
+				<source>Twitter Cards</source>
+			</trans-unit>
 			<trans-unit id="layouts.module.action.showEmptyImageAlt" resname="layouts.module.action.showEmptyImageAlt">
 				<source>Add an alternative text to an image</source>
+			</trans-unit>
+			<trans-unit id="module.btn.next" resname="module.btn.next">
+				<source>Next Image</source>
+			</trans-unit>
+			<trans-unit id="module.btn.prev" resname="module.btn.prev">
+				<source>Previous Image</source>
+			</trans-unit>
+			<trans-unit id="module.btn.submit_and_next" resname="module.btn.submit_and_next">
+				<source>Save and go on</source>
+			</trans-unit>
+			<trans-unit id="module.btn.view" resname="module.btn.view">
+				<source>View</source>
+			</trans-unit>
+			<trans-unit id="module.file.count" resname="module.file.count">
+				<source>Images with an alternative text / images in total</source>
+			</trans-unit>
+			<trans-unit id="module.file.countWithoutAlt" resname="module.file.countWithoutAlt">
+				<source>Current image without an alternative text: %1$s from %2$s</source>
+			</trans-unit>
+			<trans-unit id="module.file.error.no_image_without_alt" resname="module.file.error.no_image_without_alt">
+				<source>👍 Good job. All images here have an alternative text.</source>
+			</trans-unit>
+			<trans-unit id="module.file.error.no_images" resname="module.file.error.no_images">
+				<source>Please select a folder with images.</source>
+			</trans-unit>
+			<trans-unit id="module.file.error.only_referenced" resname="module.file.error.only_referenced">
+				<source>There are no referenced images in this selection.</source>
+			</trans-unit>
+			<trans-unit id="module.file.numberOfReferences" resname="module.file.numberOfReferences">
+				<source>Number of references to this image: %1$s</source>
+			</trans-unit>
+			<trans-unit id="module.file.onlyReferenced" resname="module.file.onlyReferenced">
+				<source>Only referenced images</source>
+			</trans-unit>
+			<trans-unit id="module.file.recursive" resname="module.file.recursive">
+				<source>Include subfolders</source>
+			</trans-unit>
+			<trans-unit id="module.file.update.error.header" resname="module.file.update.error.header">
+				<source>Oh no 😢</source>
+			</trans-unit>
+			<trans-unit id="module.file.update.error.message" resname="module.file.update.error.message">
+				<source>has still no alternative text.</source>
+			</trans-unit>
+			<trans-unit id="module.file.update.success.header" resname="module.file.update.success.header">
+				<source>You did it 😊</source>
+			</trans-unit>
+			<trans-unit id="module.file.update.success.message" resname="module.file.update.success.message">
+				<source>has the following alternative text</source>
 			</trans-unit>
 			<trans-unit id="partials.module.evaluation.lang" resname="partials.module.evaluation.lang">
 				<source>Show results for language:</source>
@@ -249,62 +297,23 @@
 			<trans-unit id="select.prepend" resname="select.prepend">
 				<source>Please choose</source>
 			</trans-unit>
-			<trans-unit id="templates.wizard.description" resname="templates.wizard.description">
-				<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
-			</trans-unit>
-			<trans-unit id="module.file.count" resname="module.file.count">
-				<source>Images with an alternative text / images in total</source>
-			</trans-unit>
-			<trans-unit id="module.file.countWithoutAlt" resname="module.file.countWithoutAlt">
-				<source>Current image without an alternative text: %1$s from %2$s</source>
-			</trans-unit>
 			<trans-unit id="sys_file.identifier" resname="sys_file.identifier">
 				<source>Path</source>
-			</trans-unit>
-			<trans-unit id="module.file.recursive" resname="module.file.recursive">
-				<source>Include subfolders</source>
 			</trans-unit>
 			<trans-unit id="sys_file.name" resname="sys_file.name">
 				<source>Filename</source>
 			</trans-unit>
-			<trans-unit id="module.btn.next" resname="module.btn.next">
-				<source>Next Image</source>
-			</trans-unit>
-			<trans-unit id="module.btn.prev" resname="module.btn.prev">
-				<source>Previous Image</source>
-			</trans-unit>
-			<trans-unit id="module.btn.submit_and_next" resname="module.btn.submit_and_next">
-				<source>Save and go on</source>
-			</trans-unit>
-			<trans-unit id="module.btn.view" resname="module.btn.view">
-				<source>View</source>
-			</trans-unit>
-			<trans-unit id="module.file.error.no_images" resname="module.file.error.no_images">
-				<source>Please select a folder with images.</source>
-			</trans-unit>
-			<trans-unit id="module.file.error.no_image_without_alt" resname="module.file.error.no_image_without_alt">
-				<source>👍 Good job. All images here have an alternative text.</source>
-			</trans-unit>
-			<trans-unit id="module.file.update.success.header" resname="module.file.update.success.header">
-				<source>You did it 😊</source>
-			</trans-unit>
-			<trans-unit id="module.file.update.success.message" resname="module.file.update.success.message">
-				<source>has the following alternative text</source>
-			</trans-unit>
-			<trans-unit id="module.file.update.error.header" resname="module.file.update.error.header">
-				<source>Oh no 😢</source>
-			</trans-unit>
-			<trans-unit id="module.file.update.error.message" resname="module.file.update.error.message">
-				<source>has still no alternative text.</source>
-			</trans-unit>
-			<trans-unit id="templates.element.json_ld_element.link.generator" resname="templates.element.json_ld_element.link.generator">
-				<source>Generate markup</source>
+			<trans-unit id="templates.element.json_ld_element.link.check_text" resname="templates.element.json_ld_element.link.check_text">
+				<source>Check field markup</source>
 			</trans-unit>
 			<trans-unit id="templates.element.json_ld_element.link.check_url" resname="templates.element.json_ld_element.link.check_url">
 				<source>Check URL</source>
 			</trans-unit>
-			<trans-unit id="templates.element.json_ld_element.link.check_text" resname="templates.element.json_ld_element.link.check_text">
-				<source>Check field markup</source>
+			<trans-unit id="templates.element.json_ld_element.link.generator" resname="templates.element.json_ld_element.link.generator">
+				<source>Generate markup</source>
+			</trans-unit>
+			<trans-unit id="templates.wizard.description" resname="templates.wizard.description">
+				<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
 			</trans-unit>
 		</body>
 	</file>
