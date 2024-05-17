@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2023-06-06T08:25:12Z" product-name="cs_seo" target-language="da">
+  <file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2024-05-17T07:49:36Z" product-name="cs_seo" target-language="da">
     <header/>
     <body>
       <trans-unit id="date.format" resname="date.format" approved="yes">
@@ -91,6 +91,10 @@
         <source>The page should contain not more than %1$s h2 headlines.</source>
         <target state="final">Siden bør ikke indeholde mere end %1$s h2 overskrifter.</target>
       </trans-unit>
+      <trans-unit id="evaluation.header" resname="evaluation.header" approved="yes">
+        <source>SEO - Content Analysis</source>
+        <target state="final">SEO - Indholdsanalyse</target>
+      </trans-unit>
       <trans-unit id="evaluation.headingOrder" resname="evaluation.headingOrder" approved="yes">
         <source>Heading order</source>
         <target state="final">Overskrift rækkefølge</target>
@@ -110,10 +114,6 @@
       <trans-unit id="evaluation.headingOrder.incorrectItem" resname="evaluation.headingOrder.incorrectItem" approved="yes">
         <source>Incorrect</source>
         <target state="final">Ukorrekt</target>
-      </trans-unit>
-      <trans-unit id="evaluation.header" resname="evaluation.header" approved="yes">
-        <source>SEO - Content Analysis</source>
-        <target state="final">SEO - Indholdsanalyse</target>
       </trans-unit>
       <trans-unit id="evaluation.headlines.count" resname="evaluation.headlines.count" approved="yes">
         <source>Number of headlines found: %1$s.</source>
@@ -267,17 +267,69 @@
         <source>Results</source>
         <target state="final">Resultater</target>
       </trans-unit>
-      <trans-unit id="layouts.module.action.pageTwitterCards" resname="layouts.module.action.pageTwitterCards" approved="yes">
-        <source>Twitter Cards</source>
-        <target state="final">Twitter Cards</target>
-      </trans-unit>
       <trans-unit id="layouts.module.action.pageStructuredData" resname="layouts.module.action.pageStructuredData" approved="yes">
         <source>Structured Data</source>
         <target state="final">Strukturerede data</target>
       </trans-unit>
+      <trans-unit id="layouts.module.action.pageTwitterCards" resname="layouts.module.action.pageTwitterCards" approved="yes">
+        <source>Twitter Cards</source>
+        <target state="final">Twitter Cards</target>
+      </trans-unit>
       <trans-unit id="layouts.module.action.showEmptyImageAlt" resname="layouts.module.action.showEmptyImageAlt" approved="yes">
         <source>Add an alternative text to an image</source>
         <target state="final">Tilføj en alternativ tekst til et billede</target>
+      </trans-unit>
+      <trans-unit id="module.btn.next" resname="module.btn.next" approved="yes">
+        <source>Next Image</source>
+        <target state="final">Næste billede</target>
+      </trans-unit>
+      <trans-unit id="module.btn.prev" resname="module.btn.prev" approved="yes">
+        <source>Previous Image</source>
+        <target state="final">Forrige Billede</target>
+      </trans-unit>
+      <trans-unit id="module.btn.submit_and_next" resname="module.btn.submit_and_next" approved="yes">
+        <source>Save and go on</source>
+        <target state="final">Gem og fortsæt</target>
+      </trans-unit>
+      <trans-unit id="module.btn.view" resname="module.btn.view" approved="yes">
+        <source>View</source>
+        <target state="final">Vis</target>
+      </trans-unit>
+      <trans-unit id="module.file.count" resname="module.file.count" approved="yes">
+        <source>Images with an alternative text / images in total</source>
+        <target state="final">Billeder med alternativ tekst / billeder i alt</target>
+      </trans-unit>
+      <trans-unit id="module.file.countWithoutAlt" resname="module.file.countWithoutAlt" approved="yes">
+        <source>Current image without an alternative text: %1$s from %2$s</source>
+        <target state="final">Nuværende billede uden alternativ tekst: %1$s fra %2$s</target>
+      </trans-unit>
+      <trans-unit id="module.file.error.no_image_without_alt" resname="module.file.error.no_image_without_alt" approved="yes">
+        <source>👍 Good job. All images here have an alternative text.</source>
+        <target state="final">👍 Godt job. Alle billeder her har en alternativ tekst.</target>
+      </trans-unit>
+      <trans-unit id="module.file.error.no_images" resname="module.file.error.no_images" approved="yes">
+        <source>Please select a folder with images.</source>
+        <target state="final">Vælg venligst en mappe med billeder.</target>
+      </trans-unit>
+      <trans-unit id="module.file.recursive" resname="module.file.recursive" approved="yes">
+        <source>Include subfolders</source>
+        <target state="final">Inkludér undermapper</target>
+      </trans-unit>
+      <trans-unit id="module.file.update.error.header" resname="module.file.update.error.header" approved="yes">
+        <source>Oh no 😢</source>
+        <target state="final">Oh no 😢</target>
+      </trans-unit>
+      <trans-unit id="module.file.update.error.message" resname="module.file.update.error.message" approved="yes">
+        <source>has still no alternative text.</source>
+        <target state="final">har stadig ingen alternativ tekst.</target>
+      </trans-unit>
+      <trans-unit id="module.file.update.success.header" resname="module.file.update.success.header" approved="yes">
+        <source>You did it 😊</source>
+        <target state="final">Du gjorde det 😊</target>
+      </trans-unit>
+      <trans-unit id="module.file.update.success.message" resname="module.file.update.success.message" approved="yes">
+        <source>has the following alternative text</source>
+        <target state="final">har følgende alternative tekst</target>
       </trans-unit>
       <trans-unit id="partials.module.evaluation.lang" resname="partials.module.evaluation.lang" approved="yes">
         <source>Show results for language:</source>
@@ -327,81 +379,29 @@
         <source>Please choose</source>
         <target state="final">Vælg venligst</target>
       </trans-unit>
-      <trans-unit id="templates.wizard.description" resname="templates.wizard.description" approved="yes">
-        <source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
-        <target state="final">Der blev ikke givet nogen sidebeskrivelse! Google vil derfor vise nogle ord fra sideindholdet her.</target>
-      </trans-unit>
-      <trans-unit id="module.file.count" resname="module.file.count" approved="yes">
-        <source>Images with an alternative text / images in total</source>
-        <target state="final">Billeder med alternativ tekst / billeder i alt</target>
-      </trans-unit>
-      <trans-unit id="module.file.countWithoutAlt" resname="module.file.countWithoutAlt" approved="yes">
-        <source>Current image without an alternative text: %1$s from %2$s</source>
-        <target state="final">Nuværende billede uden alternativ tekst: %1$s fra %2$s</target>
-      </trans-unit>
       <trans-unit id="sys_file.identifier" resname="sys_file.identifier" approved="yes">
         <source>Path</source>
         <target state="final">Sti</target>
-      </trans-unit>
-      <trans-unit id="module.file.recursive" resname="module.file.recursive" approved="yes">
-        <source>Include subfolders</source>
-        <target state="final">Inkludér undermapper</target>
       </trans-unit>
       <trans-unit id="sys_file.name" resname="sys_file.name" approved="yes">
         <source>Filename</source>
         <target state="final">Filnavn</target>
       </trans-unit>
-      <trans-unit id="module.btn.next" resname="module.btn.next" approved="yes">
-        <source>Next Image</source>
-        <target state="final">Næste billede</target>
-      </trans-unit>
-      <trans-unit id="module.btn.prev" resname="module.btn.prev" approved="yes">
-        <source>Previous Image</source>
-        <target state="final">Forrige Billede</target>
-      </trans-unit>
-      <trans-unit id="module.btn.submit_and_next" resname="module.btn.submit_and_next" approved="yes">
-        <source>Save and go on</source>
-        <target state="final">Gem og fortsæt</target>
-      </trans-unit>
-      <trans-unit id="module.btn.view" resname="module.btn.view" approved="yes">
-        <source>View</source>
-        <target state="final">Vis</target>
-      </trans-unit>
-      <trans-unit id="module.file.error.no_images" resname="module.file.error.no_images" approved="yes">
-        <source>Please select a folder with images.</source>
-        <target state="final">Vælg venligst en mappe med billeder.</target>
-      </trans-unit>
-      <trans-unit id="module.file.error.no_image_without_alt" resname="module.file.error.no_image_without_alt" approved="yes">
-        <source>👍 Good job. All images here have an alternative text.</source>
-        <target state="final">👍 Godt job. Alle billeder her har en alternativ tekst.</target>
-      </trans-unit>
-      <trans-unit id="module.file.update.success.header" resname="module.file.update.success.header" approved="yes">
-        <source>You did it 😊</source>
-        <target state="final">Du gjorde det 😊</target>
-      </trans-unit>
-      <trans-unit id="module.file.update.success.message" resname="module.file.update.success.message" approved="yes">
-        <source>has the following alternative text</source>
-        <target state="final">har følgende alternative tekst</target>
-      </trans-unit>
-      <trans-unit id="module.file.update.error.header" resname="module.file.update.error.header" approved="yes">
-        <source>Oh no 😢</source>
-        <target state="final">Oh no 😢</target>
-      </trans-unit>
-      <trans-unit id="module.file.update.error.message" resname="module.file.update.error.message" approved="yes">
-        <source>has still no alternative text.</source>
-        <target state="final">har stadig ingen alternativ tekst.</target>
-      </trans-unit>
-      <trans-unit id="templates.element.json_ld_element.link.generator" resname="templates.element.json_ld_element.link.generator" approved="yes">
-        <source>Generate markup</source>
-        <target state="final">Generér markup</target>
+      <trans-unit id="templates.element.json_ld_element.link.check_text" resname="templates.element.json_ld_element.link.check_text" approved="yes">
+        <source>Check field markup</source>
+        <target state="final">Tjek felt-markup</target>
       </trans-unit>
       <trans-unit id="templates.element.json_ld_element.link.check_url" resname="templates.element.json_ld_element.link.check_url" approved="yes">
         <source>Check URL</source>
         <target state="final">Tjek URL</target>
       </trans-unit>
-      <trans-unit id="templates.element.json_ld_element.link.check_text" resname="templates.element.json_ld_element.link.check_text" approved="yes">
-        <source>Check field markup</source>
-        <target state="final">Tjek felt-markup</target>
+      <trans-unit id="templates.element.json_ld_element.link.generator" resname="templates.element.json_ld_element.link.generator" approved="yes">
+        <source>Generate markup</source>
+        <target state="final">Generér markup</target>
+      </trans-unit>
+      <trans-unit id="templates.wizard.description" resname="templates.wizard.description" approved="yes">
+        <source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
+        <target state="final">Der blev ikke givet nogen sidebeskrivelse! Google vil derfor vise nogle ord fra sideindholdet her.</target>
       </trans-unit>
     </body>
   </file>
