@@ -87,10 +87,7 @@ class ModuleFileController extends AbstractModuleController
                 true
             );
 
-            if (isset($result[0])) {
-                $this->numberOfImagesWithoutAlt = array_values($result[0])[0];
-            }
-
+            $this->numberOfImagesWithoutAlt = $result[0] ?? 0;
 
             // force offset to be smaller than number of all images without alt text
             if ($this->offset > 0 && $this->offset >= $this->numberOfImagesWithoutAlt) {
@@ -103,7 +100,7 @@ class ModuleFileController extends AbstractModuleController
                 true
             );
 
-            $numberOfAllImages = isset($result[0]) ?array_values($result[0])[0] : 0;
+            $numberOfAllImages = $result[0] ?? 0;
 
             if ($numberOfAllImages) {
                 $numberOfImagesWithAlt = $numberOfAllImages - $this->numberOfImagesWithoutAlt;

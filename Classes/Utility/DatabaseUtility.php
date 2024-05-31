@@ -159,7 +159,7 @@ class DatabaseUtility
         }
 
         $queryBuilder
-            ->select('file.*')
+            ->select($countAll ? 'file.uid' : 'file.*')
             ->from($tableName, 'file')
             ->leftJoin(
                 'file',
@@ -222,16 +222,16 @@ class DatabaseUtility
             );
         }
 
-        if ($countAll) {
-            $queryBuilder->count('file.uid');
-        } else {
+        if (!$countAll) {
             if ($offset > 0) {
                 $queryBuilder->setFirstResult($offset);
             }
             $queryBuilder->setMaxResults(1);
         }
 
-        return $queryBuilder->executeQuery()->fetchAllAssociative();
+        $res = $queryBuilder->executeQuery()->fetchAllAssociative();
+
+        return $countAll ? [0 => count($res)] : $res;
     }
 
     public static function getFileReferenceCount(int $fileUid): int
