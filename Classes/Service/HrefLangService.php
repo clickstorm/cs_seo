@@ -30,10 +30,6 @@ class HrefLangService extends AbstractUrlService
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $context = GeneralUtility::makeInstance(Context::class);
         $typoLinkConf = $GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.'] ?? [];
-        $tempLinkVars = $GLOBALS['TSFE']->linkVars;
-
-        // remove config.linkVars temporary
-        $GLOBALS['TSFE']->linkVars = '';
 
         // check if the current page is a detail page of a record
         if ($metaData) {
@@ -116,8 +112,6 @@ class HrefLangService extends AbstractUrlService
                 }
             }
         }
-
-        $GLOBALS['TSFE']->linkVars = $tempLinkVars;
 
         return $hreflangs;
     }

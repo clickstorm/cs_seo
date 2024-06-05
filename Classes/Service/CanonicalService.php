@@ -29,10 +29,6 @@ class CanonicalService extends AbstractUrlService
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $context = GeneralUtility::makeInstance(Context::class);
         $typoLinkConf = $this->typoScriptFrontendController->tmpl->setup['lib.']['currentUrl.']['typolink.'] ?? [];
-        $tempLinkVars = $this->typoScriptFrontendController->linkVars;
-
-        // remove config.linkVars temporary
-        $GLOBALS['TSFE']->linkVars = '';
 
         // check if the current page is a detail page of a record
         if ($metaData) {
@@ -71,8 +67,6 @@ class CanonicalService extends AbstractUrlService
             empty($this->typoScriptFrontendController->page['content_from_pid'])) {
             $canonicalUrl = $cObj->typoLink_URL($typoLinkConf);
         }
-
-        $GLOBALS['TSFE']->linkVars = $tempLinkVars;
 
         return $canonicalUrl;
     }
