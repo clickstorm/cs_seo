@@ -50,14 +50,12 @@ class ModuleFileController extends AbstractModuleController
     protected int $offset = 0;
     protected int $numberOfImagesWithoutAlt = 0;
 
-    public function initializeAction(): ?ForwardResponse
+    public function initializeAction(): void
     {
         parent::initializeAction();
 
         $this->storageUid = FileUtility::getStorageUidFromCombinedIdentifier($this->modParams['id']);
         $this->identifier = FileUtility::getIdentifierFromCombinedIdentifier($this->modParams['id']);
-
-        return null;
     }
 
     public function showEmptyImageAltAction(): ResponseInterface

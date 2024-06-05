@@ -61,7 +61,7 @@ abstract class AbstractModuleController extends ActionController
      * @throws NoSuchArgumentException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
-    protected function initializeAction(): ?ForwardResponse
+    protected function initializeAction(): void
     {
         // initialize page/be_user TSconfig settings
         $this->recordId = (int)($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? 0);
@@ -75,7 +75,7 @@ abstract class AbstractModuleController extends ActionController
 
         if (!$this->request->hasArgument('action') && $this->modParams['action']) {
             $this->request->setArgument('action', $this->modParams['action']);
-            return new ForwardResponse($this->modParams['action']);
+            new ForwardResponse($this->modParams['action']);
         }
 
         if (is_int($this->recordId)) {
@@ -84,8 +84,6 @@ abstract class AbstractModuleController extends ActionController
 
         // reset JavaScript and CSS files
         GeneralUtility::makeInstance(PageRenderer::class);
-
-        return null;
     }
 
     /**

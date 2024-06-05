@@ -47,7 +47,7 @@ class JsonLdElement extends AbstractNode
      *
      * @return array
      */
-    public function render()
+    public function render(): array
     {
         $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         // first get input element
