@@ -66,7 +66,7 @@ class ModuleFileController extends AbstractModuleController
             $this->offset = (int)$this->request->getArgument('offset');
         }
 
-        $this->requireJsModules = [
+        $this->jsModules = [
             'TYPO3/CMS/Backend/ContextMenu',
             'TYPO3/CMS/Backend/Notification',
             'TYPO3/CMS/Backend/InfoWindow',

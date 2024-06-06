@@ -234,8 +234,8 @@ class ModuleWebController extends AbstractModuleController
             ]
         );
 
-        $this->requireJsModules = [
-            'TYPO3/CMS/CsSeo/Evaluation',
+        $this->jsModules = [
+            '@clickstorm/cs-seo/Evaluation.js',
         ];
 
         $this->jsFiles = [

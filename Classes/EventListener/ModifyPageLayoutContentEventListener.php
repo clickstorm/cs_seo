@@ -175,7 +175,7 @@ class ModifyPageLayoutContentEventListener
 
     protected function loadJavascript(): void
     {
-        $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/CsSeo/Evaluation');
+        $this->getPageRenderer()->loadJavaScriptModule('@clickstorm/cs-seo/Evaluation.js');
     }
 
     protected function getResultsOfPage(int $pageUid): array

@@ -73,7 +73,7 @@ class JsonLdElement extends AbstractNode
      */
     protected function loadJavascript(): void
     {
-        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/JsonLdElement.js');
+        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/FormEngine/Element/JsonLdElement.js');
     }
 
     /**

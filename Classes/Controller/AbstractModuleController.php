@@ -45,7 +45,7 @@ abstract class AbstractModuleController extends ActionController
 
     protected string $jsInlineCode = '';
 
-    protected array $requireJsModules = [];
+    protected array $jsModules = [];
 
     private ?PageRenderer $pageRenderer = null;
 
@@ -137,8 +137,8 @@ abstract class AbstractModuleController extends ActionController
             $this->pageRenderer->addJsFile('EXT:cs_seo/Resources/Public/JavaScript/' . $jsFile);
         }
 
-        foreach ($this->requireJsModules as $requireJsModule) {
-            $this->pageRenderer->loadRequireJsModule($requireJsModule);
+        foreach ($this->jsModules as $jsModule) {
+            $this->pageRenderer->loadJavaScriptModule($jsModule);
         }
 
         foreach ($this->cssFiles as $cssFile) {

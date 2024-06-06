@@ -5,92 +5,115 @@
  * @version 1.0
  * @license clickstorm GmbH
  */
-define(['jquery', 'TYPO3/CMS/CsSeo/Cookie'], function($, Cookie) {
-  var Evaluation = {};
+export const Evaluation = {};
 
-  Evaluation.init = function() {
-    // evaluation update
-    $('#cs-seo-evaluate').click(function(key, value) {
-      var $this = $(this),
-        $evaluateButton = $('#cs-seo-evaluate');
+Evaluation.init = function() {
+  // evaluation update
+  document.getElementById('cs-seo-evaluate').addEventListener('click', function() {
+    const evaluateButton = document.getElementById('cs-seo-evaluate');
+    const uid = evaluateButton.getAttribute('data-uid');
+    const table = evaluateButton.getAttribute('data-table');
 
-      $evaluateButton.before('<p class="cs-wait">...</p>');
-      $.post(
-        TYPO3.settings.ajaxUrls['tx_csseo_evaluate'],
-        {
-          uid: $this.data('uid'),
-          table: $this.data('table')
-        }
-      ).done(function(response) {
-        if(response.length > 0) {
-          if(top.TYPO3.Notification) {
-            var message = $(response).find('.alert').first().text();
+    const waitParagraph = document.createElement('p');
+    waitParagraph.classList.add('cs-wait');
+    waitParagraph.textContent = '...';
+    evaluateButton.insertAdjacentElement('beforebegin', waitParagraph);
+
+    fetch(TYPO3.settings.ajaxUrls['tx_csseo_evaluate'], {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ uid: uid, table: table })
+    })
+      .then(response => response.text())
+      .then(responseText => {
+        if (responseText.length > 0) {
+          const messageElement = new DOMParser().parseFromString(responseText, 'text/html').querySelector('.alert, .message-body');
+          const message = messageElement ? messageElement.textContent : '';
+
+          if (top.TYPO3.Notification) {
             top.TYPO3.Notification.error('Not Updated', message, 5);
           } else {
-            var message = $(response).find('.message-body').first().text();
             top.TYPO3.Flashmessage.display(4, 'Not Updated', message);
           }
-          $('.cs-wait').remove();
-          $evaluateButton.show();
         } else {
-          if(top.TYPO3.Notification) {
+          if (top.TYPO3.Notification) {
             top.TYPO3.Notification.success('Updated', '', 3);
           } else {
             top.TYPO3.Flashmessage.display(2, 'Updated', '', 3);
           }
         }
+        document.querySelector('.cs-wait').remove();
+        evaluateButton.style.display = 'block';
         location.reload();
       });
-      $evaluateButton.hide();
-      return false;
-    });
 
-    // toggle accordion
-    var $toggles = $('.js-csseo-toggle');
-    if($toggles.length > 0) {
-      $toggles.each(function() {
-        var $toggle = $(this),
-          $content = $($toggle.data('content')),
-          showResults = false,
-          useCookies = $toggle.data('cookie');
-
-        if(useCookies) {
-          showResults = Cookie.cookie('seo-results') == 1 ? true : false;
-        }
-
-        function toggleResults() {
-          $content.toggle(showResults);
-          $toggle.toggleClass('csseo-icon-up-open', showResults);
-          $toggle.toggleClass('csseo-icon-down-open', !showResults);
-        }
-
-        $toggle.click(function() {
-          showResults = !showResults;
-          toggleResults();
-          if(useCookies) {
-            Cookie.cookie('seo-results', showResults ? 1 : 0);
-          }
-        });
-
-        if(!showResults) {
-          toggleResults();
-        }
-      });
-    }
-
-    // record selector with search box
-    var $recordSelector = $('#cs-record');
-    if($recordSelector.length > 0) {
-      $recordSelector.select2();
-      $recordSelector.find('option[value=""]:not(:selected)').remove();
-    }
-  }
-
-  // Call the init function when document is ready
-  $(document).ready(function() {
-    Evaluation.init();
+    evaluateButton.style.display = 'none';
+    return false;
   });
 
-  // To let the module be a dependency of another module, we return our object
-  return Evaluation;
+  // toggle accordion
+  const toggles = document.querySelectorAll('.js-csseo-toggle');
+  if (toggles.length > 0) {
+    toggles.forEach(toggle => {
+      const content = document.querySelector(toggle.getAttribute('data-content'));
+      let showResults = false;
+      const useCookies = toggle.getAttribute('data-cookie') === 'true';
+
+      if (useCookies) {
+        showResults = getCookie('seo-results') === '1';
+      }
+
+      function toggleResults() {
+        content.style.display = showResults ? 'block' : 'none';
+        toggle.classList.toggle('csseo-icon-up-open', showResults);
+        toggle.classList.toggle('csseo-icon-down-open', !showResults);
+      }
+
+      toggle.addEventListener('click', () => {
+        showResults = !showResults;
+        toggleResults();
+        if (useCookies) {
+          setCookie('seo-results', showResults ? '1' : '0');
+        }
+      });
+
+      if (!showResults) {
+        toggleResults();
+      }
+    });
+  }
+
+  // record selector with search box
+  const recordSelector = document.getElementById('cs-record');
+  if (recordSelector) {
+    // Initialize your select2 replacement here
+    // Example using a simple native implementation
+    recordSelector.querySelectorAll('option[value=""]:not(:selected)').forEach(option => {
+      option.remove();
+    });
+  }
+};
+
+// Call the init function when document is ready
+document.addEventListener('DOMContentLoaded', () => {
+  Evaluation.init();
 });
+
+// Utility functions for cookies
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function setCookie(name, value, days = 365) {
+  const date = new Date();
+  date.setTime(date.getTime() + (days*24*60*60*1000));
+  const expires = `expires=${date.toUTCString()}`;
+  document.cookie = `${name}=${value}; ${expires}; path=/`;
+}
+
+// Exporting Evaluation for other modules
+export default Evaluation;
