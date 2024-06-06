@@ -3,10 +3,10 @@
 namespace Clickstorm\CsSeo\Form\Element;
 
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
-use TYPO3\CMS\Backend\Form\AbstractNode;
 use TYPO3\CMS\Backend\Form\Element\InputTextElement;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -22,7 +22,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * Class PageTitle
  */
-class SnippetPreview extends AbstractNode
+class SnippetPreview extends AbstractFormElement
 {
     protected ?PageRenderer $pageRenderer = null;
 
@@ -31,7 +31,8 @@ class SnippetPreview extends AbstractNode
         $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 
         // first get input element
-        $inputField = GeneralUtility::makeInstance(InputTextElement::class, $this->nodeFactory, $this->data);
+        $inputField = GeneralUtility::makeInstance(InputTextElement::class);
+        $inputField->setData($this->data);
         $resultArray = $inputField->render();
 
         // Load necessary JavaScript

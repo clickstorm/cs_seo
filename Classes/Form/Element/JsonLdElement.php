@@ -27,7 +27,7 @@ namespace Clickstorm\CsSeo\Form\Element;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Backend\Form\AbstractNode;
+use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Backend\Form\Element\TextElement;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -38,7 +38,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  *
  * Class PageTitle
  */
-class JsonLdElement extends AbstractNode
+class JsonLdElement extends AbstractFormElement
 {
     protected ?PageRenderer $pageRenderer = null;
 
@@ -51,7 +51,8 @@ class JsonLdElement extends AbstractNode
     {
         $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         // first get input element
-        $inputField = GeneralUtility::makeInstance(TextElement::class, $this->nodeFactory, $this->data);
+        $inputField = GeneralUtility::makeInstance(TextElement::class);
+        $inputField->setData($this->data);
         $resultArray = $inputField->render();
 
         // Load necessary JavaScript
