@@ -3,9 +3,11 @@
 namespace Clickstorm\CsSeo\EventListener;
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Module\ModuleData;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -178,6 +180,10 @@ class ModifyPageLayoutContentEventListener
         $this->getPageRenderer()->loadJavaScriptModule('@clickstorm/cs-seo/Evaluation.js');
     }
 
+    /**
+     * @throws \JsonException
+     * @throws Exception
+     */
     protected function getResultsOfPage(int $pageUid): array
     {
         /** @var QueryBuilder $queryBuilder */
@@ -186,13 +192,20 @@ class ModifyPageLayoutContentEventListener
         $tableName = 'pages';
 
         $res = $queryBuilder->select('results')
-            ->from('tx_csseo_domain_model_evaluation')->where($queryBuilder->expr()->eq(
+            ->from('tx_csseo_domain_model_evaluation')
+            ->where(
+                $queryBuilder->expr()->eq(
                 'uid_foreign',
-                $queryBuilder->createNamedParameter($pageUid, \PDO::PARAM_INT)
-            ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableName)))->executeQuery();
+                $queryBuilder->createNamedParameter($pageUid, Connection::PARAM_INT)
+                ),
+                $queryBuilder->expr()->eq(
+                    'tablenames',
+                    $queryBuilder->createNamedParameter($tableName, Connection::PARAM_STR)
+                )
+            )->executeQuery();
 
-        while ($row = $res->fetch()) {
-            $results = unserialize($row['results']);
+        while ($row = $res->fetchAssociative()) {
+            $results = json_decode($row['results'], true, 512, JSON_THROW_ON_ERROR);
         }
 
         return $results;
