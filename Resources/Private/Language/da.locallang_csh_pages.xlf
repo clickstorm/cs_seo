@@ -7,10 +7,6 @@
         <source>Prevents indexing of duplicate content. If the content of another page is similar or identical and you prefer to have this page indexed, then enter the link to the page here.</source>
         <target state="final">Forhindrer indeksering af duplikeret indhold. Hvis indholdet af en anden side er identisk og du foretrækker at have denne side indekseret, så indtast linket til siden her.</target>
       </trans-unit>
-      <trans-unit id="no_follow.description" resname="no_follow.description" approved="yes">
-        <source>If checked, all links on the web page will not be checked by search engines. Thus the links have no influence on a page rank.</source>
-        <target state="final">Hvis markeret, vil alle links på websiden ikke blive kontrolleret af søgemaskiner. Linkene har derfor ingen indflydelse på en sideplacering.</target>
-      </trans-unit>
       <trans-unit id="no_index.description" resname="no_index.description" approved="yes">
         <source>If checked, this page will be visible in search engines.</source>
         <target state="final">Hvis markeret, vil denne side være synlig i søgemaskiner.</target>
