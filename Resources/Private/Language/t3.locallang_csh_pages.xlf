@@ -12,8 +12,8 @@
         <target>crwdns336850:0crwdne336850:0</target>
       </trans-unit>
       <trans-unit id="no_follow.description" resname="no_follow.description">
-        <source>If checked, all links on the web page will not be checked by search engines. Thus the links have no influence on a page rank.</source>
-        <target>crwdns313106:0crwdne313106:0</target>
+        <source>If checked, all links on the web page will be checked by search engines. Thus the links have influence on a page rank.</source>
+        <target>crwdns340316:0crwdne340316:0</target>
       </trans-unit>
       <trans-unit id="no_index.description" resname="no_index.description">
         <source>If checked, this page will be visible in search engines.</source>
