@@ -12,8 +12,8 @@
 				<target>Die Seitenbeschreibung kann in den Suchergebnissen und in den sozialen Medien auftauchen. Wecken Sie das Interesse des Nutzers und platzieren Sie wichtige Stichwörter der Seite in natürlicher Sprache.</target>
 			</trans-unit>
 			<trans-unit id="no_follow.description" resname="no_follow.description">
-				<source>If checked, all links on the web page will not be checked by search engines. Thus the links have no influence on a page rank.</source>
-				<target>Falls ja, werden die Verlinkungen auf der Seite nicht weiter von Suchmaschinen überprüft. Somit haben sie keinen Einfluss auf das Ranking.</target>
+				<source>If checked, all links on the web page will be checked by search engines. Thus the links have influence on a page rank.</source>
+				<target>Falls ja, werden die Verlinkungen auf der Seite von Suchmaschinen überprüft. Somit haben sie Einfluss auf das Ranking.</target>
 			</trans-unit>
 			<trans-unit id="no_index.description" resname="no_index.description">
 				<source>If checked, this page will be visible in search engines.</source>

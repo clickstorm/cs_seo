@@ -10,7 +10,7 @@
 				<source>The page description may appear in search results and on social media platforms. Arouse the user's interest and place key keywords of the page in natural language.</source>
 			</trans-unit>
 			<trans-unit id="no_follow.description" resname="no_follow.description">
-				<source>If checked, all links on the web page will not be checked by search engines. Thus the links have no influence on a page rank.</source>
+				<source>If checked, all links on the web page will be checked by search engines. Thus the links have influence on a page rank.</source>
 			</trans-unit>
 			<trans-unit id="no_index.description" resname="no_index.description">
 				<source>If checked, this page will be visible in search engines.</source>
