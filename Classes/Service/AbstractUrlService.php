@@ -39,7 +39,7 @@ abstract class AbstractUrlService
 
     protected function getLanguageFromItem(string $table, int $uid): int
     {
-        if ($GLOBALS['TCA'][$table]['ctrl']['languageField']) {
+        if ($GLOBALS['TCA'][$table]['ctrl']['languageField'] ?? false) {
             /** @var QueryBuilder $queryBuilder */
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
             $items = $queryBuilder->select($GLOBALS['TCA'][$table]['ctrl']['languageField'])
