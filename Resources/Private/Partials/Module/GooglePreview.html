@@ -3,7 +3,7 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 <body>
 <f:section name="Main">
-	<script type="application/javascript">
+	<script type="application/javascript" nonce="{f:security.nonce()}">
 		csSEO.previewSettings = {previewSettings -> f:format.raw()};
 	</script>
 	<div class="tx-cs_seo" ng-init="wizardInit = 1">
