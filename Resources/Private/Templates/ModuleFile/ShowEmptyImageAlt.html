@@ -7,13 +7,12 @@
 
 <f:section name="Main">
     <h1>
-        <f:translate key="layouts.module.action.showEmptyImageAlt"/>
+        <f:translate key="layouts.module.action.showEmptyImageAlt" extensionName="cs_seo"/>
     </h1>
-    <f:flashMessages />
     <f:if condition="{numberOfAllImages}">
         <f:then>
             <div class="csseo-progress form-group">
-                <f:translate key="module.file.count"/>
+                <f:translate key="module.file.count" extensionName="cs_seo"/>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped progress-bar-{f:if(condition: '{percentOfImages} == 100', then: 'success', else: 'danger')}"
                          role="progressbar"
@@ -24,21 +23,21 @@
             <f:if condition="{image}">
                 <f:then>
                     <p>
-                        <f:translate key="module.file.countWithoutAlt" arguments="{0:indexOfCurrentImage,1:numberOfImagesWithoutAlt}"/>
+                        <f:translate key="module.file.countWithoutAlt" extensionName="cs_seo" arguments="{0:indexOfCurrentImage,1:numberOfImagesWithoutAlt}"/>
                         <f:if condition="{numberOfReferences}">
-                            <br><f:translate key="module.file.numberOfReferences" arguments="{0:numberOfReferences}"/>
+                            <br><f:translate key="module.file.numberOfReferences" extensionName="cs_seo" arguments="{0:numberOfReferences}"/>
                         </f:if>
                     </p>
                     <div class="csseo-card">
                         <div class="csseo-card__row">
                             <div class="csseo-card__col csseo-card__col--form">
-                                <f:form class="csseo-card__form" action="update" name="editform" id="EditDocumentController">
-                                    <f:form.hidden value="{offset}" name="offset"/>
-                                    <f:form.hidden name="uid" value="{image.originalResource.uid}"/>
-                                    <f:form.hidden respectSubmittedDataValue="0" name="uid" value="{image.originalResource.uid}"/>
+                                <form class="csseo-card__form" action="{f:uri.action(action: 'update', extensionName: 'cs_seo', controller: 'Backend')}" name="editform" id="EditDocumentController">
+                                    <input type="hidden" value="{offset}" name="offset"/>
+                                    <input type="hidden" name="uid" value="{image.originalResource.uid}"/>
+                                    <input type="hidden" respectSubmittedDataValue="0" name="uid" value="{image.originalResource.uid}"/>
                                     <h4 class="csseo-card__headline">Edit File Metadata "{image.originalResource.name}"</h4>
                                     {editForm -> f:format.raw()}
-                                </f:form>
+                                </form>
                             </div>
                             <div class="csseo-card__col">
                                 <div class="csseo-card__image__wrapper">
@@ -50,7 +49,7 @@
                 </f:then>
                 <f:else>
                     <h3>
-                        <f:translate key="module.file.error.no_image_without_alt"/>
+                        <f:translate key="module.file.error.no_image_without_alt"  extensionName="cs_seo"/>
                     </h3>
                 </f:else>
             </f:if>
@@ -59,16 +58,14 @@
             <h3>
                 <f:if condition="{modParams.onlyReferenced}">
                     <f:then>
-                        <f:translate key="module.file.error.only_referenced"/>
+                        <f:translate key="module.file.error.only_referenced" extensionName="cs_seo"/>
                     </f:then>
                     <f:else>
-                        <f:translate key="module.file.error.no_images"/>
+                        <f:translate key="module.file.error.no_images" extensionName="cs_seo"/>
                     </f:else>
                 </f:if>
             </h3>
         </f:else>
     </f:if>
-    <f:form action="" id="ModForm">
-    </f:form>
 </f:section>
 </html>

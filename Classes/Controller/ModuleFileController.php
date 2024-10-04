@@ -45,6 +45,8 @@ class ModuleFileController extends AbstractModuleController
         'ModuleFile.css',
     ];
 
+    protected string $templateFile = 'ModuleFile/ShowEmptyImageAlt';
+
     protected int $storageUid = 0;
     protected string $identifier = '';
     protected int $offset = 0;

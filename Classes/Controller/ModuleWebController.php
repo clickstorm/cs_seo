@@ -51,6 +51,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageMetaAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageMeta';
         $fieldNames = ['title', 'seo_title', 'tx_csseo_title_only', 'description'];
 
         // get title and settings from TypoScript
@@ -81,6 +82,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageIndexAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageIndex';
         return $this->htmlResponse($this->generateGridView(['title', 'canonical_link', 'no_index', 'no_follow', 'no_search']));
     }
 
@@ -89,6 +91,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageOpenGraphAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageOpenGraph';
         return $this->htmlResponse($this->generateGridView(['title', 'og_title', 'og_description', 'og_image']));
     }
 
@@ -97,6 +100,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageStructuredDataAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageStructuredData';
         return $this->htmlResponse($this->generateGridView(['title', 'tx_csseo_json_ld']));
     }
 
@@ -105,6 +109,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageTwitterCardsAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageTwitterCards';
         return $this->htmlResponse($this->generateGridView([
             'title',
             'twitter_title',
@@ -120,6 +125,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageResultsAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageResults';
         return $this->htmlResponse($this->generateGridView(['title', 'tx_csseo_keyword', 'results'], true));
     }
 
@@ -128,6 +134,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageEvaluationAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageEvaluation';
         $page = $this->pageRepository->getPage($this->modParams['id'], true);
         $evaluationUid = 0;
         $extKey = 'cs_seo';

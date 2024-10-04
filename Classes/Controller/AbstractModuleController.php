@@ -47,6 +47,8 @@ abstract class AbstractModuleController extends ActionController
 
     protected array $jsModules = [];
 
+    protected string $templateFile = '';
+
     private ?PageRenderer $pageRenderer = null;
 
     public function __construct(PageRenderer $pageRenderer)
@@ -131,7 +133,6 @@ abstract class AbstractModuleController extends ActionController
         // Prepare module setup
         $moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
         $moduleTemplate = $moduleTemplateFactory->create(GlobalsUtility::getTYPO3Request());
-        $moduleTemplate->setContent($this->view->render());
 
         foreach ($this->jsFiles as $jsFile) {
             $this->pageRenderer->addJsFile('EXT:cs_seo/Resources/Public/JavaScript/' . $jsFile);
@@ -203,7 +204,7 @@ abstract class AbstractModuleController extends ActionController
             $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
         }
 
-        return $moduleTemplate->renderContent();
+        return $moduleTemplate->render($this->templateFile);
     }
 
     protected function renderFlashMessages(): string

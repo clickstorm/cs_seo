@@ -56,6 +56,7 @@ class FormService
                 'vanillaUid' => (int)$theUid,
                 'command' => 'edit',
                 'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
+                'request' => $GLOBALS['TYPO3_REQUEST'],
             ];
 
             if (isset($this->overrideVals[$table]) && is_array($this->overrideVals[$table])) {
@@ -65,7 +66,7 @@ class FormService
                 $formDataCompilerInput['defaultValues'] = $this->defVals;
             }
 
-            $formData = $formDataCompiler->compile($formDataCompilerInput);
+            $formData = $formDataCompiler->compile($formDataCompilerInput, $formDataGroup);
 
             if ($table === 'pages') {
                 $this->viewId = $formData['databaseRow']['uid'];

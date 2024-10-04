@@ -3,7 +3,7 @@
       data-namespace-typo3-fluid="true">
 
 <p class="no-margin">
-	<f:translate key="evaluation.headingOrder.settings"/>
+	<f:translate key="evaluation.headingOrder.settings" extensionName="cs_seo"/>
 </p>
 
 <f:if condition="{result.headings}">
@@ -14,7 +14,7 @@
 					<span class="cs-headingorder__level{f:if(condition: heading.correctOrder,else: ' cs-headingorder__level--error')}">
 						<f:if condition="!{heading.correctOrder}">
 							<span class="visually-hidden">
-								<f:translate key="evaluation.headingOrder.incorrectItem"/>
+								<f:translate key="evaluation.headingOrder.incorrectItem" extensionName="cs_seo"/>
 							</span>
 						</f:if>
 						H{heading.level}:</span>
