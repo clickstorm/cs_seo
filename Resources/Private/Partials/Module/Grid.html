@@ -12,7 +12,7 @@
 					<f:render partial="Module/Form" arguments="{_all}" section="Main" />
 
 					<!-- Grid -->
-					<script type="application/javascript">
+					<script type="application/javascript" nonce="{f:security.nonce()}">
 						csSEO = {};
 						csSEO.gridOptions = {pageJSON -> f:format.raw()};
 					</script>
