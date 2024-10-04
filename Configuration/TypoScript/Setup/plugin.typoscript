@@ -19,11 +19,6 @@ plugin.tx_csseo {
             }
         }
     }
-    tracking {
-        googleAnalytics = {$plugin.tx_csseo.tracking.googleAnalytics}
-        piwik = {$plugin.tx_csseo.tracking.piwik}
-        piwik.id = {$plugin.tx_csseo.tracking.piwik.id}
-    }
     structureddata {
         search {
             enable = {$plugin.tx_csseo.structureddata.search.enable}

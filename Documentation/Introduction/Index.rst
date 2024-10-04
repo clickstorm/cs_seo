@@ -38,8 +38,6 @@ Features
 - Define fallback images for Open Graph and Twitter Cards
 - Backend module in AngularJS to edit the properties directly
 - Another backend module to fill empty alternative text of images
-- Tracking with Google Analytics inc. download tracking
-- Tracking with Matomo (Piwik)
 
 .. _screenshots:
 

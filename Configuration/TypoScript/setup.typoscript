@@ -3,7 +3,6 @@
 
 @import 'EXT:cs_seo/Configuration/TypoScript/Setup/module.typoscript'
 @import 'EXT:cs_seo/Configuration/TypoScript/Setup/meta.typoscript'
-@import 'EXT:cs_seo/Configuration/TypoScript/Setup/tracking.typoscript'
 @import 'EXT:cs_seo/Configuration/TypoScript/Setup/structuredData.typoscript'
 
 <INCLUDE_TYPOSCRIPT: source="DIR:EXT:cs_seo/Configuration/TypoScript/PageTypes/" extensions="typoscript">
