@@ -31,13 +31,13 @@
                     <div class="csseo-card">
                         <div class="csseo-card__row">
                             <div class="csseo-card__col csseo-card__col--form">
-                                <form class="csseo-card__form" action="{f:uri.action(action: 'update', extensionName: 'cs_seo', controller: 'Backend')}" name="editform" id="EditDocumentController">
-                                    <input type="hidden" value="{offset}" name="offset"/>
-                                    <input type="hidden" name="uid" value="{image.originalResource.uid}"/>
-                                    <input type="hidden" respectSubmittedDataValue="0" name="uid" value="{image.originalResource.uid}"/>
+                                <f:form class="csseo-card__form" action="update" name="editform" id="EditDocumentController">
+                                    <f:form.hidden value="{offset}" name="offset"/>
+                                    <f:form.hidden name="uid" value="{image.originalResource.uid}"/>
+                                    <f:form.hidden respectSubmittedDataValue="0" name="uid" value="{image.originalResource.uid}"/>
                                     <h4 class="csseo-card__headline">Edit File Metadata "{image.originalResource.name}"</h4>
                                     {editForm -> f:format.raw()}
-                                </form>
+                                </f:form>
                             </div>
                             <div class="csseo-card__col">
                                 <div class="csseo-card__image__wrapper">
@@ -67,5 +67,9 @@
             </h3>
         </f:else>
     </f:if>
+
+    <f:comment><!-- needed for header buttons --></f:comment>
+    <f:form action="showEmptyImageAlt" id="ModForm">
+    </f:form>
 </f:section>
 </html>

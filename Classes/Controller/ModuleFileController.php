@@ -69,9 +69,10 @@ class ModuleFileController extends AbstractModuleController
         }
 
         $this->jsModules = [
-            'TYPO3/CMS/Backend/ContextMenu',
-            'TYPO3/CMS/Backend/Notification',
-            'TYPO3/CMS/Backend/InfoWindow',
+            '@typo3/backend/context-menu.js',
+            '@typo3/backend/notification.js',
+            '@typo3/backend/form-engine.js',
+            '@typo3/backend/info-window.js',
         ];
 
         if ($this->storageUid) {
@@ -162,7 +163,7 @@ class ModuleFileController extends AbstractModuleController
                 $this->moduleTemplate->assignMultiple([
                     'offset' => $this->offset,
                     'editForm' => $editForm,
-                    'image' => $files[0],
+                    'image' => $files[0]
                 ]);
             }
         }
@@ -289,7 +290,7 @@ class ModuleFileController extends AbstractModuleController
             $saveButton = $buttonBar->makeInputButton()
                 ->setForm('EditDocumentController')
                 ->setIcon($iconFactory->getIcon('actions-document-save', Icon::SIZE_SMALL))
-                ->setName('_savedok')
+                ->setName('_save')
                 ->setShowLabelText(true)
                 ->setTitle(GlobalsUtility::getLanguageService()->sL(
                     'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.submit_and_next'
