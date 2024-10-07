@@ -135,7 +135,7 @@ class ModuleWebController extends AbstractModuleController
     public function pageEvaluationAction(): ResponseInterface
     {
         $this->templateFile = 'ModuleWeb/PageEvaluation';
-        $page = $this->pageRepository->getPage($this->modParams['id'], true);
+        $page = $this->pageRepository->getPage((int)$this->modParams['id'], true);
         $evaluationUid = 0;
         $extKey = 'cs_seo';
         $tables = [

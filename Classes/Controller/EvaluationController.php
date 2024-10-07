@@ -15,7 +15,7 @@ class EvaluationController extends ActionController
     /**
      * @var EvaluationRepository
      */
-    protected $evaluationRepository;
+    protected ?EvaluationRepository $evaluationRepository = null;
 
     public function showAction($uidForeign, $tableName = 'pages'): ResponseInterface
     {

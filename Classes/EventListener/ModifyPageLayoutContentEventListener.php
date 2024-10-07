@@ -205,7 +205,7 @@ class ModifyPageLayoutContentEventListener
             )->executeQuery();
 
         while ($row = $res->fetchAssociative()) {
-            $results = json_decode($row['results'], true, 512, JSON_THROW_ON_ERROR);
+            $results = unserialize($row['results']);
         }
 
         return $results;

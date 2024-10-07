@@ -5,6 +5,8 @@
  * @version 1.0
  * @license clickstorm GmbH
  */
+import DocumentService from"@typo3/core/document-service.js";
+import AjaxRequest from "@typo3/core/ajax/ajax-request.js";
 export const Evaluation = {};
 
 Evaluation.init = function() {
@@ -12,44 +14,42 @@ Evaluation.init = function() {
   document.getElementById('cs-seo-evaluate').addEventListener('click', function() {
     const evaluateButton = document.getElementById('cs-seo-evaluate');
     const uid = evaluateButton.getAttribute('data-uid');
-    const table = evaluateButton.getAttribute('data-table');
+    const table = evaluateButton.getAttribute('data-table') ? evaluateButton.getAttribute('data-table') : 'pages';
 
     const waitParagraph = document.createElement('p');
     waitParagraph.classList.add('cs-wait');
     waitParagraph.textContent = '...';
     evaluateButton.insertAdjacentElement('beforebegin', waitParagraph);
 
-    fetch(TYPO3.settings.ajaxUrls['tx_csseo_evaluate'], {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ uid: uid, table: table })
-    })
-      .then(response => response.text())
-      .then(responseText => {
-        if (responseText.length > 0) {
-          const messageElement = new DOMParser().parseFromString(responseText, 'text/html').querySelector('.alert, .message-body');
-          const message = messageElement ? messageElement.textContent : '';
+    let request = new AjaxRequest(TYPO3.settings.ajaxUrls.tx_csseo_evaluate)
 
-          if (top.TYPO3.Notification) {
-            top.TYPO3.Notification.error('Not Updated', message, 5);
-          } else {
-            top.TYPO3.Flashmessage.display(4, 'Not Updated', message);
-          }
+    const json = { uid: uid, table: table };
+    let promise = request.post(json);
+
+    promise.then(async function (response) {
+      const responseText = await response.resolve();
+      if (responseText.length > 0) {
+        const messageElement = new DOMParser().parseFromString(responseText, 'text/html').querySelector('.alert, .message-body');
+        const message = messageElement ? messageElement.textContent : '';
+
+        if (top.TYPO3.Notification) {
+          top.TYPO3.Notification.error('Not Updated', message, 5);
         } else {
-          if (top.TYPO3.Notification) {
-            top.TYPO3.Notification.success('Updated', '', 3);
-          } else {
-            top.TYPO3.Flashmessage.display(2, 'Updated', '', 3);
-          }
+          top.TYPO3.Flashmessage.display(4, 'Not Updated', message);
         }
-        document.querySelector('.cs-wait').remove();
-        evaluateButton.style.display = 'block';
-        location.reload();
-      });
+      } else {
+        if (top.TYPO3.Notification) {
+          top.TYPO3.Notification.success('Updated', '', 3);
+        } else {
+          top.TYPO3.Flashmessage.display(2, 'Updated', '', 3);
+        }
+      }
+      document.querySelector('.cs-wait').remove();
+      evaluateButton.classList.remove('hidden');
+      location.reload();
+    });
 
-    evaluateButton.style.display = 'none';
+    evaluateButton.classList.add('hidden');
     return false;
   });
 
@@ -97,7 +97,7 @@ Evaluation.init = function() {
 };
 
 // Call the init function when document is ready
-document.addEventListener('DOMContentLoaded', () => {
+DocumentService.ready().then(() => {
   Evaluation.init();
 });
 
