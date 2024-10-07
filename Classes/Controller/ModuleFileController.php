@@ -71,7 +71,6 @@ class ModuleFileController extends AbstractModuleController
         $this->jsModules = [
             '@typo3/backend/context-menu.js',
             '@typo3/backend/notification.js',
-            '@typo3/backend/form-engine.js',
             '@typo3/backend/info-window.js',
         ];
 
