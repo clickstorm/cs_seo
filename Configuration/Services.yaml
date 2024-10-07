@@ -27,6 +27,12 @@ services:
         identifier: 'cs-seo/canonical'
         event: TYPO3\CMS\Seo\Event\ModifyUrlForCanonicalTagEvent
 
+  Clickstorm\CsSeo\EventListener\AfterGetDataResolvedEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'csSeoAfterGetDataResolvedEventListener'
+        event: TYPO3\CMS\Frontend\ContentObject\Event\AfterGetDataResolvedEventListener
+
   Clickstorm\CsSeo\EventListener\HrefLangListener:
     tags:
       - name: event.listener

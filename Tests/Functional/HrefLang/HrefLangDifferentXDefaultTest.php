@@ -30,10 +30,7 @@ class HrefLangDifferentXDefaultTest extends AbstractHrefLangTestCase
         $this->setUpFrontendRootPage(1, $typoScriptFiles);
     }
 
-    /**
-     * @return array
-     */
-    public function checkHrefLangOutputDataProvider(): array
+    public static function checkHrefLangOutputDataProvider(): array
     {
         return [
             'No translation available, so only hreflang tags expected for default language and fallback languages' => [

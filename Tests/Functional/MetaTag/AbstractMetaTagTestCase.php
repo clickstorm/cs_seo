@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Clickstorm\CsSeo\Tests\Functional\MetaTag;
 
 use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Abstract Test Class
@@ -13,15 +15,13 @@ use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTestCase;
  */
 abstract class AbstractMetaTagTestCase extends AbstractFrontendTestCase
 {
-    public function ensureMetaDataAreCorrectDataProvider(): array
+    public static function ensureMetaDataAreCorrectDataProvider(): array
     {
         return [];
     }
 
-    /**
-     * @test
-     * @dataProvider ensureMetaDataAreCorrectDataProvider
-     */
+    #[Test]
+    #[DataProvider('ensureMetaDataAreCorrectDataProvider')]
     public function ensureMetaDataAreCorrect(string $url, array $expectedMetaTags): void
     {
         /** @var \TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalResponse $response */
@@ -42,14 +42,14 @@ abstract class AbstractMetaTagTestCase extends AbstractFrontendTestCase
 
             if ($value) {
                 if ($expectedMetaTag === 'og:image' || $expectedMetaTag === 'twitter:image') {
-                    $regex = '<meta ' . $metaTagType . '="' . $expectedMetaTag . '" content=".*' . $value . '.*\.png" \/>';
+                    $regex = '<meta ' . $metaTagType . '="' . $expectedMetaTag . '" content=".*' . $value . '.*\.png">';
                     self::assertMatchesRegularExpression(
                         "/{$regex}/",
                         $content
                     );
                 } else {
                     self::assertStringContainsString(
-                        '<meta ' . $metaTagType . '="' . $expectedMetaTag . '" content="' . $value . '" />',
+                        '<meta ' . $metaTagType . '="' . $expectedMetaTag . '" content="' . $value . '">',
                         $content
                     );
                 }

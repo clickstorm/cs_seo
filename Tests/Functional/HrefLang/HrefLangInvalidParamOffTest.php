@@ -26,10 +26,7 @@ class HrefLangInvalidParamOffTest extends AbstractHrefLangTestCase
         $this->importTypoScript($typoScriptFiles, $sitesNumbers);
     }
 
-    /**
-     * @return array
-     */
-    public function checkHrefLangOutputDataProvider(): array
+    public static function checkHrefLangOutputDataProvider(): array
     {
         return [
             'Remove invalid parameter foo=bar' => [

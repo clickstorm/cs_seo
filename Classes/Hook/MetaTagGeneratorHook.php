@@ -5,6 +5,7 @@ namespace Clickstorm\CsSeo\Hook;
 use Clickstorm\CsSeo\Service\MetaDataService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Core\MetaTag\MetaTagManagerRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -36,7 +37,7 @@ class MetaTagGeneratorHook
     protected function renderContent(array $metaData): void
     {
         $metaTagManagerRegistry = GeneralUtility::makeInstance(MetaTagManagerRegistry::class);
-        $pluginSettings = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_csseo.'];
+        $pluginSettings = GlobalsUtility::getTypoScriptSetup()['plugin.']['tx_csseo.'] ?? [];
 
         $ogImageUrl = $this->getOgImage($metaData, $pluginSettings);
         $twImageUrl = $this->getTwImage($metaData, $pluginSettings);
@@ -86,7 +87,7 @@ class MetaTagGeneratorHook
         }
     }
 
-    protected function getOgImage(array $metaData, array $pluginSettings): string
+    protected function getOgImage(array $metaData, array $pluginSettings = []): string
     {
         // og:image
         $ogImageURL = $pluginSettings['social.']['defaultImage'];
@@ -103,7 +104,7 @@ class MetaTagGeneratorHook
 
         return $this->getScaledImagePath(
             $ogImageURL,
-            $pluginSettings['social.']['openGraph.']['image.']
+            $pluginSettings['social.']['openGraph.']['image.'] ?? []
         );
     }
 
@@ -133,8 +134,8 @@ class MetaTagGeneratorHook
         $conf = [
             'file' => $originalFile,
             'file.' => [
-                'height' => $imageSize['height'],
-                'width' => $imageSize['width'],
+                'height' => $imageSize['height'] ?? '',
+                'width' => $imageSize['width'] ?? '',
             ],
         ];
         $imgUri = $this->cObj->cObjGetSingle('IMG_RESOURCE', $conf);
@@ -162,7 +163,7 @@ class MetaTagGeneratorHook
 
         return $this->getScaledImagePath(
             $twImageURL,
-            $pluginSettings['social.']['twitter.']['image.']
+            $pluginSettings['social.']['twitter.']['image.'] ?? []
         );
     }
 

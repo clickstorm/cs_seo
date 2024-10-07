@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Clickstorm\CsSeo\Tests\Functional\Canonical;
 
 use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Test case, inspired by typo3/cms-seo extension
@@ -13,15 +15,13 @@ use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTestCase;
  */
 abstract class AbstractCanonicalTestCase extends AbstractFrontendTestCase
 {
-    public function generateDataProvider(): array
+    public static function generateDataProvider(): array
     {
         return [];
     }
 
-    /**
-     * @test
-     * @dataProvider generateDataProvider
-     */
+    #[Test]
+    #[DataProvider('generateDataProvider')]
     public function generate(string $url, string $expectedCanonicalUrl): void
     {
         /** @var \TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalResponse $response */

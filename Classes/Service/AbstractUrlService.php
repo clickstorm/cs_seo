@@ -4,6 +4,7 @@ namespace Clickstorm\CsSeo\Service;
 
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Doctrine\DBAL\Exception;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Site\Entity\Site;
@@ -45,7 +46,7 @@ abstract class AbstractUrlService
             $items = $queryBuilder->select($GLOBALS['TCA'][$table]['ctrl']['languageField'])
                 ->from($table)->where($queryBuilder->expr()->eq(
                 'uid',
-                $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
             ))->executeQuery()
                 ->fetchAllAssociative();
 
@@ -88,11 +89,11 @@ abstract class AbstractUrlService
             ->where(
                 $queryBuilder->expr()->eq(
                     $pointerField,
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 )
             )->orWhere($queryBuilder->expr()->eq(
             'uid',
-            $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+            $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
         ))->executeQuery()
             ->fetchAllAssociative();
 
@@ -122,10 +123,10 @@ abstract class AbstractUrlService
                 )),
                 $queryBuilder->expr()->or($queryBuilder->expr()->eq(
                     't.' . $pointerField,
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 ), $queryBuilder->expr()->eq(
                     't.uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 ))
             )->executeQuery()
             ->fetchAllAssociative();
@@ -178,11 +179,11 @@ abstract class AbstractUrlService
             ->where(
                 $queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 )
             )->orWhere($queryBuilder->expr()->eq(
             $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'],
-            $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+            $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
         ))->executeQuery()
             ->fetchAllAssociative();
 

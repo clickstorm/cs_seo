@@ -4,6 +4,7 @@ namespace Clickstorm\CsSeo\Form\Element;
 
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
@@ -165,7 +166,7 @@ class SnippetPreview extends AbstractFormElement
                         $res = $queryBuilder->select('*')
                             ->from($data['tablenames'])->where($queryBuilder->expr()->eq(
                             'uid',
-                            $queryBuilder->createNamedParameter($data['uid_foreign'], \PDO::PARAM_INT)
+                            $queryBuilder->createNamedParameter($data['uid_foreign'], Connection::PARAM_INT)
                         ))->executeQuery()->fetchAllAssociative();
 
                         $row = $res[0];

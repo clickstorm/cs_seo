@@ -26,10 +26,7 @@ class HrefLangCoreTest extends AbstractHrefLangTestCase
         $this->importTypoScript($typoScriptFiles, $sitesNumbers);
     }
 
-    /**
-     * @return array
-     */
-    public function checkHrefLangOutputDataProvider(): array
+    public static function checkHrefLangOutputDataProvider(): array
     {
         return [
             'No translation available, so only hreflang tags expected for default language and fallback languages' => [

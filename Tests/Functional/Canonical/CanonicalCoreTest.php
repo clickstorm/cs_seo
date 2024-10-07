@@ -6,7 +6,7 @@ namespace Clickstorm\CsSeo\Tests\Functional\Canonical;
 
 class CanonicalCoreTest extends AbstractCanonicalTestCase
 {
-    public function generateDataProvider(): array
+    public static function generateDataProvider(): array
     {
         return [
             'uid: 1 with canonical_link' => [

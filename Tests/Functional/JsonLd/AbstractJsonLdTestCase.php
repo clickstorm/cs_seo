@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Clickstorm\CsSeo\Tests\Functional\JsonLd;
 
 use Clickstorm\CsSeo\Tests\Functional\AbstractFrontendTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * Abstract Test Class
@@ -15,15 +17,13 @@ abstract class AbstractJsonLdTestCase extends AbstractFrontendTestCase
 {
     public const STRING_IN_JSON_LD_TEST = 'https://www.json-ld-test.com';
 
-    public function ensureMetaDataAreCorrectDataProvider(): array
+    public static function ensureMetaDataAreCorrectDataProvider(): array
     {
         return [];
     }
 
-    /**
-     * @test
-     * @dataProvider ensureMetaDataAreCorrectDataProvider
-     */
+    #[Test]
+    #[DataProvider('ensureMetaDataAreCorrectDataProvider')]
     public function ensureMetaDataAreCorrect(string $url, string $expectedJsonLd): void
     {
         /** @var \TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalResponse $response */

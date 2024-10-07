@@ -5,6 +5,7 @@ namespace Clickstorm\CsSeo\Service;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
@@ -151,7 +152,7 @@ class MetaDataService
         $row = $queryBuilder->select('*')
             ->from($tableSettings['table'])->where($queryBuilder->expr()->eq(
             'uid',
-            $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)
+            $queryBuilder->createNamedParameter($tableSettings['uid'], Connection::PARAM_INT)
         ))->executeQuery()
             ->fetchAssociative();
 
@@ -180,7 +181,7 @@ class MetaDataService
         $res = $queryBuilder->select('*')
             ->from(self::TABLE_NAME_META)->where($queryBuilder->expr()->eq(
             'uid_foreign',
-            $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)
+            $queryBuilder->createNamedParameter($tableSettings['uid'], Connection::PARAM_INT)
         ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableSettings['table'])))->executeQuery()->fetchAllAssociative();
 
         return isset($res[0]) ? $res[0] : [];

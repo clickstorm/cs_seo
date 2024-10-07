@@ -22,4 +22,19 @@ class GlobalsUtility
     {
         return $GLOBALS['TYPO3_REQUEST'];
     }
+
+    public static function getTypoScriptSetup(): array
+    {
+        return self::getTYPO3Request()->getAttribute('frontend.typoscript')->getSetupArray();
+    }
+
+    public static function getPageId(): int
+    {
+        return self::getTYPO3Request()->getAttribute('frontend.page.information')->getId();
+    }
+
+    public static function getPageRecord(): array
+    {
+        return self::getTYPO3Request()->getAttribute('frontend.page.information')->getPageRecord();
+    }
 }

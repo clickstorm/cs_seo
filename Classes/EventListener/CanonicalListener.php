@@ -13,9 +13,7 @@ class CanonicalListener
 {
     public function __invoke(ModifyUrlForCanonicalTagEvent $event): void
     {
-        if (empty($event->getUrl())) {
-            $canonicalService = GeneralUtility::makeInstance(CanonicalService::class);
-            $event->setUrl($canonicalService->getUrl());
-        }
+        $canonicalService = GeneralUtility::makeInstance(CanonicalService::class);
+        $event->setUrl($canonicalService->getUrl($event->getUrl()));
     }
 }

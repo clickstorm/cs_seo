@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Tests\Functional\Canonical;
 
-class CanonicalInvalidParamIOffTest extends AbstractCanonicalTestCase
+class CanonicalInvalidParamOffTest extends AbstractCanonicalTestCase
 {
     protected bool $failOnFailure = true;
 
-    public function generateDataProvider(): array
+    public static function generateDataProvider(): array
     {
         return [
             // cs_seo tests
