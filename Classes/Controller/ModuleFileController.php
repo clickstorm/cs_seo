@@ -105,7 +105,7 @@ class ModuleFileController extends AbstractModuleController
             if ($numberOfAllImages) {
                 $numberOfImagesWithAlt = $numberOfAllImages - $this->numberOfImagesWithoutAlt;
                 $percentOfImages = $numberOfImagesWithAlt / $numberOfAllImages * 100;
-                $this->view->assignMultiple([
+                $this->moduleTemplate->assignMultiple([
                     'numberOfImagesWithoutAlt' => $this->numberOfImagesWithoutAlt,
                     'indexOfCurrentImage' => $this->offset + 1,
                     'numberOfImagesWithAlt' => $numberOfImagesWithAlt,
@@ -113,7 +113,7 @@ class ModuleFileController extends AbstractModuleController
                 ]);
             }
 
-            $this->view->assignMultiple([
+            $this->moduleTemplate->assignMultiple([
                 'numberOfAllImages' => $numberOfAllImages,
                 'identifier' => $this->identifier,
                 'modParams' => $this->modParams
@@ -138,7 +138,7 @@ class ModuleFileController extends AbstractModuleController
                 }
             }
 
-            $this->view->assign('columns', $columns);
+            $this->moduleTemplate->assign('columns', $columns);
 
             if (isset($imageRow[0]) && isset($imageRow[0]['uid'])) {
                 $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
@@ -154,12 +154,12 @@ class ModuleFileController extends AbstractModuleController
                 }
 
                 if ($this->modParams['onlyReferenced']) {
-                    $this->view->assign('numberOfReferences', DatabaseUtility::getFileReferenceCount($this->image->getUid()));
+                    $this->moduleTemplate->assign('numberOfReferences', DatabaseUtility::getFileReferenceCount($this->image->getUid()));
                 }
 
                 $editForm = $formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',', $configuredColumns));
 
-                $this->view->assignMultiple([
+                $this->moduleTemplate->assignMultiple([
                     'offset' => $this->offset,
                     'editForm' => $editForm,
                     'image' => $files[0],

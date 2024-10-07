@@ -56,7 +56,7 @@ class ModuleWebController extends AbstractModuleController
 
         // get title and settings from TypoScript
         $tsfeUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->recordId, $this->modParams['lang']);
-        $this->view->assign('previewSettings', json_encode($tsfeUtility->getPreviewSettings()));
+        $this->moduleTemplate->assign('previewSettings', json_encode($tsfeUtility->getPreviewSettings()));
 
         return $this->htmlResponse($this->generateGridView($fieldNames));
     }
@@ -72,7 +72,7 @@ class ModuleWebController extends AbstractModuleController
         $this->cssFiles = $gridService->getCssFiles();
         $this->jsFiles = $gridService->getJsFiles();
 
-        $this->view->assignMultiple($gridService->processFields());
+        $this->moduleTemplate->assignMultiple($gridService->processFields());
 
         return $this->wrapModuleTemplate();
     }
@@ -168,7 +168,7 @@ class ModuleWebController extends AbstractModuleController
                 $evaluation = $this->evaluationService->getEvaluation($evaluationUid, $table);
             }
 
-            $this->view->assignMultiple(
+            $this->moduleTemplate->assignMultiple(
                 [
                     'record' => $this->modParams['record'],
                     'records' => $records,
@@ -204,7 +204,7 @@ class ModuleWebController extends AbstractModuleController
             $evaluation = $this->evaluationService->getEvaluation($page);
             $evaluationUid = $page['_PAGES_OVERLAY_UID'] ?? $pageUid;
             $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?? 0;
-            $this->view->assignMultiple(
+            $this->moduleTemplate->assignMultiple(
                 [
                     'lang' => $languageParam,
                     'languages' => $languages,
@@ -217,11 +217,11 @@ class ModuleWebController extends AbstractModuleController
             $results = $evaluation->getResultsAsArray();
 
             if(is_array($results) && isset($results['Percentage'])) {
-                $this->view->assign('score', $results['Percentage']);
+                $this->moduleTemplate->assign('score', $results['Percentage']);
                 unset($results['Percentage']);
             }
 
-            $this->view->assignMultiple(
+            $this->moduleTemplate->assignMultiple(
                 [
                     'evaluation' => $evaluation,
                     'results' => $results,
@@ -231,7 +231,7 @@ class ModuleWebController extends AbstractModuleController
 
         $emConf = ConfigurationUtility::getEmConfiguration();
 
-        $this->view->assignMultiple(
+        $this->moduleTemplate->assignMultiple(
             [
                 'evaluationUid' => $evaluationUid,
                 'emConf' => $emConf,

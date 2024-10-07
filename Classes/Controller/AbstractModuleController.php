@@ -2,7 +2,14 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Backend\Form\FormDataCompiler;
+use TYPO3\CMS\Backend\Module\ModuleProvider;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Routing\BackendEntryPointResolver;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
@@ -49,12 +56,12 @@ abstract class AbstractModuleController extends ActionController
 
     protected string $templateFile = '';
 
-    private ?PageRenderer $pageRenderer = null;
+    protected ?ModuleTemplate $moduleTemplate = null;
 
-    public function __construct(PageRenderer $pageRenderer)
-    {
-        $this->pageRenderer = $pageRenderer;
-    }
+    public function __construct(
+        protected readonly PageRenderer $pageRenderer,
+        protected readonly ModuleTemplateFactory $moduleTemplateFactory,
+    ) {}
 
     /**
      * Initialize action
@@ -86,6 +93,7 @@ abstract class AbstractModuleController extends ActionController
 
         // reset JavaScript and CSS files
         GeneralUtility::makeInstance(PageRenderer::class);
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
     }
 
     /**
@@ -130,9 +138,6 @@ abstract class AbstractModuleController extends ActionController
 
     protected function wrapModuleTemplate(): string
     {
-        // Prepare module setup
-        $moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
-        $moduleTemplate = $moduleTemplateFactory->create(GlobalsUtility::getTYPO3Request());
 
         foreach ($this->jsFiles as $jsFile) {
             $this->pageRenderer->addJsFile('EXT:cs_seo/Resources/Public/JavaScript/' . $jsFile);
@@ -153,9 +158,9 @@ abstract class AbstractModuleController extends ActionController
         }
 
         // Shortcut in doc header
-        $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
-        $shortcutButton = $moduleTemplate->getDocHeaderComponent()->getButtonBar()->makeShortcutButton();
+        $shortcutButton = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar()->makeShortcutButton();
         $type = $shortcutButton->getType();
         $shortcutButton->setRouteIdentifier(static::$mod_name)
             ->setDisplayName(GlobalsUtility::getLanguageService()->sL(
@@ -178,12 +183,12 @@ abstract class AbstractModuleController extends ActionController
         }
 
         if ($metaInfo) {
-            $moduleTemplate->getDocHeaderComponent()->setMetaInformation($metaInfo);
+            $this->moduleTemplate->getDocHeaderComponent()->setMetaInformation($metaInfo);
         }
 
         if (count(static::$menuActions) > 1) {
             // Main drop down in doc header
-            $menu = $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->makeMenu();
+            $menu = $this->moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->makeMenu();
             $menu->setIdentifier('action');
             foreach (static::$menuActions as $menuKey) {
                 $menuItem = $menu->makeMenuItem();
@@ -201,10 +206,10 @@ abstract class AbstractModuleController extends ActionController
                 }
                 $menu->addMenuItem($menuItem);
             }
-            $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
+            $this->moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
         }
 
-        return $moduleTemplate->render($this->templateFile);
+        return $this->moduleTemplate->render($this->templateFile);
     }
 
     protected function renderFlashMessages(): string
