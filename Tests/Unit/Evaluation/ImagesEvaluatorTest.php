@@ -4,6 +4,8 @@ namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\ImagesEvaluator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ImagesEvaluatorTest extends UnitTestCase
@@ -14,7 +16,7 @@ class ImagesEvaluatorTest extends UnitTestCase
     {
         $this->generalEvaluationMock = $this->getAccessibleMock(
             ImagesEvaluator::class,
-            ['dummy'],
+            null,
             [new \DOMDocument()]
         );
     }
@@ -24,11 +26,8 @@ class ImagesEvaluatorTest extends UnitTestCase
         unset($this->generalEvaluationMock);
     }
 
-    /**
-     * @dataProvider evaluateTestDataProvider
-     * @test
-     * @throws \JsonException
-     */
+    #[DataProvider('evaluateTestDataProvider')]
+    #[Test]
     public function evaluateTest(string $html, array $expectedResult): void
     {
         $domDocument = new \DOMDocument();
@@ -42,10 +41,7 @@ class ImagesEvaluatorTest extends UnitTestCase
         self::assertEquals(json_encode($expectedResult, JSON_THROW_ON_ERROR), json_encode($result, JSON_THROW_ON_ERROR));
     }
 
-    /**
-     * Dataprovider evaluateTest()
-     */
-    public function evaluateTestDataProvider(): array
+    public static function evaluateTestDataProvider(): array
     {
         return [
             'zero images' => [
