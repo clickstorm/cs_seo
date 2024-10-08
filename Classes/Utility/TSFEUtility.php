@@ -5,6 +5,7 @@ namespace Clickstorm\CsSeo\Utility;
 use In2code\Powermail\Utility\BackendUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Context\TypoScriptAspect;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -97,18 +98,22 @@ class TSFEUtility
 
     public function getSiteTitle(): string
     {
+        $siteTitle = '';
         $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
-        $site = $siteFinder->getSiteByPageId($this->pageUid);
-        $siteTitle = $site->getConfiguration()['websiteTitle'] ?? '';
-        if ($this->lang > 0) {
-            try {
-                $siteLangauge = $site->getLanguageById($this->lang);
-                if ($siteLangauge && !empty($siteLangauge->getWebsiteTitle())) {
-                    $siteTitle = $siteLangauge->getWebsiteTitle();
-                }
-            } catch (\InvalidArgumentException) {
 
+        try {
+            $site = $siteFinder->getSiteByPageId($this->pageUid);
+            $siteTitle = $site->getConfiguration()['websiteTitle'] ?? '';
+            if ($this->lang > 0) {
+                try {
+                    $siteLangauge = $site->getLanguageById($this->lang);
+                    if ($siteLangauge && !empty($siteLangauge->getWebsiteTitle())) {
+                        $siteTitle = $siteLangauge->getWebsiteTitle();
+                    }
+                } catch (\InvalidArgumentException) {
+                }
             }
+        } catch (SiteNotFoundException $exception) {
         }
 
         return $siteTitle;
