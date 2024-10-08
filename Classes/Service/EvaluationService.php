@@ -144,21 +144,14 @@ class EvaluationService
         return $results;
     }
 
-    public function getEvaluation(array $record, string $table = ''): ?Evaluation
+    public function getEvaluation(array $record, string $table = 'pages'): ?Evaluation
     {
-        if ($table) {
-            $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record, $table);
-        } elseif (isset($record['_PAGES_OVERLAY_LANGUAGE'])) {
-            $evaluation =
-                $this->evaluationRepository->findByUidForeignAndTableName(
-                    $record['_PAGES_OVERLAY_UID'],
-                    'pages'
-                );
-        } else {
-            $recordId = (int)($record['uid'] ?? 0);
-            $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($recordId, 'pages');
+        $recordId = (int)($record['uid'] ?? 0);
+        
+        if($recordId > 0) {
+            return $this->evaluationRepository->findByUidForeignAndTableName($recordId, $table);
         }
 
-        return $evaluation;
+        return null;
     }
 }

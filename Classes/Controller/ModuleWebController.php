@@ -165,7 +165,7 @@ class ModuleWebController extends AbstractModuleController
             }
 
             if ($evaluationUid) {
-                $evaluation = $this->evaluationService->getEvaluation($evaluationUid, $table);
+                $evaluation = $this->evaluationService->getEvaluation(['uid' => $evaluationUid], $table);
             }
 
             $this->moduleTemplate->assignMultiple(
@@ -243,10 +243,6 @@ class ModuleWebController extends AbstractModuleController
 
         $this->jsModules = [
             '@clickstorm/cs-seo/Evaluation.js',
-        ];
-
-        $this->jsFiles = [
-            'jquery.min.js',
         ];
 
         $this->cssFiles = [

@@ -2,15 +2,8 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Backend\Form\FormDataCompiler;
-use TYPO3\CMS\Backend\Module\ModuleProvider;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
-use TYPO3\CMS\Core\Imaging\IconFactory;
-use TYPO3\CMS\Core\Routing\BackendEntryPointResolver;
-use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
@@ -130,7 +123,7 @@ abstract class AbstractModuleController extends ActionController
     {
         if (!(property_exists($this, 'dataHandler') && $this->dataHandler !== null)) {
             $this->dataHandler = GeneralUtility::makeInstance(DataHandler::class);
-            $this->dataHandler->start(null, null);
+            $this->dataHandler->start([], []);
         }
 
         return $this->dataHandler;
