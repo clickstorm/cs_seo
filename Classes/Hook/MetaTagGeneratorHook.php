@@ -12,10 +12,11 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class MetaTagGeneratorHook
 {
-    /**
-     * @var ContentObjectRenderer
-     */
-    protected $cObj;
+    protected ?ContentObjectRenderer $cObj = null;
+
+    public const DEFAULT_IMAGE_HEIGHT = 1200;
+
+    public const DEFAULT_IMAGE_WIDTH = 1200;
 
     public function __construct()
     {
@@ -134,8 +135,8 @@ class MetaTagGeneratorHook
         $conf = [
             'file' => $originalFile,
             'file.' => [
-                'height' => $imageSize['height'] ?? '',
-                'width' => $imageSize['width'] ?? '',
+                'height' => $imageSize['height'] ?? self::DEFAULT_IMAGE_HEIGHT,
+                'width' => $imageSize['width'] ?? self::DEFAULT_IMAGE_WIDTH,
             ],
         ];
         $imgUri = $this->cObj->cObjGetSingle('IMG_RESOURCE', $conf);

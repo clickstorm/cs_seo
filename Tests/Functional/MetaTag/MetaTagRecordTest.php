@@ -14,10 +14,8 @@ class MetaTagRecordTest extends AbstractMetaTagTestCase
                 [
                     'title' => 'Title of category 1',
                     'description' => 'No metadata record',
-                    'og:type' => '{$plugin.tx_csseo.social.openGraph.type}',
+                    'og:type' => 'website',
                     'twitter:card' => 'summary',
-                    'twitter:creator' => '@{$plugin.tx_csseo.social.twitter.creator}',
-                    'twitter:site' => '@{$plugin.tx_csseo.social.twitter.site}',
                     'robots' => '',
                 ],
             ],

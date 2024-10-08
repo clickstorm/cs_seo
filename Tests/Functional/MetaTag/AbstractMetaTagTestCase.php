@@ -73,8 +73,13 @@ abstract class AbstractMetaTagTestCase extends AbstractFrontendTestCase
         ]);
 
         $typoScriptFiles = [
-            $this->tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
-            $this->tsIncludePath . 'Configuration/TypoScript/setup.typoscript',
+            'constants' => [
+                $this->tsIncludePath . 'Configuration/TypoScript/constants.typoscript',
+            ],
+            'setup' => [
+                $this->tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
+                $this->tsIncludePath . 'Configuration/TypoScript/setup.typoscript',
+            ]
         ];
 
         $sitesNumbers = [1];

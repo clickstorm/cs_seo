@@ -14,10 +14,8 @@ class MetaTagTest extends AbstractMetaTagTestCase
                 [
                     'title' => 'Title 1',
                     'description' => 'Description 1',
-                    'og:type' => '{$plugin.tx_csseo.social.openGraph.type}',
+                    'og:type' => 'website',
                     'twitter:card' => 'summary',
-                    'twitter:creator' => '@{$plugin.tx_csseo.social.twitter.creator}',
-                    'twitter:site' => '@{$plugin.tx_csseo.social.twitter.site}',
                     'robots' => '',
                 ],
             ],
