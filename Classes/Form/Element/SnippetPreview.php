@@ -9,15 +9,15 @@ use TYPO3\CMS\Core\Localization\LanguageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
 use TYPO3\CMS\Backend\Form\Element\InputTextElement;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -28,6 +28,10 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 class SnippetPreview extends AbstractFormElement
 {
     protected ?PageRenderer $pageRenderer = null;
+
+    public function __construct(
+        private readonly ViewFactoryInterface $viewFactory,
+    ) {}
 
     public function render(): array
     {
@@ -83,16 +87,12 @@ class SnippetPreview extends AbstractFormElement
      */
     protected function getBodyContent($data, $table): string
     {
-        // template1
-        /** @var StandaloneView $wizardView */
-        $wizardView = GeneralUtility::makeInstance(StandaloneView::class);
-        $wizardView->setFormat('html');
-        $wizardView->setLayoutRootPaths(
-            [10 => 'EXT:cs_seo/Resources/Private/Layouts/']
+        $viewFactoryData = new ViewFactoryData(
+            templateRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Templates/'],
+            layoutRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Layouts/'],
+            request: $GLOBALS['TYPO3_REQUEST'],
         );
-        $wizardView->setTemplatePathAndFilename(
-            'EXT:cs_seo/Resources/Private/Templates/Wizard.html'
-        );
+        $wizardView = $this->viewFactory->create($viewFactoryData);
 
         if (strpos($data['uid'], 'NEW') === false) {
             // set pageID for TSSetup check
@@ -204,7 +204,7 @@ class SnippetPreview extends AbstractFormElement
             $wizardView->assign('error', 'no_data');
         }
 
-        return $wizardView->render();
+        return $wizardView->render('Wizard.html');
     }
 
     protected function getPageRenderer(): PageRenderer

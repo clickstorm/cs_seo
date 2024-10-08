@@ -12,8 +12,8 @@ use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
@@ -245,7 +245,7 @@ class ModuleFileController extends AbstractModuleController
                         'placement' => 'bottom',
                     ])
                     ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:edit'))
-                    ->setIcon($iconFactory->getIcon('actions-document-edit', Icon::SIZE_SMALL));
+                    ->setIcon($iconFactory->getIcon('actions-document-edit', IconSize::SMALL));
                 $buttonBar->addButton($editButton, ButtonBar::BUTTON_POSITION_LEFT, 1);
             }
 
@@ -256,7 +256,7 @@ class ModuleFileController extends AbstractModuleController
                     'dispatch-args-list' => '_FILE,' . $this->image->getOriginalResource()->getUid(),
                 ])
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:showInfo'))
-                ->setIcon($iconFactory->getIcon('actions-info', Icon::SIZE_SMALL));
+                ->setIcon($iconFactory->getIcon('actions-info', IconSize::SMALL));
             $buttonBar->addButton($infoButton, ButtonBar::BUTTON_POSITION_LEFT, 2);
 
             $viewButton = $buttonBar->makeLinkButton()
@@ -266,14 +266,14 @@ class ModuleFileController extends AbstractModuleController
                 ])
                 ->setHref('#')
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.view'))
-                ->setIcon($iconFactory->getIcon('actions-eye', Icon::SIZE_SMALL));
+                ->setIcon($iconFactory->getIcon('actions-eye', IconSize::SMALL));
             $buttonBar->addButton($viewButton, ButtonBar::BUTTON_POSITION_LEFT, 3);
 
             $prevButton = $buttonBar->makeLinkButton()
                 ->setDisabled($this->offset <= 0)
                 ->setHref((string)$this->uriBuilder->uriFor($actionName, ['offset' => $this->offset - 1]))
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.prev'))
-                ->setIcon($iconFactory->getIcon('actions-chevron-left', Icon::SIZE_SMALL));
+                ->setIcon($iconFactory->getIcon('actions-chevron-left', IconSize::SMALL));
 
             $buttonBar->addButton($prevButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
 
@@ -282,13 +282,13 @@ class ModuleFileController extends AbstractModuleController
                 ->setDisabled($nextOffset >= $this->numberOfImagesWithoutAlt)
                 ->setHref((string)$this->uriBuilder->uriFor($actionName, ['offset' => $nextOffset]))
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.next'))
-                ->setIcon($iconFactory->getIcon('actions-chevron-right', Icon::SIZE_SMALL));
+                ->setIcon($iconFactory->getIcon('actions-chevron-right', IconSize::SMALL));
 
             $buttonBar->addButton($nextButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
 
             $saveButton = $buttonBar->makeInputButton()
                 ->setForm('EditDocumentController')
-                ->setIcon($iconFactory->getIcon('actions-document-save', Icon::SIZE_SMALL))
+                ->setIcon($iconFactory->getIcon('actions-document-save', IconSize::SMALL))
                 ->setName('_save')
                 ->setShowLabelText(true)
                 ->setTitle(GlobalsUtility::getLanguageService()->sL(
@@ -301,7 +301,7 @@ class ModuleFileController extends AbstractModuleController
 
         $onlyReferencedButton = $buttonBar->makeInputButton()
             ->setForm('ModForm')
-            ->setIcon($iconFactory->getIcon('actions-thumbtack', Icon::SIZE_SMALL))
+            ->setIcon($iconFactory->getIcon('actions-thumbtack', IconSize::SMALL))
             ->setName('onlyReferenced')
             ->setTitle(GlobalsUtility::getLanguageService()->sL(
                 'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.onlyReferenced'
@@ -318,7 +318,7 @@ class ModuleFileController extends AbstractModuleController
 
         $recursiveButton = $buttonBar->makeInputButton()
             ->setForm('ModForm')
-            ->setIcon($iconFactory->getIcon('apps-pagetree-category-expand-all', Icon::SIZE_SMALL))
+            ->setIcon($iconFactory->getIcon('apps-pagetree-category-expand-all', IconSize::SMALL))
             ->setName('recursive')
             ->setTitle(GlobalsUtility::getLanguageService()->sL(
                 'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.recursive'

@@ -14,6 +14,7 @@ class CanonicalListener
     public function __invoke(ModifyUrlForCanonicalTagEvent $event): void
     {
         $canonicalService = GeneralUtility::makeInstance(CanonicalService::class);
+        // @extensionScannerIgnoreLine
         $event->setUrl($canonicalService->getUrl($event->getUrl()));
     }
 }

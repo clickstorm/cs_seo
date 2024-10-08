@@ -147,7 +147,7 @@ class EvaluationService
     public function getEvaluation(array $record, string $table = 'pages'): ?Evaluation
     {
         $recordId = (int)($record['uid'] ?? 0);
-        
+
         if($recordId > 0) {
             return $this->evaluationRepository->findByUidForeignAndTableName($recordId, $table);
         }

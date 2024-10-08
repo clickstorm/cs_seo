@@ -21,6 +21,7 @@ final readonly class PolicyMutatedEventListener
     public function __invoke(PolicyMutatedEvent $event): void
     {
         // only for backend CSP
+        // @extensionScannerIgnoreLine
         if ($event->scope->type->isFrontend()) {
             return;
         }

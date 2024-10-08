@@ -13,6 +13,12 @@ services:
   Clickstorm\CsSeo\Service\FrontendPageService:
     public: true
 
+  Clickstorm\CsSeo\Form\Element\SnippetPreview:
+    public: true
+
+  Clickstorm\CsSeo\Form\Element\JsonLdElement:
+    public: true
+
   Clickstorm\CsSeo\Hook\SqlExpectedSchemaHook:
     tags:
       - name: event.listener
