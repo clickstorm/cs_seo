@@ -136,6 +136,13 @@ class HrefLangCoreTest extends AbstractHrefLangTestCase
                     '<link rel="alternate" hreflang="',
                 ],
             ],
+            'Languages with fallback type free should not have hreflang when page record is not translated' => [
+                'http://localhost/no-translation',
+                [],
+                [
+                    '<link rel="alternate" hreflang="',
+                ],
+            ],
         ];
     }
 }

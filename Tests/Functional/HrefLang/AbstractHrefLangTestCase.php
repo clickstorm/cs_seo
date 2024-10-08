@@ -22,6 +22,9 @@ abstract class AbstractHrefLangTestCase extends AbstractFrontendTestCase
 
         $content = (string)$response->getBody();
 
+        // check if page was found
+        self::assertStringNotContainsString(self::$pageNotFoundString, $content);
+
         foreach ($expectedTags as $expectedTag) {
             self::assertStringContainsString($expectedTag, $content);
         }
