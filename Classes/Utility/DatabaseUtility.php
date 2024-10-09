@@ -11,7 +11,6 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileRepository;
-use TYPO3\CMS\Core\Resource\FileType;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -307,6 +306,6 @@ class DatabaseUtility
                 'uid',
                 $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
             ))->executeQuery()
-            ->fetchAllAssociative();
+            ->fetchAssociative();
     }
 }
