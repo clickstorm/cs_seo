@@ -227,6 +227,8 @@ class GridService
             }
         }
 
+        $page['sys_language_uid'] = $this->languages[$page['sys_language_uid']];
+
         // process social media image fields
         foreach ($this->imageFieldNames as $imageFieldName) {
             if (in_array($imageFieldName, $this->fieldNames, true)) {
