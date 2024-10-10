@@ -202,8 +202,8 @@ class ModuleWebController extends AbstractModuleController
                 $page = $this->pageRepository->getPageOverlay($page, $languageParam);
             }
             $evaluation = $this->evaluationService->getEvaluation($page);
-            $evaluationUid = $page['_PAGES_OVERLAY_UID'] ?? $pageUid;
-            $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?? 0;
+            $evaluationUid = $page['_LOCALIZED_UID'] ?? $pageUid;
+            $langResult = $page['sys_language_uid'] ?? 0;
             $this->moduleTemplate->assignMultiple(
                 [
                     'lang' => $languageParam,
@@ -272,8 +272,8 @@ class ModuleWebController extends AbstractModuleController
         $field = $attr['field'];
 
         // check for language overlay
-        if (isset($attr['entry']['_PAGES_OVERLAY']) && isset($GLOBALS['TCA']['pages']['columns'][$field])) {
-            $uid = $attr['entry']['_PAGES_OVERLAY_UID'];
+        if (isset($attr['entry']['_LOCALIZED_UID']) && isset($GLOBALS['TCA']['pages']['columns'][$field])) {
+            $uid = $attr['entry']['_LOCALIZED_UID'];
         }
 
         // update map
