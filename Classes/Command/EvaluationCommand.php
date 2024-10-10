@@ -13,10 +13,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
@@ -237,6 +239,13 @@ class EvaluationCommand extends Command
         if ($input->hasArgument('tableName') && !empty($input->getArgument('tableName'))) {
             $this->tableName = $input->getArgument('tableName');
         }
+        // Set a $GLOBALS['TYPO3_REQUEST'] to make EvaluationRepository queries work also in CLI context
+        if (!isset($GLOBALS['TYPO3_REQUEST'])) {
+            $request = (new ServerRequest())
+                ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE);
+            $GLOBALS['TYPO3_REQUEST'] = $request;
+        }
+
         $uid = $input->hasArgument('uid') ? (int)$input->getArgument('uid') : 0;
         $this->processResults($uid);
 
