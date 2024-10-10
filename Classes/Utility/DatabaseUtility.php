@@ -280,7 +280,7 @@ class DatabaseUtility
 
         try {
             $site = GeneralUtility::makeInstance(SiteFinder::class)
-                ->getSiteByRootPageId($pageId);
+                ->getSiteByPageId($pageId);
         } catch (SiteNotFoundException $exception) {
             return $languages;
         }
