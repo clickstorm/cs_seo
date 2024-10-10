@@ -52,9 +52,11 @@ abstract class AbstractModuleController extends ActionController
     protected ?ModuleTemplate $moduleTemplate = null;
 
     public function __construct(
-        protected readonly PageRenderer $pageRenderer,
+        protected readonly PageRenderer          $pageRenderer,
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
-    ) {}
+    )
+    {
+    }
 
     /**
      * Initialize action
@@ -107,6 +109,10 @@ abstract class AbstractModuleController extends ActionController
 
             if ($this->request->hasArgument($name)) {
                 $arg = $this->request->getArgument($name);
+                if ($name === 'id' && is_string($arg) && str_contains($arg, '_')) {
+                    // e.g. arg='0_99', the id should be the last number
+                    $arg = (int)substr($arg, strrpos($arg, '_') + 1);
+                }
                 $this->modParams[$name] = is_numeric($arg) ? (int)$arg : $arg;
             }
         }
