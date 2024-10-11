@@ -30,19 +30,6 @@ plugin.tx_csseo {
     # cat=plugin.tx_csseo/social/9; type=string; label= Default Twitter Site : Twitter username (without @)
     social.twitter.site = 
 
-    # customsubcategory=tracking=User Tracking
-    # cat=plugin.tx_csseo/tracking/1; type=string; label= Google Analytics ID : If set (e.g. UA-XXXXXX-XXX), Google Analytics and the download tracking is enabled.
-    tracking.googleAnalytics = 
-
-    # cat=plugin.tx_csseo/tracking/2; type=string; label= Google Tag Manager ID : If set (e.g. 'GTM-XXXXXXXX'), Google Tag Manager is enabled.
-    tracking.googleTagManager = 
-
-    # cat=plugin.tx_csseo/tracking/3; type=string; label= Piwik URL : Enter a Piwik URL, to enable the tracking via Piwik.
-    tracking.piwik = 
-
-    # cat=plugin.tx_csseo/tracking/4; type=string; label= Piwik ID : Enter the Piwik ID for site.
-    tracking.piwik.id = 1
-
     # customsubcategory=structureddata=Structured Microdata
     # cat=plugin.tx_csseo/structureddata/1; type=boolean; label= Enable SiteSearch : Add microdata for sitesearch.
     structureddata.search.enable = 

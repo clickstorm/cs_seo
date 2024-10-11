@@ -7,22 +7,24 @@ use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Service\FrontendPageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
-use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Http\HtmlResponse;
+use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException;
 use TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
+use TYPO3\CMS\Core\Database\Connection;
 
 class EvaluationCommand extends Command
 {
@@ -58,18 +60,14 @@ class EvaluationCommand extends Command
     public function ajaxUpdate(ServerRequestInterface $request): ResponseInterface
     {
         // get parameter
-        $table = '';
         $params = $request->getParsedBody();
-        if (empty($params)) {
-            $uid = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['uid'];
-            $table = $GLOBALS['GLOBALS']['HTTP_POST_VARS']['table'];
-        } else {
-            $uid = $params['uid'];
-            $table = $params['table'] ?? '';
+
+        $uid = $params['uid'];
+
+        if(!empty($params['table'])) {
+            $this->tableName =  $params['table'];
         }
-        if ($table !== '') {
-            $this->tableName = $table;
-        }
+
         $this->processResults($uid);
 
         /** @var FlashMessageService $flashMessageService  */
@@ -121,12 +119,12 @@ class EvaluationCommand extends Command
             if ($localized && $tcaCtrl['transOrigPointerField']) {
                 $queryBuilder->andWhere($queryBuilder->expr()->eq(
                     $tcaCtrl['transOrigPointerField'],
-                    $queryBuilder->createNamedParameter($uid, PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 ));
             } else {
                 $queryBuilder->andWhere($queryBuilder->expr()->eq(
                     'uid',
-                    $queryBuilder->createNamedParameter($uid, PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 ));
             }
         }
@@ -156,6 +154,9 @@ class EvaluationCommand extends Command
         }
     }
 
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     protected function getFocusKeyword(array $record): string
     {
         $keyword = '';
@@ -168,10 +169,10 @@ class EvaluationCommand extends Command
             $res = $queryBuilder->select('keyword')
                 ->from($metaTableName)->where($queryBuilder->expr()->eq(
                 'uid_foreign',
-                $queryBuilder->createNamedParameter($record['uid'], PDO::PARAM_INT)
+                $queryBuilder->createNamedParameter($record['uid'], Connection::PARAM_INT)
             ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($this->tableName)))->executeQuery();
 
-            while ($row = $res->fetch()) {
+            while ($row = $res->fetchAssociative()) {
                 $keyword = $row['keyword'];
             }
         } else {
@@ -238,6 +239,13 @@ class EvaluationCommand extends Command
         if ($input->hasArgument('tableName') && !empty($input->getArgument('tableName'))) {
             $this->tableName = $input->getArgument('tableName');
         }
+        // Set a $GLOBALS['TYPO3_REQUEST'] to make EvaluationRepository queries work also in CLI context
+        if (!isset($GLOBALS['TYPO3_REQUEST'])) {
+            $request = (new ServerRequest())
+                ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE);
+            $GLOBALS['TYPO3_REQUEST'] = $request;
+        }
+
         $uid = $input->hasArgument('uid') ? (int)$input->getArgument('uid') : 0;
         $this->processResults($uid);
 

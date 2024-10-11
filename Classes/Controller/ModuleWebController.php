@@ -51,11 +51,12 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageMetaAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageMeta';
         $fieldNames = ['title', 'seo_title', 'tx_csseo_title_only', 'description'];
 
         // get title and settings from TypoScript
         $tsfeUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->recordId, $this->modParams['lang']);
-        $this->view->assign('previewSettings', json_encode($tsfeUtility->getPreviewSettings()));
+        $this->moduleTemplate->assign('previewSettings', json_encode($tsfeUtility->getPreviewSettings()));
 
         return $this->htmlResponse($this->generateGridView($fieldNames));
     }
@@ -71,7 +72,7 @@ class ModuleWebController extends AbstractModuleController
         $this->cssFiles = $gridService->getCssFiles();
         $this->jsFiles = $gridService->getJsFiles();
 
-        $this->view->assignMultiple($gridService->processFields());
+        $this->moduleTemplate->assignMultiple($gridService->processFields());
 
         return $this->wrapModuleTemplate();
     }
@@ -81,6 +82,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageIndexAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageIndex';
         return $this->htmlResponse($this->generateGridView(['title', 'canonical_link', 'no_index', 'no_follow', 'no_search']));
     }
 
@@ -89,6 +91,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageOpenGraphAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageOpenGraph';
         return $this->htmlResponse($this->generateGridView(['title', 'og_title', 'og_description', 'og_image']));
     }
 
@@ -97,6 +100,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageStructuredDataAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageStructuredData';
         return $this->htmlResponse($this->generateGridView(['title', 'tx_csseo_json_ld']));
     }
 
@@ -105,6 +109,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageTwitterCardsAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageTwitterCards';
         return $this->htmlResponse($this->generateGridView([
             'title',
             'twitter_title',
@@ -120,6 +125,7 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageResultsAction(): ResponseInterface
     {
+        $this->templateFile = 'ModuleWeb/PageResults';
         return $this->htmlResponse($this->generateGridView(['title', 'tx_csseo_keyword', 'results'], true));
     }
 
@@ -128,7 +134,8 @@ class ModuleWebController extends AbstractModuleController
      */
     public function pageEvaluationAction(): ResponseInterface
     {
-        $page = $this->pageRepository->getPage($this->modParams['id'], true);
+        $this->templateFile = 'ModuleWeb/PageEvaluation';
+        $page = $this->pageRepository->getPage((int)$this->modParams['id'], true);
         $evaluationUid = 0;
         $extKey = 'cs_seo';
         $tables = [
@@ -158,10 +165,10 @@ class ModuleWebController extends AbstractModuleController
             }
 
             if ($evaluationUid) {
-                $evaluation = $this->evaluationService->getEvaluation($evaluationUid, $table);
+                $evaluation = $this->evaluationService->getEvaluation(['uid' => $evaluationUid], $table);
             }
 
-            $this->view->assignMultiple(
+            $this->moduleTemplate->assignMultiple(
                 [
                     'record' => $this->modParams['record'],
                     'records' => $records,
@@ -195,9 +202,9 @@ class ModuleWebController extends AbstractModuleController
                 $page = $this->pageRepository->getPageOverlay($page, $languageParam);
             }
             $evaluation = $this->evaluationService->getEvaluation($page);
-            $evaluationUid = $page['_PAGES_OVERLAY_UID'] ?? $pageUid;
-            $langResult = $page['_PAGES_OVERLAY_LANGUAGE'] ?? 0;
-            $this->view->assignMultiple(
+            $evaluationUid = $page['_LOCALIZED_UID'] ?? $pageUid;
+            $langResult = $page['sys_language_uid'] ?? 0;
+            $this->moduleTemplate->assignMultiple(
                 [
                     'lang' => $languageParam,
                     'languages' => $languages,
@@ -210,11 +217,11 @@ class ModuleWebController extends AbstractModuleController
             $results = $evaluation->getResultsAsArray();
 
             if(is_array($results) && isset($results['Percentage'])) {
-                $this->view->assign('score', $results['Percentage']);
+                $this->moduleTemplate->assign('score', $results['Percentage']);
                 unset($results['Percentage']);
             }
 
-            $this->view->assignMultiple(
+            $this->moduleTemplate->assignMultiple(
                 [
                     'evaluation' => $evaluation,
                     'results' => $results,
@@ -224,7 +231,7 @@ class ModuleWebController extends AbstractModuleController
 
         $emConf = ConfigurationUtility::getEmConfiguration();
 
-        $this->view->assignMultiple(
+        $this->moduleTemplate->assignMultiple(
             [
                 'evaluationUid' => $evaluationUid,
                 'emConf' => $emConf,
@@ -234,12 +241,8 @@ class ModuleWebController extends AbstractModuleController
             ]
         );
 
-        $this->requireJsModules = [
-            'TYPO3/CMS/CsSeo/Evaluation',
-        ];
-
-        $this->jsFiles = [
-            'jquery.min.js',
+        $this->jsModules = [
+            '@clickstorm/cs-seo/Evaluation.js',
         ];
 
         $this->cssFiles = [
@@ -269,8 +272,8 @@ class ModuleWebController extends AbstractModuleController
         $field = $attr['field'];
 
         // check for language overlay
-        if (isset($attr['entry']['_PAGES_OVERLAY']) && isset($GLOBALS['TCA']['pages']['columns'][$field])) {
-            $uid = $attr['entry']['_PAGES_OVERLAY_UID'];
+        if (isset($attr['entry']['_LOCALIZED_UID']) && isset($GLOBALS['TCA']['pages']['columns'][$field])) {
+            $uid = $attr['entry']['_LOCALIZED_UID'];
         }
 
         // update map

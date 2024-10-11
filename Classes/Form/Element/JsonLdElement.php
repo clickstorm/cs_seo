@@ -2,56 +2,35 @@
 
 namespace Clickstorm\CsSeo\Form\Element;
 
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2016 Marc Hirdes <hirdes@clickstorm.de>, clickstorm GmbH
- *  (c) 2013 Mathias Brodala <mbrodala@pagemachine.de>, PAGEmachine AG
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
-use TYPO3\CMS\Backend\Form\AbstractNode;
+use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Backend\Form\Element\TextElement;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 
 /**
  * Advanced helpers for JSON LD ELement
  *
  * Class PageTitle
  */
-class JsonLdElement extends AbstractNode
+class JsonLdElement extends AbstractFormElement
 {
-    protected ?PageRenderer $pageRenderer = null;
+    public function __construct(
+        private readonly ViewFactoryInterface $viewFactory,
+        private readonly PageRenderer $pageRenderer,
+    ) {}
 
     /**
      * Render the input field with additional snippet preview
      *
      * @return array
      */
-    public function render()
+    public function render(): array
     {
-        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         // first get input element
-        $inputField = GeneralUtility::makeInstance(TextElement::class, $this->nodeFactory, $this->data);
+        $inputField = GeneralUtility::makeInstance(TextElement::class);
+        $inputField->setData($this->data);
         $resultArray = $inputField->render();
 
         // Load necessary JavaScript
@@ -73,7 +52,7 @@ class JsonLdElement extends AbstractNode
      */
     protected function loadJavascript(): void
     {
-        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/JsonLdElement.js');
+        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/FormEngine/Element/JsonLdElement.js');
     }
 
     /**
@@ -106,16 +85,12 @@ class JsonLdElement extends AbstractNode
      */
     protected function getBodyContent(array $data, string $table, string $textElement): string
     {
-        // template1
-        /** @var StandaloneView $wizardView */
-        $wizardView = GeneralUtility::makeInstance(StandaloneView::class);
-        $wizardView->setFormat('html');
-        $wizardView->setLayoutRootPaths(
-            [10 => 'EXT:cs_seo/Resources/Private/Layouts/']
+        $viewFactoryData = new ViewFactoryData(
+            templateRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Templates/Element/'],
+            layoutRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Layouts/'],
+            request: $GLOBALS['TYPO3_REQUEST'],
         );
-        $wizardView->setTemplatePathAndFilename(
-            'EXT:cs_seo/Resources/Private/Templates/Element/JsonLdElement.html'
-        );
+        $wizardView = $this->viewFactory->create($viewFactoryData);
 
         $wizardView->assignMultiple(
             [
@@ -124,6 +99,6 @@ class JsonLdElement extends AbstractNode
             ]
         );
 
-        return $wizardView->render();
+        return $wizardView->render('JsonLdElement.html');
     }
 }

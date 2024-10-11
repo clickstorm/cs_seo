@@ -135,10 +135,15 @@ class GridService
                 GlobalsUtility::getLanguageService()->sL($GLOBALS['TCA']['pages']['columns'][$fieldName]['label']);
             switch ($GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['type']) {
                 case 'check':
+                    $cellTemplateValue = '{{row.entity[col.field] == true ? \'☑\' : \'☐\'}}';
+                    if(!empty($GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['items'][0]['invertStateDisplay'])) {
+                        $columnDef['displayName'] =
+                            GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_' . $fieldName);
+                    }
                     $columnDef['type'] = 'boolean';
                     $columnDef['width'] = 100;
                     $columnDef['cellTemplate'] =
-                        '<div class="ui-grid-cell-contents ng-binding ng-scope text-center">{{row.entity[col.field] == true ? \'☑\' : \'☐\'}}</span></div>';
+                        '<div class="ui-grid-cell-contents ng-binding ng-scope text-center">' . $cellTemplateValue . '</span></div>';
                     $columnDef['editableCellTemplate'] =
                         '<div><form name="inputForm" class="text-center"><input type="checkbox" ui-grid-editor ng-model="MODEL_COL_FIELD" ng-click="grid.appScope.currentValue = MODEL_COL_FIELD"></form></div>';
                     $columnDef['enableFiltering'] = false;
@@ -217,12 +222,12 @@ class GridService
 
         // add the current language value
         if ($this->modParams['lang'] > 0) {
-            if (!empty($page['_PAGES_OVERLAY_UID'])) {
-                $uid = $page['_PAGES_OVERLAY_UID'];
+            if (!empty($page['_LOCALIZED_UID'])) {
+                $uid = $page['_LOCALIZED_UID'];
             }
-
-            $page['sys_language_uid'] = $this->languages[$page['_PAGES_OVERLAY_LANGUAGE'] ?? 0];
         }
+
+        $page['sys_language_uid'] = $this->languages[$page['sys_language_uid']];
 
         // process social media image fields
         foreach ($this->imageFieldNames as $imageFieldName) {

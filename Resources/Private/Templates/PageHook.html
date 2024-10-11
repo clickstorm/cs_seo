@@ -1,58 +1,61 @@
-<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
-     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
-	 xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers">
 
-	<f:layout name="NoWrap"/>
+<f:layout name="NoWrap"/>
 
-	<f:section name="Main">
-		<f:if condition="{page}">
-			<f:then>
-				<div class="cs-seo-results">
-					<f:if condition="{results}">
-						<f:then>
-							<div class="header">
-								<div class="right">
-									<f:if condition="{userHasAccessToPageEvaluationModule}">
-										<a href="{be:moduleLink(route:'web_CsSeoMod1_pageEvaluation', arguments:'{id:page.uid}')}"
-										   class="csseo-icon-help"
-										   title="{f:translate(key:'evaluation.more', extensionName: 'cs_seo')}">
-										</a>
-									</f:if>
-									<a href="javascript:;"
-									   class="csseo-icon-up-open js-csseo-toggle"
-									   title="{f:translate(key:'evaluation.link.results', extensionName: 'cs_seo')}"
-									   data-content=".cs-seo-results .cs-seo-results__wrapper"
-									   data-cookie="1"></a>
-								</div>
-								<f:render partial="Results/Percentage" arguments="{result:score}" section="Main"/>
-								<span class="text"><f:translate key="evaluation.header" extensionName="cs_seo"/></span>
-								<button id="cs-seo-evaluate" data-uid="{page.uid}" class="btn btn-default btn-sm csseo-icon-arrows-cw">
-									<f:translate key="evaluation.update" extensionName="cs_seo"/>
-								</button>
-								<f:render partial="Results/Bar" arguments="{result:score}" section="Main"/>
-							</div>
-							<div class="cs-seo-results__wrapper">
-								<ul class="cs-seo-results__list">
-									<f:for each="{results}" as="result" key="key">
-										<li class="cs-seo-results__item cs-icon csseo-icon-state-{result.state}">
-											<f:render partial="Results/{key}" arguments="{result:result}"/>
-										</li>
-									</f:for>
-								</ul>
-							</div>
-						</f:then>
-						<f:else>
-							<div class="header">
-								<span class="score csseo-state-0"><f:translate key="evaluation.no_results" extensionName="cs_seo"/></span>
-								<span class="text"><f:translate key="evaluation.header" extensionName="cs_seo"/></span>
-								<button id="cs-seo-evaluate" data-uid="{page.uid}" class="btn btn-default btn-sm csseo-icon-arrows-cw">
-									<f:translate key="evaluation.update" extensionName="cs_seo"/>
-								</button>
-							</div>
-						</f:else>
-					</f:if>
-				</div>
-			</f:then>
-		</f:if>
-	</f:section>
-</div>
+<f:section name="Main">
+    <f:if condition="{page}">
+        <f:then>
+            <div class="cs-seo-results">
+                <f:if condition="{results}">
+                    <f:then>
+                        <div class="header">
+                            <div class="right">
+                                <f:if condition="{userHasAccessToPageEvaluationModule}">
+                                    <a href="{be:moduleLink(route:'web_CsSeoMod1_pageEvaluation', arguments:'{id:page.uid}')}"
+                                       class="csseo-icon-help"
+                                       title="{f:translate(key:'evaluation.more', extensionName: 'cs_seo')}">
+                                    </a>
+                                </f:if>
+                                <a href="javascript:;"
+                                   class="csseo-icon-up-open js-csseo-toggle"
+                                   title="{f:translate(key:'evaluation.link.results', extensionName: 'cs_seo')}"
+                                   data-content=".cs-seo-results .cs-seo-results__wrapper"
+                                   data-cookie="1"></a>
+                            </div>
+                            <f:render partial="Results/Percentage" arguments="{result:score}" section="Main"/>
+                            <span class="text"><f:translate key="evaluation.header" extensionName="cs_seo"/></span>
+                            <button id="cs-seo-evaluate" data-uid="{page.uid}"
+                                    class="btn btn-default btn-sm csseo-icon-arrows-cw">
+                                <f:translate key="evaluation.update" extensionName="cs_seo"/>
+                            </button>
+                            <f:render partial="Results/Bar" arguments="{result:score}" section="Main"/>
+                        </div>
+                        <div class="cs-seo-results__wrapper">
+                            <ul class="cs-seo-results__list">
+                                <f:for each="{results}" as="result" key="key">
+                                    <li class="cs-seo-results__item cs-icon csseo-icon-state-{result.state}">
+                                        <f:render partial="Results/{key}" arguments="{result:result}"/>
+                                    </li>
+                                </f:for>
+                            </ul>
+                        </div>
+                    </f:then>
+                    <f:else>
+                        <div class="header">
+                            <span class="score csseo-state-0"><f:translate key="evaluation.no_results"
+                                                                           extensionName="cs_seo"/></span>
+                            <span class="text"><f:translate key="evaluation.header" extensionName="cs_seo"/></span>
+                            <button id="cs-seo-evaluate" data-uid="{page.uid}"
+                                    class="btn btn-default btn-sm csseo-icon-arrows-cw">
+                                <f:translate key="evaluation.update" extensionName="cs_seo"/>
+                            </button>
+                        </div>
+                    </f:else>
+                </f:if>
+            </div>
+        </f:then>
+    </f:if>
+</f:section>
+</html>

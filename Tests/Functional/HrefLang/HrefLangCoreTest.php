@@ -26,10 +26,7 @@ class HrefLangCoreTest extends AbstractHrefLangTestCase
         $this->importTypoScript($typoScriptFiles, $sitesNumbers);
     }
 
-    /**
-     * @return array
-     */
-    public function checkHrefLangOutputDataProvider(): array
+    public static function checkHrefLangOutputDataProvider(): array
     {
         return [
             'No translation available, so only hreflang tags expected for default language and fallback languages' => [
@@ -134,6 +131,13 @@ class HrefLangCoreTest extends AbstractHrefLangTestCase
             ],
             'Translated pages with disabled hreflang generation in original language should not render any hreflang tag' => [
                 'http://localhost/de/kein-hreflang',
+                [],
+                [
+                    '<link rel="alternate" hreflang="',
+                ],
+            ],
+            'Languages with fallback type free should not have hreflang when page record is not translated' => [
+                'http://localhost/no-translation',
                 [],
                 [
                     '<link rel="alternate" hreflang="',

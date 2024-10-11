@@ -63,6 +63,10 @@
 				<source>No Index</source>
 				<target>Vom Index ausschließen</target>
 			</trans-unit>
+			<trans-unit id="pages.tx_csseo_no_search" resname="pages.tx_csseo_no_search">
+				<source>No Search</source>
+				<target>Keine Suche</target>
+			</trans-unit>
 			<trans-unit id="pages.tx_csseo_og_description" resname="pages.tx_csseo_og_description">
 				<source>Facebook Description</source>
 				<target>Facebook Beschreibung</target>

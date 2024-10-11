@@ -3,16 +3,20 @@
 namespace Clickstorm\CsSeo\EventListener;
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Module\ModuleData;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
+use TYPO3\CMS\Core\View\ViewInterface;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Listen To the ModifyPageLayoutContentEvent and add the evaluation results to the page
@@ -22,10 +26,6 @@ class ModifyPageLayoutContentEventListener
     public const EVALUATION_IN_PAGE_MODULE_HEADER = 0;
     public const EVALUATION_IN_PAGE_MODULE_FOOTER = 1;
     public const EVALUATION_IN_PAGE_MODULE_DISABLED = 2;
-
-    public ?PageRenderer $pageRenderer = null;
-
-    protected StandaloneView $view;
 
     protected string $resourcesPath = 'EXT:cs_seo/Resources/';
 
@@ -38,6 +38,12 @@ class ModifyPageLayoutContentEventListener
     protected ModuleData $moduleData;
 
     protected int $currentSysLanguageUid = 0;
+
+    public function __construct(
+        private readonly ViewFactoryInterface $viewFactory,
+        private readonly PageRenderer $pageRenderer,
+    ) {}
+
 
     public function __invoke(ModifyPageLayoutContentEvent $event): void
     {
@@ -52,37 +58,14 @@ class ModifyPageLayoutContentEventListener
                 $this->loadCss();
                 $this->loadJavascript();
 
-                // load partial paths info from typoscript
-                $this->view = GeneralUtility::makeInstance(StandaloneView::class);
-                $this->view->setFormat('html');
-
-                $layoutPaths = [$this->resourcesPath . 'Private/Layouts/'];
-                $partialPaths = [$this->resourcesPath . 'Private/Partials/'];
-
-                // load partial paths info from TypoScript
-                /** @var ConfigurationManagerInterface $configurationManager */
-                $configurationManager = GeneralUtility::makeInstance(ConfigurationManagerInterface::class);
-                $tsSetup =
-                    $configurationManager->getConfiguration(
-                        ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
-                    );
-
-                $layoutPaths = $tsSetup['module.']['tx_csseo.']['view.']['layoutRootPaths.'] ?? $layoutPaths;
-                $partialPaths = $tsSetup['module.']['tx_csseo.']['view.']['partialRootPaths.'] ?? $partialPaths;
-
-                $this->view->setLayoutRootPaths($layoutPaths);
-                $this->view->setPartialRootPaths($partialPaths);
-
-                $this->view->setTemplatePathAndFilename(
-                    $this->resourcesPath . 'Private/Templates/PageHook.html'
-                );
+                $view = $this->initializeView();
 
                 // @extensionScannerIgnoreLine
                 $results = $this->getResultsOfPage($this->currentPageUid);
                 $score = $results['Percentage'] ?? 0;
                 unset($results['Percentage']);
 
-                $this->view->assignMultiple(
+                $view->assignMultiple(
                     [
                         'score' => $score,
                         'results' => $results,
@@ -94,7 +77,7 @@ class ModifyPageLayoutContentEventListener
                     ]
                 );
 
-                $content = $this->view->render();
+                $content = $view->render('PageHook.html');
 
                 if ((int)$this->csSeoConf['inPageModule'] === static::EVALUATION_IN_PAGE_MODULE_FOOTER) {
                     $event->addFooterContent($content);
@@ -103,6 +86,31 @@ class ModifyPageLayoutContentEventListener
                 }
             }
         }
+    }
+
+    protected function initializeView(): ViewInterface
+    {
+        // load partial paths info from TypoScript
+        /** @var ConfigurationManagerInterface $configurationManager */
+        $configurationManager = GeneralUtility::makeInstance(ConfigurationManagerInterface::class);
+        $tsSetup =
+            $configurationManager->getConfiguration(
+                ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
+            );
+
+        $layoutPaths = [$this->resourcesPath . 'Private/Layouts/'];
+        $templatePaths = [$this->resourcesPath . 'Private/Templates/'];
+        $partialPaths = [$this->resourcesPath . 'Private/Partials/'];
+
+        // load partial paths info from typoscript
+        $viewFactoryData = new ViewFactoryData(
+            templateRootPaths: $tsSetup['module.']['tx_csseo.']['view.']['templateRootPaths.'] ?? $templatePaths,
+            partialRootPaths: $tsSetup['module.']['tx_csseo.']['view.']['partialRootPaths.'] ?? $partialPaths,
+            layoutRootPaths: $tsSetup['module.']['tx_csseo.']['view.']['layoutRootPaths.'] ?? $layoutPaths,
+            request: $GLOBALS['TYPO3_REQUEST'],
+        );
+
+        return $this->viewFactory->create($viewFactoryData);
     }
 
     // show, if not disabled via Page TsConfig and if current mode is columns not languages
@@ -160,24 +168,21 @@ class ModifyPageLayoutContentEventListener
 
         // Load the wizards css
         foreach ($cssFiles as $cssFile) {
-            $this->getPageRenderer()->addCssFile($baseUrl . $cssFile, 'stylesheet', 'all', '', $compress, false);
+            // @extensionScannerIgnoreLine
+            $this->pageRenderer->addCssFile($baseUrl . $cssFile, 'stylesheet', 'all', '', $compress, false);
         }
-    }
-
-    protected function getPageRenderer(): PageRenderer
-    {
-        if (!(property_exists($this, 'pageRenderer') && $this->pageRenderer !== null)) {
-            $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        }
-
-        return $this->pageRenderer;
     }
 
     protected function loadJavascript(): void
     {
-        $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/CsSeo/Evaluation');
+        // @extensionScannerIgnoreLine
+        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/Evaluation.js');
     }
 
+    /**
+     * @throws \JsonException
+     * @throws Exception
+     */
     protected function getResultsOfPage(int $pageUid): array
     {
         /** @var QueryBuilder $queryBuilder */
@@ -186,12 +191,19 @@ class ModifyPageLayoutContentEventListener
         $tableName = 'pages';
 
         $res = $queryBuilder->select('results')
-            ->from('tx_csseo_domain_model_evaluation')->where($queryBuilder->expr()->eq(
+            ->from('tx_csseo_domain_model_evaluation')
+            ->where(
+                $queryBuilder->expr()->eq(
                 'uid_foreign',
-                $queryBuilder->createNamedParameter($pageUid, \PDO::PARAM_INT)
-            ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableName)))->executeQuery();
+                $queryBuilder->createNamedParameter($pageUid, Connection::PARAM_INT)
+                ),
+                $queryBuilder->expr()->eq(
+                    'tablenames',
+                    $queryBuilder->createNamedParameter($tableName, Connection::PARAM_STR)
+                )
+            )->executeQuery();
 
-        while ($row = $res->fetch()) {
+        while ($row = $res->fetchAssociative()) {
             $results = unserialize($row['results']);
         }
 

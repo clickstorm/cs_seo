@@ -69,6 +69,20 @@ languages:
     fallbacks: ''
     flag: nl
     languageId: 3
+  - title: Danish
+    enabled: true
+    base: /da/
+    typo3Language: da
+    locale: da_DA.UTF8
+    iso-639-1: da
+    websiteTitle: ''
+    navigationTitle: DA
+    hreflang: ''
+    direction: ltr
+    fallbackType: free
+    fallbacks: 'en'
+    flag: da
+    languageId: 5
 
 routeEnhancers:
   CategoryListing:

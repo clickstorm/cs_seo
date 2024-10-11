@@ -3,14 +3,14 @@
       data-namespace-typo3-fluid="true">
 
 <p class="no-margin">
-	<f:translate key="evaluation.images.settings"/>
+	<f:translate key="evaluation.images.settings" extensionName="cs_seo"/>
 </p>
 
 <f:if condition="{result.count}">
 	<f:then>
 		<f:if condition="{result.images}">
 			<h4>
-				<f:translate key="evaluation.images.withoutAlt"/>
+				<f:translate key="evaluation.images.withoutAlt" extensionName="cs_seo"/>
 			</h4>
 			<f:for each="{result.images}" as="image">
 				<figure>

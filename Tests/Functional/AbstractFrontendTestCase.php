@@ -23,6 +23,8 @@ abstract class AbstractFrontendTestCase extends FunctionalTestCase
     protected string $fixtureRootPath = __DIR__ . '/Fixtures/';
     protected string $tsIncludePath = 'EXT:cs_seo/';
 
+    public static $pageNotFoundString = '<title>Page Not Found</title>';
+
     protected bool $failOnFailure = true;
 
     protected array $coreExtensionsToLoad = [

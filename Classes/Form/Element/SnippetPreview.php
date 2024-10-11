@@ -3,18 +3,21 @@
 namespace Clickstorm\CsSeo\Form\Element;
 
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\TSFEUtility;
-use TYPO3\CMS\Backend\Form\AbstractNode;
 use TYPO3\CMS\Backend\Form\Element\InputTextElement;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -22,16 +25,21 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  *
  * Class PageTitle
  */
-class SnippetPreview extends AbstractNode
+class SnippetPreview extends AbstractFormElement
 {
     protected ?PageRenderer $pageRenderer = null;
+
+    public function __construct(
+        private readonly ViewFactoryInterface $viewFactory,
+    ) {}
 
     public function render(): array
     {
         $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 
         // first get input element
-        $inputField = GeneralUtility::makeInstance(InputTextElement::class, $this->nodeFactory, $this->data);
+        $inputField = GeneralUtility::makeInstance(InputTextElement::class);
+        $inputField->setData($this->data);
         $resultArray = $inputField->render();
 
         // Load necessary JavaScript
@@ -53,7 +61,7 @@ class SnippetPreview extends AbstractNode
      */
     protected function loadJavascript(): void
     {
-        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/SnippetPreview.js');
+        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/FormEngine/Element/SnippetPreview.js');
     }
 
     protected function loadCss(): array
@@ -79,16 +87,12 @@ class SnippetPreview extends AbstractNode
      */
     protected function getBodyContent($data, $table): string
     {
-        // template1
-        /** @var StandaloneView $wizardView */
-        $wizardView = GeneralUtility::makeInstance(StandaloneView::class);
-        $wizardView->setFormat('html');
-        $wizardView->setLayoutRootPaths(
-            [10 => 'EXT:cs_seo/Resources/Private/Layouts/']
+        $viewFactoryData = new ViewFactoryData(
+            templateRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Templates/'],
+            layoutRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Layouts/'],
+            request: $GLOBALS['TYPO3_REQUEST'],
         );
-        $wizardView->setTemplatePathAndFilename(
-            'EXT:cs_seo/Resources/Private/Templates/Wizard.html'
-        );
+        $wizardView = $this->viewFactory->create($viewFactoryData);
 
         if (strpos($data['uid'], 'NEW') === false) {
             // set pageID for TSSetup check
@@ -118,12 +122,11 @@ class SnippetPreview extends AbstractNode
 
             // check if TS page type exists
             /** @var BackendConfigurationManager $backendConfigurationManager */
-            $backendConfigurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
-            $fullTS = $backendConfigurationManager->getTypoScriptSetup();
+            $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
+            $fullTS = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
             if (isset($fullTS['pageCsSeo']) || $GLOBALS['BE_USER']->workspace > 0) {
                 // render page title
-                $rootline = BackendUtility::BEgetRootLine($pageUid);
                 $sysLanguageUid = is_array($data['sys_language_uid']) ? (int)current($data['sys_language_uid']) : (int)$data['sys_language_uid'];
 
                 /** @var TSFEUtility $TSFEUtility */
@@ -133,74 +136,67 @@ class SnippetPreview extends AbstractNode
                     $sysLanguageUid
                 );
                 $fallback = [];
-                if (isset($GLOBALS['TSFE'])) {
-                    $siteTitle = $TSFEUtility->getSiteTitle();
-                    $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();
-                    $config = $TSFEUtility->getConfig();
+                $siteTitle = $TSFEUtility->getSiteTitle();
+                $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();
+                $config = $TSFEUtility->getConfig();
 
-                    if ($table == 'pages') {
-                        $this->getTypoScriptFrontendController()->config['config']['noPageTitle'] = 0;
+                if ($table === 'pages') {
 
-                        $this->getTypoScriptFrontendController()->generatePageTitle();
+                    $pageTitle = $TSFEUtility->getFinalTitle($data['seo_title'] ?: $data['title'] ?: '', !empty($data['tx_csseo_title_only']));
 
-                        $pageTitle = static::getPageRenderer()->getTitle();
+                    // get page path
+                    $path = $TSFEUtility->getPagePath();
 
-                        // get page path
-                        $path = $TSFEUtility->getPagePath();
+                    $fallback['title'] = 'title';
+                    $fallback['uid'] = $data['uid'];
+                    $fallback['table'] = $table;
+                } else {
+                    $tableSettings = ConfigurationUtility::getTableSettings($data['tablenames']);
 
-                        $fallback['title'] = 'title';
-                        $fallback['uid'] = $data['uid'];
-                        $fallback['table'] = $table;
-                    } else {
-                        $tableSettings = ConfigurationUtility::getTableSettings($data['tablenames']);
+                    if ($tableSettings && is_array($tableSettings['fallback']) && !empty($tableSettings['fallback'])) {
+                        $fallback = $tableSettings['fallback'];
 
-                        if ($tableSettings && is_array($tableSettings['fallback']) && !empty($tableSettings['fallback'])) {
-                            $fallback = $tableSettings['fallback'];
+                        /** @var QueryBuilder $queryBuilder */
+                        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($data['tablenames']);
 
-                            /** @var QueryBuilder $queryBuilder */
-                            $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($data['tablenames']);
+                        $queryBuilder
+                            ->getRestrictions()
+                            ->removeAll();
 
-                            $queryBuilder
-                                ->getRestrictions()
-                                ->removeAll();
+                        $res = $queryBuilder->select('*')
+                            ->from($data['tablenames'])->where($queryBuilder->expr()->eq(
+                            'uid',
+                            $queryBuilder->createNamedParameter($data['uid_foreign'], Connection::PARAM_INT)
+                        ))->executeQuery()->fetchAllAssociative();
 
-                            $res = $queryBuilder->select('*')
-                                ->from($data['tablenames'])->where($queryBuilder->expr()->eq(
-                                'uid',
-                                $queryBuilder->createNamedParameter($data['uid_foreign'], \PDO::PARAM_INT)
-                            ))->executeQuery()->fetchAllAssociative();
+                        $row = $res[0];
 
-                            $row = $res[0];
-
-                            foreach ($fallback as $seoField => $fallbackField) {
-                                if (empty($data[$seoField])) {
-                                    $data[$seoField] = $row[$fallbackField];
-                                }
+                        foreach ($fallback as $seoField => $fallbackField) {
+                            if (empty($data[$seoField])) {
+                                $data[$seoField] = $row[$fallbackField];
                             }
-
-                            $fallback['uid'] = $data['uid_foreign'];
-                            $fallback['table'] = $data['tablenames'];
                         }
 
-                        $pageTitle = $TSFEUtility->getFinalTitle($data['title'], !empty($data['title_only']));
-                        $path = '';
+                        $fallback['uid'] = $data['uid_foreign'];
+                        $fallback['table'] = $data['tablenames'];
                     }
 
-                    $wizardView->assignMultiple(
-                        [
-                            'config' => $config,
-                            'extConf' => ConfigurationUtility::getEmConfiguration(),
-                            'data' => $data,
-                            'fallback' => $fallback,
-                            'pageTitle' => $pageTitle,
-                            'pageTitleSeparator' => $pageTitleSeparator,
-                            'path' => $path,
-                            'siteTitle' => $siteTitle,
-                        ]
-                    );
-                } else {
-                    $wizardView->assign('error', 'no_tsfe');
+                    $pageTitle = $TSFEUtility->getFinalTitle($data['title'], !empty($data['title_only']));
+                    $path = '';
                 }
+
+                $wizardView->assignMultiple(
+                    [
+                        'config' => $config,
+                        'extConf' => ConfigurationUtility::getEmConfiguration(),
+                        'data' => $data,
+                        'fallback' => $fallback,
+                        'pageTitle' => $pageTitle,
+                        'pageTitleSeparator' => $pageTitleSeparator,
+                        'path' => $path,
+                        'siteTitle' => $siteTitle,
+                    ]
+                );
             } else {
                 $wizardView->assign('error', 'no_ts');
             }
@@ -208,7 +204,7 @@ class SnippetPreview extends AbstractNode
             $wizardView->assign('error', 'no_data');
         }
 
-        return $wizardView->render();
+        return $wizardView->render('Wizard.html');
     }
 
     protected function getPageRenderer(): PageRenderer

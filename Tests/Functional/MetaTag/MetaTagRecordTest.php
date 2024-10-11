@@ -6,7 +6,7 @@ namespace Clickstorm\CsSeo\Tests\Functional\MetaTag;
 
 class MetaTagRecordTest extends AbstractMetaTagTestCase
 {
-    public function ensureMetaDataAreCorrectDataProvider(): array
+    public static function ensureMetaDataAreCorrectDataProvider(): array
     {
         return [
             'category 1: with title and description fallback' => [
@@ -14,10 +14,8 @@ class MetaTagRecordTest extends AbstractMetaTagTestCase
                 [
                     'title' => 'Title of category 1',
                     'description' => 'No metadata record',
-                    'og:type' => '{$plugin.tx_csseo.social.openGraph.type}',
+                    'og:type' => 'website',
                     'twitter:card' => 'summary',
-                    'twitter:creator' => '@{$plugin.tx_csseo.social.twitter.creator}',
-                    'twitter:site' => '@{$plugin.tx_csseo.social.twitter.site}',
                     'robots' => '',
                 ],
             ],

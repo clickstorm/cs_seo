@@ -4,20 +4,19 @@ namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\KeywordEvaluator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class KeywordEvaluatorTest extends UnitTestCase
 {
-    /**
-     * @var KeywordEvaluator
-     */
-    protected $generalEvaluationMock;
+    protected ?KeywordEvaluator $generalEvaluationMock = null;
 
     public function setUp(): void
     {
         $this->generalEvaluationMock = $this->getAccessibleMock(
             KeywordEvaluator::class,
-            ['dummy'],
+            null,
             [new \DOMDocument()]
         );
     }
@@ -27,16 +26,9 @@ class KeywordEvaluatorTest extends UnitTestCase
         unset($this->generalEvaluationMock);
     }
 
-    /**
-     * htmlspecialcharsOnArray Test
-     *
-     * @param string $html
-     * @param mixed $expectedResult
-     *
-     * @dataProvider evaluateTestDataProvider
-     * @test
-     */
-    public function evaluateTest($html, $keyword, $expectedResult)
+    #[DataProvider('evaluateTestDataProvider')]
+    #[Test]
+    public function evaluateTest(string $html, string $keyword, mixed $expectedResult): void
     {
         $domDocument = new \DOMDocument();
         @$domDocument->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
@@ -50,12 +42,7 @@ class KeywordEvaluatorTest extends UnitTestCase
         self::assertEquals(json_encode($expectedResult), json_encode($result));
     }
 
-    /**
-     * Dataprovider evaluateTest()
-     *
-     * @return array
-     */
-    public function evaluateTestDataProvider()
+    public static function evaluateTestDataProvider(): array
     {
         return [
             'no keyword' => [

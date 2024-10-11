@@ -3,22 +3,27 @@
 namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\TitleEvaluator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class TitleEvaluatorTest extends UnitTestCase
 {
     protected ?TitleEvaluator $generalEvaluationMock = null;
 
-    protected int $min = 40;
+    protected static int $min = 40;
 
-    protected int $max = 57;
+    protected static int $max = 57;
 
     public function setUp(): void
     {
-        $this->generalEvaluationMock = $this->getAccessibleMock(TitleEvaluator::class, ['dummy'], [new \DOMDocument()]);
+        $this->generalEvaluationMock = $this->getAccessibleMock(
+            TitleEvaluator::class,
+            null,
+            [new \DOMDocument()]);
         $extConf = [
-            'minTitle' => $this->min,
-            'maxTitle' => $this->max,
+            'minTitle' => self::$min,
+            'maxTitle' => self::$max,
         ];
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo'] = $extConf;
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils'] = '';
@@ -29,12 +34,8 @@ class TitleEvaluatorTest extends UnitTestCase
         unset($this->generalEvaluationMock, $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['cs_seo'], $GLOBALS['TYPO3_CONF_VARS']['SYS']['t3lib_cs_utils']);
     }
 
-    /**
-     * htmlspecialcharsOnArray Test
-     *
-     * @dataProvider evaluateTestDataProvider
-     * @test
-     */
+    #[DataProvider('evaluateTestDataProvider')]
+    #[Test]
     public function evaluateTest(string $html, mixed $expectedResult): void
     {
         $domDocument = new \DOMDocument();
@@ -48,10 +49,7 @@ class TitleEvaluatorTest extends UnitTestCase
         self::assertEquals(json_encode($expectedResult), json_encode($result));
     }
 
-    /**
-     * Dataprovider evaluateTest()
-     */
-    public function evaluateTestDataProvider(): array
+    public static function evaluateTestDataProvider(): array
     {
         return [
             'zero title' => [
@@ -69,30 +67,30 @@ class TitleEvaluatorTest extends UnitTestCase
                 ],
             ],
             'short title' => [
-                '<title>' . str_repeat('.', $this->min - 1) . '</title>',
+                '<title>' . str_repeat('.', self::$min - 1) . '</title>',
                 [
-                    'count' => $this->min - 1,
+                    'count' => self::$min - 1,
                     'state' => TitleEvaluator::STATE_YELLOW,
                 ],
             ],
             'min good title' => [
-                '<title>' . str_repeat('.', $this->min) . '</title>',
+                '<title>' . str_repeat('.', self::$min) . '</title>',
                 [
-                    'count' => $this->min,
+                    'count' => self::$min,
                     'state' => TitleEvaluator::STATE_GREEN,
                 ],
             ],
             'max good title' => [
-                '<title>' . str_repeat('.', $this->max) . '</title>',
+                '<title>' . str_repeat('.', self::$max) . '</title>',
                 [
-                    'count' => $this->max,
+                    'count' => self::$max,
                     'state' => TitleEvaluator::STATE_GREEN,
                 ],
             ],
             'long title' => [
-                '<title>' . str_repeat('.', $this->max + 1) . '</title>',
+                '<title>' . str_repeat('.', self::$max + 1) . '</title>',
                 [
-                    'count' => $this->max + 1,
+                    'count' => self::$max + 1,
                     'state' => TitleEvaluator::STATE_YELLOW,
                 ],
             ],

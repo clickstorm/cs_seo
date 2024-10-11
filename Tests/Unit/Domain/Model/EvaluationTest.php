@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Clickstorm\CsSeo\Tests\Unit\Domain\Model;
 
 use Clickstorm\CsSeo\Domain\Model\Evaluation;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
@@ -25,13 +27,11 @@ class EvaluationTest extends UnitTestCase
 
         $this->subject = $this->getAccessibleMock(
             Evaluation::class,
-            ['dummy']
+            ['getResults']
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getResultsReturnsInitialValue(): void
     {
         self::assertSame(
@@ -40,9 +40,7 @@ class EvaluationTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setResultsForStringSetsResults(): void
     {
         $this->subject->setResultsFromArray([1 => 'test']);
@@ -50,9 +48,7 @@ class EvaluationTest extends UnitTestCase
         self::assertEquals('a:1:{i:1;s:4:"test";}', $this->subject->_get('results'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getUrlReturnsInitialValueForString(): void
     {
         self::assertSame(
@@ -61,9 +57,7 @@ class EvaluationTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setUrlForStringSetsMyString(): void
     {
         $this->subject->setUrl('Conceived at T3CON10');
@@ -71,9 +65,7 @@ class EvaluationTest extends UnitTestCase
         self::assertEquals('Conceived at T3CON10', $this->subject->_get('url'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getTablenamesReturnsInitialValueForString(): void
     {
         self::assertSame(
@@ -82,9 +74,7 @@ class EvaluationTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setTablenamesForStringSetsMyText(): void
     {
         $this->subject->setTablenames('Conceived at T3CON10');
@@ -92,9 +82,7 @@ class EvaluationTest extends UnitTestCase
         self::assertEquals('Conceived at T3CON10', $this->subject->_get('tablenames'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getUidForeignReturnsInitialValueForInt(): void
     {
         self::assertSame(
@@ -103,9 +91,7 @@ class EvaluationTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setUidForeignForIntSetsMyInt(): void
     {
         $this->subject->setUidForeign(12);
@@ -113,9 +99,7 @@ class EvaluationTest extends UnitTestCase
         self::assertEquals(12, $this->subject->_get('uidForeign'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function getTstampReturnsInitialValueForInt(): void
     {
         self::assertSame(
@@ -124,9 +108,7 @@ class EvaluationTest extends UnitTestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function setTstampForIntSetsMyInt(): void
     {
         $this->subject->setTstamp(12);

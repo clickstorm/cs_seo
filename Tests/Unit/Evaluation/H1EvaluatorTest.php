@@ -4,6 +4,8 @@ namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
 use Clickstorm\CsSeo\Evaluation\H1Evaluator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class H1EvaluatorTest extends UnitTestCase
@@ -12,7 +14,7 @@ class H1EvaluatorTest extends UnitTestCase
 
     public function setUp(): void
     {
-        $this->generalEvaluationMock = $this->getAccessibleMock(H1Evaluator::class, ['dummy'], [new \DOMDocument()]);
+        $this->generalEvaluationMock = $this->getAccessibleMock(H1Evaluator::class, null, [new \DOMDocument()]);
     }
 
     public function tearDown(): void
@@ -20,10 +22,8 @@ class H1EvaluatorTest extends UnitTestCase
         unset($this->generalEvaluationMock);
     }
 
-    /**
-     * @dataProvider evaluateTestDataProvider
-     * @test
-     */
+    #[DataProvider('evaluateTestDataProvider')]
+    #[Test]
     public function evaluateTest(string $html, array $expectedResult): void
     {
         $domDocument = new \DOMDocument();
@@ -37,10 +37,7 @@ class H1EvaluatorTest extends UnitTestCase
         self::assertEquals($expectedResult, $result);
     }
 
-    /**
-     * Dataprovider evaluateTest()
-     */
-    public function evaluateTestDataProvider(): array
+    public static function evaluateTestDataProvider(): array
     {
         return [
             'zero h1' => [

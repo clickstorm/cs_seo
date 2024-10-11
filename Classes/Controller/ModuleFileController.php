@@ -12,8 +12,8 @@ use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
@@ -45,19 +45,19 @@ class ModuleFileController extends AbstractModuleController
         'ModuleFile.css',
     ];
 
+    protected string $templateFile = 'ModuleFile/ShowEmptyImageAlt';
+
     protected int $storageUid = 0;
     protected string $identifier = '';
     protected int $offset = 0;
     protected int $numberOfImagesWithoutAlt = 0;
 
-    public function initializeAction(): ?ForwardResponse
+    public function initializeAction(): void
     {
         parent::initializeAction();
 
         $this->storageUid = FileUtility::getStorageUidFromCombinedIdentifier($this->modParams['id']);
         $this->identifier = FileUtility::getIdentifierFromCombinedIdentifier($this->modParams['id']);
-
-        return null;
     }
 
     public function showEmptyImageAltAction(): ResponseInterface
@@ -68,10 +68,10 @@ class ModuleFileController extends AbstractModuleController
             $this->offset = (int)$this->request->getArgument('offset');
         }
 
-        $this->requireJsModules = [
-            'TYPO3/CMS/Backend/ContextMenu',
-            'TYPO3/CMS/Backend/Notification',
-            'TYPO3/CMS/Backend/InfoWindow',
+        $this->jsModules = [
+            '@typo3/backend/context-menu.js',
+            '@typo3/backend/notification.js',
+            '@typo3/backend/info-window.js',
         ];
 
         if ($this->storageUid) {
@@ -105,7 +105,7 @@ class ModuleFileController extends AbstractModuleController
             if ($numberOfAllImages) {
                 $numberOfImagesWithAlt = $numberOfAllImages - $this->numberOfImagesWithoutAlt;
                 $percentOfImages = $numberOfImagesWithAlt / $numberOfAllImages * 100;
-                $this->view->assignMultiple([
+                $this->moduleTemplate->assignMultiple([
                     'numberOfImagesWithoutAlt' => $this->numberOfImagesWithoutAlt,
                     'indexOfCurrentImage' => $this->offset + 1,
                     'numberOfImagesWithAlt' => $numberOfImagesWithAlt,
@@ -113,7 +113,7 @@ class ModuleFileController extends AbstractModuleController
                 ]);
             }
 
-            $this->view->assignMultiple([
+            $this->moduleTemplate->assignMultiple([
                 'numberOfAllImages' => $numberOfAllImages,
                 'identifier' => $this->identifier,
                 'modParams' => $this->modParams
@@ -138,7 +138,7 @@ class ModuleFileController extends AbstractModuleController
                 }
             }
 
-            $this->view->assign('columns', $columns);
+            $this->moduleTemplate->assign('columns', $columns);
 
             if (isset($imageRow[0]) && isset($imageRow[0]['uid'])) {
                 $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
@@ -154,15 +154,15 @@ class ModuleFileController extends AbstractModuleController
                 }
 
                 if ($this->modParams['onlyReferenced']) {
-                    $this->view->assign('numberOfReferences', DatabaseUtility::getFileReferenceCount($this->image->getUid()));
+                    $this->moduleTemplate->assign('numberOfReferences', DatabaseUtility::getFileReferenceCount($this->image->getUid()));
                 }
 
                 $editForm = $formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',', $configuredColumns));
 
-                $this->view->assignMultiple([
+                $this->moduleTemplate->assignMultiple([
                     'offset' => $this->offset,
                     'editForm' => $editForm,
-                    'image' => $files[0],
+                    'image' => $files[0]
                 ]);
             }
         }
@@ -245,7 +245,7 @@ class ModuleFileController extends AbstractModuleController
                         'placement' => 'bottom',
                     ])
                     ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:edit'))
-                    ->setIcon($iconFactory->getIcon('actions-document-edit', Icon::SIZE_SMALL));
+                    ->setIcon($iconFactory->getIcon('actions-document-edit', IconSize::SMALL));
                 $buttonBar->addButton($editButton, ButtonBar::BUTTON_POSITION_LEFT, 1);
             }
 
@@ -256,7 +256,7 @@ class ModuleFileController extends AbstractModuleController
                     'dispatch-args-list' => '_FILE,' . $this->image->getOriginalResource()->getUid(),
                 ])
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_mod_web_list.xlf:showInfo'))
-                ->setIcon($iconFactory->getIcon('actions-info', Icon::SIZE_SMALL));
+                ->setIcon($iconFactory->getIcon('actions-info', IconSize::SMALL));
             $buttonBar->addButton($infoButton, ButtonBar::BUTTON_POSITION_LEFT, 2);
 
             $viewButton = $buttonBar->makeLinkButton()
@@ -266,14 +266,14 @@ class ModuleFileController extends AbstractModuleController
                 ])
                 ->setHref('#')
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.view'))
-                ->setIcon($iconFactory->getIcon('actions-eye', Icon::SIZE_SMALL));
+                ->setIcon($iconFactory->getIcon('actions-eye', IconSize::SMALL));
             $buttonBar->addButton($viewButton, ButtonBar::BUTTON_POSITION_LEFT, 3);
 
             $prevButton = $buttonBar->makeLinkButton()
                 ->setDisabled($this->offset <= 0)
                 ->setHref((string)$this->uriBuilder->uriFor($actionName, ['offset' => $this->offset - 1]))
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.prev'))
-                ->setIcon($iconFactory->getIcon('actions-chevron-left', Icon::SIZE_SMALL));
+                ->setIcon($iconFactory->getIcon('actions-chevron-left', IconSize::SMALL));
 
             $buttonBar->addButton($prevButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
 
@@ -282,14 +282,14 @@ class ModuleFileController extends AbstractModuleController
                 ->setDisabled($nextOffset >= $this->numberOfImagesWithoutAlt)
                 ->setHref((string)$this->uriBuilder->uriFor($actionName, ['offset' => $nextOffset]))
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.next'))
-                ->setIcon($iconFactory->getIcon('actions-chevron-right', Icon::SIZE_SMALL));
+                ->setIcon($iconFactory->getIcon('actions-chevron-right', IconSize::SMALL));
 
             $buttonBar->addButton($nextButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
 
             $saveButton = $buttonBar->makeInputButton()
                 ->setForm('EditDocumentController')
-                ->setIcon($iconFactory->getIcon('actions-document-save', Icon::SIZE_SMALL))
-                ->setName('_savedok')
+                ->setIcon($iconFactory->getIcon('actions-document-save', IconSize::SMALL))
+                ->setName('_save')
                 ->setShowLabelText(true)
                 ->setTitle(GlobalsUtility::getLanguageService()->sL(
                     'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.submit_and_next'
@@ -301,7 +301,7 @@ class ModuleFileController extends AbstractModuleController
 
         $onlyReferencedButton = $buttonBar->makeInputButton()
             ->setForm('ModForm')
-            ->setIcon($iconFactory->getIcon('actions-thumbtack', Icon::SIZE_SMALL))
+            ->setIcon($iconFactory->getIcon('actions-thumbtack', IconSize::SMALL))
             ->setName('onlyReferenced')
             ->setTitle(GlobalsUtility::getLanguageService()->sL(
                 'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.onlyReferenced'
@@ -318,7 +318,7 @@ class ModuleFileController extends AbstractModuleController
 
         $recursiveButton = $buttonBar->makeInputButton()
             ->setForm('ModForm')
-            ->setIcon($iconFactory->getIcon('apps-pagetree-category-expand-all', Icon::SIZE_SMALL))
+            ->setIcon($iconFactory->getIcon('apps-pagetree-category-expand-all', IconSize::SMALL))
             ->setName('recursive')
             ->setTitle(GlobalsUtility::getLanguageService()->sL(
                 'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.recursive'

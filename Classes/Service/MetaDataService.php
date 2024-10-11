@@ -5,6 +5,7 @@ namespace Clickstorm\CsSeo\Service;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
@@ -70,14 +71,16 @@ class MetaDataService
                                         'uid_foreign' => $tableSettings['uid'],
                                     ];
                                 }
-                            } // check for double slash, if so multiple fallback fields are defined, the first with content will be used
+                            }
+                            // check for double slash, if so multiple fallback fields are defined, the first with content will be used
                             elseif (strpos($fallbackField, '//') !== false) {
                                 foreach (GeneralUtility::trimExplode('//', $fallbackField) as $possibleFallbackField) {
                                     if (!empty($record[$possibleFallbackField])) {
                                         $metaData[$seoField] = $record[$possibleFallbackField];
                                     }
                                 }
-                            } // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
+                            }
+                            // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
                             elseif (preg_match('/{([^}]+)}/', $fallbackField)) {
                                 $curlyBracketSeoField = $fallbackField;
                                 $matches = [];
@@ -150,9 +153,9 @@ class MetaDataService
 
         $row = $queryBuilder->select('*')
             ->from($tableSettings['table'])->where($queryBuilder->expr()->eq(
-            'uid',
-            $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)
-        ))->executeQuery()
+                'uid',
+                $queryBuilder->createNamedParameter($tableSettings['uid'], Connection::PARAM_INT)
+            ))->executeQuery()
             ->fetchAssociative();
 
         if (is_array($row)) {
@@ -179,11 +182,18 @@ class MetaDataService
 
         $res = $queryBuilder->select('*')
             ->from(self::TABLE_NAME_META)->where($queryBuilder->expr()->eq(
-            'uid_foreign',
-            $queryBuilder->createNamedParameter($tableSettings['uid'], \PDO::PARAM_INT)
-        ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableSettings['table'])))->executeQuery()->fetchAllAssociative();
+                    'uid_foreign',
+                    $queryBuilder->createNamedParameter($tableSettings['uid'], Connection::PARAM_INT)
+                ),
+                $queryBuilder->expr()->eq(
+                    'tablenames',
+                    $queryBuilder->createNamedParameter($tableSettings['table'])
+                )
+            )
+            ->executeQuery()
+            ->fetchAllAssociative();
 
-        return isset($res[0]) ? $res[0] : [];
+        return $res[0] ?? [];
     }
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void

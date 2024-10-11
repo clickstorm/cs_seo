@@ -7,7 +7,7 @@
 	<f:form action="pageEvaluation">
 		<div class="row">
             <div class="form-group col-md-6">
-                <label for="table"><f:translate key="partials.module.select.table" /></label>
+                <label for="table"><f:translate key="partials.module.select.table" extensionName="cs_seo"/></label>
                 <f:form.select
                         id="table"
                         options="{tables}"
@@ -20,12 +20,12 @@
 			<div class="form-group col-md-6">
                 <f:if condition="{records}">
                     <f:then>
-                        <label for="cs-record"><f:translate key="partials.module.select.record" /></label>
+                        <label for="cs-record"><f:translate key="partials.module.select.record" extensionName="cs_seo"/></label>
                         <f:form.select
                                 id="cs-record"
                                 options="{records}"
                                 class="form-select"
-                                prependOptionLabel="{f:translate(key:'select.prepend')}"
+                                prependOptionLabel="{f:translate(key:'select.prepend', extensionName: 'cs_seo')}"
                                 name="record"
                                 additionalAttributes="{onchange:'this.form.submit();'}"
                                 value="{record}"
@@ -33,7 +33,7 @@
                     </f:then>
                     <f:else>
                         <f:if condition="{evaluationUid}">
-                            <label for="lang"><f:translate key="partials.module.select.lang" /></label>
+                            <label for="lang"><f:translate key="partials.module.select.lang" extensionName="cs_seo" /></label>
                             <f:form.select
                                 id="lang"
                                 options="{languages}"

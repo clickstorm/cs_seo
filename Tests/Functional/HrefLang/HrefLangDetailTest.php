@@ -28,10 +28,7 @@ class HrefLangDetailTest extends AbstractHrefLangTestCase
         $this->importTypoScript($typoScriptFiles, $sitesNumbers);
     }
 
-    /**
-     * @return array
-     */
-    public function checkHrefLangOutputDataProvider(): array
+    public static function checkHrefLangOutputDataProvider(): array
     {
         return [
             'sys_category: 1 without metadata' => [

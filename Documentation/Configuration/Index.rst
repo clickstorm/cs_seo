@@ -52,9 +52,6 @@ Robots.txt
 Use the static routes, to configure your robots.txt, see
 `TYPO3 CMS Core ChangeLog <https://docs.typo3.org/typo3cms/extensions/core/Changelog/9.5/Feature-86214-ImplementStaticRoutes.html>`_.
 
-User Tracking
-^^^^^^^^^^^^^
-Easily activate the user tracking via TypoScript, see :ref:`tracking`.
 
 TypoScript Settings Reference
 -----------------------------
@@ -65,4 +62,3 @@ TypoScript Settings Reference
 
 	Language/Index
 	Social/Index
-	Tracking/Index

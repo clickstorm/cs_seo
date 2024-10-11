@@ -6,7 +6,7 @@ namespace Clickstorm\CsSeo\Tests\Functional\JsonLd;
 
 class JsonLdRecordTest extends AbstractJsonLdTestCase
 {
-    public function ensureMetaDataAreCorrectDataProvider(): array
+    public static function ensureMetaDataAreCorrectDataProvider(): array
     {
         return [
             'category 1: with title and description fallback' => [

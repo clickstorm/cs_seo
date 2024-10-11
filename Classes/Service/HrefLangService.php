@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Service;
 
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Context\Context;
@@ -29,11 +30,7 @@ class HrefLangService extends AbstractUrlService
         /** @var ContentObjectRenderer $cObj */
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $context = GeneralUtility::makeInstance(Context::class);
-        $typoLinkConf = $GLOBALS['TSFE']->tmpl->setup['lib.']['currentUrl.']['typolink.'] ?? [];
-        $tempLinkVars = $GLOBALS['TSFE']->linkVars;
-
-        // remove config.linkVars temporary
-        $GLOBALS['TSFE']->linkVars = '';
+        $typoLinkConf = GlobalsUtility::getTypoScriptSetup()['lib.']['currentUrl.']['typolink.'] ?? [];
 
         // check if the current page is a detail page of a record
         if ($metaData) {
@@ -44,7 +41,7 @@ class HrefLangService extends AbstractUrlService
             $l10nItems = $this->getAllLanguagesFromItem($currentItemConf['table'], (int)$currentItemConf['uid']);
             unset($typoLinkConf['parameter.']);
             // @extensionScannerIgnoreLine
-            $typoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
+            $typoLinkConf['parameter'] = GlobalsUtility::getPageId();
             if (empty($metaData['no_index']) &&
                 empty($metaData['canonical']) &&
                 isset($l10nItems[$currentLanguageUid]) &&
@@ -86,20 +83,21 @@ class HrefLangService extends AbstractUrlService
                 && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site) {
                 $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
                 $languages = $languageMenu->process($cObj, [], [], []);
+                $pageId = GlobalsUtility::getPageId();
 
                 // prepare typolink conf for dynamic hreflang
                 $hreflangTypoLinkConf = $typoLinkConf;
                 unset($hreflangTypoLinkConf['additionalParams.']['append.']['data']);
                 unset($hreflangTypoLinkConf['parameter.']);
                 // @extensionScannerIgnoreLine
-                $hreflangTypoLinkConf['parameter'] = $GLOBALS['TSFE']->id;
+                $hreflangTypoLinkConf['parameter'] = $pageId;
 
                 // prepare typolink conf for hreflang with canonical link
                 $hreflangTypoLinkConfForCanonical = $hreflangTypoLinkConf;
                 unset($hreflangTypoLinkConfForCanonical['additionalParams.']);
 
                 // @extensionScannerIgnoreLine
-                $canonicalsByLanguages = $this->getCanonicalFromAllLanguagesOfPage($GLOBALS['TSFE']->id);
+                $canonicalsByLanguages = $this->getCanonicalFromAllLanguagesOfPage($pageId);
 
                 foreach ($languages['languagemenu'] as $language) {
                     if ($this->checkHrefLangForLanguageCanBeSet($language, $languages['languagemenu'])
@@ -116,8 +114,6 @@ class HrefLangService extends AbstractUrlService
                 }
             }
         }
-
-        $GLOBALS['TSFE']->linkVars = $tempLinkVars;
 
         return $hreflangs;
     }

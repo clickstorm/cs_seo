@@ -7,7 +7,7 @@
 
 <f:section name="Main">
     <h1>
-        <f:translate key="layouts.module.action.pageEvaluation"/>
+        <f:translate key="layouts.module.action.pageEvaluation" extensionName="cs_seo"/>
     </h1>
     <p></p>
     <!-- From -->
@@ -21,17 +21,17 @@
                             <f:then>
                                 <div class="header clearfix">
                                     <f:render partial="Results/Percentage" arguments="{result:score}" section="Main"/>
-                                    <span class="text"><f:translate key="evaluation.header"/></span>
+                                    <span class="text"><f:translate key="evaluation.header" extensionName="cs_seo"/></span>
                                     <f:render section="Button" arguments="{_all}"/>
                                     <f:render partial="Results/Bar" arguments="{result:score}" section="Main"/>
                                     <div class="right last-update">
-                                        <f:translate key="evaluation.tstamp"/>
+                                        <f:translate key="evaluation.tstamp" extensionName="cs_seo"/>
                                         :
-                                        <f:format.date date="{evaluation.tstamp}" format="{f:translate(key:'date.format')}"/>
+                                        <f:format.date date="{evaluation.tstamp}" format="{f:translate(key:'date.format', extensionName: 'cs_seo')}"/>
                                         <f:if condition="{evaluation.url}">
                                             <a href="{evaluation.url}"
                                                class="actions-window-open"
-                                               title="{f:translate(key:'evaluation.frontend')}"
+                                               title="{f:translate(key:'evaluation.frontend', extensionName: 'cs_seo')}"
                                                target="blank"
                                             >
                                                 <core:icon identifier="actions-window-open" size="small"/>
@@ -47,7 +47,7 @@
                                                     <a href="javascript:;"
                                                        class="csseo-icon-up-open js-csseo-toggle"
                                                        data-content=".detail.evaluation-{key -> f:format.case(mode:'lower')}"
-                                                       title="{f:translate(key:'evaluation.more')}"
+                                                       title="{f:translate(key:'evaluation.more', extensionName: 'cs_seo')}"
                                                     ></a>
                                                 </div>
                                                 <f:render partial="Results/{key}" arguments="{result:result}"/>
@@ -61,8 +61,8 @@
                             </f:then>
                             <f:else>
                                 <div class="header">
-                                    <span class="score csseo-state-0"><f:translate key="evaluation.no_results"></f:translate></span>
-                                    <span class="text"><f:translate key="evaluation.header"/></span>
+                                    <span class="score csseo-state-0"><f:translate key="evaluation.no_results" extensionName="cs_seo"/></span>
+                                    <span class="text"><f:translate key="evaluation.header" extensionName="cs_seo"/></span>
                                     <f:render section="Button" arguments="{_all}"/>
                                 </div>
                             </f:else>
@@ -70,14 +70,14 @@
                     </div>
                 </f:then>
                 <f:else>
-                    <h2><f:translate key="evaluation.no_record.header"/></h2>
-                    <p><f:translate key="evaluation.no_record.text"/>: {tables.{table}}.</p>
+                    <h2><f:translate key="evaluation.no_record.header" extensionName="cs_seo"/></h2>
+                    <p><f:translate key="evaluation.no_record.text" extensionName="cs_seo"/>: {tables.{table}}.</p>
                 </f:else>
             </f:if>
         </f:then>
         <f:else>
-            <h2><f:translate key="evaluation.no_records.header"/></h2>
-            <p><f:translate key="evaluation.no_records.text"/>: {tables.{table}}.</p>
+            <h2><f:translate key="evaluation.no_records.header" extensionName="cs_seo"/></h2>
+            <p><f:translate key="evaluation.no_records.text" extensionName="cs_seo"/>: {tables.{table}}.</p>
         </f:else>
     </f:if>
 </f:section>
@@ -87,7 +87,7 @@
             data-uid="{evaluationUid}"
             data-table="{table}"
             class="btn btn-default btn-sm csseo-icon-arrows-cw">
-        <f:translate key="evaluation.update"/>
+        <f:translate key="evaluation.update" extensionName="cs_seo"/>
     </button>
 </f:section>
 </html>

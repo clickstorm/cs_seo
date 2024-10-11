@@ -2,8 +2,8 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
-use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
@@ -45,13 +45,17 @@ abstract class AbstractModuleController extends ActionController
 
     protected string $jsInlineCode = '';
 
-    protected array $requireJsModules = [];
+    protected array $jsModules = [];
 
-    private ?PageRenderer $pageRenderer = null;
+    protected string $templateFile = '';
 
-    public function __construct(PageRenderer $pageRenderer)
+    protected ?ModuleTemplate $moduleTemplate = null;
+
+    public function __construct(
+        protected readonly PageRenderer          $pageRenderer,
+        protected readonly ModuleTemplateFactory $moduleTemplateFactory,
+    )
     {
-        $this->pageRenderer = $pageRenderer;
     }
 
     /**
@@ -61,7 +65,7 @@ abstract class AbstractModuleController extends ActionController
      * @throws NoSuchArgumentException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      */
-    protected function initializeAction(): ?ForwardResponse
+    protected function initializeAction(): void
     {
         // initialize page/be_user TSconfig settings
         $this->recordId = (int)($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? 0);
@@ -75,7 +79,7 @@ abstract class AbstractModuleController extends ActionController
 
         if (!$this->request->hasArgument('action') && $this->modParams['action']) {
             $this->request->setArgument('action', $this->modParams['action']);
-            return new ForwardResponse($this->modParams['action']);
+            new ForwardResponse($this->modParams['action']);
         }
 
         if (is_int($this->recordId)) {
@@ -84,8 +88,7 @@ abstract class AbstractModuleController extends ActionController
 
         // reset JavaScript and CSS files
         GeneralUtility::makeInstance(PageRenderer::class);
-
-        return null;
+        $this->moduleTemplate = $this->moduleTemplateFactory->create($this->request);
     }
 
     /**
@@ -106,6 +109,10 @@ abstract class AbstractModuleController extends ActionController
 
             if ($this->request->hasArgument($name)) {
                 $arg = $this->request->getArgument($name);
+                if ($name === 'id' && is_string($arg) && str_contains($arg, '_')) {
+                    // e.g. arg='0_99', the id should be the last number
+                    $arg = (int)substr($arg, strrpos($arg, '_') + 1);
+                }
                 $this->modParams[$name] = is_numeric($arg) ? (int)$arg : $arg;
             }
         }
@@ -122,7 +129,7 @@ abstract class AbstractModuleController extends ActionController
     {
         if (!(property_exists($this, 'dataHandler') && $this->dataHandler !== null)) {
             $this->dataHandler = GeneralUtility::makeInstance(DataHandler::class);
-            $this->dataHandler->start(null, null);
+            $this->dataHandler->start([], []);
         }
 
         return $this->dataHandler;
@@ -130,17 +137,13 @@ abstract class AbstractModuleController extends ActionController
 
     protected function wrapModuleTemplate(): string
     {
-        // Prepare module setup
-        $moduleTemplateFactory = GeneralUtility::makeInstance(ModuleTemplateFactory::class);
-        $moduleTemplate = $moduleTemplateFactory->create(GlobalsUtility::getTYPO3Request());
-        $moduleTemplate->setContent($this->view->render());
 
         foreach ($this->jsFiles as $jsFile) {
             $this->pageRenderer->addJsFile('EXT:cs_seo/Resources/Public/JavaScript/' . $jsFile);
         }
 
-        foreach ($this->requireJsModules as $requireJsModule) {
-            $this->pageRenderer->loadRequireJsModule($requireJsModule);
+        foreach ($this->jsModules as $jsModule) {
+            $this->pageRenderer->loadJavaScriptModule($jsModule);
         }
 
         foreach ($this->cssFiles as $cssFile) {
@@ -154,9 +157,9 @@ abstract class AbstractModuleController extends ActionController
         }
 
         // Shortcut in doc header
-        $buttonBar = $moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
-        $shortcutButton = $moduleTemplate->getDocHeaderComponent()->getButtonBar()->makeShortcutButton();
+        $shortcutButton = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar()->makeShortcutButton();
         $type = $shortcutButton->getType();
         $shortcutButton->setRouteIdentifier(static::$mod_name)
             ->setDisplayName(GlobalsUtility::getLanguageService()->sL(
@@ -179,12 +182,12 @@ abstract class AbstractModuleController extends ActionController
         }
 
         if ($metaInfo) {
-            $moduleTemplate->getDocHeaderComponent()->setMetaInformation($metaInfo);
+            $this->moduleTemplate->getDocHeaderComponent()->setMetaInformation($metaInfo);
         }
 
         if (count(static::$menuActions) > 1) {
             // Main drop down in doc header
-            $menu = $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->makeMenu();
+            $menu = $this->moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->makeMenu();
             $menu->setIdentifier('action');
             foreach (static::$menuActions as $menuKey) {
                 $menuItem = $menu->makeMenuItem();
@@ -202,10 +205,10 @@ abstract class AbstractModuleController extends ActionController
                 }
                 $menu->addMenuItem($menuItem);
             }
-            $moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
+            $this->moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
         }
 
-        return $moduleTemplate->renderContent();
+        return $this->moduleTemplate->render($this->templateFile);
     }
 
     protected function renderFlashMessages(): string

@@ -6,7 +6,7 @@ namespace Clickstorm\CsSeo\Tests\Functional\Canonical;
 
 class CanonicalCoreTest extends AbstractCanonicalTestCase
 {
-    public function generateDataProvider(): array
+    public static function generateDataProvider(): array
     {
         return [
             'uid: 1 with canonical_link' => [
@@ -43,15 +43,23 @@ class CanonicalCoreTest extends AbstractCanonicalTestCase
             ],
             'uid: 12 with mount_pid_ol = 1' => [
                 'http://localhost/dummy-1-2-12',
-                '<link rel="canonical" href="http://localhost/dummy-1-2-12"/>' . chr(10),
+                '<link rel="canonical" href="http://example.com/"/>' . chr(10),
             ],
             'subpage of page with mount_pid_ol = 0' => [
                 'http://localhost/dummy-1-2-11/subpage-of-new-root',
-                '<link rel="canonical" href="http://localhost/dummy-1-2-11/subpage-of-new-root"/>' . chr(10),
+                '<link rel="canonical" href="http://example.com/subpage-of-new-root"/>' . chr(10),
             ],
             'subpage of page with mount_pid_ol = 1' => [
                 'http://localhost/dummy-1-2-12/subpage-of-new-root',
-                '<link rel="canonical" href="http://localhost/dummy-1-2-12/subpage-of-new-root"/>' . chr(10),
+                '<link rel="canonical" href="http://example.com/subpage-of-new-root"/>' . chr(10),
+            ],
+            'mountpoint to page without siteroot' => [
+                'http://localhost/dummy-1-2-13',
+                '',
+            ],
+            'subpage of mountpoint without siteroot' => [
+                'http://localhost/dummy-1-2-13/imprint',
+                '',
             ],
             'uid: 14 typoscript setting config.disableCanonical' => [
                 'http://localhost/no-canonical',

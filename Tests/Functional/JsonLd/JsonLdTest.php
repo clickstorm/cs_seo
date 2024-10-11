@@ -6,7 +6,7 @@ namespace Clickstorm\CsSeo\Tests\Functional\JsonLd;
 
 class JsonLdTest extends AbstractJsonLdTestCase
 {
-    public function ensureMetaDataAreCorrectDataProvider(): array
+    public static function ensureMetaDataAreCorrectDataProvider(): array
     {
         return [
             'page 1: with JSON-LD' => [

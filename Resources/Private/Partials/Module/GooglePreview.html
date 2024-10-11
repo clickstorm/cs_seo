@@ -3,9 +3,9 @@
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 <body>
 <f:section name="Main">
-	<script type="application/javascript" nonce="{f:security.nonce()}">
+	<f:asset.script identifier="csSeoPreviewSettings" useNonce="1">
 		csSEO.previewSettings = {previewSettings -> f:format.raw()};
-	</script>
+	</f:asset.script>
 	<div class="tx-cs_seo" ng-init="wizardInit = 1">
 		<h3>{{ previewTitle }}</h3>
 		<div class="url">www.domain.de/link</div>

@@ -4,7 +4,7 @@ namespace Clickstorm\CsSeo\Utility;
 
 use Clickstorm\CsSeo\Domain\Model\Dto\FileModuleOptions;
 use Doctrine\DBAL\ArrayParameterType;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -48,6 +48,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class DatabaseUtility
 {
+    /**
+     * @throws Exception
+     */
     public static function getRecords(string $table, int $pid = 0, bool $sortByLabel = false): array
     {
         $items = [];
@@ -62,7 +65,7 @@ class DatabaseUtility
         if ($pid) {
             $queryBuilder->where($queryBuilder->expr()->eq(
                 'pid',
-                $queryBuilder->createNamedParameter($pid, \PDO::PARAM_INT)
+                $queryBuilder->createNamedParameter($pid, Connection::PARAM_INT)
             ));
         }
 
@@ -72,15 +75,18 @@ class DatabaseUtility
             $queryBuilder->orderBy($GLOBALS['TCA'][$table]['ctrl']['tstamp'], 'DESC');
         }
 
-        $res = $queryBuilder->execute();
+        $res = $queryBuilder->executeQuery();
 
-        while ($row = $res->fetch()) {
+        while ($row = $res->fetchAssociative()) {
             $items[$row['uid']] = $row[$GLOBALS['TCA'][$table]['ctrl']['label']] . ' [' . $row['uid'] . ']';
         }
 
         return $items;
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getPageLanguageOverlays(int $uid): array
     {
         $items = [];
@@ -96,11 +102,11 @@ class DatabaseUtility
             ->where(
                 $queryBuilder->expr()->eq(
                     $tcaCtrl['transOrigPointerField'],
-                    $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 )
             )->orderBy($tcaCtrl['languageField'])->executeQuery();
 
-        while ($row = $res->fetch()) {
+        while ($row = $res->fetchAssociative()) {
             $items[$row[$tcaCtrl['languageField']]] = $row;
         }
 
@@ -123,6 +129,9 @@ class DatabaseUtility
         return isset($fileObjects[0]) ? $fileObjects[0]->getOriginalFile() : null;
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getImageWithEmptyAlt(
         FileModuleOptions $fileModuleOptions,
         bool              $countAll = false,
@@ -234,6 +243,9 @@ class DatabaseUtility
         return $countAll ? [0 => count($res)] : $res;
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getFileReferenceCount(int $fileUid): int
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_refindex');
@@ -268,7 +280,7 @@ class DatabaseUtility
 
         try {
             $site = GeneralUtility::makeInstance(SiteFinder::class)
-                ->getSiteByRootPageId($pageId);
+                ->getSiteByPageId($pageId);
         } catch (SiteNotFoundException $exception) {
             return $languages;
         }
@@ -281,6 +293,9 @@ class DatabaseUtility
         return $languages;
     }
 
+    /**
+     * @throws Exception
+     */
     public static function getRecord(string $table, int $uid, string $select = '*'): ?array
     {
         /** @var QueryBuilder $queryBuilder */
@@ -289,8 +304,8 @@ class DatabaseUtility
         return $queryBuilder->select(...GeneralUtility::trimExplode(',', $select, true))
             ->from($table)->where($queryBuilder->expr()->eq(
                 'uid',
-                $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
+                $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
             ))->executeQuery()
-            ->fetch();
+            ->fetchAssociative();
     }
 }
