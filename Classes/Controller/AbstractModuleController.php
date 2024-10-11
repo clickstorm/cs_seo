@@ -109,7 +109,8 @@ abstract class AbstractModuleController extends ActionController
 
             if ($this->request->hasArgument($name)) {
                 $arg = $this->request->getArgument($name);
-                if ($name === 'id' && is_string($arg) && str_contains($arg, '_')) {
+                // an id can be 0_99 in web module or 1:/user_upload in file module
+                if ($name === 'id' && is_string($arg) && str_contains($arg, '_') && !str_contains($arg, ':')) {
                     // e.g. arg='0_99', the id should be the last number
                     $arg = (int)substr($arg, strrpos($arg, '_') + 1);
                 }
