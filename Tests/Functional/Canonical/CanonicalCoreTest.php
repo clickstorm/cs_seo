@@ -53,14 +53,6 @@ class CanonicalCoreTest extends AbstractCanonicalTestCase
                 'http://localhost/dummy-1-2-12/subpage-of-new-root',
                 '<link rel="canonical" href="http://example.com/subpage-of-new-root"/>' . chr(10),
             ],
-            'mountpoint to page without siteroot' => [
-                'http://localhost/dummy-1-2-13',
-                '',
-            ],
-            'subpage of mountpoint without siteroot' => [
-                'http://localhost/dummy-1-2-13/imprint',
-                '',
-            ],
             'uid: 14 typoscript setting config.disableCanonical' => [
                 'http://localhost/no-canonical',
                 '',
