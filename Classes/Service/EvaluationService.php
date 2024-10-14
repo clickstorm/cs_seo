@@ -144,7 +144,7 @@ class EvaluationService
         return $results;
     }
 
-    public function getEvaluation(array $record, string $table = ''): ?Evaluation
+    public function getEvaluation(array|int $record, string $table = ''): ?Evaluation
     {
         if ($table) {
             $evaluation = $this->evaluationRepository->findByUidForeignAndTableName($record, $table);
