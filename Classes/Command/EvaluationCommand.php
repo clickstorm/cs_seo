@@ -175,7 +175,7 @@ class EvaluationCommand extends Command
                 $keyword = $row['keyword'];
             }
         } else {
-            $keyword = $record['tx_csseo_keyword'];
+            $keyword = $record['tx_csseo_keyword'] ?? '';
         }
 
         return $keyword;
