@@ -115,6 +115,10 @@
         <source>Incorrect</source>
         <target state="final">Ukorrekt</target>
       </trans-unit>
+      <trans-unit id="evaluation.headingOrder.settings" resname="evaluation.headingOrder.settings" approved="yes">
+        <source>The hierarchical order of headings (h1-h6) should be correct, e.g. a h2 heading should always be below a h1 heading. If your page has headings, you can see the current order here.</source>
+        <target state="final">Den hierarkiske rækkefølge af overskrifter (h1-h6) skal være korrekt, f.eks. skal en h2 overskrift altid være efter en h1 overskrift. Hvis din side har overskrifter, kan du se den aktuelle rækkefølge her.</target>
+      </trans-unit>
       <trans-unit id="evaluation.headlines.count" resname="evaluation.headlines.count" approved="yes">
         <source>Number of headlines found: %1$s.</source>
         <target state="final">Antal overskrifter fundet: %1$s.</target>
@@ -310,6 +314,18 @@
       <trans-unit id="module.file.error.no_images" resname="module.file.error.no_images" approved="yes">
         <source>Please select a folder with images.</source>
         <target state="final">Vælg venligst en mappe med billeder.</target>
+      </trans-unit>
+      <trans-unit id="module.file.error.only_referenced" resname="module.file.error.only_referenced" approved="yes">
+        <source>There are no referenced images in this selection.</source>
+        <target state="final">Der er ingen refererede billeder i dette udvalg.</target>
+      </trans-unit>
+      <trans-unit id="module.file.numberOfReferences" resname="module.file.numberOfReferences" approved="yes">
+        <source>Number of references to this image: %1$s</source>
+        <target state="final">Antal referencer til dette billede: %1$s</target>
+      </trans-unit>
+      <trans-unit id="module.file.onlyReferenced" resname="module.file.onlyReferenced" approved="yes">
+        <source>Only referenced images</source>
+        <target state="final">Kun refererede billeder</target>
       </trans-unit>
       <trans-unit id="module.file.recursive" resname="module.file.recursive" approved="yes">
         <source>Include subfolders</source>
