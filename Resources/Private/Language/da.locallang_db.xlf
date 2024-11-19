@@ -11,6 +11,10 @@
         <source>Warning! If you want to use this Robots setting, you must remove the robots.txt in your web root.</source>
         <target state="final">Advarsel! Hvis du vil bruge denne robots-indstilling, skal du fjerne robots.txt i din web-rod.</target>
       </trans-unit>
+      <trans-unit id="evaluation.tca.json_ld.invalid_json" resname="evaluation.tca.json_ld.invalid_json" approved="yes">
+        <source>The JSON-LD markup is invalid. </source>
+        <target state="final">JSON-LD markup er ugyldig. </target>
+      </trans-unit>
       <trans-unit id="pages.description" resname="pages.description" approved="yes">
         <source>Description</source>
         <target state="final">Beskrivelse</target>
@@ -58,6 +62,10 @@
       <trans-unit id="pages.tx_csseo_no_index" resname="pages.tx_csseo_no_index" approved="yes">
         <source>No Index</source>
         <target state="final">No Index</target>
+      </trans-unit>
+      <trans-unit id="pages.tx_csseo_no_search" resname="pages.tx_csseo_no_search" approved="yes">
+        <source>No Search</source>
+        <target state="final">Ingen søgning</target>
       </trans-unit>
       <trans-unit id="pages.tx_csseo_og_description" resname="pages.tx_csseo_og_description" approved="yes">
         <source>Facebook Description</source>
