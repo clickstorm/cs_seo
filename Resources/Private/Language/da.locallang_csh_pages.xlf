@@ -7,13 +7,45 @@
         <source>Prevents indexing of duplicate content. If the content of another page is similar or identical and you prefer to have this page indexed, then enter the link to the page here.</source>
         <target state="final">Forhindrer indeksering af duplikeret indhold. Hvis indholdet af en anden side er identisk og du foretrækker at have denne side indekseret, så indtast linket til siden her.</target>
       </trans-unit>
+      <trans-unit id="description.description" resname="canonical_link.description" approved="yes">
+        <source>The page description may appear in search results and on social media platforms. Arouse the user's interest and place key keywords of the page in natural language.</source>
+        <target state="final">Den sidebeskrivelse kan vises i søgeresultater og på sociale medier. Skab interesse og placér nøgleord på siden i et naturligt sprog.</target>
+      </trans-unit>
+      <trans-unit id="no_follow.description" resname="no_follow.description" approved="yes">
+        <source>If checked, all links on the web page will be checked by search engines. Thus the links have influence on a page rank.</source>
+        <target state="final">Hvis markeret, vil alle links på websiden blive kontrolleret af søgemaskiner. Linkene har derfor indflydelse på en sideplacering.</target>
+      </trans-unit>
       <trans-unit id="no_index.description" resname="no_index.description" approved="yes">
         <source>If checked, this page will be visible in search engines.</source>
         <target state="final">Hvis markeret, vil denne side være synlig i søgemaskiner.</target>
       </trans-unit>
+      <trans-unit id="og_description.description" resname="og_description.description" approved="yes">
+        <source>This description will be shown, if the user shares this page on Facebook, LinkedIn etc. Fallback is the page description.</source>
+        <target state="final">Denne beskrivelse vil blive vist, hvis brugeren deler denne side på Facebook, LinkedIn osv. Fallback er sidens beskrivelse.</target>
+      </trans-unit>
+      <trans-unit id="og_image.description" resname="og_image.description" approved="yes">
+        <source>This image will be shown, if the user shares this page on Facebook, LinkedIn etc. It will be scaled to 1200 x 630 pixels.</source>
+        <target state="final">Dette billede vil blive vist, hvis brugeren deler denne side på Facebook, LinkedIn osv. Det vil blive skaleret til 1200 x 630 pixels.</target>
+      </trans-unit>
+      <trans-unit id="og_title.description" resname="og_title.description" approved="yes">
+        <source>This title will be shown, if the user shares this page on Facebook, LinkedIn etc. Fallback is the title for search engines.</source>
+        <target state="final">Denne titel vil blive vist, hvis brugeren deler denne side på Facebook, LinkedIn osv. Fallback er titlen for søgemaskiner.</target>
+      </trans-unit>
       <trans-unit id="seo_title.description" resname="seo_title.description" approved="yes">
         <source>This title will be shown in the browser tab and in the search engines. Place some keywords here, but not only separated by commas. The user should be animated to click.</source>
         <target state="final">Denne titel vil blive vist i browserens fane og i søgemaskinerne. Plac'er nogle nøgleord her, men ikke kun adskilt af kommaer. Brugeren skal animeres til at klikke.</target>
+      </trans-unit>
+      <trans-unit id="twitter_description.description" resname="tw_description.description" approved="yes">
+        <source>This description will be shown, if the user shares this page on Twitter. Fallback is the open graph description.</source>
+        <target state="final">Denne beskrivelse vil blive vist, hvis brugeren deler denne side på Twitter. Fallback er open graph beskrivelsen.</target>
+      </trans-unit>
+      <trans-unit id="twitter_image.description" resname="tw_image.description" approved="yes">
+        <source>This image will be shown, if the user shares this page on Twitter. Fallback is the open graph image. The recommended size is 1600 x 900 pixels.</source>
+        <target state="final">Dette billede vil blive vist, hvis brugeren deler denne side på Twitter. Fallback er open grap billedet. Den anbefalede størrelse er 1600 x 900 pixels.</target>
+      </trans-unit>
+      <trans-unit id="twitter_title.description" resname="tw_title.description" approved="yes">
+        <source>This title will be shown, if the user shares this page on Twitter. Fallback is the open graph title.</source>
+        <target state="final">Denne titel vil blive vist, hvis brugeren deler denne side på Twitter. Fallback er open graph titlen.</target>
       </trans-unit>
       <trans-unit id="tx_csseo_json_ld.description" resname="tx_csseo_json_ld.description" approved="yes">
         <source>Add more information about the content of the current page with JSON-LD.</source>
@@ -26,6 +58,14 @@
       <trans-unit id="tx_csseo_title_only.description" approved="yes">
         <source>Show the browser title without the site title in cases the space isn't enough.</source>
         <target state="final">Vis browserens titel uden webstedets titel i tilfælde af at der ikke er plads.</target>
+      </trans-unit>
+      <trans-unit id="tx_csseo_tw_creator.description" resname="tx_csseo_tw_creator.description" approved="yes">
+        <source>Enter a Twitter username without the @ sign. If the user shares the page on Twitter, this account will be shown as creator.</source>
+        <target state="final">Indtast et Twitter-brugernavn uden @-skiltet. Hvis brugeren deler siden på Twitter, vil denne konto blive vist som ophavsmand.</target>
+      </trans-unit>
+      <trans-unit id="tx_csseo_tw_site.description" resname="tx_csseo_tw_site.description" approved="yes">
+        <source>Enter a Twitter username without the @ sign. If the user shares the page on Twitter, this account will be used in the card footer. The account should belong to your website.</source>
+        <target state="final">Indtast et Twitter brugernavn uden @-tegnet. Hvis brugeren deler siden på Twitter, vil denne konto blive brugt i kortfoden. Kontoen skal tilhøre dit websted.</target>
       </trans-unit>
     </body>
   </file>
