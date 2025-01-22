@@ -118,7 +118,7 @@ class EvaluationCommand extends Command
 
         // if single uid
         if ($uid > 0) {
-            if ($localized && $tcaCtrl['transOrigPointerField']) {
+            if ($localized && isset($tcaCtrl['transOrigPointerField'])) {
                 $queryBuilder->andWhere($queryBuilder->expr()->eq(
                     $tcaCtrl['transOrigPointerField'],
                     $queryBuilder->createNamedParameter($uid, PDO::PARAM_INT)
