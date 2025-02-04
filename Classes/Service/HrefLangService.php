@@ -45,7 +45,7 @@ class HrefLangService extends AbstractUrlService
             if (empty($metaData['no_index']) &&
                 empty($metaData['canonical']) &&
                 isset($l10nItems[$currentLanguageUid]) &&
-                $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site
+                GlobalsUtility::getSite() instanceof Site
             ) {
                 $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
                 $languages = $languageMenu->process($cObj, [], [], []);
@@ -77,10 +77,11 @@ class HrefLangService extends AbstractUrlService
             // remove hreflangs
             $hreflangs = [];
             $hrefLangArray = [];
-            if (empty($GLOBALS['TSFE']->page['no_index'])
-                && empty($GLOBALS['TSFE']->page['canonical_link'])
-                && empty($GLOBALS['TSFE']->page['content_from_pid'])
-                && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site) {
+            $pageRecord = GlobalsUtility::getPageRecord();
+            if (empty($pageRecord['no_index'])
+                && empty($pageRecord['canonical_link'])
+                && empty($pageRecord['content_from_pid'])
+                && GlobalsUtility::getSite() instanceof Site) {
                 $languageMenu = GeneralUtility::makeInstance(LanguageMenuProcessor::class);
                 $languages = $languageMenu->process($cObj, [], [], []);
                 $pageId = GlobalsUtility::getPageId();
@@ -129,8 +130,8 @@ class HrefLangService extends AbstractUrlService
             }
 
             // if not already defined, get the site languages
-            if (empty($this->siteLanguages) && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site) {
-                $this->siteLanguages = $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getLanguages();
+            if (empty($this->siteLanguages) && GlobalsUtility::getSite() instanceof Site) {
+                $this->siteLanguages = GlobalsUtility::getSite()->getLanguages();
             }
 
             // if language not available, so no translation given, check for fallback

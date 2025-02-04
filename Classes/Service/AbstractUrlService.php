@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Service;
 
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -14,29 +15,10 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 abstract class AbstractUrlService
 {
-    protected ?TypoScriptFrontendController $typoScriptFrontendController = null;
-
     /**
      * languages defined in site config
      */
     protected array $siteLanguages = [];
-
-    /**
-     * constructor
-     */
-    public function __construct(
-        ?TypoScriptFrontendController $typoScriptFrontendController = null
-    ) {
-        if ($typoScriptFrontendController === null) {
-            $typoScriptFrontendController = $this->getTypoScriptFrontendController();
-        }
-        $this->typoScriptFrontendController = $typoScriptFrontendController;
-    }
-
-    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
-    {
-        return $GLOBALS['TSFE'];
-    }
 
     protected function getLanguageFromItem(string $table, int $uid): int
     {
@@ -143,8 +125,8 @@ abstract class AbstractUrlService
         }
 
         // if not already defined, get the site languages
-        if (empty($this->siteLanguages) && $GLOBALS['TYPO3_REQUEST']->getAttribute('site') instanceof Site) {
-            $this->siteLanguages = $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getLanguages();
+        if (empty($this->siteLanguages) && GlobalsUtility::getSite() instanceof Site) {
+            $this->siteLanguages =  GlobalsUtility::getSite()->getLanguages();
         }
 
         /** @var SiteLanguage $siteLanguage */

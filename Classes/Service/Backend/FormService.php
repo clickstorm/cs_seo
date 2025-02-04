@@ -56,7 +56,7 @@ class FormService
                 'vanillaUid' => (int)$theUid,
                 'command' => 'edit',
                 'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
-                'request' => $GLOBALS['TYPO3_REQUEST'],
+                'request' => GlobalsUtility::getTYPO3Request(),
             ];
 
             if (isset($this->overrideVals[$table]) && is_array($this->overrideVals[$table])) {

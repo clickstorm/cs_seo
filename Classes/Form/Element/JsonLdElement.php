@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Form\Element;
 
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Backend\Form\Element\TextElement;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -88,7 +89,7 @@ class JsonLdElement extends AbstractFormElement
         $viewFactoryData = new ViewFactoryData(
             templateRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Templates/Element/'],
             layoutRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Layouts/'],
-            request: $GLOBALS['TYPO3_REQUEST'],
+            request: GlobalsUtility::getTYPO3Request(),
         );
         $wizardView = $this->viewFactory->create($viewFactoryData);
 

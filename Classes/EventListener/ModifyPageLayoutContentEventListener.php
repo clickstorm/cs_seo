@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\EventListener;
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Module\ModuleData;
@@ -71,9 +72,9 @@ class ModifyPageLayoutContentEventListener
                         'results' => $results,
                         'page' => BackendUtility::readPageAccess(
                             $this->currentPageUid,
-                            $GLOBALS['BE_USER']->getPagePermsClause(Permission::PAGE_SHOW)
+                            GlobalsUtility::getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW)
                         ),
-                        'userHasAccessToPageEvaluationModule' => $GLOBALS['BE_USER']->check('modules', 'web_CsSeoMod1_pageEvaluation'),
+                        'userHasAccessToPageEvaluationModule' => GlobalsUtility::getBackendUser()->check('modules', 'web_CsSeoMod1_pageEvaluation'),
                     ]
                 );
 
@@ -107,7 +108,7 @@ class ModifyPageLayoutContentEventListener
             templateRootPaths: $tsSetup['module.']['tx_csseo.']['view.']['templateRootPaths.'] ?? $templatePaths,
             partialRootPaths: $tsSetup['module.']['tx_csseo.']['view.']['partialRootPaths.'] ?? $partialPaths,
             layoutRootPaths: $tsSetup['module.']['tx_csseo.']['view.']['layoutRootPaths.'] ?? $layoutPaths,
-            request: $GLOBALS['TYPO3_REQUEST'],
+            request: GlobalsUtility::getTYPO3Request(),
         );
 
         return $this->viewFactory->create($viewFactoryData);
@@ -127,7 +128,7 @@ class ModifyPageLayoutContentEventListener
 
     protected function initPageInfo(): void
     {
-        $this->pageInfo = BackendUtility::readPageAccess($this->currentPageUid, $GLOBALS['BE_USER']->getPagePermsClause(Permission::PAGE_SHOW));
+        $this->pageInfo = BackendUtility::readPageAccess($this->currentPageUid, GlobalsUtility::getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW));
         $this->currentSysLanguageUid = (int)$this->moduleData->get('language');
 
         if ($this->currentSysLanguageUid) {

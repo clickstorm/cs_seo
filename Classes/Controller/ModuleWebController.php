@@ -2,12 +2,12 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use Clickstorm\CsSeo\Service\FrontendConfigurationService;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Clickstorm\CsSeo\Service\Backend\GridService;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
-use Clickstorm\CsSeo\Utility\TSFEUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
@@ -55,8 +55,8 @@ class ModuleWebController extends AbstractModuleController
         $fieldNames = ['title', 'seo_title', 'tx_csseo_title_only', 'description'];
 
         // get title and settings from TypoScript
-        $tsfeUtility = GeneralUtility::makeInstance(TSFEUtility::class, $this->recordId, $this->modParams['lang']);
-        $this->moduleTemplate->assign('previewSettings', json_encode($tsfeUtility->getPreviewSettings()));
+        $frontendConfigurationService = GeneralUtility::makeInstance(FrontendConfigurationService::class, $this->recordId, $this->modParams['lang']);
+        $this->moduleTemplate->assign('previewSettings', json_encode($frontendConfigurationService->getPreviewSettings()));
 
         return $this->htmlResponse($this->generateGridView($fieldNames));
     }

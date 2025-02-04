@@ -2,26 +2,23 @@
 
 namespace Clickstorm\CsSeo\UserFunc;
 
+use Clickstorm\CsSeo\Service\FrontendConfigurationService;
 use Clickstorm\CsSeo\Service\MetaDataService;
-use Clickstorm\CsSeo\Utility\TSFEUtility;
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Modify the page title and may remove the website title
  */
 final class PageTitle
 {
-    protected ?TSFEUtility $TSFEUtility = null;
+    protected ?FrontendConfigurationService $frontendConfigurationService = null;
 
     /**
      * check the settings and may remove the suffix or prefix from the page title
      */
     public function resetWebsiteTitle(string $content, array $conf): string
     {
-        // initalize TSFE
-        $this->initialize();
-
         return $this->showTitleOnly() ? $this->getCachedTitleWithoutWebsiteTitle($content) : $content;
     }
 
@@ -45,21 +42,13 @@ final class PageTitle
      */
     protected function getCachedTitleWithoutWebsiteTitle(string $oldTitle = ''): string
     {
-        $pageTitleCache = $this->getTypoScriptFrontendController()->config['config']['pageTitleCache'] ?? [];
+        $controller = GlobalsUtility::getTYPO3Request()->getAttribute('frontend.controller');
+        $pageTitleCache = $this->getCache($controller) ?? [];
         if (!empty($pageTitleCache)) {
-            return reset($this->getTypoScriptFrontendController()->config['config']['pageTitleCache']);
+            return reset($controller->config['pageTitleCache']);
         }
 
         return $oldTitle;
-    }
-
-    /**
-     * Set the TSFE
-     */
-    protected function initialize(): void
-    {
-        // @extensionScannerIgnoreLine
-        $this->TSFEUtility = GeneralUtility::makeInstance(TSFEUtility::class, $GLOBALS['TSFE']->id);
     }
 
     /**
@@ -67,11 +56,15 @@ final class PageTitle
      */
     protected function getPage(): array
     {
-        return $this->TSFEUtility->getPage();
+        return GlobalsUtility::getPageRecord();
     }
 
-    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    /**
+     * @param mixed $controller
+     * @return mixed
+     */
+    public function getCache(mixed $controller): mixed
     {
-        return $GLOBALS['TSFE'];
+        return $controller->config['pageTitleCache'];
     }
 }

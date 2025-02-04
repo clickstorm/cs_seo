@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Evaluation\TCA;
 
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
@@ -14,7 +15,7 @@ abstract class AbstractEvaluator
         /** @var FlashMessage $flashMessage */
         $flashMessage = GeneralUtility::makeInstance(
             FlashMessage::class,
-            $GLOBALS['LANG']->sL(
+            GlobalsUtility::getLanguageService()->sL(
                 $message
             ),
             '',

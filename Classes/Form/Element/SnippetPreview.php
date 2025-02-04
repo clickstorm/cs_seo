@@ -2,12 +2,13 @@
 
 namespace Clickstorm\CsSeo\Form\Element;
 
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
-use Clickstorm\CsSeo\Utility\TSFEUtility;
+use Clickstorm\CsSeo\Service\FrontendConfigurationService;
 use TYPO3\CMS\Backend\Form\Element\InputTextElement;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -90,7 +91,7 @@ class SnippetPreview extends AbstractFormElement
         $viewFactoryData = new ViewFactoryData(
             templateRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Templates/'],
             layoutRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Layouts/'],
-            request: $GLOBALS['TYPO3_REQUEST'],
+            request: GlobalsUtility::getTYPO3Request(),
         );
         $wizardView = $this->viewFactory->create($viewFactoryData);
 
@@ -116,36 +117,36 @@ class SnippetPreview extends AbstractFormElement
             }
 
             // add page id to current request, so the backend configuration manager gets the right page
-            $queryParams = $this->getCurrentRequest()->getQueryParams();
+            $queryParams = GlobalsUtility::getTYPO3Request()->getQueryParams();
             $queryParams['id'] = $pageUid;
-            $this->setCurrentRequest($this->getCurrentRequest()->withQueryParams($queryParams));
+            $this->setCurrentRequest(GlobalsUtility::getTYPO3Request()->withQueryParams($queryParams));
 
             // check if TS page type exists
             /** @var BackendConfigurationManager $backendConfigurationManager */
             $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
             $fullTS = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
-            if (isset($fullTS['pageCsSeo']) || $GLOBALS['BE_USER']->workspace > 0) {
+            if (isset($fullTS['pageCsSeo']) || GlobalsUtility::getBackendUser()->workspace > 0) {
                 // render page title
                 $sysLanguageUid = is_array($data['sys_language_uid']) ? (int)current($data['sys_language_uid']) : (int)$data['sys_language_uid'];
 
-                /** @var TSFEUtility $TSFEUtility */
-                $TSFEUtility = GeneralUtility::makeInstance(
-                    TSFEUtility::class,
+                /** @var FrontendConfigurationService $FrontendConfigurationService */
+                $FrontendConfigurationService = GeneralUtility::makeInstance(
+                    FrontendConfigurationService::class,
                     $pageUid,
                     $sysLanguageUid
                 );
                 $fallback = [];
-                $siteTitle = $TSFEUtility->getSiteTitle();
-                $pageTitleSeparator = $TSFEUtility->getPageTitleSeparator();
-                $config = $TSFEUtility->getConfig();
+                $siteTitle = $FrontendConfigurationService->getSiteTitle();
+                $pageTitleSeparator = $FrontendConfigurationService->getPageTitleSeparator();
+                $config = $FrontendConfigurationService->getConfig();
 
                 if ($table === 'pages') {
 
-                    $pageTitle = $TSFEUtility->getFinalTitle($data['seo_title'] ?: $data['title'] ?: '', !empty($data['tx_csseo_title_only']));
+                    $pageTitle = $FrontendConfigurationService->getFinalTitle($data['seo_title'] ?: $data['title'] ?: '', !empty($data['tx_csseo_title_only']));
 
                     // get page path
-                    $path = $TSFEUtility->getPagePath();
+                    $path = $FrontendConfigurationService->getPagePath();
 
                     $fallback['title'] = 'title';
                     $fallback['uid'] = $data['uid'];
@@ -181,7 +182,7 @@ class SnippetPreview extends AbstractFormElement
                         $fallback['table'] = $data['tablenames'];
                     }
 
-                    $pageTitle = $TSFEUtility->getFinalTitle($data['title'], !empty($data['title_only']));
+                    $pageTitle = $FrontendConfigurationService->getFinalTitle($data['title'], !empty($data['title_only']));
                     $path = '';
                 }
 
@@ -214,21 +215,6 @@ class SnippetPreview extends AbstractFormElement
         }
 
         return $this->pageRenderer;
-    }
-
-    protected function getLanguageService(): LanguageService
-    {
-        return $GLOBALS['LANG'];
-    }
-
-    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
-    {
-        return $GLOBALS['TSFE'];
-    }
-
-    protected function getCurrentRequest(): ServerRequestInterface|null
-    {
-        return $GLOBALS['TYPO3_REQUEST'];
     }
 
     protected function setCurrentRequest(ServerRequestInterface $request): void

@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\EventListener;
 
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Routing\PageArguments;
@@ -15,7 +16,7 @@ class AfterGetDataResolvedEventListener
     {
         $getDataString = $event->getParameterString();
         if ($getDataString === 'tx_csseo_url_parameters') {
-            $request = $this->getRequest();
+            $request = GlobalsUtility::getTYPO3Request();
             $pageArguments = $request->getAttribute('routing');
             if ($pageArguments instanceof PageArguments) {
                 $currentQueryArray = $pageArguments->getRouteArguments();
@@ -23,10 +24,5 @@ class AfterGetDataResolvedEventListener
                 $event->setResult(GeneralUtility::implodeArrayForUrl('', $currentQueryArray));
             }
         }
-    }
-
-    protected function getRequest(): ServerRequestInterface
-    {
-        return $GLOBALS['TYPO3_REQUEST'];
     }
 }

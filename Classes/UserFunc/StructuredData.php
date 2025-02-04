@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\UserFunc;
 
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Clickstorm\CsSeo\Service\MetaDataService;
 
@@ -49,7 +50,8 @@ class StructuredData
     public function getJsonLdOfPageOrRecord(string $content, array $conf): string
     {
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
-        $jsonLd = $GLOBALS['TSFE']->page['tx_csseo_json_ld'];
+        $pageRecord = GlobalsUtility::getPageRecord();
+        $jsonLd = $pageRecord['tx_csseo_json_ld'] ?? '';
 
         // overwrite json ld with record metadata
         if ($metaData) {
@@ -106,11 +108,7 @@ class StructuredData
 
         /** @var TypoScriptFrontendController[] $GLOBALS */
         // @extensionScannerIgnoreLine
-        $id = $GLOBALS['TSFE']->id;
-        if (!empty($GLOBALS['TSFE']->MP) && preg_match('/^\\d+\\-(\\d+)$/', $GLOBALS['TSFE']->MP, $match)) {
-            // mouting point page - generate breadcrumb for the mounting point reference page instead
-            $id = (int)($match[1]);
-        }
+        $id = GlobalsUtility::getPageId();
 
         $rootline = GeneralUtility::makeInstance(RootlineUtility::class, $id)->get();
 

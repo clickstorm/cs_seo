@@ -173,7 +173,7 @@ abstract class AbstractModuleController extends ActionController
         // The page will show only if there is a valid page and if this page
         // may be viewed by the user
         if (is_numeric($this->modParams['id'])) {
-            $permsClause = $this->getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW);
+            $permsClause = GlobalsUtility::getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW);
             // @extensionScannerIgnoreLine
             $metaInfo = BackendUtility::readPageAccess($this->recordId, $permsClause);
         } else {
@@ -238,13 +238,5 @@ abstract class AbstractModuleController extends ActionController
 
     protected function addModuleButtons(ButtonBar $buttonBar): void
     {
-    }
-
-    /**
-     * @return BackendUserAuthentication
-     */
-    protected function getBackendUser(): BackendUserAuthentication
-    {
-        return $GLOBALS['BE_USER'];
     }
 }

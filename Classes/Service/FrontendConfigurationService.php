@@ -1,7 +1,8 @@
 <?php
 
-namespace Clickstorm\CsSeo\Utility;
+namespace Clickstorm\CsSeo\Service;
 
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use In2code\Powermail\Utility\BackendUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Context\TypoScriptAspect;
@@ -14,11 +15,9 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
- * own TSFE to render TSFE in the backend
- *
- * Class TSFEUtility
+ * own Service to get TypoScript config in backend
  */
-class TSFEUtility
+class FrontendConfigurationService
 {
     protected int $pageUid = 0;
 
@@ -37,10 +36,14 @@ class TSFEUtility
     /**
      * @throws \TYPO3\CMS\Core\Exception
      */
-    public function __construct(int $pageUid, int $lang = 0, int $typeNum = 654)
+    public function __construct(int $pageUid = 0, int $lang = 0, int $typeNum = 654)
     {
+        if($pageUid === 0) {
+            $pageUid = GlobalsUtility::getPageId();
+        }
         $this->pageUid = $pageUid;
-        $this->workspaceUid = $GLOBALS['BE_USER']->workspace ?? 0;
+
+        $this->workspaceUid = GlobalsUtility::getBackendUser()->workspace ?? 0;
         $this->lang = (int)(is_array($lang) ? array_shift($lang) : $lang);
 
         // fix if lang is -1
@@ -67,14 +70,9 @@ class TSFEUtility
         return $this->cObj->typoLink_URL($parameter);
     }
 
-    public function getPage(): array
-    {
-        return $GLOBALS['TSFE']->page;
-    }
-
     public function getPageTitleFirst(): bool
     {
-        return isset($this->config['pageTitleFirst']) ? (bool)$this->config['pageTitleFirst'] : false;
+        return isset($this->config['pageTitleFirst']) && (bool)$this->config['pageTitleFirst'];
     }
 
     public function getFinalTitle(string $title, bool $titleOnly = false): string
@@ -151,7 +149,7 @@ class TSFEUtility
 
     public function isEnvironmentInBackendMode(): bool
     {
-        return ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface
-            && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend();
+        return (GlobalsUtility::getTYPO3Request() ?? null) instanceof ServerRequestInterface
+            && ApplicationType::fromRequest(GlobalsUtility::getTYPO3Request())->isBackend();
     }
 }
