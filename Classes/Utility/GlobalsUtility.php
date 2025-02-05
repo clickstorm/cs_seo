@@ -53,7 +53,7 @@ class GlobalsUtility
 
     public static function getPageId(): int
     {
-        return (int)self::getPageInformation()?->getUid();
+        return (int)self::getPageInformation()?->getId();
     }
 
     public static function getPageRecord(): ?array
