@@ -41,7 +41,10 @@ class CanonicalService extends AbstractUrlService
             // @extensionScannerIgnoreLine
             $typoLinkConf['parameter'] = GlobalsUtility::getPageId();
             if (!empty($metaData['no_index'])) {
-                $this->typoScriptFrontendController->page['no_index'] = 1;
+                $pageInformation = GlobalsUtility::getPageInformation();
+                $pageRecord = GlobalsUtility::getPageRecord();
+                $pageRecord['no_index'] = 1;
+                $pageInformation->setPageRecord($pageRecord);
             } else {
                 // canonical
                 $canonicalTypoLinkConf = ['forceAbsoluteUrl' => 1];
