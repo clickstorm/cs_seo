@@ -46,18 +46,18 @@ class GlobalsUtility
         return self::getTYPO3Request()->getAttribute('frontend.typoscript')->getSetupArray();
     }
 
-    public static function getPageInformation(): PageInformation
+    public static function getPageInformation(): ?PageInformation
     {
         return self::getTYPO3Request()->getAttribute('frontend.page.information');
     }
 
     public static function getPageId(): int
     {
-        return self::getPageInformation()->getId();
+        return (int)self::getPageInformation()?->getUid();
     }
 
-    public static function getPageRecord(): array
+    public static function getPageRecord(): ?array
     {
-        return self::getPageInformation()->getPageRecord();
+        return self::getPageInformation()?->getPageRecord();
     }
 }
