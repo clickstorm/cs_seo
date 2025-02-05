@@ -1,6 +1,3 @@
-.module-body {
-  background-color: #fff;
-}
 .csseo-progress {
   margin-bottom: 20px;
 }
@@ -10,17 +7,12 @@
   margin: 1rem 0;
 }
 .csseo-card__row {
-  background: #f5f5f5;
-  -ms-flex-align: center;
-      align-items: center;
-  display: -ms-flexbox;
+  align-items: center;
   display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 .csseo-card__col {
-  -ms-flex-preferred-size: 50%;
-      flex-basis: 50%;
+  flex-basis: 50%;
   max-width: 50%;
   width: 50%;
   box-sizing: border-box;
@@ -28,16 +20,14 @@
 }
 @media screen and (max-width: 1200px) {
   .csseo-card__col {
-    -ms-flex-preferred-size: 100%;
-        flex-basis: 100%;
+    flex-basis: 100%;
     max-width: 100%;
     width: 100%;
   }
 }
 @media screen and (max-width: 1200px) {
   .csseo-card__col--form {
-    -ms-flex-order: 10;
-        order: 10;
+    order: 10;
   }
 }
 .csseo-card__image {
@@ -45,15 +35,14 @@
   border: 1px solid rgba(0, 0, 0, 0.25);
   height: auto;
   max-width: 100%;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
 }
 .csseo-card__image__wrapper {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
-  -ms-flex-pack: center;
-      justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 .csseo-card__headline {
   margin: 0 0 20px;
