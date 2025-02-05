@@ -205,7 +205,7 @@ class ModifyPageLayoutContentEventListener
             )->executeQuery();
 
         while ($row = $res->fetchAssociative()) {
-            $results = unserialize($row['results']);
+            $results = unserialize($row['results']) ?: [];
         }
 
         return $results;
