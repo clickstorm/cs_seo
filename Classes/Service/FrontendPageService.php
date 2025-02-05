@@ -48,6 +48,7 @@ class FrontendPageService
 
         $params = '';
         $paramId = $pageInfo['l10n_parent'] !== 0 ? $pageInfo['l10n_parent'] : $pageInfo['uid'];
+        $languageId = 0;
 
         if ($tableName && $tableName !== 'pages') {
             // record
@@ -56,13 +57,11 @@ class FrontendPageService
                 $params = str_replace('|', $pageInfo['uid'], $tableSettings['evaluation']['getParams']);
                 $paramId = $tableSettings['evaluation']['detailPid'];
                 if (isset($pageInfo['sys_language_uid']) && (int)$pageInfo['sys_language_uid'] > 0) {
-                    $params .= '&L=' . $pageInfo['sys_language_uid'];
+                    $languageId = (int)$pageInfo['sys_language_uid'];
                 }
             }
         } elseif ($pageInfo['sys_language_uid'] > 0) {
-            $params = '&L=' . $pageInfo['sys_language_uid'];
-        } else {
-            $params = '&L=0';
+            $languageId = (int)$pageInfo['sys_language_uid'];
         }
 
         // modify page id PSR-14 event
@@ -73,8 +72,19 @@ class FrontendPageService
             $pageInfo
         ))->getPid();
 
+        // extract the language id
+        if (str_contains($params, '&L=')) {
+            parse_str($params, $queryArray);
+            $languageId = (int)$queryArray['L'];
+            unset($queryArray['L']);
+            $params = http_build_query($queryArray);
+        }
+
         // build url
-        $result['url'] = (string) PreviewUriBuilder::create($paramId)->withAdditionalQueryParameters($params)->buildUri();
+        $result['url'] = (string)PreviewUriBuilder::create($paramId)
+            ->withAdditionalQueryParameters($params)
+            ->withLanguage($languageId)
+            ->buildUri();
 
         // fetch url
         $response = GeneralUtility::makeInstance(RequestFactory::class)->request(
