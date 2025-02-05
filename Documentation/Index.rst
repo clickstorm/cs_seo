@@ -6,7 +6,7 @@
 .. include:: Includes.txt
 .. include:: Images.txt
 
-.. image:: /Images/ManualScreenshots/ViewButton.png
+.. image:: /_Images/ClickstormLogo.jpg
    :height: 256
    :width: 256
    :align: center
