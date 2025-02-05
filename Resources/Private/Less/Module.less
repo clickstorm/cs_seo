@@ -9,17 +9,28 @@
 
 	.ui-grid-menu-button,
 	.ui-grid-top-panel {
-		background: #ededed;
+		background: var(--typo3-surface-container-highest);
 	}
 
 	.ui-grid-row {
 		position: relative;
+        .ui-grid-cell {
+            background: var(--typo3-surface-container-highest);
+        }
 		&:nth-child(2n+1) {
 			.ui-grid-cell {
-				background-color: #fafafa;
+                background: var(--typo3-surface-container-high);
 			}
 		}
 	}
+
+    .ui-grid-menu .ui-grid-menu-inner {
+        background: var(--typo3-surface-container-high);
+    }
+
+    .ui-grid-menu .ui-grid-menu-inner ul li button.ui-grid-menu-item-active {
+        background: var(--typo3-surface-bright);
+    }
 
 	textarea {
 		height: 5em;

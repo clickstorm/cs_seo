@@ -6,13 +6,22 @@
 }
 .grid .ui-grid-menu-button,
 .grid .ui-grid-top-panel {
-  background: #ededed;
+  background: var(--typo3-surface-container-highest);
 }
 .grid .ui-grid-row {
   position: relative;
 }
+.grid .ui-grid-row .ui-grid-cell {
+  background: var(--typo3-surface-container-highest);
+}
 .grid .ui-grid-row:nth-child(2n+1) .ui-grid-cell {
-  background-color: #fafafa;
+  background: var(--typo3-surface-container-high);
+}
+.grid .ui-grid-menu .ui-grid-menu-inner {
+  background: var(--typo3-surface-container-high);
+}
+.grid .ui-grid-menu .ui-grid-menu-inner ul li button.ui-grid-menu-item-active {
+  background: var(--typo3-surface-bright);
 }
 .grid textarea {
   height: 5em;

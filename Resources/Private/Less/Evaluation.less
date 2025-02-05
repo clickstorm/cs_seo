@@ -19,7 +19,7 @@
   }
 
   .header {
-    background: #d0d0d0;
+    background: var(--typo3-surface-container-highest);
     padding: 10px;
     position: relative;
 
@@ -35,7 +35,7 @@
   }
 
   .score {
-    border-radius: 4px;
+    border-radius: --var(--typo3-input-border-radius);
     color: #fff;
     padding: 5px 10px;
     margin-right: 10px;
@@ -48,13 +48,13 @@
   }
 
   &__item {
-    background: #eaeaea;
+      background: var(--typo3-surface-container-high);
     clear: both;
     margin: 0;
     padding: 10px;
 
-    &:nth-child(odd) {
-      background: #fafafa;
+    &:nth-child(even) {
+        background: var(--typo3-surface-container-highest);
     }
   }
 
