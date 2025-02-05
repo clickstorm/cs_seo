@@ -13,7 +13,9 @@ Extension Manager Configuration
 
 In the extension manager you can make some configurations.
 
-|img-3|
+.. image:: /_Images/Administrator/Screen1.png
+   :width: 981
+   :alt: Include the TypoScript from cs_seo
 
 Properties
 ^^^^^^^^^^

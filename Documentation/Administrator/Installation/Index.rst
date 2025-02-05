@@ -19,6 +19,8 @@ To install the extension, perform the following steps:
 #. Run the Scheduler Task to evaluate all pages initially, see :ref:`scheduler-tasks`.
 #. Take a look to :ref:`admin-faq`.
 
-|img-1|
+.. image:: /_Images/Administrator/Screen3.png
+   :width: 1010
+   :alt: Extension settings
 
 **!If you forgot to include the TypoScript, you will get an error if you open the page settings!**

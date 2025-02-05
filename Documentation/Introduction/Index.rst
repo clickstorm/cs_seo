@@ -46,32 +46,48 @@ Screenshots
 
 Here you can take a look at the advanced page configurations.
 
-|img-1|
+.. image:: /_Images/Introduction/cs_seo-google-preview.png
+   :width: 800
+   :alt: cs_seo SEO tab
 
 Evaluate the On-page SEO of the current page you see in the backend. Try to reach 100/100.
 
-|img-2|
+.. image:: /_Images/Introduction/cs_seo_onpage_analysis_typo3.png
+   :width: 800
+   :alt: cs_seo On-page evaluation in TYPO3
 
 The backend module gives you an overview and the option to change page properties directly.
 
-|img-3|
+.. image:: /_Images/Introduction/cs_seo-backend-module.png
+   :width: 800
+   :alt: cs_seo backend module
 
 Extend e.g. the news with SEO properties. So in the detail view, they are automatically shown.
 
-|img-4|
+.. image:: /_Images/Introduction/cs_seo-extend-news.png
+   :width: 800
+   :alt: cs_seo extend news
 
 Evaluate this records.
 
-|img-5|
+.. image:: /_Images/Introduction/cs_seo-record-evaluation.png
+   :width: 800
+   :alt: cs_seo record evaluation
 
 For example, check that the hierarchical order of headings is correct.
 
-|img-6|
+.. image:: /_Images/Introduction/cs_seo-evalutaion-heading-order.png
+   :width: 800
+   :alt: cs_seo evalutaion heading order
 
 Add alternative text to your images.
 
-|img-7|
+.. image:: /_Images/Introduction/cs_seo-typo3-module-image-alternative-text.png
+   :width: 800
+   :alt: cs_seo module to fill alternative texts of images
 
 Add Structured Data (JSON-LD) to pages and records incl. check for the current URL or markup.
 
-|img-8|
+.. image:: /_Images/Introduction/cs_seo-structured-data-json-ld.png
+   :width: 800
+   :alt: cs_seo Structured Data (JSON-LD) field including checks for URL and text

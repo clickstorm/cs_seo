@@ -14,7 +14,9 @@ Migration
 If you had already installed an extension for SEO (metaseo or seo_basics) you can migrate properties
 like the browser title or the canonical URL. Therefor you have to install cs_seo < 5.0 and run the update script.
 
-|img-2|
+.. image:: /_Images/Administrator/Screen2.png
+   :width: 1268
+   :alt: Configure the extension or run the update script
 
 After that you can delete the other SEO extension and update your database.
 
