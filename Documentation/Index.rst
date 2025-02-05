@@ -6,7 +6,15 @@
 .. include:: Includes.txt
 .. include:: Images.txt
 
-|img-1|
+.. image:: /Images/ManualScreenshots/ViewButton.png
+   :height: 256
+   :width: 256
+   :align: center
+   :alt: clickstorm logo
+   :border: 0
+   :name: clickstorm logo
+   :vspace: 52
+   :target: http://www.clickstorm.de
 
 .. _start:
 
