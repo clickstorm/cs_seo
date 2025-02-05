@@ -192,7 +192,7 @@ class ModifyPageLayoutContentEventListener
             ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($tableName)))->executeQuery();
 
         while ($row = $res->fetch()) {
-            $results = unserialize($row['results']);
+            $results = unserialize($row['results']) ?: [];
         }
 
         return $results;
