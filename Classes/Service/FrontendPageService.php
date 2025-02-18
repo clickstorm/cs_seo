@@ -47,7 +47,7 @@ class FrontendPageService
         }
 
         $params = '';
-        $paramId = $pageInfo['l10n_parent'] ?? $pageInfo['uid'];
+        $paramId = (isset($pageInfo['l10n_parent']) && $pageInfo['l10n_parent']) ? $pageInfo['l10n_parent'] : $pageInfo['uid'];
 
         if ($tableName && $tableName !== 'pages') {
             // record
