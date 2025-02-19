@@ -4,6 +4,7 @@ namespace Clickstorm\CsSeo\Utility;
 
 use Clickstorm\CsSeo\Domain\Model\Dto\FileModuleOptions;
 use Doctrine\DBAL\ArrayParameterType;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -285,7 +286,7 @@ class DatabaseUtility
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
-
+        $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
         return $queryBuilder->select(...GeneralUtility::trimExplode(',', $select, true))
             ->from($table)->where($queryBuilder->expr()->eq(
                 'uid',
