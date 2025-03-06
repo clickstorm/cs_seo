@@ -64,53 +64,66 @@ class FrontendPageService
             $languageId = (int)$pageInfo['sys_language_uid'];
         }
 
-        // modify page id PSR-14 event
-        $paramId = $this->eventDispatcher->dispatch(new ModifyEvaluationPidEvent(
-            $paramId,
-            $params,
-            $tableName,
-            $pageInfo
-        ))->getPid();
-
-        // extract the language id
-        if (str_contains($params, '&L=')) {
-            parse_str($params, $queryArray);
-            $languageId = (int)$queryArray['L'];
-            unset($queryArray['L']);
-            $params = http_build_query($queryArray);
+        $availableSiteConfigLanguages = $GLOBALS['TYPO3_REQUEST']->getAttribute('site')->getLanguages();
+        $siteLanguageIsAvailable = false;
+        if(!empty($availableSiteConfigLanguages)) {
+            foreach ($availableSiteConfigLanguages as $siteLanguage) {
+                if($siteLanguage->getLanguageId() === $languageId) {
+                    $siteLanguageIsAvailable = true;
+                    break;
+                }
+            }
         }
 
-        // build url
-        $result['url'] = (string)PreviewUriBuilder::create($paramId)
-            ->withAdditionalQueryParameters($params)
-            ->withLanguage($languageId)
-            ->buildUri();
+        if($siteLanguageIsAvailable === true) {
+            // modify page id PSR-14 event
+            $paramId = $this->eventDispatcher->dispatch(new ModifyEvaluationPidEvent(
+                $paramId,
+                $params,
+                $tableName,
+                $pageInfo
+            ))->getPid();
 
-        // fetch url
-        $response = GeneralUtility::makeInstance(RequestFactory::class)->request(
-            $result['url'],
-            'GET',
-            [
-                'headers' => ['X-CS-SEO' => '1'],
-                'http_errors' => false,
-            ]
-        );
+            // extract the language id
+            if (str_contains($params, '&L=')) {
+                parse_str($params, $queryArray);
+                $languageId = (int)$queryArray['L'];
+                unset($queryArray['L']);
+                $params = http_build_query($queryArray);
+            }
 
-        if (in_array($response->getStatusCode(), [0, 200])) {
-            $result['content'] = $response->getBody()->getContents();
-        } else {
-            /** @var FlashMessage $flashMessage */
-            $flashMessage = GeneralUtility::makeInstance(
-                FlashMessage::class,
-                $response->getReasonPhrase(),
-                '',
-                ContextualFeedbackSeverity::ERROR
+            // build url
+            $result['url'] = (string)PreviewUriBuilder::create($paramId)
+                ->withAdditionalQueryParameters($params)
+                ->withLanguage($languageId)
+                ->buildUri();
+
+            // fetch url
+            $response = GeneralUtility::makeInstance(RequestFactory::class)->request(
+                $result['url'],
+                'GET',
+                [
+                    'headers' => ['X-CS-SEO' => '1'],
+                    'http_errors' => false,
+                ]
             );
 
-            /** @var FlashMessageService $flashMessageService */
-            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
-            $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
-            $flashMessageQueue->enqueue($flashMessage);
+            if (in_array($response->getStatusCode(), [0, 200])) {
+                $result['content'] = $response->getBody()->getContents();
+            } else {
+                /** @var FlashMessage $flashMessage */
+                $flashMessage = GeneralUtility::makeInstance(
+                    FlashMessage::class,
+                    $response->getReasonPhrase(),
+                    '',
+                    ContextualFeedbackSeverity::ERROR
+                );
+
+                /** @var FlashMessageService $flashMessageService */
+                $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+                $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
+                $flashMessageQueue->enqueue($flashMessage);
+            }
         }
 
         return $result;
