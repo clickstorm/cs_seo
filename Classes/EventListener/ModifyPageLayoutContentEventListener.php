@@ -137,7 +137,7 @@ class ModifyPageLayoutContentEventListener
                 $this->currentPageUid,
                 $this->currentSysLanguageUid
             );
-            if ($localizedPageInfo[0]) {
+            if (isset($localizedPageInfo[0])) {
                 $this->currentPageUid = $localizedPageInfo[0]['uid'];
                 $this->pageInfo = $localizedPageInfo[0];
             }
