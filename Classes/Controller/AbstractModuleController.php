@@ -154,7 +154,7 @@ abstract class AbstractModuleController extends ActionController
         $this->jsInlineCode .= $this->renderFlashMessages();
 
         if ($this->jsInlineCode !== '' && $this->jsInlineCode !== '0') {
-            $this->pageRenderer->addJsInlineCode('csseo-inline', $this->jsInlineCode);
+            $this->pageRenderer->addJsInlineCode('csseo-inline', $this->jsInlineCode, true, false, true);
         }
 
         // Shortcut in doc header
@@ -226,7 +226,13 @@ abstract class AbstractModuleController extends ActionController
         foreach ($messageQueue->getAllMessages() as $flashMessage) {
             $method = $flashMessage->getSeverity()->getCssClass();
             $messages[] =
-                'top.TYPO3.Notification.' . $method . '("' . $flashMessage->getTitle() . '", "' . $flashMessage->getMessage() . '", ' . static::$flashMessageDurationInSeconds . ');';
+                'top.TYPO3.Notification.' .
+                $method .
+                '("' . htmlspecialchars($flashMessage->getTitle()) .
+                '", "' .
+                htmlspecialchars($flashMessage->getMessage()) .
+                '", ' .
+                static::$flashMessageDurationInSeconds . ');';
         }
 
         return '
