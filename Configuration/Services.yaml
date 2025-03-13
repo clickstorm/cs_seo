@@ -46,6 +46,12 @@ services:
         identifier: 'cs-seo/backend/modify-page-module-content'
         event: TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent
 
+  Clickstorm\CsSeo\EventListener\PolicyMutatedEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'csSeoPolicyMutatedEventListener'
+        event: TYPO3\CMS\Core\Security\ContentSecurityPolicy\Event\PolicyMutatedEvent
+
   Clickstorm\CsSeo\Command\EvaluationCommand:
     public: true
     tags:
