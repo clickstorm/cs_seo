@@ -137,7 +137,7 @@ class GridService
             switch ($GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['type']) {
                 case 'check':
                     $cellTemplateValue = '{{row.entity[col.field] == true ? \'☑\' : \'☐\'}}';
-                    if(!empty($GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['items'][0]['invertStateDisplay'])) {
+                    if (!empty($GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['items'][0]['invertStateDisplay'])) {
                         $columnDef['displayName'] =
                             GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_' . $fieldName);
                     }
@@ -178,6 +178,7 @@ class GridService
                 break;
             case 'description':
                 $columnDef['min'] = 120;
+                $columnDef['minRequired'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['min'] ?? 0;
                 break;
             case 'keyword':
                 $columnDef['nl2separator'] = true;

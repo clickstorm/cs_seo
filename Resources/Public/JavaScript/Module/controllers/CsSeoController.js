@@ -29,6 +29,7 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 	$scope.editView = 0;
 	$scope.prbMax = 100;
 	$scope.prbMin = 0;
+	$scope.prbMinRequired = 0;
 
 	$scope.pageTitle = '';
   $scope.pageTitleOnly = 0;
@@ -66,7 +67,7 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 	});
 
 	var updateProcessBar = function(length) {
-		if(length > 0  && length < $scope.prbMax) {
+		if(length > 0 && length > $scope.prbMinRequired && length < $scope.prbMax) {
 			if($scope.prbMin) {
 				$scope.prbType =  (length > $scope.prbMin) ? 'success' : 'warning';
 			} else {
@@ -98,6 +99,7 @@ function CsSeoController ($scope, $http, i18nService, previewTitleFactory) {
 				$scope.editView = 1;
 				$scope.prbMax = colDef.max;
 				$scope.prbMin = colDef.min;
+        $scope.prbMinRequired = colDef.minRequired ?? 0;
 				$scope.$apply();
 			}
 			$scope.currentValue = rowEntity[colDef.field];
