@@ -123,22 +123,30 @@ class ModuleFileController extends AbstractModuleController
                 $dataMapper = $this->objectManager->get(DataMapper::class);
                 $files = $dataMapper->map(File::class, $imageRow);
                 $this->image = $files[0];
-                $formService = GeneralUtility::makeInstance(FormService::class);
-                $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
 
-                // if no metadata record is there, create one
-                if ($metadataUid === 0) {
-                    $this->image->getOriginalResource()->getMetaData()->save();
+                // check if user has access
+                if ($this->image->getOriginalResource()->checkActionPermission('read')
+                    && $this->image->getOriginalResource()->checkActionPermission('editMeta')) {
+
+                    $formService = GeneralUtility::makeInstance(FormService::class);
                     $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
-                }
 
-                $editForm = $formService->makeEditForm('sys_file_metadata', $metadataUid,
-                    implode(',', $configuredColumns));
-                $this->view->assignMultiple([
-                    'offset' => $this->offset,
-                    'editForm' => $editForm,
-                    'image' => $files[0]
-                ]);
+                    // if no metadata record is there, create one
+                    if ($metadataUid === 0) {
+                        $this->image->getOriginalResource()->getMetaData()->save();
+                        $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
+                    }
+
+                    $editForm = $formService->makeEditForm('sys_file_metadata', $metadataUid,
+                        implode(',', $configuredColumns));
+                    $this->view->assignMultiple([
+                        'offset' => $this->offset,
+                        'editForm' => $editForm,
+                        'image' => $files[0]
+                    ]);
+                } else {
+                    $this->view->assign('error', 'no_access');
+                }
             }
         }
 
@@ -147,15 +155,16 @@ class ModuleFileController extends AbstractModuleController
 
     public function updateAction()
     {
-        $uid = $this->request->hasArgument('uid') ? $this->request->getArgument('uid') : 0;
-        $data = GeneralUtility::_GP('data')['sys_file_metadata'];
+        $uid = (int)(GeneralUtility::_POST('tx_csseo_file_csseomodfile')['uid'] ?? 0);
+        $data = GeneralUtility::_POST('data')['sys_file_metadata'];
 
         if ($uid && $data) {
             $resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
             $file = $resourceFactory->getFileObject($uid);
 
-            $file->getMetaData()->add(array_values($data)[0]);
-            $file->getMetaData()->save();
+            if ($file->checkActionPermission('editMeta')) {
+                $file->getMetaData()->add(array_values($data)[0])->save();
+            }
 
             if ($file->getProperty('alternative')) {
                 $message = GeneralUtility::makeInstance(FlashMessage::class,
