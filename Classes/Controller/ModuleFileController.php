@@ -144,26 +144,34 @@ class ModuleFileController extends AbstractModuleController
                 $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
                 $files = $dataMapper->map(File::class, $imageRow);
                 $this->image = $files[0];
-                $formService = GeneralUtility::makeInstance(FormService::class);
-                $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
 
-                // if no metadata record is there, create one
-                if ($metadataUid === 0) {
-                    $this->image->getOriginalResource()->getMetaData()->save();
+                // check if user has permission
+                if ($this->image->getOriginalResource()->checkActionPermission('read')
+                    && $this->image->getOriginalResource()->checkActionPermission('editMeta')) {
+
+                    $formService = GeneralUtility::makeInstance(FormService::class);
                     $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
+
+                    // if no metadata record is there, create one
+                    if ($metadataUid === 0) {
+                        $this->image->getOriginalResource()->getMetaData()->save();
+                        $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
+                    }
+
+                    if ($this->modParams['onlyReferenced']) {
+                        $this->view->assign('numberOfReferences', DatabaseUtility::getFileReferenceCount($this->image->getUid()));
+                    }
+
+                    $editForm = $formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',', $configuredColumns));
+
+                    $this->view->assignMultiple([
+                        'offset' => $this->offset,
+                        'editForm' => $editForm,
+                        'image' => $files[0],
+                    ]);
+                } else {
+                    $this->view->assign('error', 'no_access');
                 }
-
-                if ($this->modParams['onlyReferenced']) {
-                    $this->view->assign('numberOfReferences', DatabaseUtility::getFileReferenceCount($this->image->getUid()));
-                }
-
-                $editForm = $formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',', $configuredColumns));
-
-                $this->view->assignMultiple([
-                    'offset' => $this->offset,
-                    'editForm' => $editForm,
-                    'image' => $files[0],
-                ]);
             }
         }
 
@@ -176,15 +184,17 @@ class ModuleFileController extends AbstractModuleController
      */
     public function updateAction(): ResponseInterface
     {
-        $uid = $this->request->hasArgument('uid') ? (int)$this->request->getArgument('uid') : 0;
-        $data = $this->request->getParsedBody()['data']['sys_file_metadata'] ?? $this->request->getQueryParams()['data']['sys_file_metadata'] ?? '';
+        $uid = (int)($this->request->getParsedBody()['uid'] ?? 0);
+        $data = $this->request->getParsedBody()['data']['sys_file_metadata'] ?? false;
 
         if ($uid && $data) {
             /** @var ResourceFactory $resourceFactory */
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
             $file = $resourceFactory->getFileObject($uid);
 
-            $file->getMetaData()->add(array_values($data)[0])->save();
+            if ($file->checkActionPermission('editMeta')) {
+                $file->getMetaData()->add(array_values($data)[0])->save();
+            }
 
             if ($file->getProperty('alternative')) {
                 $message = GeneralUtility::makeInstance(
