@@ -87,27 +87,27 @@ class FrontendPageService
             ->buildUri();
 
         // fetch url
-        $response = GeneralUtility::makeInstance(RequestFactory::class)->request(
-            $result['url'],
-            'GET',
-            [
-                'headers' => ['X-CS-SEO' => '1'],
-                'http_errors' => false,
-            ]
-        );
+        try {
+            $response = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Http\RequestFactory::class)->request(
+                $result['url'],
+                'GET',
+                [
+                    'headers' => ['X-CS-SEO' => '1'],
+                    'http_errors' => true,
+                ]
+            );
 
-        if (in_array($response->getStatusCode(), [0, 200])) {
-            $result['content'] = $response->getBody()->getContents();
-        } else {
-            /** @var FlashMessage $flashMessage */
+            if ($response->getStatusCode() === 200) {
+                $result['content'] = (string)$response->getBody();
+            }
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
             $flashMessage = GeneralUtility::makeInstance(
                 FlashMessage::class,
-                $response->getReasonPhrase(),
+                htmlspecialchars($e->getMessage()),
                 '',
                 ContextualFeedbackSeverity::ERROR
             );
 
-            /** @var FlashMessageService $flashMessageService */
             $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
             $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
             $flashMessageQueue->enqueue($flashMessage);
