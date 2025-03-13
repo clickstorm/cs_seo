@@ -172,6 +172,7 @@ class GridService
                 break;
             case 'description':
                 $columnDef['min'] = 120;
+                $columnDef['minRequired'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['min'] ?? 0;
                 break;
             case 'keyword':
                 $columnDef['nl2separator'] = true;

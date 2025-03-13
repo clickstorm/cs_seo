@@ -34,3 +34,9 @@
 .x-ng-cloak {
   display: none !important;
 }
+.progress[type="warning"] .progress-bar {
+    background-color: #f0ad4e;
+}
+.progress[type="danger"] .progress-bar {
+    background-color: #d9534f;
+}
