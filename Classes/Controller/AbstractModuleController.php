@@ -232,7 +232,13 @@ abstract class AbstractModuleController extends ActionController
         foreach ($messageQueue->getAllMessages() as $flashMessage) {
             $method = $severityMapping[$flashMessage->getSeverity()] ?? 'info';
             $messages[] =
-                'top.TYPO3.Notification.' . $method . '("' . $flashMessage->getTitle() . '", "' . $flashMessage->getMessage() . '", ' . static::$flashMessageDurationInSeconds . ');';
+                'top.TYPO3.Notification.' .
+                $method .
+                '("' . htmlspecialchars($flashMessage->getTitle()) .
+                '", "' .
+                htmlspecialchars($flashMessage->getMessage()) .
+                '", ' .
+                static::$flashMessageDurationInSeconds . ');';
         }
 
         return '
