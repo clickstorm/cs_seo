@@ -2,15 +2,20 @@
 
 namespace Clickstorm\CsSeo\Service;
 
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
+use Clickstorm\CsSeo\Utility\LanguageUtility;
 use TYPO3\CMS\Backend\Routing\PreviewUriBuilder;
 use Clickstorm\CsSeo\Event\ModifyEvaluationPidEvent;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Exception;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Routing\UnableToLinkToPageException;
+use TYPO3\CMS\Core\Site\Entity\Site;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -62,6 +67,10 @@ class FrontendPageService
             }
         } elseif ($pageInfo['sys_language_uid'] > 0) {
             $languageId = (int)$pageInfo['sys_language_uid'];
+        }
+
+        if ($languageId > 0 && !LanguageUtility::isLanguageEnabled($languageId, $paramId)) {
+            return [];
         }
 
         // modify page id PSR-14 event

@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Controller;
 
 use Clickstorm\CsSeo\Service\FrontendConfigurationService;
+use Clickstorm\CsSeo\Utility\LanguageUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Clickstorm\CsSeo\Service\Backend\GridService;
 use Clickstorm\CsSeo\Service\EvaluationService;
@@ -183,14 +184,14 @@ class ModuleWebController extends AbstractModuleController
             // get available languages
             $pageOverlays = DatabaseUtility::getPageLanguageOverlays($pageUid);
             // get languages
-            $allLanguages = DatabaseUtility::getLanguagesInBackend($pageUid);
+            $allLanguages = LanguageUtility::getLanguagesInBackend($pageUid);
 
             $languages[0] = $allLanguages[0];
 
             if ($pageOverlays !== []) {
                 $languagesUids = array_keys($pageOverlays);
                 foreach ($allLanguages as $langUid => $languageLabel) {
-                    if ($langUid > 0 && in_array($langUid, $languagesUids)) {
+                    if ($langUid > 0 && in_array($langUid, $languagesUids) && LanguageUtility::isLanguageEnabled($langUid, $pageUid)) {
                         $languages[$langUid] = $languageLabel;
                     }
                 }

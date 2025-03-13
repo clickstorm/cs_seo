@@ -270,29 +270,6 @@ class DatabaseUtility
             ->fetchOne();
     }
 
-    public static function getLanguagesInBackend(int $pageId = 0): array
-    {
-        $languages[0] = 'Default';
-
-        if ($pageId === 0) {
-            return $languages;
-        }
-
-        try {
-            $site = GeneralUtility::makeInstance(SiteFinder::class)
-                ->getSiteByPageId($pageId);
-        } catch (SiteNotFoundException $exception) {
-            return $languages;
-        }
-
-        foreach ($site->getAvailableLanguages(GlobalsUtility::getBackendUser()) as $language) {
-            // @extensionScannerIgnoreLine
-            $languages[$language->getLanguageId()] = $language->getTitle();
-        }
-
-        return $languages;
-    }
-
     /**
      * @throws Exception
      */

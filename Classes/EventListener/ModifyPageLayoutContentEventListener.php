@@ -4,6 +4,7 @@ namespace Clickstorm\CsSeo\EventListener;
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
+use Clickstorm\CsSeo\Utility\LanguageUtility;
 use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Module\ModuleData;
@@ -42,8 +43,10 @@ class ModifyPageLayoutContentEventListener
 
     public function __construct(
         private readonly ViewFactoryInterface $viewFactory,
-        private readonly PageRenderer $pageRenderer,
-    ) {}
+        private readonly PageRenderer         $pageRenderer,
+    )
+    {
+    }
 
 
     public function __invoke(ModifyPageLayoutContentEvent $event): void
@@ -147,8 +150,16 @@ class ModifyPageLayoutContentEventListener
     public function pageCanBeIndexed(): bool
     {
         $allowedDoktypes = ConfigurationUtility::getEvaluationDoktypes();
+        $languageIsAvailable = true;
 
-        return isset($this->pageInfo['doktype']) && in_array($this->pageInfo['doktype'], $allowedDoktypes) && $this->pageInfo['hidden'] == 0;
+        if ($this->currentSysLanguageUid > 0) {
+            $languageIsAvailable = LanguageUtility::isLanguageEnabled($this->currentSysLanguageUid, $this->currentPageUid);
+        }
+
+        return $languageIsAvailable &&
+            isset($this->pageInfo['doktype']) &&
+            in_array($this->pageInfo['doktype'], $allowedDoktypes) &&
+            $this->pageInfo['hidden'] == 0;
     }
 
     /**
@@ -195,8 +206,8 @@ class ModifyPageLayoutContentEventListener
             ->from('tx_csseo_domain_model_evaluation')
             ->where(
                 $queryBuilder->expr()->eq(
-                'uid_foreign',
-                $queryBuilder->createNamedParameter($pageUid, Connection::PARAM_INT)
+                    'uid_foreign',
+                    $queryBuilder->createNamedParameter($pageUid, Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     'tablenames',

@@ -6,6 +6,7 @@ use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
+use Clickstorm\CsSeo\Utility\LanguageUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
@@ -56,7 +57,7 @@ class GridService
     {
         $this->modParams = $modParams;
         $this->pageUid = (int)$this->modParams['id'];
-        $this->languages = DatabaseUtility::getLanguagesInBackend($this->pageUid); // get languages
+        $this->languages = LanguageUtility::getLanguagesInBackend($this->pageUid); // get languages
     }
 
     public function getJsFiles(): array

@@ -2,11 +2,15 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Site\Entity\NullSite;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
+use TYPO3\CMS\Core\Site\SiteFinder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Page\PageInformation;
 
 class GlobalsUtility
@@ -26,9 +30,20 @@ class GlobalsUtility
         return $GLOBALS['TYPO3_REQUEST'];
     }
 
-    public static function getSite(): ?Site
+    public static function getSite(int $pageId = 0): NullSite|Site|null
     {
-        return self::getTYPO3Request()->getAttribute('site');
+        $site = self::getTYPO3Request()->getAttribute('site');
+
+        if (!($site instanceof Site) && $pageId > 0) {
+            try {
+                $site = GeneralUtility::makeInstance(SiteFinder::class)
+                    ->getSiteByPageId($pageId);
+            } catch (SiteNotFoundException $exception) {
+                return null;
+            }
+        }
+
+        return $site;
     }
 
     public static function getSiteLanguage(): SiteLanguage
