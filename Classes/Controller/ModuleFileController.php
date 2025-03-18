@@ -12,6 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Http\AllowedMethodsTrait;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
@@ -27,6 +28,8 @@ use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 class ModuleFileController extends AbstractModuleController
 {
+    use AllowedMethodsTrait;
+
     public static string $session_prefix = 'tx_csseo_file_';
     public static string $mod_name = 'file_CsSeoModFile';
     public static string $uriPrefix = 'tx_csseo_file_csseomodfile';
@@ -144,26 +147,32 @@ class ModuleFileController extends AbstractModuleController
                 $dataMapper = GeneralUtility::makeInstance(DataMapper::class);
                 $files = $dataMapper->map(File::class, $imageRow);
                 $this->image = $files[0];
-                $formService = GeneralUtility::makeInstance(FormService::class);
-                $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
 
-                // if no metadata record is there, create one
-                if ($metadataUid === 0) {
-                    $this->image->getOriginalResource()->getMetaData()->save();
+                if ($this->image->getOriginalResource()->checkActionPermission('read')
+                    && $this->image->getOriginalResource()->checkActionPermission('editMeta')) {
+                    $formService = GeneralUtility::makeInstance(FormService::class);
                     $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
+
+                    // if no metadata record is there, create one
+                    if ($metadataUid === 0) {
+                        $this->image->getOriginalResource()->getMetaData()->save();
+                        $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
+                    }
+
+                    if ($this->modParams['onlyReferenced']) {
+                        $this->moduleTemplate->assign('numberOfReferences', DatabaseUtility::getFileReferenceCount($this->image->getUid()));
+                    }
+
+                    $editForm = $formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',', $configuredColumns));
+
+                    $this->moduleTemplate->assignMultiple([
+                        'offset' => $this->offset,
+                        'editForm' => $editForm,
+                        'image' => $files[0]
+                    ]);
+                } else {
+                    $this->moduleTemplate->assign('error', 'no_access');
                 }
-
-                if ($this->modParams['onlyReferenced']) {
-                    $this->moduleTemplate->assign('numberOfReferences', DatabaseUtility::getFileReferenceCount($this->image->getUid()));
-                }
-
-                $editForm = $formService->makeEditForm('sys_file_metadata', $metadataUid, implode(',', $configuredColumns));
-
-                $this->moduleTemplate->assignMultiple([
-                    'offset' => $this->offset,
-                    'editForm' => $editForm,
-                    'image' => $files[0]
-                ]);
             }
         }
 
@@ -176,15 +185,19 @@ class ModuleFileController extends AbstractModuleController
      */
     public function updateAction(): ResponseInterface
     {
-        $uid = $this->request->hasArgument('uid') ? (int)$this->request->getArgument('uid') : 0;
-        $data = $this->request->getParsedBody()['data']['sys_file_metadata'] ?? $this->request->getQueryParams()['data']['sys_file_metadata'] ?? '';
+        $uid = (int)($this->request->getParsedBody()['uid'] ?? 0);
+        $data = $this->request->getParsedBody()['data']['sys_file_metadata'] ?? false;
 
-        if ($uid && $data) {
+        $this->assertAllowedHttpMethod($this->request, 'POST');
+
+        if ($uid > 0 && $data) {
             /** @var ResourceFactory $resourceFactory */
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
             $file = $resourceFactory->getFileObject($uid);
 
-            $file->getMetaData()->add(array_values($data)[0])->save();
+            if ($file->checkActionPermission('editMeta')) {
+                $file->getMetaData()->add(array_values($data)[0])->save();
+            }
 
             if ($file->getProperty('alternative')) {
                 $message = GeneralUtility::makeInstance(

@@ -9,7 +9,7 @@
     <h1>
         <f:translate key="layouts.module.action.showEmptyImageAlt" extensionName="cs_seo"/>
     </h1>
-    <f:if condition="{numberOfAllImages}">
+    <f:if condition="{numberOfAllImages} && !{error}">
         <f:then>
             <div class="csseo-progress form-group">
                 <f:translate key="module.file.count" extensionName="cs_seo"/>
