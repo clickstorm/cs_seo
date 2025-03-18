@@ -10,7 +10,7 @@
         <f:translate key="layouts.module.action.showEmptyImageAlt"/>
     </h1>
     <f:flashMessages />
-    <f:if condition="{numberOfAllImages}">
+    <f:if condition="{numberOfAllImages} && !{error}">
         <f:then>
             <div class="csseo-progress form-group">
                 <f:translate key="module.file.count"/>
