@@ -27,7 +27,7 @@ final readonly class PolicyMutatedEventListener
         }
 
         /** @var ?ExtbaseModule $module */
-        $module = $event->request->getAttribute('module');
+        $module = $event->request?->getAttribute('module');
 
         // only for cs_seo web module
         if($module instanceof ExtbaseModule && str_starts_with($module->getIdentifier(), ModuleWebController::$mod_name)) {
