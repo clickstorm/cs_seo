@@ -71,6 +71,10 @@ class ModuleWebController extends AbstractModuleController
         $this->cssFiles = $gridService->getCssFiles();
         $this->jsFiles = $gridService->getJsFiles();
 
+        $this->requireJsModules = [
+            'TYPO3/CMS/Backend/ContextMenu'
+        ];
+
         $this->view->assignMultiple($gridService->processFields());
 
         return $this->wrapModuleTemplate();
@@ -235,7 +239,7 @@ class ModuleWebController extends AbstractModuleController
         );
 
         $this->requireJsModules = [
-            'TYPO3/CMS/CsSeo/Evaluation',
+            'TYPO3/CMS/CsSeo/Evaluation'
         ];
 
         $this->jsFiles = [

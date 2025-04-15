@@ -9,6 +9,8 @@ use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -27,6 +29,8 @@ class GridService
     protected int $pageUid = 0;
 
     protected array $imageFieldNames = ['og_image', 'twitter_image', 'tw_image'];
+
+    protected array $customFieldNames = ['sys_language_uid', 'results', 'id'];
 
     protected ?PageRepository $pageRepository = null;
 
@@ -97,6 +101,7 @@ class GridService
 
         // build the columns
         $columnDefs = [];
+
         foreach ($this->fieldNames as $fieldName) {
             $columnDefs[] = $this->getColumnDefinition($fieldName);
         }
@@ -108,6 +113,8 @@ class GridService
             $context->setAspect('language', $languageAspect);
             $columnDefs[] = $this->getColumnDefinition('sys_language_uid');
         }
+
+        $columnDefs[] = $this->getColumnDefinition('id');
 
         $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class, $context);
 
@@ -130,7 +137,7 @@ class GridService
     public function getColumnDefinition(string $fieldName): string
     {
         $columnDef = ['field' => $fieldName];
-        if ($fieldName !== 'sys_language_uid' && $fieldName !== 'results') {
+        if (!in_array($fieldName, $this->customFieldNames)) {
             $columnDef['displayName'] =
                 GlobalsUtility::getLanguageService()->sL($GLOBALS['TCA']['pages']['columns'][$fieldName]['label']);
             switch ($GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['type']) {
@@ -165,7 +172,10 @@ class GridService
         switch ($fieldName) {
             case 'title':
                 $columnDef['cellTemplate'] =
-                    '<div class="ui-grid-cell-contents ng-binding ng-scope"><span ng-repeat="i in grid.appScope.rangeArray | limitTo: row.entity.level">&nbsp;&nbsp;</span>{{row.entity.title}}</div>';
+                    '<div class="ui-grid-cell-contents ng-binding ng-scope">
+                        <span ng-repeat="i in grid.appScope.rangeArray | limitTo: row.entity.level">&nbsp;&nbsp;</span>
+                        {{row.entity.title}}
+                    </div>';
                 break;
             case 'seo_title':
                 $columnDef['min'] = 35;
@@ -185,6 +195,20 @@ class GridService
                 $columnDef['width'] = 100;
                 $columnDef['type'] = 'object';
                 $columnDef['enableFiltering'] = false;
+                break;
+            case 'id':
+                $columnDef['width'] = 30;
+                $columnDef['type'] = 'object';
+                $columnDef['enableFiltering'] = false;
+                $columnDef['enableSorting'] = false;
+                $columnDef['cellTemplate'] = '
+                    <div class="ui-grid-cell-contents ng-scope">
+                    <a href="#"
+                       data-contextmenu-trigger="click"
+                       data-contextmenu-table="pages"
+                       data-contextmenu-uid="{{row.entity._PAGES_OVERLAY_UID || row.entity.uid}}"
+                       title="id={{row.entity._PAGES_OVERLAY_UID || row.entity.uid}}">' . $this->getIcon() . '</a>
+                    </div>';
                 break;
             case 'results':
                 $columnDef['displayName'] =
@@ -287,5 +311,11 @@ class GridService
 				}
 			}
 		';
+    }
+
+    protected function getIcon(string $iconIdentifier = 'actions-document-edit'): string
+    {
+        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+        return $iconFactory->getIcon($iconIdentifier, Icon::SIZE_SMALL);
     }
 }
