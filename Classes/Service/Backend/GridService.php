@@ -246,7 +246,7 @@ class GridService
                 $uid = $page['_PAGES_OVERLAY_UID'];
             }
 
-            $page['sys_language_uid'] = $this->languages[$page['_PAGES_OVERLAY_LANGUAGE'] ?? 0];
+            $page['sys_language_uid'] = $this->languages[$page['_PAGES_OVERLAY_LANGUAGE'] ?? 0] ?? $this->languages[0];
         }
 
         // process social media image fields
