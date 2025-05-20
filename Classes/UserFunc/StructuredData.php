@@ -2,8 +2,9 @@
 
 namespace Clickstorm\CsSeo\UserFunc;
 
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Clickstorm\CsSeo\Service\MetaDataService;
-use Clickstorm\CsSeo\Utility\TSFEUtility;
 
 /***************************************************************
  *
@@ -43,18 +44,6 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class StructuredData
 {
-
-    /**
-     * @var \Clickstorm\CsSeo\Utility\TSFEUtility $tsfeUtility
-     */
-    public $tsfeUtility;
-
-    public function __construct()
-    {
-        $this->tsfeUtility =
-            GeneralUtility::makeInstance(TSFEUtility::class, $GLOBALS['TSFE']->id);
-    }
-
     /**
      * return the content of field tx_csseo_json_ld from pages or field json_ld from record
      *
@@ -73,7 +62,24 @@ class StructuredData
             $jsonLd = $metaData['json_ld'];
         }
 
-        return $jsonLd ? $this->wrapWithLd($jsonLd) : '';
+        // if empty return nothing
+        if (empty($jsonLd)) {
+            return '';
+        }
+
+        // Try to decode the JSON string to ensure it's valid
+        $tempJson = json_decode($jsonLd, true);
+
+        // Check if decoding was successful
+        if (json_last_error() === JSON_ERROR_NONE) {
+
+            // Re-encode the array to sanitize any unexpected content
+            $safeJson = json_encode($tempJson, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+            return $this->wrapWithLd($safeJson);
+        }
+
+        return '<!-- Invalid JSON-LD -->';
     }
 
     /**
@@ -85,7 +91,8 @@ class StructuredData
      */
     protected function wrapWithLd($content)
     {
-        return '<script type="application/ld+json">' . $content . '</script>';
+        // Escape special characters to prevent breaking out of the script tag
+        return '<script type="application/ld+json">' . htmlspecialchars($content, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</script>';
     }
 
     /**
@@ -101,7 +108,7 @@ class StructuredData
         $typoLinkConf = [
             'parameter' => $conf['userFunc.']['pid'],
             'forceAbsoluteUrl' => 1,
-            'additionalParams' => '&' . $conf['userFunc.']['searchterm'] . '='
+            'additionalParams' => '&' . $conf['userFunc.']['searchterm'] . '=',
         ];
 
         $siteSearchUrl = $cObject->typoLink_URL($typoLinkConf);
@@ -117,7 +124,7 @@ class StructuredData
             ],
         ];
 
-        return $this->wrapWithLd(json_encode($siteSearch));
+        return $this->wrapWithLd(json_encode($siteSearch, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     }
 
     /**
@@ -160,7 +167,7 @@ class StructuredData
         foreach (array_reverse($rootline) as $index => $page) {
             $typoLinkConf = [
                 'parameter' => $page['uid'],
-                'forceAbsoluteUrl' => 1
+                'forceAbsoluteUrl' => 1,
             ];
 
             if ($languageAspect->getId() > 0) {
@@ -193,9 +200,9 @@ class StructuredData
         $structuredBreadcrumb = [
             '@context' => 'http://schema.org',
             '@type' => 'BreadcrumbList',
-            'itemListElement' => $breadcrumbItems
+            'itemListElement' => $breadcrumbItems,
         ];
 
-        return $this->wrapWithLd(json_encode($structuredBreadcrumb));
+        return $this->wrapWithLd(json_encode($structuredBreadcrumb, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     }
 }
