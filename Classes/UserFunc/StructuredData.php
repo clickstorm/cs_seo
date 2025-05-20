@@ -53,10 +53,27 @@ class StructuredData
 
         // overwrite json ld with record metadata
         if ($metaData) {
-            $jsonLd = $metaData['json_ld'] ?? null;
+            $jsonLd = $metaData['json_ld'] ?? '';
         }
 
-        return $jsonLd ? $this->wrapWithLd($jsonLd) : '';
+        // if empty return nothing
+        if (empty($jsonLd)) {
+            return '';
+        }
+
+        // Try to decode the JSON string to ensure it's valid
+        $tempJson = json_decode($jsonLd, true);
+
+        // Check if decoding was successful
+        if (json_last_error() === JSON_ERROR_NONE) {
+
+            // Re-encode the array to sanitize any unexpected content
+            $safeJson = json_encode($tempJson, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+            return $this->wrapWithLd($safeJson);
+        }
+
+        return '<!-- Invalid JSON-LD -->';
     }
 
     /**
@@ -64,7 +81,8 @@ class StructuredData
      */
     protected function wrapWithLd(string $content): string
     {
-        return '<script type="application/ld+json">' . $content . '</script>';
+        // Escape special characters to prevent breaking out of the script tag
+        return '<script type="application/ld+json">' . htmlspecialchars($content, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</script>';
     }
 
     public function getSiteSearch(string $content, array $conf): string
@@ -91,7 +109,7 @@ class StructuredData
             ],
         ];
 
-        return $this->wrapWithLd(json_encode($siteSearch));
+        return $this->wrapWithLd(json_encode($siteSearch, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     }
 
     /**
@@ -167,6 +185,6 @@ class StructuredData
             'itemListElement' => $breadcrumbItems,
         ];
 
-        return $this->wrapWithLd(json_encode($structuredBreadcrumb));
+        return $this->wrapWithLd(json_encode($structuredBreadcrumb, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
     }
 }

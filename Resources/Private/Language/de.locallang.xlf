@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2024-05-17T07:49:36Z" product-name="cs_seo">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2025-04-15T10:00:55Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -18,6 +18,10 @@
 			<trans-unit id="error.no_tsfe" resname="error.no_tsfe">
 				<source>The TypoScript of the current page could not be loaded.</source>
 				<target>Das TypoScript dieser Seite konnte nicht geladen werden.</target>
+			</trans-unit>
+			<trans-unit id="error.invalid_json_comment" resname="error.invalid_json_comment">
+				<source>INVALID JSON!</source>
+				<target>UNGÜLTIGES JSON!</target>
 			</trans-unit>
 			<trans-unit id="evaluation.description" resname="evaluation.description">
 				<source>Meta Description</source>
