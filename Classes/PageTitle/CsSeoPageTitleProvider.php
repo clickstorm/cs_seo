@@ -17,7 +17,7 @@ class CsSeoPageTitleProvider extends AbstractPageTitleProvider
     {
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
 
-        if ($metaData && $metaData['title']) {
+        if ($metaData && isset($metaData['title'])) {
             $this->title = strip_tags($metaData['title']);
         }
     }
