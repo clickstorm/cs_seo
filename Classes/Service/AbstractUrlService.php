@@ -57,8 +57,8 @@ abstract class AbstractUrlService
         // first check if sys_language_uid of record is 0
         $select = implode(',', [$pointerField, $languageField, 'uid']);
         $currentRecord = DatabaseUtility::getRecord($table, $uid, $select);
-        $languageUidOfCurrentRecord = (int)$currentRecord[$languageField];
-        $l10nParentOfCurrentRecord = (int)$currentRecord[$pointerField];
+        $languageUidOfCurrentRecord = (int)($currentRecord[$languageField] ?? 0);
+        $l10nParentOfCurrentRecord = (int)($currentRecord[$pointerField] ?? 0);
 
         // if languageUid of current record is not default and l10nParen is set, use the uid of the default language record
         if ($languageUidOfCurrentRecord > 0 && $l10nParentOfCurrentRecord) {
