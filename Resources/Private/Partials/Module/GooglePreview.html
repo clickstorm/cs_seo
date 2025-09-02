@@ -7,11 +7,10 @@
 		csSEO.previewSettings = {previewSettings -> f:format.raw()};
 	</f:asset.script>
 	<div class="tx-cs_seo" ng-init="wizardInit = 1">
-		<h3>{{ previewTitle }}</h3>
-		<div class="url">www.domain.de/link</div>
-		{{ pageDescription }}
+        <h3 class="tx-cs_seo-title">{{ previewTitle }}</h3>
+		<div class="tx-cs_seo-url">www.domain.de/link</div>
+        <span class="tx-cs_seo-desc">{{ pageDescription }}</span>
 		<span ng-hide="pageDescription"><f:translate key="LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:templates.wizard.description" /></span>
-		</p>
 	</div>
 </f:section>
 </body>

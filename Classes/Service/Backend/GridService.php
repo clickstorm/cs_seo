@@ -33,6 +33,8 @@ class GridService
 
     protected ?EvaluationService $evaluationService = null;
 
+    protected array $extConf = [];
+
     public function injectPageRepository(PageRepository $pageRepository): void
     {
         $this->pageRepository = $pageRepository;
@@ -90,6 +92,7 @@ class GridService
     public function processFields(): array
     {
         $context = GeneralUtility::makeInstance(Context::class);
+        $this->extConf = ConfigurationUtility::getEmConfiguration();
 
         // build the rows
         if ($this->pageUid === 0) {
@@ -161,6 +164,10 @@ class GridService
                     break;
                 default:
                     $columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'] ?? '';
+                    if ($fieldName === 'title' || $fieldName === 'seo_title') {
+                        $columnDef['max'] = $this->extConf['maxTitle'] ?? $columnDef['max'];
+                        $columnDef['min'] = $this->extConf['minTitle'] ?? 0;
+                    }
                     $columnDef['editableCellTemplate'] =
                         '<div><form name="inputForm" ng-model="form"><input type="INPUT_TYPE" class="form-control" ng-maxlength="'
                         . $columnDef['max']
@@ -172,9 +179,6 @@ class GridService
             case 'title':
                 $columnDef['cellTemplate'] =
                     '<div class="ui-grid-cell-contents ng-binding ng-scope"><span ng-repeat="i in grid.appScope.rangeArray | limitTo: row.entity.level">&nbsp;&nbsp;</span>{{row.entity.title}}</div>';
-                break;
-            case 'seo_title':
-                $columnDef['min'] = 35;
                 break;
             case 'description':
                 $columnDef['min'] = 120;
