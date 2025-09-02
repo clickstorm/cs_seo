@@ -9,8 +9,6 @@ defined('TYPO3') || die();
 $extConf = ConfigurationUtility::getEmConfiguration();
 
 // SEO Settings
-$maxTitleLength = (int)($extConf['maxTitle'] ?? 0);
-$GLOBALS['TCA']['pages']['columns']['title']['config']['max'] = $maxTitleLength ?: null;
 $maxNavTitleLength = (int)($extConf['maxNavTitle'] ?? 0);
 $GLOBALS['TCA']['pages']['columns']['nav_title']['config']['max'] = $maxNavTitleLength ?: null;
 $maxDescriptionLength = (int)($extConf['maxDescription'] ?? 0);
@@ -20,7 +18,6 @@ if (!empty($extConf['forceMinDescription'])) {
     $GLOBALS['TCA']['pages']['columns']['description']['config']['min'] = $extConf['minDescription'] ?? '';
 }
 
-$GLOBALS['TCA']['pages']['columns']['seo_title']['config']['max'] = $maxTitleLength ?: null;
 $GLOBALS['TCA']['pages']['columns']['seo_title']['config']['renderType'] = 'snippetPreview';
 
 $GLOBALS['TCA']['pages']['columns']['no_index']['onChange'] = 'reload';
@@ -95,9 +92,8 @@ ExtensionManagementUtility::addFieldsToPalette(
 ExtensionManagementUtility::addFieldsToPalette(
     'pages',
     'seo',
-    'tx_csseo_title_only,--linebreak--,
-    description;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.description',
-    'after:seo_title'
+    'tx_csseo_title_only,--linebreak--,',
+    'before:seo_title'
 );
 
 ExtensionManagementUtility::addFieldsToPalette(

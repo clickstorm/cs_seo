@@ -23,7 +23,7 @@ evaluationDoktypes = 1
 evaluators = Title,Description,H1,H2,HeadingOrder,Images,Keyword
 
 # cat=evaluation/040; type=integer; label= Min characters of an optimal title
-minTitle = 40
+minTitle = 35
 
 # cat=evaluation/050; type=integer; label= Min characters of an optimal description
 minDescription = 140

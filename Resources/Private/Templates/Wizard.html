@@ -1,31 +1,93 @@
 <div xmlns="http://www.w3.org/1999/xhtml" lang="en"
      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
 
-<f:layout name="Wizard" />
+    <f:layout name="Wizard" />
 
-<f:section name="Main">
-    <f:if condition="{data}">
-        <f:then>
-            <h3 class="js-cs-seo-title"
-                data-sitetitle="{siteTitle}"
-                data-separator="{pageTitleSeparator}"
-                data-first="{config.pageTitleFirst}"
-                data-only="{data.pageTitleOnly}"
-                data-fallback-title="{fallback.title}"
-                data-fallback-title-value="{data.{fallback.title}}"
-                data-fallback-table="{fallback.table}"
-                data-fallback-uid="{fallback.uid}"
-                data-fallback-description="{fallback.description}">
-                <f:format.crop maxCharacters="66" respectWordBoundaries="0">{pageTitle}</f:format.crop>
-            </h3>
-            <div class="url">{path}</div>
-                <span class="js-cs-seo-desc"><f:format.crop maxCharacters="{extConf.maxDescription}" respectWordBoundaries="0">{data.description}</f:format.crop></span>
-                <span class="js-cs-seo-hidden" style="{f:if(condition:data.description,then:'display:none;')}"><f:translate key="templates.wizard.description" extensionName="cs_seo" /></span>
-            </p>
-        </f:then>
-        <f:else>
-            <f:translate key="error.{error}" extensionName="cs_seo" />
-        </f:else>
-    </f:if>
-</f:section>
+    <f:section name="Main">
+        <f:if condition="{data}">
+            <f:then>
+                <!-- Preview -->
+                <div class="tx-cs_seo-preview js-seo-preview">
+                    <h3 class="tx-cs_seo-title js-seo-title"
+                        data-sitetitle="{siteTitle}"
+                        data-separator="{pageTitleSeparator}"
+                        data-first="{config.pageTitleFirst}"
+                        data-only="{data.pageTitleOnly}"
+                        data-fallback-title="{fallback.title}"
+                        data-fallback-title-value="{data.{fallback.title}}"
+                        data-fallback-seo-title-value="{data.seo_title}"
+                        data-fallback-table="{fallback.table}"
+                        data-fallback-uid="{fallback.uid}"
+                        data-fallback-description="{fallback.description}">
+                        {pageTitle}
+                    </h3>
+                    <div class="tx-cs_seo-url js-seo-url">{path}</div>
+
+                    <span class="tx-cs_seo-desc js-seo-desc">
+                      <f:format.crop maxCharacters="{extConf.maxDescription}" respectWordBoundaries="0">
+                        {data.description}
+                      </f:format.crop>
+                    </span>
+
+                                <span class="tx-cs_seo-hidden js-seo-hidden"
+                                      style="{f:if(condition:data.description,then:'display:none;')}">
+                      <f:translate key="templates.wizard.description" extensionName="cs_seo" />
+                    </span>
+
+                    <!-- Meter -->
+                    <div class="tx-cs_seo-meter js-seo-meter"
+                         data-min-chars="{extConf.minTitle}"
+                         data-max-chars="{extConf.maxTitle}"
+                         data-warn-under="{f:translate(key:'wizard.warnUnder', arguments:{0: extConf.minTitle}, extensionName:'cs_seo')}"
+                         data-warn-over="{f:translate(key:'wizard.warnOver', arguments:{0: extConf.maxTitle}, extensionName:'cs_seo')}"
+                         data-warn-trunc="{f:translate(key:'wizard.warnTrunc', extensionName:'cs_seo')}"
+                         data-label-meter="{f:translate(key:'wizard.meterLabel', extensionName:'cs_seo')}"
+                         data-label-status-ok="{f:translate(key:'wizard.statusOk', extensionName:'cs_seo')}"
+                         data-label-status-short="{f:translate(key:'wizard.statusShort', extensionName:'cs_seo')}"
+                         data-label-status-overflow="{f:translate(key:'wizard.statusOverflow', extensionName:'cs_seo')}"
+                         data-label-status-overchars="{f:translate(key:'wizard.statusOverChars', extensionName:'cs_seo')}">
+
+                        <!-- Count/Status above bar -->
+                        <div class="tx-cs_seo-meter__countrow">
+              <span class="tx-cs_seo-meter__count-num">
+                <span class="js-seo-meter-count">0</span>&nbsp;
+                <f:translate key="wizard.chars" extensionName="cs_seo" />
+              </span>
+                            <span class="tx-cs_seo-meter__statuswrap">
+                <span class="tx-cs_seo-meter__status js-seo-meter-status" aria-live="polite" role="status"></span>
+                <span class="tx-cs_seo-meter__warn js-seo-meter-warn" aria-live="polite"></span>
+              </span>
+                        </div>
+
+                        <!-- Progress bar with ARIA -->
+                        <div class="tx-cs_seo-meter__bar"
+                             role="progressbar"
+                             aria-valuemin="0"
+                             aria-valuemax="600"
+                             aria-valuenow="0"
+                             aria-label="{f:translate(key:'wizard.meterLabel', extensionName:'cs_seo')}"
+                             aria-describedby="cs-seo-meter-legend">
+                            <div class="tx-cs_seo-meter__fill js-seo-meter-fill"></div>
+                        </div>
+
+                        <!-- Legend -->
+                        <div class="tx-cs_seo-meter__legend" id="cs-seo-meter-legend">
+              <span>
+                <f:translate key="wizard.legendUnder" arguments="{0: extConf.minTitle}" extensionName="cs_seo" />
+              </span>
+                            <span>
+                <f:translate key="wizard.legendInRange" arguments="{0: extConf.minTitle, 1: extConf.maxTitle}" extensionName="cs_seo" />
+              </span>
+                            <span>
+                <f:translate key="wizard.legendOverflow" extensionName="cs_seo" />
+              </span>
+                        </div>
+                    </div>
+                </div>
+            </f:then>
+            <f:else>
+                <f:translate key="error.{error}" extensionName="cs_seo" />
+            </f:else>
+        </f:if>
+    </f:section>
 </div>

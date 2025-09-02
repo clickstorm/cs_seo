@@ -154,7 +154,7 @@ class SnippetPreview extends AbstractFormElement
                 } else {
                     $tableSettings = ConfigurationUtility::getTableSettings($data['tablenames']);
 
-                    if ($tableSettings && is_array($tableSettings['fallback']) && !empty($tableSettings['fallback'])) {
+                    if ($tableSettings && !empty($tableSettings['fallback']) && is_array($tableSettings['fallback'])) {
                         $fallback = $tableSettings['fallback'];
 
                         /** @var QueryBuilder $queryBuilder */

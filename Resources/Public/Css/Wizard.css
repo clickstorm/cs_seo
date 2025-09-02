@@ -1,43 +1,144 @@
+/* Hide TYPO3 core max length hint */
+.form-group:has(.tx-cs_seo) .formengine-field-item .form-hint {
+  display: none;
+}
 .tx-cs_seo {
-  background-color: #FFF;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 640px;
+  background: #FFF;
   border-radius: 2px;
-  box-sizing: content-box;
   color: #545454;
   font-family: Arial, sans-serif;
   font-size: 13px;
   line-height: 1.4;
-  padding: 20px;
-  width: 512px;
+  padding: 10px;
+  margin: 20px 0;
+  container-type: inline-size;
+  /* URL & Description */
+  /* Meter layout */
 }
-.tx-cs_seo h3 {
+.tx-cs_seo-title {
   color: #1A0DAB;
-  font-family: Arial, sans-serif;
-  font-size: 18px;
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 20px;
   font-weight: normal;
   line-height: 1.2;
   margin: 0;
   overflow: hidden;
-  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
   white-space: nowrap;
 }
-.tx-cs_seo h3:hover {
+.tx-cs_seo-title:hover {
   text-decoration: underline;
 }
-.tx-cs_seo p {
-  margin: 0;
-}
-.tx-cs_seo span {
-  display: block;
-  overflow: hidden;
-  white-space: normal;
-  width: 100%;
-}
-.tx-cs_seo .url {
+.tx-cs_seo-url {
   color: #006621;
   font-size: 14px;
   line-height: 16px;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
   width: 100%;
+}
+.tx-cs_seo-desc {
+  display: block;
+  overflow: hidden;
+  white-space: normal;
+  width: 100%;
+}
+.tx-cs_seo-meter {
+  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+  /* Progress bar (the fill never exceeds its own box) */
+  /* Legend */
+}
+.tx-cs_seo-meter__countrow {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: baseline;
+  font-size: 12px;
+  gap: 8px;
+}
+.tx-cs_seo-meter__statuswrap {
+  display: inline-flex;
+  gap: 6px;
+}
+.tx-cs_seo-meter__status {
+  white-space: nowrap;
+  font-weight: 600;
+}
+.tx-cs_seo-meter__warn {
+  opacity: 0.85;
+}
+.tx-cs_seo-meter__bar {
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  position: relative;
+  overflow: hidden;
+}
+.tx-cs_seo-meter__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: #e8a33d;
+  -o-transition: width 0.12s ease-out, background-color 0.12s ease-out;
+  transition: width 0.12s ease-out, background-color 0.12s ease-out;
+}
+.tx-cs_seo-meter__fill.is-ok {
+  background: #79a548;
+}
+.tx-cs_seo-meter__fill.is-over {
+  background: #c83c3c;
+}
+.tx-cs_seo-meter__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  color: #545454;
+  opacity: 0.9;
+}
+/* Container Query: below 600px allow up to 2 lines */
+@container (max-width: 599px) {
+  .tx-cs_seo-title {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    -o-text-overflow: clip;
+       text-overflow: clip;
+  }
+}
+/* Fallback for environments without container queries (JS adds .is-narrow) */
+.tx-cs_seo.is-narrow .tx-cs_seo-title {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  -o-text-overflow: clip;
+     text-overflow: clip;
+}
+/* Very small screens: shrink title slightly (optional) */
+@media (max-width: 420px) {
+  .tx-cs_seo-title {
+    font-size: 18px;
+  }
+}
+/* A11y utility */
+.tx-sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
