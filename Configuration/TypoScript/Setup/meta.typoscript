@@ -8,4 +8,4 @@ config {
     }
 }
 
-<INCLUDE_TYPOSCRIPT: source="DIR:EXT:cs_seo/Configuration/TypoScript/Setup/Meta/" extensions="typoscript">
+@import 'EXT:cs_seo/Configuration/TypoScript/Setup/Meta/*.typoscript'
