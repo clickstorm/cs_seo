@@ -173,9 +173,33 @@ class SnippetPreview extends AbstractFormElement
                         $row = $res[0];
 
                         foreach ($fallback as $seoField => $fallbackField) {
-                            if (empty($data[$seoField])) {
-                                $data[$seoField] = $row[$fallbackField];
+                            if (!empty($data[$seoField])) {
+                                continue; // Skip if already set
                             }
+
+                            $value = '';
+
+                            if (preg_match_all('/{([^}]+)}/', $fallbackField, $matches)) {
+                                $value = $fallbackField;
+                                foreach ($matches[1] as $fieldName) {
+                                    $value = str_replace('{' . $fieldName . '}', $row[$fieldName] ?? '', $value);
+                                }
+                            }
+                            elseif (str_contains($fallbackField, '//')) {
+                                $fields = array_map('trim', explode('//', $fallbackField));
+                                foreach ($fields as $fieldName) {
+                                    if (!empty($row[$fieldName])) {
+                                        $value = $row[$fieldName];
+                                        break;
+                                    }
+                                }
+                            }
+                            else {
+                                $value= $row[$fallbackField] ?? '';
+                            }
+
+                            // ✅ Remove any HTML tags and trim whitespace
+                            $data[$seoField] = trim(strip_tags($value));
                         }
 
                         $fallback['uid'] = $data['uid_foreign'];
