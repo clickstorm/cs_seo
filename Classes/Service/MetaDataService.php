@@ -75,7 +75,7 @@ class MetaDataService
                             // check for double slash, if so multiple fallback fields are defined, the first with content will be used
                             elseif (strpos($fallbackField, '//') !== false) {
                                 foreach (GeneralUtility::trimExplode('//', $fallbackField) as $possibleFallbackField) {
-                                    if (!empty($record[$possibleFallbackField])) {
+                                    if (empty($metaData[$seoField]) && !empty($record[$possibleFallbackField])) {
                                         $metaData[$seoField] = $record[$possibleFallbackField];
                                     }
                                 }
