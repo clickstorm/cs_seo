@@ -98,6 +98,11 @@ class MetaDataService
                                 $metaData[$seoField] = $curlyBracketSeoField;
                             }
                         }
+
+                        if (is_string($metaData[$seoField] ?? false)) {
+                            // ✅ Remove any HTML tags and trim whitespace
+                            $metaData[$seoField] = trim(strip_tags($metaData[$seoField] ?? ''));
+                        }
                     }
                 }
 
