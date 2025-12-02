@@ -24,7 +24,6 @@ abstract class AbstractMetaTagTestCase extends AbstractFrontendTestCase
     #[DataProvider('ensureMetaDataAreCorrectDataProvider')]
     public function ensureMetaDataAreCorrect(string $url, array $expectedMetaTags): void
     {
-        /** @var \TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalResponse $response */
         $response = $this->getFrontendResponseFromUrl(
             $url,
             $this->failOnFailure

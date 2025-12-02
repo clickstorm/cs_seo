@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Service;
 
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
+use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Context\Context;
@@ -18,9 +19,8 @@ use TYPO3\CMS\Frontend\DataProcessing\LanguageMenuProcessor;
 class HrefLangService extends AbstractUrlService
 {
     /**
-     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
-     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
      * @throws AspectNotFoundException
+     * @throws Exception
      */
     public function getHrefLangs(array $hreflangs): array
     {

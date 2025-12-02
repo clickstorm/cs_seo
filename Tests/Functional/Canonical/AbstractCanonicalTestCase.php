@@ -24,7 +24,6 @@ abstract class AbstractCanonicalTestCase extends AbstractFrontendTestCase
     #[DataProvider('generateDataProvider')]
     public function generate(string $url, string $expectedCanonicalUrl): void
     {
-        /** @var \TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalResponse $response */
         $response = $this->getFrontendResponseFromUrl(
             $url,
             $this->failOnFailure

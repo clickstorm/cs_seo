@@ -45,7 +45,7 @@ class SnippetPreview extends AbstractFormElement
         $resultArray = $inputField->render();
 
         // Load necessary JavaScript
-        $resultArray['requireJsModules'] = $this->loadJavascript();
+        $this->loadJavascript();
 
         // Load necessary CSS
         $resultArray['stylesheetFiles'] = $this->loadCss();

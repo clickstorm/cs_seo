@@ -14,11 +14,6 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class CanonicalService extends AbstractUrlService
 {
-    /**
-     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotException
-     * @throws \TYPO3\CMS\Extbase\SignalSlot\Exception\InvalidSlotReturnException
-     * @throws AspectNotFoundException
-     */
     public function getUrl(string $fallbackUrl = ''): string
     {
         $canonicalUrl = '';

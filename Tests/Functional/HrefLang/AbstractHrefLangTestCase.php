@@ -14,7 +14,6 @@ abstract class AbstractHrefLangTestCase extends AbstractFrontendTestCase
     #[DataProvider('checkHrefLangOutputDataProvider')]
     public function checkHrefLangOutput(string $url, array $expectedTags, array $notExpectedTags): void
     {
-        /** @var \TYPO3\TestingFramework\Core\Functional\Framework\Frontend\InternalResponse $response */
         $response = $this->getFrontendResponseFromUrl(
             $url,
             $this->failOnFailure

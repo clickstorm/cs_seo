@@ -5,13 +5,11 @@ namespace Clickstorm\CsSeo\Controller;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
-use TYPO3\CMS\Extbase\Mvc\Exception\InvalidArgumentNameException;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -58,11 +56,8 @@ abstract class AbstractModuleController extends ActionController
     }
 
     /**
-     * Initialize action
-     *
-     * @throws InvalidArgumentNameException
      * @throws NoSuchArgumentException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \JsonException
      */
     protected function initializeAction(): void
     {
@@ -77,7 +72,7 @@ abstract class AbstractModuleController extends ActionController
         }
 
         if (!$this->request->hasArgument('action') && $this->modParams['action']) {
-            $this->request->setArgument('action', $this->modParams['action']);
+            $this->request = $this->request->withArgument('action', $this->modParams['action']);
             new ForwardResponse($this->modParams['action']);
         }
 
@@ -92,8 +87,6 @@ abstract class AbstractModuleController extends ActionController
 
     /**
      * initialize the settings for the current view
-     *
-     * @throws NoSuchArgumentException
      */
     protected function initializeModParams(): void
     {
@@ -236,7 +229,7 @@ abstract class AbstractModuleController extends ActionController
 
         return '
                 if (top && top.TYPO3.Notification) {
-                    ' . implode(LF, $messages) . '
+                    ' . implode(chr(10), $messages) . '
                 }
             ';
     }

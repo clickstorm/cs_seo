@@ -9,10 +9,13 @@ namespace Clickstorm\CsSeo\Event;
  */
 final class ModifyEvaluationPidEvent
 {
-    /**
-     * @var int
-     */
-    private $pid;
+    private int $pid = 0;
+
+    private string $params = '';
+
+    private string $tableName = '';
+
+    private array $pageInfo = [];
 
     /**
      * ModifyEvaluationPidEvent constructor.
@@ -24,21 +27,31 @@ final class ModifyEvaluationPidEvent
     public function __construct(int $pid, string $params, string $tableName, array $pageInfo)
     {
         $this->pid = $pid;
+        $this->params = $params;
+        $this->tableName = $tableName;
+        $this->pageInfo = $pageInfo;
     }
-
-    /**
-     * @return int
-     */
     public function getPid(): int
     {
         return $this->pid;
     }
-
-    /**
-     * @param int $pid
-     */
     public function setPid(int $pid): void
     {
         $this->pid = $pid;
+    }
+
+    public function getParams(): string
+    {
+        return $this->params;
+    }
+
+    public function getTableName(): string
+    {
+        return $this->tableName;
+    }
+
+    public function getPageInfo(): array
+    {
+        return $this->pageInfo;
     }
 }
