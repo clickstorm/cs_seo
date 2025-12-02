@@ -44,45 +44,45 @@ class HrefLangDifferentXDefaultTest extends AbstractHrefLangTestCase
             'English page, with German translation' => [
                 'http://localhost/hello',
                 [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"/>',
-                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/willkommen"/>',
+                    '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"',
+                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/willkommen"',
                 ],
                 [],
             ],
             'German page, with English translation and English default' => [
                 'http://localhost/de/willkommen',
                 [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"/>',
-                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/willkommen"/>',
+                    '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"',
+                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/willkommen"',
                 ],
                 [],
             ],
             'English page, with German and Dutch translation, without Dutch hreflang config' => [
                 'http://localhost/hello',
                 [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"/>',
-                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/willkommen"/>',
+                    '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"',
+                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/willkommen"',
                 ],
                 [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/nl/welkom"/>',
-                    '<link rel="alternate" hreflang="" href="http://localhost/nl/welkom"/>',
-                    '<link rel="alternate" href="http://localhost/nl/welkom"/>',
+                    '<link rel="alternate" hreflang="en-US" href="http://localhost/nl/welkom"',
+                    '<link rel="alternate" hreflang="" href="http://localhost/nl/welkom"',
+                    '<link rel="alternate" href="http://localhost/nl/welkom"',
                 ],
             ],
             'Dutch page, with German and English translation, without Dutch hreflang config' => [
                 'http://localhost/hello',
                 [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"/>',
-                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/willkommen"/>',
+                    '<link rel="alternate" hreflang="en-US" href="http://localhost/hello"',
+                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/willkommen"',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/willkommen"',
                 ],
                 [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/nl/welkom"/>',
-                    '<link rel="alternate" hreflang="" href="http://localhost/nl/welkom"/>',
-                    '<link rel="alternate" href="http://localhost/nl/welkom"/>',
+                    '<link rel="alternate" hreflang="en-US" href="http://localhost/nl/welkom"',
+                    '<link rel="alternate" hreflang="" href="http://localhost/nl/welkom"',
+                    '<link rel="alternate" href="http://localhost/nl/welkom"',
                 ],
             ],
             'English page with canonical' => [
@@ -96,9 +96,9 @@ class HrefLangDifferentXDefaultTest extends AbstractHrefLangTestCase
             'Translated record (de-CH) with canonical call default language' => [
                 'http://localhost/about',
                 [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/about"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/uber"/>',
-                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/uber"/>',
+                    '<link rel="alternate" hreflang="en-US" href="http://localhost/about"',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/uber"',
+                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/uber"',
                 ],
                 [
                     '<link rel="alternate" hreflang="de-CH"',
@@ -115,17 +115,17 @@ class HrefLangDifferentXDefaultTest extends AbstractHrefLangTestCase
             'Swiss german page with fallback to German, without content' => [
                 'http://localhost/de-ch/produkte',
                 [
-                    '<link rel="alternate" hreflang="en-US" href="http://localhost/products"/>',
-                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/produkte"/>',
-                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/produkte"/>',
-                    '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/produkte"/>',
+                    '<link rel="alternate" hreflang="en-US" href="http://localhost/products"',
+                    '<link rel="alternate" hreflang="x-default" href="http://localhost/de/produkte"',
+                    '<link rel="alternate" hreflang="de-DE" href="http://localhost/de/produkte"',
+                    '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/produkte"',
                 ],
                 [],
             ],
             'Languages with fallback should have hreflang even when page record is not translated, strict languages without translations shouldnt' => [
                 'http://localhost/hello',
                 [
-                    '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/willkommen"/>',
+                    '<link rel="alternate" hreflang="de-CH" href="http://localhost/de-ch/willkommen"',
                 ],
                 [
                     '<link rel="alternate" hreflang="fr-FR"',

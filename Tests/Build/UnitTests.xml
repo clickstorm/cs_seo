@@ -1,17 +1,11 @@
 <phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         bootstrap="../../../../../typo3/sysext/core/Build/UnitTestsBootstrap.php"
+         bootstrap="../../../../typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php"
          colors="true"
-         convertErrorsToExceptions="true"
-         convertWarningsToExceptions="true"
-         forceCoversAnnotation="false"
          processIsolation="false"
          stopOnError="false"
          stopOnFailure="false"
          stopOnIncomplete="false"
-         stopOnSkipped="false"
-         strict="false"
-         verbose="false">
+         stopOnSkipped="false">
 
     <testsuites>
         <testsuite name="EXT:cs_seo test">

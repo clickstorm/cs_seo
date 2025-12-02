@@ -19,7 +19,7 @@ class JsonLdRecordTest extends AbstractJsonLdTestCase
             ],
             'category 3: full metadata' => [
                 'http://localhost/category/3',
-                '{"@context": "https://schema.org","@type": "Organization","url": "https://www.json-ld-test.com"}',
+                '{"@context":"https://schema.org","@type":"Organization","url":"https://www.json-ld-test.com"}',
             ],
         ];
     }
