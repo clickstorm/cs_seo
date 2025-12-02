@@ -278,11 +278,13 @@ class DatabaseUtility
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
 
-        return $queryBuilder->select(...GeneralUtility::trimExplode(',', $select, true))
+        $result = $queryBuilder->select(...GeneralUtility::trimExplode(',', $select, true))
             ->from($table)->where($queryBuilder->expr()->eq(
                 'uid',
                 $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
             ))->executeQuery()
             ->fetchAssociative();
+
+        return !$result ? null : $result;
     }
 }
