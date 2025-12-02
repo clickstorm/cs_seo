@@ -51,6 +51,7 @@ class LanguageUtility
 
         if ($site instanceof Site) {
             foreach ($site->getLanguages() as $siteLanguage) {
+                // @extensionScannerIgnoreLine
                 if ($siteLanguage->getLanguageId() === $languageId) {
                     $siteLanguageIsAvailable = true;
                     break;
