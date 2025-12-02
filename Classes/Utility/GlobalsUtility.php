@@ -2,8 +2,8 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
-use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Site\Entity\NullSite;
@@ -25,7 +25,7 @@ class GlobalsUtility
         return $GLOBALS['BE_USER'];
     }
 
-    public static function getTYPO3Request(): ServerRequest
+    public static function getTYPO3Request(): ServerRequestInterface
     {
         return $GLOBALS['TYPO3_REQUEST'];
     }
