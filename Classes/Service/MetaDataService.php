@@ -11,6 +11,7 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use Clickstorm\CsSeo\Service\FallbackResolverService;
 
 class MetaDataService
 {
@@ -58,52 +59,10 @@ class MetaDataService
                 $metaData = $this->getMetaProperties($tableSettings);
                 $metaData['__uid'] = $tableSettings['uid'];
 
-                // db fallback
+                // db fallback (moved to service)
                 if (isset($tableSettings['fallback'])) {
-                    foreach ($tableSettings['fallback'] as $seoField => $fallbackField) {
-                        if (empty($metaData[$seoField])) {
-                            if (!empty($record[$fallbackField])) {
-                                $metaData[$seoField] = $record[$fallbackField];
-                                if ($seoField === 'og_image' || $seoField === 'tw_image') {
-                                    $metaData[$seoField] = [
-                                        'field' => $fallbackField,
-                                        'table' => $tableSettings['table'],
-                                        'uid_foreign' => $tableSettings['uid'],
-                                    ];
-                                }
-                            }
-                            // check for double slash, if so multiple fallback fields are defined, the first with content will be used
-                            elseif (strpos($fallbackField, '//') !== false) {
-                                foreach (GeneralUtility::trimExplode('//', $fallbackField) as $possibleFallbackField) {
-                                    if (empty($metaData[$seoField]) && !empty($record[$possibleFallbackField])) {
-                                        $metaData[$seoField] = $record[$possibleFallbackField];
-                                    }
-                                }
-                            }
-                            // check for curly brackets, if so, replace the brackets with their corresponding metaData $seoField
-                            elseif (preg_match('/{([^}]+)}/', $fallbackField)) {
-                                $curlyBracketSeoField = $fallbackField;
-                                $matches = [];
-                                preg_match_all('/{([^}]+)}/', $fallbackField, $matches);
-                                $matchesWithCurlyBrackets = $matches[0];
-                                $matchesWithoutCurlyBrackets = $matches[1];
-                                foreach ($matchesWithCurlyBrackets as $key => $matchWithCurlyBracket) {
-                                    $recordField = $matchesWithoutCurlyBrackets[$key];
-                                    $curlyBracketSeoField = str_replace(
-                                        $matchWithCurlyBracket,
-                                        $record[$recordField],
-                                        $curlyBracketSeoField
-                                    );
-                                }
-                                $metaData[$seoField] = $curlyBracketSeoField;
-                            }
-                        }
-
-                        if (is_string($metaData[$seoField] ?? false)) {
-                            // ✅ Remove any HTML tags and trim whitespace
-                            $metaData[$seoField] = trim(strip_tags($metaData[$seoField] ?? ''));
-                        }
-                    }
+                    $resolver = GeneralUtility::makeInstance(FallbackResolverService::class);
+                    $metaData = $resolver->applyFallbacks($metaData, $tableSettings['fallback'], $record, $tableSettings);
                 }
 
                 // set metaData in Globals
