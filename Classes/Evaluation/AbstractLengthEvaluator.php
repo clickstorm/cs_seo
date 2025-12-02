@@ -2,7 +2,6 @@
 
 namespace Clickstorm\CsSeo\Evaluation;
 
-
 /**
  * Class AbstractLengthEvaluator
  */

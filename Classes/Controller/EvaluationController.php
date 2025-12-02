@@ -3,7 +3,6 @@
 namespace Clickstorm\CsSeo\Controller;
 
 use Clickstorm\CsSeo\Domain\Repository\EvaluationRepository;
-
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 

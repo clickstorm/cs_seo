@@ -32,7 +32,8 @@ class SnippetPreview extends AbstractFormElement
 
     public function __construct(
         private readonly ViewFactoryInterface $viewFactory,
-    ) {}
+    ) {
+    }
 
     public function render(): array
     {
@@ -166,9 +167,9 @@ class SnippetPreview extends AbstractFormElement
 
                         $res = $queryBuilder->select('*')
                             ->from($data['tablenames'])->where($queryBuilder->expr()->eq(
-                            'uid',
-                            $queryBuilder->createNamedParameter($data['uid_foreign'], Connection::PARAM_INT)
-                        ))->executeQuery()->fetchAllAssociative();
+                                'uid',
+                                $queryBuilder->createNamedParameter($data['uid_foreign'], Connection::PARAM_INT)
+                            ))->executeQuery()->fetchAllAssociative();
 
                         $row = $res[0];
 
@@ -184,8 +185,7 @@ class SnippetPreview extends AbstractFormElement
                                 foreach ($matches[1] as $fieldName) {
                                     $value = str_replace('{' . $fieldName . '}', $row[$fieldName] ?? '', $value);
                                 }
-                            }
-                            elseif (str_contains($fallbackField, '//')) {
+                            } elseif (str_contains($fallbackField, '//')) {
                                 $fields = array_map('trim', explode('//', $fallbackField));
                                 foreach ($fields as $fieldName) {
                                     if (!empty($row[$fieldName])) {
@@ -193,9 +193,8 @@ class SnippetPreview extends AbstractFormElement
                                         break;
                                     }
                                 }
-                            }
-                            else {
-                                $value= $row[$fallbackField] ?? '';
+                            } else {
+                                $value = $row[$fallbackField] ?? '';
                             }
 
                             // ✅ Remove any HTML tags and trim whitespace

@@ -186,7 +186,8 @@ class MetaDataService
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(self::TABLE_NAME_META);
 
         $res = $queryBuilder->select('*')
-            ->from(self::TABLE_NAME_META)->where($queryBuilder->expr()->eq(
+            ->from(self::TABLE_NAME_META)->where(
+                $queryBuilder->expr()->eq(
                     'uid_foreign',
                     $queryBuilder->createNamedParameter($tableSettings['uid'], Connection::PARAM_INT)
                 ),

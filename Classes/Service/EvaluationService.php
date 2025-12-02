@@ -148,7 +148,7 @@ class EvaluationService
     {
         $recordId = (int)($record['uid'] ?? 0);
 
-        if($recordId > 0) {
+        if ($recordId > 0) {
             return $this->evaluationRepository->findByUidForeignAndTableName($recordId, $table);
         }
 

@@ -44,8 +44,7 @@ class ModifyPageLayoutContentEventListener
     public function __construct(
         private readonly ViewFactoryInterface $viewFactory,
         private readonly PageRenderer         $pageRenderer,
-    )
-    {
+    ) {
     }
 
 

@@ -5,7 +5,6 @@ namespace Clickstorm\CsSeo\UserFunc;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Clickstorm\CsSeo\Service\MetaDataService;
-
 /***************************************************************
  *
  *  Copyright notice

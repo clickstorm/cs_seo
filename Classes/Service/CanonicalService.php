@@ -65,7 +65,7 @@ class CanonicalService extends AbstractUrlService
                 }
                 $canonicalUrl = $cObj->typoLink_URL($canonicalTypoLinkConf);
             }
-        // pages record
+            // pages record
         } else {
             $canonicalUrl = $fallbackUrl;
         }

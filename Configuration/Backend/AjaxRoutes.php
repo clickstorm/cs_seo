@@ -2,6 +2,7 @@
 
 use Clickstorm\CsSeo\Controller\ModuleWebController;
 use Clickstorm\CsSeo\Command\EvaluationCommand;
+
 return [
     'tx_csseo_update' => [
         'path' => '/cs_seo/update',

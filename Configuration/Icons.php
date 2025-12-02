@@ -1,4 +1,5 @@
 <?php
+
 return [
     'tx-cssseo-module-web' => [
         'provider' => \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,

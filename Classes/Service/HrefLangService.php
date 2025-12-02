@@ -56,9 +56,9 @@ class HrefLangService extends AbstractUrlService
                     // set hreflang only for languages of the TS setup and if the language is also localized for the item
                     // if the language doesn't exist for the item and a fallback language is shown, the hreflang is not set and the canonical points to the fallback url
                     if ($this->checkHrefLangForLanguageCanBeSet(
-                            $language,
-                            $languages['languagemenu']
-                        ) && isset($l10nItems[$language['languageId']])) {
+                        $language,
+                        $languages['languagemenu']
+                    ) && isset($l10nItems[$language['languageId']])) {
                         $hreflangTypoLinkConf['language'] = $language['languageId'];
                         $hreflangUrl = $cObj->typoLink_URL($hreflangTypoLinkConf);
                         $hrefLangArray[$language['languageId']] = [

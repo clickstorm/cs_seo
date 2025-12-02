@@ -137,8 +137,7 @@ class DatabaseUtility
         bool              $countAll = false,
         bool              $includeImagesWithAlt = false,
         int               $offset = 0
-    ): ?array
-    {
+    ): ?array {
         $tableName = 'sys_file';
         $joinTableName = 'sys_file_metadata';
 

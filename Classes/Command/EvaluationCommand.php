@@ -64,7 +64,7 @@ class EvaluationCommand extends Command
 
         $uid = $params['uid'];
 
-        if(!empty($params['table'])) {
+        if (!empty($params['table'])) {
             $this->tableName =  $params['table'];
         }
 
@@ -168,9 +168,9 @@ class EvaluationCommand extends Command
 
             $res = $queryBuilder->select('keyword')
                 ->from($metaTableName)->where($queryBuilder->expr()->eq(
-                'uid_foreign',
-                $queryBuilder->createNamedParameter($record['uid'], Connection::PARAM_INT)
-            ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($this->tableName)))->executeQuery();
+                    'uid_foreign',
+                    $queryBuilder->createNamedParameter($record['uid'], Connection::PARAM_INT)
+                ), $queryBuilder->expr()->eq('tablenames', $queryBuilder->createNamedParameter($this->tableName)))->executeQuery();
 
             while ($row = $res->fetchAssociative()) {
                 $keyword = $row['keyword'];
@@ -182,10 +182,10 @@ class EvaluationCommand extends Command
         return $keyword;
     }
 
-     /**
-     * @throws IllegalObjectTypeException
-     * @throws UnknownObjectException
-     */
+    /**
+    * @throws IllegalObjectTypeException
+    * @throws UnknownObjectException
+    */
     protected function saveChanges(array $results, int $uidForeign, string $url): void
     {
         /**

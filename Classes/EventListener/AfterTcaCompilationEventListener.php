@@ -16,7 +16,7 @@ class AfterTcaCompilationEventListener
         // ExtensionManagementUtility::addToAllTCAtypes() directly manipulates
         // $GLOBALS['TCA'] so we need to temporarily expose the compiled TCA this way
         $GLOBALS['TCA'] = $event->getTca();
-        
+
         $this->addCsSeoFieldsToDoktypes();
         $this->addCsSeoMetadataFieldsToRecords();
 

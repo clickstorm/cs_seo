@@ -4,9 +4,9 @@ namespace Clickstorm\CsSeo\Evaluation;
 
 abstract class AbstractEvaluator implements EvaluationInterface
 {
-    const STATE_GREEN = 2;
-    const STATE_YELLOW = 1;
-    const STATE_RED = 0;
+    public const STATE_GREEN = 2;
+    public const STATE_YELLOW = 1;
+    public const STATE_RED = 0;
 
     protected ?\DOMDocument $domDocument = null;
 

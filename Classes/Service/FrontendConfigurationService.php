@@ -38,7 +38,7 @@ class FrontendConfigurationService
      */
     public function __construct(int $pageUid = 0, int $lang = 0, int $typeNum = 654)
     {
-        if($pageUid === 0) {
+        if ($pageUid === 0) {
             $pageUid = GlobalsUtility::getPageId();
         }
         $this->pageUid = $pageUid;

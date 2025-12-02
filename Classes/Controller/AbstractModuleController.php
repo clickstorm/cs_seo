@@ -54,8 +54,7 @@ abstract class AbstractModuleController extends ActionController
     public function __construct(
         protected readonly PageRenderer          $pageRenderer,
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
-    )
-    {
+    ) {
     }
 
     /**

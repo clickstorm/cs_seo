@@ -25,7 +25,7 @@ class LanguageUtility
 
         $site = GlobalsUtility::getSite($pageId);
 
-        if(!($site instanceof Site)) {
+        if (!($site instanceof Site)) {
             return $languages;
         }
 

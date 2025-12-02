@@ -6,6 +6,7 @@ use Clickstorm\CsSeo\Form\Element\SnippetPreview;
 use Clickstorm\CsSeo\Form\Element\JsonLdElement;
 use Clickstorm\CsSeo\Hook\MetaTagGeneratorHook;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 defined('TYPO3') || die();
 
 (function () {

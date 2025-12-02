@@ -20,7 +20,8 @@ class TitleEvaluatorTest extends UnitTestCase
         $this->generalEvaluationMock = $this->getAccessibleMock(
             TitleEvaluator::class,
             null,
-            [new \DOMDocument()]);
+            [new \DOMDocument()]
+        );
         $extConf = [
             'minTitle' => self::$min,
             'maxTitle' => self::$max,

@@ -3,6 +3,7 @@
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Resource\File;
+
 $extConf = ConfigurationUtility::getEmConfiguration();
 
 $openGraphCropConfiguration = [

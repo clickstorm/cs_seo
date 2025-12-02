@@ -30,7 +30,7 @@ final readonly class PolicyMutatedEventListener
         $module = $event->request?->getAttribute('module');
 
         // only for cs_seo web module
-        if($module instanceof ExtbaseModule && str_starts_with($module->getIdentifier(), ModuleWebController::$mod_name)) {
+        if ($module instanceof ExtbaseModule && str_starts_with($module->getIdentifier(), ModuleWebController::$mod_name)) {
 
             // overwrite the policy so the script and style from the JS module can be used
             $policy = (new Policy())

@@ -217,7 +217,7 @@ class ModuleWebController extends AbstractModuleController
         if (isset($evaluation)) {
             $results = $evaluation->getResultsAsArray();
 
-            if(is_array($results) && isset($results['Percentage'])) {
+            if (is_array($results) && isset($results['Percentage'])) {
                 $this->moduleTemplate->assign('score', $results['Percentage']);
                 unset($results['Percentage']);
             }

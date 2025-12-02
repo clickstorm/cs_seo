@@ -20,7 +20,8 @@ class JsonLdElement extends AbstractFormElement
     public function __construct(
         private readonly ViewFactoryInterface $viewFactory,
         private readonly PageRenderer $pageRenderer,
-    ) {}
+    ) {
+    }
 
     /**
      * Render the input field with additional snippet preview

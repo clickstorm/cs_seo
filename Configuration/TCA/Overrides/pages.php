@@ -135,4 +135,3 @@ if (!empty($extConf['showDescriptionsInTCA'])) {
             'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:' . $col . '.description';
     }
 }
-

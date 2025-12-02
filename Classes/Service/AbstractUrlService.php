@@ -27,9 +27,9 @@ abstract class AbstractUrlService
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
             $items = $queryBuilder->select($GLOBALS['TCA'][$table]['ctrl']['languageField'])
                 ->from($table)->where($queryBuilder->expr()->eq(
-                'uid',
-                $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
-            ))->executeQuery()
+                    'uid',
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
+                ))->executeQuery()
                 ->fetchAllAssociative();
 
             return $items[0]['sys_language_uid'];
@@ -74,9 +74,9 @@ abstract class AbstractUrlService
                     $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 )
             )->orWhere($queryBuilder->expr()->eq(
-            'uid',
-            $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
-        ))->executeQuery()
+                'uid',
+                $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
+            ))->executeQuery()
             ->fetchAllAssociative();
 
         // second get all items with canonical or no_index, to remove them
@@ -164,9 +164,9 @@ abstract class AbstractUrlService
                     $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 )
             )->orWhere($queryBuilder->expr()->eq(
-            $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'],
-            $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
-        ))->executeQuery()
+                $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'],
+                $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
+            ))->executeQuery()
             ->fetchAllAssociative();
 
         foreach ($items as $item) {
