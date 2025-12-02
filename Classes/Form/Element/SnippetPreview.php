@@ -5,6 +5,10 @@ namespace Clickstorm\CsSeo\Form\Element;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
@@ -12,6 +16,8 @@ use Clickstorm\CsSeo\Service\FrontendConfigurationService;
 use TYPO3\CMS\Backend\Form\Element\InputTextElement;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
+use TYPO3\CMS\Core\Localization\Locale;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
@@ -28,11 +34,21 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  */
 class SnippetPreview extends AbstractFormElement
 {
+    protected const L10N_LABELS = [
+        'statusOk',
+        'statusOverflow',
+        'charsMissing',
+        'charsOver',
+    ];
+
     protected ?PageRenderer $pageRenderer = null;
 
     public function __construct(
         private readonly ViewFactoryInterface $viewFactory,
-    ) {}
+        private readonly Context              $request,
+    )
+    {
+    }
 
     public function render(): array
     {
@@ -90,8 +106,8 @@ class SnippetPreview extends AbstractFormElement
     {
         $viewFactoryData = new ViewFactoryData(
             templateRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Templates/'],
+            partialRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Partials/'],
             layoutRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Layouts/'],
-            request: GlobalsUtility::getTYPO3Request(),
         );
         $wizardView = $this->viewFactory->create($viewFactoryData);
 
@@ -166,9 +182,9 @@ class SnippetPreview extends AbstractFormElement
 
                         $res = $queryBuilder->select('*')
                             ->from($data['tablenames'])->where($queryBuilder->expr()->eq(
-                            'uid',
-                            $queryBuilder->createNamedParameter($data['uid_foreign'], Connection::PARAM_INT)
-                        ))->executeQuery()->fetchAllAssociative();
+                                'uid',
+                                $queryBuilder->createNamedParameter($data['uid_foreign'], Connection::PARAM_INT)
+                            ))->executeQuery()->fetchAllAssociative();
 
                         $row = $res[0];
 
@@ -196,6 +212,7 @@ class SnippetPreview extends AbstractFormElement
                         'pageTitleSeparator' => $pageTitleSeparator,
                         'path' => $path,
                         'siteTitle' => $siteTitle,
+                        'labels' => $this->getTranslatedLabels()
                     ]
                 );
             } else {
@@ -206,6 +223,23 @@ class SnippetPreview extends AbstractFormElement
         }
 
         return $wizardView->render('Wizard.html');
+    }
+
+    protected function getTranslatedLabels(): array
+    {
+        $labels = [];
+        $languageCode = $this->getLanguageService()->getLocale()->getLanguageCode();
+        $languageFile = 'locallang.xlf';
+        if ($languageCode) {
+            $languageFile = $languageCode . '.locallang.xlf';
+        }
+        $labelPrefix = 'LLL:EXT:cs_seo/Resources/Private/Language/' . $languageFile . ':wizard.';
+
+        foreach (self::L10N_LABELS as $labelKey) {
+            $labels[$labelKey] = $this->getLanguageService()->sL($labelPrefix . $labelKey);
+        }
+
+        return $labels;
     }
 
     protected function getPageRenderer(): PageRenderer
@@ -220,5 +254,10 @@ class SnippetPreview extends AbstractFormElement
     protected function setCurrentRequest(ServerRequestInterface $request): void
     {
         $GLOBALS['TYPO3_REQUEST'] = $request;
+    }
+
+    protected static function getRuntimeCache(): FrontendInterface
+    {
+        return GeneralUtility::makeInstance(CacheManager::class)->getCache('runtime');
     }
 }

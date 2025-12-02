@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2025-09-02T09:03:20Z" product-name="cs_seo">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2025-12-02T09:41:54Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -339,20 +339,17 @@
 			<trans-unit id="wizard.warnTrunc" resname="wizard.warnTrunc">
 				<source>– likely truncated in search results</source>
 			</trans-unit>
-			<trans-unit id="wizard.meterLabel" resname="wizard.meterLabel">
-				<source>SEO title length</source>
-			</trans-unit>
 			<trans-unit id="wizard.statusOk" resname="wizard.statusOk">
 				<source>OK</source>
-			</trans-unit>
-			<trans-unit id="wizard.statusShort" resname="wizard.statusShort">
-				<source>Too short</source>
 			</trans-unit>
 			<trans-unit id="wizard.statusOverflow" resname="wizard.statusOverflow">
 				<source>Pixel overflow</source>
 			</trans-unit>
-			<trans-unit id="wizard.statusOverChars" resname="wizard.statusOverChars">
+			<trans-unit id="wizard.charsOver" resname="wizard.charsOver">
 				<source>Above recommendation</source>
+			</trans-unit>
+			<trans-unit id="wizard.charsMissing" resname="wizard.charsMissing">
+				<source>Characters missing</source>
 			</trans-unit>
 		</body>
 	</file>

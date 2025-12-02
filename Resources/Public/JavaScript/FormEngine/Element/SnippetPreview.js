@@ -51,23 +51,15 @@ class SnippetPreview {
 
     // Meter config & refs
     const meterEl = widget.querySelector('.js-seo-meter');
-    this.meterFill     = widget.querySelector('.js-seo-meter-fill');
-    this.meterCountNum = widget.querySelector('.js-seo-meter-count'); // number only
-    this.meterStatus   = widget.querySelector('.js-seo-meter-status');
-    this.meterWarn     = widget.querySelector('.js-seo-meter-warn');
-    this.barEl         = widget.querySelector('.tx-cs_seo-meter__bar');
+    this.meterMessage = widget.querySelector('.js-seo-meter-message');
 
     this.minChars  = parseInt(meterEl?.dataset.minChars || '35', 10);
     this.maxChars  = parseInt(meterEl?.dataset.maxChars || '60', 10);
-    this.warnUnder = meterEl?.dataset.warnUnder || `– below recommendation (${this.minChars})`;
-    this.warnOver  = meterEl?.dataset.warnOver  || `– above recommendation (${this.maxChars})`;
-    this.warnTrunc = meterEl?.dataset.warnTrunc || '– likely truncated in search results';
 
-    this.labelMeter      = meterEl?.dataset.labelMeter || 'SEO title length';
-    this.statusOk        = meterEl?.dataset.labelStatusOk || 'OK';
-    this.statusShort     = meterEl?.dataset.labelStatusShort || 'Too short';
-    this.statusOverflow  = meterEl?.dataset.labelStatusOverflow || 'Pixel overflow';
-    this.statusOverChars = meterEl?.dataset.labelStatusOverchars || 'Above recommendation';
+    this.labelStatusOk          = meterEl?.dataset.labelStatusOk || 'OK';
+    this.labelStatusOverflow    = meterEl?.dataset.labelStatusOverflow || 'Pixel overflow';
+    this.labelCharsMissing = meterEl?.dataset.labelCharsMissing || 'Characters missing';
+    this.labelCharsOver    = meterEl?.dataset.labelCharsOver || 'Above recommendation';
 
     // Widths + fallback class if container queries are unsupported
     this.supportsContainerQueries = 'containerType' in document.documentElement.style;
@@ -234,7 +226,6 @@ class SnippetPreview {
   _computeWidths() {
     this.maxPx = Math.max(1, this.previewBox.clientWidth || 600);
     this.desktopCapPx = Math.round(this.maxPx + Math.min(40, this.maxPx * 0.08)); // desktop soft cap
-    if (this.barEl) this.barEl.setAttribute('aria-valuemax', String(this.maxPx));
 
     if (!this.supportsContainerQueries) {
       if (this.maxPx < 600) this.wrapper.classList.add('is-narrow');
@@ -287,35 +278,43 @@ class SnippetPreview {
     const overChars = len > this.maxChars; // advisory only
 
     // Meter fill (mobile: strictly cap to container; desktop: soft cap)
-    if (this.meterFill && this.barEl) {
-      const refWidth = isMobileLike ? this.maxPx : this.desktopCapPx;
-      const pct = Math.min(100, Math.round((Math.min(rawWidth, refWidth) / refWidth) * 100));
-      this.meterFill.style.width = pct + '%';
-      this.meterFill.classList.remove('is-ok', 'is-over');
-      if (pixelOverflow) this.meterFill.classList.add('is-over');
-      else if (len >= this.minChars) this.meterFill.classList.add('is-ok');
+    if (this.meterMessage) {
+      const charsMissing = this.minChars > 0 ? Math.max(0, this.minChars - len) : 0;
+      const charsOver = this.maxChars > 0 ? Math.max(0, len - this.maxChars) : 0;
 
-      this.barEl.setAttribute('aria-valuenow', String(Math.min(Math.round(rawWidth), this.maxPx)));
-      this.barEl.setAttribute('aria-valuemax', String(this.maxPx));
-      this.barEl.setAttribute('aria-label', this.labelMeter);
-    }
+      let text = '';
+      let variantClass = '';
 
-    // Counter (number only)
-    if (this.meterCountNum) this.meterCountNum.textContent = String(len);
+      // remove previous badge variants
+      this.meterMessage.classList.remove('badge-success', 'badge-warning', 'badge-danger');
 
-    // Status + warn (split)
-    if (this.meterStatus) {
-      let status = this.statusOk;
-      if (pixelOverflow) status = this.statusOverflow;
-      else if (tooShort) status = this.statusShort;
-      this.meterStatus.textContent = status;
-    }
-    if (this.meterWarn) {
-      let warn = '';
-      if (pixelOverflow) warn = this.warnTrunc;
-      else if (tooShort) warn = this.warnUnder;
-      else if (overChars) warn = this.statusOverChars || this.warnOver;
-      this.meterWarn.textContent = warn;
+      if (!len) {
+        // No title: nothing or neutral
+        text = '';
+      } else if (pixelOverflow) {
+        // Pixel overflow -> red
+        text = this.labelStatusOverflow || 'Pixel overflow';
+        variantClass = 'badge-danger';
+      } else if (len < this.minChars) {
+        // Below recommendation -> orange "Character Missing: X"
+        const label = this.labelCharsMissing || 'Character missing';
+        text = `${label}: ${charsMissing}`;
+        variantClass = 'badge-warning';
+      } else if (len > this.maxChars) {
+        // Above recommendation (no pixel overflow) -> orange
+        const label = this.labelCharsOver || 'Above recommendation';
+        text = `${label}: ${charsOver}`;
+        variantClass = 'badge-warning';
+      } else {
+        // In recommended range -> green
+        text = this.labelStatusOk || 'OK';
+        variantClass = 'badge-success';
+      }
+
+      this.meterMessage.textContent = text;
+      if (variantClass && text) {
+        this.meterMessage.classList.add(variantClass);
+      }
     }
   }
 }
