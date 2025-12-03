@@ -51,6 +51,10 @@ return [
         'transOrigPointerField' => 'l10n_parent',
         'transOrigDiffSourceField' => 'l10n_diffsource',
 
+        'security' => [
+            'ignorePageTypeRestriction' => true
+        ],
+
         'delete' => 'deleted',
         'enablecolumns' => [
             'disabled' => 'hidden',

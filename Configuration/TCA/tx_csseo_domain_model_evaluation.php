@@ -11,6 +11,10 @@ return [
 
         'delete' => 'deleted',
 
+        'security' => [
+            'ignorePageTypeRestriction' => true
+        ],
+
         'enablecolumns' => [
             'disabled' => 'hidden',
             'starttime' => 'starttime',
