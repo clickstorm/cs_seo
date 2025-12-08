@@ -102,14 +102,12 @@ class FrontendConfigurationService
         try {
             $site = $siteFinder->getSiteByPageId($this->pageUid);
             $siteTitle = $site->getConfiguration()['websiteTitle'] ?? '';
-            if ($this->lang > 0) {
-                try {
-                    $siteLangauge = $site->getLanguageById($this->lang);
-                    if ($siteLangauge && !empty($siteLangauge->getWebsiteTitle())) {
-                        $siteTitle = $siteLangauge->getWebsiteTitle();
-                    }
-                } catch (\InvalidArgumentException) {
+            try {
+                $siteLanguage = $site->getLanguageById($this->lang);
+                if ($siteLanguage && !empty($siteLanguage->getWebsiteTitle())) {
+                    $siteTitle = $siteLanguage->getWebsiteTitle();
                 }
+            } catch (\InvalidArgumentException) {
             }
         } catch (SiteNotFoundException $exception) {
         }
