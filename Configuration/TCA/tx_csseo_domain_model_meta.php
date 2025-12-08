@@ -87,7 +87,7 @@ return [
         ],
 
         'preview' => [
-            'showitem' => 'title,title_only,--linebreak--,description',
+            'showitem' => 'title_only,--linebreak--,title,--linebreak--,description',
         ],
 
         'index' => ['showitem' => 'canonical,no_index,no_follow'],
@@ -178,7 +178,6 @@ return [
             'config' => [
                 'type' => 'input',
                 'renderType' => 'snippetPreview',
-                'max' => $extConf['maxTitle'] ?? '',
                 'eval' => 'trim',
             ],
         ],

@@ -1,31 +1,19 @@
-<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
-     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
 
 <f:layout name="Wizard" />
 
 <f:section name="Main">
     <f:if condition="{data}">
         <f:then>
-            <h3 class="js-cs-seo-title"
-                data-sitetitle="{siteTitle}"
-                data-separator="{pageTitleSeparator}"
-                data-first="{config.pageTitleFirst}"
-                data-only="{data.pageTitleOnly}"
-                data-fallback-title="{fallback.title}"
-                data-fallback-title-value="{data.{fallback.title}}"
-                data-fallback-table="{fallback.table}"
-                data-fallback-uid="{fallback.uid}"
-                data-fallback-description="{fallback.description}">
-                <f:format.crop maxCharacters="66" respectWordBoundaries="0">{pageTitle}</f:format.crop>
-            </h3>
-            <div class="url">{path}</div>
-                <span class="js-cs-seo-desc"><f:format.crop maxCharacters="{extConf.maxDescription}" respectWordBoundaries="0">{data.description}</f:format.crop></span>
-                <span class="js-cs-seo-hidden" style="{f:if(condition:data.description,then:'display:none;')}"><f:translate key="templates.wizard.description" extensionName="cs_seo" /></span>
-            </p>
+            <f:render partial="Wizard/Meter" arguments="{_all}"/>
+            <div class="tx-cs_seo-wizard-item">
+                <f:render partial="Wizard/GooglePreview" arguments="{_all}"/>
+            </div>
         </f:then>
         <f:else>
             <f:translate key="error.{error}" extensionName="cs_seo" />
         </f:else>
     </f:if>
 </f:section>
-</div>

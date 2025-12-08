@@ -1,50 +1,104 @@
 @import "config";
 
-.tx-cs_seo {
-	background-color: @color-bg;
-	border-radius: 2px;
-	box-sizing: content-box;
-	color: @color-text;
-	font-family: Arial, sans-serif;
-	font-size: 13px;
-	line-height: 1.4;
-	padding: 20px;
-	width: 512px;
-
-	h3 {
-		color: @color-headline;
-		font-family: Arial, sans-serif;
-		font-size: 18px;
-		font-weight: normal;
-		line-height: 1.2;
-		margin: 0;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		&:hover {
-			text-decoration: underline;
-		}
-	}
-
-	p {
-		margin: 0;
-	}
-
-	span {
-		display: block;
-		overflow: hidden;
-		white-space: normal;
-		width: 100%;
-	}
-
-	.url {
-		color: @color-url;
-		font-size: 14px;
-		line-height: 16px;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		width: 100%;
-	}
+/* Hide TYPO3 core max length hint */
+.form-group:has(.tx-cs_seo) .formengine-field-item .form-hint {
+    display: none;
 }
 
+.tx-cs_seo {
+    &-wizard-item {
+        background: @color-bg;
+        border-radius: 2px;
+        box-sizing: border-box;
+        box-sizing: border-box;
+        color: @color-text;
+        container-type: inline-size; // enable container queries
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        line-height: 1.4;
+        margin: 20px 0;
+        max-width: 640px;
+        padding: 10px;
+        width: 100%;
+    }
+
+    &-title {
+        color: @color-headline;
+        font-family: "Roboto", Arial, sans-serif;
+        font-size: 20px;
+        font-weight: normal;
+        line-height: 1.2;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap; // desktop: force single line
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    /* URL & Description */
+    &-url {
+        color: @color-url;
+        font-size: 14px;
+        line-height: 16px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 100%;
+    }
+
+    &-desc {
+        display: block;
+        overflow: hidden;
+        white-space: normal;
+        width: 100%;
+    }
+}
+
+/* Container Query: below 600px allow up to 2 lines */
+@container (max-width: 599px) {
+    .tx-cs_seo-title {
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; // max 2 lines
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: clip;
+    }
+}
+
+/* Fallback for environments without container queries (JS adds .is-narrow) */
+.tx-cs_seo.is-narrow .tx-cs_seo-title {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+/* Very small screens: shrink title slightly (optional) */
+@media (max-width: 420px) {
+    .tx-cs_seo-title {
+        font-size: 18px;
+    }
+}
+
+typo3-backend-formengine-char-counter[target*="seo_title"] {
+    display: none !important;
+}
+
+/* A11y utility */
+.tx-sr-only {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

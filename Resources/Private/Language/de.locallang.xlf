@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2025-04-15T10:00:55Z" product-name="cs_seo">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2025-12-02T09:41:54Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -422,6 +422,50 @@
 			<trans-unit id="templates.wizard.description" resname="templates.wizard.description">
 				<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
 				<target>Es wurde keine Seitenbeschreibung angegeben! Daher wird Google den Seiteninhalt hier anteasern.</target>
+			</trans-unit>
+			<trans-unit id="wizard.legendUnder" resname="wizard.legendUnder">
+				<source>Below %s characters: yellow</source>
+				<target>Unter %s Zeichen: gelb</target>
+			</trans-unit>
+			<trans-unit id="wizard.legendInRange" resname="wizard.legendInRange">
+				<source>%s–%s characters: green</source>
+				<target>%s–%s Zeichen: grün</target>
+			</trans-unit>
+			<trans-unit id="wizard.legendOverflow" resname="wizard.legendOverflow">
+				<source>Pixel overflow: red</source>
+				<target>Pixel-Überlauf: rot</target>
+			</trans-unit>
+			<trans-unit id="wizard.chars" resname="wizard.chars">
+				<source>characters</source>
+				<target>Zeichen</target>
+			</trans-unit>
+			<trans-unit id="wizard.warnUnder" resname="wizard.warnUnder">
+				<source>– below recommendation (%s)</source>
+				<target>– unter Empfehlung (%s)</target>
+			</trans-unit>
+			<trans-unit id="wizard.warnOver" resname="wizard.warnOver">
+				<source>– above recommendation (%s)</source>
+				<target>– über Empfehlung (%s)</target>
+			</trans-unit>
+			<trans-unit id="wizard.warnTrunc" resname="wizard.warnTrunc">
+				<source>– likely truncated in search results</source>
+				<target>– in den Suchergebnissen wahrscheinlich abgeschnitten</target>
+			</trans-unit>
+			<trans-unit id="wizard.statusOk" resname="wizard.statusOk">
+				<source>OK</source>
+				<target>OK</target>
+			</trans-unit>
+			<trans-unit id="wizard.statusOverflow" resname="wizard.statusOverflow">
+				<source>Pixel overflow</source>
+				<target>Pixel-Überlauf</target>
+			</trans-unit>
+			<trans-unit id="wizard.charsOver" resname="wizard.charsOver">
+				<source>Above recommendation</source>
+				<target>Über Empfehlung</target>
+			</trans-unit>
+			<trans-unit id="wizard.charsMissing" resname="wizard.charsMissing">
+				<source>Characters missing</source>
+				<target>Zeichen fehlen</target>
 			</trans-unit>
 		</body>
 	</file>

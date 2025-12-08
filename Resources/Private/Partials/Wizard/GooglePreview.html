@@ -1,0 +1,31 @@
+<div xmlns="http://www.w3.org/1999/xhtml" lang="en"
+     xmlns:f="http://typo3.org/ns/fluid/ViewHelpers">
+
+<!-- Preview -->
+<div class="tx-cs_seo-preview js-seo-preview">
+    <h3 class="tx-cs_seo-title js-seo-title"
+        data-sitetitle="{siteTitle}"
+        data-separator="{pageTitleSeparator}"
+        data-first="{config.pageTitleFirst}"
+        data-only="{data.pageTitleOnly}"
+        data-fallback-title="{fallback.title}"
+        data-fallback-title-value="{data.{fallback.title}}"
+        data-fallback-seo-title-value="{data.seo_title}"
+        data-fallback-table="{fallback.table}"
+        data-fallback-uid="{fallback.uid}"
+        data-fallback-description="{fallback.description}">
+        {pageTitle}
+    </h3>
+    <div class="tx-cs_seo-url js-seo-url">{path}</div>
+
+    <span class="tx-cs_seo-desc js-seo-desc">
+      <f:format.crop maxCharacters="{extConf.maxDescription}" respectWordBoundaries="0">
+        {data.description}
+      </f:format.crop>
+    </span>
+
+    <span class="tx-cs_seo-hidden js-seo-hidden"
+          style="{f:if(condition:data.description,then:'display:none;')}">
+          <f:translate key="templates.wizard.description" extensionName="cs_seo" />
+    </span>
+</div>

@@ -5,6 +5,10 @@ namespace Clickstorm\CsSeo\Form\Element;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Core\Cache\CacheManager;
+use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
@@ -12,6 +16,8 @@ use Clickstorm\CsSeo\Service\FrontendConfigurationService;
 use TYPO3\CMS\Backend\Form\Element\InputTextElement;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
+use TYPO3\CMS\Core\Localization\Locale;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
@@ -28,10 +34,18 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  */
 class SnippetPreview extends AbstractFormElement
 {
+    protected const L10N_LABELS = [
+        'statusOk',
+        'statusOverflow',
+        'charsMissing',
+        'charsOver',
+    ];
+
     protected ?PageRenderer $pageRenderer = null;
 
     public function __construct(
         private readonly ViewFactoryInterface $viewFactory,
+        private readonly Context              $request,
     ) {
     }
 
@@ -91,8 +105,8 @@ class SnippetPreview extends AbstractFormElement
     {
         $viewFactoryData = new ViewFactoryData(
             templateRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Templates/'],
+            partialRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Partials/'],
             layoutRootPaths: [10 => 'EXT:cs_seo/Resources/Private/Layouts/'],
-            request: GlobalsUtility::getTYPO3Request(),
         );
         $wizardView = $this->viewFactory->create($viewFactoryData);
 
@@ -155,7 +169,7 @@ class SnippetPreview extends AbstractFormElement
                 } else {
                     $tableSettings = ConfigurationUtility::getTableSettings($data['tablenames']);
 
-                    if ($tableSettings && is_array($tableSettings['fallback']) && !empty($tableSettings['fallback'])) {
+                    if ($tableSettings && !empty($tableSettings['fallback']) && is_array($tableSettings['fallback'])) {
                         $fallback = $tableSettings['fallback'];
 
                         /** @var QueryBuilder $queryBuilder */
@@ -229,6 +243,23 @@ class SnippetPreview extends AbstractFormElement
         }
 
         return $wizardView->render('Wizard.html');
+    }
+
+    protected function getTranslatedLabels(): array
+    {
+        $labels = [];
+        $languageCode = $this->getLanguageService()->getLocale()->getLanguageCode();
+        $languageFile = 'locallang.xlf';
+        if ($languageCode) {
+            $languageFile = $languageCode . '.locallang.xlf';
+        }
+        $labelPrefix = 'LLL:EXT:cs_seo/Resources/Private/Language/' . $languageFile . ':wizard.';
+
+        foreach (self::L10N_LABELS as $labelKey) {
+            $labels[$labelKey] = $this->getLanguageService()->sL($labelPrefix . $labelKey);
+        }
+
+        return $labels;
     }
 
     protected function getPageRenderer(): PageRenderer
