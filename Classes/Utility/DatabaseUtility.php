@@ -292,6 +292,6 @@ class DatabaseUtility
                 'uid',
                 $queryBuilder->createNamedParameter($uid, \PDO::PARAM_INT)
             ))->executeQuery()
-            ->fetch();
+            ->fetchAllAssociative();
     }
 }
