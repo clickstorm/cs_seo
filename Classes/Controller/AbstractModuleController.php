@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -166,21 +167,7 @@ abstract class AbstractModuleController extends ActionController
 
         $this->addModuleButtons($buttonBar);
 
-        // The page will show only if there is a valid page and if this page
-        // may be viewed by the user
-        if (is_numeric($this->modParams['id'])) {
-            $permsClause = $this->getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW);
-            // @extensionScannerIgnoreLine
-            $metaInfo = BackendUtility::readPageAccess($this->recordId, $permsClause);
-        } else {
-            $metaInfo = [
-                'combined_identifier' => $this->modParams['id'],
-            ];
-        }
-
-        if ($metaInfo) {
-            $moduleTemplate->getDocHeaderComponent()->setMetaInformation($metaInfo);
-        }
+        $this->addMetaInformation($moduleTemplate);
 
         if (count(static::$menuActions) > 1) {
             // Main drop down in doc header
@@ -240,6 +227,24 @@ abstract class AbstractModuleController extends ActionController
 
     protected function addModuleButtons(ButtonBar $buttonBar): void
     {
+    }
+    protected function addMetaInformation(ModuleTemplate $moduleTemplate): void
+    {
+        // The page will show only if there is a valid page and if this page
+        // may be viewed by the user
+        if (is_numeric($this->modParams['id'])) {
+            $permsClause = $this->getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW);
+            // @extensionScannerIgnoreLine
+            $metaInfo = BackendUtility::readPageAccess($this->recordId, $permsClause);
+        } else {
+            $metaInfo = [
+                'combined_identifier' => $this->modParams['id'],
+            ];
+        }
+
+        if ($metaInfo) {
+            $moduleTemplate->getDocHeaderComponent()->setMetaInformation($metaInfo);
+        }
     }
 
     /**

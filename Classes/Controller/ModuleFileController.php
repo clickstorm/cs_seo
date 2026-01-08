@@ -11,6 +11,7 @@ use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
@@ -18,6 +19,7 @@ use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\File;
@@ -170,6 +172,7 @@ class ModuleFileController extends AbstractModuleController
                         'image' => $files[0],
                     ]);
                 } else {
+                    $this->image = null;
                     $this->view->assign('error', 'no_access');
                 }
             }
@@ -228,6 +231,22 @@ class ModuleFileController extends AbstractModuleController
         }
 
         return new ForwardResponse('showEmptyImageAlt');
+    }
+
+    protected function addMetaInformation(ModuleTemplate $moduleTemplate): void
+    {
+        // update the breadcrumb
+        $breadCrumbItem = $this->image ? $this->image->getOriginalResource() : null;
+
+        if ($breadCrumbItem === null) {
+            /** @var ResourceFactory $resourceFactory */
+            $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+            $breadCrumbItem = $resourceFactory->getFolderObjectFromCombinedIdentifier(
+                $this->storageUid . ':' . $this->identifier
+            );
+        }
+
+        $moduleTemplate->getDocHeaderComponent()->setMetaInformationForResource($breadCrumbItem);
     }
 
     protected function addModuleButtons(ButtonBar $buttonBar): void
