@@ -92,10 +92,9 @@ class ModuleFileController extends AbstractModuleController
 
             $this->numberOfImagesWithoutAlt = $result[0] ?? 0;
 
-            // force offset to be smaller than number of all images without alt text
-            if ($this->offset > 0 && $this->offset >= $this->numberOfImagesWithoutAlt) {
-                $this->offset = $this->numberOfImagesWithoutAlt - 1;
-            }
+            // Clamp offset to valid range (0 .. numberOfImagesWithoutAlt - 1)
+            $maxOffset = max(0, $this->numberOfImagesWithoutAlt - 1);
+            $this->offset = max(0, min($this->offset, $maxOffset));
 
             $result = DatabaseUtility::getImageWithEmptyAlt(
                 $fileModuleOptions,
