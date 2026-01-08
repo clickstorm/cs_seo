@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2025-04-15T10:00:55Z" product-name="cs_seo">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2026-01-08T12:35:42Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
 				<source>%m/%d/%Y %I:%M %p</source>
 				<target>%d.%m.%Y %H:%M Uhr</target>
+			</trans-unit>
+			<trans-unit id="error.invalid_json_comment" resname="error.invalid_json_comment">
+				<source>INVALID JSON!</source>
+				<target>UNGÜLTIGES JSON!</target>
 			</trans-unit>
 			<trans-unit id="error.no_data" resname="error.no_data">
 				<source>Click &#039;Save&#039; to show the preview.</source>
@@ -18,10 +22,6 @@
 			<trans-unit id="error.no_tsfe" resname="error.no_tsfe">
 				<source>The TypoScript of the current page could not be loaded.</source>
 				<target>Das TypoScript dieser Seite konnte nicht geladen werden.</target>
-			</trans-unit>
-			<trans-unit id="error.invalid_json_comment" resname="error.invalid_json_comment">
-				<source>INVALID JSON!</source>
-				<target>UNGÜLTIGES JSON!</target>
 			</trans-unit>
 			<trans-unit id="evaluation.description" resname="evaluation.description">
 				<source>Meta Description</source>
@@ -422,6 +422,10 @@
 			<trans-unit id="templates.wizard.description" resname="templates.wizard.description">
 				<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
 				<target>Es wurde keine Seitenbeschreibung angegeben! Daher wird Google den Seiteninhalt hier anteasern.</target>
+			</trans-unit>
+			<trans-unit id="wizard.chars" resname="wizard.chars">
+				<source>characters</source>
+				<target>Zeichen</target>
 			</trans-unit>
 		</body>
 	</file>

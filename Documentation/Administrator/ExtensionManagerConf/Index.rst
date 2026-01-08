@@ -27,7 +27,7 @@ Properties
 	`page.maxDescription`_                                  :ref:`t3tsref:data-type-integer`      156
 	`page.cropDescription`_                                 :ref:`t3tsref:data-type-boolean`      false
 	`page.maxNavTitle`_                                     :ref:`t3tsref:data-type-integer`      50
-    `page.showDescriptionsInTCA`_                           :ref:`t3tsref:data-type-boolean`      true
+    `page.showDescriptionsInTCA`_                           :ref:`t3tsref:data-type-boolean`     true
 	`evaluation.inPageModule`_                              :ref:`t3tsref:data-type-integer`      0
 	`evaluation.evaluationDoktypes`_                        :ref:`t3tsref:data-type-string`       1
 	`evaluation.evaluators`_                                :ref:`t3tsref:data-type-string`       Title,Description,H1,H2,Images,Keyword
@@ -37,6 +37,7 @@ Properties
 	`evaluation.maxH2`_                                     :ref:`t3tsref:data-type-integer`      6
 	`file.modFileColumns`_                                  :ref:`t3tsref:data-type-string`       title,description
    `file.excludeFileExtensions`_                           :ref:`t3tsref:data-type-string`       webp
+   `file.disableCharCounter`_                              :ref:`t3tsref:data-type-string`       0
 	======================================================= ===================================== ====================
 
 
@@ -259,3 +260,19 @@ Exclude File Extensions
          :ref:`t3tsref:data-type-string`
    Description
          Comma separated list of file extensions which should not be displayed in the file module.
+
+.. _file.disableCharCounter:
+
+Disable Char Counter
+""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         disableCharCounter
+   Data type
+         :ref:`t3tsref:data-type-boolean`
+   Description
+         Usually, a character counter is displayed below the input field for
+         alternative text to give editors a hint about the number of characters
+         based on internal guidelines. You can disable this badge here.

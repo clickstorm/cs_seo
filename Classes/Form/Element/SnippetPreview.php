@@ -53,7 +53,7 @@ class SnippetPreview extends AbstractNode
      */
     protected function loadJavascript(): void
     {
-        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/SnippetPreview.js');
+        $this->pageRenderer->loadJavaScriptModule('@clickstorm/cs-seo/FormEngine/Element/SnippetPreview.js');
     }
 
     protected function loadCss(): array
