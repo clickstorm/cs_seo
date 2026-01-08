@@ -98,6 +98,26 @@ class ImagesEvaluatorTest extends UnitTestCase
                     'state' => AbstractEvaluator::STATE_GREEN,
                 ],
             ],
+            '4 images with role="presentation"' => [
+                '<img alt="" src="myImage.png" role="presentation" /><img alt="Test" /><img alt="" src="foo.png"/>',
+                [
+                    'count' => 3,
+                    'altCount' => 2,
+                    'countWithoutAlt' => 1,
+                    'images' => ["foo.png"],
+                    'state' => AbstractEvaluator::STATE_YELLOW,
+                ],
+            ],
+            '5 images with aria-hidden="true"' => [
+                '<img alt="" src="myImage.png" aria-hidden="true" /><img alt="Test" /><img alt="" src="foo.png"/>',
+                [
+                    'count' => 3,
+                    'altCount' => 2,
+                    'countWithoutAlt' => 1,
+                    'images' => ["foo.png"],
+                    'state' => AbstractEvaluator::STATE_YELLOW,
+                ],
+            ],
         ];
     }
 }
