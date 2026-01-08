@@ -174,6 +174,19 @@ class ModuleFileController extends AbstractModuleController
                     $this->moduleTemplate->assign('error', 'no_access');
                 }
             }
+
+            // update the breadcrumb
+            $breadCrumbItem = $this->image ? $this->image->getOriginalResource() : null;
+
+            if ($breadCrumbItem === null) {
+                /** @var ResourceFactory $resourceFactory */
+                $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+                $breadCrumbItem = $resourceFactory->getFolderObjectFromCombinedIdentifier(
+                    $fileModuleOptions->getStorageUid() . ':' . $fileModuleOptions->getIdentifier()
+                );
+            }
+
+            $this->moduleTemplate->getDocHeaderComponent()->setMetaInformationForResource($breadCrumbItem);
         }
 
         return $this->htmlResponse($this->wrapModuleTemplate());
