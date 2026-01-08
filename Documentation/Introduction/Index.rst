@@ -38,6 +38,7 @@ Features
 - Define fallback images for Open Graph and Twitter Cards
 - Backend module in AngularJS to edit the properties directly
 - Another backend module to fill empty alternative text of images
+- advanced character count for page title and alternative texts
 
 .. _screenshots:
 

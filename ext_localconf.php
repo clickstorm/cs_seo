@@ -1,6 +1,6 @@
 <?php
 
-use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use Clickstorm\CsSeo\Form\FieldWizard\CharCounterWizard;
 use Clickstorm\CsSeo\Hook\PageHook;
 use Clickstorm\CsSeo\Form\Element\SnippetPreview;
 use Clickstorm\CsSeo\Form\Element\JsonLdElement;
@@ -24,6 +24,12 @@ defined('TYPO3') || die();
         'nodeName' => 'txCsseoJsonLd',
         'priority' => 30,
         'class' => JsonLdElement::class,
+    ];
+
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1767867975] = [
+        'nodeName' => 'txCsseoCharCounter',
+        'priority' => 30,
+        'class' => CharCounterWizard::class,
     ];
 
     // Register the class to be available in 'eval' of TCA
