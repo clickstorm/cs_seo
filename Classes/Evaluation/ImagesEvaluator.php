@@ -24,6 +24,14 @@ class ImagesEvaluator extends AbstractEvaluator
         foreach ($images as $element) {
             $alt = $element->getAttribute('alt');
             if (empty($alt)) {
+                // Treat decorative images (alt="" with role="presentation" or aria-hidden="true") as compliant
+                $role = $element->getAttribute('role');
+                $ariaHidden = strtolower((string)$element->getAttribute('aria-hidden'));
+                $isDecorative = ($role === 'presentation') || ($ariaHidden === 'true');
+                if ($isDecorative) {
+                    $altCount++;
+                    continue;
+                }
                 $url = $element->getAttribute('src');
                 if (!GeneralUtility::isValidUrl($url) && $baseUrl) {
                     $url = $baseUrl . $url;
