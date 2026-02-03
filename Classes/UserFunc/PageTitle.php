@@ -6,6 +6,8 @@ use Clickstorm\CsSeo\Service\FrontendConfigurationService;
 use Clickstorm\CsSeo\Service\MetaDataService;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
+use TYPO3\CMS\Core\Cache\CacheDataCollector;
+use TYPO3\CMS\Core\PageTitle\PageTitleProviderManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -40,33 +42,27 @@ final class PageTitle
     }
 
     /**
-     * page without website title is stored in cache, see TSFE
+     * page without website title is stored in cache, see PageTitleProviderManager
      */
     protected function getCachedTitleWithoutWebsiteTitle(string $oldTitle = ''): string
     {
-        $controller = GlobalsUtility::getTYPO3Request()->getAttribute('frontend.controller');
-        $pageTitleCache = $this->getCache($controller) ?? [];
+        /** @var PageTitleProviderManager $cacheCollector */
+        $pageTitleProvider = GeneralUtility::makeInstance(PageTitleProviderManager::class);
+        $pageTitleCache = $this->getCache($pageTitleProvider);
         if (!empty($pageTitleCache)) {
-            return reset($controller->config['pageTitleCache']);
+            return reset($pageTitleCache);
         }
 
         return $oldTitle;
     }
 
-    /**
-     * @return array
-     */
     protected function getPage(): array
     {
         return GlobalsUtility::getPageRecord();
     }
 
-    /**
-     * @param mixed $controller
-     * @return mixed
-     */
-    public function getCache(mixed $controller): mixed
+    public function getCache(?PageTitleProviderManager $pageTitleProvider): array
     {
-        return $controller->config['pageTitleCache'] ?? null;
+        return $pageTitleProvider->getPageTitleCache() ?? [];
     }
 }
