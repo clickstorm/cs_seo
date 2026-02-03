@@ -228,8 +228,8 @@
 			<trans-unit id="module.btn.view" resname="module.btn.view">
 				<source>View</source>
 			</trans-unit>
-			<trans-unit id="module.file.count" resname="module.file.count">
-				<source>Images with an alternative text / images in total</source>
+			<trans-unit id="module.file.progressbar" resname="module.file.progressbar">
+				<source>%1$s images with an alternative text / %2$s images in total</source>
 			</trans-unit>
 			<trans-unit id="module.file.countWithoutAlt" resname="module.file.countWithoutAlt">
 				<source>Current image without an alternative text: %1$s from %2$s</source>

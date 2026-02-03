@@ -12,12 +12,11 @@
     <f:if condition="{numberOfAllImages} && !{error}">
         <f:then>
             <div class="csseo-progress form-group">
-                <f:translate key="module.file.count" extensionName="cs_seo"/>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-{f:if(condition: '{percentOfImages} == 100', then: 'success', else: 'danger')}"
-                         role="progressbar"
-                         aria-valuenow="{percentOfImages}" aria-valuemin="0" aria-valuemax="100" style="width: {percentOfImages}%;">{numberOfImagesWithAlt}&nbsp;/&nbsp;{numberOfAllImages}</div>
-                </div>
+                <f:variable name="progressLabel" value="{f:translate(key:'module.file.progressbar',extensionName:'cs_seo', arguments:'{0: numberOfImagesWithAlt, 1: numberOfAllImages}')}"/>
+                <typo3-backend-progress-bar value="{percentOfImages}"
+                                            max="100"
+                                            severity="{f:if(condition: '{percentOfImages} == 100', then: '0', else: '1')}"
+                                            label="{progressLabel}"></typo3-backend-progress-bar>
             </div>
 
             <f:if condition="{image}">

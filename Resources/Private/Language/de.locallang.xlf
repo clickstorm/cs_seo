@@ -303,9 +303,9 @@
 				<source>View</source>
 				<target>Anzeigen</target>
 			</trans-unit>
-			<trans-unit id="module.file.count" resname="module.file.count">
-				<source>Images with an alternative text / images in total</source>
-				<target>Bilder mit alternativen Text / Bilder gesamt</target>
+			<trans-unit id="module.file.progressbar" resname="module.file.progressbar">
+				<source>%1$s images with an alternative text / %2$s images in total</source>
+				<target>%1$s Bilder mit alternativen Text / %2$s Bilder gesamt</target>
 			</trans-unit>
 			<trans-unit id="module.file.countWithoutAlt" resname="module.file.countWithoutAlt">
 				<source>Current image without an alternative text: %1$s from %2$s</source>
