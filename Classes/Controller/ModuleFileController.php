@@ -9,6 +9,7 @@ use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\FileUtility;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
@@ -26,7 +27,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\File;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
-use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 class ModuleFileController extends AbstractModuleController
@@ -65,7 +65,7 @@ class ModuleFileController extends AbstractModuleController
         private readonly ResourceFactory $resourceFactory,
         private readonly FlashMessageService $flashMessageService,
         private readonly IconFactory $iconFactory,
-        protected UriBuilder $uriBuilder,
+        protected readonly UriBuilder $backendUriBuilder,
     ) {
         parent::__construct($pageRenderer, $moduleTemplateFactory, $componentFactory);
     }
@@ -267,7 +267,6 @@ class ModuleFileController extends AbstractModuleController
             $actionName = preg_replace('/Action$/', '', $this->request->getControllerActionName());
 
             if ($this->image->getOriginalResource()->getProperties()['metadata_uid']) {
-                $uriBuilder = $this->uriBuilder;
                 $params = [
                     'edit' => [
                         'sys_file_metadata' => [
@@ -278,7 +277,7 @@ class ModuleFileController extends AbstractModuleController
                 ];
 
                 $editButton = $this->componentFactory->createLinkButton()
-                    ->setHref((string)$uriBuilder->buildUriFromRoute('record_edit', $params))
+                    ->setHref((string)$this->backendUriBuilder->buildUriFromRoute('record_edit', $params))
                     ->setDataAttributes([
                         'togglelink' => '1',
                         'toggle' => 'tooltip',
