@@ -126,7 +126,7 @@ class ModifyPageLayoutContentEventListener
         $allowedViaExtConf = (int)$this->csSeoConf['inPageModule'] < static::EVALUATION_IN_PAGE_MODULE_DISABLED;
         $allowedViaPageTsConfig = isset($tsConfig['mod.']['web_layout.']['tx_csseo.']['disable']) ?
             !(bool)$tsConfig['mod.']['web_layout.']['tx_csseo.']['disable'] : true;
-        $allowedViaModuleMode = (int)$this->moduleData->get('function') === 1;
+        $allowedViaModuleMode = (int)$this->moduleData->get('viewMode') === 1;
 
         return $allowedViaExtConf && $allowedViaPageTsConfig && $allowedViaModuleMode;
     }
