@@ -147,7 +147,7 @@ class SnippetPreview extends AbstractFormElement
                 $fallback = [];
                 $siteTitle = $FrontendConfigurationService->getSiteTitle();
                 $pageTitleSeparator = $FrontendConfigurationService->getPageTitleSeparator();
-                $config = $FrontendConfigurationService->getConfig();
+                $config = $FrontendConfigurationService->getTypoScriptConfig();
 
                 if ($table === 'pages') {
 

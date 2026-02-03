@@ -26,7 +26,7 @@ class FrontendConfigurationService
 
     protected int $lang = 0;
 
-    protected array $config = [];
+    protected array $typoScriptConfig = [];
 
     protected ?ContentObjectRenderer $cObj = null;
 
@@ -51,7 +51,7 @@ class FrontendConfigurationService
         $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         $fullTS = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
         $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $this->config = $fullTS['config.'] ?? [];
+        $this->typoScriptConfig = $fullTS['config.'] ?? [];
     }
 
     public function getPagePath(): string
@@ -67,7 +67,7 @@ class FrontendConfigurationService
 
     public function getPageTitleFirst(): bool
     {
-        return isset($this->config['pageTitleFirst']) && (bool)$this->config['pageTitleFirst'];
+        return isset($this->typoScriptConfig['pageTitleFirst']) && (bool)$this->typoScriptConfig['pageTitleFirst'];
     }
 
     public function getFinalTitle(string $title, bool $titleOnly = false): string
@@ -77,7 +77,7 @@ class FrontendConfigurationService
         }
 
         $siteTitle = $this->getSiteTitle();
-        $pageTitleFirst = $this->getConfig()['pageTitleFirst'];
+        $pageTitleFirst = $this->getTypoScriptConfig()['pageTitleFirst'];
         $pageTitleSeparator = $this->getPageTitleSeparator();
 
         if ($pageTitleFirst) {
@@ -110,16 +110,16 @@ class FrontendConfigurationService
         return $siteTitle;
     }
 
-    public function getConfig(): array
+    public function getTypoScriptConfig(): array
     {
-        return $this->config;
+        return $this->typoScriptConfig;
     }
 
     public function getPageTitleSeparator(): string
     {
         return $this->cObj->stdWrap(
-            $this->config['pageTitleSeparator'] ?? '',
-            $this->config['pageTitleSeparator.'] ?? []
+            $this->typoScriptConfig['pageTitleSeparator'] ?? '',
+            $this->typoScriptConfig['pageTitleSeparator.'] ?? []
         );
     }
 
