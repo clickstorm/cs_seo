@@ -20,7 +20,6 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'searchFields' => 'title,description,',
         'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/mod.png',
     ],
     'types' => [
