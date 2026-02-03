@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Clickstorm\CsSeo\Tests\Unit\Domain\Model;
 
 use Clickstorm\CsSeo\Domain\Model\Evaluation;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use TYPO3\TestingFramework\Core\AccessibleObjectInterface;

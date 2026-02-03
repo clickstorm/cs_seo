@@ -18,6 +18,9 @@ use TYPO3\CMS\Frontend\DataProcessing\LanguageMenuProcessor;
  */
 class HrefLangService extends AbstractUrlService
 {
+    public function __construct(private readonly Context $context)
+    {
+    }
     /**
      * @throws AspectNotFoundException
      * @throws Exception
@@ -29,7 +32,7 @@ class HrefLangService extends AbstractUrlService
 
         /** @var ContentObjectRenderer $cObj */
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $context = GeneralUtility::makeInstance(Context::class);
+        $context = $this->context;
         $typoLinkConf = GlobalsUtility::getTypoScriptSetup()['lib.']['currentUrl.']['typolink.'] ?? [];
 
         // check if the current page is a detail page of a record
@@ -130,7 +133,7 @@ class HrefLangService extends AbstractUrlService
             }
 
             // if not already defined, get the site languages
-            if (empty($this->siteLanguages) && GlobalsUtility::getSite() instanceof Site) {
+            if ($this->siteLanguages === [] && GlobalsUtility::getSite() instanceof Site) {
                 $this->siteLanguages = GlobalsUtility::getSite()->getLanguages();
             }
 

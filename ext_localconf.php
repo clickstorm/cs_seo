@@ -1,7 +1,9 @@
 <?php
 
+use Clickstorm\CsSeo\Evaluation\TCA\RobotsDisallowAllEvaluator;
+use Clickstorm\CsSeo\Evaluation\TCA\RobotsExistsEvaluator;
+use Clickstorm\CsSeo\Evaluation\TCA\JsonLdEvaluator;
 use Clickstorm\CsSeo\Form\FieldWizard\CharCounterWizard;
-use Clickstorm\CsSeo\Hook\PageHook;
 use Clickstorm\CsSeo\Form\Element\SnippetPreview;
 use Clickstorm\CsSeo\Form\Element\JsonLdElement;
 use Clickstorm\CsSeo\Hook\MetaTagGeneratorHook;
@@ -10,8 +12,8 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 defined('TYPO3') || die();
 
 (function () {
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['Clickstorm\\CsSeo\\Evaluation\\TCA\\RobotsDisallowAllEvaluator'] = '';
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['Clickstorm\\CsSeo\\Evaluation\\TCA\\RobotsExistsEvaluator'] = '';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals'][RobotsDisallowAllEvaluator::class] = '';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals'][RobotsExistsEvaluator::class] = '';
 
     // new field types
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1524490066] = [
@@ -33,7 +35,7 @@ defined('TYPO3') || die();
     ];
 
     // Register the class to be available in 'eval' of TCA
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['Clickstorm\\CsSeo\\Evaluation\\TCA\\JsonLdEvaluator'] = '';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals'][JsonLdEvaluator::class] = '';
 
     // generate and overwrite header data
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Frontend\Page\PageGenerator']['generateMetaTags'][] =

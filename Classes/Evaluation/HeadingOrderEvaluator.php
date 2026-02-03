@@ -2,7 +2,6 @@
 
 namespace Clickstorm\CsSeo\Evaluation;
 
-use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use DOMNode;
 
 class HeadingOrderEvaluator extends AbstractEvaluator

@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\Upgrades;
 
-use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Attribute\UpgradeWizard;
+use TYPO3\CMS\Core\Upgrades\UpgradeWizardInterface;
+use TYPO3\CMS\Core\Upgrades\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Install\Attribute\UpgradeWizard;
-use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
-use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 #[UpgradeWizard('csseo_metaDataImagesUpgradeWizard')]
-final class MetaDataImagesUpgradeWizard implements UpgradeWizardInterface
+final readonly class MetaDataImagesUpgradeWizard implements UpgradeWizardInterface
 {
     private const TABLE_SYS_FILE_REFERENCE = 'sys_file_reference';
     private const TABLE_META_DATA = 'tx_csseo_domain_model_meta';
@@ -25,6 +23,9 @@ final class MetaDataImagesUpgradeWizard implements UpgradeWizardInterface
         'tx_csseo_og_image' => 'og_image',
         'tx_csseo_tw_image' => 'tw_image'
     ];
+    public function __construct(private ConnectionPool $connectionPool)
+    {
+    }
 
     /**
      * Return the speaking name of this wizard
@@ -53,7 +54,7 @@ final class MetaDataImagesUpgradeWizard implements UpgradeWizardInterface
     public function executeUpdate(): bool
     {
         foreach (self::OLD_FIELD_NAME_TO_NEW_MAP as $oldFieldValue => $newFieldValue) {
-            $query = self::getQueryBuilderForSysFileReference();
+            $query = $this->getQueryBuilderForSysFileReference();
             $query
                 ->update(self::TABLE_SYS_FILE_REFERENCE)
                 ->set(
@@ -78,7 +79,7 @@ final class MetaDataImagesUpgradeWizard implements UpgradeWizardInterface
      */
     public function updateNecessary(): bool
     {
-        $query = self::getQueryBuilderForSysFileReference();
+        $query = $this->getQueryBuilderForSysFileReference();
         return (bool)$query
             ->count(self::FIELD_UID)
             ->from(self::TABLE_SYS_FILE_REFERENCE)
@@ -102,9 +103,9 @@ final class MetaDataImagesUpgradeWizard implements UpgradeWizardInterface
         ];
     }
 
-    private static function getQueryBuilderForSysFileReference(): QueryBuilder
+    private function getQueryBuilderForSysFileReference(): QueryBuilder
     {
-        $query = GeneralUtility::makeInstance(ConnectionPool::class)
+        $query = $this->connectionPool
             ->getQueryBuilderForTable(self::TABLE_SYS_FILE_REFERENCE);
         $query->getRestrictions()->removeAll();
         return $query;

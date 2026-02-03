@@ -7,21 +7,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class FileModuleOptions
 {
-    protected int $storageUid = 0;
-
-    protected string $identifier = '';
-
-    protected bool $includeSubfolders = true;
-
-    protected bool $onlyReferenced = true;
     protected array $excludedImageExtensions = [];
 
-    public function __construct(int $storageUid, string $identifier, bool $includeSubfolders, bool $onlyReferenced)
+    public function __construct(protected int $storageUid, protected string $identifier, protected bool $includeSubfolders, protected bool $onlyReferenced)
     {
-        $this->storageUid = $storageUid;
-        $this->identifier = $identifier;
-        $this->includeSubfolders = $includeSubfolders;
-        $this->onlyReferenced = $onlyReferenced;
         $this->excludedImageExtensions =
             GeneralUtility::trimExplode(',', ConfigurationUtility::getEmConfiguration()['excludeFileExtensions'] ?? '');
     }

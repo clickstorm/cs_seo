@@ -2,17 +2,16 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
+use TYPO3\CMS\Core\Resource\FileType;
 use Clickstorm\CsSeo\Domain\Model\Dto\FileModuleOptions;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
-use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /***************************************************************
@@ -62,7 +61,7 @@ class DatabaseUtility
             ->select('*')
             ->from($table);
 
-        if ($pid) {
+        if ($pid !== 0) {
             $queryBuilder->where($queryBuilder->expr()->eq(
                 'pid',
                 $queryBuilder->createNamedParameter($pid, Connection::PARAM_INT)
@@ -181,7 +180,7 @@ class DatabaseUtility
             ->where(
                 $queryBuilder->expr()->eq(
                     'file.type',
-                    $queryBuilder->createNamedParameter(File::FILETYPE_IMAGE, Connection::PARAM_INT)
+                    $queryBuilder->createNamedParameter(FileType::IMAGE->value, Connection::PARAM_INT)
                 ),
                 $queryBuilder->expr()->eq(
                     'file.storage',
@@ -199,7 +198,7 @@ class DatabaseUtility
                 )
             );
 
-        if (!empty($fileModuleOptions->getExcludedImageExtensions())) {
+        if ($fileModuleOptions->getExcludedImageExtensions() !== []) {
             $queryBuilder->andWhere(
                 $queryBuilder->expr()->notIn(
                     'file.extension',
@@ -284,6 +283,6 @@ class DatabaseUtility
             ))->executeQuery()
             ->fetchAssociative();
 
-        return !$result ? null : $result;
+        return $result ?: null;
     }
 }

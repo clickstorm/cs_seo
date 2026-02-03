@@ -33,7 +33,7 @@ abstract class AbstractJsonLdTestCase extends AbstractFrontendTestCase
 
         $content = (string)$response->getBody();
 
-        if ($expectedJsonLd) {
+        if ($expectedJsonLd !== '' && $expectedJsonLd !== '0') {
             self::assertStringContainsString(self::STRING_IN_JSON_LD_TEST, $content);
             self::assertStringContainsString('<script type="application/ld+json">' . $expectedJsonLd . '</script>', $content);
         } else {
@@ -43,8 +43,6 @@ abstract class AbstractJsonLdTestCase extends AbstractFrontendTestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->importDataSets([
             'pages-json-ld',
             'sys_category',

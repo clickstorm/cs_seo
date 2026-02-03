@@ -14,7 +14,7 @@ class JsonLdEvaluator extends AbstractEvaluator
      */
     public function evaluateFieldValue(string $value, string $is_in, bool &$set): string
     {
-        if (self::$alreadyValidated || empty($value)) {
+        if (self::$alreadyValidated || ($value === '' || $value === '0')) {
             return $value;
         }
 
@@ -32,7 +32,7 @@ class JsonLdEvaluator extends AbstractEvaluator
 
             $invalidComment = LocalizationUtility::translate(
                 'error.invalid_json_comment',
-                'cs_seo'
+                'CsSeo'
             ) ?? '/* INVALID JSON */';
 
             return $invalidComment . "\n" . $value;

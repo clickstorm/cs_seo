@@ -4,7 +4,6 @@ namespace Clickstorm\CsSeo\Controller;
 
 use Clickstorm\CsSeo\Service\FrontendConfigurationService;
 use Clickstorm\CsSeo\Utility\LanguageUtility;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Clickstorm\CsSeo\Service\Backend\GridService;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
@@ -25,7 +24,7 @@ class ModuleWebController extends AbstractModuleController
 
     protected ?EvaluationService $evaluationService = null;
 
-    protected ?GridService $gridService;
+    protected ?GridService $gridService = null;
 
     public static array $menuActions = [
         'pageMeta',
@@ -140,7 +139,7 @@ class ModuleWebController extends AbstractModuleController
         $evaluationUid = 0;
         $extKey = 'cs_seo';
         $tables = [
-            'pages' => LocalizationUtility::translate($GLOBALS['TCA']['pages']['ctrl']['title'], $extKey),
+            'pages' => LocalizationUtility::translate($GLOBALS['TCA']['pages']['ctrl']['title'], 'CsSeo'),
         ];
 
         $tablesToExtend = ConfigurationUtility::getTablesToExtend();
@@ -149,8 +148,8 @@ class ModuleWebController extends AbstractModuleController
             if (!empty($tableConfig['evaluation']) && !empty($tableConfig['evaluation']['detailPid'])) {
                 $tableTitle = $GLOBALS['TCA'][$tableName]['ctrl']['title'] ?: $tableName;
 
-                if (\str_starts_with($tableTitle, 'LLL:')) {
-                    $tableTitle = LocalizationUtility::translate($tableTitle, $extKey);
+                if (\str_starts_with((string) $tableTitle, 'LLL:')) {
+                    $tableTitle = LocalizationUtility::translate($tableTitle, 'CsSeo');
                 }
 
                 $tables[$tableName] = $tableTitle;
@@ -285,7 +284,7 @@ class ModuleWebController extends AbstractModuleController
         $dataHandler->datamap = $data;
         $dataHandler->process_datamap();
         $response = new HtmlResponse('');
-        if (!empty($dataHandler->errorLog)) {
+        if ($dataHandler->errorLog !== []) {
             $response->getBody()->write('Error: ' . implode(',', $dataHandler->errorLog));
         }
 

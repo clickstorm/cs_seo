@@ -31,7 +31,7 @@ abstract class AbstractCanonicalTestCase extends AbstractFrontendTestCase
 
         $content = (string)$response->getBody();
 
-        if ($expectedCanonicalUrl) {
+        if ($expectedCanonicalUrl !== '' && $expectedCanonicalUrl !== '0') {
             self::assertStringContainsString($expectedCanonicalUrl, $content);
         } else {
             self::assertStringNotContainsString('<link rel="canonical"', $content);
@@ -40,8 +40,6 @@ abstract class AbstractCanonicalTestCase extends AbstractFrontendTestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->importDataSets([
             'pages-canonical',
             'sys_category',

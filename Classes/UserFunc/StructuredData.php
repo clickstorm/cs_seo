@@ -43,6 +43,9 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class StructuredData
 {
+    public function __construct(private readonly Context $context)
+    {
+    }
     /**
      * return the content of field tx_csseo_json_ld from pages or field json_ld from record
      */
@@ -63,7 +66,7 @@ class StructuredData
         }
 
         // Try to decode the JSON string to ensure it's valid
-        $tempJson = json_decode($jsonLd, true);
+        $tempJson = json_decode((string) $jsonLd, true);
 
         // Check if decoding was successful
         if (json_last_error() === JSON_ERROR_NONE) {
@@ -121,7 +124,7 @@ class StructuredData
     public function getBreadcrumb(string $conf, array $content): string
     {
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
-        $languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+        $languageAspect = $this->context->getAspect('language');
 
         /** @var TypoScriptFrontendController[] $GLOBALS */
         // @extensionScannerIgnoreLine
@@ -130,9 +133,7 @@ class StructuredData
         $rootline = GeneralUtility::makeInstance(RootlineUtility::class, $id)->get();
 
         // remove DOKTYPE_SYSFOLDER from rootline
-        $rootline = array_values(array_filter($rootline, function ($item) {
-            return $item['doktype'] !== PageRepository::DOKTYPE_SYSFOLDER;
-        }));
+        $rootline = array_values(array_filter($rootline, fn($item) => $item['doktype'] !== PageRepository::DOKTYPE_SYSFOLDER));
 
         // prevent output of empty rootline
         if (count($rootline) < 2) {

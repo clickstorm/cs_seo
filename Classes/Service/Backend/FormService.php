@@ -25,6 +25,9 @@ class FormService
     public string $viewId_addParams = '';
     public ?array $overrideVals = [];
     public ?array $defVals = [];
+    public function __construct(private readonly FlashMessageService $flashMessageService)
+    {
+    }
 
     /**
      * Render an editform for specific table, see
@@ -62,7 +65,7 @@ class FormService
             if (isset($this->overrideVals[$table]) && is_array($this->overrideVals[$table])) {
                 $formDataCompilerInput['overrideValues'] = $this->overrideVals[$table];
             }
-            if (!empty($this->defVals) && is_array($this->defVals)) {
+            if ($this->defVals !== null && $this->defVals !== [] && is_array($this->defVals)) {
                 $formDataCompilerInput['defaultValues'] = $this->defVals;
             }
 
@@ -89,7 +92,7 @@ class FormService
                     '',
                     ContextualFeedbackSeverity::WARNING
                 );
-                $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+                $flashMessageService = $this->flashMessageService;
                 $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
                 $defaultFlashMessageQueue->enqueue($flashMessage);
             }

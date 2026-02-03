@@ -12,7 +12,7 @@ class KeywordEvaluator extends AbstractEvaluator
 
         $state = self::STATE_RED;
 
-        if (empty($this->keyword)) {
+        if ($this->keyword === '' || $this->keyword === '0') {
             $results['notSet'] = 1;
         } else {
             $contains = ['title' => 0, 'description' => 0, 'body' => 0];

@@ -14,7 +14,6 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Core\View\ViewInterface;
@@ -44,6 +43,8 @@ class ModifyPageLayoutContentEventListener
     public function __construct(
         private readonly ViewFactoryInterface $viewFactory,
         private readonly PageRenderer         $pageRenderer,
+        private readonly ConfigurationManagerInterface $configurationManagerInterface,
+        private readonly ConnectionPool $connectionPool,
     ) {
     }
 
@@ -95,7 +96,7 @@ class ModifyPageLayoutContentEventListener
     {
         // load partial paths info from TypoScript
         /** @var ConfigurationManagerInterface $configurationManager */
-        $configurationManager = GeneralUtility::makeInstance(ConfigurationManagerInterface::class);
+        $configurationManager = $this->configurationManagerInterface;
         $tsSetup =
             $configurationManager->getConfiguration(
                 ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
@@ -133,7 +134,7 @@ class ModifyPageLayoutContentEventListener
         $this->pageInfo = BackendUtility::readPageAccess($this->currentPageUid, GlobalsUtility::getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW));
         $this->currentSysLanguageUid = (int)$this->moduleData->get('language');
 
-        if ($this->currentSysLanguageUid) {
+        if ($this->currentSysLanguageUid !== 0) {
             $localizedPageInfo = BackendUtility::getRecordLocalization(
                 'pages',
                 $this->currentPageUid,
@@ -197,7 +198,7 @@ class ModifyPageLayoutContentEventListener
     protected function getResultsOfPage(int $pageUid): array
     {
         /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_csseo_domain_model_evaluation');
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tx_csseo_domain_model_evaluation');
         $results = [];
         $tableName = 'pages';
 

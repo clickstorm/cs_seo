@@ -2,20 +2,17 @@
 
 namespace Clickstorm\CsSeo\Service;
 
-use Clickstorm\CsSeo\Utility\GlobalsUtility;
+use GuzzleHttp\Exception\RequestException;
 use Clickstorm\CsSeo\Utility\LanguageUtility;
 use TYPO3\CMS\Backend\Routing\PreviewUriBuilder;
 use Clickstorm\CsSeo\Event\ModifyEvaluationPidEvent;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Exception;
-use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Routing\UnableToLinkToPageException;
-use TYPO3\CMS\Core\Site\Entity\Site;
-use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -27,12 +24,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class FrontendPageService
 {
     protected int $lang = 0;
-
-    protected ?EventDispatcherInterface $eventDispatcher = null;
-
-    public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void
+    public function __construct(private readonly FlashMessageService $flashMessageService, protected ?EventDispatcherInterface $eventDispatcher)
     {
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -97,7 +90,7 @@ class FrontendPageService
 
         // fetch url
         try {
-            $response = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Http\RequestFactory::class)->request(
+            $response = GeneralUtility::makeInstance(RequestFactory::class)->request(
                 $result['url'],
                 'GET',
                 [
@@ -109,7 +102,7 @@ class FrontendPageService
             if ($response->getStatusCode() === 200) {
                 $result['content'] = (string)$response->getBody();
             }
-        } catch (\GuzzleHttp\Exception\RequestException $e) {
+        } catch (RequestException $e) {
             $flashMessage = GeneralUtility::makeInstance(
                 FlashMessage::class,
                 htmlspecialchars($e->getMessage()),
@@ -117,7 +110,7 @@ class FrontendPageService
                 ContextualFeedbackSeverity::ERROR
             );
 
-            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+            $flashMessageService = $this->flashMessageService;
             $flashMessageQueue = $flashMessageService->getMessageQueueByIdentifier('tx_csseo');
             $flashMessageQueue->enqueue($flashMessage);
         }

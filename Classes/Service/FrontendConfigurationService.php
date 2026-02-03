@@ -2,10 +2,9 @@
 
 namespace Clickstorm\CsSeo\Service;
 
+use TYPO3\CMS\Core\Exception;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
-use In2code\Powermail\Utility\BackendUtility;
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Context\TypoScriptAspect;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -25,8 +24,6 @@ class FrontendConfigurationService
 
     protected int $parentUid = 0;
 
-    protected int $typeNum = 0;
-
     protected int $lang = 0;
 
     protected array $config = [];
@@ -34,9 +31,9 @@ class FrontendConfigurationService
     protected ?ContentObjectRenderer $cObj = null;
 
     /**
-     * @throws \TYPO3\CMS\Core\Exception
+     * @throws Exception
      */
-    public function __construct(int $pageUid = 0, int $lang = 0, int $typeNum = 654)
+    public function __construct(int $pageUid = 0, int $lang = 0, protected int $typeNum = 654)
     {
         if ($pageUid === 0) {
             $pageUid = GlobalsUtility::getPageId();
@@ -50,8 +47,6 @@ class FrontendConfigurationService
         if ($this->lang < 0) {
             $this->lang = 0;
         }
-
-        $this->typeNum = $typeNum;
 
         $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         $fullTS = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
@@ -109,7 +104,7 @@ class FrontendConfigurationService
                 }
             } catch (\InvalidArgumentException) {
             }
-        } catch (SiteNotFoundException $exception) {
+        } catch (SiteNotFoundException) {
         }
 
         return $siteTitle;

@@ -11,10 +11,9 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  */
 class EvaluationController extends ActionController
 {
-    /**
-     * @var EvaluationRepository
-     */
-    protected ?EvaluationRepository $evaluationRepository = null;
+    public function __construct(protected ?EvaluationRepository $evaluationRepository)
+    {
+    }
 
     public function showAction($uidForeign, $tableName = 'pages'): ResponseInterface
     {
@@ -23,10 +22,5 @@ class EvaluationController extends ActionController
         $this->view->assign('results', $evaluation);
 
         return $this->htmlResponse($this->view->render());
-    }
-
-    public function injectEvaluationRepository(EvaluationRepository $evaluationRepository): void
-    {
-        $this->evaluationRepository = $evaluationRepository;
     }
 }

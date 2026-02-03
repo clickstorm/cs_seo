@@ -1,8 +1,6 @@
 <?php
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Resource\File;
 
 $extConf = ConfigurationUtility::getEmConfiguration();
 
@@ -72,18 +70,18 @@ return [
 							    --div--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tab.social,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_facebook;facebook,
 							    --palette--;LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.palette.tx_csseo_twitter;twitter,
-							    --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.metadata,
+							    --div--;core.form.tabs:metadata,
 							    json_ld,
-							    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,
+							    --div--;core.form.tabs:language,
 							    --palette--;;language,
-							    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+							    --div--;core.form.tabs:access,
 							    hidden,--palette--;;access',
         ],
     ],
     'palettes' => [
         'access' => [
-            'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:starttime_formlabel,
-                            endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:endtime_formlabel',
+            'showitem' => 'starttime;core.db.general:starttime,
+                            endtime;core.db.general:endtime',
         ],
 
         'preview' => [
@@ -279,18 +277,6 @@ return [
                 ],
                 // Use the imageoverlayPalette instead of the basicoverlayPalette
                 'overrideChildTca' => [
-                    'types' => [
-                        '0' => [
-                            'showitem' => '
-                                --palette--;;imageoverlayPalette,
-                                --palette--;;filePalette',
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                            'showitem' => '
-                                --palette--;;imageoverlayPalette,
-                                --palette--;;filePalette',
-                        ],
-                    ],
                     'columns' => [
                         'crop' => $openGraphCropConfiguration,
                     ],
@@ -331,18 +317,6 @@ return [
                 ],
                 // Use the imageoverlayPalette instead of the basicoverlayPalette
                 'overrideChildTca' => [
-                    'types' => [
-                        '0' => [
-                            'showitem' => '
-                                --palette--;;imageoverlayPalette,
-                                --palette--;;filePalette',
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                            'showitem' => '
-                                --palette--;;imageoverlayPalette,
-                                --palette--;;filePalette',
-                        ],
-                    ],
                     'columns' => [
                         'crop' => $openGraphCropConfiguration,
                     ],

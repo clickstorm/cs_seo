@@ -9,14 +9,6 @@ namespace Clickstorm\CsSeo\Event;
  */
 final class ModifyEvaluationPidEvent
 {
-    private int $pid = 0;
-
-    private string $params = '';
-
-    private string $tableName = '';
-
-    private array $pageInfo = [];
-
     /**
      * ModifyEvaluationPidEvent constructor.
      * @param int $pid page id to call and modify
@@ -24,12 +16,8 @@ final class ModifyEvaluationPidEvent
      * @param string $tableName the current table name to evaluate
      * @param array $pageInfo array with current page properties
      */
-    public function __construct(int $pid, string $params, string $tableName, array $pageInfo)
+    public function __construct(private int $pid, private readonly string $params, private readonly string $tableName, private readonly array $pageInfo)
     {
-        $this->pid = $pid;
-        $this->params = $params;
-        $this->tableName = $tableName;
-        $this->pageInfo = $pageInfo;
     }
     public function getPid(): int
     {

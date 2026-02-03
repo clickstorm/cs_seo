@@ -23,12 +23,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class EvaluationService
 {
     protected array $evaluators = [];
-
-    protected ?EvaluationRepository $evaluationRepository = null;
-
-    public function injectEvaluationRepository(EvaluationRepository $evaluationRepository): void
+    public function __construct(protected ?EvaluationRepository $evaluationRepository)
     {
-        $this->evaluationRepository = $evaluationRepository;
     }
 
     public function getEvaluators(): array
@@ -57,9 +53,7 @@ class EvaluationService
 
         uasort(
             $results,
-            function ($a, $b) {
-                return $a['state'] - $b['state'];
-            }
+            fn($a, $b) => $a['state'] - $b['state']
         );
 
         $results['Percentage'] = $this->getFinalPercentage($results);
@@ -137,7 +131,7 @@ class EvaluationService
     {
         $results = [];
         $evaluation = $this->getEvaluation($record, $table);
-        if ($evaluation) {
+        if ($evaluation instanceof Evaluation) {
             $results = $evaluation->getResultsAsArray();
         }
 

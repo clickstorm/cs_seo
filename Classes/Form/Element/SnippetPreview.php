@@ -5,19 +5,13 @@ namespace Clickstorm\CsSeo\Form\Element;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
-use TYPO3\CMS\Core\Cache\CacheManager;
-use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Localization\LanguageService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Service\FrontendConfigurationService;
 use TYPO3\CMS\Backend\Form\Element\InputTextElement;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
-use TYPO3\CMS\Core\Localization\Locale;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
@@ -25,7 +19,6 @@ use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Google Search Results Preview
@@ -41,17 +34,18 @@ class SnippetPreview extends AbstractFormElement
         'charsOver',
     ];
 
-    protected ?PageRenderer $pageRenderer = null;
-
     public function __construct(
         private readonly ViewFactoryInterface $viewFactory,
         private readonly Context              $request,
+        protected ?PageRenderer $pageRenderer,
+        private readonly ConfigurationManager $configurationManager,
+        private readonly ConnectionPool $connectionPool,
     ) {
     }
 
     public function render(): array
     {
-        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $this->pageRenderer = $this->pageRenderer;
 
         // first get input element
         $inputField = GeneralUtility::makeInstance(InputTextElement::class);
@@ -110,7 +104,7 @@ class SnippetPreview extends AbstractFormElement
         );
         $wizardView = $this->viewFactory->create($viewFactoryData);
 
-        if (strpos($data['uid'], 'NEW') === false) {
+        if (!str_contains((string) $data['uid'], 'NEW')) {
             // set pageID for TSSetup check
             $pageUid = $data['pid'];
 
@@ -138,7 +132,7 @@ class SnippetPreview extends AbstractFormElement
 
             // check if TS page type exists
             /** @var BackendConfigurationManager $backendConfigurationManager */
-            $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
+            $configurationManager = $this->configurationManager;
             $fullTS = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
             if (isset($fullTS['pageCsSeo']) || GlobalsUtility::getBackendUser()->workspace > 0) {
@@ -173,7 +167,7 @@ class SnippetPreview extends AbstractFormElement
                         $fallback = $tableSettings['fallback'];
 
                         /** @var QueryBuilder $queryBuilder */
-                        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($data['tablenames']);
+                        $queryBuilder = $this->connectionPool->getQueryBuilderForTable($data['tablenames']);
 
                         $queryBuilder
                             ->getRestrictions()
@@ -194,13 +188,13 @@ class SnippetPreview extends AbstractFormElement
 
                             $value = '';
 
-                            if (preg_match_all('/{([^}]+)}/', $fallbackField, $matches)) {
+                            if (preg_match_all('/{([^}]+)}/', (string) $fallbackField, $matches)) {
                                 $value = $fallbackField;
                                 foreach ($matches[1] as $fieldName) {
                                     $value = str_replace('{' . $fieldName . '}', $row[$fieldName] ?? '', $value);
                                 }
-                            } elseif (str_contains($fallbackField, '//')) {
-                                $fields = array_map('trim', explode('//', $fallbackField));
+                            } elseif (str_contains((string) $fallbackField, '//')) {
+                                $fields = array_map(trim(...), explode('//', (string) $fallbackField));
                                 foreach ($fields as $fieldName) {
                                     if (!empty($row[$fieldName])) {
                                         $value = $row[$fieldName];
@@ -212,7 +206,7 @@ class SnippetPreview extends AbstractFormElement
                             }
 
                             // ✅ Remove any HTML tags and trim whitespace
-                            $data[$seoField] = trim(strip_tags($value));
+                            $data[$seoField] = trim(strip_tags((string) $value));
                         }
 
                         $fallback['uid'] = $data['uid_foreign'];
@@ -250,7 +244,7 @@ class SnippetPreview extends AbstractFormElement
         $labels = [];
         $languageCode = $this->getLanguageService()->getLocale()->getLanguageCode();
         $languageFile = 'locallang.xlf';
-        if ($languageCode) {
+        if ($languageCode !== '' && $languageCode !== '0') {
             $languageFile = $languageCode . '.locallang.xlf';
         }
         $labelPrefix = 'LLL:EXT:cs_seo/Resources/Private/Language/' . $languageFile . ':wizard.';
@@ -264,8 +258,8 @@ class SnippetPreview extends AbstractFormElement
 
     protected function getPageRenderer(): PageRenderer
     {
-        if ($this->pageRenderer === null) {
-            $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        if (!$this->pageRenderer instanceof PageRenderer) {
+            $this->pageRenderer = $this->pageRenderer;
         }
 
         return $this->pageRenderer;

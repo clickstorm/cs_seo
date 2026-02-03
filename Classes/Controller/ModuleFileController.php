@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
 use Clickstorm\CsSeo\Domain\Model\Dto\FileModuleOptions;
 use Clickstorm\CsSeo\Service\Backend\FormService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
@@ -54,6 +55,10 @@ class ModuleFileController extends AbstractModuleController
     protected string $identifier = '';
     protected int $offset = 0;
     protected int $numberOfImagesWithoutAlt = 0;
+    public function __construct(protected readonly \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer, protected readonly \TYPO3\CMS\Backend\Template\ModuleTemplateFactory $moduleTemplateFactory, private readonly ResourceFactory $resourceFactory, private readonly FlashMessageService $flashMessageService, private readonly IconFactory $iconFactory, private readonly UriBuilder $uriBuilder, private readonly ComponentFactory $componentFactory)
+    {
+        parent::__construct($pageRenderer, $moduleTemplateFactory);
+    }
 
     public function initializeAction(): void
     {
@@ -77,7 +82,7 @@ class ModuleFileController extends AbstractModuleController
             '@typo3/backend/info-window.js',
         ];
 
-        if ($this->storageUid) {
+        if ($this->storageUid !== 0) {
             $fileModuleOptions = new FileModuleOptions(
                 $this->storageUid,
                 $this->identifier,
@@ -175,17 +180,17 @@ class ModuleFileController extends AbstractModuleController
             }
 
             // update the breadcrumb
-            $breadCrumbItem = $this->image ? $this->image->getOriginalResource() : null;
+            $breadCrumbItem = $this->image instanceof File ? $this->image->getOriginalResource() : null;
 
-            if ($breadCrumbItem === null) {
+            if (!$breadCrumbItem instanceof \TYPO3\CMS\Core\Resource\File) {
                 /** @var ResourceFactory $resourceFactory */
-                $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+                $resourceFactory = $this->resourceFactory;
                 $breadCrumbItem = $resourceFactory->getFolderObjectFromCombinedIdentifier(
                     $fileModuleOptions->getStorageUid() . ':' . $fileModuleOptions->getIdentifier()
                 );
             }
 
-            $this->moduleTemplate->getDocHeaderComponent()->setMetaInformationForResource($breadCrumbItem);
+            $this->moduleTemplate->getDocHeaderComponent()->setResourceBreadcrumb($breadCrumbItem);
         }
 
         return $this->htmlResponse($this->wrapModuleTemplate());
@@ -204,7 +209,7 @@ class ModuleFileController extends AbstractModuleController
 
         if ($uid > 0 && $data) {
             /** @var ResourceFactory $resourceFactory */
-            $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+            $resourceFactory = $this->resourceFactory;
             $file = $resourceFactory->getFileObject($uid);
 
             if ($file->checkActionPermission('editMeta')) {
@@ -236,7 +241,7 @@ class ModuleFileController extends AbstractModuleController
                 );
             }
 
-            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+            $flashMessageService = $this->flashMessageService;
             $messageQueue = $flashMessageService->getMessageQueueByIdentifier(static::$mod_name);
             // @extensionScannerIgnoreLine
             $messageQueue->addMessage($message);
@@ -247,12 +252,12 @@ class ModuleFileController extends AbstractModuleController
 
     protected function addModuleButtons(ButtonBar $buttonBar): void
     {
-        $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-        if ($this->image) {
+        $iconFactory = $this->iconFactory;
+        if ($this->image instanceof File) {
             $actionName = preg_replace('/Action$/', '', $this->request->getControllerActionName());
 
             if ($this->image->getOriginalResource()->getProperties()['metadata_uid']) {
-                $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+                $uriBuilder = $this->uriBuilder;
                 $params = [
                     'edit' => [
                         'sys_file_metadata' => [
@@ -262,7 +267,7 @@ class ModuleFileController extends AbstractModuleController
                     'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
                 ];
 
-                $editButton = $buttonBar->makeLinkButton()
+                $editButton = $this->componentFactory->createLinkButton()
                     ->setHref((string)$uriBuilder->buildUriFromRoute('record_edit', $params))
                     ->setDataAttributes([
                         'togglelink' => '1',
@@ -274,7 +279,7 @@ class ModuleFileController extends AbstractModuleController
                 $buttonBar->addButton($editButton, ButtonBar::BUTTON_POSITION_LEFT, 1);
             }
 
-            $infoButton = $buttonBar->makeLinkButton()
+            $infoButton = $this->componentFactory->createLinkButton()
                 ->setHref('#')
                 ->setDataAttributes([
                     'dispatch-action' => 'TYPO3.InfoWindow.showItem',
@@ -284,7 +289,7 @@ class ModuleFileController extends AbstractModuleController
                 ->setIcon($iconFactory->getIcon('actions-info', IconSize::SMALL));
             $buttonBar->addButton($infoButton, ButtonBar::BUTTON_POSITION_LEFT, 2);
 
-            $viewButton = $buttonBar->makeLinkButton()
+            $viewButton = $this->componentFactory->createLinkButton()
                 ->setDataAttributes([
                     'dispatch-action' => 'TYPO3.WindowManager.localOpen',
                     'dispatch-args-list' => $this->image->getOriginalResource()->getPublicUrl(),
@@ -294,7 +299,7 @@ class ModuleFileController extends AbstractModuleController
                 ->setIcon($iconFactory->getIcon('actions-eye', IconSize::SMALL));
             $buttonBar->addButton($viewButton, ButtonBar::BUTTON_POSITION_LEFT, 3);
 
-            $prevButton = $buttonBar->makeLinkButton()
+            $prevButton = $this->componentFactory->createLinkButton()
                 ->setDisabled($this->offset <= 0)
                 ->setHref((string)$this->uriBuilder->uriFor($actionName, ['offset' => $this->offset - 1]))
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.prev'))
@@ -303,7 +308,7 @@ class ModuleFileController extends AbstractModuleController
             $buttonBar->addButton($prevButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
 
             $nextOffset = $this->offset + 1;
-            $nextButton = $buttonBar->makeLinkButton()
+            $nextButton = $this->componentFactory->createLinkButton()
                 ->setDisabled($nextOffset >= $this->numberOfImagesWithoutAlt)
                 ->setHref((string)$this->uriBuilder->uriFor($actionName, ['offset' => $nextOffset]))
                 ->setTitle(GlobalsUtility::getLanguageService()->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.btn.next'))
@@ -311,7 +316,7 @@ class ModuleFileController extends AbstractModuleController
 
             $buttonBar->addButton($nextButton, ButtonBar::BUTTON_POSITION_LEFT, 4);
 
-            $saveButton = $buttonBar->makeInputButton()
+            $saveButton = $this->componentFactory->createInputButton()
                 ->setForm('EditDocumentController')
                 ->setIcon($iconFactory->getIcon('actions-document-save', IconSize::SMALL))
                 ->setName('_save')
@@ -324,7 +329,7 @@ class ModuleFileController extends AbstractModuleController
             $buttonBar->addButton($saveButton, ButtonBar::BUTTON_POSITION_LEFT, 5);
         }
 
-        $onlyReferencedButton = $buttonBar->makeInputButton()
+        $onlyReferencedButton = $this->componentFactory->createInputButton()
             ->setForm('ModForm')
             ->setIcon($iconFactory->getIcon('actions-thumbtack', IconSize::SMALL))
             ->setName('onlyReferenced')
@@ -341,7 +346,7 @@ class ModuleFileController extends AbstractModuleController
 
         $buttonBar->addButton($onlyReferencedButton, ButtonBar::BUTTON_POSITION_RIGHT, 4);
 
-        $recursiveButton = $buttonBar->makeInputButton()
+        $recursiveButton = $this->componentFactory->createInputButton()
             ->setForm('ModForm')
             ->setIcon($iconFactory->getIcon('apps-pagetree-category-expand-all', IconSize::SMALL))
             ->setName('recursive')

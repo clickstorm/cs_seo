@@ -79,7 +79,7 @@ ExtensionManagementUtility::addTCAcolumns('pages', $tempColumns);
 
 // replace description
 $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem'] =
-    preg_replace('/description(.*,|.*$)/', '', $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem']);
+    preg_replace('/description(.*,|.*$)/', '', (string) $GLOBALS['TCA']['pages']['palettes']['metatags']['showitem']);
 
 ExtensionManagementUtility::addFieldsToPalette(
     'pages',

@@ -3,7 +3,6 @@
 namespace Clickstorm\CsSeo\Service;
 
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
-use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -14,6 +13,9 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class CanonicalService extends AbstractUrlService
 {
+    public function __construct(private readonly Context $context)
+    {
+    }
     public function getUrl(string $fallbackUrl = ''): string
     {
         $canonicalUrl = '';
@@ -23,7 +25,7 @@ class CanonicalService extends AbstractUrlService
 
         /** @var ContentObjectRenderer $cObj */
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $context = GeneralUtility::makeInstance(Context::class);
+        $context = $this->context;
         $typoLinkConf = GlobalsUtility::getTypoScriptSetup()['lib.']['currentUrl.']['typolink.'] ?? [];
 
         // check if the current page is a detail page of a record

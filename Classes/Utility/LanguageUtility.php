@@ -2,10 +2,7 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
-use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Site\Entity\Site;
-use TYPO3\CMS\Core\Site\SiteFinder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class LanguageUtility
 {

@@ -11,7 +11,6 @@ use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 abstract class AbstractUrlService
 {
@@ -125,7 +124,7 @@ abstract class AbstractUrlService
         }
 
         // if not already defined, get the site languages
-        if (empty($this->siteLanguages) && GlobalsUtility::getSite() instanceof Site) {
+        if ($this->siteLanguages === [] && GlobalsUtility::getSite() instanceof Site) {
             $this->siteLanguages =  GlobalsUtility::getSite()->getLanguages();
         }
 

@@ -3,7 +3,6 @@
 namespace Clickstorm\CsSeo\Tests\Unit\Evaluation;
 
 use Clickstorm\CsSeo\Evaluation\AbstractEvaluator;
-use Clickstorm\CsSeo\Evaluation\H1Evaluator;
 use Clickstorm\CsSeo\Evaluation\HeadingOrderEvaluator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;

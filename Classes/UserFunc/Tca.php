@@ -4,22 +4,24 @@ namespace Clickstorm\CsSeo\UserFunc;
 
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Site\SiteFinder;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * UserFunc to provide items
  */
-final class Tca
+final readonly class Tca
 {
+    public function __construct(private SiteFinder $siteFinder)
+    {
+    }
     public function getLanguagesForXDefaultOnSiteConfig(array &$configuration): void
     {
         if (isset($configuration['row']['uid'])) {
             $siteRootPageUid = (int)$configuration['row']['uid'];
 
             try {
-                $site = GeneralUtility::makeInstance(SiteFinder::class)
+                $site = $this->siteFinder
                     ->getSiteByRootPageId($siteRootPageUid);
-            } catch (SiteNotFoundException $exception) {
+            } catch (SiteNotFoundException) {
                 return;
             }
 

@@ -46,7 +46,7 @@ class RobotsExistsEvaluator extends AbstractEvaluator
      */
     public function evaluateFieldValue(string $value, string $is_in, bool &$set): string
     {
-        if (file_exists(Environment::getPublicPath() . '/robots.txt') && strlen($value) > 0) {
+        if (file_exists(Environment::getPublicPath() . '/robots.txt') && $value !== '') {
             $this->addFlashMessage(
                 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:evaluation.tca.robots_txt.robots_exists'
             );

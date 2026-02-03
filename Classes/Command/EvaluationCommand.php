@@ -36,17 +36,17 @@ class EvaluationCommand extends Command
 
     protected string $tableName = 'pages';
 
-    public function injectEvaluationRepository(EvaluationRepository $evaluationRepository)
+    public function injectEvaluationRepository(EvaluationRepository $evaluationRepository): void
     {
         $this->evaluationRepository = $evaluationRepository;
     }
 
-    public function injectFrontendPageService(FrontendPageService $frontendPageService)
+    public function injectFrontendPageService(FrontendPageService $frontendPageService): void
     {
         $this->frontendPageService = $frontendPageService;
     }
 
-    public function injectPersistenceManager(PersistenceManager $persistenceManager)
+    public function injectPersistenceManager(PersistenceManager $persistenceManager): void
     {
         $this->persistenceManager = $persistenceManager;
     }

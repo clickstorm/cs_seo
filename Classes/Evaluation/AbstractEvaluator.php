@@ -8,15 +8,12 @@ abstract class AbstractEvaluator implements EvaluationInterface
     public const STATE_YELLOW = 1;
     public const STATE_RED = 0;
 
-    protected ?\DOMDocument $domDocument = null;
-
     protected string $keyword = '';
 
     protected string $bodyContent = '';
 
-    public function __construct(\DOMDocument $domDocument, string $keyword = '')
+    public function __construct(protected ?\DOMDocument $domDocument, string $keyword = '')
     {
-        $this->domDocument = $domDocument;
         $this->setKeyword($keyword);
     }
 
@@ -25,7 +22,7 @@ abstract class AbstractEvaluator implements EvaluationInterface
         return $this->domDocument;
     }
 
-    public function setDomDocument(\DOMDocument $domDocument)
+    public function setDomDocument(\DOMDocument $domDocument): void
     {
         $this->domDocument = $domDocument;
     }
@@ -35,7 +32,7 @@ abstract class AbstractEvaluator implements EvaluationInterface
         return $this->keyword;
     }
 
-    public function setKeyword(string $keyword)
+    public function setKeyword(string $keyword): void
     {
         $this->keyword = strtolower($keyword);
     }
@@ -48,7 +45,7 @@ abstract class AbstractEvaluator implements EvaluationInterface
     protected function getSingleDomElementContentByTagName(string $tagName): string
     {
         $elements = $this->domDocument->getElementsByTagName($tagName);
-        if ($elements->item(0) !== null) {
+        if ($elements->item(0) instanceof \DOMElement) {
             return $elements->item(0)->textContent;
         }
         return '';

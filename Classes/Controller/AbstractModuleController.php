@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
+use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
@@ -52,6 +53,7 @@ abstract class AbstractModuleController extends ActionController
     public function __construct(
         protected readonly PageRenderer          $pageRenderer,
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
+        private readonly ComponentFactory $componentFactory,
     ) {
     }
 
@@ -67,7 +69,7 @@ abstract class AbstractModuleController extends ActionController
         // initialize settings of the module
         $this->initializeModParams();
 
-        if (empty($this->recordId)) {
+        if ($this->recordId === 0) {
             $this->recordId = (int)$this->modParams['id'];
         }
 
@@ -120,7 +122,7 @@ abstract class AbstractModuleController extends ActionController
      */
     protected function getDataHandler(): DataHandler
     {
-        if (!(property_exists($this, 'dataHandler') && $this->dataHandler !== null)) {
+        if (!(property_exists($this, 'dataHandler') && $this->dataHandler instanceof DataHandler)) {
             $this->dataHandler = GeneralUtility::makeInstance(DataHandler::class);
             $this->dataHandler->start([], []);
         }
@@ -152,7 +154,7 @@ abstract class AbstractModuleController extends ActionController
         // Shortcut in doc header
         $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
 
-        $shortcutButton = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar()->makeShortcutButton();
+        $shortcutButton = $this->componentFactory->createShortcutButton();
         $type = $shortcutButton->getType();
         $shortcutButton->setRouteIdentifier(static::$mod_name)
             ->setDisplayName(GlobalsUtility::getLanguageService()->sL(
@@ -175,15 +177,15 @@ abstract class AbstractModuleController extends ActionController
         }
 
         if ($metaInfo) {
-            $this->moduleTemplate->getDocHeaderComponent()->setMetaInformation($metaInfo);
+            $this->moduleTemplate->getDocHeaderComponent()->setPageBreadcrumb($metaInfo);
         }
 
         if (count(static::$menuActions) > 1) {
             // Main drop down in doc header
-            $menu = $this->moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->makeMenu();
+            $menu = $this->componentFactory->createMenu();
             $menu->setIdentifier('action');
             foreach (static::$menuActions as $menuKey) {
-                $menuItem = $menu->makeMenuItem();
+                $menuItem = $this->componentFactory->createMenuItem();
                 /** @var UriBuilder $uriBuilder */
                 $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                 $menuItem->setHref((string)$uriBuilder->buildUriFromRoute(

@@ -2,6 +2,7 @@
 
 namespace Clickstorm\CsSeo\Service\Backend;
 
+use TYPO3\CMS\Core\Resource\File;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
@@ -29,20 +30,9 @@ class GridService
 
     protected array $imageFieldNames = ['og_image', 'twitter_image', 'tw_image'];
 
-    protected ?PageRepository $pageRepository = null;
-
-    protected ?EvaluationService $evaluationService = null;
-
     protected array $extConf = [];
-
-    public function injectPageRepository(PageRepository $pageRepository): void
+    public function __construct(private readonly Context $context, protected ?PageRepository $pageRepository, protected ?EvaluationService $evaluationService)
     {
-        $this->pageRepository = $pageRepository;
-    }
-
-    public function injectEvaluationService(EvaluationService $evaluationService): void
-    {
-        $this->evaluationService = $evaluationService;
     }
 
     public function setShowResults(bool $showResults): void
@@ -91,7 +81,7 @@ class GridService
      */
     public function processFields(): array
     {
-        $context = GeneralUtility::makeInstance(Context::class);
+        $context = $this->context;
         $this->extConf = ConfigurationUtility::getEmConfiguration();
 
         // build the rows
@@ -227,10 +217,8 @@ class GridService
         $depth--;
 
         // add the current language value
-        if ($this->modParams['lang'] > 0) {
-            if (!empty($page['_LOCALIZED_UID'])) {
-                $uid = $page['_LOCALIZED_UID'];
-            }
+        if ($this->modParams['lang'] > 0 && !empty($page['_LOCALIZED_UID'])) {
+            $uid = $page['_LOCALIZED_UID'];
         }
 
         $page['sys_language_uid'] = $this->languages[$page['sys_language_uid']];
@@ -241,7 +229,7 @@ class GridService
                 $image = '';
                 if ($page[$imageFieldName]) {
                     $imageFile = DatabaseUtility::getFile($table, $imageFieldName, $uid);
-                    if ($imageFile !== null) {
+                    if ($imageFile instanceof File) {
                         $image = $imageFile->getPublicUrl();
                     }
                 }

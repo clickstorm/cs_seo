@@ -38,7 +38,7 @@ class GlobalsUtility
             try {
                 $site = GeneralUtility::makeInstance(SiteFinder::class)
                     ->getSiteByPageId($pageId);
-            } catch (SiteNotFoundException $exception) {
+            } catch (SiteNotFoundException) {
                 return null;
             }
         }

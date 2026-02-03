@@ -18,7 +18,7 @@ class MetaTagGeneratorHook
 
     public const DEFAULT_IMAGE_WIDTH = 1200;
 
-    public function __construct()
+    public function __construct(private readonly MetaTagManagerRegistry $metaTagManagerRegistry)
     {
         $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
     }
@@ -37,7 +37,7 @@ class MetaTagGeneratorHook
 
     protected function renderContent(array $metaData): void
     {
-        $metaTagManagerRegistry = GeneralUtility::makeInstance(MetaTagManagerRegistry::class);
+        $metaTagManagerRegistry = $this->metaTagManagerRegistry;
         $pluginSettings = GlobalsUtility::getTypoScriptSetup()['plugin.']['tx_csseo.'] ?? [];
 
         $ogImageUrl = $this->getOgImage($metaData, $pluginSettings);
@@ -46,7 +46,7 @@ class MetaTagGeneratorHook
         // Crop meta description if cropDescription is active
         $emConfiguration = ConfigurationUtility::getEmConfiguration();
         if (!empty($emConfiguration['cropDescription']) && !empty($metaData['description'])) {
-            $metaData['description'] = substr($metaData['description'], 0, $emConfiguration['maxDescription']) . '...';
+            $metaData['description'] = substr((string) $metaData['description'], 0, $emConfiguration['maxDescription']) . '...';
         }
 
         $generators = [
@@ -63,12 +63,12 @@ class MetaTagGeneratorHook
             'twitter:description' => ['value' => $metaData['tw_description'] ?? null],
             'twitter:image' => ['value' => $twImageUrl],
             'twitter:card' => ['value' => ($ogImageUrl || $twImageUrl) ? 'summary_large_image' : 'summary'],
-            'twitter:creator' => ['value' => !empty($metaData['tw_creator']) ? '@' . $metaData['tw_creator'] : ''],
-            'twitter:site' => ['value' => !empty($metaData['tw_site']) ? '@' . $metaData['tw_site'] : ''],
+            'twitter:creator' => ['value' => empty($metaData['tw_creator']) ? '' : '@' . $metaData['tw_creator']],
+            'twitter:site' => ['value' => empty($metaData['tw_site']) ? '' : '@' . $metaData['tw_site']],
         ];
 
-        $noIndex = !empty($metaData['no_index']) ? 'noindex' : 'index';
-        $noFollow = !empty($metaData['no_follow']) ? 'nofollow' : 'follow';
+        $noIndex = empty($metaData['no_index']) ? 'index' : 'noindex';
+        $noFollow = empty($metaData['no_follow']) ? 'follow' : 'nofollow';
 
         if ($noIndex === 'noindex' || $noFollow === 'nofollow') {
             $generators['robots'] = ['value' => implode(',', [$noIndex, $noFollow])];
@@ -166,7 +166,7 @@ class MetaTagGeneratorHook
 
     protected function escapeContent(string $content): string
     {
-        return preg_replace('/\s\s+/', ' ', preg_replace('#<[^>]+>#', ' ', $content));
+        return preg_replace('/\s\s+/', ' ', (string) preg_replace('#<[^>]+>#', ' ', $content));
     }
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void

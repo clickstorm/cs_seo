@@ -11,8 +11,6 @@ class HrefLangInvalidParamOffTest extends AbstractHrefLangTestCase
 {
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->importDataSets([
             'pages-hreflang',
         ]);

@@ -3,7 +3,6 @@
 namespace Clickstorm\CsSeo\EventListener;
 
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
-use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

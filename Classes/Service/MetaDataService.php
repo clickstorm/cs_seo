@@ -23,7 +23,7 @@ class MetaDataService
 
     protected ?LanguageAspect $languageAspect = null;
 
-    public function __construct()
+    public function __construct(private readonly ConnectionPool $connectionPool)
     {
         $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $context = clone GeneralUtility::makeInstance(Context::class);
@@ -43,7 +43,7 @@ class MetaDataService
 
         if ($tables !== []) {
             // get active table name und settings
-            $tableSettings = $this->getCurrentTableConfiguration($tables, $this->cObj);
+            $tableSettings = static::getCurrentTableConfiguration($tables, $this->cObj);
 
             if ($tableSettings) {
                 // get record
@@ -113,7 +113,7 @@ class MetaDataService
     protected function getRecord(array $tableSettings): ?array
     {
         /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($tableSettings['table']);
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable($tableSettings['table']);
 
         $row = $queryBuilder->select('*')
             ->from($tableSettings['table'])->where($queryBuilder->expr()->eq(
@@ -142,7 +142,7 @@ class MetaDataService
     protected function getMetaProperties(array $tableSettings): array
     {
         /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(self::TABLE_NAME_META);
+        $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_NAME_META);
 
         $res = $queryBuilder->select('*')
             ->from(self::TABLE_NAME_META)->where(

@@ -37,7 +37,7 @@ abstract class AbstractMetaTagTestCase extends AbstractFrontendTestCase
                 continue;
             }
 
-            $metaTagType = strpos($expectedMetaTag, 'og:') === 0 ? 'property' : 'name';
+            $metaTagType = str_starts_with((string) $expectedMetaTag, 'og:') ? 'property' : 'name';
 
             if ($value) {
                 if ($expectedMetaTag === 'og:image' || $expectedMetaTag === 'twitter:image') {
@@ -60,8 +60,6 @@ abstract class AbstractMetaTagTestCase extends AbstractFrontendTestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-
         $this->importDataSets([
             'pages-metatags',
             'sys_category',

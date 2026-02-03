@@ -46,7 +46,7 @@ foreach (ModuleWebController::$menuActions as $action) {
         'access' => 'user',
         'workspaces' => 'live',
         'iconIdentifier' => 'tx-cssseo-module-web',
-        'path' => '/module/web/cs-seo/' . strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $action)),
+        'path' => '/module/web/cs-seo/' . strtolower((string) preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', (string) $action)),
         'labels' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:layouts.module.action.' . $action,
         'extensionName' => 'CsSeo',
         'controllerActions' => [
