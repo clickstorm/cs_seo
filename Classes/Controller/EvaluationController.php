@@ -11,9 +11,7 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  */
 class EvaluationController extends ActionController
 {
-    public function __construct(protected ?EvaluationRepository $evaluationRepository)
-    {
-    }
+    public function __construct(protected ?EvaluationRepository $evaluationRepository) {}
 
     public function showAction($uidForeign, $tableName = 'pages'): ResponseInterface
     {

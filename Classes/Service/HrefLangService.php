@@ -2,11 +2,11 @@
 
 namespace Clickstorm\CsSeo\Service;
 
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Doctrine\DBAL\Exception;
-use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
-use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\Entity\SiteLanguage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -18,9 +18,7 @@ use TYPO3\CMS\Frontend\DataProcessing\LanguageMenuProcessor;
  */
 class HrefLangService extends AbstractUrlService
 {
-    public function __construct(private readonly Context $context)
-    {
-    }
+    public function __construct(private readonly Context $context) {}
     /**
      * @throws AspectNotFoundException
      * @throws Exception

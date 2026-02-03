@@ -25,8 +25,8 @@ namespace Clickstorm\CsSeo\Evaluation\TCA;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Exception;
 
 /**
  * Class RobotsEvaluator

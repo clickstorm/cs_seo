@@ -1,11 +1,11 @@
 <?php
 
+use Clickstorm\CsSeo\Evaluation\TCA\JsonLdEvaluator;
 use Clickstorm\CsSeo\Evaluation\TCA\RobotsDisallowAllEvaluator;
 use Clickstorm\CsSeo\Evaluation\TCA\RobotsExistsEvaluator;
-use Clickstorm\CsSeo\Evaluation\TCA\JsonLdEvaluator;
-use Clickstorm\CsSeo\Form\FieldWizard\CharCounterWizard;
-use Clickstorm\CsSeo\Form\Element\SnippetPreview;
 use Clickstorm\CsSeo\Form\Element\JsonLdElement;
+use Clickstorm\CsSeo\Form\Element\SnippetPreview;
+use Clickstorm\CsSeo\Form\FieldWizard\CharCounterWizard;
 use Clickstorm\CsSeo\Hook\MetaTagGeneratorHook;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 

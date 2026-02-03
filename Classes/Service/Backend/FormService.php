@@ -25,9 +25,7 @@ class FormService
     public string $viewId_addParams = '';
     public ?array $overrideVals = [];
     public ?array $defVals = [];
-    public function __construct(private readonly FlashMessageService $flashMessageService)
-    {
-    }
+    public function __construct(private readonly FlashMessageService $flashMessageService) {}
 
     /**
      * Render an editform for specific table, see
@@ -157,7 +155,7 @@ class FormService
         return '<div class="callout callout-danger">' .
             '<div class="media">' .
             '<div class="media-left">' .
-            '<span class="callout-icon">'.
+            '<span class="callout-icon">' .
             '<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 16 16"><g class="icon-color"><path d="M8 2c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6m0-1C4.1 1 1 4.1 1 8s3.1 7 7 7 7-3.1 7-7-3.1-7-7-7z"/><circle cx="8" cy="11" r="1"/><path d="M8.5 9h-1l-.445-4.45A.5.5 0 0 1 7.552 4h.896a.5.5 0 0 1 .497.55L8.5 9z"/></g></svg>' .
             '</span>' .
             '</div>' .

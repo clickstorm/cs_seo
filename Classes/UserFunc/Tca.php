@@ -10,9 +10,7 @@ use TYPO3\CMS\Core\Site\SiteFinder;
  */
 final readonly class Tca
 {
-    public function __construct(private SiteFinder $siteFinder)
-    {
-    }
+    public function __construct(private SiteFinder $siteFinder) {}
     public function getLanguagesForXDefaultOnSiteConfig(array &$configuration): void
     {
         if (isset($configuration['row']['uid'])) {

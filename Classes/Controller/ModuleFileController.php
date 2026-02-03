@@ -2,7 +2,6 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
-use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
 use Clickstorm\CsSeo\Domain\Model\Dto\FileModuleOptions;
 use Clickstorm\CsSeo\Service\Backend\FormService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
@@ -12,6 +11,7 @@ use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
+use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Http\AllowedMethodsTrait;
 use TYPO3\CMS\Core\Imaging\IconFactory;
@@ -123,7 +123,7 @@ class ModuleFileController extends AbstractModuleController
             $this->moduleTemplate->assignMultiple([
                 'numberOfAllImages' => $numberOfAllImages,
                 'identifier' => $this->identifier,
-                'modParams' => $this->modParams
+                'modParams' => $this->modParams,
             ]);
 
             $imageRow = DatabaseUtility::getImageWithEmptyAlt(
@@ -172,7 +172,7 @@ class ModuleFileController extends AbstractModuleController
                     $this->moduleTemplate->assignMultiple([
                         'offset' => $this->offset,
                         'editForm' => $editForm,
-                        'image' => $files[0]
+                        'image' => $files[0],
                     ]);
                 } else {
                     $this->moduleTemplate->assign('error', 'no_access');

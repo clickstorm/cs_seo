@@ -2,7 +2,6 @@
 
 namespace Clickstorm\CsSeo\Utility;
 
-use TYPO3\CMS\Core\Resource\FileType;
 use Clickstorm\CsSeo\Domain\Model\Dto\FileModuleOptions;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Exception;
@@ -11,6 +10,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Resource\FileType;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -133,9 +133,9 @@ class DatabaseUtility
      */
     public static function getImageWithEmptyAlt(
         FileModuleOptions $fileModuleOptions,
-        bool              $countAll = false,
-        bool              $includeImagesWithAlt = false,
-        int               $offset = 0
+        bool $countAll = false,
+        bool $includeImagesWithAlt = false,
+        int $offset = 0
     ): ?array {
         $tableName = 'sys_file';
         $joinTableName = 'sys_file_metadata';

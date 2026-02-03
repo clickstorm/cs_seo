@@ -20,7 +20,6 @@ final class FallbackResolverServiceTest extends TestCase
     /**
      * Table-driven test to verify string-based fallback resolution.
      * Covers: direct field, multi // chain, template with {}, keep existing, trim/strip_tags, unknown fields.
-     *
      */
     #[DataProvider('resolveDataProvider')]
     public function testResolveFallbacks(array $meta, array $fallbacks, array $record, array $table, array $expected): void

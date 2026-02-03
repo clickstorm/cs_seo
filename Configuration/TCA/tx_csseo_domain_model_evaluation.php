@@ -12,7 +12,7 @@ return [
         'delete' => 'deleted',
 
         'security' => [
-            'ignorePageTypeRestriction' => true
+            'ignorePageTypeRestriction' => true,
         ],
 
         'enablecolumns' => [

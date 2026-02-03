@@ -16,9 +16,7 @@ final class ModifyEvaluationPidEvent
      * @param string $tableName the current table name to evaluate
      * @param array $pageInfo array with current page properties
      */
-    public function __construct(private int $pid, private readonly string $params, private readonly string $tableName, private readonly array $pageInfo)
-    {
-    }
+    public function __construct(private int $pid, private readonly string $params, private readonly string $tableName, private readonly array $pageInfo) {}
     public function getPid(): int
     {
         return $this->pid;

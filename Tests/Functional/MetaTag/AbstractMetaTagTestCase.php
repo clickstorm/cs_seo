@@ -37,7 +37,7 @@ abstract class AbstractMetaTagTestCase extends AbstractFrontendTestCase
                 continue;
             }
 
-            $metaTagType = str_starts_with((string) $expectedMetaTag, 'og:') ? 'property' : 'name';
+            $metaTagType = str_starts_with((string)$expectedMetaTag, 'og:') ? 'property' : 'name';
 
             if ($value) {
                 if ($expectedMetaTag === 'og:image' || $expectedMetaTag === 'twitter:image') {
@@ -76,7 +76,7 @@ abstract class AbstractMetaTagTestCase extends AbstractFrontendTestCase
             'setup' => [
                 $this->tsIncludePath . 'Tests/Functional/Fixtures/TypoScript/page.typoscript',
                 $this->tsIncludePath . 'Configuration/TypoScript/setup.typoscript',
-            ]
+            ],
         ];
 
         $sitesNumbers = [1];

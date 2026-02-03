@@ -23,9 +23,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class EvaluationService
 {
     protected array $evaluators = [];
-    public function __construct(protected ?EvaluationRepository $evaluationRepository)
-    {
-    }
+    public function __construct(protected ?EvaluationRepository $evaluationRepository) {}
 
     public function getEvaluators(): array
     {

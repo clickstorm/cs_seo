@@ -2,7 +2,6 @@
 
 namespace Clickstorm\CsSeo\Service\Backend;
 
-use TYPO3\CMS\Core\Resource\File;
 use Clickstorm\CsSeo\Service\EvaluationService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
@@ -11,6 +10,7 @@ use Clickstorm\CsSeo\Utility\LanguageUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -31,9 +31,7 @@ class GridService
     protected array $imageFieldNames = ['og_image', 'twitter_image', 'tw_image'];
 
     protected array $extConf = [];
-    public function __construct(private readonly Context $context, protected ?PageRepository $pageRepository, protected ?EvaluationService $evaluationService)
-    {
-    }
+    public function __construct(private readonly Context $context, protected ?PageRepository $pageRepository, protected ?EvaluationService $evaluationService) {}
 
     public function setShowResults(bool $showResults): void
     {

@@ -2,14 +2,14 @@
 
 namespace Clickstorm\CsSeo\Form\Element;
 
+use Clickstorm\CsSeo\Service\FrontendConfigurationService;
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
+use TYPO3\CMS\Backend\Form\Element\InputTextElement;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Connection;
-use Clickstorm\CsSeo\Utility\ConfigurationUtility;
-use Clickstorm\CsSeo\Service\FrontendConfigurationService;
-use TYPO3\CMS\Backend\Form\Element\InputTextElement;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -36,12 +36,11 @@ class SnippetPreview extends AbstractFormElement
 
     public function __construct(
         private readonly ViewFactoryInterface $viewFactory,
-        private readonly Context              $request,
+        private readonly Context $request,
         protected ?PageRenderer $pageRenderer,
         private readonly ConfigurationManager $configurationManager,
         private readonly ConnectionPool $connectionPool,
-    ) {
-    }
+    ) {}
 
     public function render(): array
     {
@@ -104,7 +103,7 @@ class SnippetPreview extends AbstractFormElement
         );
         $wizardView = $this->viewFactory->create($viewFactoryData);
 
-        if (!str_contains((string) $data['uid'], 'NEW')) {
+        if (!str_contains((string)$data['uid'], 'NEW')) {
             // set pageID for TSSetup check
             $pageUid = $data['pid'];
 
@@ -188,13 +187,13 @@ class SnippetPreview extends AbstractFormElement
 
                             $value = '';
 
-                            if (preg_match_all('/{([^}]+)}/', (string) $fallbackField, $matches)) {
+                            if (preg_match_all('/{([^}]+)}/', (string)$fallbackField, $matches)) {
                                 $value = $fallbackField;
                                 foreach ($matches[1] as $fieldName) {
                                     $value = str_replace('{' . $fieldName . '}', $row[$fieldName] ?? '', $value);
                                 }
-                            } elseif (str_contains((string) $fallbackField, '//')) {
-                                $fields = array_map(trim(...), explode('//', (string) $fallbackField));
+                            } elseif (str_contains((string)$fallbackField, '//')) {
+                                $fields = array_map(trim(...), explode('//', (string)$fallbackField));
                                 foreach ($fields as $fieldName) {
                                     if (!empty($row[$fieldName])) {
                                         $value = $row[$fieldName];
@@ -206,7 +205,7 @@ class SnippetPreview extends AbstractFormElement
                             }
 
                             // ✅ Remove any HTML tags and trim whitespace
-                            $data[$seoField] = trim(strip_tags((string) $value));
+                            $data[$seoField] = trim(strip_tags((string)$value));
                         }
 
                         $fallback['uid'] = $data['uid_foreign'];

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Clickstorm\CsSeo\Upgrades;
 
 use TYPO3\CMS\Core\Attribute\UpgradeWizard;
-use TYPO3\CMS\Core\Upgrades\UpgradeWizardInterface;
-use TYPO3\CMS\Core\Upgrades\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\Core\Upgrades\DatabaseUpdatedPrerequisite;
+use TYPO3\CMS\Core\Upgrades\UpgradeWizardInterface;
 
 #[UpgradeWizard('csseo_metaDataImagesUpgradeWizard')]
 final readonly class MetaDataImagesUpgradeWizard implements UpgradeWizardInterface
@@ -21,11 +21,9 @@ final readonly class MetaDataImagesUpgradeWizard implements UpgradeWizardInterfa
     private const OLD_FIELD_PREFIX = 'tx_csseo_';
     private const OLD_FIELD_NAME_TO_NEW_MAP = [
         'tx_csseo_og_image' => 'og_image',
-        'tx_csseo_tw_image' => 'tw_image'
+        'tx_csseo_tw_image' => 'tw_image',
     ];
-    public function __construct(private ConnectionPool $connectionPool)
-    {
-    }
+    public function __construct(private ConnectionPool $connectionPool) {}
 
     /**
      * Return the speaking name of this wizard

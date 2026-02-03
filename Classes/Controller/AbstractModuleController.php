@@ -2,21 +2,21 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
-use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
-use TYPO3\CMS\Backend\Template\ModuleTemplate;
-use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
-use TYPO3\CMS\Extbase\Http\ForwardResponse;
-use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
+use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
+use TYPO3\CMS\Backend\Template\ModuleTemplate;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 
 /**
  * Class ModuleController
@@ -51,11 +51,10 @@ abstract class AbstractModuleController extends ActionController
     protected ?ModuleTemplate $moduleTemplate = null;
 
     public function __construct(
-        protected readonly PageRenderer          $pageRenderer,
+        protected readonly PageRenderer $pageRenderer,
         protected readonly ModuleTemplateFactory $moduleTemplateFactory,
         private readonly ComponentFactory $componentFactory,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws NoSuchArgumentException
@@ -236,7 +235,5 @@ abstract class AbstractModuleController extends ActionController
             ';
     }
 
-    protected function addModuleButtons(ButtonBar $buttonBar): void
-    {
-    }
+    protected function addModuleButtons(ButtonBar $buttonBar): void {}
 }

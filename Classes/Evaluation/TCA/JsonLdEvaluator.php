@@ -10,7 +10,6 @@ class JsonLdEvaluator extends AbstractEvaluator
 
     /**
      * Server-side validation/evaluation on saving the record
-     *
      */
     public function evaluateFieldValue(string $value, string $is_in, bool &$set): string
     {

@@ -45,14 +45,13 @@ abstract class AbstractFrontendTestCase extends FunctionalTestCase
     protected array $configurationToUseInTestInstance = [
         'FE' => [
             'cacheHash' => [
-                'enforceValidation' => false
-            ]
+                'enforceValidation' => false,
+            ],
         ],
     ];
 
     /**
      * copied and modified from testing framework, to force an URL
-
      */
     protected function getFrontendResponseFromUrl(string $url, bool $failOnFailure = true, int $frontendUserId = 0): ResponseInterface
     {

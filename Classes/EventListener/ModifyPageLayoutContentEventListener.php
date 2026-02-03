@@ -42,12 +42,10 @@ class ModifyPageLayoutContentEventListener
 
     public function __construct(
         private readonly ViewFactoryInterface $viewFactory,
-        private readonly PageRenderer         $pageRenderer,
+        private readonly PageRenderer $pageRenderer,
         private readonly ConfigurationManagerInterface $configurationManagerInterface,
         private readonly ConnectionPool $connectionPool,
-    ) {
-    }
-
+    ) {}
 
     public function __invoke(ModifyPageLayoutContentEvent $event): void
     {

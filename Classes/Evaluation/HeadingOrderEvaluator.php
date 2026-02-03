@@ -2,8 +2,6 @@
 
 namespace Clickstorm\CsSeo\Evaluation;
 
-use DOMNode;
-
 class HeadingOrderEvaluator extends AbstractEvaluator
 {
     protected array $headings = [];
@@ -15,15 +13,14 @@ class HeadingOrderEvaluator extends AbstractEvaluator
     {
         $this->checkNode($this->domDocument);
 
-
         return [
             'count' => $this->count,
             'state' => $this->state,
-            'headings' => $this->headings
+            'headings' => $this->headings,
         ];
     }
 
-    protected function checkNode(DOMNode $node): void
+    protected function checkNode(\DOMNode $node): void
     {
         // If the node is a heading, check its level
         if ($node->nodeName[0] === 'h' && strlen($node->nodeName) === 2 && is_numeric($node->nodeName[1])) {
@@ -48,7 +45,7 @@ class HeadingOrderEvaluator extends AbstractEvaluator
             $this->headings[] = [
                 'text' => $node->textContent,
                 'level' => $level,
-                'correctOrder' => $correctOrder
+                'correctOrder' => $correctOrder,
             ];
         }
 

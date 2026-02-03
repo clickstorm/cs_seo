@@ -155,7 +155,7 @@ class HeadingOrderEvaluatorTest extends UnitTestCase
                             'text' => 'h3',
                             'level' => 3,
                             'correctOrder' => false,
-                        ]
+                        ],
                     ],
                 ],
             ],

@@ -46,7 +46,7 @@ class MetaTagGeneratorHook
         // Crop meta description if cropDescription is active
         $emConfiguration = ConfigurationUtility::getEmConfiguration();
         if (!empty($emConfiguration['cropDescription']) && !empty($metaData['description'])) {
-            $metaData['description'] = substr((string) $metaData['description'], 0, $emConfiguration['maxDescription']) . '...';
+            $metaData['description'] = substr((string)$metaData['description'], 0, $emConfiguration['maxDescription']) . '...';
         }
 
         $generators = [
@@ -166,7 +166,7 @@ class MetaTagGeneratorHook
 
     protected function escapeContent(string $content): string
     {
-        return preg_replace('/\s\s+/', ' ', (string) preg_replace('#<[^>]+>#', ' ', $content));
+        return preg_replace('/\s\s+/', ' ', (string)preg_replace('#<[^>]+>#', ' ', $content));
     }
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void

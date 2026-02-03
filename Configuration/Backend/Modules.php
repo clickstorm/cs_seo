@@ -1,7 +1,7 @@
 <?php
 
-use Clickstorm\CsSeo\Controller\ModuleWebController;
 use Clickstorm\CsSeo\Controller\ModuleFileController;
+use Clickstorm\CsSeo\Controller\ModuleWebController;
 
 $csSeoModules =  [
     'web_CsSeoMod1' => [
@@ -22,7 +22,7 @@ $csSeoModules =  [
                 'pageStructuredData',
                 'pageResults',
                 'pageEvaluation',
-            ]
+            ],
         ],
     ],
     'file_CsSeoModFile' => [
@@ -41,21 +41,20 @@ $csSeoModules =  [
 ];
 
 foreach (ModuleWebController::$menuActions as $action) {
-    $csSeoModules['web_CsSeoMod1_' .  $action] = [
+    $csSeoModules['web_CsSeoMod1_' . $action] = [
         'parent' => 'web_CsSeoMod1',
         'access' => 'user',
         'workspaces' => 'live',
         'iconIdentifier' => 'tx-cssseo-module-web',
-        'path' => '/module/web/cs-seo/' . strtolower((string) preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', (string) $action)),
+        'path' => '/module/web/cs-seo/' . strtolower((string)preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', (string)$action)),
         'labels' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:layouts.module.action.' . $action,
         'extensionName' => 'CsSeo',
         'controllerActions' => [
             ModuleWebController::class => [
-                $action
-            ]
-        ]
+                $action,
+            ],
+        ],
     ];
 }
-
 
 return $csSeoModules;

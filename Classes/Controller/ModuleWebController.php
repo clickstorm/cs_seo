@@ -2,12 +2,12 @@
 
 namespace Clickstorm\CsSeo\Controller;
 
-use Clickstorm\CsSeo\Service\FrontendConfigurationService;
-use Clickstorm\CsSeo\Utility\LanguageUtility;
 use Clickstorm\CsSeo\Service\Backend\GridService;
 use Clickstorm\CsSeo\Service\EvaluationService;
+use Clickstorm\CsSeo\Service\FrontendConfigurationService;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
+use Clickstorm\CsSeo\Utility\LanguageUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
@@ -148,7 +148,7 @@ class ModuleWebController extends AbstractModuleController
             if (!empty($tableConfig['evaluation']) && !empty($tableConfig['evaluation']['detailPid'])) {
                 $tableTitle = $GLOBALS['TCA'][$tableName]['ctrl']['title'] ?: $tableName;
 
-                if (\str_starts_with((string) $tableTitle, 'LLL:')) {
+                if (\str_starts_with((string)$tableTitle, 'LLL:')) {
                     $tableTitle = LocalizationUtility::translate($tableTitle, 'CsSeo');
                 }
 

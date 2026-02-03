@@ -2,12 +2,12 @@
 
 namespace Clickstorm\CsSeo\Service;
 
-use GuzzleHttp\Exception\RequestException;
-use Clickstorm\CsSeo\Utility\LanguageUtility;
-use TYPO3\CMS\Backend\Routing\PreviewUriBuilder;
 use Clickstorm\CsSeo\Event\ModifyEvaluationPidEvent;
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use Clickstorm\CsSeo\Utility\LanguageUtility;
+use GuzzleHttp\Exception\RequestException;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use TYPO3\CMS\Backend\Routing\PreviewUriBuilder;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
@@ -24,9 +24,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class FrontendPageService
 {
     protected int $lang = 0;
-    public function __construct(private readonly FlashMessageService $flashMessageService, protected ?EventDispatcherInterface $eventDispatcher)
-    {
-    }
+    public function __construct(private readonly FlashMessageService $flashMessageService, protected ?EventDispatcherInterface $eventDispatcher) {}
 
     /**
      * @throws Exception

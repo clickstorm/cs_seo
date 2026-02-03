@@ -2,9 +2,9 @@
 
 namespace Clickstorm\CsSeo\Service;
 
-use TYPO3\CMS\Core\Exception;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Site\SiteFinder;

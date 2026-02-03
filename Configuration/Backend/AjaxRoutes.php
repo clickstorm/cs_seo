@@ -1,7 +1,7 @@
 <?php
 
-use Clickstorm\CsSeo\Controller\ModuleWebController;
 use Clickstorm\CsSeo\Command\EvaluationCommand;
+use Clickstorm\CsSeo\Controller\ModuleWebController;
 
 return [
     'tx_csseo_update' => [

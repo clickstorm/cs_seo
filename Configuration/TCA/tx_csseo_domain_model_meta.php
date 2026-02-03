@@ -50,7 +50,7 @@ return [
         'transOrigDiffSourceField' => 'l10n_diffsource',
 
         'security' => [
-            'ignorePageTypeRestriction' => true
+            'ignorePageTypeRestriction' => true,
         ],
 
         'delete' => 'deleted',
@@ -281,7 +281,7 @@ return [
                         'crop' => $openGraphCropConfiguration,
                     ],
                 ],
-            ]
+            ],
         ],
         'tw_title' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_title',
@@ -321,7 +321,7 @@ return [
                         'crop' => $openGraphCropConfiguration,
                     ],
                 ],
-            ]
+            ],
         ],
         'tw_creator' => [
             'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_tw_creator',

@@ -2,9 +2,9 @@
 
 namespace Clickstorm\CsSeo\UserFunc;
 
-use Clickstorm\CsSeo\Utility\GlobalsUtility;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use Clickstorm\CsSeo\Service\MetaDataService;
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
+use TYPO3\CMS\Core\Context\Context;
 /***************************************************************
  *
  *  Copyright notice
@@ -30,11 +30,11 @@ use Clickstorm\CsSeo\Service\MetaDataService;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Render the structured Data for Google SiteSearch and Breadcrumb
@@ -43,9 +43,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  */
 class StructuredData
 {
-    public function __construct(private readonly Context $context)
-    {
-    }
+    public function __construct(private readonly Context $context) {}
     /**
      * return the content of field tx_csseo_json_ld from pages or field json_ld from record
      */
@@ -66,7 +64,7 @@ class StructuredData
         }
 
         // Try to decode the JSON string to ensure it's valid
-        $tempJson = json_decode((string) $jsonLd, true);
+        $tempJson = json_decode((string)$jsonLd, true);
 
         // Check if decoding was successful
         if (json_last_error() === JSON_ERROR_NONE) {
