@@ -197,7 +197,7 @@ class ModuleWebController extends AbstractModuleController
             }
 
             // get page
-            $languageParam = $this->modParams['lang'];
+            $languageParam = (int)$this->modParams['lang'];
             if ($languageParam > 0) {
                 $page = $this->pageRepository->getPageOverlay($page, $languageParam);
             }

@@ -134,7 +134,7 @@ class ModifyPageLayoutContentEventListener
     protected function initPageInfo(): void
     {
         $this->pageInfo = BackendUtility::readPageAccess($this->currentPageUid, GlobalsUtility::getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW));
-        $this->currentSysLanguageUid = (int)$this->moduleData->get('language');
+        $this->currentSysLanguageUid = (int)($this->moduleData->get('languages')[0] ?? 0);
 
         if ($this->currentSysLanguageUid !== 0) {
             $localizedPageInfo = BackendUtility::getRecordLocalization(
