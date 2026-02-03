@@ -5,6 +5,7 @@ namespace Clickstorm\CsSeo\UserFunc;
 use Clickstorm\CsSeo\Service\FrontendConfigurationService;
 use Clickstorm\CsSeo\Service\MetaDataService;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
+use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -17,6 +18,7 @@ final class PageTitle
     /**
      * check the settings and may remove the suffix or prefix from the page title
      */
+    #[AsAllowedCallable]
     public function resetWebsiteTitle(string $content, array $conf): string
     {
         return $this->showTitleOnly() ? $this->getCachedTitleWithoutWebsiteTitle($content) : $content;
@@ -65,6 +67,6 @@ final class PageTitle
      */
     public function getCache(mixed $controller): mixed
     {
-        return $controller->config['pageTitleCache'];
+        return $controller->config['pageTitleCache'] ?? null;
     }
 }

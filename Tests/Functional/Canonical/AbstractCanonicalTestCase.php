@@ -40,6 +40,8 @@ abstract class AbstractCanonicalTestCase extends AbstractFrontendTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->importDataSets([
             'pages-canonical',
             'sys_category',

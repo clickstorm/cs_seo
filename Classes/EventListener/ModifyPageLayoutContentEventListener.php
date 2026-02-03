@@ -9,6 +9,7 @@ use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
 use TYPO3\CMS\Backend\Module\ModuleData;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -22,6 +23,9 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 /**
  * Listen To the ModifyPageLayoutContentEvent and add the evaluation results to the page
  */
+#[AsEventListener(
+    identifier: 'cs-seo/modify-page-layout-content',
+)]
 class ModifyPageLayoutContentEventListener
 {
     public const EVALUATION_IN_PAGE_MODULE_HEADER = 0;

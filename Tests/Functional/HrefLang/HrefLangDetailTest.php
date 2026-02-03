@@ -11,6 +11,8 @@ class HrefLangDetailTest extends AbstractHrefLangTestCase
 {
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->importDataSets([
             'pages-hreflang',
             'sys_category',

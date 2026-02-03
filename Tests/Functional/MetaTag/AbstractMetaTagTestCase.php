@@ -60,6 +60,8 @@ abstract class AbstractMetaTagTestCase extends AbstractFrontendTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->importDataSets([
             'pages-metatags',
             'sys_category',

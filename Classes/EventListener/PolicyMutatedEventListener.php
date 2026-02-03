@@ -14,7 +14,7 @@ use TYPO3\CMS\Core\Security\ContentSecurityPolicy\SourceKeyword;
 use TYPO3\CMS\Core\Security\ContentSecurityPolicy\SourceScheme;
 
 #[AsEventListener(
-    identifier: 'cs-seo/mutate-policy',
+    identifier: 'cs-seo/policy-mutated',
 )]
 final readonly class PolicyMutatedEventListener
 {

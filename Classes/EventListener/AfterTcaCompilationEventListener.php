@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace Clickstorm\CsSeo\EventListener;
 
 use Clickstorm\CsSeo\Utility\ConfigurationUtility;
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Configuration\Event\AfterTcaCompilationEvent;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
+#[AsEventListener(
+    identifier: 'cs-seo/after-tca-compilation',
+)]
 class AfterTcaCompilationEventListener
 {
     public function __invoke(AfterTcaCompilationEvent $event): void

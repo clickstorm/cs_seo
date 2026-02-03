@@ -43,6 +43,8 @@ abstract class AbstractJsonLdTestCase extends AbstractFrontendTestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->importDataSets([
             'pages-json-ld',
             'sys_category',

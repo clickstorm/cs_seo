@@ -4,6 +4,7 @@ namespace Clickstorm\CsSeo\UserFunc;
 
 use Clickstorm\CsSeo\Service\MetaDataService;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
+use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
 use TYPO3\CMS\Core\Context\Context;
 /***************************************************************
  *
@@ -44,9 +45,11 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 class StructuredData
 {
     public function __construct(private readonly Context $context) {}
+
     /**
      * return the content of field tx_csseo_json_ld from pages or field json_ld from record
      */
+    #[AsAllowedCallable]
     public function getJsonLdOfPageOrRecord(string $content, array $conf): string
     {
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
@@ -87,6 +90,7 @@ class StructuredData
         return '<script type="application/ld+json">' . htmlspecialchars($content, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</script>';
     }
 
+    #[AsAllowedCallable]
     public function getSiteSearch(string $content, array $conf): string
     {
         $homepage = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
@@ -119,6 +123,7 @@ class StructuredData
      *
      * @throws \Exception
      */
+    #[AsAllowedCallable]
     public function getBreadcrumb(string $conf, array $content): string
     {
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
