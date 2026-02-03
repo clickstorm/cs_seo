@@ -9,15 +9,16 @@ use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\FileUtility;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ResponseInterface;
-use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Http\AllowedMethodsTrait;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
@@ -25,6 +26,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Domain\Model\File;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
 class ModuleFileController extends AbstractModuleController
@@ -55,9 +57,17 @@ class ModuleFileController extends AbstractModuleController
     protected string $identifier = '';
     protected int $offset = 0;
     protected int $numberOfImagesWithoutAlt = 0;
-    public function __construct(protected readonly \TYPO3\CMS\Core\Page\PageRenderer $pageRenderer, protected readonly \TYPO3\CMS\Backend\Template\ModuleTemplateFactory $moduleTemplateFactory, private readonly ResourceFactory $resourceFactory, private readonly FlashMessageService $flashMessageService, private readonly IconFactory $iconFactory, private readonly UriBuilder $uriBuilder, private readonly ComponentFactory $componentFactory)
-    {
-        parent::__construct($pageRenderer, $moduleTemplateFactory);
+
+    public function __construct(
+        protected PageRenderer $pageRenderer,
+        protected ModuleTemplateFactory $moduleTemplateFactory,
+        protected ComponentFactory $componentFactory,
+        private readonly ResourceFactory $resourceFactory,
+        private readonly FlashMessageService $flashMessageService,
+        private readonly IconFactory $iconFactory,
+        protected UriBuilder $uriBuilder,
+    ) {
+        parent::__construct($pageRenderer, $moduleTemplateFactory, $componentFactory);
     }
 
     public function initializeAction(): void
