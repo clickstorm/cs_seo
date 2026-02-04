@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/Modules/Web/structured_data.xlf" date="2026-02-04T11:34:00Z" product-name="cs_seo">
+		<header/>
+		<body>
+			<trans-unit id="description" resname="description">
+				<source>Manage structured data in JSON-LD format (e.g., organization, FAQ, breadcrumbs) to enable rich snippets and enhanced search results. Applies to the current page or optionally to subpages.</source>
+				<target>Bearbeite strukturierte Daten im Format JSON-LD (z. B. Organisation, FAQ, Breadcrumbs), um Rich Snippets und erweiterte Suchergebnisse zu ermöglichen. Gilt für die aktuelle Seite oder optional für Unterseiten.</target>
+			</trans-unit>
+			<trans-unit id="short_description" resname="short_description">
+				<source>Edit JSON-LD structured data.</source>
+				<target>JSON-LD für Rich Results pflegen.</target>
+			</trans-unit>
+			<trans-unit id="title" resname="title">
+				<source>Structured Data</source>
+				<target>Strukturierte Daten</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

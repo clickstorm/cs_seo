@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/Modules/web.xlf" date="2026-02-04T12:04:44Z" product-name="cs_seo">
+		<header/>
+		<body>
+			<trans-unit id="description" resname="description">
+				<source>Central module for improving page SEO settings. Provides access to submodules for managing metadata, indexing options, social media information, and SEO analysis.</source>
+				<target>Zentrales Modul zur Verbesserung der SEO-Einstellungen von Seiten. Über die enthaltenen Untermodule können Meta-Daten, Indexierungsoptionen, Social-Media-Informationen und SEO-Analysen verwaltet werden.</target>
+			</trans-unit>
+			<trans-unit id="short_description" resname="short_description">
+				<source>Tools to optimize page SEO.</source>
+				<target>Werkzeuge zur Optimierung der Seiten-SEO.</target>
+			</trans-unit>
+			<trans-unit id="title" resname="title">
+				<source>SEO</source>
+				<target>SEO</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

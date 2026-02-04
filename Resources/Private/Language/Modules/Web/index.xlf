@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/Modules/Web/index.xlf" date="2026-02-04T11:30:24Z" product-name="cs_seo">
+		<header/>
+		<body>
+			<trans-unit id="description" resname="description">
+				<source>Configure settings such as canonical link, noindex, nofollow, and “exclude from web search”. These options apply to the current page or optionally to subpages.</source>
+			</trans-unit>
+			<trans-unit id="short_description" resname="short_description">
+				<source>Control search engine indexing.</source>
+			</trans-unit>
+			<trans-unit id="title" resname="title">
+				<source>Indexing</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

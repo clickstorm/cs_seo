@@ -1,10 +1,12 @@
 # Module configuration
 module.tx_csseo {
-    view {
-        templateRootPaths.0 = {$module.tx_csseo_mod1.view.templateRootPath}
-        partialRootPaths.0 = {$module.tx_csseo_mod1.view.partialRootPath}
-        layoutRootPaths.0 = {$module.tx_csseo_mod1.view.layoutRootPath}
-    }
+  view {
+    templateRootPaths.5 = EXT:backend/Resources/Private/Templates/
+    templateRootPaths.10 = {$module.tx_csseo_mod1.view.templateRootPath}
+    partialRootPaths.0 = {$module.tx_csseo_mod1.view.partialRootPath}
+    layoutRootPaths.5 = EXT:backend/Resources/Private/Templates/
+    layoutRootPaths.10 = {$module.tx_csseo_mod1.view.layoutRootPath}
+  }
 }
 
 module.tx_csseo_web_csseomod1 < module.tx_csseo

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/Modules/Web/twitter_cards.xlf" date="2026-02-04T11:33:02Z" product-name="cs_seo">
+		<header/>
+		<body>
+			<trans-unit id="description" resname="description">
+				<source>Manage title, description, creator, site, and image for Twitter/X cards. Settings apply to the current page or optionally to subpages.</source>
+				<target>Verwalte Title, Description, Creator, Site und Image für Twitter/X Cards. Diese Einstellungen können für die aktuelle Seite oder optional für Unterseiten gepflegt werden.</target>
+			</trans-unit>
+			<trans-unit id="short_description" resname="short_description">
+				<source>Configure Twitter/X card previews.</source>
+				<target>Vorschau für Twitter/X konfigurieren.</target>
+			</trans-unit>
+			<trans-unit id="title" resname="title">
+				<source>Twitter/X Cards</source>
+				<target>Twitter/X Cards</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

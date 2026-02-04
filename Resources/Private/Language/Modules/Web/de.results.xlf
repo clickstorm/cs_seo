@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/Modules/Web/results.xlf" date="2026-02-04T11:34:56Z" product-name="cs_seo">
+		<header/>
+		<body>
+			<trans-unit id="description" resname="description">
+				<source>Displays the cs_seo evaluation score and the assigned focus keyword of the page in a compact overview. Applies to the current page or optionally to subpages.</source>
+				<target>Zeigt die Punktzahl der cs_seo Evaluierung sowie das festgelegte Focus Keyword der Seite in kompakter Form an. Gilt für die aktuelle Seite oder optional für Unterseiten.</target>
+			</trans-unit>
+			<trans-unit id="short_description" resname="short_description">
+				<source>View SEO score &amp; focus keyword.</source>
+				<target>SEO-Score &amp; Focus Keyword anzeigen.</target>
+			</trans-unit>
+			<trans-unit id="title" resname="title">
+				<source>SEO results</source>
+				<target>SEO Ergebnisse</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

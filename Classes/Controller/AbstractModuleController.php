@@ -17,6 +17,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
+use TYPO3\CMS\Lowlevel\ConfigurationModuleProvider\ProviderRegistry;
 
 /**
  * Class ModuleController
@@ -131,7 +132,6 @@ abstract class AbstractModuleController extends ActionController
 
     protected function wrapModuleTemplate(): string
     {
-
         foreach ($this->jsFiles as $jsFile) {
             $this->pageRenderer->addJsFile('EXT:cs_seo/Resources/Public/JavaScript/' . $jsFile);
         }
@@ -151,17 +151,14 @@ abstract class AbstractModuleController extends ActionController
         }
 
         // Shortcut in doc header
-        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $l10nLabel = GlobalsUtility::getLanguageService()->sL(
+                'LLL:EXT:cs_seo/Resources/Private/Language/Modules/' . static::$l10nFileName . '.xlf:title'
+            );
 
-        $shortcutButton = $this->componentFactory->createShortcutButton();
-        $type = $shortcutButton->getType();
-        $shortcutButton->setRouteIdentifier(static::$mod_name)
-            ->setDisplayName(GlobalsUtility::getLanguageService()->sL(
-                'LLL:EXT:cs_seo/Resources/Private/Language/Module/' . static::$l10nFileName . '.xlf:mlang_labels_tablabel'
-            ));
-        $buttonBar->addButton($shortcutButton);
-
-        $this->addModuleButtons($buttonBar);
+        $this->moduleTemplate->getDocHeaderComponent()->setShortcutContext(
+            routeIdentifier: static::$mod_name,
+            displayName: $l10nLabel,
+        );
 
         // The page will show only if there is a valid page and if this page
         // may be viewed by the user
@@ -180,26 +177,7 @@ abstract class AbstractModuleController extends ActionController
         }
 
         if (count(static::$menuActions) > 1) {
-            // Main drop down in doc header
-            $menu = $this->componentFactory->createMenu();
-            $menu->setIdentifier('action');
-            foreach (static::$menuActions as $menuKey) {
-                $menuItem = $this->componentFactory->createMenuItem();
-                /** @var UriBuilder $uriBuilder */
-                $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-                $menuItem->setHref((string)$uriBuilder->buildUriFromRoute(
-                    static::$mod_name . '_' . $menuKey
-                ))
-                    ->setTitle(GlobalsUtility::getLanguageService()->sL(
-                        'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:layouts.module.action.' . $menuKey
-                    ));
-
-                if ($this->actionMethodName === $menuKey . 'Action') {
-                    $menuItem->setActive(true);
-                }
-                $menu->addMenuItem($menuItem);
-            }
-            $this->moduleTemplate->getDocHeaderComponent()->getMenuRegistry()->addMenu($menu);
+            $this->moduleTemplate->makeDocHeaderModuleMenu();
         }
 
         return $this->moduleTemplate->render($this->templateFile);

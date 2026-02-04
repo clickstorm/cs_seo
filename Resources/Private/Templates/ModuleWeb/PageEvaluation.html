@@ -5,11 +5,8 @@
 
 <f:layout name="Module"/>
 
-<f:section name="Main">
-    <h1>
-        <f:translate key="layouts.module.action.pageEvaluation" extensionName="cs_seo"/>
-    </h1>
-    <p></p>
+<f:section name="Content">
+    <f:render partial="Module/Headline" arguments="{module: 'evaluation'}"/>
     <!-- From -->
     <f:render partial="Module/FormEvaluation" arguments="{_all}" section="Main"/>
     <f:if condition="{evaluationUid} || {records}">

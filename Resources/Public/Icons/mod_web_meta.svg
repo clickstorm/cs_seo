@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <!-- document -->
+    <path d="M7 4h7l3 3v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
+          stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M14 4v4h4"
+          stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- text lines -->
+    <path d="M8 12h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M8 15h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+
+    <!-- filled pencil -->
+    <path d="M14 15.5L18.5 11a1 1 0 0 1 1.4 1.4L15.4 17 13 17.5l1-2Z"
+          fill="currentColor"/>
+</svg>

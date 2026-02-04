@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/Modules/Web/open_graph.xlf" date="2026-02-04T11:36:34Z" product-name="cs_seo">
+		<header/>
+		<body>
+			<trans-unit id="description" resname="description">
+				<source>Manage Open Graph title, description, and image to ensure shared content is displayed correctly and attractively. Applies to the current page or optionally to subpages.</source>
+			</trans-unit>
+			<trans-unit id="short_description" resname="short_description">
+				<source>Optimize social media previews.</source>
+			</trans-unit>
+			<trans-unit id="title" resname="title">
+				<source>Open Graph</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

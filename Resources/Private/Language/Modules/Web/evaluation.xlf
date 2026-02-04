@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/Modules/Web/evaluation.xlf" date="2026-02-04T11:35:42Z" product-name="cs_seo">
+		<header/>
+		<body>
+			<trans-unit id="description" resname="description">
+				<source>Provides a detailed breakdown of the SEO evaluation and allows you to trigger a new analysis to identify optimization opportunities.</source>
+			</trans-unit>
+			<trans-unit id="short_description" resname="short_description">
+				<source>Run analysis &amp; review detailed results.</source>
+			</trans-unit>
+			<trans-unit id="title" resname="title">
+				<source>SEO Analysis</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

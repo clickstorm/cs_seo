@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2025-12-02T09:41:54Z" product-name="cs_seo">
+	<file source-language="en" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2026-02-04T08:19:20Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
 				<source>%m/%d/%Y %I:%M %p</source>
+			</trans-unit>
+			<trans-unit id="error.invalid_json_comment" resname="error.invalid_json_comment">
+				<source>INVALID JSON!</source>
 			</trans-unit>
 			<trans-unit id="error.no_data" resname="error.no_data">
 				<source>Click &#039;Save&#039; to show the preview.</source>
@@ -14,9 +17,6 @@
 			</trans-unit>
 			<trans-unit id="error.no_tsfe" resname="error.no_tsfe">
 				<source>The TypoScript of the current page could not be loaded.</source>
-			</trans-unit>
-			<trans-unit id="error.invalid_json_comment" resname="error.invalid_json_comment">
-				<source>INVALID JSON!</source>
 			</trans-unit>
 			<trans-unit id="evaluation.description" resname="evaluation.description">
 				<source>Meta Description</source>
@@ -192,27 +192,6 @@
 			<trans-unit id="evaluation.update" resname="evaluation.update">
 				<source>Update</source>
 			</trans-unit>
-			<trans-unit id="layouts.module.action.pageEvaluation" resname="layouts.module.action.pageEvaluation">
-				<source>Evaluation</source>
-			</trans-unit>
-			<trans-unit id="layouts.module.action.pageIndex" resname="layouts.module.action.pageIndex">
-				<source>Index</source>
-			</trans-unit>
-			<trans-unit id="layouts.module.action.pageMeta" resname="layouts.module.action.pageMeta">
-				<source>SEO</source>
-			</trans-unit>
-			<trans-unit id="layouts.module.action.pageOpenGraph" resname="layouts.module.action.pageOpenGraph">
-				<source>Open Graph</source>
-			</trans-unit>
-			<trans-unit id="layouts.module.action.pageResults" resname="layouts.module.action.pageResults">
-				<source>Results</source>
-			</trans-unit>
-			<trans-unit id="layouts.module.action.pageStructuredData" resname="layouts.module.action.pageStructuredData">
-				<source>Structured Data</source>
-			</trans-unit>
-			<trans-unit id="layouts.module.action.pageTwitterCards" resname="layouts.module.action.pageTwitterCards">
-				<source>Twitter Cards</source>
-			</trans-unit>
 			<trans-unit id="layouts.module.action.showEmptyImageAlt" resname="layouts.module.action.showEmptyImageAlt">
 				<source>Add an alternative text to an image</source>
 			</trans-unit>
@@ -227,9 +206,6 @@
 			</trans-unit>
 			<trans-unit id="module.btn.view" resname="module.btn.view">
 				<source>View</source>
-			</trans-unit>
-			<trans-unit id="module.file.progressbar" resname="module.file.progressbar">
-				<source>%1$s images with an alternative text / %2$s images in total</source>
 			</trans-unit>
 			<trans-unit id="module.file.countWithoutAlt" resname="module.file.countWithoutAlt">
 				<source>Current image without an alternative text: %1$s from %2$s</source>
@@ -248,6 +224,9 @@
 			</trans-unit>
 			<trans-unit id="module.file.onlyReferenced" resname="module.file.onlyReferenced">
 				<source>Only referenced images</source>
+			</trans-unit>
+			<trans-unit id="module.file.progressbar" resname="module.file.progressbar">
+				<source>%1$s images with an alternative text / %2$s images in total</source>
 			</trans-unit>
 			<trans-unit id="module.file.recursive" resname="module.file.recursive">
 				<source>Include subfolders</source>
@@ -318,8 +297,14 @@
 			<trans-unit id="templates.wizard.description" resname="templates.wizard.description">
 				<source>There was no page description given! Therefore, Google will show some words of the page content here.</source>
 			</trans-unit>
-			<trans-unit id="wizard.legendUnder" resname="wizard.legendUnder">
-				<source>Below %s characters: yellow</source>
+			<trans-unit id="wizard.chars" resname="wizard.chars">
+				<source>characters</source>
+			</trans-unit>
+			<trans-unit id="wizard.charsMissing" resname="wizard.charsMissing">
+				<source>Characters missing</source>
+			</trans-unit>
+			<trans-unit id="wizard.charsOver" resname="wizard.charsOver">
+				<source>Above recommendation</source>
 			</trans-unit>
 			<trans-unit id="wizard.legendInRange" resname="wizard.legendInRange">
 				<source>%s–%s characters: green</source>
@@ -327,17 +312,8 @@
 			<trans-unit id="wizard.legendOverflow" resname="wizard.legendOverflow">
 				<source>Pixel overflow: red</source>
 			</trans-unit>
-			<trans-unit id="wizard.chars" resname="wizard.chars">
-				<source>characters</source>
-			</trans-unit>
-			<trans-unit id="wizard.warnUnder" resname="wizard.warnUnder">
-				<source>– below recommendation (%s)</source>
-			</trans-unit>
-			<trans-unit id="wizard.warnOver" resname="wizard.warnOver">
-				<source>– above recommendation (%s)</source>
-			</trans-unit>
-			<trans-unit id="wizard.warnTrunc" resname="wizard.warnTrunc">
-				<source>– likely truncated in search results</source>
+			<trans-unit id="wizard.legendUnder" resname="wizard.legendUnder">
+				<source>Below %s characters: yellow</source>
 			</trans-unit>
 			<trans-unit id="wizard.statusOk" resname="wizard.statusOk">
 				<source>OK</source>
@@ -345,11 +321,14 @@
 			<trans-unit id="wizard.statusOverflow" resname="wizard.statusOverflow">
 				<source>Pixel overflow</source>
 			</trans-unit>
-			<trans-unit id="wizard.charsOver" resname="wizard.charsOver">
-				<source>Above recommendation</source>
+			<trans-unit id="wizard.warnOver" resname="wizard.warnOver">
+				<source>– above recommendation (%s)</source>
 			</trans-unit>
-			<trans-unit id="wizard.charsMissing" resname="wizard.charsMissing">
-				<source>Characters missing</source>
+			<trans-unit id="wizard.warnTrunc" resname="wizard.warnTrunc">
+				<source>– likely truncated in search results</source>
+			</trans-unit>
+			<trans-unit id="wizard.warnUnder" resname="wizard.warnUnder">
+				<source>– below recommendation (%s)</source>
 			</trans-unit>
 		</body>
 	</file>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <!-- nodes -->
+    <circle cx="17" cy="7" r="2" stroke="currentColor" stroke-width="1.8"/>
+    <circle cx="7" cy="12" r="2" stroke="currentColor" stroke-width="1.8"/>
+    <circle cx="17" cy="17" r="2" stroke="currentColor" stroke-width="1.8"/>
+
+    <!-- connections -->
+    <path d="M9 11l6-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M9 13l6 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

@@ -27,13 +27,13 @@ class ModuleWebController extends AbstractModuleController
     protected ?GridService $gridService = null;
 
     public static array $menuActions = [
-        'pageMeta',
-        'pageIndex',
-        'pageOpenGraph',
-        'pageTwitterCards',
-        'pageStructuredData',
-        'pageResults',
-        'pageEvaluation',
+        'meta' => 'pageMeta',
+        'index' => 'pageIndex',
+        'open_graph' => 'pageOpenGraph',
+        'twitter_cards' => 'pageTwitterCards',
+        'structured_data' => 'pageStructuredData',
+        'results' => 'pageResults',
+        'evaluation' => 'pageEvaluation',
     ];
 
     public function injectEvaluationService(EvaluationService $evaluationService): void
