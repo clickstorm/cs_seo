@@ -159,6 +159,10 @@ abstract class AbstractModuleController extends ActionController
             displayName: $l10nLabel,
         );
 
+        // add specific module buttons
+        $buttonBar = $this->moduleTemplate->getDocHeaderComponent()->getButtonBar();
+        $this->addModuleButtons($buttonBar);
+
         // The page will show only if there is a valid page and if this page
         // may be viewed by the user
         if (is_numeric($this->modParams['id'])) {
