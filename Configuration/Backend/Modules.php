@@ -1,8 +1,8 @@
 <?php
 
 use Clickstorm\CsSeo\Controller\AbstractModuleController;
-use Clickstorm\CsSeo\Controller\ModuleMediaController;
 use Clickstorm\CsSeo\Controller\ModuleContentController;
+use Clickstorm\CsSeo\Controller\ModuleMediaController;
 
 $csSeoModules =  [
     'content_csseo' => [
@@ -18,7 +18,7 @@ $csSeoModules =  [
         'path' => '/module/content/cs-seo',
         'labels' => 'cs_seo.modules.content',
         'extensionName' => 'CsSeo',
-        'moduleData' => AbstractModuleController::$allowedModuleData
+        'moduleData' => AbstractModuleController::$allowedModuleData,
     ],
     'media_csseo' => [
         'parent' => 'media',
@@ -27,12 +27,12 @@ $csSeoModules =  [
         'workspaces' => 'live',
         'iconIdentifier' => 'tx-cssseo-module-media',
         'path' => '/module/media/cs-seo',
-        'labels' =>'cs_seo.modules.media',
+        'labels' => 'cs_seo.modules.media',
         'extensionName' => 'CsSeo',
         'controllerActions' => [
             ModuleMediaController::class => 'showEmptyImageAlt,update',
         ],
-        'moduleData' => ModuleMediaController::$allowedModuleData
+        'moduleData' => ModuleMediaController::$allowedModuleData,
     ],
 ];
 
@@ -51,7 +51,7 @@ foreach (ModuleContentController::$menuActions as $key => $action) {
                 $action,
             ],
         ],
-        'moduleData' => AbstractModuleController::$allowedModuleData
+        'moduleData' => AbstractModuleController::$allowedModuleData,
     ];
 }
 

@@ -6,7 +6,6 @@ use Clickstorm\CsSeo\Service\FrontendConfigurationService;
 use Clickstorm\CsSeo\Service\MetaDataService;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
-use TYPO3\CMS\Core\Cache\CacheDataCollector;
 use TYPO3\CMS\Core\PageTitle\PageTitleProviderManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

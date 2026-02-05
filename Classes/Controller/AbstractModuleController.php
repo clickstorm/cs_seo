@@ -3,7 +3,6 @@
 namespace Clickstorm\CsSeo\Controller;
 
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
-use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
 use TYPO3\CMS\Backend\Template\ModuleTemplate;
@@ -51,12 +50,10 @@ abstract class AbstractModuleController extends ActionController
     protected ?ModuleTemplate $moduleTemplate = null;
 
     public function __construct(
-        protected PageRenderer          $pageRenderer,
+        protected PageRenderer $pageRenderer,
         protected ModuleTemplateFactory $moduleTemplateFactory,
-        protected ComponentFactory      $componentFactory,
-    )
-    {
-    }
+        protected ComponentFactory $componentFactory,
+    ) {}
 
     /**
      * @throws NoSuchArgumentException
@@ -212,7 +209,5 @@ abstract class AbstractModuleController extends ActionController
             ';
     }
 
-    protected function addModuleButtons(ButtonBar $buttonBar): void
-    {
-    }
+    protected function addModuleButtons(ButtonBar $buttonBar): void {}
 }
