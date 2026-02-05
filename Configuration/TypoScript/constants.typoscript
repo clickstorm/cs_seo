@@ -1,3 +1,4 @@
+# !!! use site settings instead of TypoScript
 plugin.tx_csseo {
     # cat=plugin.tx_csseo/language/1; type=string; label= Override the sitetitle : Translation for the browser title prefix/suffix, e.g. LLL:EXT:myext/Resources/Language/locallang.xlf:sitetitle
     sitetitle = 

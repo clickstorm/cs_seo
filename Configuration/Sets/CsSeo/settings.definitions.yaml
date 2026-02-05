@@ -1,0 +1,90 @@
+categories:
+  cs_seo: ~
+  cs_seo.social:
+    parent: cs_seo
+  cs_seo.social.openGraph:
+    parent: cs_seo.social
+  cs_seo.social.twitter:
+    parent: cs_seo.social
+  cs_seo.social.twitter.image:
+    parent: cs_seo.social.twitter
+  cs_seo.structureddata:
+    parent: cs_seo
+  cs_seo.structureddata.search:
+    parent: cs_seo.structureddata
+  cs_seo.structureddata.breadcrumb:
+    parent: cs_seo.structureddata
+  cs_seo.mod1:
+    parent: cs_seo
+  cs_seo.mod1.view:
+    parent: cs_seo.mod1
+
+settings:
+  plugin.tx_csseo.sitetitle:
+    default: ''
+    type: string
+    category: cs_seo
+  plugin.tx_csseo.social.defaultImage:
+    default: ''
+    type: string
+    category: cs_seo.social
+  plugin.tx_csseo.social.openGraph.type:
+    default: 'website'
+    type: string
+    category: cs_seo.social.openGraph
+  plugin.tx_csseo.social.openGraph.image.width:
+    default: 1200
+    type: int
+    category: cs_seo.social.openGraph
+  plugin.tx_csseo.social.openGraph.image.height:
+    default: 628
+    type: int
+    category: cs_seo.social.openGraph
+  plugin.tx_csseo.social.twitter.defaultImage:
+    default: ''
+    type: string
+    category: cs_seo.social.twitter
+  plugin.tx_csseo.social.twitter.image.width:
+    default: 1024
+    type: int
+    category: cs_seo.social.twitter.image
+  plugin.tx_csseo.social.twitter.image.height:
+    default: 512
+    type: int
+    category: cs_seo.social.twitter.image
+  plugin.tx_csseo.social.twitter.creator:
+    default: ''
+    type: string
+    category: cs_seo.social.twitter
+  plugin.tx_csseo.social.twitter.site:
+    default: ''
+    type: string
+    category: cs_seo.social.twitter
+  plugin.tx_csseo.structureddata.search.enable:
+    default: false
+    type: bool
+    category: cs_seo.structureddata.search
+  plugin.tx_csseo.structureddata.search.pid:
+    default: 0
+    type: int
+    category: cs_seo.structureddata.search
+  plugin.tx_csseo.structureddata.search.searchtermkey:
+    default: 'searchterm'
+    type: string
+    category: cs_seo.structureddata.search
+  plugin.tx_csseo.structureddata.breadcrumb.enable:
+    default: false
+    type: bool
+    category: cs_seo.structureddata.breadcrumb
+  module.tx_csseo_mod1.view.templateRootPath:
+    default: 'EXT:cs_seo/Resources/Private/Templates/'
+    type: string
+    category: cs_seo.mod1.view
+  module.tx_csseo_mod1.view.partialRootPath:
+    default: 'EXT:cs_seo/Resources/Private/Partials/'
+    type: string
+    category: cs_seo.mod1.view
+  module.tx_csseo_mod1.view.layoutRootPath:
+    default: 'EXT:cs_seo/Resources/Private/Layouts/'
+    type: string
+    category: cs_seo.mod1.view

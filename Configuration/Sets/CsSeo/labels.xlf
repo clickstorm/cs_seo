@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:cs_seo/Configuration/Sets/CsSeo/labels.xlf" date="2024-09-05T08:00:00Z" product-name="cs_seo">
+    <header/>
+    <body>
+      <trans-unit id="label">
+        <source>CS SEO</source>
+      </trans-unit>
+      <trans-unit id="categories.cs_seo">
+        <source>CS SEO</source>
+      </trans-unit>
+      <trans-unit id="categories.cs_seo.social">
+        <source>Social Media</source>
+      </trans-unit>
+      <trans-unit id="categories.cs_seo.social.openGraph">
+        <source>Open Graph</source>
+      </trans-unit>
+      <trans-unit id="categories.cs_seo.social.twitter">
+        <source>Twitter Cards</source>
+      </trans-unit>
+      <trans-unit id="categories.cs_seo.social.twitter.image">
+        <source>Twitter Cards Image</source>
+      </trans-unit>
+      <trans-unit id="categories.cs_seo.structureddata">
+        <source>Structured Microdata</source>
+      </trans-unit>
+      <trans-unit id="categories.cs_seo.structureddata.search">
+        <source>SiteSearch</source>
+      </trans-unit>
+      <trans-unit id="categories.cs_seo.structureddata.breadcrumb">
+        <source>Breadcrumb</source>
+      </trans-unit>
+      <trans-unit id="categories.cs_seo.mod1">
+        <source>Backend Module</source>
+      </trans-unit>
+      <trans-unit id="categories.cs_seo.mod1.view">
+        <source>View</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.sitetitle">
+        <source>Override the sitetitle: Translation for the browser title prefix/suffix, e.g. LLL:EXT:myext/Resources/Language/locallang.xlf:sitetitle</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.social.defaultImage">
+        <source>Default Social Image: Default image for Open Graph and Twitter Cards (e.g. fileadmin/user_upload/image.jpg)</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.social.openGraph.type">
+        <source>Open Graph Type, more https://developers.facebook.com/docs/reference/opengraph</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.social.openGraph.image.width">
+        <source>Open Graph Width: Width of the Open Graph image</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.social.openGraph.image.height">
+        <source>Open Graph Height: Height of the Open Graph image</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.social.twitter.defaultImage">
+        <source>Twitter Cards Default Image: Extra default image for Twitter (e.g. fileadmin/user_upload/image.jpg)</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.social.twitter.image.width">
+        <source>Twitter Cards Width: Width of the Twitter Cards image</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.social.twitter.image.height">
+        <source>Twitter Cards Height: Height of the Twitter Cards image</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.social.twitter.creator">
+        <source>Default Twitter Creator: Twitter username (without @)</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.social.twitter.site">
+        <source>Default Twitter Site: Twitter username (without @)</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.structureddata.search.enable">
+        <source>Enable SiteSearch: Add microdata for sitesearch</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.structureddata.search.pid">
+        <source>Pid of the search page: Pid of the page, where the searchresults will be displayed</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.structureddata.search.searchtermkey">
+        <source>Key of variable which represents the searchterm: Name of the variable which carries the searchterms</source>
+      </trans-unit>
+      <trans-unit id="settings.plugin.tx_csseo.structureddata.breadcrumb.enable">
+        <source>Enable Breadcrumb: Add microdata for site breadcrumb</source>
+      </trans-unit>
+      <trans-unit id="settings.module.tx_csseo_mod1.view.templateRootPath">
+        <source>Path to template root (BE)</source>
+      </trans-unit>
+      <trans-unit id="settings.module.tx_csseo_mod1.view.partialRootPath">
+        <source>Path to template partials (BE)</source>
+      </trans-unit>
+      <trans-unit id="settings.module.tx_csseo_mod1.view.layoutRootPath">
+        <source>Path to template layouts (BE)</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
