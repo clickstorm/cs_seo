@@ -59,7 +59,7 @@ return [
             'starttime' => 'starttime',
             'endtime' => 'endtime',
         ],
-        'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/mod.svg',
+        'iconfile' => 'EXT:cs_seo/Resources/Public/Icons/tx_csseo_domain_model_meta.svg',
     ],
     'types' => [
         '1' => [
