@@ -232,7 +232,7 @@ class ModuleMediaController extends AbstractModuleController
                     FlashMessage::class,
                     $file->getName() . ' ' . GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.message'
-                    ) . ': \n\'' . $file->getProperty('alternative') . '\'',
+                    ) . ': ' . $file->getProperty('alternative'),
                     GlobalsUtility::getLanguageService()->sL(
                         'LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:module.file.update.success.header'
                     ),

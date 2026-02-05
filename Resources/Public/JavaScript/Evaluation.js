@@ -11,47 +11,49 @@ export const Evaluation = {};
 
 Evaluation.init = function() {
   // evaluation update
-  document.getElementById('cs-seo-evaluate').addEventListener('click', function() {
-    const evaluateButton = document.getElementById('cs-seo-evaluate');
-    const uid = evaluateButton.getAttribute('data-uid');
-    const table = evaluateButton.getAttribute('data-table') ? evaluateButton.getAttribute('data-table') : 'pages';
+  const evaluateButton = document.getElementById('cs-seo-evaluate');
+  if (evaluateButton) {
+    evaluateButton.addEventListener('click', function() {
+      const uid = evaluateButton.getAttribute('data-uid');
+      const table = evaluateButton.getAttribute('data-table') ? evaluateButton.getAttribute('data-table') : 'pages';
 
-    const waitParagraph = document.createElement('p');
-    waitParagraph.classList.add('cs-wait');
-    waitParagraph.textContent = '...';
-    evaluateButton.insertAdjacentElement('beforebegin', waitParagraph);
+      const waitParagraph = document.createElement('p');
+      waitParagraph.classList.add('cs-wait');
+      waitParagraph.textContent = '...';
+      evaluateButton.insertAdjacentElement('beforebegin', waitParagraph);
 
-    let request = new AjaxRequest(TYPO3.settings.ajaxUrls.tx_csseo_evaluate)
+      let request = new AjaxRequest(TYPO3.settings.ajaxUrls.tx_csseo_evaluate)
 
-    const json = { uid: uid, table: table };
-    let promise = request.post(json);
+      const json = { uid: uid, table: table };
+      let promise = request.post(json);
 
-    promise.then(async function (response) {
-      const responseText = await response.resolve();
-      if (responseText.length > 0) {
-        const messageElement = new DOMParser().parseFromString(responseText, 'text/html').querySelector('.alert, .message-body');
-        const message = messageElement ? messageElement.textContent : '';
+      promise.then(async function (response) {
+        const responseText = await response.resolve();
+        if (responseText.length > 0) {
+          const messageElement = new DOMParser().parseFromString(responseText, 'text/html').querySelector('.alert, .message-body');
+          const message = messageElement ? messageElement.textContent : '';
 
-        if (top.TYPO3.Notification) {
-          top.TYPO3.Notification.error('Not Updated', message, 5);
+          if (top.TYPO3.Notification) {
+            top.TYPO3.Notification.error('Not Updated', message, 5);
+          } else {
+            top.TYPO3.Flashmessage.display(4, 'Not Updated', message);
+          }
         } else {
-          top.TYPO3.Flashmessage.display(4, 'Not Updated', message);
+          if (top.TYPO3.Notification) {
+            top.TYPO3.Notification.success('Updated', '', 3);
+          } else {
+            top.TYPO3.Flashmessage.display(2, 'Updated', '', 3);
+          }
         }
-      } else {
-        if (top.TYPO3.Notification) {
-          top.TYPO3.Notification.success('Updated', '', 3);
-        } else {
-          top.TYPO3.Flashmessage.display(2, 'Updated', '', 3);
-        }
-      }
-      document.querySelector('.cs-wait').remove();
-      evaluateButton.classList.remove('hidden');
-      location.reload();
+        document.querySelector('.cs-wait').remove();
+        evaluateButton.classList.remove('hidden');
+        location.reload();
+      });
+
+      evaluateButton.classList.add('hidden');
+      return false;
     });
-
-    evaluateButton.classList.add('hidden');
-    return false;
-  });
+  }
 
   // toggle accordion
   const toggles = document.querySelectorAll('.js-csseo-toggle');
@@ -88,10 +90,10 @@ Evaluation.init = function() {
   // record selector with search box
   const recordSelector = document.getElementById('cs-record');
   if (recordSelector) {
-    // Initialize your select2 replacement here
-    // Example using a simple native implementation
-    recordSelector.querySelectorAll('option[value=""]:not(:selected)').forEach(option => {
-      option.remove();
+    recordSelector.querySelectorAll('option[value=""]').forEach(option => {
+      if (!option.selected) {
+        option.remove();
+      }
     });
   }
 };
