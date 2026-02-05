@@ -79,7 +79,7 @@ class ModifyPageLayoutContentEventListener
                             $this->currentPageUid,
                             GlobalsUtility::getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW)
                         ),
-                        'userHasAccessToPageEvaluationModule' => GlobalsUtility::getBackendUser()->check('modules', 'web_CsSeoMod1_pageEvaluation'),
+                        'userHasAccessToPageEvaluationModule' => GlobalsUtility::getBackendUser()->check('modules', 'content_csseo_evaluation'),
                     ]
                 );
 

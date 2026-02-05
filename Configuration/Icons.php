@@ -1,23 +1,23 @@
 <?php
 
-use Clickstorm\CsSeo\Controller\ModuleWebController;
+use Clickstorm\CsSeo\Controller\ModuleContentController;
 use TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider;
 
 $moduleIcons = [
-    'tx-cssseo-module-web' => [
+    'tx-cssseo-module-content' => [
         'provider' => SvgIconProvider::class,
-        'source' => 'EXT:cs_seo/Resources/Public/Icons/mod_web.svg',
+        'source' => 'EXT:cs_seo/Resources/Public/Icons/mod_content.svg',
     ],
-    'tx-cssseo-module-file' => [
+    'tx-cssseo-module-media' => [
         'provider' => SvgIconProvider::class,
-        'source' => 'EXT:cs_seo/Resources/Public/Icons/mod_file.svg',
+        'source' => 'EXT:cs_seo/Resources/Public/Icons/mod_media.svg',
     ],
 ];
 
-foreach (ModuleWebController::$menuActions as $key => $action) {
+foreach (ModuleContentController::$menuActions as $key => $action) {
     $moduleIcons['tx-cssseo-module-' . $key] = [
         'provider' => SvgIconProvider::class,
-        'source' => 'EXT:cs_seo/Resources/Public/Icons/mod_web_' . $key . '.svg',
+        'source' => 'EXT:cs_seo/Resources/Public/Icons/mod_content_' . $key . '.svg',
     ];
 }
 

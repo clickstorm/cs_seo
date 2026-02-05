@@ -28,9 +28,9 @@ abstract class AbstractModuleController extends ActionController
 
     public ?DataHandler $dataHandler = null;
     public static string $session_prefix = 'tx_csseo_';
-    public static string $mod_name = 'web_CsSeoMod1';
-    public static string $uriPrefix = 'tx_csseo_web_csseomod1';
-    public static string $l10nFileName = 'web';
+    public static string $mod_name = 'content_csseo';
+    public static string $uriPrefix = 'tx_csseo_content';
+    public static string $l10nFileName = 'content';
     public static int $flashMessageDurationInSeconds = 5;
 
     public static array $menuActions = [];

@@ -30,14 +30,14 @@ use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Lowlevel\ConfigurationModuleProvider\ProviderRegistry;
 
-class ModuleFileController extends AbstractModuleController
+class ModuleMediaController extends AbstractModuleController
 {
     use AllowedMethodsTrait;
 
-    public static string $session_prefix = 'tx_csseo_file_';
-    public static string $mod_name = 'file_CsSeoModFile';
-    public static string $uriPrefix = 'tx_csseo_file_csseomodfile';
-    public static string $l10nFileName = 'file';
+    public static string $session_prefix = 'tx_csseo_media_';
+    public static string $mod_name = 'media_csseo';
+    public static string $uriPrefix = 'tx_csseo_media';
+    public static string $l10nFileName = 'media';
 
     protected array $modParams = ['action' => '', 'id' => '', 'recursive' => 1, 'onlyReferenced' => 0];
 
@@ -52,7 +52,7 @@ class ModuleFileController extends AbstractModuleController
         'ModuleFile.css',
     ];
 
-    protected string $templateFile = 'ModuleFile/ShowEmptyImageAlt';
+    protected string $templateFile = 'ModuleMedia/ShowEmptyImageAlt';
 
     protected int $storageUid = 0;
     protected string $identifier = '';

@@ -1,12 +1,12 @@
 <?php
 
 use Clickstorm\CsSeo\Command\EvaluationCommand;
-use Clickstorm\CsSeo\Controller\ModuleWebController;
+use Clickstorm\CsSeo\Controller\ModuleContentController;
 
 return [
     'tx_csseo_update' => [
         'path' => '/cs_seo/update',
-        'target' => ModuleWebController::class . '::update',
+        'target' => ModuleContentController::class . '::update',
     ],
     'tx_csseo_evaluate' => [
         'path' => '/cs_seo/evaluate',

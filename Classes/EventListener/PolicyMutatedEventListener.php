@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Clickstorm\CsSeo\EventListener;
 
-use Clickstorm\CsSeo\Controller\ModuleWebController;
+use Clickstorm\CsSeo\Controller\ModuleContentController;
 use TYPO3\CMS\Backend\Module\ExtbaseModule;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Security\ContentSecurityPolicy\Directive;
@@ -30,7 +30,7 @@ final readonly class PolicyMutatedEventListener
         $module = $event->request?->getAttribute('module');
 
         // only for cs_seo web module
-        if ($module instanceof ExtbaseModule && str_starts_with($module->getIdentifier(), ModuleWebController::$mod_name)) {
+        if ($module instanceof ExtbaseModule && str_starts_with($module->getIdentifier(), ModuleContentController::$mod_name)) {
 
             // overwrite the policy so the script and style from the JS module can be used
             $policy = (new Policy())

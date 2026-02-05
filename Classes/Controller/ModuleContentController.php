@@ -18,7 +18,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 /**
  * Class ModuleController
  */
-class ModuleWebController extends AbstractModuleController
+class ModuleContentController extends AbstractModuleController
 {
     protected ?PageRepository $pageRepository = null;
 
@@ -27,13 +27,13 @@ class ModuleWebController extends AbstractModuleController
     protected ?GridService $gridService = null;
 
     public static array $menuActions = [
-        'meta' => 'pageMeta',
-        'index' => 'pageIndex',
-        'open_graph' => 'pageOpenGraph',
-        'twitter_cards' => 'pageTwitterCards',
-        'structured_data' => 'pageStructuredData',
-        'results' => 'pageResults',
-        'evaluation' => 'pageEvaluation',
+        'meta' => 'meta',
+        'index' => 'index',
+        'open_graph' => 'openGraph',
+        'twitter_cards' => 'twitterCards',
+        'structured_data' => 'structuredData',
+        'results' => 'results',
+        'evaluation' => 'evaluation',
     ];
 
     public function injectEvaluationService(EvaluationService $evaluationService): void
@@ -49,9 +49,9 @@ class ModuleWebController extends AbstractModuleController
     /**
      * Show SEO fields
      */
-    public function pageMetaAction(): ResponseInterface
+    public function metaAction(): ResponseInterface
     {
-        $this->templateFile = 'ModuleWeb/PageMeta';
+        $this->templateFile = 'ModuleContent/PageMeta';
         $fieldNames = ['title', 'seo_title', 'tx_csseo_title_only', 'description'];
 
         // get title and settings from TypoScript
@@ -61,55 +61,39 @@ class ModuleWebController extends AbstractModuleController
         return $this->htmlResponse($this->generateGridView($fieldNames));
     }
 
-    protected function generateGridView(array $fieldNames, bool $showResults = false): string
-    {
-        $gridService = GeneralUtility::makeInstance(GridService::class);
-
-        $gridService->setModParams($this->modParams);
-        $gridService->setFieldNames($fieldNames);
-        $gridService->setShowResults($showResults);
-
-        $this->cssFiles = $gridService->getCssFiles();
-        $this->jsFiles = $gridService->getJsFiles();
-
-        $this->moduleTemplate->assignMultiple($gridService->processFields());
-
-        return $this->wrapModuleTemplate();
-    }
-
     /**
      * Show Index properties
      */
-    public function pageIndexAction(): ResponseInterface
+    public function indexAction(): ResponseInterface
     {
-        $this->templateFile = 'ModuleWeb/PageIndex';
+        $this->templateFile = 'ModuleContent/Index';
         return $this->htmlResponse($this->generateGridView(['title', 'canonical_link', 'no_index', 'no_follow', 'no_search']));
     }
 
     /**
      * Show Open Graph properties
      */
-    public function pageOpenGraphAction(): ResponseInterface
+    public function openGraphAction(): ResponseInterface
     {
-        $this->templateFile = 'ModuleWeb/PageOpenGraph';
+        $this->templateFile = 'ModuleContent/OpenGraph';
         return $this->htmlResponse($this->generateGridView(['title', 'og_title', 'og_description', 'og_image']));
     }
 
     /**
      * Show Structure Data properties
      */
-    public function pageStructuredDataAction(): ResponseInterface
+    public function structuredDataAction(): ResponseInterface
     {
-        $this->templateFile = 'ModuleWeb/PageStructuredData';
+        $this->templateFile = 'ModuleContent/StructuredData';
         return $this->htmlResponse($this->generateGridView(['title', 'tx_csseo_json_ld']));
     }
 
     /**
      * Show Twitter Cards properties
      */
-    public function pageTwitterCardsAction(): ResponseInterface
+    public function twitterCardsAction(): ResponseInterface
     {
-        $this->templateFile = 'ModuleWeb/PageTwitterCards';
+        $this->templateFile = 'ModuleContent/TwitterCards';
         return $this->htmlResponse($this->generateGridView([
             'title',
             'twitter_title',
@@ -123,18 +107,18 @@ class ModuleWebController extends AbstractModuleController
     /**
      * Show page evaluation results
      */
-    public function pageResultsAction(): ResponseInterface
+    public function resultsAction(): ResponseInterface
     {
-        $this->templateFile = 'ModuleWeb/PageResults';
+        $this->templateFile = 'ModuleContent/Results';
         return $this->htmlResponse($this->generateGridView(['title', 'tx_csseo_keyword', 'results'], true));
     }
 
     /**
      * Show page evaluation results
      */
-    public function pageEvaluationAction(): ResponseInterface
+    public function evaluationAction(): ResponseInterface
     {
-        $this->templateFile = 'ModuleWeb/PageEvaluation';
+        $this->templateFile = 'ModuleContent/Evaluation';
         $page = $this->pageRepository->getPage((int)$this->modParams['id'], true);
         $evaluationUid = 0;
         $extKey = 'cs_seo';
@@ -260,7 +244,7 @@ class ModuleWebController extends AbstractModuleController
      *
      * @return ResponseInterface
      */
-    public function update(ServerRequestInterface $request)
+    public function update(ServerRequestInterface $request): HtmlResponse|ResponseInterface
     {
         // get parameter
         $postdata = file_get_contents('php://input');
@@ -289,5 +273,21 @@ class ModuleWebController extends AbstractModuleController
         }
 
         return $response;
+    }
+
+    protected function generateGridView(array $fieldNames, bool $showResults = false): string
+    {
+        $gridService = GeneralUtility::makeInstance(GridService::class);
+
+        $gridService->setModParams($this->modParams);
+        $gridService->setFieldNames($fieldNames);
+        $gridService->setShowResults($showResults);
+
+        $this->cssFiles = $gridService->getCssFiles();
+        $this->jsFiles = $gridService->getJsFiles();
+
+        $this->moduleTemplate->assignMultiple($gridService->processFields());
+
+        return $this->wrapModuleTemplate();
     }
 }
