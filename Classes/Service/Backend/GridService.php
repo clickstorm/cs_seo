@@ -43,10 +43,10 @@ class GridService
         $this->fieldNames = $fieldNames;
     }
 
-    public function setModParams(array $modParams): void
+    public function setModParams(array $modParams, int $pageUid): void
     {
         $this->modParams = $modParams;
-        $this->pageUid = (int)$this->modParams['id'];
+        $this->pageUid = $pageUid;
         $this->languages = LanguageUtility::getLanguagesInBackend($this->pageUid); // get languages
     }
 
@@ -96,7 +96,7 @@ class GridService
         // fetch the rows
         if ($this->modParams['lang'] > 0) {
             /** @var LanguageAspect $languageAspect */
-            $languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, $this->modParams['lang']);
+            $languageAspect = GeneralUtility::makeInstance(LanguageAspect::class, (int)$this->modParams['lang']);
             $context->setAspect('language', $languageAspect);
             $columnDefs[] = $this->getColumnDefinition('sys_language_uid');
         }
@@ -111,7 +111,6 @@ class GridService
             'depth' => $this->modParams['depth'],
             'lang' => $this->modParams['lang'],
             'languages' => $this->languages,
-            'action' => $this->modParams['action'],
         ];
     }
 

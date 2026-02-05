@@ -1,5 +1,6 @@
 <?php
 
+use Clickstorm\CsSeo\Controller\AbstractModuleController;
 use Clickstorm\CsSeo\Controller\ModuleMediaController;
 use Clickstorm\CsSeo\Controller\ModuleContentController;
 
@@ -7,6 +8,9 @@ $csSeoModules =  [
     'content_csseo' => [
         'parent' => 'content',
         'showSubmoduleOverview' => true,
+        'appearance' => [
+            'dependsOnSubmodules' => true,
+        ],
         'position' => ['after' => '*'],
         'access' => 'user',
         'workspaces' => 'live',
@@ -14,11 +18,7 @@ $csSeoModules =  [
         'path' => '/module/content/cs-seo',
         'labels' => 'cs_seo.modules.content',
         'extensionName' => 'CsSeo',
-        'moduleData' => [
-            'pages' => '0',
-            'depth' => 0,
-            'lang' => 0,
-        ],
+        'moduleData' => AbstractModuleController::$allowedModuleData
     ],
     'media_csseo' => [
         'parent' => 'media',
@@ -32,9 +32,7 @@ $csSeoModules =  [
         'controllerActions' => [
             ModuleMediaController::class => 'showEmptyImageAlt,update',
         ],
-        'moduleData' => [
-            'id' => '0',
-        ],
+        'moduleData' => ModuleMediaController::$allowedModuleData
     ],
 ];
 
@@ -53,11 +51,7 @@ foreach (ModuleContentController::$menuActions as $key => $action) {
                 $action,
             ],
         ],
-        'moduleData' => [
-            'pages' => '0',
-            'depth' => 0,
-            'lang' => 0,
-        ],
+        'moduleData' => AbstractModuleController::$allowedModuleData
     ];
 }
 

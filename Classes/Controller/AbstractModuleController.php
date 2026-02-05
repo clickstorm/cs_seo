@@ -14,10 +14,8 @@ use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
-use TYPO3\CMS\Lowlevel\ConfigurationModuleProvider\ProviderRegistry;
 
 /**
  * Class ModuleController
@@ -34,9 +32,11 @@ abstract class AbstractModuleController extends ActionController
 
     public static array $menuActions = [];
 
-    protected array $modParams = ['action' => '', 'id' => 0, 'lang' => 0, 'depth' => 1, 'table' => 'pages', 'record' => 0];
+    public static array $allowedModuleData = ['id' => 0, 'lang' => 0, 'depth' => 1, 'table' => 'pages', 'record' => 0];
 
-    protected int $recordId = 0;
+    protected array $moduleData = [];
+
+    protected string|int $recordId = 0;
 
     protected array $cssFiles = [];
 
@@ -51,10 +51,12 @@ abstract class AbstractModuleController extends ActionController
     protected ?ModuleTemplate $moduleTemplate = null;
 
     public function __construct(
-        protected PageRenderer $pageRenderer,
+        protected PageRenderer          $pageRenderer,
         protected ModuleTemplateFactory $moduleTemplateFactory,
-        protected ComponentFactory $componentFactory,
-    ) {}
+        protected ComponentFactory      $componentFactory,
+    )
+    {
+    }
 
     /**
      * @throws NoSuchArgumentException
@@ -63,18 +65,17 @@ abstract class AbstractModuleController extends ActionController
     protected function initializeAction(): void
     {
         // initialize page/be_user TSconfig settings
-        $this->recordId = (int)($this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? 0);
+        $this->recordId = $this->request->getParsedBody()['id'] ?? $this->request->getQueryParams()['id'] ?? 0;
 
-        // initialize settings of the module
-        $this->initializeModParams();
-
-        if ($this->recordId === 0) {
-            $this->recordId = (int)$this->modParams['id'];
+        if (is_numeric($this->recordId)) {
+            $this->recordId = (int)$this->recordId;
         }
 
-        if (!$this->request->hasArgument('action') && $this->modParams['action']) {
-            $this->request = $this->request->withArgument('action', $this->modParams['action']);
-            new ForwardResponse($this->modParams['action']);
+        // initialize settings of the module
+        $this->initializeModuleData();
+
+        if ($this->recordId === 0) {
+            $this->recordId = (int)$this->moduleData['id'];
         }
 
         if (is_int($this->recordId)) {
@@ -89,16 +90,16 @@ abstract class AbstractModuleController extends ActionController
     /**
      * initialize the settings for the current view
      */
-    protected function initializeModParams(): void
+    protected function initializeModuleData(): void
     {
-        $sessionParams = GlobalsUtility::getBackendUser()->getModuleData(static::$mod_name) ?: $this->modParams;
+        $sessionParams = GlobalsUtility::getBackendUser()->getModuleData(static::$mod_name) ?: static::$allowedModuleData;
 
-        foreach (array_keys($this->modParams) as $name) {
+        foreach (array_keys(static::$allowedModuleData) as $name) {
             $modParam = $this->request->getParsedBody()[$name] ?? $this->request->getQueryParams()[$name] ?? $sessionParams[$name] ?? '';
             if (is_numeric($modParam)) {
                 $modParam = (int)$modParam;
             }
-            $this->modParams[$name] = $modParam;
+            $this->moduleData[$name] = $modParam;
 
             if ($this->request->hasArgument($name)) {
                 $arg = $this->request->getArgument($name);
@@ -107,12 +108,13 @@ abstract class AbstractModuleController extends ActionController
                     // e.g. arg='0_99', the id should be the last number
                     $arg = (int)substr($arg, strrpos($arg, '_') + 1);
                 }
-                $this->modParams[$name] = is_numeric($arg) ? (int)$arg : $arg;
+                $this->moduleData[$name] = is_numeric($arg) ? (int)$arg : $arg;
             }
         }
+
         GlobalsUtility::getBackendUser()->pushModuleData(
             static::$mod_name,
-            $this->modParams
+            $this->moduleData
         );
     }
 
@@ -151,8 +153,8 @@ abstract class AbstractModuleController extends ActionController
 
         // Shortcut in doc header
         $l10nLabel = GlobalsUtility::getLanguageService()->sL(
-                'LLL:EXT:cs_seo/Resources/Private/Language/Modules/' . static::$l10nFileName . '.xlf:title'
-            );
+            'LLL:EXT:cs_seo/Resources/Private/Language/Modules/' . static::$l10nFileName . '.xlf:title'
+        );
 
         $this->moduleTemplate->getDocHeaderComponent()->setShortcutContext(
             routeIdentifier: static::$mod_name,
@@ -165,17 +167,11 @@ abstract class AbstractModuleController extends ActionController
 
         // The page will show only if there is a valid page and if this page
         // may be viewed by the user
-        if (is_numeric($this->modParams['id'])) {
+        if (is_numeric($this->recordId)) {
             $permsClause = GlobalsUtility::getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW);
             // @extensionScannerIgnoreLine
             $metaInfo = BackendUtility::readPageAccess($this->recordId, $permsClause);
-        } else {
-            $metaInfo = [
-                'combined_identifier' => $this->modParams['id'],
-            ];
-        }
 
-        if ($metaInfo) {
             $this->moduleTemplate->getDocHeaderComponent()->setPageBreadcrumb($metaInfo);
         }
 
@@ -216,5 +212,7 @@ abstract class AbstractModuleController extends ActionController
             ';
     }
 
-    protected function addModuleButtons(ButtonBar $buttonBar): void {}
+    protected function addModuleButtons(ButtonBar $buttonBar): void
+    {
+    }
 }

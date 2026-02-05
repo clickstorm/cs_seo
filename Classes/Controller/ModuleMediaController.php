@@ -9,6 +9,7 @@ use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\FileUtility;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ResponseInterface;
+use TYPO3\CMS\Backend\Attribute\AsController;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\ComponentFactory;
@@ -29,6 +30,7 @@ use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 
+#[AsController]
 class ModuleMediaController extends AbstractModuleController
 {
     use AllowedMethodsTrait;
@@ -37,7 +39,7 @@ class ModuleMediaController extends AbstractModuleController
     public static string $uriPrefix = 'tx_csseo_media';
     public static string $l10nFileName = 'media';
 
-    protected array $modParams = ['action' => '', 'id' => '', 'recursive' => 1, 'onlyReferenced' => 0];
+    public static array $allowedModuleData = ['id' => '1:/', 'recursive' => 1, 'onlyReferenced' => 0];
 
     protected ?File $image = null;
 
@@ -73,8 +75,8 @@ class ModuleMediaController extends AbstractModuleController
     {
         parent::initializeAction();
 
-        $this->storageUid = FileUtility::getStorageUidFromCombinedIdentifier($this->modParams['id']);
-        $this->identifier = FileUtility::getIdentifierFromCombinedIdentifier($this->modParams['id']);
+        $this->storageUid = FileUtility::getStorageUidFromCombinedIdentifier($this->recordId);
+        $this->identifier = FileUtility::getIdentifierFromCombinedIdentifier($this->recordId);
     }
 
     public function showEmptyImageAltAction(): ResponseInterface
@@ -95,8 +97,8 @@ class ModuleMediaController extends AbstractModuleController
             $fileModuleOptions = new FileModuleOptions(
                 $this->storageUid,
                 $this->identifier,
-                (bool)$this->modParams['recursive'],
-                (bool)$this->modParams['onlyReferenced']
+                (bool)$this->moduleData['recursive'],
+                (bool)$this->moduleData['onlyReferenced']
             );
 
             $result = DatabaseUtility::getImageWithEmptyAlt(
@@ -132,7 +134,7 @@ class ModuleMediaController extends AbstractModuleController
             $this->moduleTemplate->assignMultiple([
                 'numberOfAllImages' => $numberOfAllImages,
                 'identifier' => $this->identifier,
-                'modParams' => $this->modParams,
+                'modParams' => $this->moduleData,
             ]);
 
             $imageRow = DatabaseUtility::getImageWithEmptyAlt(
@@ -172,7 +174,7 @@ class ModuleMediaController extends AbstractModuleController
                         $metadataUid = (int)$this->image->getOriginalResource()->getProperties()['metadata_uid'];
                     }
 
-                    if ($this->modParams['onlyReferenced']) {
+                    if ($this->moduleData['onlyReferenced']) {
                         $this->moduleTemplate->assign('numberOfReferences', DatabaseUtility::getFileReferenceCount($this->image->getUid()));
                     }
 
@@ -346,7 +348,7 @@ class ModuleMediaController extends AbstractModuleController
             ))
             ->setValue('1');
 
-        if ($this->modParams['onlyReferenced']) {
+        if ($this->moduleData['onlyReferenced']) {
             $onlyReferencedButton
                 ->setClasses('active')
                 ->setValue('0');
@@ -363,7 +365,7 @@ class ModuleMediaController extends AbstractModuleController
             ))
             ->setValue('1');
 
-        if ($this->modParams['recursive']) {
+        if ($this->moduleData['recursive']) {
             $recursiveButton
                 ->setClasses('active')
                 ->setValue('0');

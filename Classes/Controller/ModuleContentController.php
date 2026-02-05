@@ -10,6 +10,7 @@ use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\LanguageUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Backend\Attribute\AsController;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -18,6 +19,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 /**
  * Class ModuleController
  */
+#[AsController]
 class ModuleContentController extends AbstractModuleController
 {
     protected ?PageRepository $pageRepository = null;
@@ -51,11 +53,11 @@ class ModuleContentController extends AbstractModuleController
      */
     public function metaAction(): ResponseInterface
     {
-        $this->templateFile = 'ModuleContent/PageMeta';
+        $this->templateFile = 'ModuleContent/Meta';
         $fieldNames = ['title', 'seo_title', 'tx_csseo_title_only', 'description'];
 
         // get title and settings from TypoScript
-        $frontendConfigurationService = GeneralUtility::makeInstance(FrontendConfigurationService::class, $this->recordId, (int)$this->modParams['lang']);
+        $frontendConfigurationService = GeneralUtility::makeInstance(FrontendConfigurationService::class, $this->recordId, (int)$this->moduleData['lang']);
         $this->moduleTemplate->assign('previewSettings', json_encode($frontendConfigurationService->getPreviewSettings()));
 
         return $this->htmlResponse($this->generateGridView($fieldNames));
@@ -119,7 +121,7 @@ class ModuleContentController extends AbstractModuleController
     public function evaluationAction(): ResponseInterface
     {
         $this->templateFile = 'ModuleContent/Evaluation';
-        $page = $this->pageRepository->getPage((int)$this->modParams['id'], true);
+        $page = $this->pageRepository->getPage((int)$this->recordId, true);
         $evaluationUid = 0;
         $extKey = 'cs_seo';
         $tables = [
@@ -140,12 +142,12 @@ class ModuleContentController extends AbstractModuleController
             }
         }
 
-        $table = $this->modParams['table'];
+        $table = $this->moduleData['table'];
         if ($table && $table !== 'pages') {
             // @extensionScannerIgnoreLine
             $records = DatabaseUtility::getRecords($table, $this->recordId, true);
-            if ($records && $this->modParams['record'] && isset($records[$this->modParams['record']])) {
-                $evaluationUid = $this->modParams['record'];
+            if ($records && $this->moduleData['record'] && isset($records[$this->moduleData['record']])) {
+                $evaluationUid = $this->moduleData['record'];
             }
 
             if ($evaluationUid) {
@@ -154,7 +156,7 @@ class ModuleContentController extends AbstractModuleController
 
             $this->moduleTemplate->assignMultiple(
                 [
-                    'record' => $this->modParams['record'],
+                    'record' => $this->moduleData['record'],
                     'records' => $records,
                     'showRecords' => true,
                 ]
@@ -181,7 +183,7 @@ class ModuleContentController extends AbstractModuleController
             }
 
             // get page
-            $languageParam = (int)$this->modParams['lang'];
+            $languageParam = (int)$this->moduleData['lang'];
             if ($languageParam > 0) {
                 $page = $this->pageRepository->getPageOverlay($page, $languageParam);
             }
@@ -279,7 +281,7 @@ class ModuleContentController extends AbstractModuleController
     {
         $gridService = GeneralUtility::makeInstance(GridService::class);
 
-        $gridService->setModParams($this->modParams);
+        $gridService->setModParams($this->moduleData, $this->recordId);
         $gridService->setFieldNames($fieldNames);
         $gridService->setShowResults($showResults);
 
