@@ -27,7 +27,6 @@ abstract class AbstractModuleController extends ActionController
     public $modTSconfig;
 
     public ?DataHandler $dataHandler = null;
-    public static string $session_prefix = 'tx_csseo_';
     public static string $mod_name = 'content_csseo';
     public static string $uriPrefix = 'tx_csseo_content';
     public static string $l10nFileName = 'content';
@@ -92,7 +91,7 @@ abstract class AbstractModuleController extends ActionController
      */
     protected function initializeModParams(): void
     {
-        $sessionParams = GlobalsUtility::getBackendUser()->getSessionData(static::$session_prefix) ?: $this->modParams;
+        $sessionParams = GlobalsUtility::getBackendUser()->getModuleData(static::$mod_name) ?: $this->modParams;
 
         foreach (array_keys($this->modParams) as $name) {
             $modParam = $this->request->getParsedBody()[$name] ?? $this->request->getQueryParams()[$name] ?? $sessionParams[$name] ?? '';
@@ -111,8 +110,8 @@ abstract class AbstractModuleController extends ActionController
                 $this->modParams[$name] = is_numeric($arg) ? (int)$arg : $arg;
             }
         }
-        GlobalsUtility::getBackendUser()->setAndSaveSessionData(
-            static::$session_prefix,
+        GlobalsUtility::getBackendUser()->pushModuleData(
+            static::$mod_name,
             $this->modParams
         );
     }

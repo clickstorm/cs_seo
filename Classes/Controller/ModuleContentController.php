@@ -55,7 +55,7 @@ class ModuleContentController extends AbstractModuleController
         $fieldNames = ['title', 'seo_title', 'tx_csseo_title_only', 'description'];
 
         // get title and settings from TypoScript
-        $frontendConfigurationService = GeneralUtility::makeInstance(FrontendConfigurationService::class, $this->recordId, $this->modParams['lang']);
+        $frontendConfigurationService = GeneralUtility::makeInstance(FrontendConfigurationService::class, $this->recordId, (int)$this->modParams['lang']);
         $this->moduleTemplate->assign('previewSettings', json_encode($frontendConfigurationService->getPreviewSettings()));
 
         return $this->htmlResponse($this->generateGridView($fieldNames));

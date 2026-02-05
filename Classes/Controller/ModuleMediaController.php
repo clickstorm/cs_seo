@@ -28,13 +28,11 @@ use TYPO3\CMS\Extbase\Domain\Model\File;
 use TYPO3\CMS\Extbase\Http\ForwardResponse;
 use TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
-use TYPO3\CMS\Lowlevel\ConfigurationModuleProvider\ProviderRegistry;
 
 class ModuleMediaController extends AbstractModuleController
 {
     use AllowedMethodsTrait;
 
-    public static string $session_prefix = 'tx_csseo_media_';
     public static string $mod_name = 'media_csseo';
     public static string $uriPrefix = 'tx_csseo_media';
     public static string $l10nFileName = 'media';
