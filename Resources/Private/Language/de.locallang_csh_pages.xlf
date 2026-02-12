@@ -33,7 +33,7 @@
 			</trans-unit>
 			<trans-unit id="seo_title.description" resname="seo_title.description">
 				<source>This title will be shown in the browser tab and in the search engines. Place some keywords here, but not only separated by commas. The user should be animated to click.</source>
-				<target>Dieser Titel wird im Browser-Tab und den Suchmaschinen angezeigt. Bringen Sie hier wichtige Keywoards unter, aber nicht nur durch Kommas getrennt. Der Nutzer soll zum Klicken animiert werden.</target>
+				<target>Dieser Titel wird im Browser-Tab und den Suchmaschinen angezeigt. Bringen Sie hier wichtige Keywords unter, aber nicht nur durch Kommas getrennt. Der Nutzer soll zum Klicken animiert werden.</target>
 			</trans-unit>
 			<trans-unit id="twitter_description.description" resname="tw_description.description">
 				<source>This description will be shown, if the user shares this page on twitter. Fallback is the open graph description.</source>
