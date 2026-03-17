@@ -176,6 +176,7 @@ return [
                 'type' => 'input',
                 'renderType' => 'snippetPreview',
                 'eval' => 'trim',
+                'size' => 40,
             ],
         ],
         'description' => [
@@ -187,7 +188,6 @@ return [
                 'cols' => 40,
                 'rows' => 5,
                 'eval' => 'trim',
-                'max' => $extConf['maxDescription'] ?? '',
             ],
         ],
         'title_only' => [

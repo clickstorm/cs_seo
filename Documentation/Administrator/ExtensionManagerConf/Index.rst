@@ -35,7 +35,6 @@ Properties
 	`evaluation.evaluators`_                                :ref:`t3tsref:data-type-string`       Title,Description,H1,H2,Images,Keyword
 	`evaluation.minTitle`_                                  :ref:`t3tsref:data-type-integer`      40
 	`evaluation.minDescription`_                            :ref:`t3tsref:data-type-integer`      140
-	`evaluation.forceMinDescription`_                       :ref:`t3tsref:data-type-boolean`      true
 	`evaluation.maxH2`_                                     :ref:`t3tsref:data-type-integer`      6
 	`file.modFileColumns`_                                  :ref:`t3tsref:data-type-string`       title,description
    `file.excludeFileExtensions`_                           :ref:`t3tsref:data-type-string`       webp
@@ -199,20 +198,6 @@ Min characters of an optimal description
          :ref:`t3tsref:data-type-integer`
    Description
          The recommended minimum number of characters for the meta description tag. Only used for evaluation.
-
-.. _evaluation.forceMinDescription:
-
-Force the min length in TCA
-"""""""""""""""""""""""""""
-
-.. container:: table-row
-
-   Property
-         forceMinDescription
-   Data type
-         :ref:`t3tsref:data-type-integer`
-   Description
-         If true, the editor can only save the description if the minimum length is reached.
 
 .. _evaluation.maxH2:
 

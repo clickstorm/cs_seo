@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2026-03-17T13:16:42Z" product-name="cs_seo">
+	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2026-03-17T14:31:27Z" product-name="cs_seo">
 		<header/>
 		<body>
 			<trans-unit id="date.format" resname="date.format">
@@ -418,6 +418,10 @@
 			<trans-unit id="wizard.legendUnder" resname="wizard.legendUnder">
 				<source>Below %s characters: yellow</source>
 				<target>Unter %s Zeichen: gelb</target>
+			</trans-unit>
+			<trans-unit id="wizard.recommendation.range" resname="wizard.recommendation.range">
+				<source>Recommendation: %d to %d characters</source>
+				<target>Empfehlung: %d bis %d Zeichen</target>
 			</trans-unit>
 			<trans-unit id="wizard.statusOk" resname="wizard.statusOk">
 				<source>OK</source>

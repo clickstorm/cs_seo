@@ -4,7 +4,7 @@
 
 <!-- Meter -->
 
-<div class="js-seo-meter"
+<div class="csseo-char-counter__wrapper js-seo-meter"
      data-min-chars="{extConf.minTitle}"
      data-max-chars="{extConf.maxTitle}"
      data-label-status-ok="{labels.statusOk}"
@@ -15,4 +15,8 @@
     <div class="badge badge-danger js-seo-meter-message"
          aria-live="polite"
          role="status"></div>
+
+    <div class="csseo-char-counter__hint">
+        <f:translate key="wizard.recommendation.range" arguments="{minChars: extConf.minTitle, maxChars: extConf.maxTitle}" extensionName="cs_seo"/>
+    </div>
 </div>

@@ -12,10 +12,15 @@ $extConf = ConfigurationUtility::getEmConfiguration();
 $maxNavTitleLength = (int)($extConf['maxNavTitle'] ?? 0);
 $GLOBALS['TCA']['pages']['columns']['nav_title']['config']['max'] = $maxNavTitleLength ?: null;
 $maxDescriptionLength = (int)($extConf['maxDescription'] ?? 0);
-$GLOBALS['TCA']['pages']['columns']['description']['config']['max'] = $maxDescriptionLength ?: null;
 
-if (!empty($extConf['forceMinDescription'])) {
-    $GLOBALS['TCA']['pages']['columns']['description']['config']['min'] = $extConf['minDescription'] ?? '';
+if (empty($extConf['disableCharCounter'])) {
+    $GLOBALS['TCA']['pages']['columns']['description']['config']['fieldWizard']['txCsseoCharCounter'] = [
+        'renderType' => 'txCsseoCharCounter',
+        'options' => [
+            'minChars' => (int)($extConf['minDescription'] ?? 0),
+            'maxChars' => $maxDescriptionLength,
+        ],
+    ];
 }
 
 $GLOBALS['TCA']['pages']['columns']['seo_title']['config']['renderType'] = 'snippetPreview';

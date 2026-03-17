@@ -43,8 +43,10 @@
   width: 100%;
 }
 .tx-cs_seo-desc {
-  display: block;
   overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   white-space: normal;
   width: 100%;
 }
@@ -54,6 +56,7 @@
     white-space: normal;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: clip;
   }
@@ -63,6 +66,7 @@
   white-space: normal;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: clip;
 }
@@ -86,4 +90,14 @@ typo3-backend-formengine-char-counter[target*="seo_title"] {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+.csseo-char-counter__wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  max-width: 636px;
+}
+.csseo-char-counter__hint {
+  color: var(--typo3-text-color-variant);
+  margin-top: 4px;
 }
