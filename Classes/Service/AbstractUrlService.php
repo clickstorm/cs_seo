@@ -24,7 +24,7 @@ abstract class AbstractUrlService
      * constructor
      */
     public function __construct(
-        TypoScriptFrontendController $typoScriptFrontendController = null
+        ?TypoScriptFrontendController $typoScriptFrontendController = null
     ) {
         if ($typoScriptFrontendController === null) {
             $typoScriptFrontendController = $this->getTypoScriptFrontendController();
