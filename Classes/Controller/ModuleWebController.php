@@ -27,6 +27,10 @@ class ModuleWebController extends AbstractModuleController
 
     protected ?GridService $gridService;
 
+    protected array $jsModules = [
+        '@clickstorm/cs-seo/AutoSubmit.js',
+    ];
+
     public static array $menuActions = [
         'pageMeta',
         'pageIndex',
