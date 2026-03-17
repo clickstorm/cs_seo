@@ -14,9 +14,11 @@
   background-color: #79a548;
 }
 .cs-seo-results .header {
-  background: var(--typo3-surface-container-highest);
+  background: var(--typo3-surface-container-high);
   padding: 10px;
   position: relative;
+  display: flex;
+  justify-content: space-between;
 }
 .cs-seo-results .header .text {
   margin-right: 50px;
@@ -29,6 +31,7 @@
 .cs-seo-results .score {
   border-radius: --var(--typo3-input-border-radius);
   color: #fff;
+  display: inline-block;
   padding: 5px 10px;
   margin-right: 10px;
 }
@@ -38,13 +41,13 @@
   padding: 0;
 }
 .cs-seo-results__item {
-  background: var(--typo3-surface-container-high);
+  background: var(--typo3-surface-container-base);
   clear: both;
   margin: 0;
   padding: 10px;
 }
 .cs-seo-results__item:nth-child(even) {
-  background: var(--typo3-surface-container-highest);
+  background: var(--typo3-surface-container-high);
 }
 .cs-seo-results .detail {
   border-top: 1px solid #fff;
@@ -123,9 +126,6 @@
 }
 .cs-seo-results .no-margin {
   margin: 0;
-}
-#cs-seo-evaluate {
-  margin-top: -2px;
 }
 .cs-icon {
   position: relative;
