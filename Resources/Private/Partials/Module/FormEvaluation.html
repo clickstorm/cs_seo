@@ -11,9 +11,8 @@
                 <f:form.select
                         id="table"
                         options="{tables}"
-                        class="form-select"
+                        class="form-select js-csseo-autosubmit"
                         name="table"
-                        additionalAttributes="{onchange:'this.form.submit();'}"
                         value="{table}"
                         />
             </div>
@@ -24,10 +23,9 @@
                         <f:form.select
                                 id="cs-record"
                                 options="{records}"
-                                class="form-select"
+                                class="form-select js-csseo-autosubmit"
                                 prependOptionLabel="{f:translate(key:'select.prepend', extensionName: 'cs_seo')}"
                                 name="record"
-                                additionalAttributes="{onchange:'this.form.submit();'}"
                                 value="{record}"
                                 />
                     </f:then>
@@ -37,9 +35,8 @@
                             <f:form.select
                                 id="lang"
                                 options="{languages}"
-                                class="form-select"
+                                class="form-select js-csseo-autosubmit"
                                 name="lang"
-                                additionalAttributes="{onchange:'this.form.submit();'}"
                                 value="{lang}"
                             />
                         </f:if>
