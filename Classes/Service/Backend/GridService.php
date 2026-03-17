@@ -143,7 +143,8 @@ class GridService
                     $columnDef['type'] = 'object';
                     break;
                 case 'text':
-                    $columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'] ?? '';
+                    $columnDef['max'] = $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['max'] ??
+                        $GLOBALS['TCA']['pages']['columns'][$fieldName]['config']['fieldWizard']['txCsseoCharCounter']['options']['maxChars'] ?? '';
                     $columnDef['editableCellTemplate'] =
                         '<div><form name="inputForm"><textarea class="form-control" ng-maxlength="'
                         . $columnDef['max']
