@@ -77,7 +77,7 @@ class FrontendConfigurationService
         }
 
         $siteTitle = $this->getSiteTitle();
-        $pageTitleFirst = $this->getTypoScriptConfig()['pageTitleFirst'];
+        $pageTitleFirst = $this->getTypoScriptConfig()['pageTitleFirst'] ?? '';
         $pageTitleSeparator = $this->getPageTitleSeparator();
 
         if ($pageTitleFirst) {
