@@ -220,6 +220,7 @@ class SnippetPreview extends AbstractFormElement
                     [
                         'config' => $config,
                         'extConf' => ConfigurationUtility::getEmConfiguration(),
+                        'labels' => $this->getTranslatedLabels(),
                         'data' => $data,
                         'fallback' => $fallback,
                         'pageTitle' => $pageTitle,
