@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en"
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
       xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      xmlns:csseo="http://typo3.org/ns/Clickstorm/CsSeo/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
 <p class="no-margin">
@@ -19,12 +20,23 @@
 			</h4>
 			<div class="cs-seo-images__grid">
 				<f:for each="{result.images}" as="image">
+					<f:variable name="editUrl"><csseo:imageEditUrl url="{image}" returnUrl="{returnUrl}"/></f:variable>
+					<f:variable name="fileName"><csseo:imageOriginalName url="{image}"/></f:variable>
+					<f:variable name="filePath"><csseo:imageOriginalName url="{image}" withPath="true"/></f:variable>
 					<figure class="cs-seo-image-card">
 						<div class="cs-seo-image-card__media">
 							<img src="{image}" alt="" loading="lazy"/>
+							<f:if condition="{editUrl}">
+								<a href="{editUrl}" class="cs-seo-image-card__edit" title="{f:translate(key:'evaluation.images.editAlt', extensionName:'cs_seo')}">
+									<core:icon identifier="actions-document-edit"/>
+								</a>
+							</f:if>
 						</div>
 						<figcaption class="cs-seo-image-card__info">
-							<a href="{image}" target="_blank" rel="noopener" class="cs-seo-image-card__url" title="{image}">{image}</a>
+							<a href="{image}" target="_blank" rel="noopener" class="cs-seo-image-card__name" title="{filePath}">{fileName}</a>
+							<f:if condition="{filePath}">
+								<span class="cs-seo-image-card__path" title="{filePath}">{filePath}</span>
+							</f:if>
 						</figcaption>
 					</figure>
 				</f:for>

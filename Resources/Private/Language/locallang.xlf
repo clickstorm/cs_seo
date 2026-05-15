@@ -120,6 +120,9 @@
 			<trans-unit id="evaluation.images.altMissing" resname="evaluation.images.altMissing">
 				<source>Alt text missing</source>
 			</trans-unit>
+			<trans-unit id="evaluation.images.editAlt" resname="evaluation.images.editAlt">
+				<source>Edit alt text</source>
+			</trans-unit>
 			<trans-unit id="evaluation.images.withoutAlt" resname="evaluation.images.withoutAlt">
 				<source>Images without an alt attribut</source>
 			</trans-unit>

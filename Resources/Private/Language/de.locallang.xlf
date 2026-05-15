@@ -159,6 +159,10 @@
 				<source>Alt text missing</source>
 				<target>Alt-Text fehlt</target>
 			</trans-unit>
+			<trans-unit id="evaluation.images.editAlt" resname="evaluation.images.editAlt">
+				<source>Edit alt text</source>
+				<target>Alt-Text bearbeiten</target>
+			</trans-unit>
 			<trans-unit id="evaluation.images.withoutAlt" resname="evaluation.images.withoutAlt">
 				<source>Images without an alt attribut</source>
 				<target>Bilder ohne alt-Attribut</target>

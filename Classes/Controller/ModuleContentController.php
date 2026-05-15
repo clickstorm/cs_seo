@@ -228,6 +228,7 @@ class ModuleContentController extends AbstractModuleController
                 'page' => $page,
                 'tables' => $tables,
                 'table' => $table,
+                'returnUrl' => (string)$this->request->getAttribute('normalizedParams')->getRequestUrl(),
             ]
         );
 
