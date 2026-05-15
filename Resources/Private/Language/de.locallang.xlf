@@ -72,8 +72,8 @@
 				<target>eine Überschrift wurde gefunden</target>
 			</trans-unit>
 			<trans-unit id="evaluation.h1.settings" resname="evaluation.h1.settings">
-				<source>The page should contain one h1 headline.</source>
-				<target>Die Seite sollte eine h1-Überschrift beinhalten.</target>
+				<source>Each page should contain exactly one H1 heading. It describes the main topic and helps search engines and screen readers to navigate.</source>
+				<target>Jede Seite sollte genau eine H1-Überschrift enthalten. Sie beschreibt das Hauptthema und hilft Suchmaschinen sowie Screenreadern bei der Orientierung.</target>
 			</trans-unit>
 			<trans-unit id="evaluation.h2" resname="evaluation.h2">
 				<source>H2 headlines</source>
@@ -92,8 +92,8 @@
 				<target>Die Anzahl der Überschriften ist optimal</target>
 			</trans-unit>
 			<trans-unit id="evaluation.h2.settings" resname="evaluation.h2.settings">
-				<source>The page should contain not more than %1$s h2 headlines.</source>
-				<target>Die Seite sollte nicht mehr als %1$s h2-Überschriften beinhalten.</target>
+				<source>H2 headings structure the main sections of a page. More than %1$s often indicate a fragmented structure — related topics can usually be combined.</source>
+				<target>H2-Überschriften gliedern den Inhalt in Hauptabschnitte. Mehr als %1$s deuten meist auf eine zerstückelte Struktur hin — verwandte Themen lassen sich oft zusammenfassen.</target>
 			</trans-unit>
 			<trans-unit id="evaluation.header" resname="evaluation.header">
 				<source>SEO - Content Analysis</source>
@@ -120,8 +120,8 @@
 				<target>Inkorrekt</target>
 			</trans-unit>
 			<trans-unit id="evaluation.headingOrder.settings" resname="evaluation.headingOrder.settings">
-				<source>The hierarchical order of headings (h1-h6) should be correct, e.g. a h2 heading should always be below a h1 heading. If your page has headings, you can see the current order here.</source>
-				<target>Die hierarchische Reihenfolge der Überschriften (h1-h6) sollte korrekt sein, z.B. eine H2-Überschrift muss immer unter einer H1-Überschrift stehen. Wenn die aktuelle Seite Überschriften hat, können Sie hier die Reihenfolge sehen.</target>
+				<source>Headings (H1–H6) should be nested hierarchically, e.g. an H2 always follows an H1, an H3 always follows an H2. Skipped levels make the page harder to understand for screen readers.</source>
+				<target>Überschriften (H1–H6) sollten hierarchisch korrekt verschachtelt sein — z. B. folgt eine H2 immer auf eine H1, eine H3 immer auf eine H2. Sprünge in der Hierarchie erschweren das Verständnis für Screenreader.</target>
 			</trans-unit>
 			<trans-unit id="evaluation.headlines.count" resname="evaluation.headlines.count">
 				<source>Number of headlines found: %1$s.</source>
@@ -169,7 +169,7 @@
 			</trans-unit>
 			<trans-unit id="evaluation.keyword" resname="evaluation.keyword">
 				<source>Focus Keyword</source>
-				<target>Fokus Schlüsselwort</target>
+				<target>Fokus-Schlüsselwort</target>
 			</trans-unit>
 			<trans-unit id="evaluation.keyword.0" resname="evaluation.keyword.0">
 				<source>The keyword was not found anywhere</source>
@@ -200,8 +200,8 @@
 				<target>Es wurde kein Schlüsselwort gesetzt</target>
 			</trans-unit>
 			<trans-unit id="evaluation.keyword.settings" resname="evaluation.keyword.settings">
-				<source>The focus keyword is the word under which the page should be found in external search engines. It should appear in the browser title, the meta description and the content.</source>
-				<target>Das Fokus Keyword ist das Wort, unter dem die Seite in externen Suchmaschinen gefunden werden sollte. Es sollte im Browser-Titel, der Meta-Beschreibung und im Inhalt auftauchen. </target>
+				<source>The focus keyword is the search term the page should be found for. It should appear in the browser title, the meta description and the page content.</source>
+				<target>Das Fokus-Schlüsselwort ist der Suchbegriff, unter dem die Seite gefunden werden soll. Es sollte im Browser-Titel, in der Meta-Beschreibung und im Seiteninhalt auftauchen.</target>
 			</trans-unit>
 			<trans-unit id="evaluation.link.results" resname="evaluation.link.results">
 				<source>Toggle results</source>
