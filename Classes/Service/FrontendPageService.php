@@ -88,13 +88,21 @@ class FrontendPageService
 
         // fetch url
         try {
+            $requestOptions = [
+                'headers' => ['X-CS-SEO' => '1'],
+                'http_errors' => true,
+            ];
+
+            // forward HTTP basic auth credentials of the current backend session
+            // (e.g. when the site is protected via .htpasswd on staging environments)
+            if (isset($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+                $requestOptions['auth'] = [$_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']];
+            }
+
             $response = GeneralUtility::makeInstance(RequestFactory::class)->request(
                 $result['url'],
                 'GET',
-                [
-                    'headers' => ['X-CS-SEO' => '1'],
-                    'http_errors' => true,
-                ]
+                $requestOptions
             );
 
             if ($response->getStatusCode() === 200) {
