@@ -7,6 +7,7 @@ use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Clickstorm\CsSeo\Utility\LanguageUtility;
 use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Backend\Controller\Event\ModifyPageLayoutContentEvent;
+use TYPO3\CMS\Backend\Domain\Repository\Localization\LocalizationRepository;
 use TYPO3\CMS\Backend\Module\ModuleData;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Attribute\AsEventListener;
@@ -49,6 +50,7 @@ class ModifyPageLayoutContentEventListener
         private readonly PageRenderer                  $pageRenderer,
         private readonly ConfigurationManagerInterface $configurationManagerInterface,
         private readonly ConnectionPool                $connectionPool,
+        private readonly LocalizationRepository        $localizationRepository,
     )
     {
     }
@@ -147,14 +149,14 @@ class ModifyPageLayoutContentEventListener
         $this->currentSysLanguageUid = (int)($this->moduleData->get('languages')[0] ?? 0);
 
         if ($this->currentSysLanguageUid !== 0) {
-            $localizedPageInfo = BackendUtility::getRecordLocalization(
+            $localizedPage = $this->localizationRepository->getRecordTranslation(
                 'pages',
                 $this->currentPageUid,
                 $this->currentSysLanguageUid
             );
-            if (isset($localizedPageInfo[0])) {
-                $this->currentPageUid = $localizedPageInfo[0]['uid'];
-                $this->pageInfo = $localizedPageInfo[0];
+            if ($localizedPage !== null) {
+                $this->currentPageUid = $localizedPage->getUid();
+                $this->pageInfo = $localizedPage->toArray();
             }
         }
     }

@@ -93,7 +93,7 @@ class StructuredData
     #[AsAllowedCallable]
     public function getSiteSearch(string $content, array $conf): string
     {
-        $homepage = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
+        $homepage = GlobalsUtility::getTYPO3Request()->getAttribute('normalizedParams')->getRequestHost();
 
         $cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $typoLinkConf = [

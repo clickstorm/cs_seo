@@ -274,7 +274,7 @@ class ModuleMediaController extends AbstractModuleController
                             $this->image->getOriginalResource()->getProperties()['metadata_uid'] => 'edit',
                         ],
                     ],
-                    'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
+                    'returnUrl' => (string)$this->request->getAttribute('normalizedParams')->getRequestUrl(),
                 ];
 
                 $editButton = $this->componentFactory->createLinkButton()

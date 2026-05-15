@@ -52,12 +52,13 @@ class FormService
             $this->viewId = 0;
             $this->viewId_addParams = '';
 
+            $request = GlobalsUtility::getTYPO3Request();
             $formDataCompilerInput = [
                 'tableName' => $table,
                 'vanillaUid' => (int)$theUid,
                 'command' => 'edit',
-                'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
-                'request' => GlobalsUtility::getTYPO3Request(),
+                'returnUrl' => (string)$request->getAttribute('normalizedParams')->getRequestUrl(),
+                'request' => $request,
             ];
 
             if (isset($this->overrideVals[$table]) && is_array($this->overrideVals[$table])) {
@@ -121,6 +122,7 @@ class FormService
             $formResult['html'] = '';
             $formResult['doSaveFieldName'] = 'doSave';
 
+            // @extensionScannerIgnoreLine
             $formResultCompiler = GeneralUtility::makeInstance(FormResultCompiler::class);
             $formResultCompiler->mergeResult($formResult);
             $res = $formResultCompiler->printNeededJSFunctions();
