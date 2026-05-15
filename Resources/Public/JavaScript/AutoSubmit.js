@@ -5,7 +5,7 @@ class AutoSubmit {
     DocumentService.ready().then(() => {
       document.querySelectorAll('.js-csseo-autosubmit').forEach((element) => {
         element.addEventListener('change', () => {
-          element.closest('form')?.requestSubmit();
+          element.closest('form')?.submit();
         });
       });
     });

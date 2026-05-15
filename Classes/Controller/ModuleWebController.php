@@ -246,9 +246,7 @@ class ModuleWebController extends AbstractModuleController
             ]
         );
 
-        $this->jsModules = [
-            '@clickstorm/cs-seo/Evaluation.js',
-        ];
+        $this->jsModules[] = '@clickstorm/cs-seo/Evaluation.js';
 
         $this->cssFiles = [
             'Icons.css',
