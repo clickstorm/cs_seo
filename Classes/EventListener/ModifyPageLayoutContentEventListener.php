@@ -45,11 +45,13 @@ class ModifyPageLayoutContentEventListener
     protected int $currentSysLanguageUid = 0;
 
     public function __construct(
-        private readonly ViewFactoryInterface $viewFactory,
-        private readonly PageRenderer $pageRenderer,
+        private readonly ViewFactoryInterface          $viewFactory,
+        private readonly PageRenderer                  $pageRenderer,
         private readonly ConfigurationManagerInterface $configurationManagerInterface,
-        private readonly ConnectionPool $connectionPool,
-    ) {}
+        private readonly ConnectionPool                $connectionPool,
+    )
+    {
+    }
 
     public function __invoke(ModifyPageLayoutContentEvent $event): void
     {
@@ -71,14 +73,22 @@ class ModifyPageLayoutContentEventListener
                 $score = $results['Percentage'] ?? 0;
                 unset($results['Percentage']);
 
+                $page = BackendUtility::readPageAccess(
+                    $this->currentPageUid,
+                    GlobalsUtility::getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW)
+                );
+
+                $argumentsForExtendedView = [
+                    'id' => ($page['l10n_parent'] ?? 0) > 0 ? $page['l10n_parent'] : $this->currentPageUid,
+                    'lang' => $this->currentSysLanguageUid,
+                ];
+
                 $view->assignMultiple(
                     [
                         'score' => $score,
                         'results' => $results,
-                        'page' => BackendUtility::readPageAccess(
-                            $this->currentPageUid,
-                            GlobalsUtility::getBackendUser()->getPagePermsClause(Permission::PAGE_SHOW)
-                        ),
+                        'page' => $page,
+                        'argumentsForExtendedView' => $argumentsForExtendedView,
                         'userHasAccessToPageEvaluationModule' => GlobalsUtility::getBackendUser()->check('modules', 'content_csseo_evaluation'),
                     ]
                 );

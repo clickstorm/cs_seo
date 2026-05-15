@@ -23,7 +23,7 @@
                             </div>
                             <div class="right">
                                 <f:if condition="{userHasAccessToPageEvaluationModule}">
-                                    <a href="{be:moduleLink(route:'content_csseo_evaluation', arguments:'{id:page.uid}')}"
+                                    <a href="{be:moduleLink(route:'content_csseo_evaluation', arguments: argumentsForExtendedView)}"
                                        class="btn btn-default btn-sm"/>
                                         <core:icon identifier="actions-expand"/>
                                         {f:translate(key:'evaluation.more', extensionName: 'cs_seo')}
