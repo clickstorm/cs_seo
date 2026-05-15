@@ -1,23 +1,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en"
       xmlns:f="http://typo3.org/ns/fluid/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
 <p class="no-margin">
 	<f:translate key="evaluation.images.settings" extensionName="cs_seo"/>
 </p>
+<p class="no-margin cs-seo-images__tip">
+	<f:translate key="evaluation.images.tip" extensionName="cs_seo"/>
+</p>
 
 <f:if condition="{result.count}">
 	<f:then>
 		<f:if condition="{result.images}">
-			<h4>
+			<h4 class="cs-seo-images__heading">
 				<f:translate key="evaluation.images.withoutAlt" extensionName="cs_seo"/>
+				<span class="cs-seo-images__count">{result.images -> f:count()}</span>
 			</h4>
-			<f:for each="{result.images}" as="image">
-				<figure>
-					<img src="{image}" />
-					<figcaption>{image}</figcaption>
-				</figure>
-			</f:for>
+			<div class="cs-seo-images__grid">
+				<f:for each="{result.images}" as="image">
+					<figure class="cs-seo-image-card">
+						<div class="cs-seo-image-card__media">
+							<img src="{image}" alt="" loading="lazy"/>
+						</div>
+						<figcaption class="cs-seo-image-card__info">
+							<a href="{image}" target="_blank" rel="noopener" class="cs-seo-image-card__url" title="{image}">{image}</a>
+						</figcaption>
+					</figure>
+				</f:for>
+			</div>
 		</f:if>
 	</f:then>
 </f:if>

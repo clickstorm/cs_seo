@@ -112,7 +112,13 @@
 				<source>There are no images on the page</source>
 			</trans-unit>
 			<trans-unit id="evaluation.images.settings" resname="evaluation.images.settings">
-				<source>The content of each image should be described in the &quot;alt&quot; attribute.</source>
+				<source>Every meaningful image needs an alternative text (alt attribute). It describes the image for screen readers, is required by accessibility standards (WCAG) and helps search engines to understand the page content.</source>
+			</trans-unit>
+			<trans-unit id="evaluation.images.tip" resname="evaluation.images.tip">
+				<source>Tip: Images should be described briefly and precisely. Purely decorative images without informational value can use an empty alt attribute (alt=&quot;&quot;).</source>
+			</trans-unit>
+			<trans-unit id="evaluation.images.altMissing" resname="evaluation.images.altMissing">
+				<source>Alt text missing</source>
 			</trans-unit>
 			<trans-unit id="evaluation.images.withoutAlt" resname="evaluation.images.withoutAlt">
 				<source>Images without an alt attribut</source>
@@ -147,8 +153,20 @@
 			<trans-unit id="evaluation.link.results" resname="evaluation.link.results">
 				<source>Toggle results</source>
 			</trans-unit>
+			<trans-unit id="evaluation.length.inline" resname="evaluation.length.inline">
+				<source>(%1$s characters, optimal: %2$s–%3$s)</source>
+			</trans-unit>
 			<trans-unit id="evaluation.more" resname="evaluation.more">
 				<source>Extended View</source>
+			</trans-unit>
+			<trans-unit id="evaluation.more.tooltip" resname="evaluation.more.tooltip">
+				<source>Open detailed analysis with lists of all images without alt text, heading structure and recommendations.</source>
+			</trans-unit>
+			<trans-unit id="evaluation.extendedView.hint" resname="evaluation.extendedView.hint">
+				<source>More details and recommendations in the</source>
+			</trans-unit>
+			<trans-unit id="evaluation.extendedView.hint.link" resname="evaluation.extendedView.hint.link">
+				<source>Extended View.</source>
 			</trans-unit>
 			<trans-unit id="evaluation.no_record.header" resname="evaluation.no_record.header">
 				<source>No record selected</source>
@@ -169,13 +187,13 @@
 				<source>Browser title</source>
 			</trans-unit>
 			<trans-unit id="evaluation.title.0" resname="evaluation.title.0">
-				<source>is not set.</source>
+				<source>is not set</source>
 			</trans-unit>
 			<trans-unit id="evaluation.title.1" resname="evaluation.title.1">
-				<source>does not have the optimal length.</source>
+				<source>does not have the optimal length</source>
 			</trans-unit>
 			<trans-unit id="evaluation.title.2" resname="evaluation.title.2">
-				<source>has the optimal length.</source>
+				<source>has the optimal length</source>
 			</trans-unit>
 			<trans-unit id="evaluation.title.count" resname="evaluation.title.count">
 				<source>The current title consists of %1$s characters.</source>

@@ -90,6 +90,7 @@ class ModifyPageLayoutContentEventListener
                         'score' => $score,
                         'results' => $results,
                         'page' => $page,
+                        'emConf' => $this->csSeoConf,
                         'argumentsForExtendedView' => $argumentsForExtendedView,
                         'userHasAccessToPageEvaluationModule' => GlobalsUtility::getBackendUser()->check('modules', 'content_csseo_evaluation'),
                     ]

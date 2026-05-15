@@ -49,7 +49,7 @@
                                                        title="{f:translate(key:'evaluation.more', extensionName: 'cs_seo')}"
                                                     ></a>
                                                 </div>
-                                                <f:render partial="Results/{key}" arguments="{result:result}"/>
+                                                <f:render partial="Results/{key}" arguments="{result:result, emConf:emConf}"/>
                                                 <div class="detail evaluation-{key -> f:format.case(mode:'lower')}">
                                                     <f:render partial="Results/Detail/{key}" arguments="{_all}"/>
                                                 </div>

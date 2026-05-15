@@ -148,8 +148,16 @@
 				<target>Es gibt keine Bilder auf der Seite</target>
 			</trans-unit>
 			<trans-unit id="evaluation.images.settings" resname="evaluation.images.settings">
-				<source>The content of each image should be described in the &quot;alt&quot; attribute.</source>
-				<target>Der Inhalt jedes Bildes sollte in dem Attribut &quot;alt&quot; beschrieben sein.</target>
+				<source>Every meaningful image needs an alternative text (alt attribute). It describes the image for screen readers, is required by accessibility standards (WCAG) and helps search engines to understand the page content.</source>
+				<target>Jedes inhaltlich relevante Bild benötigt einen alternativen Text (alt-Attribut). Er beschreibt das Bild für Screenreader, ist nach den Vorgaben zur Barrierefreiheit (WCAG, BFSG) verpflichtend und hilft Suchmaschinen, den Seiteninhalt zu verstehen.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.images.tip" resname="evaluation.images.tip">
+				<source>Tip: Images should be described briefly and precisely. Purely decorative images without informational value can use an empty alt attribute (alt=&quot;&quot;).</source>
+				<target>Tipp: Bilder sollten kurz und präzise beschrieben werden. Rein dekorative Bilder ohne inhaltlichen Mehrwert können ein leeres alt-Attribut (alt=&quot;&quot;) erhalten.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.images.altMissing" resname="evaluation.images.altMissing">
+				<source>Alt text missing</source>
+				<target>Alt-Text fehlt</target>
 			</trans-unit>
 			<trans-unit id="evaluation.images.withoutAlt" resname="evaluation.images.withoutAlt">
 				<source>Images without an alt attribut</source>
@@ -195,9 +203,25 @@
 				<source>Toggle results</source>
 				<target>Ergebnisse ein-/ausblenden</target>
 			</trans-unit>
+			<trans-unit id="evaluation.length.inline" resname="evaluation.length.inline">
+				<source>(%1$s characters, optimal: %2$s–%3$s)</source>
+				<target>(%1$s Zeichen, optimal: %2$s–%3$s)</target>
+			</trans-unit>
 			<trans-unit id="evaluation.more" resname="evaluation.more">
 				<source>Extended View</source>
 				<target>Erweiterte Ansicht</target>
+			</trans-unit>
+			<trans-unit id="evaluation.more.tooltip" resname="evaluation.more.tooltip">
+				<source>Open detailed analysis with lists of all images without alt text, heading structure and recommendations.</source>
+				<target>Detaillierte Auswertung mit Listen aller Bilder ohne Alt-Text, Überschriftenstruktur und Empfehlungen öffnen.</target>
+			</trans-unit>
+			<trans-unit id="evaluation.extendedView.hint" resname="evaluation.extendedView.hint">
+				<source>More details and recommendations in the</source>
+				<target>Detailliertere Informationen und Empfehlungen in der</target>
+			</trans-unit>
+			<trans-unit id="evaluation.extendedView.hint.link" resname="evaluation.extendedView.hint.link">
+				<source>Extended View.</source>
+				<target>Erweiterten Ansicht.</target>
 			</trans-unit>
 			<trans-unit id="evaluation.no_record.header" resname="evaluation.no_record.header">
 				<source>No record selected</source>
@@ -224,16 +248,16 @@
 				<target>Browser Titel</target>
 			</trans-unit>
 			<trans-unit id="evaluation.title.0" resname="evaluation.title.0">
-				<source>is not set.</source>
-				<target>ist nicht gesetzt.</target>
+				<source>is not set</source>
+				<target>ist nicht gesetzt</target>
 			</trans-unit>
 			<trans-unit id="evaluation.title.1" resname="evaluation.title.1">
-				<source>does not have the optimal length.</source>
-				<target>hat nicht die optimale Länge.</target>
+				<source>does not have the optimal length</source>
+				<target>hat nicht die optimale Länge</target>
 			</trans-unit>
 			<trans-unit id="evaluation.title.2" resname="evaluation.title.2">
-				<source>has the optimal length.</source>
-				<target>hat die optimale Länge.</target>
+				<source>has the optimal length</source>
+				<target>hat die optimale Länge</target>
 			</trans-unit>
 			<trans-unit id="evaluation.title.count" resname="evaluation.title.count">
 				<source>The current title consists of %1$s characters.</source>

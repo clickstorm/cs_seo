@@ -24,7 +24,8 @@
                             <div class="right">
                                 <f:if condition="{userHasAccessToPageEvaluationModule}">
                                     <a href="{be:moduleLink(route:'content_csseo_evaluation', arguments: argumentsForExtendedView)}"
-                                       class="btn btn-default btn-sm"/>
+                                       class="btn btn-default btn-sm"
+                                       title="{f:translate(key:'evaluation.more.tooltip', extensionName: 'cs_seo')}"/>
                                         <core:icon identifier="actions-expand"/>
                                         {f:translate(key:'evaluation.more', extensionName: 'cs_seo')}
                                     </a>
@@ -42,10 +43,20 @@
                             <ul class="cs-seo-results__list">
                                 <f:for each="{results}" as="result" key="key">
                                     <li class="cs-seo-results__item cs-icon csseo-icon-state-{result.state}">
-                                        <f:render partial="Results/{key}" arguments="{result:result}"/>
+                                        <f:render partial="Results/{key}" arguments="{result:result, emConf:emConf}"/>
                                     </li>
                                 </f:for>
                             </ul>
+                            <f:if condition="{userHasAccessToPageEvaluationModule}">
+                                <p class="cs-seo-results__hint">
+                                    <core:icon identifier="actions-info-circle"/>
+                                    <f:translate key="evaluation.extendedView.hint" extensionName="cs_seo"/>
+                                    <a href="{be:moduleLink(route:'content_csseo_evaluation', arguments: argumentsForExtendedView)}">
+                                        <core:icon identifier="actions-expand"/>
+                                        <f:translate key="evaluation.extendedView.hint.link" extensionName="cs_seo"/>
+                                    </a>
+                                </p>
+                            </f:if>
                         </div>
                     </f:then>
                     <f:else>

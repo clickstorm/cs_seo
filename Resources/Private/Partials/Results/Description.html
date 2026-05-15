@@ -5,4 +5,4 @@
 <b>
 	<f:translate key="evaluation.description" extensionName="cs_seo"/>
 </b>
-<f:translate key="evaluation.description.{result.state}" arguments="{0: result.count}" extensionName="cs_seo"/>.
+<f:translate key="evaluation.description.{result.state}" arguments="{0: result.count}" extensionName="cs_seo"/><f:if condition="{result.count}"> <span class="cs-seo-results__meta"><f:translate key="evaluation.length.inline" arguments="{0: result.count, 1: emConf.minDescription, 2: emConf.maxDescription}" extensionName="cs_seo"/></span></f:if>.
