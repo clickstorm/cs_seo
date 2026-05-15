@@ -316,7 +316,7 @@
 				<source>Below %s characters: yellow</source>
 			</trans-unit>
 			<trans-unit id="wizard.recommendation.range" resname="wizard.recommendation.range">
-				<source>Recommendation: %d to %d characters</source>
+				<source>Recommendation: %s to %s characters</source>
 			</trans-unit>
 			<trans-unit id="wizard.statusOk" resname="wizard.statusOk">
 				<source>OK</source>

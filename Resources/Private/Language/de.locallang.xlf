@@ -420,8 +420,8 @@
 				<target>Unter %s Zeichen: gelb</target>
 			</trans-unit>
 			<trans-unit id="wizard.recommendation.range" resname="wizard.recommendation.range">
-				<source>Recommendation: %d to %d characters</source>
-				<target>Empfehlung: %d bis %d Zeichen</target>
+				<source>Recommendation: %s to %s characters</source>
+				<target>Empfehlung: %s bis %s Zeichen</target>
 			</trans-unit>
 			<trans-unit id="wizard.statusOk" resname="wizard.statusOk">
 				<source>OK</source>
