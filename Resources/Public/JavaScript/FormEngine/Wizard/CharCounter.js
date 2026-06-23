@@ -29,7 +29,8 @@ class CharCounter {
     const fieldName = wrapper.dataset.fieldName;
     if (!fieldName) return;
 
-    return document.querySelector(`input[data-formengine-input-name="${fieldName}"]`);
+    // Matches both <input> (type=input) and <textarea> (type=text) rendered by TYPO3 FormEngine
+    return document.querySelector(`[data-formengine-input-name="${fieldName}"]`);
   }
 }
 

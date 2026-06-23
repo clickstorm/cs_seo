@@ -37,9 +37,10 @@ Properties
 	`evaluation.minDescription`_                            :ref:`t3tsref:data-type-integer`      140
 	`evaluation.forceMinDescription`_                       :ref:`t3tsref:data-type-boolean`      true
 	`evaluation.maxH2`_                                     :ref:`t3tsref:data-type-integer`      6
-	`file.modFileColumns`_                                  :ref:`t3tsref:data-type-string`       title,description
+   `file.modFileColumns`_                                  :ref:`t3tsref:data-type-string`       title,description
    `file.excludeFileExtensions`_                           :ref:`t3tsref:data-type-string`       webp
    `file.disableCharCounter`_                              :ref:`t3tsref:data-type-string`       0
+   `file.enableMultilineAltText`_                          :ref:`t3tsref:data-type-boolean`      true
 	======================================================= ===================================== ====================
 
 
@@ -278,3 +279,30 @@ Disable Char Counter
          Usually, a character counter is displayed below the input field for
          alternative text to give editors a hint about the number of characters
          based on internal guidelines. You can disable this badge here.
+
+.. _file.enableMultilineAltText:
+
+Enable Multiline ALT Text
+"""""""""""""""""""""""""
+
+.. container:: table-row
+
+   Property
+         enableMultilineAltText
+   Data type
+         :ref:`t3tsref:data-type-boolean`
+   Description
+         When enabled (default), the ALT text field of inline image references
+         (``sys_file_reference``) is rendered as a multiline textarea in the
+         TYPO3 backend. This makes it easier for editors to read and edit longer
+         alternative texts without horizontal scrolling.
+
+         Line breaks entered by editors are **automatically normalized to a single
+         space** when the record is saved, so the stored value remains a
+         single-line string suitable for the HTML ``alt`` attribute.
+
+         The character counter (see ``disableCharCounter``) is also shown for
+         this field when both options are enabled.
+
+         Set to ``0`` to restore the default single-line input behaviour.
+

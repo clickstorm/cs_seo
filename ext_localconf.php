@@ -1,10 +1,12 @@
 <?php
 
 use Clickstorm\CsSeo\Form\FieldWizard\CharCounterWizard;
+use Clickstorm\CsSeo\Hook\DataHandlerAltTextHook;
 use Clickstorm\CsSeo\Hook\PageHook;
 use Clickstorm\CsSeo\Form\Element\SnippetPreview;
 use Clickstorm\CsSeo\Form\Element\JsonLdElement;
 use Clickstorm\CsSeo\Hook\MetaTagGeneratorHook;
+use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 defined('TYPO3') || die();
@@ -38,6 +40,12 @@ defined('TYPO3') || die();
     // generate and overwrite header data
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['TYPO3\CMS\Frontend\Page\PageGenerator']['generateMetaTags'][] =
         MetaTagGeneratorHook::class . '->generate';
+
+    // Normalize ALT text of sys_file_reference on save (collapses line breaks / repeated whitespace)
+    if (!empty(ConfigurationUtility::getEmConfiguration()['enableMultilineAltText'])) {
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
+            DataHandlerAltTextHook::class;
+    }
 
     // Add module configuration
     ExtensionManagementUtility::addTypoScriptSetup(trim('
