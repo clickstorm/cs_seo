@@ -8,7 +8,7 @@ defined('TYPO3') || die();
 
 $extConf = ConfigurationUtility::getEmConfiguration();
 
-if (!empty($extConf['enableMultilineAltText'])) {
+if (empty($extConf['disableMultilineAltText'])) {
     // Switch the ALT text field to a multiline textarea.
     $GLOBALS['TCA']['sys_file_metadata']['columns']['alternative']['config'] = array_replace(
         $GLOBALS['TCA']['sys_file_metadata']['columns']['alternative']['config'],

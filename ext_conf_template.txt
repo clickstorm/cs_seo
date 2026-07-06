@@ -43,7 +43,7 @@ excludeFileExtensions = webp
 # cat=file/030; type=boolean; label= Disable char counter for alternative text
 disableCharCounter = 0
 
-# cat=file/040; type=boolean; label= Enable multiline (textarea) input for ALT text in sys_file_reference
+# cat=file/040; type=boolean; label= Disable multiline (textarea) input for ALT text in sys_file_metadata
 # description= Makes the ALT text field a multiline textarea in the backend for easier editing. Line breaks are automatically normalized to single spaces on save.
-enableMultilineAltText = 1
+disableMultilineAltText = 0
 

@@ -14,7 +14,7 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
  * This hook ensures that line breaks and repeated whitespace are collapsed
  * into a single space so the persisted value is always single-line.
  *
- * Can be disabled via Extension Manager: cs_seo → enableMultilineAltText = 0
+ * Can be disabled via Extension Manager: cs_seo → disableMultilineAltText = 1
  */
 final class DataHandlerAltTextHook
 {
@@ -30,7 +30,7 @@ final class DataHandlerAltTextHook
         $id,
         DataHandler $dataHandler
     ): void {
-        $affectedTables = ['sys_file_reference', 'sys_file_metadata'];
+        $affectedTables = ['sys_file_metadata'];
 
         if (!in_array($table, $affectedTables, true)) {
             return;
@@ -41,7 +41,7 @@ final class DataHandlerAltTextHook
         }
 
         $extConf = ConfigurationUtility::getEmConfiguration();
-        if (empty($extConf['enableMultilineAltText'])) {
+        if (!empty($extConf['disableMultilineAltText'])) {
             return;
         }
 

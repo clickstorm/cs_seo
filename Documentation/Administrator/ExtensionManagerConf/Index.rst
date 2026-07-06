@@ -39,8 +39,8 @@ Properties
 	`evaluation.maxH2`_                                     :ref:`t3tsref:data-type-integer`      6
    `file.modFileColumns`_                                  :ref:`t3tsref:data-type-string`       title,description
    `file.excludeFileExtensions`_                           :ref:`t3tsref:data-type-string`       webp
-   `file.disableCharCounter`_                              :ref:`t3tsref:data-type-string`       0
-   `file.enableMultilineAltText`_                          :ref:`t3tsref:data-type-boolean`      true
+   `file.disableCharCounter`_                              :ref:`t3tsref:data-type-boolean`      false
+   `file.disableMultilineAltText`_                         :ref:`t3tsref:data-type-boolean`      false
 	======================================================= ===================================== ====================
 
 
@@ -280,20 +280,20 @@ Disable Char Counter
          alternative text to give editors a hint about the number of characters
          based on internal guidelines. You can disable this badge here.
 
-.. _file.enableMultilineAltText:
+.. _file.disableMultilineAltText:
 
-Enable Multiline ALT Text
+Disable Multiline ALT Text
 """""""""""""""""""""""""
 
 .. container:: table-row
 
    Property
-         enableMultilineAltText
+         disableMultilineAltText
    Data type
          :ref:`t3tsref:data-type-boolean`
    Description
-         When enabled (default), the ALT text field of inline image references
-         (``sys_file_reference``) is rendered as a multiline textarea in the
+         When enabled (default), the ALT text field of inline image metadata
+         (``sys_file_metadata``) is rendered as a multiline textarea in the
          TYPO3 backend. This makes it easier for editors to read and edit longer
          alternative texts without horizontal scrolling.
 
@@ -304,5 +304,5 @@ Enable Multiline ALT Text
          The character counter (see ``disableCharCounter``) is also shown for
          this field when both options are enabled.
 
-         Set to ``0`` to restore the default single-line input behaviour.
+         Set to ``1`` to restore the default single-line input behaviour.
 

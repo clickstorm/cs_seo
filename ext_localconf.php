@@ -42,7 +42,7 @@ defined('TYPO3') || die();
         MetaTagGeneratorHook::class . '->generate';
 
     // Normalize ALT text of sys_file_reference on save (collapses line breaks / repeated whitespace)
-    if (!empty(ConfigurationUtility::getEmConfiguration()['enableMultilineAltText'])) {
+    if (empty(ConfigurationUtility::getEmConfiguration()['disableMultilineAltText'])) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
             DataHandlerAltTextHook::class;
     }
