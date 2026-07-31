@@ -224,7 +224,7 @@ return [
             ],
         ],
         'no_index' => [
-            'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_no_index',
+            'label' => 'LLL:EXT:seo/Resources/Private/Language/locallang_tca.xlf:pages.no_index_formlabel',
             'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:no_index.description',
             'exclude' => 1,
             'config' => [
@@ -233,7 +233,7 @@ return [
             ],
         ],
         'no_follow' => [
-            'label' => 'LLL:EXT:cs_seo/Resources/Private/Language/locallang_db.xlf:pages.tx_csseo_no_follow',
+            'label' => 'LLL:EXT:seo/Resources/Private/Language/locallang_tca.xlf:pages.no_follow_formlabel',
             'description' => 'LLL:EXT:cs_seo/Resources/Private/Language/de.locallang_csh_pages.xlf:no_follow.description',
             'exclude' => 1,
             'config' => [
