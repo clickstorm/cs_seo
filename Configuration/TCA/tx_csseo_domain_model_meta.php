@@ -230,6 +230,12 @@ return [
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',
+                'items' => [
+                    [
+                        'label' => '',
+                        'invertStateDisplay' => true,
+                    ],
+                ],
             ],
         ],
         'no_follow' => [
@@ -239,6 +245,12 @@ return [
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',
+                'items' => [
+                    [
+                        'label' => '',
+                        'invertStateDisplay' => true,
+                    ],
+                ],
             ],
         ],
         'og_title' => [
