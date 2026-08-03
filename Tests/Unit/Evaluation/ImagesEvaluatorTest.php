@@ -36,6 +36,11 @@ class ImagesEvaluatorTest extends UnitTestCase
 
         $result = $this->subject->evaluate();
 
+        $expectedResult += [
+            'additionalImagesCount' => 0,
+            'omittedOversizedEmbeddedImagesCount' => 0,
+        ];
+
         ksort($expectedResult);
         ksort($result);
 
@@ -55,6 +60,42 @@ class ImagesEvaluatorTest extends UnitTestCase
         $actualUrl = $method->invoke($this->subject, $image);
 
         self::assertSame($expectedUrl, $actualUrl);
+    }
+
+    #[Test]
+    public function evaluateOmitsOversizedEmbeddedImageUrls(): void
+    {
+        $embeddedPayload = str_repeat('A', 1100000);
+        $html = '<img alt="" src="data:image/svg+xml;base64,' . $embeddedPayload . '" />';
+
+        $domDocument = new \DOMDocument();
+        @$domDocument->loadHTML($html);
+        $this->subject->setDomDocument($domDocument);
+
+        $result = $this->subject->evaluate();
+
+        self::assertSame(1, $result['countWithoutAlt']);
+        self::assertSame([], $result['images']);
+        self::assertSame(1, $result['additionalImagesCount']);
+        self::assertSame(1, $result['omittedOversizedEmbeddedImagesCount']);
+    }
+
+    #[Test]
+    public function evaluateKeepsSmallEmbeddedImageUrls(): void
+    {
+        $embeddedPayload = str_repeat('A', 200);
+        $html = '<img alt="" src="data:image/svg+xml;base64,' . $embeddedPayload . '" />';
+
+        $domDocument = new \DOMDocument();
+        @$domDocument->loadHTML($html);
+        $this->subject->setDomDocument($domDocument);
+
+        $result = $this->subject->evaluate();
+
+        self::assertSame(1, $result['countWithoutAlt']);
+        self::assertCount(1, $result['images']);
+        self::assertStringStartsWith('data:image/svg+xml;base64,', $result['images'][0]);
+        self::assertSame(0, $result['additionalImagesCount']);
     }
 
     public static function evaluateTestDataProvider(): array

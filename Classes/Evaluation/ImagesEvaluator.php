@@ -7,10 +7,16 @@ use GuzzleHttp\Psr7\UriResolver;
 
 class ImagesEvaluator extends AbstractEvaluator
 {
+    private const MAX_IMAGES_RESULT_PAYLOAD_BYTES = 12 * 1024 * 1024; // 12 MiB
+    private const MAX_EMBEDDED_IMAGE_URL_BYTES = 1048576; // 1 MiB
+
     public function evaluate(): array
     {
         $state = self::STATE_RED;
         $imagesWithoutAlt = [];
+        $storedImagePayloadBytes = 0;
+        $additionalImagesCount = 0;
+        $omittedOversizedEmbeddedImagesCount = 0;
         $altCount = 0;
         $baseUrl = $this->extractBaseUrl();
 
@@ -31,7 +37,22 @@ class ImagesEvaluator extends AbstractEvaluator
                 }
 
                 $url = $this->extractImageUrl($element);
-                $imagesWithoutAlt[] = $this->resolveImageUrl($url, $baseUrl);
+                $resolvedUrl = $this->resolveImageUrl($url, $baseUrl);
+
+                if ($this->isOversizedEmbeddedUrl($resolvedUrl)) {
+                    $additionalImagesCount++;
+                    $omittedOversizedEmbeddedImagesCount++;
+                    continue;
+                }
+
+                $estimatedBytes = $this->estimateStoredImageUrlBytes($resolvedUrl);
+                if (($storedImagePayloadBytes + $estimatedBytes) > self::MAX_IMAGES_RESULT_PAYLOAD_BYTES) {
+                    $additionalImagesCount++;
+                    continue;
+                }
+
+                $imagesWithoutAlt[] = $resolvedUrl;
+                $storedImagePayloadBytes += $estimatedBytes;
             } else {
                 $altCount++;
             }
@@ -49,6 +70,8 @@ class ImagesEvaluator extends AbstractEvaluator
             'countWithoutAlt' => $count - $altCount,
             'state' => $state,
             'images' => $imagesWithoutAlt,
+            'additionalImagesCount' => $additionalImagesCount,
+            'omittedOversizedEmbeddedImagesCount' => $omittedOversizedEmbeddedImagesCount,
         ];
     }
 
@@ -230,6 +253,17 @@ class ImagesEvaluator extends AbstractEvaluator
         } catch (\InvalidArgumentException) {
             return $url;
         }
+    }
+
+    private function isOversizedEmbeddedUrl(string $url): bool
+    {
+        return $this->isEmbeddedUrl($url) && strlen($url) > self::MAX_EMBEDDED_IMAGE_URL_BYTES;
+    }
+
+    private function estimateStoredImageUrlBytes(string $url): int
+    {
+        // Rough upper bound including serialization overhead for the array key/value.
+        return strlen($url) + 32;
     }
 
     private function isEmbeddedUrl(string $url): bool

@@ -167,6 +167,10 @@
 				<source>Images without an alt attribut</source>
 				<target>Bilder ohne alt-Attribut</target>
 			</trans-unit>
+			<trans-unit id="evaluation.images.additional" resname="evaluation.images.additional">
+				<source>Additional images are currently not shown. Add the missing alt attributes and run the check again. Oversized embedded images cannot be displayed in the preview. Images not shown: %1$s</source>
+				<target>Weitere Bilder werden derzeit nicht angezeigt. Ergänzen Sie die fehlenden Alt-Attribute und wiederholen Sie die Prüfung. Zu große eingebettete Bilder können nicht in der Vorschau angezeigt werden. Nicht angezeigte Bilder: %1$s</target>
+			</trans-unit>
 			<trans-unit id="evaluation.keyword" resname="evaluation.keyword">
 				<source>Focus Keyword</source>
 				<target>Fokus-Schlüsselwort</target>

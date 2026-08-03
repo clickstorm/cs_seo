@@ -126,6 +126,9 @@
 			<trans-unit id="evaluation.images.withoutAlt" resname="evaluation.images.withoutAlt">
 				<source>Images without an alt attribut</source>
 			</trans-unit>
+			<trans-unit id="evaluation.images.additional" resname="evaluation.images.additional">
+				<source>Additional images are currently not shown. Add the missing alt attributes and run the check again. Oversized embedded images cannot be displayed in the preview. Images not shown: %1$s</source>
+			</trans-unit>
 			<trans-unit id="evaluation.keyword" resname="evaluation.keyword">
 				<source>Focus Keyword</source>
 			</trans-unit>

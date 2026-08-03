@@ -13,35 +13,41 @@
 
 <f:if condition="{result.count}">
 	<f:then>
-		<f:if condition="{result.images}">
+		<f:if condition="{result.countWithoutAlt}">
 			<h4 class="cs-seo-images__heading">
 				<f:translate key="evaluation.images.withoutAlt" extensionName="cs_seo"/>
-				<span class="cs-seo-images__count">{result.images -> f:count()}</span>
+				<span class="cs-seo-images__count">{result.countWithoutAlt}</span>
 			</h4>
-			<div class="cs-seo-images__grid">
-				<f:for each="{result.images}" as="image">
-					<f:variable name="editUrl"><csseo:imageEditUrl url="{image}" returnUrl="{returnUrl}"/></f:variable>
-					<f:variable name="fileName"><csseo:imageOriginalName url="{image}"/></f:variable>
-					<f:variable name="filePath"><csseo:imageOriginalName url="{image}" withPath="true"/></f:variable>
-					<figure class="cs-seo-image-card">
-						<div class="cs-seo-image-card__media">
-							<img src="{image}" alt="" loading="lazy"/>
-							<f:if condition="{editUrl}">
-								<a href="{editUrl}" class="cs-seo-image-card__edit" title="{f:translate(key:'evaluation.images.editAlt', extensionName:'cs_seo')}">
-									<core:icon identifier="actions-document-edit"/>
-								</a>
-							</f:if>
-						</div>
-						<figcaption class="cs-seo-image-card__info">
-							<a href="{image}" target="_blank" rel="noopener" class="cs-seo-image-card__name" title="{filePath}">{fileName}</a>
-							<f:if condition="{filePath}">
-								<span class="cs-seo-image-card__path" title="{filePath}">{filePath}</span>
-							</f:if>
-						</figcaption>
-					</figure>
-				</f:for>
-			</div>
+			<f:if condition="{result.images}">
+				<div class="cs-seo-images__grid">
+					<f:for each="{result.images}" as="image">
+						<f:variable name="editUrl"><csseo:imageEditUrl url="{image}" returnUrl="{returnUrl}"/></f:variable>
+						<f:variable name="fileName"><csseo:imageOriginalName url="{image}"/></f:variable>
+						<f:variable name="filePath"><csseo:imageOriginalName url="{image}" withPath="true"/></f:variable>
+						<figure class="cs-seo-image-card">
+							<div class="cs-seo-image-card__media">
+								<img src="{image}" alt="" loading="lazy"/>
+								<f:if condition="{editUrl}">
+									<a href="{editUrl}" class="cs-seo-image-card__edit" title="{f:translate(key:'evaluation.images.editAlt', extensionName:'cs_seo')}">
+										<core:icon identifier="actions-document-edit"/>
+									</a>
+								</f:if>
+							</div>
+							<figcaption class="cs-seo-image-card__info">
+								<a href="{image}" target="_blank" rel="noopener" class="cs-seo-image-card__name" title="{filePath}">{fileName}</a>
+								<f:if condition="{filePath}">
+									<span class="cs-seo-image-card__path" title="{filePath}">{filePath}</span>
+								</f:if>
+							</figcaption>
+						</figure>
+					</f:for>
+				</div>
+			</f:if>
+            <f:if condition="{result.additionalImagesCount}">
+                <p>
+                    <f:translate key="evaluation.images.additional" arguments="{0: result.additionalImagesCount}" extensionName="cs_seo"/>
+                </p>
+            </f:if>
 		</f:if>
 	</f:then>
 </f:if>
-
