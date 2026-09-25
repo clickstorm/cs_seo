@@ -151,7 +151,7 @@ class StructuredData
 
         $siteLinks = [];
 
-        foreach (array_reverse($rootline) as $index => $page) {
+        foreach (array_reverse($rootline) as $page) {
             $typoLinkConf = [
                 'parameter' => $page['uid'],
                 'forceAbsoluteUrl' => 1,

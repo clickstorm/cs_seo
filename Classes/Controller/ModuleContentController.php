@@ -127,7 +127,6 @@ class ModuleContentController extends AbstractModuleController
         $this->templateFile = 'ModuleContent/Evaluation';
         $page = $this->pageRepository->getPage((int)$this->recordId, true);
         $evaluationUid = 0;
-        $extKey = 'cs_seo';
         $tables = [
             'pages' => LocalizationUtility::translate($GLOBALS['TCA']['pages']['ctrl']['title'], 'CsSeo'),
         ];
