@@ -194,9 +194,7 @@ class ModuleMediaController extends AbstractModuleController
             $breadCrumbItem = $this->image instanceof File ? $this->image->getOriginalResource() : null;
 
             if (!$breadCrumbItem instanceof \TYPO3\CMS\Core\Resource\File) {
-                /** @var ResourceFactory $resourceFactory */
-                $resourceFactory = $this->resourceFactory;
-                $breadCrumbItem = $resourceFactory->getFolderObjectFromCombinedIdentifier(
+                $breadCrumbItem = $this->resourceFactory->getFolderObjectFromCombinedIdentifier(
                     $fileModuleOptions->getStorageUid() . ':' . $fileModuleOptions->getIdentifier()
                 );
             }
@@ -219,9 +217,7 @@ class ModuleMediaController extends AbstractModuleController
         $this->assertAllowedHttpMethod($this->request, 'POST');
 
         if ($uid > 0 && $data) {
-            /** @var ResourceFactory $resourceFactory */
-            $resourceFactory = $this->resourceFactory;
-            $file = $resourceFactory->getFileObject($uid);
+            $file = $this->resourceFactory->getFileObject($uid);
 
             if ($file->checkActionPermission('editMeta')) {
                 $file->getMetaData()->add(array_values($data)[0])->save();

@@ -110,12 +110,7 @@ class ModifyPageLayoutContentEventListener
     protected function initializeView(): ViewInterface
     {
         // load partial paths info from TypoScript
-        /** @var ConfigurationManagerInterface $configurationManager */
-        $configurationManager = $this->configurationManagerInterface;
-        $tsSetup =
-            $configurationManager->getConfiguration(
-                ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT
-            );
+        $tsSetup = $this->configurationManagerInterface->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
         $layoutPaths = [$this->resourcesPath . 'Private/Layouts/'];
         $templatePaths = [$this->resourcesPath . 'Private/Templates/'];
