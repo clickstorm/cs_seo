@@ -254,6 +254,6 @@ class EvaluationCommand extends Command
         $uid = $input->hasArgument('uid') ? (int)$input->getArgument('uid') : 0;
         $this->processResults($uid);
 
-        return 0;
+        return self::SUCCESS;
     }
 }
