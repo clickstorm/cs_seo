@@ -1,7 +1,8 @@
 {
 	"name": "clickstorm/cs-seo",
-	"type": "typo3-cms-extension",
 	"description": "[clickstorm] SEO - Extension for TYPO3. Enables important onpage features for search engine optimization (SEO). Expands the page settings and any desired records for example with a preview for Google search results (SERP) Structured Data (JSON-LD) and a Focus Keyword. Restrictive hreflang and canonical tags. Modules for metadata of records and alternative texts of images. Further features are shown in the extension manual.",
+	"license": "GPL-2.0-or-later",
+	"type": "typo3-cms-extension",
 	"keywords": [
 		"TYPO3",
 		"extension",
@@ -9,22 +10,22 @@
 		"SEO"
 	],
 	"homepage": "https://www.clickstorm.de",
-	"license": [
-		"GPL-2.0-or-later"
-	],
 	"require": {
+		"php": "^8.2",
 		"ext-dom": "*",
 		"typo3/cms-core": "^14.3",
+		"typo3/cms-frontend": "^14.3",
 		"typo3/cms-seo": "^14.3"
 	},
 	"require-dev": {
-		"typo3/testing-framework": "*",
+		"ergebnis/composer-normalize": "^2.52",
 		"phpstan/phpstan": "*",
-		"typo3/coding-standards": "*"
+		"typo3/coding-standards": "*",
+		"typo3/testing-framework": "*"
 	},
 	"replace": {
-		"typo3-ter/cs-seo": "self.version",
-		"clickstorm/cs_seo": "self.version"
+		"clickstorm/cs_seo": "self.version",
+		"typo3-ter/cs-seo": "self.version"
 	},
 	"autoload": {
 		"psr-4": {
@@ -33,12 +34,26 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Clickstorm\\CsSeo\\Tests\\": "Tests"
+			"Clickstorm\\CsSeo\\Tests\\": "Tests/"
 		}
+	},
+	"config": {
+		"allow-plugins": {
+			"ergebnis/composer-normalize": true,
+			"typo3/class-alias-loader": true,
+			"typo3/cms-composer-installers": true
+		},
+		"bin-dir": ".Build/bin",
+		"sort-packages": true,
+		"vendor-dir": ".Build/vendor"
 	},
 	"extra": {
 		"typo3/cms": {
-			"extension-key": "cs_seo"
+			"Package": {
+				"providesPackages": {}
+			},
+			"extension-key": "cs_seo",
+			"web-dir": ".Build/public"
 		}
 	}
 }
