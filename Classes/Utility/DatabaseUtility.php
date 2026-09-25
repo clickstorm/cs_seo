@@ -8,8 +8,8 @@ use Doctrine\DBAL\Exception;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\FileType;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -112,7 +112,7 @@ class DatabaseUtility
         return $items;
     }
 
-    public static function getFile(string $table, string $field, int $uid): ?File
+    public static function getFileReference(string $table, string $field, int $uid): ?FileReference
     {
         /** @var FileRepository $fileRepository */
         $fileRepository = GeneralUtility::makeInstance(
@@ -125,7 +125,7 @@ class DatabaseUtility
             $uid
         );
 
-        return isset($fileObjects[0]) ? $fileObjects[0]->getOriginalFile() : null;
+        return $fileObjects[0] ?? null;
     }
 
     /**

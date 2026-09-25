@@ -10,7 +10,7 @@ use Clickstorm\CsSeo\Utility\LanguageUtility;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
-use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -226,8 +226,8 @@ class GridService
             if (in_array($imageFieldName, $this->fieldNames, true)) {
                 $image = '';
                 if ($page[$imageFieldName]) {
-                    $imageFile = DatabaseUtility::getFile($table, $imageFieldName, $uid);
-                    if ($imageFile instanceof File) {
+                    $imageFile = DatabaseUtility::getFileReference($table, $imageFieldName, $uid);
+                    if ($imageFile instanceof FileReference) {
                         $image = $imageFile->getPublicUrl();
                     }
                 }

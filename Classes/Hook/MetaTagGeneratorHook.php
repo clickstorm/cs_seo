@@ -7,6 +7,7 @@ use Clickstorm\CsSeo\Utility\ConfigurationUtility;
 use Clickstorm\CsSeo\Utility\DatabaseUtility;
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use TYPO3\CMS\Core\MetaTag\MetaTagManagerRegistry;
+use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -104,7 +105,7 @@ class MetaTagGeneratorHook
         );
     }
 
-    protected function getImageOrFallback(string $field, array $meta = []): string
+    protected function getImageOrFallback(string $field, array $meta = []): string|FileReference
     {
         $params = [];
         if (is_array($meta[$field])) {
@@ -117,21 +118,22 @@ class MetaTagGeneratorHook
             $params['uid'] = (int)$meta['uid'];
         }
 
-        $image = DatabaseUtility::getFile($params['table'], $params['field'], $params['uid']);
+        $image = DatabaseUtility::getFileReference($params['table'], $params['field'], $params['uid']);
 
-        return is_null($image) ? '' : $image->getPublicUrl();
+        return $image ?? '';
     }
 
     /**
      * Return an URL to the scaled image
      */
-    protected function getScaledImagePath(string $originalFile, array $imageSize): string
+    protected function getScaledImagePath(string|FileReference $originalFile, array $imageSize): string
     {
         $conf = [
             'file' => $originalFile,
             'file.' => [
                 'height' => $imageSize['height'] ?? self::DEFAULT_IMAGE_HEIGHT,
                 'width' => $imageSize['width'] ?? self::DEFAULT_IMAGE_WIDTH,
+                'cropVariant' => 'social',
             ],
         ];
         $imgUri = $this->cObj->cObjGetSingle('IMG_RESOURCE', $conf);
