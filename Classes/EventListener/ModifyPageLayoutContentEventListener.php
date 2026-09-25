@@ -206,7 +206,6 @@ class ModifyPageLayoutContentEventListener
      */
     protected function getResultsOfPage(int $pageUid): array
     {
-        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable('tx_csseo_domain_model_evaluation');
         $results = [];
         $tableName = 'pages';

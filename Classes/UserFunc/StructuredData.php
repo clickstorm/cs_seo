@@ -35,7 +35,6 @@ use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
  * Render the structured Data for Google SiteSearch and Breadcrumb
@@ -131,7 +130,6 @@ class StructuredData
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
         $languageAspect = $this->context->getAspect('language');
 
-        /** @var TypoScriptFrontendController[] $GLOBALS */
         // @extensionScannerIgnoreLine
         $id = GlobalsUtility::getPageId();
 

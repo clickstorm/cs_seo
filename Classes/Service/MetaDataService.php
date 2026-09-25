@@ -7,7 +7,6 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -112,7 +111,6 @@ class MetaDataService
      */
     protected function getRecord(array $tableSettings): ?array
     {
-        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable($tableSettings['table']);
         $row = $queryBuilder->select('*')
             ->from($tableSettings['table'])->where($queryBuilder->expr()->eq(
@@ -140,7 +138,6 @@ class MetaDataService
      */
     protected function getMetaProperties(array $tableSettings): array
     {
-        /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_NAME_META);
         $res = $queryBuilder->select('*')
             ->from(self::TABLE_NAME_META)->where(
