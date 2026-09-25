@@ -114,7 +114,6 @@ class MetaDataService
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable($tableSettings['table']);
-
         $row = $queryBuilder->select('*')
             ->from($tableSettings['table'])->where($queryBuilder->expr()->eq(
                 'uid',
@@ -143,7 +142,6 @@ class MetaDataService
     {
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_NAME_META);
-
         $res = $queryBuilder->select('*')
             ->from(self::TABLE_NAME_META)->where(
                 $queryBuilder->expr()->eq(

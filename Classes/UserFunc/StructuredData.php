@@ -1,11 +1,5 @@
 <?php
 
-namespace Clickstorm\CsSeo\UserFunc;
-
-use Clickstorm\CsSeo\Service\MetaDataService;
-use Clickstorm\CsSeo\Utility\GlobalsUtility;
-use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
-use TYPO3\CMS\Core\Context\Context;
 /***************************************************************
  *
  *  Copyright notice
@@ -31,6 +25,12 @@ use TYPO3\CMS\Core\Context\Context;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+namespace Clickstorm\CsSeo\UserFunc;
+
+use Clickstorm\CsSeo\Service\MetaDataService;
+use Clickstorm\CsSeo\Utility\GlobalsUtility;
+use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
@@ -71,7 +71,6 @@ class StructuredData
 
         // Check if decoding was successful
         if (json_last_error() === JSON_ERROR_NONE) {
-
             // Re-encode the array to sanitize any unexpected content
             $safeJson = json_encode($tempJson, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 

@@ -46,13 +46,12 @@ class ModifyPageLayoutContentEventListener
     protected int $currentSysLanguageUid = 0;
 
     public function __construct(
-        private readonly ViewFactoryInterface          $viewFactory,
-        private readonly PageRenderer                  $pageRenderer,
+        private readonly ViewFactoryInterface $viewFactory,
+        private readonly PageRenderer $pageRenderer,
         private readonly ConfigurationManagerInterface $configurationManagerInterface,
-        private readonly ConnectionPool                $connectionPool,
-        private readonly LocalizationRepository        $localizationRepository,
-    )
-    {
+        private readonly ConnectionPool $connectionPool,
+        private readonly LocalizationRepository $localizationRepository,
+    ) {
     }
 
     public function __invoke(ModifyPageLayoutContentEvent $event): void

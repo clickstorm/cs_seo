@@ -9,10 +9,13 @@ class FileModuleOptions
 {
     protected array $excludedImageExtensions = [];
 
-    public function __construct(protected int $storageUid, protected string $identifier, protected bool $includeSubfolders, protected bool $onlyReferenced)
-    {
-        $this->excludedImageExtensions =
-            GeneralUtility::trimExplode(',', ConfigurationUtility::getEmConfiguration()['excludeFileExtensions'] ?? '');
+    public function __construct(
+        protected int $storageUid,
+        protected string $identifier,
+        protected bool $includeSubfolders,
+        protected bool $onlyReferenced
+    ) {
+        $this->excludedImageExtensions = GeneralUtility::trimExplode(',', ConfigurationUtility::getEmConfiguration()['excludeFileExtensions'] ?? '');
     }
 
     public function getStorageUid(): int

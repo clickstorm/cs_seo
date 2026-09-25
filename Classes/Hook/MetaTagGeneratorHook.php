@@ -27,12 +27,10 @@ class MetaTagGeneratorHook
     public function generate(array $params): void
     {
         $metaData = GeneralUtility::makeInstance(MetaDataService::class)->getMetaData();
-
         if (!$metaData) {
             return;
         }
 
-        // render content
         $this->renderContent($metaData);
     }
 
