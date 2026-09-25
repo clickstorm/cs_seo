@@ -93,9 +93,12 @@ class StructuredData
     #[AsAllowedCallable]
     public function getSiteSearch(string $content, array $conf): string
     {
-        $homepage = GlobalsUtility::getTYPO3Request()->getAttribute('normalizedParams')->getRequestHost();
+        $serverRequest = GlobalsUtility::getTYPO3Request();
+        $homepage = $serverRequest->getAttribute('normalizedParams')->getRequestHost();
 
         $cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $cObject->setRequest($serverRequest);
+
         $typoLinkConf = [
             'parameter' => $conf['userFunc.']['pid'],
             'forceAbsoluteUrl' => 1,
@@ -144,10 +147,11 @@ class StructuredData
         }
 
         $cObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $cObject->setRequest(GlobalsUtility::getTYPO3Request());
 
         $siteLinks = [];
 
-        foreach (array_reverse($rootline) as $index => $page) {
+        foreach (array_reverse($rootline) as $page) {
             $typoLinkConf = [
                 'parameter' => $page['uid'],
                 'forceAbsoluteUrl' => 1,

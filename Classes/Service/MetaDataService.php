@@ -25,6 +25,7 @@ class MetaDataService
     public function __construct(private readonly ConnectionPool $connectionPool)
     {
         $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $this->cObj->setRequest(GlobalsUtility::getTYPO3Request());
         $context = clone GeneralUtility::makeInstance(Context::class);
         $this->pageRepository = GeneralUtility::makeInstance(PageRepository::class, $context);
         $this->languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
@@ -163,5 +164,6 @@ class MetaDataService
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
     {
         $this->cObj = $cObj;
+        $this->cObj->setRequest(GlobalsUtility::getTYPO3Request());
     }
 }
