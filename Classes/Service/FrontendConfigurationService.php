@@ -41,7 +41,7 @@ class FrontendConfigurationService
         $this->pageUid = $pageUid;
 
         $this->workspaceUid = GlobalsUtility::getBackendUser()->workspace ?? 0;
-        $this->lang = (int)(is_array($lang) ? array_shift($lang) : $lang);
+        $this->lang = $lang;
 
         // fix if lang is -1
         if ($this->lang < 0) {
@@ -61,7 +61,7 @@ class FrontendConfigurationService
     {
         $parameter = [
             'parameter' => $this->pageUid,
-            'additionalParams' => '&L=' . (int)$this->lang,
+            'additionalParams' => '&L=' . $this->lang,
             'forceAbsoluteUrl' => 1,
         ];
 

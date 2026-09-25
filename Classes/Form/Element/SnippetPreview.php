@@ -8,7 +8,6 @@ use Clickstorm\CsSeo\Utility\GlobalsUtility;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Backend\Form\Element\InputTextElement;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -36,7 +35,6 @@ class SnippetPreview extends AbstractFormElement
 
     public function __construct(
         private readonly ViewFactoryInterface $viewFactory,
-        private readonly Context $request,
         protected ?PageRenderer $pageRenderer,
         private readonly ConfigurationManager $configurationManager,
         private readonly ConnectionPool $connectionPool,
@@ -44,8 +42,6 @@ class SnippetPreview extends AbstractFormElement
 
     public function render(): array
     {
-        $this->pageRenderer = $this->pageRenderer;
-
         // first get input element
         $inputField = GeneralUtility::makeInstance(InputTextElement::class);
         $inputField->setData($this->data);
@@ -258,10 +254,6 @@ class SnippetPreview extends AbstractFormElement
 
     protected function getPageRenderer(): PageRenderer
     {
-        if (!$this->pageRenderer instanceof PageRenderer) {
-            $this->pageRenderer = $this->pageRenderer;
-        }
-
         return $this->pageRenderer;
     }
 
