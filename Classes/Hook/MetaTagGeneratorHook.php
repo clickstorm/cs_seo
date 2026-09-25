@@ -21,6 +21,7 @@ class MetaTagGeneratorHook
     public function __construct(private readonly MetaTagManagerRegistry $metaTagManagerRegistry)
     {
         $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $this->cObj->setRequest(GlobalsUtility::getTYPO3Request());
     }
 
     public function generate(array $params): void
@@ -172,5 +173,6 @@ class MetaTagGeneratorHook
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
     {
         $this->cObj = $cObj;
+        $this->cObj->setRequest(GlobalsUtility::getTYPO3Request());
     }
 }

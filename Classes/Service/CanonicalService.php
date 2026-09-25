@@ -23,7 +23,8 @@ class CanonicalService extends AbstractUrlService
 
         /** @var ContentObjectRenderer $cObj */
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
-        $context = $this->context;
+        $cObj->setRequest(GlobalsUtility::getTYPO3Request());
+
         $typoLinkConf = GlobalsUtility::getTypoScriptSetup()['lib.']['currentUrl.']['typolink.'] ?? [];
 
         // check if the current page is a detail page of a record

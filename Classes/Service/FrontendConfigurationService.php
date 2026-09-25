@@ -50,7 +50,10 @@ class FrontendConfigurationService
 
         $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
         $fullTS = $configurationManager->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+
         $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $this->cObj->setRequest(GlobalsUtility::getTYPO3Request());
+
         $this->typoScriptConfig = $fullTS['config.'] ?? [];
     }
 
