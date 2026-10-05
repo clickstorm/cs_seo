@@ -47,9 +47,6 @@ abstract class AbstractUrlService
             return $languageIds;
         }
 
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
-
         $pointerField = $GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField'];
         $languageField = $GLOBALS['TCA'][$table]['ctrl']['languageField'];
 
@@ -65,6 +62,8 @@ abstract class AbstractUrlService
         }
 
         // first get all items
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
         $allItems = $queryBuilder->select($languageField)
             ->from($table)
             ->where(
@@ -72,43 +71,56 @@ abstract class AbstractUrlService
                     $pointerField,
                     $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
                 )
-            )->orWhere($queryBuilder->expr()->eq(
-                'uid',
-                $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
-            ))->executeQuery()
+            )
+            ->orWhere(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
+                )
+            )
+            ->executeQuery()
             ->fetchAllAssociative();
 
         // second get all items with canonical or no_index, to remove them
         // until https://forge.typo3.org/issues/86385 is not fixed, this has to be done in two queries
 
         // first get all items
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
         $invalidItemsRes = $queryBuilder->select('t.' . $languageField, 't.uid')
             ->from($table, 't')
-            ->leftJoin(
+            ->join(
                 't',
                 'tx_csseo_domain_model_meta',
-                'm'
+                'm',
+                $queryBuilder->expr()->and(
+                    $queryBuilder->expr()->eq(
+                        'm.uid_foreign',
+                        $queryBuilder->quoteIdentifier('t.uid')
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'm.tablenames',
+                        $queryBuilder->createNamedParameter($table)
+                    )
+                )
             )
             ->where(
-                $queryBuilder->expr()->eq(
-                    'm.uid_foreign',
-                    $queryBuilder->quoteIdentifier('t.uid')
+                $queryBuilder->expr()->or(
+                    $queryBuilder->expr()->eq('m.no_index', 1),
+                    $queryBuilder->expr()->neq(
+                        'm.canonical',
+                        $queryBuilder->createNamedParameter('')
+                    )
                 ),
-                $queryBuilder->expr()->eq(
-                    'm.tablenames',
-                    $queryBuilder->createNamedParameter($table)
-                ),
-                $queryBuilder->expr()->or($queryBuilder->expr()->eq('m.no_index', 1), $queryBuilder->expr()->neq(
-                    'm.canonical',
-                    $queryBuilder->createNamedParameter('')
-                )),
-                $queryBuilder->expr()->or($queryBuilder->expr()->eq(
-                    't.' . $pointerField,
-                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
-                ), $queryBuilder->expr()->eq(
-                    't.uid',
-                    $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
-                ))
+                $queryBuilder->expr()->or(
+                    $queryBuilder->expr()->eq(
+                        't.' . $pointerField,
+                        $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
+                    ),
+                    $queryBuilder->expr()->eq(
+                        't.uid',
+                        $queryBuilder->createNamedParameter($uid, Connection::PARAM_INT)
+                    )
+                )
             )->executeQuery()
             ->fetchAllAssociative();
 
