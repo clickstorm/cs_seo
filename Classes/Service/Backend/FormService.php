@@ -3,6 +3,7 @@
 namespace Clickstorm\CsSeo\Service\Backend;
 
 use Clickstorm\CsSeo\Utility\GlobalsUtility;
+use Psr\Log\LoggerInterface;
 use TYPO3\CMS\Backend\Form\Exception\AccessDeniedException;
 use TYPO3\CMS\Backend\Form\Exception\DatabaseRecordException;
 use TYPO3\CMS\Backend\Form\Exception\DatabaseRecordWorkspaceDeletePlaceholderException;
@@ -25,7 +26,10 @@ class FormService
     public string $viewId_addParams = '';
     public ?array $overrideVals = [];
     public ?array $defVals = [];
-    public function __construct(private readonly FlashMessageService $flashMessageService) {}
+    public function __construct(
+        private readonly FlashMessageService $flashMessageService,
+        private readonly LoggerInterface $logger,
+    ) {}
 
     /**
      * Render an editform for specific table, see
@@ -131,8 +135,12 @@ class FormService
             $editForm .= $formResultCompiler->printNeededJSFunctions();
         } catch (AccessDeniedException $e) {
             $this->errorC++;
-            // @todo: This construct should be logged and localized and de-uglified
-            $message = $e->getMessage() . ' ' . $e->getCode();
+            $this->logger->warning(
+                'The edit form could not be displayed because access was denied.',
+                ['table' => $table, 'uid' => $theUid, 'exception' => $e]
+            );
+            $message = GlobalsUtility::getLanguageService()
+                ->sL('LLL:EXT:cs_seo/Resources/Private/Language/locallang.xlf:form.error.accessDenied');
             $title = GlobalsUtility::getLanguageService()
                 ->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.noEditPermission');
             $editForm .= $this->getInfobox($message, $title);

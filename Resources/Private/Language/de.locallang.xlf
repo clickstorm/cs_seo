@@ -3,6 +3,10 @@
 	<file source-language="en" target-language="de" datatype="plaintext" original="EXT:cs_seo/Resources/Private/Language/locallang.xlf" date="2026-03-17T14:31:27Z" product-name="cs_seo">
 		<header/>
 		<body>
+			<trans-unit id="form.error.accessDenied" resname="form.error.accessDenied">
+				<source>You do not have permission to edit this record.</source>
+				<target>Sie haben keine Berechtigung, diesen Datensatz zu bearbeiten.</target>
+			</trans-unit>
 			<trans-unit id="date.format" resname="date.format">
 				<source>%m/%d/%Y %I:%M %p</source>
 				<target>%d.%m.%Y %H:%M Uhr</target>
