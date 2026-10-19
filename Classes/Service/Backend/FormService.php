@@ -38,7 +38,6 @@ class FormService
         $this->errorC = 0;
         $this->newC = 0;
         $editForm = '';
-        $beUser = GlobalsUtility::getBackendUser();
         $deleteAccess = false;
 
         $command = 'edit';
@@ -132,9 +131,8 @@ class FormService
             $editForm .= $formResultCompiler->printNeededJSFunctions();
         } catch (AccessDeniedException $e) {
             $this->errorC++;
-            // Try to fetch error message from "recordInternals" be user object
             // @todo: This construct should be logged and localized and de-uglified
-            $message = (empty($beUser->errorMsg)) ? $message = $e->getMessage() . ' ' . $e->getCode() : $beUser->errorMsg;
+            $message = $e->getMessage() . ' ' . $e->getCode();
             $title = GlobalsUtility::getLanguageService()
                 ->sL('LLL:EXT:core/Resources/Private/Language/locallang_core.xlf:labels.noEditPermission');
             $editForm .= $this->getInfobox($message, $title);
